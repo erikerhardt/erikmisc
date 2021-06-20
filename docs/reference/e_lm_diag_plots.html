@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021 — e_lm_diag_plots • erikmisc</title>
+<title>Plotting residual diagnostics for an lm() object. — e_lm_diag_plots • erikmisc</title>
 
 
 <!-- jquery -->
@@ -42,14 +39,8 @@ https://statacumen.com/teaching/ada2/
 
 
 
-<meta property="og:title" content="lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021 — e_lm_diag_plots" />
-<meta property="og:description" content="lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021" />
+<meta property="og:title" content="Plotting residual diagnostics for an lm() object. — e_lm_diag_plots" />
+<meta property="og:description" content="Plotting residual diagnostics for an lm() object." />
 
 
 
@@ -117,19 +108,13 @@ https://statacumen.com/teaching/ada2/
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021</h1>
+    <h1>Plotting residual diagnostics for an lm() object.</h1>
     <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_lm_diag_plots.R'><code>R/e_lm_diag_plots.R</code></a></small>
     <div class="hidden name"><code>e_lm_diag_plots.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021</p>
+    <p>Plotting residual diagnostics for an lm() object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>e_lm_diag_plots</span><span class='op'>(</span>
@@ -204,8 +189,12 @@ https://statacumen.com/teaching/ada2/
 <span class='fu'>lm_diag_plots</span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in lm_diag_plots(fit): could not find function "lm_diag_plots"</span></div><div class='input'><span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span> <span class='op'>+</span> <span class='va'>gear</span><span class='op'>)</span>
 <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mod</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span>
-<span class='fu'>lm_diag_plots</span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in lm_diag_plots(fit): could not find function "lm_diag_plots"</span></div></pre>
+<span class='fu'>e_lm_diag_plots</span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
+</div><div class='img'><img src='e_lm_diag_plots-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; Error in stats::model.frame(formula = mod, data = datasets::mtcars, drop.unused.levels = TRUE) : 
+#&gt;   object 'mod' not found
+#&gt; Non-constant Variance Score Test 
+#&gt; Variance formula: ~ fitted.values 
+#&gt; Chisquare = 3.921921, Df = 1, p = 0.04766</div><div class='output co'>#&gt; <span class='warning'>Warning: Note: Collinearity plot unreliable for predictors that also have interactions in the model.</span></div><div class='img'><img src='e_lm_diag_plots-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

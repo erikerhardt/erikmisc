@@ -15,6 +15,7 @@ e_plot_longitudinal(
   label_group = NULL,
   x_scale_breaks = NULL,
   y_scale_breaks = NULL,
+  hist_scale_breaks = NULL,
   sw_group_reverse = FALSE,
   hist_binwidth = NULL,
   hist_align = c("center", "boundary")[1],
@@ -25,7 +26,37 @@ e_plot_longitudinal(
 )
 }
 \arguments{
-\item{line_type_group}{}
+\item{dat_plot}{data.frame for plotting}
+
+\item{var_x_time}{x variable, usually a "time" variable}
+
+\item{var_y_resp}{y response variable}
+
+\item{var_ID}{ID variable for each repeated measures subject}
+
+\item{var_group}{If there are groups, this is the group variable.}
+
+\item{label_x_time}{x-axis label}
+
+\item{label_y_resp}{y-axis label}
+
+\item{label_group}{group label}
+
+\item{x_scale_breaks}{breaks for x-axis}
+
+\item{y_scale_breaks}{breaks for y-axis}
+
+\item{hist_scale_breaks}{breaks for histogram x-axis}
+
+\item{sw_group_reverse}{TRUE/FALSE to reverse the order of groups}
+
+\item{hist_binwidth}{histogram binwidth}
+
+\item{hist_align}{align "center" or "boundary"?  If numeric non-negative responses, usually "boundary" is preferred.}
+
+\item{line_type_grand}{Grand mean line type}
+
+\item{line_type_group}{Group mean line type}
 }
 \value{
 
@@ -34,10 +65,8 @@ e_plot_longitudinal(
 Longitudinal interaction plots
 }
 \examples{
-data("sleepstudy")
-
-f_plot_longitudinal(
-    dat_plot         = sleepstudy
+e_plot_longitudinal(
+    dat_plot         = lme4::sleepstudy
   , var_x_time       = "Days"
   , var_y_resp       = "Reaction"
   , var_ID           = "Subject"
@@ -46,7 +75,8 @@ f_plot_longitudinal(
   , label_y_resp     = "Average reaction time (ms)"
   #, label_group      = "Program"
   , x_scale_breaks   = seq(0, 9, by = 2)
-  , y_scale_breaks   = seq(0, 1000, by = 100)
+  , y_scale_breaks   = seq(0, 1000, by = 50)
+  , hist_scale_breaks = NULL
   #, sw_group_reverse = TRUE
   , hist_binwidth    = 25
   , hist_align       = c("center", "boundary")[2]

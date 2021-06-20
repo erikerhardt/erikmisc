@@ -128,6 +128,7 @@
   label_group <span class='op'>=</span> <span class='cn'>NULL</span>,
   x_scale_breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
   y_scale_breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hist_scale_breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
   sw_group_reverse <span class='op'>=</span> <span class='cn'>FALSE</span>,
   hist_binwidth <span class='op'>=</span> <span class='cn'>NULL</span>,
   hist_align <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"center"</span>, <span class='st'>"boundary"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
@@ -141,8 +142,68 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>dat_plot</th>
+      <td><p>data.frame for plotting</p></td>
+    </tr>
+    <tr>
+      <th>var_x_time</th>
+      <td><p>x variable, usually a "time" variable</p></td>
+    </tr>
+    <tr>
+      <th>var_y_resp</th>
+      <td><p>y response variable</p></td>
+    </tr>
+    <tr>
+      <th>var_ID</th>
+      <td><p>ID variable for each repeated measures subject</p></td>
+    </tr>
+    <tr>
+      <th>var_group</th>
+      <td><p>If there are groups, this is the group variable.</p></td>
+    </tr>
+    <tr>
+      <th>label_x_time</th>
+      <td><p>x-axis label</p></td>
+    </tr>
+    <tr>
+      <th>label_y_resp</th>
+      <td><p>y-axis label</p></td>
+    </tr>
+    <tr>
+      <th>label_group</th>
+      <td><p>group label</p></td>
+    </tr>
+    <tr>
+      <th>x_scale_breaks</th>
+      <td><p>breaks for x-axis</p></td>
+    </tr>
+    <tr>
+      <th>y_scale_breaks</th>
+      <td><p>breaks for y-axis</p></td>
+    </tr>
+    <tr>
+      <th>hist_scale_breaks</th>
+      <td><p>breaks for histogram x-axis</p></td>
+    </tr>
+    <tr>
+      <th>sw_group_reverse</th>
+      <td><p>TRUE/FALSE to reverse the order of groups</p></td>
+    </tr>
+    <tr>
+      <th>hist_binwidth</th>
+      <td><p>histogram binwidth</p></td>
+    </tr>
+    <tr>
+      <th>hist_align</th>
+      <td><p>align "center" or "boundary"?  If numeric non-negative responses, usually "boundary" is preferred.</p></td>
+    </tr>
+    <tr>
+      <th>line_type_grand</th>
+      <td><p>Grand mean line type</p></td>
+    </tr>
+    <tr>
       <th>line_type_group</th>
-      <td></td>
+      <td><p>Group mean line type</p></td>
     </tr>
     </table>
 
@@ -153,10 +214,8 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"sleepstudy"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: data set 'sleepstudy' not found</span></div><div class='input'>
-<span class='fu'>f_plot_longitudinal</span><span class='op'>(</span>
-    dat_plot         <span class='op'>=</span> <span class='va'>sleepstudy</span>
+    <pre class="examples"><div class='input'><span class='fu'>e_plot_longitudinal</span><span class='op'>(</span>
+    dat_plot         <span class='op'>=</span> <span class='fu'>lme4</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/lme4/man/sleepstudy.html'>sleepstudy</a></span>
   , var_x_time       <span class='op'>=</span> <span class='st'>"Days"</span>
   , var_y_resp       <span class='op'>=</span> <span class='st'>"Reaction"</span>
   , var_ID           <span class='op'>=</span> <span class='st'>"Subject"</span>
@@ -165,14 +224,20 @@
   , label_y_resp     <span class='op'>=</span> <span class='st'>"Average reaction time (ms)"</span>
   <span class='co'>#, label_group      = "Program"</span>
   , x_scale_breaks   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>9</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-  , y_scale_breaks   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1000</span>, by <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+  , y_scale_breaks   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1000</span>, by <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+  , hist_scale_breaks <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='co'>#, sw_group_reverse = TRUE</span>
   , hist_binwidth    <span class='op'>=</span> <span class='fl'>25</span>
   , hist_align       <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"center"</span>, <span class='st'>"boundary"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
   , line_type_grand  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"solid"</span>, <span class='st'>"dashed"</span>, <span class='st'>"dotted"</span>, <span class='st'>"dotdash"</span>, <span class='st'>"longdash"</span>, <span class='st'>"twodash"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span>
   , line_type_group  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"solid"</span>, <span class='st'>"dashed"</span>, <span class='st'>"dotted"</span>, <span class='st'>"dotdash"</span>, <span class='st'>"longdash"</span>, <span class='st'>"twodash"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in f_plot_longitudinal(dat_plot = sleepstudy, var_x_time = "Days",     var_y_resp = "Reaction", var_ID = "Subject", var_group = NULL,     label_x_time = "Number of days of sleep deprivation", label_y_resp = "Average reaction time (ms)",     x_scale_breaks = seq(0, 9, by = 2), y_scale_breaks = seq(0,         1000, by = 100), hist_binwidth = 25, hist_align = c("center",         "boundary")[2], line_type_grand = c("none", "solid",         "dashed", "dotted", "dotdash", "longdash", "twodash")[6],     line_type_group = c("none", "solid", "dashed", "dotted",         "dotdash", "longdash", "twodash")[3]): could not find function "f_plot_longitudinal"</span></div></pre>
+</div><div class='output co'>#&gt; <span class='message'>Registered S3 methods overwritten by 'lme4':</span>
+#&gt; <span class='message'>  method                          from</span>
+#&gt; <span class='message'>  cooks.distance.influence.merMod car </span>
+#&gt; <span class='message'>  influence.merMod                car </span>
+#&gt; <span class='message'>  dfbeta.influence.merMod         car </span>
+#&gt; <span class='message'>  dfbetas.influence.merMod        car </span></div><div class='img'><img src='e_plot_longitudinal-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

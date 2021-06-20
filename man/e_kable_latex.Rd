@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_kable_latex.R
 \name{e_kable_latex}
 \alias{e_kable_latex}
-\title{Title}
+\title{Print a data.frame table for latex and scale to fit page}
 \usage{
 e_kable_latex(dat, sw_scale = FALSE, sw_kable_format = c("html", "latex")[1])
 }
@@ -13,5 +13,5 @@ e_kable_latex(dat, sw_scale = FALSE, sw_kable_format = c("html", "latex")[1])
 
 }
 \description{
-Title
+Print a data.frame table for latex and scale to fit page
 }

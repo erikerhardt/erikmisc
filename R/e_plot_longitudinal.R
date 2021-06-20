@@ -21,30 +21,29 @@
 
 #' Longitudinal interaction plots
 #'
-#' @param dat_plot
-#' @param var_x_time
-#' @param var_y_resp
-#' @param var_ID
-#' @param var_group
-#' @param label_x_time
-#' @param label_y_resp
-#' @param label_group
-#' @param x_scale_breaks
-#' @param y_scale_breaks
-#' @param sw_group_reverse
-#' @param hist_binwidth
-#' @param hist_align
-#' @param line_type_grand
-#' @param line_type_group
+#' @param dat_plot          data.frame for plotting
+#' @param var_x_time        x variable, usually a "time" variable
+#' @param var_y_resp        y response variable
+#' @param var_ID            ID variable for each repeated measures subject
+#' @param var_group         If there are groups, this is the group variable.
+#' @param label_x_time      x-axis label
+#' @param label_y_resp      y-axis label
+#' @param label_group       group label
+#' @param x_scale_breaks    breaks for x-axis
+#' @param y_scale_breaks    breaks for y-axis
+#' @param hist_scale_breaks breaks for histogram x-axis
+#' @param sw_group_reverse  TRUE/FALSE to reverse the order of groups
+#' @param hist_binwidth     histogram binwidth
+#' @param hist_align        align "center" or "boundary"?  If numeric non-negative responses, usually "boundary" is preferred.
+#' @param line_type_grand   Grand mean line type
+#' @param line_type_group   Group mean line type
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' data("sleepstudy")
-#'
-#' f_plot_longitudinal(
-#'     dat_plot         = sleepstudy
+#' e_plot_longitudinal(
+#'     dat_plot         = lme4::sleepstudy
 #'   , var_x_time       = "Days"
 #'   , var_y_resp       = "Reaction"
 #'   , var_ID           = "Subject"
@@ -53,7 +52,8 @@
 #'   , label_y_resp     = "Average reaction time (ms)"
 #'   #, label_group      = "Program"
 #'   , x_scale_breaks   = seq(0, 9, by = 2)
-#'   , y_scale_breaks   = seq(0, 1000, by = 100)
+#'   , y_scale_breaks   = seq(0, 1000, by = 50)
+#'   , hist_scale_breaks = NULL
 #'   #, sw_group_reverse = TRUE
 #'   , hist_binwidth    = 25
 #'   , hist_align       = c("center", "boundary")[2]
@@ -73,6 +73,7 @@ e_plot_longitudinal <-
   , label_group      = NULL
   , x_scale_breaks   = NULL
   , y_scale_breaks   = NULL
+  , hist_scale_breaks = NULL
   , sw_group_reverse = FALSE
   , hist_binwidth    = NULL
   , hist_align       = c("center", "boundary")[1]
@@ -80,25 +81,10 @@ e_plot_longitudinal <-
   , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3]
   ) {
   ## ## DEBUG
-  ## dat_plot   = dat_pdp_ic
-  ## var_x_time = "time"
-  ## var_y_resp = "phq9_all_total_score_log2"
-  ## var_ID     = "pci_part_id_num"
-  ## var_group  = "surv_prog.factor"
-  ## label_x_time = "Month"
-  ## #label_y_resp = labelled::var_label(dat_plot[["phq9_all_total_score_log2"]]) %>% as.character()
-  ## #label_ID     = "pci_part_id_num"
-  ## #label_group  = "Program"
-  ## x_scale_breaks = c(0, 3, 6, 12)
-  ## y_scale_breaks = seq(0, 10, by = 1)
-  ## sw_group_reverse = TRUE
-  ## hist_binwidth    = NULL
-  ## hist_align       = c("center", "boundary")[1]
-
   ## library(ggplot2)
   ## data("sleepstudy")
   ##
-  ## dat_plot         = sleepstudy
+  ## dat_plot         = lme4::sleepstudy
   ## var_x_time       = "Days"
   ## var_y_resp       = "Reaction"
   ## var_ID           = "Subject"
@@ -108,6 +94,7 @@ e_plot_longitudinal <-
   ##  label_group      = "Program"
   ## x_scale_breaks   = seq(0, 9, by = 2)
   ## y_scale_breaks   = seq(0, 1000, by = 100)
+  ## hist_scale_breaks = NULL
   ##  sw_group_reverse = TRUE
   ## hist_binwidth    = 25
   ## hist_align       = c("center", "boundary")[2]
@@ -330,8 +317,8 @@ e_plot_longitudinal <-
     p2 <- p2 + facet_grid(. ~ var_x_time, drop = TRUE)
   }
 
-  if(!is.null(y_scale_breaks)) {
-    p2 <- p2 + scale_x_continuous(breaks = y_scale_breaks)
+  if(!is.null(hist_scale_breaks)) {
+    p2 <- p2 + scale_x_continuous(breaks = hist_scale_breaks)
   }
 
   p2 <- p2 + labs(

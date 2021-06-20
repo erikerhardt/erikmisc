@@ -199,7 +199,37 @@
   , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in c(n_total, n_plot_ref) %&gt;% unique() %&gt;% sort(): could not find function "%&gt;%"</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = n_total for reference</span></div><div class='output co'>#&gt; Cohen reference effect size and power =============================
+#&gt;   Small ---------------
+#&gt; 
+#&gt;      Multiple regression power calculation 
+#&gt; 
+#&gt;               u = 2
+#&gt;               v = 97
+#&gt;              f2 = 0.02
+#&gt;       sig.level = 0.05
+#&gt;           power = 0.2197557
+#&gt; 
+#&gt;   Medium --------------
+#&gt; 
+#&gt;      Multiple regression power calculation 
+#&gt; 
+#&gt;               u = 2
+#&gt;               v = 97
+#&gt;              f2 = 0.15
+#&gt;       sig.level = 0.05
+#&gt;           power = 0.9371108
+#&gt; 
+#&gt;   Large ---------------
+#&gt; 
+#&gt;      Multiple regression power calculation 
+#&gt; 
+#&gt;               u = 2
+#&gt;               v = 97
+#&gt;              f2 = 0.35
+#&gt;       sig.level = 0.05
+#&gt;           power = 0.9997727
+#&gt; </div><div class='output co'>#&gt; <span class='error'>Error in drop_na(.): could not find function "drop_na"</span></div><div class='input'>
 <span class='co'># without data, sequence of n for power curve</span>
 <span class='va'>n_total</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>300</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>n_groups</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
@@ -216,7 +246,7 @@
   , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in c(n_total, n_plot_ref) %&gt;% unique() %&gt;% sort(): could not find function "%&gt;%"</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = median(n_total) for reference</span></div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='error'>Error in drop_na(.): could not find function "drop_na"</span></div><div class='input'>
 
 <span class='co'># with data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mtcars</span>, package<span class='op'>=</span><span class='st'>"datasets"</span><span class='op'>)</span>
@@ -280,7 +310,7 @@
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x0000000017dd2a80&gt;
+#&gt; &lt;environment: 0x0000000035fc2938&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -307,7 +337,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x0000000017dd2a80&gt;
+#&gt; &lt;environment: 0x0000000035fc2938&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -329,7 +359,7 @@
 #&gt; Residual standard error: 2.539 on 27 degrees of freedom
 #&gt; Multiple R-squared:  0.8454,	Adjusted R-squared:  0.8225 
 #&gt; F-statistic: 36.91 on 4 and 27 DF,  p-value: 1.408e-10
-#&gt; </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = the number of observations in the data for reference</span></div><div class='output co'>#&gt; <span class='error'>Error in c(n_total, n_plot_ref) %&gt;% unique() %&gt;% sort(): could not find function "%&gt;%"</span></div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = the number of observations in the data for reference</span></div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='error'>Error in drop_na(.): could not find function "drop_na"</span></div><div class='input'>
 <span class='co'># without data, sequence of n for power curve</span>
 <span class='va'>n_total</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>300</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>n_groups</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
@@ -348,7 +378,7 @@
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x0000000017dd2a80&gt;
+#&gt; &lt;environment: 0x0000000035fc2938&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -375,7 +405,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x0000000017dd2a80&gt;
+#&gt; &lt;environment: 0x0000000035fc2938&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -397,7 +427,7 @@
 #&gt; Residual standard error: 2.539 on 27 degrees of freedom
 #&gt; Multiple R-squared:  0.8454,	Adjusted R-squared:  0.8225 
 #&gt; F-statistic: 36.91 on 4 and 27 DF,  p-value: 1.408e-10
-#&gt; </div><div class='output co'>#&gt; <span class='error'>Error in c(n_total, n_plot_ref) %&gt;% unique() %&gt;% sort(): could not find function "%&gt;%"</span></div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='error'>Error in drop_na(.): could not find function "drop_na"</span></div><div class='input'>
 <span class='co'>### RMarkdown results reporting</span>
 <span class='co'># The results above indicate the following.</span>
 <span class='co'>#</span>
