@@ -2,16 +2,22 @@
 % Please edit documentation in R/e_mnv_norm_qqplot.R
 \name{e_mnv_norm_qqplot}
 \alias{e_mnv_norm_qqplot}
-\title{Title}
+\title{Graphical Assessment (QQ-plot) for assessing Multivariate Normality}
 \usage{
 e_mnv_norm_qqplot(x, name = "")
 }
 \arguments{
-\item{name}{}
+\item{x}{data.frame or matrix of numeric columns}
+
+\item{name}{label for title}
 }
 \value{
 
 }
 \description{
-Title
+Graphical Assessment (QQ-plot) for assessing Multivariate Normality
+}
+\examples{
+e_mnv_norm_qqplot(shells[shells$sex == "F", 2:4], "Female")
+e_mnv_norm_qqplot(shells[shells$sex == "M", 2:4], "Male")
 }

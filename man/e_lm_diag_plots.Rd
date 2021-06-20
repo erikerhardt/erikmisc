@@ -2,10 +2,7 @@
 % Please edit documentation in R/e_lm_diag_plots.R
 \name{e_lm_diag_plots}
 \alias{e_lm_diag_plots}
-\title{lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021}
+\title{Plotting residual diagnostics for an lm() object.}
 \usage{
 e_lm_diag_plots(
   fit = NULL,
@@ -48,15 +45,12 @@ e_lm_diag_plots(
 NULL, invisibly
 }
 \description{
-lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-https://statacumen.com/teaching/ada2/
-05/26/2021
+Plotting residual diagnostics for an lm() object.
 }
 \examples{
 fit <- lm(mpg ~ cyl + disp + hp + gear, data = datasets::mtcars)
 lm_diag_plots(fit)
 mod <- formula(mpg ~ cyl + disp + hp + gear)
 fit <- lm(mod, data = datasets::mtcars)
-lm_diag_plots(fit)
+e_lm_diag_plots(fit)
 }

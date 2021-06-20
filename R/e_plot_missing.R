@@ -1,5 +1,3 @@
-# TO UPDATE
-
 #' Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.
 #'
 #' @param dat           data.frame or tibble

@@ -1,6 +1,4 @@
-# TO UPDATE
-
-#' Title
+#' Print a data.frame table for latex and scale to fit page
 #'
 #' @param dat
 #' @param sw_scale

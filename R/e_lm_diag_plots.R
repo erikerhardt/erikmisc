@@ -1,7 +1,4 @@
-#' lm_diag_plots() is a general function for plotting residual diagnostics for an lm() object
-#' By: Prof. Erik B. Erhardt, UNM Statistics, erike@stat.unm.edu, StatAcumen.com
-#' https://statacumen.com/teaching/ada2/
-#' 05/26/2021
+#' Plotting residual diagnostics for an lm() object.
 #'
 #' @param fit               linear model object returned by lm()
 #' @param rc_mfrow          number of rows and columns for the graphic plot, default is c(1, 3); use "NA" for a single plot with 3 columns
@@ -23,7 +20,7 @@
 #' lm_diag_plots(fit)
 #' mod <- formula(mpg ~ cyl + disp + hp + gear)
 #' fit <- lm(mod, data = datasets::mtcars)
-#' lm_diag_plots(fit)
+#' e_lm_diag_plots(fit)
 e_lm_diag_plots <-
   function(
     fit              = NULL
