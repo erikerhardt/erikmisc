@@ -251,6 +251,7 @@ e_plot_mod_contrasts <-
   out <- list()
   out[["tables"]] <- list()
   out[["plots" ]] <- list()
+  out[["text"  ]] <- list()
 
   ## For each covariate, compute contrasts
   for (i_var_x in seq_along(var_name_x)) {
@@ -387,6 +388,7 @@ e_plot_mod_contrasts <-
         }
 
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
+        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_all
 
       } # numeric
 
@@ -502,6 +504,7 @@ e_plot_mod_contrasts <-
         }
 
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
+        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_all
 
       } # factor
 
@@ -739,6 +742,7 @@ e_plot_mod_contrasts <-
           }
           if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
             out[["plots" ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- p
+            out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_all
           }
 
         } # i_repeat
@@ -815,6 +819,7 @@ e_plot_mod_contrasts <-
           }
 
           out[["plots" ]][[ var_name_x[i_var_x] ]][["both"]] <- p_arranged
+
         } # sw_TWI_plots_keep
 
       } # factor:factor
@@ -926,6 +931,7 @@ e_plot_mod_contrasts <-
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[1]] <- p1
+          out[["text"  ]][[ var_name_x[i_var_x] ]][[1]] <- text_all
         }
 
 
@@ -964,6 +970,8 @@ e_plot_mod_contrasts <-
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[2]] <- p2
+          out[["text"  ]][[ var_name_x[i_var_x] ]][[2]] <- text_all
+
         }
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(2, 3)]) {
@@ -1129,6 +1137,7 @@ e_plot_mod_contrasts <-
           }
           if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
             out[["plots" ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- p
+            out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_all
           }
 
         } # i_repeat
