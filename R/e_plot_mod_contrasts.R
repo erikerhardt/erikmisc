@@ -8,6 +8,7 @@
 #' @param adjust_method see         `?emmeans::summary.emmGrid`
 #' @param CI_level                  level from `?emmeans::emmeans`
 #' @param sw_print                  T/F whether to print results as this function runs
+#' @param sw_marginal_even_if_interaction T/F whether to also calculate marginal results when involved in interaction(s)
 #' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.
 #' @param sw_TWI_both_orientation   "tall" or "wide" orientation for when both two-way interaction plots are combined in a grid
 #' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots
@@ -86,6 +87,7 @@ e_plot_mod_contrasts <-
   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
   , CI_level                = 0.95
   , sw_print                = TRUE
+  , sw_marginal_even_if_interaction = FALSE
   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
   , sw_TWI_both_orientation = c("wide", "tall")[1]
   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
@@ -94,11 +96,13 @@ e_plot_mod_contrasts <-
   ##
   ## library(tidyverse)
   ##
-  ## choose_contrasts = NULL
-  ## sw_table_in_plot = TRUE
-  ## adjust_method = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
-  ## CI_level      = 0.95
-  ## sw_print      = TRUE
+  ## choose_contrasts        = NULL
+  ## sw_table_in_plot        = TRUE
+  ## adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+  ## CI_level                = 0.95
+  ## sw_print                = TRUE
+  ## sw_marginal_even_if_interaction = TRUE
+  ## sw_TWI_plots_keep       = c("singles", "both", "all")[3]
   ## sw_TWI_both_orientation = c("tall", "wide")[1]
   ## plot_quantiles = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
   ##
@@ -188,19 +192,27 @@ e_plot_mod_contrasts <-
   ## anova(fit)
   ## summary(fit)
   ##
+  ##
+  ## e_plot_mod_contrasts(
+  ##   fit                     = fit
+  ## , dat_cont                = dat_cont
+  ## , choose_contrasts        = NULL
+  ## , sw_table_in_plot        = TRUE
+  ## , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+  ## , CI_level                = 0.95
+  ## , sw_print                = TRUE
+  ## , sw_marginal_even_if_interaction = TRUE
+  ## , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
+  ## , sw_TWI_both_orientation = c("tall", "wide")[1]
+  ## , plot_quantiles = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
+  ## )
+  ##
+  ##
   ###### END Example dataset for testing
 
   # BEGIN Capture warnings to take actions
     message_involve_interaction <-
       "NOTE: Results may be misleading due to involvement in interactions\n"
-
-
-    # try and return something nice when it fails.
-    # https://rdrr.io/cran/BBmisc/src/R/is_error.R
-    e_is_error = function(f) {
-      inherits(f, c("try-error", "error"))
-    }
-
   # END Capture warnings to take actions
 
 
@@ -212,6 +224,7 @@ e_plot_mod_contrasts <-
     }
   }
 
+  # labelled::var_label(fit$model[[1]])
 
   # extract variables
   var_name_y <-
@@ -278,6 +291,8 @@ e_plot_mod_contrasts <-
     # Main effect
     if (length(var_xs) == 1) {
 
+      text_marginal_even_if_interaction <- NULL
+
       # First check if effect is involved in interactions
       check_message <-
         e_message_capture(
@@ -287,8 +302,14 @@ e_plot_mod_contrasts <-
           )
         )(1)
       if (check_message$logs[[1]]$message == message_involve_interaction) {
-        message(paste0("e_plot_mod_contrasts: Skipping \"", var_xs, "\" since involved in interactions."))
-        next
+
+        if(sw_marginal_even_if_interaction) {
+          text_marginal_even_if_interaction <- paste0(check_message$logs[[1]]$message, "\n")
+          message(paste0("e_plot_mod_contrasts: Continuing with \"", var_xs, "\" even though involved in interactions."))
+        } else {
+          message(paste0("e_plot_mod_contrasts: Skipping \"", var_xs, "\" since involved in interactions."))
+          next
+        }
       }
 
       # if numeric
@@ -351,7 +372,8 @@ e_plot_mod_contrasts <-
         if (sw_table_in_plot) {
           text_all <-
             paste0(
-              text_CI
+              text_marginal_even_if_interaction
+            , text_CI
             , "\n"
             #, text_diff
             #, "\n"
@@ -362,13 +384,14 @@ e_plot_mod_contrasts <-
         } else {
           text_all <-
             paste0(
+              text_marginal_even_if_interaction
             #  text_CI
             #, "\n"
             #, text_diff
             #, "\n"
             #, text_averaged
             #, "\n"
-              text_averaged_plot
+            , text_averaged_plot
             )
         }
 
@@ -463,7 +486,8 @@ e_plot_mod_contrasts <-
         if (sw_table_in_plot) {
           text_all <-
             paste0(
-              text_CI
+              text_marginal_even_if_interaction
+            , text_CI
             , "\n"
             , text_diff
             , "\n"
@@ -472,11 +496,12 @@ e_plot_mod_contrasts <-
         } else {
           text_all <-
             paste0(
+              text_marginal_even_if_interaction
             #  text_CI
             #, "\n"
             #, text_diff
             #, "\n"
-              text_averaged
+            , text_averaged
             )
         }
 
