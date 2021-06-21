@@ -14,6 +14,7 @@ e_plot_mod_contrasts(
     "mvt")[4],
   CI_level = 0.95,
   sw_print = TRUE,
+  sw_marginal_even_if_interaction = FALSE,
   sw_TWI_plots_keep = c("singles", "both", "all")[3],
   sw_TWI_both_orientation = c("wide", "tall")[1],
   plot_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95)
@@ -33,6 +34,8 @@ e_plot_mod_contrasts(
 \item{CI_level}{level from `?emmeans::emmeans`}
 
 \item{sw_print}{T/F whether to print results as this function runs}
+
+\item{sw_marginal_even_if_interaction}{T/F whether to also calculate marginal results when involved in interaction(s)}
 
 \item{sw_TWI_plots_keep}{two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.}
 
@@ -108,4 +111,5 @@ fit_contrasts <-
   )
 fit_contrasts$tables  # to print tables
 fit_contrasts$plots   # to print plots
+fit_contrasts$text    # to print caption text
 }
