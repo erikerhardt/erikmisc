@@ -58,7 +58,7 @@
 #'   , hist_binwidth    = 25
 #'   , hist_align       = c("center", "boundary")[2]
 #'   , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
-#'   , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3]
+#'   , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
 #'   )
 e_plot_longitudinal <-
   function(
@@ -78,7 +78,7 @@ e_plot_longitudinal <-
   , hist_binwidth    = NULL
   , hist_align       = c("center", "boundary")[1]
   , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
-  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3]
+  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
   ) {
   ## ## DEBUG
   ## library(ggplot2)
@@ -289,14 +289,8 @@ e_plot_longitudinal <-
   }
   p2 <- p2 + theme_bw()
 
-  # mean lines
+  # grand mean line
   p2 <- p2 + geom_vline(aes(xintercept = annotate_y_mean), colour = "black", linetype = line_type_grand, size = 0.5, alpha = 0.5)
-  if (!is.null(var_group)) {
-    p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp, colour = var_group), linetype = line_type_group, size = 1, alpha = 1)
-  } else {
-    p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), linetype = line_type_group, size = 1, alpha = 1)
-  }
-  #p2 <- p2 + geom_line(data = annotate_y_time_group_means, size = 1.5)
 
   # histogram
   if (hist_align == c("center", "boundary")[1]) {
@@ -305,6 +299,15 @@ e_plot_longitudinal <-
   if (hist_align == c("center", "boundary")[2]) {
     p2 <- p2 + geom_histogram(binwidth = hist_binwidth, alpha = 1, boundary = 0)
   }
+
+  # group mean lines
+  if (!is.null(var_group)) {
+    p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), colour = "black", linetype = line_type_group, size = 0.5, alpha = 1)
+  } else {
+    p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), colour = "black", linetype = line_type_group, size = 0.5, alpha = 1)
+  }
+  #p2 <- p2 + geom_line(data = annotate_y_time_group_means, size = 1.5)
+
 
   # facets
   if (!is.null(var_group)) {

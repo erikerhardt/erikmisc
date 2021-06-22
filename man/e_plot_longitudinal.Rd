@@ -22,7 +22,7 @@ e_plot_longitudinal(
   line_type_grand = c("none", "solid", "dashed", "dotted", "dotdash", "longdash",
     "twodash")[6],
   line_type_group = c("none", "solid", "dashed", "dotted", "dotdash", "longdash",
-    "twodash")[3]
+    "twodash")[4]
 )
 }
 \arguments{
@@ -81,6 +81,6 @@ e_plot_longitudinal(
   , hist_binwidth    = 25
   , hist_align       = c("center", "boundary")[2]
   , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
-  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3]
+  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
   )
 }
