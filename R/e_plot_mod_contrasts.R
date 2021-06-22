@@ -370,30 +370,32 @@ e_plot_mod_contrasts <-
           paste0("Plot: ", attributes(p$data)$mesg)
 
 
+        text_long <-
+          paste0(
+            text_marginal_even_if_interaction
+          , text_CI
+          , "\n"
+          #, text_diff
+          #, "\n"
+          , text_averaged
+          , "\n"
+          , text_averaged_plot
+          )
+        text_short <-
+          paste0(
+            text_marginal_even_if_interaction
+          #  text_CI
+          #, "\n"
+          #, text_diff
+          #, "\n"
+          #, text_averaged
+          #, "\n"
+          , text_averaged_plot
+          )
         if (sw_table_in_plot) {
-          text_all <-
-            paste0(
-              text_marginal_even_if_interaction
-            , text_CI
-            , "\n"
-            #, text_diff
-            #, "\n"
-            , text_averaged
-            , "\n"
-            , text_averaged_plot
-            )
+          text_caption <- text_long
         } else {
-          text_all <-
-            paste0(
-              text_marginal_even_if_interaction
-            #  text_CI
-            #, "\n"
-            #, text_diff
-            #, "\n"
-            #, text_averaged
-            #, "\n"
-            , text_averaged_plot
-            )
+          text_caption <- text_short
         }
 
         p <- p + labs(
@@ -401,7 +403,7 @@ e_plot_mod_contrasts <-
           , subtitle  = var_name_x[i_var_x]
           , x         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
           , y         = paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
-          , caption   = text_all
+          , caption   = text_caption
           )
         p <- p + theme_bw()
         p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
@@ -412,7 +414,7 @@ e_plot_mod_contrasts <-
         }
 
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
-        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_all %>% stringr::str_split(pattern = "\n")
+        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long %>% stringr::str_split(pattern = "\n")
 
       } # numeric
 
@@ -484,26 +486,28 @@ e_plot_mod_contrasts <-
         text_averaged <-
           paste0(attributes(summary(cont_pairs))$mesg, collapse = "\n")
 
+        text_long <-
+          paste0(
+            text_marginal_even_if_interaction
+          , text_CI
+          , "\n"
+          , text_diff
+          , "\n"
+          , text_averaged
+          )
+        text_short <-
+          paste0(
+            text_marginal_even_if_interaction
+          #  text_CI
+          #, "\n"
+          #, text_diff
+          #, "\n"
+          , text_averaged
+          )
         if (sw_table_in_plot) {
-          text_all <-
-            paste0(
-              text_marginal_even_if_interaction
-            , text_CI
-            , "\n"
-            , text_diff
-            , "\n"
-            , text_averaged
-            )
+          text_caption <- text_long
         } else {
-          text_all <-
-            paste0(
-              text_marginal_even_if_interaction
-            #  text_CI
-            #, "\n"
-            #, text_diff
-            #, "\n"
-            , text_averaged
-            )
+          text_caption <- text_short
         }
 
         p <-
@@ -519,7 +523,7 @@ e_plot_mod_contrasts <-
           , subtitle  = var_name_x[i_var_x]
           , x         = paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
           , y         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
-          , caption   = text_all
+          , caption   = text_caption
           )
         p <- p + theme_bw()
         p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
@@ -530,7 +534,7 @@ e_plot_mod_contrasts <-
         }
 
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
-        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_all %>% stringr::str_split(pattern = "\n")
+        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long %>% stringr::str_split(pattern = "\n")
 
       } # factor
 
@@ -685,24 +689,26 @@ e_plot_mod_contrasts <-
           text_averaged <-
             paste0(attributes(summary(cont_pairs))$mesg, collapse = "\n")
 
+          text_long <-
+            paste0(
+              text_CI
+            , "\n"
+            , text_diff
+            , "\n"
+            , text_averaged
+            )
+          text_short <-
+            paste0(
+            #  text_CI
+            #, "\n"
+            #, text_diff
+            #, "\n"
+              text_averaged
+            )
           if (sw_table_in_plot) {
-            text_all <-
-              paste0(
-                text_CI
-              , "\n"
-              , text_diff
-              , "\n"
-              , text_averaged
-              )
+            text_caption <- text_long
           } else {
-            text_all <-
-              paste0(
-              #  text_CI
-              #, "\n"
-              #, text_diff
-              #, "\n"
-                text_averaged
-              )
+            text_caption <- text_short
           }
 
 
@@ -728,9 +734,9 @@ e_plot_mod_contrasts <-
               )
           } else {
             message(paste0("  e_plot_mod_contrasts: Due to error, no comparison arrows for: ", var_xs))
-            text_all <-
+            text_caption <-
               paste0(
-                text_all
+                text_caption
               , "\n"
               , "Due to error, no comparison arrows are plotted"
               )
@@ -750,7 +756,7 @@ e_plot_mod_contrasts <-
             , subtitle  = var_name_x[i_var_x]
             , x         = paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
             , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-            , caption   = text_all
+            , caption   = text_caption
             )
           p <- p + theme_bw()
           p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
@@ -768,8 +774,8 @@ e_plot_mod_contrasts <-
           }
           if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
             out[["plots" ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- p
-            out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_all %>% stringr::str_split(pattern = "\n")
           }
+          out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long %>% stringr::str_split(pattern = "\n")
 
         } # i_repeat
 
@@ -922,24 +928,26 @@ e_plot_mod_contrasts <-
         text_averaged <-
           attributes(summary(cont_fit$contrasts))$mesg
 
+        text_long <-
+          paste0(
+            text_CI
+          , "\n"
+          , text_diff
+          , "\n"
+          , text_averaged
+          )
+        text_short <-
+          paste0(
+          #  text_CI
+          #, "\n"
+          #, text_diff
+          #, "\n"
+            text_averaged
+          )
         if (sw_table_in_plot) {
-          text_all <-
-            paste0(
-              text_CI
-            , "\n"
-            , text_diff
-            , "\n"
-            , text_averaged
-            )
+          text_caption <- text_long
         } else {
-          text_all <-
-            paste0(
-            #  text_CI
-            #, "\n"
-            #, text_diff
-            #, "\n"
-              text_averaged
-            )
+          text_caption <- text_short
         }
 
         p1 <- plot(cont_fit)
@@ -950,31 +958,34 @@ e_plot_mod_contrasts <-
           , x         = paste0("Estimated slope for:\n", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character() )
           , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
           #, colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          , caption   = text_all
+          , caption   = text_caption
           #, tag       = "A"
           )
         p1 <- p1 + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[1]] <- p1
-          out[["text"  ]][[ var_name_x[i_var_x] ]][[1]] <- text_all %>% stringr::str_split(pattern = "\n")
         }
+        out[["text"  ]][[ var_name_x[i_var_x] ]][[1]] <- text_long %>% stringr::str_split(pattern = "\n")
 
 
 
         form_var_fac_num <- as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
 
+        text_long <-
+          paste0(
+            text_averaged
+          )
+        text_short <-
+          paste0(
+            text_averaged
+          )
         if (sw_table_in_plot) {
-          text_all <-
-            paste0(
-              text_averaged
-            )
+          text_caption <- text_long
         } else {
-          text_all <-
-            paste0(
-              text_averaged
-            )
+          text_caption <- text_short
         }
+
 
         p2 <- emmeans::emmip(
             object     = fit
@@ -988,7 +999,7 @@ e_plot_mod_contrasts <-
           , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
           , y         = paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
           , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          , caption   = text_all
+          , caption   = text_caption
           #, tag       = "B"
           )
         p2 <- p2 + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
@@ -996,9 +1007,8 @@ e_plot_mod_contrasts <-
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[2]] <- p2
-          out[["text"  ]][[ var_name_x[i_var_x] ]][[2]] <- text_all %>% stringr::str_split(pattern = "\n")
-
         }
+        out[["text"  ]][[ var_name_x[i_var_x] ]][[2]] <- text_long %>% stringr::str_split(pattern = "\n")
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(2, 3)]) {
           # prepare for group plot
@@ -1122,20 +1132,22 @@ e_plot_mod_contrasts <-
           text_averaged_plot <-
             attributes(p$data)$mesg
 
+          text_long <-
+            paste0(
+              paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
+            , "\n"
+            , text_averaged_plot
+            )
+          text_short <-
+            paste0(
+              paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
+            , "\n"
+            , text_averaged_plot
+            )
           if (sw_table_in_plot) {
-            text_all <-
-              paste0(
-                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
-              , "\n"
-              , text_averaged_plot
-              )
+            text_caption <- text_long
           } else {
-            text_all <-
-              paste0(
-                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
-              , "\n"
-              , text_averaged_plot
-              )
+            text_caption <- text_short
           }
 
           p <- p + labs(
@@ -1144,7 +1156,7 @@ e_plot_mod_contrasts <-
             , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
             , y         = paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
             , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-            , caption   = text_all
+            , caption   = text_caption
             #, tag       = "A"
             )
           p <- p + theme_bw()
@@ -1163,8 +1175,8 @@ e_plot_mod_contrasts <-
           }
           if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
             out[["plots" ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- p
-            out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_all %>% stringr::str_split(pattern = "\n")
           }
+          out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long %>% stringr::str_split(pattern = "\n")
 
         } # i_repeat
 
