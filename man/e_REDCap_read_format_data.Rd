@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_REDCap_read_format_data.R
 \name{e_REDCap_read_format_data}
 \alias{e_REDCap_read_format_data}
-\title{REDCap data, reading and formatting}
+\title{REDCap data, reading and formatting data}
 \usage{
 e_REDCap_read_format_data(
   fn_path = getwd(),
@@ -10,8 +10,8 @@ e_REDCap_read_format_data(
   fn_suffix_data = "_DATA_",
   fn_suffix_R = "_R_",
   fn_suffix_out = "",
-  fn_ext_data = "*.csv",
-  fn_ext_R = "*.r",
+  fn_ext_data = "csv",
+  fn_ext_R = "r",
   sw_return_dat = TRUE,
   sw_save_RData = TRUE
 )
@@ -39,7 +39,7 @@ e_REDCap_read_format_data(
 
 }
 \description{
-REDCap data, reading and formatting
+Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.
 }
 \examples{
 read_format_data(fn_path = NULL) # for Erik to update package data

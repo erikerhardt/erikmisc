@@ -1,4 +1,6 @@
-#' REDCap data, reading and formatting
+#' REDCap data, reading and formatting data
+#'
+#' Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.
 #'
 #' @param fn_path         is the location of the data, assumed to be the current path.
 #' @param fn_root         the root name(s) of the file(s), typically the project name(s) (the part before _DATA_*.*)
@@ -26,8 +28,8 @@ e_REDCap_read_format_data <-
   , fn_suffix_data = "_DATA_"
   , fn_suffix_R   = "_R_"
   , fn_suffix_out = ""
-  , fn_ext_data   = "*.csv"
-  , fn_ext_R      = "*.r"
+  , fn_ext_data   = "csv"
+  , fn_ext_R      = "r"
   , sw_return_dat = TRUE
   , sw_save_RData = TRUE
   ) {
@@ -67,6 +69,11 @@ e_REDCap_read_format_data <-
   #   , fn_ext_R   = "r"
   #   , sw_return_dat = TRUE
   #   , sw_save_RData = TRUE
+  #   )
+  # dat_temp <-
+  #   e_REDCap_read_format_data(
+  #     fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/sandbox"
+  #   , fn_root   = "VCIDatabase"
   #   )
 
 
