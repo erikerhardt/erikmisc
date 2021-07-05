@@ -9,7 +9,7 @@ e_convert_probability_to_oddsratio(p = NULL, sw_percent = FALSE)
 \arguments{
 \item{p}{list of probabilities}
 
-\item{sw_percent}{T/F input as percent, instead?}
+\item{sw_percent}{T/F input is percent}
 }
 \value{
 or        list of odds ratios

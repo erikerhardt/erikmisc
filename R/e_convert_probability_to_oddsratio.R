@@ -1,7 +1,7 @@
 #' Convert from Probability to Odds Ratio
 #'
 #' @param p          list of probabilities
-#' @param sw_percent T/F input as percent, instead?
+#' @param sw_percent T/F input is percent
 #'
 #' @return or        list of odds ratios
 #' @export
