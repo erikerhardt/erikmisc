@@ -5,5 +5,5 @@
 \alias{erikmisc}
 \title{erikmisc}
 \description{
-The goal of erikmisc is to solve common complex data analysis workflows.
+Erik Erhardt's miscellaneous functions for solving complex data analysis workflows.
 }
