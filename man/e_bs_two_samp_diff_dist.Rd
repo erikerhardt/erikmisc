@@ -2,16 +2,25 @@
 % Please edit documentation in R/e_bs_two_samp_diff_dist.R
 \name{e_bs_two_samp_diff_dist}
 \alias{e_bs_two_samp_diff_dist}
-\title{Title}
+\title{Visual comparison of whether Bootstrap sampling distribution is close to Normal}
 \usage{
 e_bs_two_samp_diff_dist(dat1, dat2, N = 10000)
 }
 \arguments{
-\item{N}{}
+\item{dat1}{a list of values from Sample 1}
+
+\item{dat2}{a list of values from Sample 2}
+
+\item{N}{number of bootstrap iterations}
 }
 \value{
 
 }
 \description{
-Title
+A function to compare the bootstrap sampling distribution
+  of the difference of means from two samples with
+  a normal distribution with mean and SEM estimated from the data
+}
+\examples{
+e_bs_two_samp_diff_dist(dat1 = runif(6), dat2 = runif(6) - 2)
 }

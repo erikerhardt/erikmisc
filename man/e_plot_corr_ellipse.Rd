@@ -8,8 +8,8 @@ e_plot_corr_ellipse(
   corr,
   outline = FALSE,
   col = "grey",
-  upper.panel = c("ellipse", "number", "none")[2],
-  lower.panel = c("ellipse", "number", "none")[1],
+  upper.panel = c("ellipse", "number", "none")[1],
+  lower.panel = c("ellipse", "number", "none")[2],
   diag = c("none", "ellipse", "number")[3],
   digits = 2,
   bty = "n",
@@ -24,11 +24,64 @@ e_plot_corr_ellipse(
 )
 }
 \arguments{
-\item{...}{}
+\item{corr}{correlation matrix}
+
+\item{outline}{option}
+
+\item{col}{option}
+
+\item{upper.panel}{option}
+
+\item{lower.panel}{option}
+
+\item{diag}{option}
+
+\item{digits}{option}
+
+\item{bty}{option}
+
+\item{axes}{option}
+
+\item{xlab}{option}
+
+\item{ylab}{option}
+
+\item{asp}{option}
+
+\item{cex.lab}{option}
+
+\item{cex}{option}
+
+\item{mar}{option}
+
+\item{...}{option}
 }
 \value{
 
 }
 \description{
 Title
+}
+\examples{
+datasets::mtcars \%>\% cor() \%>\% e_plot_corr_ellipse()
+
+## Color version
+# red neg, white 0, blue pos
+color_scale <-
+  c(
+    rgb(241,  54,  23, maxColorValue = 255)
+  , "white"
+  , rgb(  0,  61, 104, maxColorValue = 255)
+  )
+# color ramp in "Lab" space
+color_ramp <- colorRampPalette(color_scale, space = "Lab")
+# Create scale with 100 points
+colors_plot <- color_ramp(100)
+# move correlation range from [-1, 1] to [0, 100] for colors
+datasets::mtcars \%>\%
+  cor() \%>\%
+  e_plot_corr_ellipse(
+    col  = colors_plot[((. + 1)/2) * 100]
+  , main = "Colored ellipses"
+  )
 }

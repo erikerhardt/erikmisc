@@ -1,14 +1,43 @@
 #' Print a data.frame table for latex and scale to fit page
 #'
-#' @param dat
-#' @param sw_scale
-#' @param sw_kable_format
+#' If using in Rmd file and a latex documnet, then requires two header includes:
+#'
+#' \preformatted{
+#' EXAMPLE OF .Rmd YAML header
+#'
+#' ---
+#' title: "Title"
+#' date: "`r format(Sys.time(), '%B %d, %Y')`"
+#' output:
+#'   pdf_document:
+#'     df_print: kable
+#'     latex_engine: lualatex
+#'     toc: true
+#'     number_sections: true
+#'     toc_depth: 2
+#'     keep_tex: true
+#' header-includes:
+#' - \usepackage{booktabs}
+#' - \usepackage{colortbl}
+#' always_allow_html: yes
+#' fig_caption: TRUE
+#' ---
+#' }
+#'
+#' @param dat             data.frame or tibble to print
+#' @param sw_scale        if "latex" T/F to scale to fit page, if "html" then a point size to pass to \code{kableExtra::kable_styling} argument \code{font_size}
+#' @param sw_kable_format "html" or "latex" format
 #'
 #' @return
 #' @export
 #'
 #' @examples
-e_kable_latex <-
+#' datasets::mtcars %>% head() %>% e_print_table()
+#' \dontrun{
+#' datasets::mtcars %>% head() %>% e_print_table(sw_scale = 6)
+#' datasets::mtcars %>% head() %>% e_print_table(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
+#' }
+e_print_table <-
   function(
     dat
   , sw_scale = FALSE
@@ -47,4 +76,4 @@ e_kable_latex <-
       kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center")
     }
   }
-} # e_kable_latex
+} # e_print_table

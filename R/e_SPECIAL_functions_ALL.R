@@ -2,8 +2,6 @@
 #'
 #' Negation of the \code{\%in\%} operator.
 #'
-#' @param
-#'
 #' @return
 #' @export
 #'

@@ -42,6 +42,11 @@ e_REDCap_read_format_data(
 Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.
 }
 \examples{
-read_format_data(fn_path = NULL) # for Erik to update package data
-read_format_data()            # for others to format data in current path
+\dontrun{
+dat_temp <-
+  e_REDCap_read_format_data(
+    fn_path   = "C:/Data/Project"
+  , fn_root   = "ProjectName"
+  )
+}
 }

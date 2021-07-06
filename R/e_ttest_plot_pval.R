@@ -1,4 +1,4 @@
-#' e_plot_ttest_pval Plot the result of a t-test by shading the p-value area under the t-distribution
+#' Plot the result of a t-test by shading the p-value area under the t-distribution
 #'
 #' @param t_summary   the returned object from stats::t.test()
 #' @param sw_graphics choice of ggplot or base graphics
@@ -8,10 +8,10 @@
 #'
 #' @examples
 #' t_summary <- t.test(datasets::mtcars$mpg, mu = 20, data = datasets::mtcars)
-#' e_plot_ttest_pval(t_summary)
+#' e_ttest_plot_pval(t_summary)
 #' t_summary <- t.test(mpg ~ am, mu = 0, data = datasets::mtcars)
-#' e_plot_ttest_pval(t_summary)
-e_plot_ttest_pval <-
+#' e_ttest_plot_pval(t_summary)
+e_ttest_plot_pval <-
   function(
     t_summary
   , sw_graphics = c("ggplot", "base")[2]
@@ -60,23 +60,29 @@ e_plot_ttest_pval <-
     invisible(NULL)
   }
 
-} # e_t_dist_pval
+} # e_ttest_plot_pval
 
 
-#' e_ttest_alt_hyp_text is modified code from stats::print.htest to return text of alternative hypothesis
-#` https://github.com/SurajGupta/r-source/blob/master/src/library/stats/R/htest.R
+#' Return text of alternative hypothesis via modified code from stats::print.htest
+#'
+#` Credit: <https://github.com/SurajGupta/r-source/blob/master/src/library/stats/R/htest.R>
 #'
 #' @param x      stats::t.test object
-#' @param digits
-#' @param prefix
-#' @param ...
+#' @param digits number of digits to return, from \code{getOption("digits")}
+#' @param prefix (UNUSED) default prefix is the \code{\t} tab character
+#' @param ...    additional parameters
 #'
 #' @return out text describing alternative hypothesis
 #' @export
 #'
-#' @examples
-e_ttest_alt_hyp_text <- function(x, digits = getOption("digits"), prefix = "\t", ...)
-{
+e_ttest_alt_hyp_text <-
+  function(
+    x
+  , digits = getOption("digits")
+  , prefix = "\t"
+  , ...
+  )
+  {
   # cat("\n")
   # cat(strwrap(x$method, prefix = prefix), sep = "\n")
   # cat("\n")

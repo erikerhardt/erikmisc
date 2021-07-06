@@ -2,16 +2,22 @@
 % Please edit documentation in R/e_bs_one_samp_dist.R
 \name{e_bs_one_samp_dist}
 \alias{e_bs_one_samp_dist}
-\title{Title}
+\title{Visual comparison of whether Bootstrap sampling distribution is close to Normal}
 \usage{
 e_bs_one_samp_dist(dat, N = 10000)
 }
 \arguments{
-\item{N}{}
+\item{dat}{a list of values}
+
+\item{N}{number of bootstrap iterations}
 }
 \value{
 
 }
 \description{
-Title
+A function to compare the bootstrap sampling distribution with
+  a normal distribution with mean and SEM estimated from the data
+}
+\examples{
+e_bs_one_samp_dist(dat = runif(6))
 }

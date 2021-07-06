@@ -16,7 +16,13 @@ e_roc_gg(
 \arguments{
 \item{dat}{dataset name}
 
+\item{var_class}{true classification}
+
+\item{val_feat}{XXX DON'T REMEMBER}
+
 \item{sw_plot}{TRUE/FALSE switch to create plot or not}
+
+\item{method_name}{PREVIOUSLY USED FOR TITLE}
 
 \item{sw_thresh_criteria}{(min distand, max spec, or max sens)}
 }
@@ -25,4 +31,8 @@ out is a list including the optimal threshold, val_feat (XXX), good_class (XXX),
 }
 \description{
 A function to calculate ROC curve, calculate area under the curve (AUC), calculate the optimal threshold, plot the curve, and classify the peaks.
+}
+\examples{
+\dontrun{
+}
 }

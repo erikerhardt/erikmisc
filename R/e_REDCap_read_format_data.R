@@ -12,15 +12,18 @@
 #' @param sw_return_dat   TRUE/FALSE to return the data object from the function
 #' @param sw_save_RData   TRUE/FALSE to save an ".RData" file
 #'
-#' @sw_return Switch to return data or not
-#'
 #' @return
 #' @import labelled
 #' @export
 #'
 #' @examples
-#' read_format_data(fn_path = NULL) # for Erik to update package data
-#' read_format_data()            # for others to format data in current path
+#' \dontrun{
+#' dat_temp <-
+#'   e_REDCap_read_format_data(
+#'     fn_path   = "C:/Data/Project"
+#'   , fn_root   = "ProjectName"
+#'   )
+#' }
 e_REDCap_read_format_data <-
   function(
     fn_path       = getwd()

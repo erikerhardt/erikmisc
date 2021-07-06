@@ -1,16 +1,22 @@
-#### Visual comparison of whether sampling distribution is close to Normal via Bootstrap
-# a function to compare the bootstrap sampling distribution with
-#   a normal distribution with mean and SEM estimated from the data
-#' Title
+#' Visual comparison of whether Bootstrap sampling distribution is close to Normal
 #'
-#' @param dat
-#' @param N
+#' A function to compare the bootstrap sampling distribution with
+#'   a normal distribution with mean and SEM estimated from the data
+#'
+#' @param dat a list of values
+#' @param N   number of bootstrap iterations
 #'
 #' @return
 #' @export
 #'
 #' @examples
-e_bs_one_samp_dist <- function(dat, N = 1e4) {
+#' e_bs_one_samp_dist(dat = runif(6))
+e_bs_one_samp_dist <-
+  function(
+    dat
+  , N = 1e4
+  ) {
+
   n <- length(dat);
   # resample from data
   sam <- matrix(sample(dat, size = N * n, replace = TRUE), ncol=N);
@@ -41,4 +47,6 @@ e_bs_one_samp_dist <- function(dat, N = 1e4) {
   rug(sam_mean)
   # restore par() settings
   par(old_par)
+
+  invisible(NULL)
 } # e_bs_one_samp_dist

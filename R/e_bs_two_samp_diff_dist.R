@@ -1,20 +1,25 @@
-# TO UPDATE
-
-#### Visual comparison of whether sampling distribution is close to Normal via Bootstrap
-# a function to compare the bootstrap sampling distribution
-#   of the difference of means from two samples with
-#   a normal distribution with mean and SEM estimated from the data
-#' Title
+#' Visual comparison of whether Bootstrap sampling distribution is close to Normal
 #'
-#' @param dat1
-#' @param dat2
-#' @param N
+#' A function to compare the bootstrap sampling distribution
+#'   of the difference of means from two samples with
+#'   a normal distribution with mean and SEM estimated from the data
+#'
+#' @param dat1 a list of values from Sample 1
+#' @param dat2 a list of values from Sample 2
+#' @param N    number of bootstrap iterations
 #'
 #' @return
 #' @export
 #'
 #' @examples
-e_bs_two_samp_diff_dist <- function(dat1, dat2, N = 1e4) {
+#' e_bs_two_samp_diff_dist(dat1 = runif(6), dat2 = runif(6) - 2)
+e_bs_two_samp_diff_dist <-
+  function(
+    dat1
+  , dat2
+  , N = 1e4
+  ) {
+
   n1 <- length(dat1);
   n2 <- length(dat2);
   # resample from data
@@ -61,4 +66,6 @@ e_bs_two_samp_diff_dist <- function(dat1, dat2, N = 1e4) {
   rug(diff_mean)
   # restore par() settings
   par(old_par)
+
+  invisible(NULL)
 } # e_bs_two_samp_diff_dist

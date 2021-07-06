@@ -1,10 +1,14 @@
+# XXX f_cm needed
+# XXX update variable names with . to _
+# XXX example
+
 #' A function to calculate ROC curve, calculate area under the curve (AUC), calculate the optimal threshold, plot the curve, and classify the peaks.
 #'
 #' @param dat         dataset name
-#' @param var_class
-#' @param val_feat
+#' @param var_class   true classification
+#' @param val_feat    XXX DON'T REMEMBER
 #' @param sw_plot     TRUE/FALSE switch to create plot or not
-#' @param method_name
+#' @param method_name PREVIOUSLY USED FOR TITLE
 #' @param sw_thresh_criteria (min distand, max spec, or max sens)
 #'
 #' @return out is a list including the optimal threshold, val_feat (XXX), good_class (XXX), plot_roc is a plot of the roc curve using ggplot, and roc_dat includes the curve, best value of the curve, and cm.feat (XXX?)
@@ -15,6 +19,8 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' }
 e_roc_gg <-
   function(
     dat
