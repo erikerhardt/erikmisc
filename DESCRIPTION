@@ -1,7 +1,7 @@
 Type: Package
 Package: erikmisc
-Title: Erik Erhardt misc functions for data analysis
-Version: 0.1.0
+Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
+Version: 0.1.1
 Authors@R:
     c(person(
       given = "Erik"
@@ -10,7 +10,7 @@ Authors@R:
     , email = "erike@statacumen.com"
     , comment = c(ORCID = "0000-0002-9817-4011")
     ))
-Description: A set of functions automating the common data analysis procedures that I use.
+Description: Solving common complex data analysis workflows.
 License: GPL (>= 3)
 URL: https://github.com/erikerhardt/erikmisc
 BugReports: https://github.com/erikerhardt/erikmisc/issues
