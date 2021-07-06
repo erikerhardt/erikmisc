@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' i_best <-
 #'   e_bestsubset(
 #'     form = formula(mpg ~ cyl + disp + hp + gear)
@@ -18,6 +19,7 @@
 #'   options(width=100) # setting command window output text width wider
 #' i_best %>% print(n = Inf, width = Inf)
 #'   options(op); # reset (all) initial options
+#' }
 e_bestsubset <-
   function(
     form

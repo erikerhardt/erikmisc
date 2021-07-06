@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visual comparison of whether Bootstrap sampling distribution is close to Normal — e_bs_two_samp_diff_dist • erikmisc</title>
+<title>Plot the result of a t-test by shading the p-value area under the t-distribution — e_ttest_plot_pval • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Visual comparison of whether Bootstrap sampling distribution is close to Normal — e_bs_two_samp_diff_dist" />
-<meta property="og:description" content="A function to compare the bootstrap sampling distribution
-  of the difference of means from two samples with
-  a normal distribution with mean and SEM estimated from the data" />
+<meta property="og:title" content="Plot the result of a t-test by shading the p-value area under the t-distribution — e_ttest_plot_pval" />
+<meta property="og:description" content="Plot the result of a t-test by shading the p-value area under the t-distribution" />
 
 
 
@@ -110,45 +108,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visual comparison of whether Bootstrap sampling distribution is close to Normal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_bs_two_samp_diff_dist.R'><code>R/e_bs_two_samp_diff_dist.R</code></a></small>
-    <div class="hidden name"><code>e_bs_two_samp_diff_dist.Rd</code></div>
+    <h1>Plot the result of a t-test by shading the p-value area under the t-distribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_ttest_plot_pval.R'><code>R/e_ttest_plot_pval.R</code></a></small>
+    <div class="hidden name"><code>e_ttest_plot_pval.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to compare the bootstrap sampling distribution
-  of the difference of means from two samples with
-  a normal distribution with mean and SEM estimated from the data</p>
+    <p>Plot the result of a t-test by shading the p-value area under the t-distribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_bs_two_samp_diff_dist</span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span>, N <span class='op'>=</span> <span class='fl'>10000</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_ttest_plot_pval</span><span class='op'>(</span><span class='va'>t_summary</span>, sw_graphics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ggplot"</span>, <span class='st'>"base"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat1</th>
-      <td><p>a list of values from Sample 1</p></td>
+      <th>t_summary</th>
+      <td><p>the returned object from stats::t.test()</p></td>
     </tr>
     <tr>
-      <th>dat2</th>
-      <td><p>a list of values from Sample 2</p></td>
-    </tr>
-    <tr>
-      <th>N</th>
-      <td><p>number of bootstrap iterations</p></td>
+      <th>sw_graphics</th>
+      <td><p>choice of ggplot or base graphics</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>if base graphics, NULL invisibly; if ggplot, the plot grob</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_bs_two_samp_diff_dist</span><span class='op'>(</span>dat1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>, dat2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='img'><img src='e_bs_two_samp_diff_dist-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='va'>t_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>$</span><span class='va'>mpg</span>, mu <span class='op'>=</span> <span class='fl'>20</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span>
+<span class='fu'>e_ttest_plot_pval</span><span class='op'>(</span><span class='va'>t_summary</span><span class='op'>)</span>
+</div><div class='img'><img src='e_ttest_plot_pval-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>t_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>am</span>, mu <span class='op'>=</span> <span class='fl'>0</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span>
+<span class='fu'>e_ttest_plot_pval</span><span class='op'>(</span><span class='va'>t_summary</span><span class='op'>)</span>
+</div><div class='img'><img src='e_ttest_plot_pval-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

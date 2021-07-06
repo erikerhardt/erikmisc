@@ -4,14 +4,12 @@
 \alias{e_ttest_alt_hyp_text}
 \title{Return text of alternative hypothesis via modified code from stats::print.htest}
 \usage{
-e_ttest_alt_hyp_text(x, digits = getOption("digits"), prefix = "\\t", ...)
+e_ttest_alt_hyp_text(x, digits = getOption("digits"), ...)
 }
 \arguments{
 \item{x}{stats::t.test object}
 
 \item{digits}{number of digits to return, from \code{getOption("digits")}}
-
-\item{prefix}{(UNUSED) default prefix is the \code{\t} tab character}
 
 \item{...}{additional parameters}
 }

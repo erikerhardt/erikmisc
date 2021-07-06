@@ -2,8 +2,7 @@
 % Please edit documentation in R/e_plot_mod_contrasts.R
 \name{e_plot_mod_contrasts}
 \alias{e_plot_mod_contrasts}
-\title{Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.
-Variable labels can be provided by labelling your data with the labelled::var_label() command.}
+\title{Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.}
 \usage{
 e_plot_mod_contrasts(
   fit = NULL,
@@ -47,7 +46,6 @@ e_plot_mod_contrasts(
 out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
 }
 \description{
-Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.
 Variable labels can be provided by labelling your data with the labelled::var_label() command.
 }
 \examples{

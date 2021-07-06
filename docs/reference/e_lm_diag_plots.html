@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -192,8 +192,7 @@
 #&gt; Chisquare = 3.921921, Df = 1, p = 0.04766</div><div class='output co'>#&gt; <span class='warning'>Warning: Note: Collinearity plot unreliable for predictors that also have interactions in the model.</span></div><div class='img'><img src='e_lm_diag_plots-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span> <span class='op'>+</span> <span class='va'>gear</span><span class='op'>)</span>
 <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mod</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span>
 <span class='fu'>e_lm_diag_plots</span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
-</div><div class='img'><img src='e_lm_diag_plots-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; Error in stats::model.frame(formula = mod, data = datasets::mtcars, drop.unused.levels = TRUE) : 
-#&gt;   object 'mod' not found
+</div><div class='img'><img src='e_lm_diag_plots-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; Error : object of type 'builtin' is not subsettable
 #&gt; Non-constant Variance Score Test 
 #&gt; Variance formula: ~ fitted.values 
 #&gt; Chisquare = 3.921921, Df = 1, p = 0.04766</div><div class='output co'>#&gt; <span class='warning'>Warning: Note: Collinearity plot unreliable for predictors that also have interactions in the model.</span></div><div class='img'><img src='e_lm_diag_plots-10.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_diag_plots-11.png' alt='' width='700' height='433' /></div></pre>

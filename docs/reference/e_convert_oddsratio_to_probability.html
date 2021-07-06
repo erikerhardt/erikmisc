@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visual comparison of whether Bootstrap sampling distribution is close to Normal — e_bs_two_samp_diff_dist • erikmisc</title>
+<title>Convert from Odds Ratio to Probability — e_convert_oddsratio_to_probability • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Visual comparison of whether Bootstrap sampling distribution is close to Normal — e_bs_two_samp_diff_dist" />
-<meta property="og:description" content="A function to compare the bootstrap sampling distribution
-  of the difference of means from two samples with
-  a normal distribution with mean and SEM estimated from the data" />
+<meta property="og:title" content="Convert from Odds Ratio to Probability — e_convert_oddsratio_to_probability" />
+<meta property="og:description" content="Convert from Odds Ratio to Probability" />
 
 
 
@@ -110,45 +108,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visual comparison of whether Bootstrap sampling distribution is close to Normal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_bs_two_samp_diff_dist.R'><code>R/e_bs_two_samp_diff_dist.R</code></a></small>
-    <div class="hidden name"><code>e_bs_two_samp_diff_dist.Rd</code></div>
+    <h1>Convert from Odds Ratio to Probability</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_convert_oddsratio_to_probability.R'><code>R/e_convert_oddsratio_to_probability.R</code></a></small>
+    <div class="hidden name"><code>e_convert_oddsratio_to_probability.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to compare the bootstrap sampling distribution
-  of the difference of means from two samples with
-  a normal distribution with mean and SEM estimated from the data</p>
+    <p>Convert from Odds Ratio to Probability</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_bs_two_samp_diff_dist</span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span>, N <span class='op'>=</span> <span class='fl'>10000</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_convert_oddsratio_to_probability</span><span class='op'>(</span>or <span class='op'>=</span> <span class='cn'>NULL</span>, sw_percent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat1</th>
-      <td><p>a list of values from Sample 1</p></td>
+      <th>or</th>
+      <td><p>list of odds ratios</p></td>
     </tr>
     <tr>
-      <th>dat2</th>
-      <td><p>a list of values from Sample 2</p></td>
-    </tr>
-    <tr>
-      <th>N</th>
-      <td><p>number of bootstrap iterations</p></td>
+      <th>sw_percent</th>
+      <td><p>T/F return as percent, instead?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>p         list of probabilities</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_bs_two_samp_diff_dist</span><span class='op'>(</span>dat1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>, dat2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='img'><img src='e_bs_two_samp_diff_dist-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='va'>or</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>9</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>9</span><span class='op'>)</span>
+<span class='fu'>e_convert_oddsratio_to_probability</span><span class='op'>(</span><span class='va'>or</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.0000000 0.1000000 0.2000000 0.3333333 0.5000000 0.6666667 0.8000000
+#&gt; [8] 0.9000000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

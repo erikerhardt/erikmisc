@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>e_ttest_alt_hyp_text is modified code from stats::print.htest to return text of alternative hypothesis — e_ttest_alt_hyp_text • erikmisc</title>
+<title>Return text of alternative hypothesis via modified code from stats::print.htest — e_ttest_alt_hyp_text • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="e_ttest_alt_hyp_text is modified code from stats::print.htest to return text of alternative hypothesis — e_ttest_alt_hyp_text" />
-<meta property="og:description" content="e_ttest_alt_hyp_text is modified code from stats::print.htest to return text of alternative hypothesis" />
+<meta property="og:title" content="Return text of alternative hypothesis via modified code from stats::print.htest — e_ttest_alt_hyp_text" />
+<meta property="og:description" content="Return text of alternative hypothesis via modified code from stats::print.htest" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -108,16 +108,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>e_ttest_alt_hyp_text is modified code from stats::print.htest to return text of alternative hypothesis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_ttest_pval.R'><code>R/e_plot_ttest_pval.R</code></a></small>
+    <h1>Return text of alternative hypothesis via modified code from stats::print.htest</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_ttest_plot_pval.R'><code>R/e_ttest_plot_pval.R</code></a></small>
     <div class="hidden name"><code>e_ttest_alt_hyp_text.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>e_ttest_alt_hyp_text is modified code from stats::print.htest to return text of alternative hypothesis</p>
+    <p>Return text of alternative hypothesis via modified code from stats::print.htest</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_ttest_alt_hyp_text</span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span>, prefix <span class='op'>=</span> <span class='st'>"\t"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_ttest_alt_hyp_text</span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,8 +127,12 @@
       <td><p>stats::t.test object</p></td>
     </tr>
     <tr>
+      <th>digits</th>
+      <td><p>number of digits to return, from <code><a href='https://rdrr.io/r/base/options.html'>getOption("digits")</a></code></p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td></td>
+      <td><p>additional parameters</p></td>
     </tr>
     </table>
 

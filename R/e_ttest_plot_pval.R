@@ -69,7 +69,6 @@ e_ttest_plot_pval <-
 #'
 #' @param x      stats::t.test object
 #' @param digits number of digits to return, from \code{getOption("digits")}
-#' @param prefix (UNUSED) default prefix is the \code{\t} tab character
 #' @param ...    additional parameters
 #'
 #' @return out text describing alternative hypothesis
@@ -79,7 +78,6 @@ e_ttest_alt_hyp_text <-
   function(
     x
   , digits = getOption("digits")
-  , prefix = "\t"
   , ...
   )
   {

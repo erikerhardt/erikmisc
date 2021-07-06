@@ -20,6 +20,7 @@ e_bestsubset(form, dat, nbest = 5)
 Best subset selection returns results sorted by BIC
 }
 \examples{
+\dontrun{
 i_best <-
   e_bestsubset(
     form = formula(mpg ~ cyl + disp + hp + gear)
@@ -30,4 +31,5 @@ i_best <-
   options(width=100) # setting command window output text width wider
 i_best \%>\% print(n = Inf, width = Inf)
   options(op); # reset (all) initial options
+}
 }

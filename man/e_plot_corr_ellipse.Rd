@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_plot_corr_ellipse.R
 \name{e_plot_corr_ellipse}
 \alias{e_plot_corr_ellipse}
-\title{Title}
+\title{Correlation plot with ellipses}
 \usage{
 e_plot_corr_ellipse(
   corr,
@@ -60,11 +60,12 @@ e_plot_corr_ellipse(
 
 }
 \description{
-Title
+Correlation plot with ellipses
 }
 \examples{
 datasets::mtcars \%>\% cor() \%>\% e_plot_corr_ellipse()
 
+\dontrun{
 ## Color version
 # red neg, white 0, blue pos
 color_scale <-
@@ -84,4 +85,5 @@ datasets::mtcars \%>\%
     col  = colors_plot[((. + 1)/2) * 100]
   , main = "Colored ellipses"
   )
+}
 }

@@ -1,5 +1,4 @@
-# Correlation plot with ellipses
-#' Title
+#' Correlation plot with ellipses
 #'
 #' @param corr        correlation matrix
 #' @param outline     option
@@ -24,6 +23,7 @@
 #' @examples
 #' datasets::mtcars %>% cor() %>% e_plot_corr_ellipse()
 #'
+#' \dontrun{
 #' ## Color version
 #' # red neg, white 0, blue pos
 #' color_scale <-
@@ -43,6 +43,7 @@
 #'     col  = colors_plot[((. + 1)/2) * 100]
 #'   , main = "Colored ellipses"
 #'   )
+#' }
 e_plot_corr_ellipse <-
   function(
     corr

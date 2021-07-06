@@ -1,4 +1,5 @@
 #' Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.
+#'
 #' Variable labels can be provided by labelling your data with the labelled::var_label() command.
 #'
 #' @param fit                       lm object

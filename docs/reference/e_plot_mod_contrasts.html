@@ -75,7 +75,7 @@ Variable labels can be provided by labelling your data with the labelled::var_la
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -131,6 +131,7 @@ Variable labels can be provided by labelling your data with the labelled::var_la
     <span class='st'>"mvt"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span>,
   CI_level <span class='op'>=</span> <span class='fl'>0.95</span>,
   sw_print <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sw_marginal_even_if_interaction <span class='op'>=</span> <span class='cn'>FALSE</span>,
   sw_TWI_plots_keep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"singles"</span>, <span class='st'>"both"</span>, <span class='st'>"all"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>,
   sw_TWI_both_orientation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"wide"</span>, <span class='st'>"tall"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
   plot_quantiles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span>
@@ -168,6 +169,10 @@ Variable labels can be provided by labelling your data with the labelled::var_la
       <td><p>T/F whether to print results as this function runs</p></td>
     </tr>
     <tr>
+      <th>sw_marginal_even_if_interaction</th>
+      <td><p>T/F whether to also calculate marginal results when involved in interaction(s)</p></td>
+    </tr>
+    <tr>
       <th>sw_TWI_plots_keep</th>
       <td><p>two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.</p></td>
     </tr>
@@ -188,13 +193,14 @@ Variable labels can be provided by labelling your data with the labelled::var_la
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Example</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>-- <span style='font-weight: bold;'>Attaching packages</span><span> --------------------------------------- tidyverse 1.3.1 --</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.1.2     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>dplyr  </span><span> 1.0.6</span>
+</div><div class='output co'>#&gt; <span class='message'>-- <span style='font-weight: bold;'>Attaching packages</span><span> --------------------------------------- tidyverse 1.3.1 --</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.1.2     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.1.3     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.4.0     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.1</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4     </span></div><div class='output co'>#&gt; <span class='message'>-- </span><span style='font-weight: bold;'>Conflicts</span><span> ------------------------------------------ tidyverse_conflicts() --</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>combine()</span><span> masks </span><span style='color: #0000BB;'>gridExtra</span><span>::combine()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>  masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>     masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span></div><div class='input'>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.4.0     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.1</span></div><div class='output co'>#&gt; <span class='message'>-- </span><span style='font-weight: bold;'>Conflicts</span><span> ------------------------------------------ tidyverse_conflicts() --</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>gridExtra</span><span>::</span><span style='color: #00BB00;'>combine()</span><span> masks </span><span style='color: #0000BB;'>dplyr</span><span>::combine()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>tidyr</span><span>::</span><span style='color: #00BB00;'>extract()</span><span>     masks </span><span style='color: #0000BB;'>magrittr</span><span>::extract()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>      masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>         masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>set_names()</span><span>   masks </span><span style='color: #0000BB;'>magrittr</span><span>::set_names()</span></div><div class='input'>
 <span class='co'># Data for testing</span>
 <span class='va'>dat_cont</span> <span class='op'>&lt;-</span>
   <span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
@@ -385,6 +391,106 @@ Variable labels can be provided by labelling your data with the labelled::var_la
 #&gt; 
 #&gt; $`hp:vs`
 #&gt; $`hp:vs`$both</div><div class='img'><img src='e_plot_mod_contrasts-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>text</span>    <span class='co'># to print caption text</span>
+</div><div class='output co'>#&gt; $wt
+#&gt; $wt[[1]]
+#&gt; [1] "Estimate: 3.21725 = -2.82,  95% CI: (-5.34, -0.299)"                 
+#&gt; [2] "Tables: Results are averaged over the levels of: cyl, vs, am"        
+#&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"
+#&gt; 
+#&gt; $wt[[2]]
+#&gt; [1] "Estimate: 3.21725 = -2.82,  95% CI: (-5.34, -0.299)"                 
+#&gt; [2] "Tables: Confidence level used: 0.95"                                 
+#&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"
+#&gt; 
+#&gt; 
+#&gt; $am
+#&gt; $am[[1]]
+#&gt; [1] "Estimate: automatic = 17.5,  95% CI: (14.5, 20.5)"     
+#&gt; [2] "Estimate: manual = 19,  95% CI: (14.7, 23.3)"          
+#&gt; [3] "Contrast: automatic - manual = -1.52, p-value = 0.4416"
+#&gt; [4] "Results are averaged over the levels of: cyl, vs"      
+#&gt; 
+#&gt; 
+#&gt; $`cyl:vs`
+#&gt; $`cyl:vs`[[1]]
+#&gt; $`cyl:vs`[[1]][[1]]
+#&gt;  [1] "vs = V-shaped:"                                 
+#&gt;  [2] "Estimate: four = 19.9,  95% CI: (10.7, 29)"     
+#&gt;  [3] "Estimate: six = 17.9,  95% CI: (13.2, 22.6)"    
+#&gt;  [4] "Estimate: eight = 19,  95% CI: (14.7, 23.3)"    
+#&gt;  [5] "vs = straight:"                                 
+#&gt;  [6] "Estimate: four = 17.8,  95% CI: (10.7, 24.9)"   
+#&gt;  [7] "Estimate: six = 17.8,  95% CI: (12.9, 22.8)"    
+#&gt;  [8] "Estimate: eight = 16.9,  95% CI: (5.17, 28.7)"  
+#&gt;  [9] ""                                               
+#&gt; [10] "vs = V-shaped:"                                 
+#&gt; [11] "Contrast: four - six = 1.97, p-value = 0.9142"  
+#&gt; [12] "Contrast: four - eight = 0.89, p-value = 0.9959"
+#&gt; [13] "Contrast: six - eight = -1.08, p-value = 0.9789"
+#&gt; [14] "vs = straight:"                                 
+#&gt; [15] "Contrast: four - six = -0.00314, p-value = 1"   
+#&gt; [16] "Contrast: four - eight = NA, p-value = NA"      
+#&gt; [17] "Contrast: six - eight = NA, p-value = NA"       
+#&gt; [18] ""                                               
+#&gt; [19] "Results are averaged over the levels of: am"    
+#&gt; [20] "P value adjustment: sidak method for 3 tests"   
+#&gt; 
+#&gt; 
+#&gt; $`cyl:vs`[[2]]
+#&gt; $`cyl:vs`[[2]][[1]]
+#&gt;  [1] "cyl = four:"                                               
+#&gt;  [2] "Estimate: V-shaped = 19.9,  95% CI: (11.4, 28.4)"          
+#&gt;  [3] "Estimate: straight = 17.8,  95% CI: (11.2, 24.4)"          
+#&gt;  [4] "cyl = six:"                                                
+#&gt;  [5] "Estimate: V-shaped = 17.9,  95% CI: (13.5, 22.3)"          
+#&gt;  [6] "Estimate: straight = 17.8,  95% CI: (13.2, 22.4)"          
+#&gt;  [7] "cyl = eight:"                                              
+#&gt;  [8] "Estimate: V-shaped = 19,  95% CI: (15, 23)"                
+#&gt;  [9] "Estimate: straight = 16.9,  95% CI: (6.01, 27.9)"          
+#&gt; [10] ""                                                          
+#&gt; [11] "cyl = four:"                                               
+#&gt; [12] "Contrast: (V-shaped) - straight = 2.06, p-value = 0.6095"  
+#&gt; [13] "Contrast: (V-shaped) - straight = 0.0901, p-value = 0.9748"
+#&gt; [14] "cyl = six:"                                                
+#&gt; [15] "Contrast: (V-shaped) - straight = NA, p-value = NA"        
+#&gt; [16] "Contrast: NA = NA, p-value = NA"                           
+#&gt; [17] "cyl = eight:"                                              
+#&gt; [18] "Contrast: NA = NA, p-value = NA"                           
+#&gt; [19] "Contrast: NA = NA, p-value = NA"                           
+#&gt; [20] ""                                                          
+#&gt; [21] "Results are averaged over the levels of: am"               
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; $`disp:hp`
+#&gt; $`disp:hp`[[1]]
+#&gt; $`disp:hp`[[1]][[1]]
+#&gt; [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95; may be fewer if quantiles are not unique values."
+#&gt; [2] "Results are averaged over the levels of: cyl, vs, am"                                            
+#&gt; 
+#&gt; 
+#&gt; $`disp:hp`[[2]]
+#&gt; $`disp:hp`[[2]][[1]]
+#&gt; [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95; may be fewer if quantiles are not unique values."
+#&gt; [2] "Results are averaged over the levels of: cyl, vs, am"                                            
+#&gt; 
+#&gt; 
+#&gt; 
+#&gt; $`hp:vs`
+#&gt; $`hp:vs`[[1]]
+#&gt; $`hp:vs`[[1]][[1]]
+#&gt; [1] "Estimate: V-shaped = -0.0294,  95% CI: (-0.0662, 0.00732)" 
+#&gt; [2] "Estimate: straight = -0.0786,  95% CI: (-0.172, 0.0149)"   
+#&gt; [3] "Contrast: (V-shaped) - straight = 0.0491, p-value = 0.3652"
+#&gt; [4] "Results are averaged over the levels of: cyl, am"          
+#&gt; 
+#&gt; 
+#&gt; $`hp:vs`[[2]]
+#&gt; $`hp:vs`[[2]][[1]]
+#&gt; [1] "Results are averaged over the levels of: cyl, am"
+#&gt; 
+#&gt; 
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
