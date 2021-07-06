@@ -15,13 +15,13 @@ e_headtail <-
     x
   , n             = 3L
   , which_col     = NULL
-  #, sw_addrownum  = TRUE
   , ...
   ) {
   # https://rdrr.io/cran/FSA/src/R/FSAUtils.R
 
     ## Not using this -- doesn't matter for non-rownames datasets, and overwrites rownames when it is used
     #' @param sw_addrownum  also print row numbers?
+    #, sw_addrownum  = TRUE
 
   ## Some checks
   if (!(is.matrix(x) | is.data.frame(x))) {

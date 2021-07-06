@@ -1,6 +1,6 @@
 #' check a function and if there's an error return an indication that we can ifelse() to either run for real or skip
 #'
-#' @param f
+#' @param f report result of a \code{try()}
 #'
 #' @return
 #' @export

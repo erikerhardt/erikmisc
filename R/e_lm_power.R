@@ -378,7 +378,7 @@ e_lm_power <-
                                               , ordered = TRUE
                                               )
       ) %>%
-      drop_na()
+      tidyr::drop_na()
 
 
     text_caption <-

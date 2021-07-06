@@ -18,6 +18,7 @@ e_mnv_norm_qqplot(x, name = "")
 Graphical Assessment (QQ-plot) for assessing Multivariate Normality
 }
 \examples{
-e_mnv_norm_qqplot(shells[shells$sex == "F", 2:4], "Female")
-e_mnv_norm_qqplot(shells[shells$sex == "M", 2:4], "Male")
+datasets::mtcars \%>\% filter(cyl == 4) \%>\% select(mpg, hp, wt) \%>\% e_mnv_norm_qqplot(name = "cyl = 4")
+datasets::mtcars \%>\% filter(cyl == 6) \%>\% select(mpg, hp, wt) \%>\% e_mnv_norm_qqplot(name = "cyl = 6")
+datasets::mtcars \%>\% filter(cyl == 8) \%>\% select(mpg, hp, wt) \%>\% e_mnv_norm_qqplot(name = "cyl = 8")
 }

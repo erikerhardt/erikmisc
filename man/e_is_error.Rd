@@ -7,7 +7,7 @@
 e_is_error(f)
 }
 \arguments{
-\item{f}{}
+\item{f}{report result of a \code{try()}}
 }
 \value{
 
