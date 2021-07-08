@@ -10,7 +10,7 @@
 #' @examples
 #' \dontrun{
 #' i_best <-
-#'   e_bestsubset(
+#'   e_lm_bestsubset(
 #'     form = formula(mpg ~ cyl + disp + hp + gear)
 #'   , dat  = datasets::mtcars
 #'   )
@@ -20,7 +20,7 @@
 #' i_best %>% print(n = Inf, width = Inf)
 #'   options(op); # reset (all) initial options
 #' }
-e_bestsubset <-
+e_lm_bestsubset <-
   function(
     form
   , dat
