@@ -69,7 +69,7 @@
 #' summary(fit)
 #'
 #' fit_contrasts <-
-#'   e_plot_mod_contrasts(
+#'   e_plot_model_contrasts(
 #'     fit                = fit
 #'   , dat_cont           = dat_cont
 #'   , sw_print           = FALSE
@@ -80,7 +80,7 @@
 #' fit_contrasts$plots   # to print plots
 #' fit_contrasts$text    # to print caption text
 
-e_plot_mod_contrasts <-
+e_plot_model_contrasts <-
   function(
     fit                     = NULL
   , dat_cont                = NULL
@@ -195,7 +195,7 @@ e_plot_mod_contrasts <-
   ## summary(fit)
   ##
   ##
-  ## e_plot_mod_contrasts(
+  ## e_plot_model_contrasts(
   ##   fit                     = fit
   ## , dat_cont                = dat_cont
   ## , choose_contrasts        = NULL
@@ -307,9 +307,9 @@ e_plot_mod_contrasts <-
 
         if(sw_marginal_even_if_interaction) {
           text_marginal_even_if_interaction <- paste0(check_message$logs[[1]]$message, "\n")
-          message(paste0("e_plot_mod_contrasts: Continuing with \"", var_xs, "\" even though involved in interactions."))
+          message(paste0("e_plot_model_contrasts: Continuing with \"", var_xs, "\" even though involved in interactions."))
         } else {
-          message(paste0("e_plot_mod_contrasts: Skipping \"", var_xs, "\" since involved in interactions."))
+          message(paste0("e_plot_model_contrasts: Skipping \"", var_xs, "\" since involved in interactions."))
           next
         }
       }
@@ -734,7 +734,7 @@ e_plot_mod_contrasts <-
               #, by          = "surv_prog.factor"
               )
           } else {
-            message(paste0("  e_plot_mod_contrasts: Due to error, no comparison arrows for: ", var_xs))
+            message(paste0("  e_plot_model_contrasts: Due to error, no comparison arrows for: ", var_xs))
             text_caption <-
               paste0(
                 text_caption
@@ -1262,5 +1262,5 @@ e_plot_mod_contrasts <-
 
   invisible(out)
 
-} # end of e_plot_mod_contrasts()
+} # end of e_plot_model_contrasts()
 

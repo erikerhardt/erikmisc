@@ -1,4 +1,4 @@
-#' e_tab_sum create a frequency/proportion table by a set of variables
+#' Create a frequency/proportion summary table by a set of variables
 #'
 #' @param dat           data.frame or tibble
 #' @param var_names     list of variable names
@@ -8,13 +8,13 @@
 #' @export
 #'
 #' @examples
-#' e_tab_sum(
+#' e_table_sum_freq_prop(
 #'     dat           = ggplot2::mpg
 #'   , var_names     = c("drv", "cyl", "class")
 #'   , sw_sort_prop  = TRUE
 #'   ) %>%
 #'   print(n = Inf)
-e_tab_sum <-
+e_table_sum_freq_prop <-
   function(
     dat
   , var_names
@@ -53,5 +53,5 @@ e_tab_sum <-
     dplyr::ungroup()
 
   return(tab_summary)
-} # e_tab_sum
+} # e_table_sum_freq_prop
 

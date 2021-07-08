@@ -32,12 +32,12 @@
 #' @export
 #'
 #' @examples
-#' datasets::mtcars %>% head() %>% e_print_table()
+#' datasets::mtcars %>% head() %>% e_table_print()
 #' \dontrun{
-#' datasets::mtcars %>% head() %>% e_print_table(sw_scale = 6)
-#' datasets::mtcars %>% head() %>% e_print_table(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
+#' datasets::mtcars %>% head() %>% e_table_print(sw_scale = 6)
+#' datasets::mtcars %>% head() %>% e_table_print(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
 #' }
-e_print_table <-
+e_table_print <-
   function(
     dat
   , sw_scale = FALSE
@@ -76,4 +76,4 @@ e_print_table <-
       kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center")
     }
   }
-} # e_print_table
+} # e_table_print
