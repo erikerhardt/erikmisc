@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/erikerhardt/erikmisc/workflows/R-CMD-check/badge.svg)](https://github.com/erikerhardt/erikmisc/actions)
 <!-- badges: end -->
 
-
 ## Overview
 
 Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
