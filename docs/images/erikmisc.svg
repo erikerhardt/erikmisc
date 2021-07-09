@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 735 852" style="enable-background:new 0 0 735 852;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);fill:#F9ECC6;}
+	.st1{clip-path:url(#SVGID_4_);fill:#428BCA;}
+<<<<<<< HEAD
+	.st2{opacity:0.25;clip-path:url(#SVGID_6_);fill:url(#SVGID_7_);enable-background:new    ;}
+=======
+	.st2{opacity:0.25;clip-path:url(#SVGID_4_);fill:url(#SVGID_5_);enable-background:new    ;}
+>>>>>>> 00d63a45e1229b8ea8151373a8605be9add4bdb2
+	.st3{fill:#3674A8;}
+	.st4{fill:#E6B35A;}
+	.st5{font-family:'Roboto-Regular';}
+	.st6{font-size:48px;}
+<<<<<<< HEAD
+	.st7{font-family:'Roboto-Light';}
+	.st8{font-size:172px;}
+	.st9{font-size:250px;}
+</style>
+<g>
+	<g>
+		<defs>
+			<polygon id="SVGID_1_" points="-434.3,9.2 -75.6,216.3 -75.6,638.4 -434.3,846.8 -801,638.4 -801,216.3 			"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<circle class="st0" cx="-438.3" cy="439.2" r="442.1"/>
+	</g>
+</g>
+<g>
+	<g>
+		<defs>
+			<polygon id="SVGID_3_" points="369.5,7.4 728.2,214.5 728.2,636.6 369.5,845 2.8,636.6 2.8,214.5 			"/>
+		</defs>
+		<clipPath id="SVGID_4_">
+			<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+		</clipPath>
+		<circle class="st1" cx="365.5" cy="437.4" r="442.1"/>
+	</g>
+	<g>
+		<defs>
+			<polygon id="SVGID_5_" points="369.5,7.4 728.2,214.5 728.2,636.6 369.5,845 2.8,636.6 2.8,214.5 			"/>
+		</defs>
+		<clipPath id="SVGID_6_">
+			<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="366.26" y1="-182.39" x2="367.56" y2="281.13" gradientTransform="matrix(1 0 0 1 0 60)">
+			<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.83"/>
+			<stop  offset="0.56" style="stop-color:#FFFFFF;stop-opacity:0.37"/>
+			<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+		</linearGradient>
+		<ellipse class="st2" cx="366.9" cy="105.8" rx="315.2" ry="234.6"/>
+	</g>
+=======
+	.st7{font-size:150px;}
+	.st8{font-size:250px;}
+</style>
+<g>
+	<defs>
+		<polygon id="SVGID_1_" points="-434.3,9.2 -75.6,216.3 -75.6,638.4 -434.3,846.8 -801,638.4 -801,216.3 		"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<circle class="st0" cx="-438.3" cy="439.2" r="442.1"/>
+</g>
+<g>
+	<defs>
+		<polygon id="SVGID_3_" points="369.5,7.4 728.2,214.5 728.2,636.6 369.5,845 2.8,636.6 2.8,214.5 		"/>
+	</defs>
+	<clipPath id="SVGID_4_">
+		<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+	</clipPath>
+	<circle class="st1" cx="365.5" cy="437.4" r="442.1"/>
+	
+		<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="366.26" y1="974.39" x2="367.56" y2="510.87" gradientTransform="matrix(1 0 0 -1 0 852)">
+		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.83"/>
+		<stop  offset="0.56" style="stop-color:#FFFFFF;stop-opacity:0.37"/>
+		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+	</linearGradient>
+	<ellipse class="st2" cx="366.9" cy="105.8" rx="315.2" ry="234.6"/>
+>>>>>>> 00d63a45e1229b8ea8151373a8605be9add4bdb2
+</g>
+<path class="st3" d="M705.6,196.2L427.8,35.8L367.5,1l-60.3,34.8L29.4,196.2L0.1,213.1v424.3l29.3,16.9l281.2,162.4l56.9,32.8
+	l56.9-32.8l281.2-162.4l29.3-16.9V213.1L705.6,196.2z M705.6,621.5L367.5,816.7L29.4,621.5V231L367.5,35.8l0,0L705.6,231V621.5z"/>
+<path class="st4" d="M367,633.9l0.9-0.9h-0.3L367,633.9z"/>
+<<<<<<< HEAD
+<text transform="matrix(0.866 -0.5 0.5 0.866 372.3856 804.6518)" class="st5 st6">StatAcumen.com</text>
+<text transform="matrix(1 0 0 1 48.0652 469.8354)" class="st7 st8">erikmisc</text>
+<text transform="matrix(1 0 0 1 284.6753 274)" class="st5 st9">R</text>
+=======
+<text transform="matrix(0.866 -0.5 0.5 0.866 372.3857 804.652)" class="st5 st6">StatAcumen.com</text>
+<text transform="matrix(1 0 0 1 81.3062 469.8354)" class="st5 st7">erikmisc</text>
+<text transform="matrix(1 0 0 1 284.6753 284)" class="st5 st8">R</text>
+>>>>>>> 00d63a45e1229b8ea8151373a8605be9add4bdb2
+</svg>
