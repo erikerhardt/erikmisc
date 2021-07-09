@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/erikerhardt/erikmisc/workflows/R-CMD-check/badge.svg)](https://github.com/erikerhardt/erikmisc/actions)
+[![R-CMD-check](https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml)
 <!-- badges: end -->
 
 ## Overview
