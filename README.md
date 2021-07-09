@@ -69,6 +69,6 @@ library(erikmisc)
 [issues-shield]: https://img.shields.io/github/issues/erikerhardt/erikmisc.svg?style=for-the-badge
 [issues-url]: https://github.com/erikerhardt/erikmisc/issues
 [license-shield]: https://img.shields.io/github/license/erikerhardt/erikmisc.svg?style=for-the-badge
-[license-url]: https://github.com/erikerhardt/erikmisc/blob/master/LICENSE.txt
+[license-url]: https://github.com/erikerhardt/erikmisc/blob/main/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/erikerhardt
