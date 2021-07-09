@@ -11,21 +11,25 @@ knitr::opts_chunk$set(
 )
 ```
 
-# erikmisc <a href='https://erikmisc.erikmisc.org'><img src='man/figures/logo.png' align="right" height="138.5" /></a>
+# erikmisc <a href='https://github.com/erikerhardt/erikmisc'><img src='man/figures/erikmisc.png' align="right" height="138.5" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/erikerhardt/erikmisc/workflows/R-CMD-check/badge.svg)](https://github.com/erikerhardt/erikmisc/actions)
 <!-- badges: end -->
 
+
 ## Overview
 
-The erikmisc is a set of packages that work in harmony because they share common data representations and API design. The __erikmisc__ package is designed to make it easy to install and load core packages from the erikmisc in a single command.
+Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
 
-If you'd like to learn how to use the erikmisc effectively, the best place to start is [R for data science](https://r4ds.had.co.nz).
+
+* <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong>
+* <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a>
+
 
 ## Installation
 
-```{r eval = FALSE}
+```{r, eval = FALSE}
 # The development version from GitHub
 # install.packages("devtools")
 devtools::install_github("erikerhardt/erikmisc")
@@ -33,70 +37,9 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ## Usage
 
-`library(erikmisc)` will load the core erikmisc packages:
-
-* [ggplot2](https://ggplot2.erikmisc.org), for data visualisation.
-* [dplyr](https://dplyr.erikmisc.org), for data manipulation.
-* [tidyr](https://tidyr.erikmisc.org), for data tidying.
-* [readr](https://readr.erikmisc.org), for data import.
-* [purrr](https://purrr.erikmisc.org), for functional programming.
-* [tibble](https://tibble.erikmisc.org), for tibbles, a modern re-imagining of data frames.
-* [stringr](https://github.com/erikmisc/stringr), for strings.
-* [forcats](https://github.com/erikmisc/forcats), for factors.
-
-You also get a condensed summary of conflicts with other packages you have loaded:
+Vignettes will be written soon.
 
 ```{r example}
 library(erikmisc)
 ```
 
-You can see conflicts created later with `erikmisc_conflicts()`:
-
-```{r conflicts}
-library(MASS)
-erikmisc_conflicts()
-```
-
-And you can check that all erikmisc packages are up-to-date with `erikmisc_update()`:
-
-```{r update, eval = FALSE}
-erikmisc_update()
-#> The following packages are out of date:
-#>  * broom (0.4.0 -> 0.4.1)
-#>  * DBI   (0.4.1 -> 0.5)
-#>  * Rcpp  (0.12.6 -> 0.12.7)
-#> Update now?
-#>
-#> 1: Yes
-#> 2: No
-```
-
-## Packages
-
-As well as the core erikmisc, installing this package also installs a selection of other packages that you're likely to use frequently, but probably not in every analysis. This includes packages for:
-
-*   Working with specific types of vectors:
-
-    * [hms](https://github.com/erikmisc/hms), for times.
-    * [lubridate](https://github.com/erikmisc/lubridate), for date/times.
-
-*   Importing other types of data:
-
-    * [feather](https://github.com/wesm/feather), for sharing with Python and other languages.
-    * [haven](https://github.com/erikmisc/haven), for SPSS, SAS and Stata files.
-    * [httr](https://github.com/r-lib/httr), for web apis.
-    * [jsonlite](https://github.com/jeroen/jsonlite) for JSON.
-    * [readxl](https://github.com/erikmisc/readxl), for `.xls` and `.xlsx` files.
-    * [rvest](https://github.com/erikmisc/rvest), for web scraping.
-    * [xml2](https://github.com/r-lib/xml2), for XML.
-
-*   Modelling
-
-    * [modelr](https://github.com/erikmisc/modelr), for modelling within a pipeline
-    * [broom](https://github.com/tidymodels/broom), for turning models into
-      tidy data
-
-## Code of Conduct
-
-Please note that the erikmisc project is released with a [Contributor Code of Conduct](https://erikmisc.erikmisc.org/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.

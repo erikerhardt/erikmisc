@@ -78,35 +78,97 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+<div id="erikmisc-" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#erikmisc-" class="anchor"></a>erikmisc <a href="https://github.com/erikerhardt/erikmisc"><img src="reference/figures/erikmisc.png" align="right" height="138.5"></a>
+</h1></div>
+<!-- badges: start -->
 
-
-<!-- PROJECT LOGO -->
-<br><p align="center">
-</p>
-<p><a href="https://github.com/erikerhardt/erikmisc"> <img src="images/erikmisc.png" alt="Logo" width="92" height="107"></a></p>
-<h3 align="center">
-erikmisc
-</h3>
-<p align="center">
-Erik Erhardt’s miscellaneous functions for solving complex data analysis workflows <br><br><strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong> <br><a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a>
-</p>
-
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
-<p>You can install remotely with the following line:</p>
-<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("erikerhardt/erikmisc")</a></code></pre>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>Erik Erhardt’s miscellaneous functions for solving complex data analysis workflows</p>
+<ul>
+<li><strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong></li>
+<li><a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a></li>
+</ul>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># The development version from GitHub</span>
+<span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"erikerhardt/erikmisc"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Vignettes will be written soon.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc">erikmisc</a></span><span class="op">)</span></code></pre></div>
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc">erikmisc</a></span><span class="op">)</span>
+<span class="co">#&gt; Loading required package: tidyverse</span>
+<span class="co">#&gt; -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</span>
+<span class="co">#&gt; v ggplot2 3.3.3     v purrr   0.3.4</span>
+<span class="co">#&gt; v tibble  3.1.2     v dplyr   1.0.6</span>
+<span class="co">#&gt; v tidyr   1.1.3     v stringr 1.4.0</span>
+<span class="co">#&gt; v readr   1.4.0     v forcats 0.5.1</span>
+<span class="co">#&gt; -- Conflicts ------------------------------------------ tidyverse_conflicts() --</span>
+<span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
+<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
+<span class="co">#&gt; Loading required package: knitr</span>
+<span class="co">#&gt; Loading required package: ROCR</span>
+<span class="co">#&gt; Loading required package: labelled</span>
+<span class="co">#&gt; Loading required package: magrittr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'magrittr'</span>
+<span class="co">#&gt; The following object is masked from 'package:purrr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     set_names</span>
+<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     extract</span>
+<span class="co">#&gt; Loading required package: stringi</span>
+<span class="co">#&gt; Loading required package: car</span>
+<span class="co">#&gt; Loading required package: carData</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'car'</span>
+<span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     recode</span>
+<span class="co">#&gt; The following object is masked from 'package:purrr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     some</span>
+<span class="co">#&gt; Loading required package: nortest</span>
+<span class="co">#&gt; Loading required package: pwr</span>
+<span class="co">#&gt; Loading required package: ellipse</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'ellipse'</span>
+<span class="co">#&gt; The following object is masked from 'package:car':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     ellipse</span>
+<span class="co">#&gt; The following object is masked from 'package:graphics':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     pairs</span>
+<span class="co">#&gt; Loading required package: grid</span>
+<span class="co">#&gt; Loading required package: gridExtra</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'gridExtra'</span>
+<span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     combine</span>
+<span class="co">#&gt; Loading required package: ggpubr</span>
+<span class="co">#&gt; Loading required package: emmeans</span>
+<span class="co">#&gt; Loading required package: kableExtra</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'kableExtra'</span>
+<span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     group_rows</span>
+<span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
+<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
 </div>
-
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -136,11 +198,7 @@ Erik Erhardt’s miscellaneous functions for solving complex data analysis workf
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/erikerhardt/erikmisc/graphs/contributors"><img src="https://img.shields.io/github/contributors/erikerhardt/erikmisc.svg?style=for-the-badge" alt="Contributors"></a></li>
-<li><a href="https://github.com/erikerhardt/erikmisc/network/members"><img src="https://img.shields.io/github/forks/erikerhardt/erikmisc.svg?style=for-the-badge" alt="Forks"></a></li>
-<li><a href="https://github.com/erikerhardt/erikmisc/stargazers"><img src="https://img.shields.io/github/stars/erikerhardt/erikmisc.svg?style=for-the-badge" alt="Stargazers"></a></li>
-<li><a href="https://github.com/erikerhardt/erikmisc/issues"><img src="https://img.shields.io/github/issues/erikerhardt/erikmisc.svg?style=for-the-badge" alt="Issues"></a></li>
-<li><a href="https://github.com/erikerhardt/erikmisc/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/erikerhardt/erikmisc.svg?style=for-the-badge" alt="MIT License"></a></li>
+<li><a href="https://github.com/erikerhardt/erikmisc/actions"><img src="https://github.com/erikerhardt/erikmisc/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>
