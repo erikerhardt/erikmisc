@@ -26,14 +26,10 @@
   <p align="center">
     Erik Erhardt's miscellaneous functions for solving complex data analysis workflows.
     <br />
-    <a href="https://github.com/erikerhardt/erikmisc"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/erikerhardt/erikmisc">Vignettes</a>
+    <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong>
     ·
-    <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/erikerhardt/erikmisc/issues">Request Feature</a>
+    <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a>
   </p>
 </p>
 
