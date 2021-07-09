@@ -28,7 +28,7 @@
     <br />
     <br />
     <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong>
-    ·
+    <br />
     <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a>
   </p>
 </p>
