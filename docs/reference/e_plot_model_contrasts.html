@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots. — e_plot_mod_contrasts • erikmisc</title>
+<title>Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots. — e_plot_model_contrasts • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots. — e_plot_mod_contrasts" />
+<meta property="og:title" content="Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots. — e_plot_model_contrasts" />
 <meta property="og:description" content="Variable labels can be provided by labelling your data with the labelled::var_label() command." />
 
 
@@ -87,6 +87,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/key_variables_completion.html">Key variables completion</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -110,14 +122,14 @@
     <div class="page-header">
     <h1>Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.</h1>
     <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_mod_contrasts.R'><code>R/e_plot_mod_contrasts.R</code></a></small>
-    <div class="hidden name"><code>e_plot_mod_contrasts.Rd</code></div>
+    <div class="hidden name"><code>e_plot_model_contrasts.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Variable labels can be provided by labelling your data with the labelled::var_label() command.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_plot_mod_contrasts</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>e_plot_model_contrasts</span><span class='op'>(</span>
   fit <span class='op'>=</span> <span class='cn'>NULL</span>,
   dat_cont <span class='op'>=</span> <span class='cn'>NULL</span>,
   choose_contrasts <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -188,14 +200,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Example</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>-- <span style='font-weight: bold;'>Attaching packages</span><span> --------------------------------------- tidyverse 1.3.1 --</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.1.2     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.1.3     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.4.0     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.1</span></div><div class='output co'>#&gt; <span class='message'>-- </span><span style='font-weight: bold;'>Conflicts</span><span> ------------------------------------------ tidyverse_conflicts() --</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>gridExtra</span><span>::</span><span style='color: #00BB00;'>combine()</span><span> masks </span><span style='color: #0000BB;'>dplyr</span><span>::combine()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>tidyr</span><span>::</span><span style='color: #00BB00;'>extract()</span><span>     masks </span><span style='color: #0000BB;'>magrittr</span><span>::extract()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>      masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>         masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>set_names()</span><span>   masks </span><span style='color: #0000BB;'>magrittr</span><span>::set_names()</span></div><div class='input'>
+
 <span class='co'># Data for testing</span>
 <span class='va'>dat_cont</span> <span class='op'>&lt;-</span>
   <span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
@@ -287,14 +292,14 @@
 #&gt; F-statistic: 17.18 on 10 and 21 DF,  p-value: 5.984e-08
 #&gt; </div><div class='input'>
 <span class='va'>fit_contrasts</span> <span class='op'>&lt;-</span>
-  <span class='fu'>e_plot_mod_contrasts</span><span class='op'>(</span>
+  <span class='fu'>e_plot_model_contrasts</span><span class='op'>(</span>
     fit                <span class='op'>=</span> <span class='va'>fit</span>
   , dat_cont           <span class='op'>=</span> <span class='va'>dat_cont</span>
   , sw_print           <span class='op'>=</span> <span class='cn'>FALSE</span>
   , sw_table_in_plot   <span class='op'>=</span> <span class='cn'>FALSE</span>
   , sw_TWI_plots_keep  <span class='op'>=</span> <span class='st'>"both"</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>e_plot_mod_contrasts: Skipping "cyl" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_mod_contrasts: Skipping "disp" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_mod_contrasts: Skipping "hp" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_mod_contrasts: Skipping "vs" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Comparison discrepancy in group "straight", four - six:</span>
+</div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "disp" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "hp" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "vs" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Comparison discrepancy in group "straight", four - six:</span>
 #&gt; <span class='warning'>    Target overlap = 0.9995, overlap on graph = -101.2269</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Comparison discrepancy in group "straight", four - six:</span>
 #&gt; <span class='warning'>    Target overlap = 0.9995, overlap on graph = -104.1881</span></div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>tables</span>  <span class='co'># to print tables</span>
 </div><div class='output co'>#&gt; $wt
@@ -376,16 +381,16 @@
 #&gt; Results are averaged over the levels of: cyl, am 
 #&gt; 
 #&gt; </div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>plots</span>   <span class='co'># to print plots</span>
-</div><div class='output co'>#&gt; $wt</div><div class='img'><img src='e_plot_mod_contrasts-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; $am</div><div class='img'><img src='e_plot_mod_contrasts-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+</div><div class='output co'>#&gt; $wt</div><div class='img'><img src='e_plot_model_contrasts-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $am</div><div class='img'><img src='e_plot_model_contrasts-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; $`cyl:vs`
-#&gt; $`cyl:vs`$both</div><div class='img'><img src='e_plot_mod_contrasts-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $`cyl:vs`$both</div><div class='img'><img src='e_plot_model_contrasts-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; $`disp:hp`
-#&gt; $`disp:hp`$both</div><div class='img'><img src='e_plot_mod_contrasts-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $`disp:hp`$both</div><div class='img'><img src='e_plot_model_contrasts-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; $`hp:vs`
-#&gt; $`hp:vs`$both</div><div class='img'><img src='e_plot_mod_contrasts-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $`hp:vs`$both</div><div class='img'><img src='e_plot_model_contrasts-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; </div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>text</span>    <span class='co'># to print caption text</span>
 </div><div class='output co'>#&gt; $wt
 #&gt; $wt[[1]]
@@ -486,7 +491,7 @@
 #&gt; [1] "Results are averaged over the levels of: cyl, am"
 #&gt; 
 #&gt; 
-#&gt; </div></span></pre>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

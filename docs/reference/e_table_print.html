@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print a data.frame table for latex and scale to fit page — e_print_table • erikmisc</title>
+<title>Print a data.frame table for latex and scale to fit page — e_table_print • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Print a data.frame table for latex and scale to fit page — e_print_table" />
+<meta property="og:title" content="Print a data.frame table for latex and scale to fit page — e_table_print" />
 <meta property="og:description" content="If using in Rmd file and a latex documnet, then requires two header includes:" />
 
 
@@ -87,6 +87,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/key_variables_completion.html">Key variables completion</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -109,15 +121,15 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print a data.frame table for latex and scale to fit page</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_print_table.R'><code>R/e_print_table.R</code></a></small>
-    <div class="hidden name"><code>e_print_table.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_table_print.R'><code>R/e_table_print.R</code></a></small>
+    <div class="hidden name"><code>e_table_print.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>If using in Rmd file and a latex documnet, then requires two header includes:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_print_table</span><span class='op'>(</span><span class='va'>dat</span>, sw_scale <span class='op'>=</span> <span class='cn'>FALSE</span>, sw_kable_format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"html"</span>, <span class='st'>"latex"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_table_print</span><span class='op'>(</span><span class='va'>dat</span>, sw_scale <span class='op'>=</span> <span class='cn'>FALSE</span>, sw_kable_format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"html"</span>, <span class='st'>"latex"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,7 +180,7 @@ fig_caption: TRUE
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_print_table</span><span class='op'>(</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_table_print</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
 #&gt;  &lt;thead&gt;
 #&gt;   &lt;tr&gt;
@@ -273,8 +285,8 @@ fig_caption: TRUE
 #&gt;   &lt;/tr&gt;
 #&gt; &lt;/tbody&gt;
 #&gt; &lt;/table&gt;</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_print_table</span><span class='op'>(</span>sw_scale <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
-<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_print_table</span><span class='op'>(</span>sw_scale <span class='op'>=</span> <span class='cn'>TRUE</span>, sw_kable_format <span class='op'>=</span> <span class='st'>"latex"</span><span class='op'>)</span> <span class='co'># outputs into LaTeX document</span>
+<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_table_print</span><span class='op'>(</span>sw_scale <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_table_print</span><span class='op'>(</span>sw_scale <span class='op'>=</span> <span class='cn'>TRUE</span>, sw_kable_format <span class='op'>=</span> <span class='st'>"latex"</span><span class='op'>)</span> <span class='co'># outputs into LaTeX document</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
