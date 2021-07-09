@@ -28,7 +28,7 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ## Usage
 
-Vignettes will be written soon.
+7/9/2021 - Vignettes will be written soon.
 
 ``` r
 library(erikmisc)
