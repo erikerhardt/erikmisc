@@ -1,7 +1,7 @@
 Type: Package
 Package: erikmisc
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.1.1
+Version: 0.1.2
 Authors@R:
     c(person(
       given = "Erik"
@@ -11,9 +11,10 @@ Authors@R:
     , comment = c(ORCID = "0000-0002-9817-4011")
     ))
 Description: Solving common complex data analysis workflows.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 URL: https://github.com/erikerhardt/erikmisc
 BugReports: https://github.com/erikerhardt/erikmisc/issues
 Depends: R (>= 4.1.0), tidyverse, knitr, ROCR, dplyr, ggplot2, labelled, magrittr, stringi, car, nortest, pwr, ellipse, grid, gridExtra, ggpubr, emmeans, kableExtra
 VignetteBuilder: knitr
+Encoding: UTF-8
 RoxygenNote: 7.1.1

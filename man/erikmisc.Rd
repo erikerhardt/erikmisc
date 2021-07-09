@@ -5,5 +5,8 @@
 \alias{erikmisc}
 \title{erikmisc}
 \description{
+\if{html}{\figure{erikmisc.png}{options: align='right' alt='logo' width='120'}}
+}
+\details{
 Erik Erhardt's miscellaneous functions for solving complex data analysis workflows.
 }
