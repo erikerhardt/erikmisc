@@ -1,45 +1,12 @@
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/erikerhardt/erikmisc">
-    <img src="images/erikmisc.png" alt="Logo" width="92" height="107">
-  </a>
+# erikmisc <a href='https://github.com/erikerhardt/erikmisc'><img src='man/figures/erikmisc.png' align="right" height="138.5" /></a>
 
-  <h3 align="center">erikmisc</h3>
+<!-- badges: start -->
 
-  <p align="center">
-    Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-    <br />
-    <br />
-    <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong>
-    <br />
-    <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a>
-  </p>
-</p>
-
-
-### Installation
-
-You can install remotely with the following line:
-```
-devtools::install_github("erikerhardt/erikmisc")
-```
-
+[![R-CMD-check](https://github.com/erikerhardt/erikmisc/workflows/R-CMD-check/badge.svg)](https://github.com/erikerhardt/erikmisc/actions)
+<!-- badges: end -->
 
 ## Usage
 
@@ -49,19 +16,88 @@ Vignettes will be written soon.
 library(erikmisc)
 ```
 
+## Overview
 
+Erik Erhardt’s miscellaneous functions for solving complex data analysis
+workflows
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/erikerhardt/erikmisc.svg?style=for-the-badge
-[contributors-url]: https://github.com/erikerhardt/erikmisc/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/erikerhardt/erikmisc.svg?style=for-the-badge
-[forks-url]: https://github.com/erikerhardt/erikmisc/network/members
-[stars-shield]: https://img.shields.io/github/stars/erikerhardt/erikmisc.svg?style=for-the-badge
-[stars-url]: https://github.com/erikerhardt/erikmisc/stargazers
-[issues-shield]: https://img.shields.io/github/issues/erikerhardt/erikmisc.svg?style=for-the-badge
-[issues-url]: https://github.com/erikerhardt/erikmisc/issues
-[license-shield]: https://img.shields.io/github/license/erikerhardt/erikmisc.svg?style=for-the-badge
-[license-url]: https://github.com/erikerhardt/erikmisc/blob/main/LICENSE.md
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/erikerhardt
+-   <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation
+    and Vignettes</a></strong>
+-   <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug
+    or Request Feature</a>
+
+## Installation
+
+``` r
+# The development version from GitHub
+# install.packages("devtools")
+devtools::install_github("erikerhardt/erikmisc")
+```
+
+## Usage
+
+Vignettes will be written soon.
+
+``` r
+library(erikmisc)
+#> Loading required package: tidyverse
+#> -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+#> v ggplot2 3.3.3     v purrr   0.3.4
+#> v tibble  3.1.2     v dplyr   1.0.6
+#> v tidyr   1.1.3     v stringr 1.4.0
+#> v readr   1.4.0     v forcats 0.5.1
+#> -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
+#> Loading required package: knitr
+#> Loading required package: ROCR
+#> Loading required package: labelled
+#> Loading required package: magrittr
+#> 
+#> Attaching package: 'magrittr'
+#> The following object is masked from 'package:purrr':
+#> 
+#>     set_names
+#> The following object is masked from 'package:tidyr':
+#> 
+#>     extract
+#> Loading required package: stringi
+#> Loading required package: car
+#> Loading required package: carData
+#> 
+#> Attaching package: 'car'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     recode
+#> The following object is masked from 'package:purrr':
+#> 
+#>     some
+#> Loading required package: nortest
+#> Loading required package: pwr
+#> Loading required package: ellipse
+#> 
+#> Attaching package: 'ellipse'
+#> The following object is masked from 'package:car':
+#> 
+#>     ellipse
+#> The following object is masked from 'package:graphics':
+#> 
+#>     pairs
+#> Loading required package: grid
+#> Loading required package: gridExtra
+#> 
+#> Attaching package: 'gridExtra'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     combine
+#> Loading required package: ggpubr
+#> Loading required package: emmeans
+#> Loading required package: kableExtra
+#> 
+#> Attaching package: 'kableExtra'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     group_rows
+#> erikmisc, solving common complex data analysis workflows
+#>   by Dr. Erik Barry Erhardt <erik@StatAcumen.com>
+```
