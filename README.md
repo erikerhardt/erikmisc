@@ -18,11 +18,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/erikerhardt/erikmisc">
-<<<<<<< HEAD
     <img src="images/erikmisc.png" alt="Logo" width="92" height="107">
-=======
-    <img src="images/erikmisc.png" alt="Logo" width="80" height="80">
->>>>>>> 00d63a45e1229b8ea8151373a8605be9add4bdb2
   </a>
 
   <h3 align="center">erikmisc</h3>
@@ -86,7 +82,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-<<<<<<< HEAD
 [contributors-shield]: https://img.shields.io/github/contributors/erikerhardt/erikmisc.svg?style=for-the-badge
 [contributors-url]: https://github.com/erikerhardt/erikmisc/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/erikerhardt/erikmisc.svg?style=for-the-badge
@@ -97,17 +92,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-url]: https://github.com/erikerhardt/erikmisc/issues
 [license-shield]: https://img.shields.io/github/license/erikerhardt/erikmisc.svg?style=for-the-badge
 [license-url]: https://github.com/erikerhardt/erikmisc/blob/master/LICENSE.txt
-=======
-[contributors-shield]: https://img.shields.io/github/contributors/erikerhardt/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/erikerhardt/repo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/erikerhardt/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/erikerhardt/repo/network/members
-[stars-shield]: https://img.shields.io/github/stars/erikerhardt/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/erikerhardt/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/erikerhardt/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/erikerhardt/repo/issues
-[license-shield]: https://img.shields.io/github/license/erikerhardt/repo.svg?style=for-the-badge
-[license-url]: https://github.com/erikerhardt/repo/blob/master/LICENSE.txt
->>>>>>> 00d63a45e1229b8ea8151373a8605be9add4bdb2
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/erikerhardt
