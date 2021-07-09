@@ -11,7 +11,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GNU License][license-shield]][license-url]
-[![pkgdown](https://github.com/erikerhardt/erikmisc/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/erikerhardt/erikmisc/actions/workflows/pkgdown.yaml)
 
 
 <!-- PROJECT LOGO -->
