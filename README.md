@@ -25,7 +25,7 @@
   <h3 align="center">erikmisc</h3>
 
   <p align="center">
-    Erik Erhardt's miscellaneous functions for solving complex data analysis workflows.
+    Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
     <br />
     <br />
     <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong>
@@ -49,9 +49,7 @@ Vignettes will be written soon.
 
 ``` r
 library(erikmisc)
-## basic example code
 ```
-
 
 
 
