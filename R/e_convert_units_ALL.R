@@ -13,7 +13,7 @@ e_convert_in_to_cm <-
   function(
     inches
   ) {
-  cm = 2.54 * inches
+  cm <- 2.54 * inches
   return(cm)
 }
 
@@ -30,7 +30,7 @@ e_convert_cm_to_in <-
   function(
     cm
   ) {
-  inches = cm / 2.54
+  inches <- cm / 2.54
   return(inches)
 }
 
@@ -51,7 +51,7 @@ e_convert_lb_to_kg <-
   function(
     lb
   ) {
-  kg = 0.45359237 * lb
+  kg <- 0.45359237 * lb
   return(kg)
 }
 
@@ -68,7 +68,7 @@ e_convert_kg_to_lb <-
   function(
     kg
   ) {
-  lb = kg / 0.45359237
+  lb <- kg / 0.45359237
   return(lb)
 }
 

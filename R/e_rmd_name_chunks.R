@@ -5,11 +5,13 @@
 #' @param prefix_chunk_name a string before each chunk number
 #'
 #' @return NULL, invisibly
+#' @import dplyr
+#' @import stringr
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' e_rmd_name_chunks(fn_in = "test_in.Rmd", fn_out = "test_out.Rmd", prefix_chunk_name = "chunk-")
+#' # e_rmd_name_chunks(fn_in = "test_in.Rmd", fn_out = "test_out.Rmd", prefix_chunk_name = "chunk-")
 #' }
 e_rmd_name_chunks <-
   function(

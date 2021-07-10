@@ -12,6 +12,14 @@
 #' @param n_plot_ref    a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total
 #'
 #' @return
+#' @importFrom pwr pwr.f2.test
+#' @importFrom pwr cohen.ES
+#' @importFrom tibble tibble
+#' @importFrom tidyr pivot_longer
+#' @importFrom tidyr drop_na
+#' @importFrom scales percent
+#' @import dplyr
+#' @import ggplot2
 #' @export
 #'
 #' @examples
@@ -125,9 +133,9 @@
 #' #    and number of groups $k=`r out[["tab_power"]] %>% filter(n_total == 100) %>% pull(n_groups)`$
 #' # 2. prelim power = `r out[["tab_power"]] %>% filter(n_total == 100) %>% pull(obs_power) %>% signif(digits = 2)`
 #' # 3. Cohen small, medium, and large power:
-#' #     * `r out[["tab_power"]] %>% filter(n_total == 100) %>% pull(Cohen_small_power ) %>% signif(digits = 2)`,
-#' #     * `r out[["tab_power"]] %>% filter(n_total == 100) %>% pull(Cohen_medium_power) %>% signif(digits = 2)`, and
-#' #     * `r out[["tab_power"]] %>% filter(n_total == 100) %>% pull(Cohen_large_power ) %>% signif(digits = 2)`.
+#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>% dplyr::pull(Cohen_small_power ) %>% signif(digits = 2)`,
+#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>% dplyr::pull(Cohen_medium_power) %>% signif(digits = 2)`, and
+#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>% dplyr::pull(Cohen_large_power ) %>% signif(digits = 2)`.
 e_lm_power <-
   function(
     dat           = NULL
@@ -405,7 +413,7 @@ e_lm_power <-
 
     if (length(n_total) == 1) {
 
-      library(ggplot2)
+      #library(ggplot2)
       p <- ggplot(dat_power_curve_long, aes(x = Effect_Size, y = Power))
       p <- p + theme_bw()
       #if (!is.null(n_plot_ref)) {
@@ -445,7 +453,7 @@ e_lm_power <-
          warning("e_lm_power, add more values to n_total for a smoother and more accurate curve")
       }
 
-      library(ggplot2)
+      #library(ggplot2)
       p <- ggplot(dat_power_curve_long, aes(x = Sample_Size, y = Power, colour = Effect_Size, linetype = Effect_Size, group = Effect_Size))
       p <- p + theme_bw()
       if (!is.null(n_plot_ref)) {

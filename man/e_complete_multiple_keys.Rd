@@ -29,7 +29,7 @@ By definition, each key value is unique within its column to identify an observa
 \examples{
 
 dat_data <-
-  tribble(
+  tibble::tribble(
     ~a, ~b, ~c, ~x, ~d1, ~d2
   ,  1, 11, NA, NA,   1,  20
   ,  1, NA, 10, NA,   2,  21

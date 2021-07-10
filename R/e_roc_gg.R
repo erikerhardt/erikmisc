@@ -17,10 +17,6 @@
 #' @import dplyr
 #' @import ggplot2
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#' }
 e_roc_gg <-
   function(
     dat
@@ -155,7 +151,7 @@ e_roc_gg <-
     interval <- 0.2
     breaks   <- seq(0, 1, interval)
 
-    library(ggplot2)
+    #library(ggplot2)
     p <- ggplot(roc.curve, aes(x = Spec, y = Sens))
     p <- p + theme_bw()
     #p <- p + theme(axis.ticks = element_line(color = "grey80"))

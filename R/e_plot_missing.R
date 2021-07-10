@@ -6,6 +6,9 @@
 #' @param var2_sort     second variable name to sort by if data is grouped
 #'
 #' @return              ggplot grob plot object
+#' @import dplyr
+#' @import ggplot2
+#' @importFrom tidyr pivot_longer
 #' @export
 #'
 #' @examples

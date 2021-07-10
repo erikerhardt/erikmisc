@@ -155,7 +155,7 @@ out <-
 #    and number of groups $k=`r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(n_groups)`$
 # 2. prelim power = `r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(obs_power) \%>\% signif(digits = 2)`
 # 3. Cohen small, medium, and large power:
-#     * `r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(Cohen_small_power ) \%>\% signif(digits = 2)`,
-#     * `r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(Cohen_medium_power) \%>\% signif(digits = 2)`, and
-#     * `r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(Cohen_large_power ) \%>\% signif(digits = 2)`.
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(Cohen_small_power ) \%>\% signif(digits = 2)`,
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(Cohen_medium_power) \%>\% signif(digits = 2)`, and
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(Cohen_large_power ) \%>\% signif(digits = 2)`.
 }

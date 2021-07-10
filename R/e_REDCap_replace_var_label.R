@@ -3,7 +3,7 @@
 #' @param dat_to_var_label is the R file that needs \code{label()} replaced with \code{var_label()}
 #'
 #' @return file with \code{var_label()} replaced
-#' @import stringi
+#' @importFrom stringi stri_replace_all_fixed
 #' @export
 e_REDCap_replace_var_label <-
   function(

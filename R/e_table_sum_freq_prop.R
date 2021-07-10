@@ -5,6 +5,7 @@
 #' @param sw_sort_prop  TRUE/FALSE to sort the last variable descending by proportion within the other variables
 #'
 #' @return tab_summary a summary table
+#' @import dplyr
 #' @export
 #'
 #' @examples

@@ -21,6 +21,6 @@ Read an Rmd rmarkdown file and apply enumerated code chunks
 }
 \examples{
 \dontrun{
-e_rmd_name_chunks(fn_in = "test_in.Rmd", fn_out = "test_out.Rmd", prefix_chunk_name = "chunk-")
+# e_rmd_name_chunks(fn_in = "test_in.Rmd", fn_out = "test_out.Rmd", prefix_chunk_name = "chunk-")
 }
 }

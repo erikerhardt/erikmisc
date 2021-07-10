@@ -32,7 +32,3 @@ out is a list including the optimal threshold, val_feat (XXX), good_class (XXX),
 \description{
 A function to calculate ROC curve, calculate area under the curve (AUC), calculate the optimal threshold, plot the curve, and classify the peaks.
 }
-\examples{
-\dontrun{
-}
-}

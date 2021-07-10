@@ -3,7 +3,7 @@
 #' If using in Rmd file and a latex documnet, then requires two header includes:
 #'
 #' \preformatted{
-#' EXAMPLE OF .Rmd YAML header
+#' EXAMPLE OF .Rmd YAML header for pdf via LaTeX
 #'
 #' ---
 #' title: "Title"
@@ -29,13 +29,15 @@
 #' @param sw_kable_format "html" or "latex" format
 #'
 #' @return
+#' @importFrom knitr kable
+#' @importFrom kableExtra kable_styling
 #' @export
 #'
 #' @examples
 #' datasets::mtcars %>% head() %>% e_table_print()
 #' \dontrun{
-#' datasets::mtcars %>% head() %>% e_table_print(sw_scale = 6)
-#' datasets::mtcars %>% head() %>% e_table_print(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
+#' # datasets::mtcars %>% head() %>% e_table_print(sw_scale = 6)
+#' # datasets::mtcars %>% head() %>% e_table_print(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
 #' }
 e_table_print <-
   function(

@@ -18,11 +18,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' dat_temp <-
-#'   e_REDCap_read_format_data(
-#'     fn_path   = "C:/Data/Project"
-#'   , fn_root   = "ProjectName"
-#'   )
+#' # dat_temp <-
+#' #   e_REDCap_read_format_data(
+#' #     fn_path   = "C:/Data/Project"
+#' #   , fn_root   = "ProjectName"
+#' #   )
 #' }
 e_REDCap_read_format_data <-
   function(
@@ -91,9 +91,9 @@ e_REDCap_read_format_data <-
   fn_list_in_data     <- paste0(fn_root, fn_suffix_data, "*.", fn_ext_data)
   fn_list_in_R        <- paste0(fn_root, fn_suffix_R   , "*.", fn_ext_R   )
   # cleaned, standard names
-  fn_list_out_data     <- paste0(fn_root, fn_suffix_out, ".", fn_ext_data)
-  fn_list_out_R        <- paste0(fn_root, fn_suffix_out, ".", fn_ext_R   )
-  fn_list_out_RData    <- paste0(fn_root, fn_suffix_out, ".", "RData"    )
+  fn_list_out_data    <- paste0(fn_root, fn_suffix_out ,  ".", fn_ext_data)
+  fn_list_out_R       <- paste0(fn_root, fn_suffix_out ,  ".", fn_ext_R   )
+  fn_list_out_RData   <- paste0(fn_root, fn_suffix_out ,  ".", "RData"    )
 
   ### REDCap Unicode replacment
 

@@ -23,20 +23,6 @@ knitr::opts_chunk$set(
 library(erikmisc)
 ```
 
-<!---
-# Erik's compile commands in R:
-  rm(list=ls())
-  #dev.off(dev.list()["RStudioGD"])  # close all plots
-  fn.this <- "erikmisc_key_variables_completion.Rmd"
-  setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/vignettes")
-  library(knitr)
-  #knitr::purl(fn.this)
-  rmarkdown::render(fn.this)
-
-# https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf
-# http://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf # tables
--->
-
 # Completing combinations of key variables
 
 Consider the data below.
@@ -53,10 +39,10 @@ Data and best key variables completion.
 `x` is a key variable but does not appear in this subset.
 The function handles empty keys, too.
 
-```{r, echo=TRUE}
+```{r}
 # with data for key matching imputation
 dat_data <-
-  tribble(
+  tibble::tribble(
     ~a, ~b, ~c, ~x, ~d1, ~d2
   ,  1, 11, NA, NA,   1,  20
   ,  1, NA, 10, NA,   2,  21
@@ -76,7 +62,7 @@ dat_data <-
 
 # pre-determined best key variables completion
 dat_keys_pre <-
-  tribble(
+  tibble::tribble(
     ~a, ~b, ~c, ~x
   ,  1, 11, 10, NA
   ,  2, 22, 20, NA
@@ -105,7 +91,7 @@ Computing the best key variables completion.
 ```{r}
 dat_keys <-
   dat_data %>%
-  select(
+  dplyr::select(
     a, b, c, x
   ) %>%
   e_coalesce_column_set()
@@ -121,9 +107,9 @@ dat_keys_pre %>% print(n=Inf)
 They are equal.
 
 ```{r}
-dat_keys      <- dat_keys     %>% arrange(a, b, c, x)
-dat_keys_pre  <- dat_keys_pre %>% arrange(a, b, c, x)
-all_equal(dat_keys_pre, dat_keys)
+dat_keys      <- dat_keys     %>% dplyr::arrange(a, b, c, x)
+dat_keys_pre  <- dat_keys_pre %>% dplyr::arrange(a, b, c, x)
+dplyr::all_equal(dat_keys_pre, dat_keys)
 ```
 
 ## Best key variables completion with data

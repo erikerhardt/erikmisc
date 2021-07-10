@@ -13,6 +13,14 @@
 #' @param sw_plot_set       NULL to accept other plot options, or "simple" to exclude boxcox, constant var, collinearity, order of data, and added-variable plots. "simpleAV" to add back in the added-variable plots.  "all" includes all possible plots in this function.
 #'
 #' @return NULL, invisibly
+#' @importFrom car avPlots
+#' @importFrom car bcPower
+#' @importFrom car boxCox
+#' @importFrom car ncvTest
+#' @importFrom car qqPlot
+#' @importFrom car spreadLevelPlot
+#' @importFrom car vif
+#' @importFrom nortest ad.test
 #' @export
 #'
 #' @examples

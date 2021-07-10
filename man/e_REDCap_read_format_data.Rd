@@ -43,10 +43,10 @@ Read the files in the fn_path and find the most recent file (last alphabetically
 }
 \examples{
 \dontrun{
-dat_temp <-
-  e_REDCap_read_format_data(
-    fn_path   = "C:/Data/Project"
-  , fn_root   = "ProjectName"
-  )
+# dat_temp <-
+#   e_REDCap_read_format_data(
+#     fn_path   = "C:/Data/Project"
+#   , fn_root   = "ProjectName"
+#   )
 }
 }

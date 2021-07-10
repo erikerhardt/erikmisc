@@ -5,6 +5,7 @@
 #' @param dat data.frame keys to combine
 #'
 #' @return coalesced data.frame
+#' @import dplyr
 e_coalesce_by_column <-
   function(
     dat
@@ -26,7 +27,7 @@ e_coalesce_by_column <-
   #   # A = 2, easy
   #   # A = 3, 3rd row has a dup and NA
   #   # A = 4, 3rd row has conflucing info
-  #   tribble(
+  #   tibble::tribble(
   #    ~A, ~B, ~C, ~D, ~E
   #   , 1, NA,  3, NA,  5
   #   , 1,  2, NA,  2, NA
@@ -57,6 +58,7 @@ e_coalesce_by_column <-
 #' @param dat data.frame keys to combine
 #'
 #' @return data.frame with most complete key rows
+#' @import dplyr
 #' @export
 e_coalesce_column_set <-
   function(
@@ -81,22 +83,22 @@ e_coalesce_column_set <-
     if (nrow(dat_rows_process) > 0) {
       dat_rows_process <-
         dat_rows_process %>%
-        group_by_at(
+        dplyr::group_by_at(
           i_key
         ) %>%
-        summarise_all(
+        dplyr::summarise_all(
           e_coalesce_by_column
         ) %>%
-        ungroup()
+        dplyr::ungroup()
     }
 
     # combine, assure original column order for iteration
     dat <-
-      bind_rows(
+      dplyr::bind_rows(
         dat_rows_process
       , dat_rows_skip_NA
       ) %>%
-      select(
+      dplyr::select(
         one_of(names_var)
       )
   }
@@ -112,6 +114,7 @@ e_coalesce_column_set <-
 #' @param col_keys          names of columns to be used as keys
 #'
 #' @return data.frame updated with data keys
+#' @import dplyr
 e_replace_keys_less_with_most_complete <-
   function(
     dat_data
@@ -131,10 +134,10 @@ e_replace_keys_less_with_most_complete <-
     rowSums(dat_combination_var)
   dat_combination_var <-
     dat_combination_var %>%
-    arrange(
+    dplyr::arrange(
       -s
     ) %>%
-    select(
+    dplyr::select(
       -s
     )
   colnames(dat_combination_var) <- col_keys
@@ -181,14 +184,14 @@ e_replace_keys_less_with_most_complete <-
     } else {
 
       dat_data_out[[i_combination]] <-
-        right_join(
+        dplyr::right_join(
           dat_most_complete
         , dat_data_in[[i_combination]]
         , by = col_keys[which(keys_include)]
         , suffix = c("", ".EMPTY")
         , keep = FALSE
         ) %>%
-        select(
+        dplyr::select(
           -ends_with(".EMPTY")
         )
     }
@@ -217,12 +220,13 @@ e_replace_keys_less_with_most_complete <-
 #' @param col_keys key columns names
 #'
 #' @return dat_data with updated key columns
+#' @import dplyr
 #' @export
 #'
 #' @examples
 #'
 #' dat_data <-
-#'   tribble(
+#'   tibble::tribble(
 #'     ~a, ~b, ~c, ~x, ~d1, ~d2
 #'   ,  1, 11, NA, NA,   1,  20
 #'   ,  1, NA, 10, NA,   2,  21
@@ -259,7 +263,7 @@ e_complete_multiple_keys <-
   # create ID to restore original row order at end
   dat_data <-
     dat_data %>%
-    mutate(
+    dplyr::mutate(
       .ID. = 1:n()
     )
 
@@ -268,7 +272,7 @@ e_complete_multiple_keys <-
     dat_keys <-
       e_coalesce_column_set(
         dat_data %>%
-        select(
+        dplyr::select(
           one_of(col_keys)
         )
       )
@@ -282,10 +286,10 @@ e_complete_multiple_keys <-
     , col_keys          = col_keys
     ) %>%
     # restore original row order
-    arrange(
+    dplyr::arrange(
       .ID.
     ) %>%
-    select(
+    dplyr::select(
       -.ID.
     )
 

@@ -15,19 +15,23 @@
 #' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots
 #'
 #' @return out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
+#' @import dplyr
+#' @import ggplot2
+#' @import emmeans
+#' @importFrom labelled var_label
+#' @importFrom stringr str_split
+#' @importFrom gridExtra arrangeGrob
+#' @importFrom ggpubr as_ggplot
 #' @export
 #'
 #' @examples
-#' ## Example
-#' library(tidyverse)
-#'
 #' # Data for testing
 #' dat_cont <-
-#'   mtcars %>%
-#'   as_tibble(
+#'   datasets::mtcars %>%
+#'   tibble::as_tibble(
 #'     rownames = "model"
 #'   ) %>%
-#'   mutate(
+#'   dplyr::mutate(
 #'     cyl = cyl %>% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
 #'   , vs  = vs  %>% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
 #'   , am  = am  %>% factor(levels = c(0, 1), labels = c("automatic", "manual"))
@@ -35,7 +39,7 @@
 #'
 #' # Label columns
 #' dat_labels <-
-#'   tribble(
+#'   tibble::tribble(
 #'     ~var    , ~label
 #'   , "model" , "Model"
 #'   , "mpg"   , "Miles/(US) gallon"
@@ -79,7 +83,6 @@
 #' fit_contrasts$tables  # to print tables
 #' fit_contrasts$plots   # to print plots
 #' fit_contrasts$text    # to print caption text
-
 e_plot_model_contrasts <-
   function(
     fit                     = NULL
@@ -284,7 +287,7 @@ e_plot_model_contrasts <-
 
     # get x variable(s)
     var_xs <-
-      str_split(
+      stringr::str_split(
         string = var_name_x[i_var_x]
       , pattern = fixed(":")
       ) %>%
@@ -788,8 +791,8 @@ e_plot_model_contrasts <-
             labs(title = NULL, tag = "B")
 
           ## Arrange in a grid
-          library(gridExtra)
-          library(grid)
+          #library(gridExtra)
+          #library(grid)
           if (sw_TWI_both_orientation == c("tall", "wide")[1]) {
             lay_grid <-
               rbind(
@@ -1019,8 +1022,8 @@ e_plot_model_contrasts <-
             labs(title = NULL, tag = "B")
 
           ## Arrange in a grid
-          library(gridExtra)
-          library(grid)
+          #library(gridExtra)
+          #library(grid)
           if (sw_TWI_both_orientation == c("tall", "wide")[1]) {
             lay_grid <-
               rbind(
@@ -1189,8 +1192,8 @@ e_plot_model_contrasts <-
             labs(title = NULL, tag = "B")
 
           ## Arrange in a grid
-          library(gridExtra)
-          library(grid)
+          #library(gridExtra)
+          #library(grid)
           if (sw_TWI_both_orientation == c("tall", "wide")[1]) {
             lay_grid <-
               rbind(

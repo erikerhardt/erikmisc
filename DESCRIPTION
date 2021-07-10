@@ -14,9 +14,35 @@ Description: Solving common complex data analysis workflows.
 License: MIT + file LICENSE
 URL: https://github.com/erikerhardt/erikmisc
 BugReports: https://github.com/erikerhardt/erikmisc/issues
-Depends: R (>= 4.1.0), tidyverse, knitr, ROCR, dplyr, ggplot2, labelled, magrittr, stringi, car, nortest, pwr, ellipse, grid, gridExtra, ggpubr, emmeans, kableExtra
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
-Suggests: 
+Depends: R (>= 4.1.0)
+Imports:
+    ROCR,
+    car,
+    dplyr,
+    ellipse,
+    emmeans,
+    ggplot2,
+    ggpubr,
+    grid,
+    gridExtra,
+    kableExtra,
+    knitr,
+    labelled,
+    leaps,
+    magrittr,
+    nortest,
+    pwr,
+    qpdf,
+    scales,
+    stringi,
+    stringr,
+    tibble,
+    tidyr,
+    tidyverse
+Suggests:
+    datasets,
+    lme4,
     rmarkdown

@@ -39,6 +39,11 @@
 #' @param line_type_group   Group mean line type
 #'
 #' @return
+#' @importFrom labelled var_label
+#' @importFrom gridExtra arrangeGrob
+#' @importFrom ggpubr as_ggplot
+#' @import ggplot2
+#' @import dplyr
 #' @export
 #'
 #' @examples
@@ -82,7 +87,6 @@ e_plot_longitudinal <-
   ) {
   ## ## DEBUG
   ## library(ggplot2)
-  ## data("sleepstudy")
   ##
   ## dat_plot         = lme4::sleepstudy
   ## var_x_time       = "Days"
@@ -105,25 +109,25 @@ e_plot_longitudinal <-
   if (!is.null(var_group)) {
     dat_plot <-
       dat_plot %>%
-      select(
-        one_of(
+      dplyr::select(
+        dplyr::one_of(
           var_ID
         , var_group
         , var_x_time
         , var_y_resp
         )
       ) %>%
-      rename(
+      dplyr::rename(
         var_ID     = !!var_ID
       , var_group  = !!var_group
       , var_x_time = !!var_x_time
       , var_y_resp = !!var_y_resp
       ) %>%
-      as_tibble()
+      dplyr::as_tibble()
   } else {
     dat_plot <-
       dat_plot %>%
-      select(
+      dplyr::select(
         one_of(
           var_ID
         #, var_group
@@ -131,13 +135,13 @@ e_plot_longitudinal <-
         , var_y_resp
         )
       ) %>%
-      rename(
+      dplyr::rename(
         var_ID     = !!var_ID
       #, var_group  = !!var_group
       , var_x_time = !!var_x_time
       , var_y_resp = !!var_y_resp
       ) %>%
-      as_tibble()
+      dplyr::as_tibble()
   }
 
   # label data
@@ -157,52 +161,52 @@ e_plot_longitudinal <-
   # grand mean over time
   annotate_y_mean <-
     dat_plot %>%
-    pull(var_y_resp) %>%
+    dplyr::pull(var_y_resp) %>%
     mean(na.rm = TRUE)
 
   # mean for each group over time
   if (!is.null(var_group)) {
     annotate_y_group_means <-
       dat_plot %>%
-      group_by(
+      dplyr::group_by(
         var_group
       ) %>%
-      summarise(
+      dplyr::summarise(
         var_y_resp = mean(var_y_resp, na.rm = TRUE)
       , .groups = "drop"
       ) %>%
-      ungroup()
+      dplyr::ungroup()
   }
 
   # mean for each group at each time
   if (!is.null(var_group)) {
     annotate_y_time_group_means <-
       dat_plot %>%
-      group_by(
+      dplyr::group_by(
         var_x_time
       , var_group
       ) %>%
-      summarise(
+      dplyr::summarise(
         var_y_resp = mean(var_y_resp, na.rm = TRUE)
       , .groups = "drop"
       ) %>%
-      ungroup()
+      dplyr::ungroup()
   } else {
     annotate_y_time_group_means <-
       dat_plot %>%
-      group_by(
+      dplyr::group_by(
         var_x_time
       #, var_group
       ) %>%
-      summarise(
+      dplyr::summarise(
         var_y_resp = mean(var_y_resp, na.rm = TRUE)
       , .groups = "drop"
       ) %>%
-      ungroup()
+      dplyr::ungroup()
   }
 
   # Plot the data using ggplot
-  library(ggplot2)
+  #library(ggplot2)
   #p1 <- ggplot(dat_plot, aes(x = redcap_event_name.factor, y = dkq_score_pat, colour = surv_prog.factor))
   if (!is.null(var_group)) {
     p1 <- ggplot(dat_plot, aes(x = var_x_time, y = var_y_resp, colour = var_group))
@@ -281,7 +285,7 @@ e_plot_longitudinal <-
 
 
   # marginal histograms
-  library(ggplot2)
+  #library(ggplot2)
   if (!is.null(var_group)) {
     p2 <- ggplot(dat_plot, aes(x = var_y_resp, fill = var_group))
   } else {
@@ -336,8 +340,8 @@ e_plot_longitudinal <-
   #print(p2)
 
   # plot as a grid
-  library(gridExtra)
-  library(grid)
+  #library(gridExtra)
+  #library(grid)
   lay <-
     rbind(
       c(1)

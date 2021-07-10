@@ -49,16 +49,13 @@ out                      a list of two lists: "tables" and "plots", each have re
 Variable labels can be provided by labelling your data with the labelled::var_label() command.
 }
 \examples{
-## Example
-library(tidyverse)
-
 # Data for testing
 dat_cont <-
-  mtcars \%>\%
-  as_tibble(
+  datasets::mtcars \%>\%
+  tibble::as_tibble(
     rownames = "model"
   ) \%>\%
-  mutate(
+  dplyr::mutate(
     cyl = cyl \%>\% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
   , vs  = vs  \%>\% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
   , am  = am  \%>\% factor(levels = c(0, 1), labels = c("automatic", "manual"))
@@ -66,7 +63,7 @@ dat_cont <-
 
 # Label columns
 dat_labels <-
-  tribble(
+  tibble::tribble(
     ~var    , ~label
   , "model" , "Model"
   , "mpg"   , "Miles/(US) gallon"

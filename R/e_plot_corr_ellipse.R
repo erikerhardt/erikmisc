@@ -18,6 +18,7 @@
 #' @param ...         option
 #'
 #' @return
+#' @import ellipse
 #' @export
 #'
 #' @examples
@@ -72,9 +73,9 @@ e_plot_corr_ellipse <-
   # modified by Esteban Buz
   # see http://hlplab.wordpress.com/2012/03/20/correlation-plot-matrices-using-the-ellipse-library/
 
-  if (!require('ellipse', quietly = TRUE, character = TRUE)) {
-    stop('Need the ellipse library.  Run: install.packages("ellipse")')
-  }
+  #if (!require('ellipse', quietly = TRUE, character = TRUE)) {
+  #  stop('Need the ellipse library.  Run: install.packages("ellipse")')
+  #}
   savepar <- par(pty = "s", mar = mar)
   on.exit(par(savepar))
   if (is.null(corr))
@@ -121,7 +122,7 @@ e_plot_corr_ellipse <-
       } else if (diag == 'ellipse') {
         mat[1, 2] <- corr[i, j]
         mat[2, 1] <- mat[1, 2]
-        ell <- ellipse(mat, t = 0.43)
+        ell <- ellipse::ellipse(mat, t = 0.43)
         ell[, 1] <- ell[, 1] + j
         ell[, 2] <- ell[, 2] + length(rows) + 1 - i
         polygon(ell, col = col[i, j])
@@ -132,7 +133,7 @@ e_plot_corr_ellipse <-
       if (lower.panel == 'ellipse') { #check if ellipses should go here
         mat[1, 2] <- corr[i, j]
         mat[2, 1] <- mat[1, 2]
-        ell <- ellipse(mat, t = 0.43)
+        ell <- ellipse::ellipse(mat, t = 0.43)
         ell[, 1] <- ell[, 1] + j
         ell[, 2] <- ell[, 2] + length(rows) + 1 - i
         polygon(ell, col = col[i, j])
@@ -147,7 +148,7 @@ e_plot_corr_ellipse <-
       if (upper.panel == 'ellipse') { #check if ellipses should go here
         mat[1, 2] <- corr[i, j]
         mat[2, 1] <- mat[1, 2]
-        ell <- ellipse(mat, t = 0.43)
+        ell <- ellipse::ellipse(mat, t = 0.43)
         ell[, 1] <- ell[, 1] + j
         ell[, 2] <- ell[, 2] + length(rows) + 1 - i
         polygon(ell, col = col[i, j])
