@@ -32,64 +32,6 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ``` r
 library(erikmisc)
-#> Loading required package: tidyverse
-#> -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
-#> v ggplot2 3.3.3     v purrr   0.3.4
-#> v tibble  3.1.2     v dplyr   1.0.6
-#> v tidyr   1.1.3     v stringr 1.4.0
-#> v readr   1.4.0     v forcats 0.5.1
-#> -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-#> x dplyr::filter() masks stats::filter()
-#> x dplyr::lag()    masks stats::lag()
-#> Loading required package: knitr
-#> Loading required package: ROCR
-#> Loading required package: labelled
-#> Loading required package: magrittr
-#> 
-#> Attaching package: 'magrittr'
-#> The following object is masked from 'package:purrr':
-#> 
-#>     set_names
-#> The following object is masked from 'package:tidyr':
-#> 
-#>     extract
-#> Loading required package: stringi
-#> Loading required package: car
-#> Loading required package: carData
-#> 
-#> Attaching package: 'car'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     recode
-#> The following object is masked from 'package:purrr':
-#> 
-#>     some
-#> Loading required package: nortest
-#> Loading required package: pwr
-#> Loading required package: ellipse
-#> 
-#> Attaching package: 'ellipse'
-#> The following object is masked from 'package:car':
-#> 
-#>     ellipse
-#> The following object is masked from 'package:graphics':
-#> 
-#>     pairs
-#> Loading required package: grid
-#> Loading required package: gridExtra
-#> 
-#> Attaching package: 'gridExtra'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     combine
-#> Loading required package: ggpubr
-#> Loading required package: emmeans
-#> Loading required package: kableExtra
-#> 
-#> Attaching package: 'kableExtra'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     group_rows
 #> erikmisc, solving common complex data analysis workflows
 #>   by Dr. Erik Barry Erhardt <erik@StatAcumen.com>
 ```
