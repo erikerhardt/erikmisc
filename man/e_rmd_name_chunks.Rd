@@ -10,6 +10,8 @@ e_rmd_name_chunks(fn_in = NULL, fn_out = NULL, prefix_chunk_name = "chunk-")
 \item{fn_in}{Rmd filename in.}
 
 \item{fn_out}{Rmd filename out.  If NULL, then this is assigned \code{fn_in}.}
+
+\item{prefix_chunk_name}{a string before each chunk number}
 }
 \value{
 NULL, invisibly

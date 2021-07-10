@@ -18,3 +18,5 @@ Depends: R (>= 4.1.0), tidyverse, knitr, ROCR, dplyr, ggplot2, labelled, magritt
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
+Suggests: 
+    rmarkdown

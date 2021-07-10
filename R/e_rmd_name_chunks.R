@@ -1,7 +1,8 @@
 #' Read an Rmd rmarkdown file and apply enumerated code chunks
 #'
-#' @param fn_in  Rmd filename in.
-#' @param fn_out Rmd filename out.  If NULL, then this is assigned \code{fn_in}.
+#' @param fn_in             Rmd filename in.
+#' @param fn_out            Rmd filename out.  If NULL, then this is assigned \code{fn_in}.
+#' @param prefix_chunk_name a string before each chunk number
 #'
 #' @return NULL, invisibly
 #' @export

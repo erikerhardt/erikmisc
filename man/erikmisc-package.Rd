@@ -6,7 +6,9 @@
 \alias{erikmisc-package}
 \title{erikmisc: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows}
 \description{
-Solving common complex data analysis workflows.
+\if{html}{\figure{erikmisc.png}{options: align='right' alt='logo' width='120'}}
+To learn more about erikmisc, start with the vignettes:
+\code{browseVignettes(package = "erikmisc")}
 }
 \seealso{
 Useful links:

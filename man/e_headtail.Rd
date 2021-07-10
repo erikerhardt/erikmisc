@@ -14,8 +14,6 @@ e_headtail(x, n = 3L, which_col = NULL, ...)
 \item{which_col}{selected columns, if desired}
 
 \item{...}{passed to head() and tail() functions}
-
-\item{sw_addrownum}{also print row numbers?}
 }
 \value{
 dat_ht     the head and tail of the data.frame

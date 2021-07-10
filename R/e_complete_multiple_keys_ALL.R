@@ -1,6 +1,10 @@
-# key_variables_completion.Rmd at https://statacumen.com/2021/03/28/r-key-variables-completion/
+# OLD: key_variables_completion.Rmd at https://statacumen.com/2021/03/28/r-key-variables-completion/
 
-# Combine rows with different data values
+#' Combine rows with different data values
+#'
+#' @param dat data.frame keys to combine
+#'
+#' @return coalesced data.frame
 e_coalesce_by_column <-
   function(
     dat
@@ -41,11 +45,19 @@ e_coalesce_by_column <-
 }
 
 
-# For a set of key variables that are unique for participants,
-#   identify sets of rows with unique key variables in common
-#   and collapse them together to have a single "most complete" row
-#   of key values by removing the NAs.
-# Each key variable must have a unique value for each participant.
+
+#' Coalesce column set
+#'
+#' For a set of key variables that are unique for participants,
+#'   identify sets of rows with unique key variables in common
+#'   and collapse them together to have a single "most complete" row
+#'   of key values by removing the NAs.
+#' Each key variable must have a unique value for each participant.
+#'
+#' @param dat data.frame keys to combine
+#'
+#' @return data.frame with most complete key rows
+#' @export
 e_coalesce_column_set <-
   function(
     dat
@@ -93,7 +105,13 @@ e_coalesce_column_set <-
 }
 
 
-# match and replace less complete rows with most complete row
+#' Match and replace less complete rows with most complete row
+#'
+#' @param dat_data          data.frame of data for which to update the keys
+#' @param dat_most_complete data.frame with most complete keys
+#' @param col_keys          names of columns to be used as keys
+#'
+#' @return data.frame updated with data keys
 e_replace_keys_less_with_most_complete <-
   function(
     dat_data

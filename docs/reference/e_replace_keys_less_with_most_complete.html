@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert inches (in) to centimeters (cm) — e_convert_in_to_cm • erikmisc</title>
+<title>Match and replace less complete rows with most complete row — e_replace_keys_less_with_most_complete • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Convert inches (in) to centimeters (cm) — e_convert_in_to_cm" />
-<meta property="og:description" content="Convert inches (in) to centimeters (cm)" />
+<meta property="og:title" content="Match and replace less complete rows with most complete row — e_replace_keys_less_with_most_complete" />
+<meta property="og:description" content="Match and replace less complete rows with most complete row" />
 
 
 
@@ -120,33 +120,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert inches (in) to centimeters (cm)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_convert_units_ALL.R'><code>R/e_convert_units_ALL.R</code></a></small>
-    <div class="hidden name"><code>e_convert_in_to_cm.Rd</code></div>
+    <h1>Match and replace less complete rows with most complete row</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_complete_multiple_keys_ALL.R'><code>R/e_complete_multiple_keys_ALL.R</code></a></small>
+    <div class="hidden name"><code>e_replace_keys_less_with_most_complete.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert inches (in) to centimeters (cm)</p>
+    <p>Match and replace less complete rows with most complete row</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_convert_in_to_cm</span><span class='op'>(</span><span class='va'>inches</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_replace_keys_less_with_most_complete</span><span class='op'>(</span>
+  <span class='va'>dat_data</span>,
+  <span class='va'>dat_most_complete</span>,
+  col_keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>inches</th>
-      <td><p>list of values in inches (in)</p></td>
+      <th>dat_data</th>
+      <td><p>data.frame of data for which to update the keys</p></td>
+    </tr>
+    <tr>
+      <th>dat_most_complete</th>
+      <td><p>data.frame with most complete keys</p></td>
+    </tr>
+    <tr>
+      <th>col_keys</th>
+      <td><p>names of columns to be used as keys</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>cm      list of values in centimeters (cm)</p>
+    <p>data.frame updated with data keys</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_convert_in_to_cm</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.54</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
