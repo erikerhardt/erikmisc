@@ -10,16 +10,16 @@
 #' datasets::mtcars %>%
 #'   dplyr::filter(cyl == 4) %>%
 #'   dplyr::select(mpg, hp, wt) %>%
-#'   e_mnv_norm_qqplot(name = "cyl = 4")
+#'   e_plot_mnv_norm_qqplot(name = "cyl = 4")
 #' datasets::mtcars %>%
 #'   dplyr::filter(cyl == 6) %>%
 #'   dplyr::select(mpg, hp, wt) %>%
-#'   e_mnv_norm_qqplot(name = "cyl = 6")
+#'   e_plot_mnv_norm_qqplot(name = "cyl = 6")
 #' datasets::mtcars %>%
 #'   dplyr::filter(cyl == 8) %>%
 #'   dplyr::select(mpg, hp, wt) %>%
-#'   e_mnv_norm_qqplot(name = "cyl = 8")
-e_mnv_norm_qqplot <-
+#'   e_plot_mnv_norm_qqplot(name = "cyl = 8")
+e_plot_mnv_norm_qqplot <-
   function(
     x
   , name = ""
@@ -39,5 +39,5 @@ e_mnv_norm_qqplot <-
     , xlab = "Chi-squared quantiles"
   )
   abline(a = 0, b = 1, col = "red")
-} # e_mnv_norm_qqplot
+} # e_plot_mnv_norm_qqplot
 
