@@ -38,7 +38,7 @@
 #' @param line_type_grand   Grand mean line type
 #' @param line_type_group   Group mean line type
 #'
-#' @return
+#' @return plot in ggplot grob format
 #' @importFrom labelled var_label
 #' @importFrom gridExtra arrangeGrob
 #' @importFrom ggpubr as_ggplot

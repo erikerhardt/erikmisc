@@ -12,7 +12,7 @@
 \item{pkgname}{defunct}
 }
 \value{
-invisible()
+invisible(NULL)
 }
 \description{
 .onAttach start message

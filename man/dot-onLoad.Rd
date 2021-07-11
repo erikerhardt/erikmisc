@@ -12,7 +12,7 @@
 \item{pkgname}{defunct}
 }
 \value{
-
+invisible(NULL)
 }
 \description{
 .onLoad getOption package settings

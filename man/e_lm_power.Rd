@@ -39,7 +39,7 @@ e_lm_power(
 \item{n_plot_ref}{a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total}
 }
 \value{
-
+list with both table and plots of power analysis results
 }
 \description{
 Multiple regression power analysis
@@ -151,11 +151,18 @@ out <-
 ### RMarkdown results reporting
 # The results above indicate the following.
 #
-# 1. With $n=`r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(n_total)`$
-#    and number of groups $k=`r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(n_groups)`$
-# 2. prelim power = `r out[["tab_power"]] \%>\% filter(n_total == 100) \%>\% pull(obs_power) \%>\% signif(digits = 2)`
+# 1. With the number of observations
+#      $n = `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(n_total)`$
+#    and the number of groups
+#      $k = `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(n_groups)`$
+# 2. Observed (preliminary) power:
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
+#            dplyr::pull(obs_power         ) \%>\% signif(digits = 2)`.
 # 3. Cohen small, medium, and large power:
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(Cohen_small_power ) \%>\% signif(digits = 2)`,
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(Cohen_medium_power) \%>\% signif(digits = 2)`, and
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(Cohen_large_power ) \%>\% signif(digits = 2)`.
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
+#            dplyr::pull(Cohen_small_power ) \%>\% signif(digits = 2)`,
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
+#            dplyr::pull(Cohen_medium_power) \%>\% signif(digits = 2)`, and
+#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
+#            dplyr::pull(Cohen_large_power ) \%>\% signif(digits = 2)`.
 }

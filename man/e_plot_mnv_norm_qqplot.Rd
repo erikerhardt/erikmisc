@@ -12,7 +12,7 @@ e_plot_mnv_norm_qqplot(x, name = "")
 \item{name}{label for title}
 }
 \value{
-
+\code{invisible(NULL)}
 }
 \description{
 Graphical Assessment (QQ-plot) for assessing Multivariate Normality

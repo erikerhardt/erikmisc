@@ -59,7 +59,7 @@ e_plot_longitudinal(
 \item{line_type_group}{Group mean line type}
 }
 \value{
-
+plot in ggplot grob format
 }
 \description{
 Longitudinal interaction plots

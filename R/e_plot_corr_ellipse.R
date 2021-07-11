@@ -17,7 +17,7 @@
 #' @param mar         option
 #' @param ...         option
 #'
-#' @return
+#' @return \code{invisible(NULL)}
 #' @import ellipse
 #' @export
 #'
@@ -166,5 +166,5 @@ e_plot_corr_ellipse <-
       plotcorrInternal()
     }
   }
-  invisible()
+  invisible(NULL)
 } # e_plot_corr_ellipse

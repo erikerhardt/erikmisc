@@ -12,7 +12,8 @@
 #' @param sw_return_dat   TRUE/FALSE to return the data object from the function
 #' @param sw_save_RData   TRUE/FALSE to save an ".RData" file
 #'
-#' @return
+#' @return out_dat formatted data or \code{invisible(NULL)}, depending on \code{sw_return_dat}
+#'
 #' @import labelled
 #' @export
 #'

@@ -2,7 +2,7 @@
 #'
 #' @param f report result of a \code{try()}
 #'
-#' @return
+#' @return TRUE/FALSE for error
 #' @export
 #'
 #' @examples

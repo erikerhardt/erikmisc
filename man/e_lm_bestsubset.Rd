@@ -14,7 +14,7 @@ e_lm_bestsubset(form, dat, nbest = 5)
 \item{nbest}{number of models to return for each model size, default is 5}
 }
 \value{
-
+tibble (data.frame) of selection results
 }
 \description{
 Best subset selection returns results sorted by BIC

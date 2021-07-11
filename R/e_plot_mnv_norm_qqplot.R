@@ -3,7 +3,7 @@
 #' @param x    data.frame or matrix of numeric columns
 #' @param name label for title
 #'
-#' @return
+#' @return \code{invisible(NULL)}
 #' @export
 #'
 #' @examples
@@ -39,5 +39,7 @@ e_plot_mnv_norm_qqplot <-
     , xlab = "Chi-squared quantiles"
   )
   abline(a = 0, b = 1, col = "red")
+
+  invisible(NULL)
 } # e_plot_mnv_norm_qqplot
 

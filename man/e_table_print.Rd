@@ -14,7 +14,7 @@ e_table_print(dat, sw_scale = FALSE, sw_kable_format = c("html", "latex")[1])
 \item{sw_kable_format}{"html" or "latex" format}
 }
 \value{
-
+\code{invisible(NULL)}
 }
 \description{
 If using in Rmd file and a latex documnet, then requires two header includes:
@@ -45,7 +45,13 @@ fig_caption: TRUE
 \examples{
 datasets::mtcars \%>\% head() \%>\% e_table_print()
 \dontrun{
-# datasets::mtcars \%>\% head() \%>\% e_table_print(sw_scale = 6)
-# datasets::mtcars \%>\% head() \%>\% e_table_print(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
+# html rescaled size
+datasets::mtcars \%>\%
+  head() \%>\%
+  e_table_print(sw_scale = 6)
+# outputs into LaTeX document, scaling is automatic to fit page width
+datasets::mtcars \%>\%
+  head() \%>\%
+  e_table_print(sw_scale = TRUE, sw_kable_format = "latex")
 }
 }

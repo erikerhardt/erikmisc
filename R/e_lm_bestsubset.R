@@ -4,7 +4,7 @@
 #' @param dat   data to use
 #' @param nbest number of models to return for each model size, default is 5
 #'
-#' @return
+#' @return tibble (data.frame) of selection results
 #' @importFrom leaps regsubsets
 #' @importFrom tibble as_tibble
 #' @import dplyr

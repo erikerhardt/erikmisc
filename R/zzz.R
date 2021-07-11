@@ -5,12 +5,12 @@
 #' @param libname defunct
 #' @param pkgname defunct
 #'
-#' @return invisible()
+#' @return invisible(NULL)
 .onAttach <- function(libname, pkgname) {
   start_message <- c( "erikmisc, solving common complex data analysis workflows\n"
                       , "  by Dr. Erik Barry Erhardt <erik@StatAcumen.com>")
   packageStartupMessage(start_message)
-  invisible()
+  invisible(NULL)
 }
 
 
@@ -19,7 +19,7 @@
 #' @param libname defunct
 #' @param pkgname defunct
 #'
-#' @return
+#' @return invisible(NULL)
 #'
 #' @examples
 #' getOption("erikmisc.name")
@@ -37,5 +37,5 @@
   toset <- !(names(op.erikmisc) %in% names(op))
   if(any(toset)) options(op.erikmisc[toset])
 
-  invisible()
+  invisible(NULL)
 }

@@ -10,7 +10,7 @@ e_message_capture(f)
 \item{f}{a function that might return a message, warning, or error}
 }
 \value{
-
+if there was an exception, return its content
 }
 \description{
 Capture a message, warning, or error to take actions

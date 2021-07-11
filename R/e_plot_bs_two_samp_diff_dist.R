@@ -8,12 +8,12 @@
 #' @param dat2 a list of values from Sample 2
 #' @param N    number of bootstrap iterations
 #'
-#' @return
+#' @return \code{invisible(NULL)}
 #' @export
 #'
 #' @examples
-#' e_bs_two_samp_diff_dist(dat1 = runif(6), dat2 = runif(6) - 2)
-e_bs_two_samp_diff_dist <-
+#' e_plot_bs_two_samp_diff_dist(dat1 = runif(6), dat2 = runif(6) - 2)
+e_plot_bs_two_samp_diff_dist <-
   function(
     dat1
   , dat2
@@ -68,4 +68,4 @@ e_bs_two_samp_diff_dist <-
   par(old_par)
 
   invisible(NULL)
-} # e_bs_two_samp_diff_dist
+} # e_plot_bs_two_samp_diff_dist

@@ -6,12 +6,12 @@
 #' @param dat a list of values
 #' @param N   number of bootstrap iterations
 #'
-#' @return
+#' @return \code{invisible(NULL)}
 #' @export
 #'
 #' @examples
-#' e_bs_one_samp_dist(dat = runif(6))
-e_bs_one_samp_dist <-
+#' e_plot_bs_one_samp_dist(dat = runif(6))
+e_plot_bs_one_samp_dist <-
   function(
     dat
   , N = 1e4
@@ -49,4 +49,4 @@ e_bs_one_samp_dist <-
   par(old_par)
 
   invisible(NULL)
-} # e_bs_one_samp_dist
+} # e_plot_bs_one_samp_dist

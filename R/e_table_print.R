@@ -28,7 +28,7 @@
 #' @param sw_scale        if "latex" T/F to scale to fit page, if "html" then a point size to pass to \code{kableExtra::kable_styling} argument \code{font_size}
 #' @param sw_kable_format "html" or "latex" format
 #'
-#' @return
+#' @return \code{invisible(NULL)}
 #' @importFrom knitr kable
 #' @importFrom kableExtra kable_styling
 #' @export
@@ -36,8 +36,14 @@
 #' @examples
 #' datasets::mtcars %>% head() %>% e_table_print()
 #' \dontrun{
-#' # datasets::mtcars %>% head() %>% e_table_print(sw_scale = 6)
-#' # datasets::mtcars %>% head() %>% e_table_print(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document
+#' # html rescaled size
+#' datasets::mtcars %>%
+#'   head() %>%
+#'   e_table_print(sw_scale = 6)
+#' # outputs into LaTeX document, scaling is automatic to fit page width
+#' datasets::mtcars %>%
+#'   head() %>%
+#'   e_table_print(sw_scale = TRUE, sw_kable_format = "latex")
 #' }
 e_table_print <-
   function(
@@ -78,4 +84,6 @@ e_table_print <-
       kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center")
     }
   }
+
+  invisible(NULL)
 } # e_table_print

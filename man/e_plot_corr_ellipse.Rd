@@ -57,7 +57,7 @@ e_plot_corr_ellipse(
 \item{...}{option}
 }
 \value{
-
+\code{invisible(NULL)}
 }
 \description{
 Correlation plot with ellipses

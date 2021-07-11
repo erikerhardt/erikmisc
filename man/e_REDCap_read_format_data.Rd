@@ -36,7 +36,7 @@ e_REDCap_read_format_data(
 \item{sw_save_RData}{TRUE/FALSE to save an ".RData" file}
 }
 \value{
-
+out_dat formatted data or \code{invisible(NULL)}, depending on \code{sw_return_dat}
 }
 \description{
 Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.

@@ -19,6 +19,10 @@ Encoding: UTF-8
 RoxygenNote: 7.1.1
 Depends: R (>= 4.1.0)
 Imports:
+    base,
+    stats,
+    utils,
+    graphics,
     ROCR,
     car,
     dplyr,

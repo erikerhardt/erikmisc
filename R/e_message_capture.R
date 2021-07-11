@@ -2,7 +2,7 @@
 #'
 #' @param f a function that might return a message, warning, or error
 #'
-#' @return
+#' @return if there was an exception, return its content
 #' @export
 #'
 #' @examples
@@ -11,9 +11,9 @@ e_message_capture <-
   function(
     f
   ) {
-  function(
-    ...
-  ) {
+    function(
+      ...
+    ) {
 
     ## https://www.r-bloggers.com/2020/10/capture-message-warnings-and-errors-from-a-r-function/
 
