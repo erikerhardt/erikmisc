@@ -123,7 +123,7 @@ e_rmd_name_chunks <-
     chunk_number_seq %>%
     max() %>%
     log10() %>%
-    ceiling()
+    ceiling      # including parentheses gives a "clean and rebuild" note of "wrong number of arguments"
   # text numbers with leading 0s
   chunk_numbers <-
     sprintf(
