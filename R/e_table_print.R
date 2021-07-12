@@ -31,6 +31,7 @@
 #' @return \code{invisible(NULL)}
 #' @importFrom knitr kable
 #' @importFrom kableExtra kable_styling
+#' @importFrom flextable regulartable
 #' @export
 #'
 #' @examples
@@ -49,7 +50,7 @@ e_table_print <-
   function(
     dat
   , sw_scale = FALSE
-  , sw_kable_format = c("html", "latex")[1]
+  , sw_kable_format = c("html", "latex", "doc")[1]
   ) {
   # printing pretty tables
   # requires
@@ -66,22 +67,37 @@ e_table_print <-
     if (sw_scale) {
       dat %>%
       knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = c("striped", "scale_down"))
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = c("striped", "scale_down")) %>%
+      print()
     } else {
       dat %>%
       knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = c("striped"))  # , "scale_down"
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = c("striped")) %>%   # , "scale_down"
+      print()
     }
   }
   if (sw_kable_format == "html") {
     if (sw_scale) {
       dat %>%
       knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
-      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale)
+      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) %>%
+      print()
     } else {
       dat %>%
       knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
-      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center")
+      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center") %>%
+      print()
+    }
+  }
+  if (sw_kable_format == "doc") {
+    if (sw_scale) {
+      dat %>%
+      flextable::regulartable() %>%
+      print()
+    } else {
+      dat %>%
+      flextable::regulartable() %>%
+      print()
     }
   }
 

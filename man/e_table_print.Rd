@@ -4,7 +4,11 @@
 \alias{e_table_print}
 \title{Print a data.frame table for latex and scale to fit page}
 \usage{
-e_table_print(dat, sw_scale = FALSE, sw_kable_format = c("html", "latex")[1])
+e_table_print(
+  dat,
+  sw_scale = FALSE,
+  sw_kable_format = c("html", "latex", "doc")[1]
+)
 }
 \arguments{
 \item{dat}{data.frame or tibble to print}
