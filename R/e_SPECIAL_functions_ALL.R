@@ -40,3 +40,30 @@ notin <- function(x, y) {
   )
   !(x %in% y)
 }
+
+
+
+#' All Determine Duplicate Elements
+#'
+#' \code{e_duplicated_all()} determines which elements of a vector or data frame are duplicates, and returns a logical vector indicating which elements (rows) are duplicates.
+#'
+#' @param dat list or data.frame
+#'
+#' @return logical for all duplicated values
+#' @export
+#'
+#' @examples
+#' duplicated      (c(1, 2, 2, 3, 4, 5, 2))
+#' e_duplicated_all(c(1, 2, 2, 3, 4, 5, 2))
+#'
+#' dat <- data.frame(a = c(1,2,1,2,1,2), b = c(3,3,4,4,3,4))
+#' dat
+#' dat[e_duplicated_all(dat), ]
+e_duplicated_all <-
+  function(
+    dat
+  ) {
+    # https://stat.ethz.ch/pipermail/r-help/2011-October/291383.html
+
+    duplicated(dat) | duplicated(dat, fromLast = TRUE)
+}
