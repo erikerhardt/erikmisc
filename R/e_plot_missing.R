@@ -101,6 +101,12 @@ e_plot_missing <-
   }
 
   # sort by group
+  if (!is.null(var2_sort)) {
+    sw_var2_sort <- TRUE
+  } else {
+    sw_var2_sort <- FALSE
+  }
+
   if (sw_group_sort) {
     # secondary sort
     if (!is.null(var2_sort) & !any(names_col %in% var2_sort)) {
@@ -108,14 +114,12 @@ e_plot_missing <-
       var2_sort <- NULL
     }
     if (!is.null(var2_sort)) {
-      sw_var2_sort <- TRUE
       dat <-
         dat %>%
         arrange(
           GROUP___, !!as.name(var2_sort)
         )
     } else {
-      sw_var2_sort <- FALSE
       dat <-
         dat %>%
         arrange(
@@ -188,7 +192,10 @@ e_plot_missing <-
     p <- p + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
   }
 
-  p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, 10000, by=20)))
+  breaks_seq_by = e_plot_calc_break_interval(values = 1:nrow(dat))
+
+  #p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, 10000, by=20)))
+  p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat2), by = breaks_seq_by)))
 
   p <- p + labs(
               title = "Missing values"
@@ -225,3 +232,43 @@ e_plot_missing <-
 
   return(p)
 } # e_plot_missing
+
+
+
+#' Interval for plot breaks, determine a "nice" length of seq(by = Interval)
+#'
+#' @param values            numeric values for an axis
+#' @param num_intervals     rough desired number of intervals
+#' @param val_leading_digit leading digits to consider (in ascending order, end with 10)
+#'
+#' @return interval for breaks
+#' @export
+#'
+#' @examples
+#' e_plot_calc_break_interval(1:250)
+e_plot_calc_break_interval <-
+  function(
+    values
+  , num_intervals     = 10
+  , val_leading_digit = c(1, 2, 5, 10)   # always end with 10 to assure a number is returned
+  ) {
+
+  # https://stackoverflow.com/questions/237220/tickmark-algorithm-for-a-graph-axis
+
+  values_range  <- values %>% range() %>% diff()
+  num_digits    <- values_range %>% log10() %>% floor()
+  order_mag     <- 10 ^ num_digits
+
+  for (i_val in val_leading_digit) {
+    if (values_range / (order_mag / i_val) >= num_intervals) {
+      break_interval <- order_mag / i_val
+      return( break_interval )
+    }
+  }
+
+  # this won't run if last val_leading_digit is 10
+  break_interval <- order_mag / 10
+  return( break_interval )
+
+} # e_plot_calc_break_interval
+

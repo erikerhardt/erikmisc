@@ -56,3 +56,52 @@ e_table_sum_freq_prop <-
   return(tab_summary)
 } # e_table_sum_freq_prop
 
+
+
+
+# XXX update and test.  From Erhardt_ECURE_Analysis_Spring2021_20210702.Rmd
+#' summarize text responses
+e_table_sum_text <-
+  function(
+    dat_sum
+  , var_names
+  , text_blank = c(NA, "none", "n/a", "na")
+  ) {
+  ## f_tab_sum(dat_all, "Gender") %>% print(n=Inf)
+
+  # dat_all_dup
+  # , c("Treatment", "Group", var_class_tbl$Var[i_col])
+
+  dat_sum[[ var_names[length(var_names)] ]] <-
+    ifelse(
+      !(
+        tolower(
+          dat_sum[[ var_names[length(var_names)] ]]
+        ) %in%
+        text_blank
+      )
+    , TRUE
+    , NA
+    )
+
+  tab_dat_summary_temp <-
+    dat_sum %>%
+    group_by_(
+      .dots = var_names
+    ) %>%
+    drop_na(var_names[length(var_names)]) %>%
+    summarize(
+      n = n()
+    , .groups = "drop_last"
+    ) %>%
+    #mutate(
+    #  prop = round(n / sum(n), 3)
+    #) %>%
+    #arrange(
+    #  desc(n)
+    #) %>%
+    ungroup()
+
+  return(tab_dat_summary_temp)
+}
+

@@ -1,7 +1,8 @@
-Type: Package
 Package: erikmisc
+Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
 Version: 0.1.2
+Date: 2021-07-11
 Authors@R:
     c(person(
       given = "Erik"
@@ -14,10 +15,11 @@ Description: Solving common complex data analysis workflows.
 License: MIT + file LICENSE
 URL: https://github.com/erikerhardt/erikmisc
 BugReports: https://github.com/erikerhardt/erikmisc/issues
-VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
-Depends: R (>= 4.1.0)
+VignetteBuilder: knitr
+NeedsCompilation: no
+Depends: R (>= 3.5.0)
 Imports:
     base,
     stats,
