@@ -8,7 +8,12 @@
 #' @export
 #'
 #' @examples
-#' dat <- datasets::mtcars %>% mutate(cyl = cyl %>% factor(), vs = vs %>% factor())
+#' dat <-
+#'   datasets::mtcars %>%
+#'   dplyr::mutate(
+#'     cyl = cyl %>% dplyr::factor()
+#'   , vs  = vs  %>% dplyr::factor()
+#'   )
 #' str(dat)
 #' dat2 <- dat %>% e_data_convert_factor_to_numeric()
 #' str(dat2)
