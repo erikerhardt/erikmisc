@@ -25,4 +25,6 @@ Interval for plot breaks, determine a "nice" length of seq(by = Interval)
 }
 \examples{
 e_plot_calc_break_interval(1:250)
+e_plot_calc_break_interval(1:1000)
+e_plot_calc_break_interval(-1:1)
 }

@@ -195,7 +195,7 @@ e_plot_missing <-
   breaks_seq_by = e_plot_calc_break_interval(values = 1:nrow(dat))
 
   #p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, 10000, by=20)))
-  p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat2), by = breaks_seq_by)))
+  p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat), by = breaks_seq_by)))
 
   p <- p + labs(
               title = "Missing values"
@@ -246,6 +246,8 @@ e_plot_missing <-
 #'
 #' @examples
 #' e_plot_calc_break_interval(1:250)
+#' e_plot_calc_break_interval(1:1000)
+#' e_plot_calc_break_interval(-1:1)
 e_plot_calc_break_interval <-
   function(
     values
