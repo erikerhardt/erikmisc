@@ -1,6 +1,6 @@
 #' Convert all factor variables to their numeric factor levels
 #'
-#' Before saving to csv, default is the factor labels.  This replaces those with the numeric factor levels.
+#' When saving to csv, the default data class/type for factors is the character labels.  This function replaces those with the numeric factor levels.
 #'
 #' @param dat data.frame or tibble
 #'
@@ -15,8 +15,10 @@
 #'   , vs  = vs  %>% factor()
 #'   )
 #' str(dat)
+#'
 #' dat2 <- dat %>% e_data_convert_factor_to_numeric()
 #' str(dat2)
+#'
 #' # readr::write_csv(x = dat , file = "dat.csv"    )
 #' # readr::write_csv(x = dat2, file = "dat_num.csv")
 e_data_convert_factor_to_numeric <-
