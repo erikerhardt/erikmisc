@@ -86,8 +86,11 @@ e_table_sum_freq_prop <-
 ##
 ##   tab_dat_summary_temp <-
 ##     dat_sum %>%
-##     group_by_(
-##       .dots = var_names
+##     #group_by_(
+##     #  .dots = var_names
+##     #) %>%
+##     dplyr::group_by(
+##       across(var_names)
 ##     ) %>%
 ##     drop_na(var_names[length(var_names)]) %>%
 ##     summarize(
