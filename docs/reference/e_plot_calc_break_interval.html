@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>REDCap data, reading and formatting data — e_REDCap_read_format_data • erikmisc</title>
+<title>Interval for plot breaks, determine a "nice" length of seq(by = Interval) — e_plot_calc_break_interval • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="REDCap data, reading and formatting data — e_REDCap_read_format_data" />
-<meta property="og:description" content="Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file." />
+<meta property="og:title" content="Interval for plot breaks, determine a "nice" length of seq(by = Interval) — e_plot_calc_break_interval" />
+<meta property="og:description" content="Interval for plot breaks, determine a &quot;nice&quot; length of seq(by = Interval)" />
 
 
 
@@ -120,81 +120,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>REDCap data, reading and formatting data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_REDCap_read_format_data.R'><code>R/e_REDCap_read_format_data.R</code></a></small>
-    <div class="hidden name"><code>e_REDCap_read_format_data.Rd</code></div>
+    <h1>Interval for plot breaks, determine a "nice" length of seq(by = Interval)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_missing.R'><code>R/e_plot_missing.R</code></a></small>
+    <div class="hidden name"><code>e_plot_calc_break_interval.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.</p>
+    <p>Interval for plot breaks, determine a "nice" length of seq(by = Interval)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_REDCap_read_format_data</span><span class='op'>(</span>
-  fn_path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>,
-  fn_root <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fn_suffix_data <span class='op'>=</span> <span class='st'>"_DATA_"</span>,
-  fn_suffix_R <span class='op'>=</span> <span class='st'>"_R_"</span>,
-  fn_suffix_out <span class='op'>=</span> <span class='st'>""</span>,
-  fn_ext_data <span class='op'>=</span> <span class='st'>"csv"</span>,
-  fn_ext_R <span class='op'>=</span> <span class='st'>"r"</span>,
-  sw_return_dat <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  sw_save_RData <span class='op'>=</span> <span class='cn'>TRUE</span>
+    <pre class="usage"><span class='fu'>e_plot_calc_break_interval</span><span class='op'>(</span>
+  <span class='va'>values</span>,
+  num_intervals <span class='op'>=</span> <span class='fl'>10</span>,
+  val_leading_digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fn_path</th>
-      <td><p>is the location of the data, assumed to be the current path.</p></td>
+      <th>values</th>
+      <td><p>numeric values for an axis</p></td>
     </tr>
     <tr>
-      <th>fn_root</th>
-      <td><p>the root name(s) of the file(s), typically the project name(s) (the part before _DATA_*.*)</p></td>
+      <th>num_intervals</th>
+      <td><p>rough desired number of intervals</p></td>
     </tr>
     <tr>
-      <th>fn_suffix_data</th>
-      <td><p>typically "_DATA_" to indicate this is the data</p></td>
-    </tr>
-    <tr>
-      <th>fn_suffix_R</th>
-      <td><p>typically "_R_" to indicate this is the R formatting file</p></td>
-    </tr>
-    <tr>
-      <th>fn_suffix_out</th>
-      <td><p>an added name to the outputted saved and formatted data files, maybe you want to add a date, a version number, or a another label</p></td>
-    </tr>
-    <tr>
-      <th>fn_ext_data</th>
-      <td><p>"*.csv" to specify the data filename extension, only csv is supported ("csv" is differnt from "CSV")</p></td>
-    </tr>
-    <tr>
-      <th>fn_ext_R</th>
-      <td><p>"*.r" to specify the R filename extension, ("r" is differnt from "R")</p></td>
-    </tr>
-    <tr>
-      <th>sw_return_dat</th>
-      <td><p>TRUE/FALSE to return the data object from the function</p></td>
-    </tr>
-    <tr>
-      <th>sw_save_RData</th>
-      <td><p>TRUE/FALSE to save an ".RData" file</p></td>
+      <th>val_leading_digit</th>
+      <td><p>leading digits to consider (in ascending order, end with 10)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>out_dat formatted data or <code><a href='https://rdrr.io/r/base/invisible.html'>invisible(NULL)</a></code>, depending on <code>sw_return_dat</code></p>
+    <p>interval for breaks</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># dat_temp &lt;-</span>
-<span class='co'>#   e_REDCap_read_format_data(</span>
-<span class='co'>#     fn_path   = "C:/Data/Project"</span>
-<span class='co'>#   , fn_root   = "ProjectName"</span>
-<span class='co'>#   )</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>e_plot_calc_break_interval</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>250</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 20</div><div class='input'><span class='fu'>e_plot_calc_break_interval</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 50</div><div class='input'><span class='fu'>e_plot_calc_break_interval</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -129,7 +129,11 @@
     <p>If using in Rmd file and a latex documnet, then requires two header includes:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_table_print</span><span class='op'>(</span><span class='va'>dat</span>, sw_scale <span class='op'>=</span> <span class='cn'>FALSE</span>, sw_kable_format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"html"</span>, <span class='st'>"latex"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_table_print</span><span class='op'>(</span>
+  <span class='va'>dat</span>,
+  sw_scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sw_kable_format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"html"</span>, <span class='st'>"latex"</span>, <span class='st'>"doc"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,9 +154,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p><code><a href='https://rdrr.io/r/base/invisible.html'>invisible(NULL)</a></code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
@@ -285,8 +287,14 @@ fig_caption: TRUE
 #&gt;   &lt;/tr&gt;
 #&gt; &lt;/tbody&gt;
 #&gt; &lt;/table&gt;</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># datasets::mtcars %&gt;% head() %&gt;% e_table_print(sw_scale = 6)</span>
-<span class='co'># datasets::mtcars %&gt;% head() %&gt;% e_table_print(sw_scale = TRUE, sw_kable_format = "latex") # outputs into LaTeX document</span>
+<span class='co'># html rescaled size</span>
+<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>e_table_print</span><span class='op'>(</span>sw_scale <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+<span class='co'># outputs into LaTeX document, scaling is automatic to fit page width</span>
+<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>e_table_print</span><span class='op'>(</span>sw_scale <span class='op'>=</span> <span class='cn'>TRUE</span>, sw_kable_format <span class='op'>=</span> <span class='st'>"latex"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
