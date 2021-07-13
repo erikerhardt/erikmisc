@@ -10,6 +10,7 @@
   start_message <- c( "erikmisc, solving common complex data analysis workflows\n"
                       , "  by Dr. Erik Barry Erhardt <erik@StatAcumen.com>")
   packageStartupMessage(start_message)
+  #print(erikmisc_logo())
   invisible(NULL)
 }
 

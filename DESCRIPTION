@@ -2,7 +2,7 @@ Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
 Version: 0.1.2
-Date: 2021-07-11
+Date: 2021-07-13
 Authors@R:
     c(person(
       given = "Erik"
@@ -48,7 +48,9 @@ Imports:
     tibble,
     tidyselect,
     tidyr,
-    tidyverse
+    tidyverse,
+    crayon,
+    purrr
 Suggests:
     datasets,
     lme4,
