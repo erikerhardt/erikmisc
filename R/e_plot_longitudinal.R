@@ -145,9 +145,8 @@ e_plot_longitudinal <-
   }
 
   # label data
-  # if data are already labelled, then use those labels
-  # otherwise, this will override those labels
-
+  # default labels are those in the data
+  # otherwise, specified labels will override them
   if(!is.null(label_x_time)) {
     labelled::var_label(dat_plot[["var_x_time"]]) <- label_x_time
   }
@@ -157,6 +156,17 @@ e_plot_longitudinal <-
   if(!is.null(label_group )) {
     labelled::var_label(dat_plot[["var_group" ]]) <- label_group
   }
+  # if still no labels, then assign variable name
+  if(is.null(labelled::var_label(dat_plot[["var_x_time"]]))) {
+    labelled::var_label(dat_plot[["var_x_time"]]) <- var_x_time
+  }
+  if(is.null(labelled::var_label(dat_plot[["var_y_resp"]]))) {
+    labelled::var_label(dat_plot[["var_y_resp"]]) <- var_y_resp
+  }
+  if(is.null(labelled::var_label(dat_plot[["var_group" ]]))) {
+    labelled::var_label(dat_plot[["var_group" ]]) <- var_group
+  }
+
 
   # grand mean over time
   annotate_y_mean <-
