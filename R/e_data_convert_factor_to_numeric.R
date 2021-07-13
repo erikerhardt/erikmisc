@@ -18,11 +18,28 @@ e_data_convert_factor_to_numeric <-
   function(
     dat
   ) {
-  ## dat = dat_pdp
-  for (i_var in 1:ncol(dat)) {
-    if("factor" %in% class(dat[,i_var])) {
-      dat[,i_var] <- as.numeric(dat[,i_var])
-    }
-  }
+  ### works for data.frame but not tibble
+  # for (i_var in 1:ncol(dat)) {
+  #   if("factor" %in% class(dat[,i_var])) {
+  #     dat[,i_var] <- as.numeric(dat[,i_var])
+  #   }
+  # }
+
+  # factor column names
+  names_col_factor <-
+    (sapply(dat, class) == "factor") %>%
+    which() %>%
+    names()
+
+  # apply as.numeric to all factor column names
+  dat <-
+    dat %>%
+    dplyr::mutate(
+      dplyr::across(
+        .cols = tidyselect::all_of(names_col_factor)
+      , .fns  = as.numeric
+      )
+    )
+
   return(dat)
 }

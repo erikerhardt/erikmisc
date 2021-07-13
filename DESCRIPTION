@@ -46,6 +46,7 @@ Imports:
     stringi,
     stringr,
     tibble,
+    tidyselect,
     tidyr,
     tidyverse
 Suggests:
