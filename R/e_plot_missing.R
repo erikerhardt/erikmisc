@@ -107,6 +107,19 @@ e_plot_missing <-
     sw_var2_sort <- FALSE
   }
 
+  #### XXX
+  #### SORT BY COMPLETE PROPORTION
+  ##   dat_NA_temp <-
+  ##     dat_all %>%
+  ##     select(matches(match = "^Q[0-9]", perl = TRUE)) %>%
+  ##     is.na()
+  ##
+  ##   dat_all$CompleteProp <-
+  ##     (rowMeans(!dat_NA_temp))
+  ##
+  ##   rm(dat_NA_temp)
+
+
   if (sw_group_sort) {
     # secondary sort
     if (!is.null(var2_sort) & !any(names_col %in% var2_sort)) {
