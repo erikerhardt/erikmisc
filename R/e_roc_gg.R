@@ -22,7 +22,7 @@ e_roc_gg <-
     dat
   , var_class
   , val_feat
-  , sw_plot = TRUE
+  , sw_plot     = TRUE
   , method_name = ""
   , sw_thresh_criteria = c("min_dist", "spec1_sensmax", "sens1_specmax")[1]
   ) {

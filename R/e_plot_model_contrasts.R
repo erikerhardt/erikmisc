@@ -2,6 +2,17 @@
 #'
 #' Variable labels can be provided by labelling your data with the labelled::var_label() command.
 #'
+#' Plot interpretation:
+#' This EMM plot (Estimated Marginal Means, aka Least-Squares Means) is only
+#' available when conditioning on one variable. The blue bars are confidence
+#' intervals for the EMMs; don't ever use confidence intervals for EMMs to perform
+#' comparisons --- they can be very misleading. The red arrows are for the
+#' comparisons between means; the degree to which the "comparison arrows" overlap
+#' reflects as much as possible the significance of the comparison of the two
+#' estimates. If an arrow from one mean overlaps an arrow from another group, the
+#' difference is not significant, based on the adjust setting (which defaults to
+#' "tukey").
+#'
 #' @param fit                       lm object
 #' @param dat_cont                  data used for the lm object (only used for variable labels using labelled::var_label()
 #' @param choose_contrasts          is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.
@@ -346,7 +357,7 @@ e_plot_model_contrasts <-
             , text_cont
             , " = "
             , signif(text_est, 3)
-            , ",  "
+            , ", "
             , round(CI_level * 100, 1), "% CI: "
             , "("
             , signif(text_LCL, 3)
@@ -462,7 +473,7 @@ e_plot_model_contrasts <-
           , text_cont
           , " = "
           , signif(text_est, 3)
-          , ",  "
+          , ", "
           , round(CI_level * 100, 1), "% CI: "
           , "("
           , signif(text_LCL, 3)
@@ -611,7 +622,7 @@ e_plot_model_contrasts <-
                 , text_cont
                 , " = "
                 , signif(text_est, 3)
-                , ",  "
+                , ", "
                 , round(CI_level * 100, 1), "% CI: "
                 , "("
                 , signif(text_LCL, 3)
@@ -635,7 +646,7 @@ e_plot_model_contrasts <-
           #   , text_cont
           #   , " = "
           #   , signif(text_est, 3)
-          #   , ",  "
+          #   , ", "
           #   , round(CI_level * 100, 1), "% CI: "
           #   , "("
           #   , signif(text_LCL, 3)
@@ -902,7 +913,7 @@ e_plot_model_contrasts <-
             , text_cont
             , " = "
             , signif(text_est, 3)
-            , ",  "
+            , ", "
             , round(CI_level * 100, 1), "% CI: "
             , "("
             , signif(text_LCL, 3)

@@ -95,6 +95,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/erikmisc_e_plot_model_contrasts.html">Plot model contrasts</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc_key_variables_completion.html">Key variables completion</a>
     </li>
   </ul>
@@ -121,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_mod_contrasts.R'><code>R/e_plot_mod_contrasts.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_model_contrasts.R'><code>R/e_plot_model_contrasts.R</code></a></small>
     <div class="hidden name"><code>e_plot_model_contrasts.Rd</code></div>
     </div>
 
@@ -196,6 +199,18 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Plot interpretation:
+This EMM plot (Estimated Marginal Means, aka Least-Squares Means) is only
+available when conditioning on one variable. The blue bars are confidence
+intervals for the EMMs; don't ever use confidence intervals for EMMs to perform
+comparisons --- they can be very misleading. The red arrows are for the
+comparisons between means; the degree to which the "comparison arrows" overlap
+reflects as much as possible the significance of the comparison of the two
+estimates. If an arrow from one mean overlaps an arrow from another group, the
+difference is not significant, based on the adjust setting (which defaults to
+"tukey").</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data for testing</span>
@@ -391,20 +406,20 @@
 #&gt; </div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>text</span>    <span class='co'># to print caption text</span>
 </div><div class='output co'>#&gt; $wt
 #&gt; $wt[[1]]
-#&gt; [1] "Estimate: 3.21725 = -2.82,  95% CI: (-5.34, -0.299)"                 
+#&gt; [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  
 #&gt; [2] "Tables: Results are averaged over the levels of: cyl, vs, am"        
 #&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"
 #&gt; 
 #&gt; $wt[[2]]
-#&gt; [1] "Estimate: 3.21725 = -2.82,  95% CI: (-5.34, -0.299)"                 
+#&gt; [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  
 #&gt; [2] "Tables: Confidence level used: 0.95"                                 
 #&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"
 #&gt; 
 #&gt; 
 #&gt; $am
 #&gt; $am[[1]]
-#&gt; [1] "Estimate: automatic = 17.5,  95% CI: (14.5, 20.5)"     
-#&gt; [2] "Estimate: manual = 19,  95% CI: (14.7, 23.3)"          
+#&gt; [1] "Estimate: automatic = 17.5, 95% CI: (14.5, 20.5)"      
+#&gt; [2] "Estimate: manual = 19, 95% CI: (14.7, 23.3)"           
 #&gt; [3] "Contrast: automatic - manual = -1.52, p-value = 0.4416"
 #&gt; [4] "Results are averaged over the levels of: cyl, vs"      
 #&gt; 
@@ -413,13 +428,13 @@
 #&gt; $`cyl:vs`[[1]]
 #&gt; $`cyl:vs`[[1]][[1]]
 #&gt;  [1] "vs = V-shaped:"                                 
-#&gt;  [2] "Estimate: four = 19.9,  95% CI: (10.7, 29)"     
-#&gt;  [3] "Estimate: six = 17.9,  95% CI: (13.2, 22.6)"    
-#&gt;  [4] "Estimate: eight = 19,  95% CI: (14.7, 23.3)"    
+#&gt;  [2] "Estimate: four = 19.9, 95% CI: (10.7, 29)"      
+#&gt;  [3] "Estimate: six = 17.9, 95% CI: (13.2, 22.6)"     
+#&gt;  [4] "Estimate: eight = 19, 95% CI: (14.7, 23.3)"     
 #&gt;  [5] "vs = straight:"                                 
-#&gt;  [6] "Estimate: four = 17.8,  95% CI: (10.7, 24.9)"   
-#&gt;  [7] "Estimate: six = 17.8,  95% CI: (12.9, 22.8)"    
-#&gt;  [8] "Estimate: eight = 16.9,  95% CI: (5.17, 28.7)"  
+#&gt;  [6] "Estimate: four = 17.8, 95% CI: (10.7, 24.9)"    
+#&gt;  [7] "Estimate: six = 17.8, 95% CI: (12.9, 22.8)"     
+#&gt;  [8] "Estimate: eight = 16.9, 95% CI: (5.17, 28.7)"   
 #&gt;  [9] ""                                               
 #&gt; [10] "vs = V-shaped:"                                 
 #&gt; [11] "Contrast: four - six = 1.97, p-value = 0.9142"  
@@ -437,14 +452,14 @@
 #&gt; $`cyl:vs`[[2]]
 #&gt; $`cyl:vs`[[2]][[1]]
 #&gt;  [1] "cyl = four:"                                               
-#&gt;  [2] "Estimate: V-shaped = 19.9,  95% CI: (11.4, 28.4)"          
-#&gt;  [3] "Estimate: straight = 17.8,  95% CI: (11.2, 24.4)"          
+#&gt;  [2] "Estimate: V-shaped = 19.9, 95% CI: (11.4, 28.4)"           
+#&gt;  [3] "Estimate: straight = 17.8, 95% CI: (11.2, 24.4)"           
 #&gt;  [4] "cyl = six:"                                                
-#&gt;  [5] "Estimate: V-shaped = 17.9,  95% CI: (13.5, 22.3)"          
-#&gt;  [6] "Estimate: straight = 17.8,  95% CI: (13.2, 22.4)"          
+#&gt;  [5] "Estimate: V-shaped = 17.9, 95% CI: (13.5, 22.3)"           
+#&gt;  [6] "Estimate: straight = 17.8, 95% CI: (13.2, 22.4)"           
 #&gt;  [7] "cyl = eight:"                                              
-#&gt;  [8] "Estimate: V-shaped = 19,  95% CI: (15, 23)"                
-#&gt;  [9] "Estimate: straight = 16.9,  95% CI: (6.01, 27.9)"          
+#&gt;  [8] "Estimate: V-shaped = 19, 95% CI: (15, 23)"                 
+#&gt;  [9] "Estimate: straight = 16.9, 95% CI: (6.01, 27.9)"           
 #&gt; [10] ""                                                          
 #&gt; [11] "cyl = four:"                                               
 #&gt; [12] "Contrast: (V-shaped) - straight = 2.06, p-value = 0.6095"  
@@ -477,8 +492,8 @@
 #&gt; $`hp:vs`
 #&gt; $`hp:vs`[[1]]
 #&gt; $`hp:vs`[[1]][[1]]
-#&gt; [1] "Estimate: V-shaped = -0.0294,  95% CI: (-0.0662, 0.00732)" 
-#&gt; [2] "Estimate: straight = -0.0786,  95% CI: (-0.172, 0.0149)"   
+#&gt; [1] "Estimate: V-shaped = -0.0294, 95% CI: (-0.0662, 0.00732)"  
+#&gt; [2] "Estimate: straight = -0.0786, 95% CI: (-0.172, 0.0149)"    
 #&gt; [3] "Contrast: (V-shaped) - straight = 0.0491, p-value = 0.3652"
 #&gt; [4] "Results are averaged over the levels of: cyl, am"          
 #&gt; 
