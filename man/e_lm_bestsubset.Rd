@@ -21,7 +21,7 @@ Best subset selection returns results sorted by BIC
 }
 \examples{
 \dontrun{
-i_best <-
+tab_best <-
   e_lm_bestsubset(
     form = formula(mpg ~ cyl + disp + hp + gear)
   , dat  = datasets::mtcars
@@ -29,7 +29,7 @@ i_best <-
 
   op <- options(); # saving old options
   options(width=100) # setting command window output text width wider
-i_best \%>\% print(n = Inf, width = Inf)
+tab_best \%>\% print(n = Inf, width = Inf)
   options(op); # reset (all) initial options
 }
 }
