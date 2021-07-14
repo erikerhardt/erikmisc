@@ -10,6 +10,7 @@ vignette: >
   %\VignetteIndexEntry{Best subset selection}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+always_allow_html: yes
 ---
 
 ```{r, include = FALSE}
@@ -54,5 +55,6 @@ tab_best %>% print(n = Inf, width = Inf)
   # options(op); # reset (all) initial options
 
 # print into RStudio viewer or a pretty table in Rmd output
+# include "always_allow_html: yes" in Rmd yaml header
 tab_best %>% e_table_print()
 ```
