@@ -1,24 +1,3 @@
-##############################################################################
-#    Copyright (c) 2021 Erik B. Erhardt                                      #
-#                                                                            #
-#    This file is part of the ebemisc package for R (*ebemisc*)              #
-#                                                                            #
-#    *ebemisc* is free software: you can redistribute it and/or modify       #
-#    it under the terms of the GNU General Public License as published by    #
-#    the Free Software Foundation, either version 2 of the License, or       #
-#    (at your option) any later version.                                     #
-#                                                                            #
-#    *ebemisc* is distributed in the hope that it will be useful,            #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of          #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
-#    GNU General Public License for more details.                            #
-#                                                                            #
-#    You should have received a copy of the GNU General Public License       #
-#    along with R and *emmeans*.  If not, see                                #
-#    <https://www.r-project.org/Licenses/> and/or                            #
-#    <http://www.gnu.org/licenses/>.                                         #
-##############################################################################
-
 #' Longitudinal interaction plots
 #'
 #' @param dat_plot          data.frame for plotting
@@ -145,8 +124,8 @@ e_plot_longitudinal <-
   }
 
   # label data
-  # default labels are those in the data
-  # otherwise, specified labels will override them
+  # if data are already labelled, then use those labels
+  # otherwise, this will override those labels
   if(!is.null(label_x_time)) {
     labelled::var_label(dat_plot[["var_x_time"]]) <- label_x_time
   }
@@ -156,6 +135,18 @@ e_plot_longitudinal <-
   if(!is.null(label_group )) {
     labelled::var_label(dat_plot[["var_group" ]]) <- label_group
   }
+  # if still no labels, then assign variable name
+  if(is.null(labelled::var_label(dat_plot[["var_x_time"]]))) {
+    labelled::var_label(dat_plot[["var_x_time"]]) <- var_x_time
+  }
+  if(is.null(labelled::var_label(dat_plot[["var_y_resp"]]))) {
+    labelled::var_label(dat_plot[["var_y_resp"]]) <- var_y_resp
+  }
+  if(is.null(labelled::var_label(dat_plot[["var_group" ]]))) {
+    labelled::var_label(dat_plot[["var_group" ]]) <- var_group
+  }
+
+
   # if still no labels, then assign variable name
   if(is.null(labelled::var_label(dat_plot[["var_x_time"]]))) {
     labelled::var_label(dat_plot[["var_x_time"]]) <- var_x_time
