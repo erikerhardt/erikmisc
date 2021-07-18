@@ -1,48 +1,32 @@
-# modified https://github.com/daattali/rsalad/blob/master/R/notIn.R
+# ------------------------------------------------------------------------------
 # because of Check warnings from:
 #  `%notin%` <- Negate(`%in%`)
+# This is the version in use below
+# https://peter.solymos.org/code/2016/11/26/how-to-write-and-document-special-functions-in-r.html
+
 #' Boolean operator "not in"
 #'
-#' Negation of the \code{\%in\%} operator.
-#' Determine if values in the first argument don't exist in the second argument.
+#' Negation of the \code{\%in\%} operator, see \code{?match}.
+#' \code{\%notin\%} is the negation of \code{\link{\%in\%}}, which returns a logical vector indicating if there is a non-match or not for its left operand.
 #'
-#' \code{\%notin\%} is the functional inverse of \code{\%in\%}.
+#' @param  x      vector or \code{NULL}: the values to be matched.
+#' @param  table  vector or \code{NULL}: the values to be matched against.
+#' @return A logical vector, indicating if a non-match was located for each element of \code{x}: thus the values are \code{TRUE} or \code{FALSE} and never \code{NA}.
 #'
-#' \code{lhs \%notin\% rhs} is equivalent to \code{notin(lhs, rhs)}.
-#'
-#' @param  x Vector or NULL: the values to be matched.
-#' @param  y Vector or NULL: the values to be matched against.
-#' @return A logical vector of the same length as \code{x}.
-#'
-#'   For every element in \code{x}, return \code{FALSE} if the value exists
-#'   in \code{y}, and \code{TRUE} otherwise.
+#' @usage       x \%notin\% table
+#' @name        %notin%
+#' @rdname      notin
+#' @export
 #' @examples
 #' "a" %notin% letters
 #' "a" %notin% LETTERS
 #' c("a", "A") %notin% letters
 #' letters %notin% c("a", "b", "c")
-#' notin("A", letters)
-#' @name notin
-NULL
-
-#' @export
-#' @rdname notin
-"%notin%" <- function(x, y) {
-  notin(x, y)
-}
-
-#' @export
-#' @rdname notin
-notin <- function(x, y) {
-  stopifnot(
-    (is.vector(x) || is.null(x)) &&
-    (is.vector(y) || is.null(y))
-  )
-  !(x %in% y)
-}
+"%notin%" <- function(x, table) !(match(x, table, nomatch = 0) > 0)
 
 
 
+# ------------------------------------------------------------------------------
 #' All Determine Duplicate Elements
 #'
 #' \code{e_duplicated_all()} determines which elements of a vector or data frame are duplicates, and returns a logical vector indicating which elements (rows) are duplicates.
