@@ -226,10 +226,6 @@ e_plot_longitudinal <-
     p1 <- p1 + geom_hline(data = annotate_y_group_means, aes(yintercept = var_y_resp, colour = var_group), linetype = line_type_group, size = 0.3, alpha = 1)
   }
 
-  #p1 <- p1 + geom_smooth(aes(group = 1), method = mgcv::gam, size = 1, colour = "blue", se = FALSE)
-  #p1 <- p1 + geom_smooth(aes(group = var_group, colour = var_group), size = 1, se = FALSE)
-  p1 <- p1 + geom_line(data = annotate_y_time_group_means, size = 1.5)
-
   # colored line for each patient
   if (!is.null(var_group)) {
     p1 <- p1 + geom_line(aes(group = var_ID, colour = var_group), alpha = 1/4)
@@ -241,8 +237,18 @@ e_plot_longitudinal <-
   #p1 <- p1 + geom_boxplot(size = 0.25, alpha = 0.5)
   # points for observed data
   #p1 <- p1 + geom_point(aes(colour = var_group), alpha = 0.5)
+
+
+  #p1 <- p1 + geom_smooth(aes(group = 1), method = mgcv::gam, size = 1, colour = "blue", se = FALSE)
+  #p1 <- p1 + geom_smooth(aes(group = var_group, colour = var_group), size = 1, se = FALSE)
+  if (!is.null(var_group)) {
+    p1 <- p1 + geom_line(data = annotate_y_time_group_means, aes(group = var_group), size = 1.25)
+  } else {
+    p1 <- p1 + geom_line(data = annotate_y_time_group_means, group = 1, size = 1.25)
+  }
+
   # diamond at mean for each group
-  p1 <- p1 + stat_summary(fun = mean, geom = "point", shape = 18, size = 6, alpha = 1)
+  p1 <- p1 + stat_summary(fun = mean, geom = "point", shape = 18, size = 4, alpha = 1)
   # confidence limits based on normal distribution
   #p1 <- p1 + stat_summary(fun.data = "mean_cl_normal", geom = "errorbar", width = 0.2, alpha = 0.8)
   #p1 <- p1 + facet_grid(surv_prog ~ pci_part_id_ps, drop = TRUE)
