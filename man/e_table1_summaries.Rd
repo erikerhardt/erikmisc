@@ -11,6 +11,7 @@ e_table1_summaries(
   list_var_row_table = NULL,
   list_var_row_names = NULL,
   fn_root = "tab1_vars",
+  fn_all = NULL,
   label_width = 40,
   sw_verbose = FALSE,
   moonbook_digits = c(factor = 1, numeric = 3),
@@ -28,7 +29,9 @@ e_table1_summaries(
 
 \item{list_var_row_names}{Variable labels to label table.}
 
-\item{fn_root}{Filename for output table.}
+\item{fn_root}{Filename for temporary tables.}
+
+\item{fn_all}{Filename for output table, defaults to \code{paste0(fn_root, "_", "all", ".csv")}.}
 
 \item{label_width}{Width to wrap column and row variable labels, does not affect category labels.}
 
@@ -48,4 +51,70 @@ then join them into a single file at the end
 }
 \details{
 Uses \code{moonBook::mytable}; default is CatMethod = 2: Numeric summaries are Median and IQR with kruskal.test, Categorical summaries are proportions with chisq.test with continuity correction.
+}
+\examples{
+\dontrun{
+## For Rmd code chunk attractive html table, code chunk option ```{r, results='asis'}
+
+# specify tows to summarize and columns to summarize by
+list_var_col_table <- c("cyl", "am")
+list_var_row_table <- c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb")
+
+# assigning to new dataset since you may want to filter or subset in some way,
+#   for example, only baseline measurements in a longtitudinal analysis
+dat_tab1 <-
+  dat_mtcars_e \%>\%
+  #dplyr::filter(EVENT_ID == "BL") \%>\%
+  dplyr::select(all_of(c(list_var_col_table, list_var_row_table)))
+
+
+# label variables
+list_var_col_names <- labelled::var_label(dat_tab1[, list_var_col_table]) \%>\% unlist()
+list_var_row_names <- labelled::var_label(dat_tab1[, list_var_row_table]) \%>\% unlist()
+
+# This loop creates a table summarized by each variable,
+#   but can also specify multiple columns to summarize conditional on multiple columns.
+for (i_col in seq_along(list_var_col_table)) {
+
+  # filename root for each separate variable (will write, then read to compile into one)
+  fn_root <- paste0("tab1_vars_", list_var_col_table[i_col], "_summary")
+
+  # run function (additional options are available)
+  e_table1_summaries(
+      dat_tab1           = dat_tab1
+    , list_var_col_table = list_var_col_table[i_col]
+    , list_var_col_names = list_var_col_names[i_col]
+    , list_var_row_table = list_var_row_table
+    , list_var_row_names = list_var_row_names
+    , fn_root            = fn_root
+    , sw_verbose         = TRUE
+    )
+
+  # read final table
+  tab1_temp <- read.csv(paste0(fn_root, "_", "all", ".csv"))
+  # display in Rmd file
+  knitr::kable(tab1_temp)
+}
+
+## For totals, helpful when missing data because has sample size for each row.
+# filename root for each separate variable (will write, then read to compile into one)
+fn_root <- paste0("tab1_vars_", "total", "_summary")
+
+# run function (additional options are available)
+e_table1_summaries(
+    dat_tab1           = dat_tab1
+  , list_var_col_table = NULL
+  , list_var_col_names = "Total"
+  , list_var_row_table = list_var_row_table
+  , list_var_row_names = list_var_row_names
+  , fn_root            = fn_root
+  , sw_verbose         = TRUE
+  )
+
+# read final table
+tab1_temp <- read.csv(paste0(fn_root, "_", "all", ".csv"))
+# display in Rmd file
+knitr::kable(tab1_temp)
+
+}
 }
