@@ -19,6 +19,7 @@ Encoding: UTF-8
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
+LazyData: true
 Depends: R (>= 3.5.0)
 Imports:
     base,
@@ -50,7 +51,8 @@ Imports:
     tidyr,
     tidyverse,
     crayon,
-    purrr
+    purrr,
+    moonBook
 Suggests:
     datasets,
     lme4,

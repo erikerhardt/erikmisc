@@ -1,5 +1,7 @@
-# Data for testing
-mtcars_e <-
+library(tidyverse)
+
+## dat_mtcars_e
+dat_mtcars_e <-
   datasets::mtcars %>%
   tibble::as_tibble(
     rownames = "model"
@@ -29,12 +31,17 @@ dat_labels <-
   )
 
 for (i_row in 1:nrow(dat_labels)) {
-  labelled::var_label(mtcars_e[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
+  labelled::var_label(dat_mtcars_e[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
 }
 
-str(mtcars_e)
+str(dat_mtcars_e)
 
 usethis::use_data(
-    mtcars_e
+    dat_mtcars_e
   , overwrite = TRUE
   )
+
+# save(
+#     dat_mtcars_e
+#   , file = "data/dat_mtcars_e.RData"
+#   )
