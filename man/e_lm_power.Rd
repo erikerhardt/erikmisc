@@ -9,7 +9,8 @@ e_lm_power(
   formula_full = NULL,
   formula_red = NULL,
   n_total,
-  n_groups,
+  n_param_full = NULL,
+  n_param_red = NULL,
   sig_level = 0.05,
   weights = NULL,
   sw_print = TRUE,
@@ -20,13 +21,15 @@ e_lm_power(
 \arguments{
 \item{dat}{observed effect size data set}
 
-\item{formula_full}{observed effect size full model formula}
+\item{formula_full}{observed effect size full model formula, used with dat}
 
-\item{formula_red}{observed effect size reduced model formula}
+\item{formula_red}{observed effect size reduced model formula, used with dat}
 
-\item{n_total}{a total sample size value or list of values}
+\item{n_total}{a total sample size value or list of values, used for power curve}
 
-\item{n_groups}{number of groups for degrees-of-freedom adjustment for Cohen effect sizes}
+\item{n_param_full}{number of parameters in full model, only used if dat is not specified}
+
+\item{n_param_red}{number of parameters in reduced model, only used if dat is not specified; must be fewer than n_param_full}
 
 \item{sig_level}{Type-I error rate}
 
@@ -48,14 +51,16 @@ Multiple regression power analysis
 
 # without data, single n
 n_total  <- 100
-n_groups <- 3
+n_param_full <- 10
+n_param_red  <- 5
 out <-
   e_lm_power(
     dat           = NULL
   , formula_full  = NULL
   , formula_red   = NULL
   , n_total       = n_total
-  , n_groups      = n_groups
+  , n_param_full  = n_param_full
+  , n_param_red   = n_param_red
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
@@ -64,15 +69,17 @@ out <-
   )
 
 # without data, sequence of n for power curve
-n_total <- seq(10, 300, by = 5)
-n_groups <- 3
+n_total <- seq(20, 300, by = 5)
+n_param_full <- 10
+n_param_red  <- 5
 out <-
   e_lm_power(
     dat           = NULL
   , formula_full  = NULL
   , formula_red   = NULL
   , n_total       = n_total
-  , n_groups      = n_groups
+  , n_param_full  = n_param_full
+  , n_param_red   = n_param_red
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
@@ -116,14 +123,14 @@ formula_red <-
 
 # with data, single n
 n_total  <- 100
-n_groups <- 3
 out <-
   e_lm_power(
     dat           = datasets::mtcars
   , formula_full  = formula_full
   , formula_red   = formula_red
   , n_total       = n_total
-  , n_groups      = n_groups
+  , n_param_full  = NULL
+  , n_param_red   = NULL
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
@@ -133,14 +140,14 @@ out <-
 
 # without data, sequence of n for power curve
 n_total <- seq(10, 300, by = 5)
-n_groups <- 3
 out <-
   e_lm_power(
     dat           = datasets::mtcars
   , formula_full  = formula_full
   , formula_red   = formula_red
   , n_total       = n_total
-  , n_groups      = n_groups
+  , n_param_full  = NULL
+  , n_param_red   = NULL
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
