@@ -140,7 +140,8 @@
   formula_full <span class='op'>=</span> <span class='cn'>NULL</span>,
   formula_red <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>n_total</span>,
-  <span class='va'>n_groups</span>,
+  n_param_full <span class='op'>=</span> <span class='cn'>NULL</span>,
+  n_param_red <span class='op'>=</span> <span class='cn'>NULL</span>,
   sig_level <span class='op'>=</span> <span class='fl'>0.05</span>,
   weights <span class='op'>=</span> <span class='cn'>NULL</span>,
   sw_print <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -157,19 +158,23 @@
     </tr>
     <tr>
       <th>formula_full</th>
-      <td><p>observed effect size full model formula</p></td>
+      <td><p>observed effect size full model formula, used with dat</p></td>
     </tr>
     <tr>
       <th>formula_red</th>
-      <td><p>observed effect size reduced model formula</p></td>
+      <td><p>observed effect size reduced model formula, used with dat</p></td>
     </tr>
     <tr>
       <th>n_total</th>
-      <td><p>a total sample size value or list of values</p></td>
+      <td><p>a total sample size value or list of values, used for power curve</p></td>
     </tr>
     <tr>
-      <th>n_groups</th>
-      <td><p>number of groups for degrees-of-freedom adjustment for Cohen effect sizes</p></td>
+      <th>n_param_full</th>
+      <td><p>number of parameters in full model, only used if dat is not specified</p></td>
+    </tr>
+    <tr>
+      <th>n_param_red</th>
+      <td><p>number of parameters in reduced model, only used if dat is not specified; must be fewer than n_param_full</p></td>
     </tr>
     <tr>
       <th>sig_level</th>
@@ -201,14 +206,16 @@
     <pre class="examples"><div class='input'>
 <span class='co'># without data, single n</span>
 <span class='va'>n_total</span>  <span class='op'>&lt;-</span> <span class='fl'>100</span>
-<span class='va'>n_groups</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
+<span class='va'>n_param_full</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>n_param_red</span>  <span class='op'>&lt;-</span> <span class='fl'>5</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span>
   <span class='fu'>e_lm_power</span><span class='op'>(</span>
     dat           <span class='op'>=</span> <span class='cn'>NULL</span>
   , formula_full  <span class='op'>=</span> <span class='cn'>NULL</span>
   , formula_red   <span class='op'>=</span> <span class='cn'>NULL</span>
   , n_total       <span class='op'>=</span> <span class='va'>n_total</span>
-  , n_groups      <span class='op'>=</span> <span class='va'>n_groups</span>
+  , n_param_full  <span class='op'>=</span> <span class='va'>n_param_full</span>
+  , n_param_red   <span class='op'>=</span> <span class='va'>n_param_red</span>
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
@@ -220,49 +227,51 @@
 #&gt; 
 #&gt;      Multiple regression power calculation 
 #&gt; 
-#&gt;               u = 2
-#&gt;               v = 97
+#&gt;               u = 5
+#&gt;               v = 90
 #&gt;              f2 = 0.02
 #&gt;       sig.level = 0.05
-#&gt;           power = 0.2197557
+#&gt;           power = 0.1451294
 #&gt; 
 #&gt;   Medium --------------
 #&gt; 
 #&gt;      Multiple regression power calculation 
 #&gt; 
-#&gt;               u = 2
-#&gt;               v = 97
+#&gt;               u = 5
+#&gt;               v = 90
 #&gt;              f2 = 0.15
 #&gt;       sig.level = 0.05
-#&gt;           power = 0.9371108
+#&gt;           power = 0.8244431
 #&gt; 
 #&gt;   Large ---------------
 #&gt; 
 #&gt;      Multiple regression power calculation 
 #&gt; 
-#&gt;               u = 2
-#&gt;               v = 97
+#&gt;               u = 5
+#&gt;               v = 90
 #&gt;              f2 = 0.35
 #&gt;       sig.level = 0.05
-#&gt;           power = 0.9997727
+#&gt;           power = 0.997067
 #&gt; </div><div class='img'><img src='e_lm_power-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># without data, sequence of n for power curve</span>
-<span class='va'>n_total</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>300</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>n_groups</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
+<span class='va'>n_total</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>300</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>n_param_full</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>n_param_red</span>  <span class='op'>&lt;-</span> <span class='fl'>5</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span>
   <span class='fu'>e_lm_power</span><span class='op'>(</span>
     dat           <span class='op'>=</span> <span class='cn'>NULL</span>
   , formula_full  <span class='op'>=</span> <span class='cn'>NULL</span>
   , formula_red   <span class='op'>=</span> <span class='cn'>NULL</span>
   , n_total       <span class='op'>=</span> <span class='va'>n_total</span>
-  , n_groups      <span class='op'>=</span> <span class='va'>n_groups</span>
+  , n_param_full  <span class='op'>=</span> <span class='va'>n_param_full</span>
+  , n_param_red   <span class='op'>=</span> <span class='va'>n_param_red</span>
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
   , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = median(n_total) for reference</span></div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = median(n_total) for reference</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'># with data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mtcars</span>, package<span class='op'>=</span><span class='st'>"datasets"</span><span class='op'>)</span>
@@ -310,14 +319,14 @@
 
 <span class='co'># with data, single n</span>
 <span class='va'>n_total</span>  <span class='op'>&lt;-</span> <span class='fl'>100</span>
-<span class='va'>n_groups</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span>
   <span class='fu'>e_lm_power</span><span class='op'>(</span>
     dat           <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span>
   , formula_full  <span class='op'>=</span> <span class='va'>formula_full</span>
   , formula_red   <span class='op'>=</span> <span class='va'>formula_red</span>
   , n_total       <span class='op'>=</span> <span class='va'>n_total</span>
-  , n_groups      <span class='op'>=</span> <span class='va'>n_groups</span>
+  , n_param_full  <span class='op'>=</span> <span class='cn'>NULL</span>
+  , n_param_red   <span class='op'>=</span> <span class='cn'>NULL</span>
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
@@ -326,7 +335,7 @@
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000002acd91e8&gt;
+#&gt; &lt;environment: 0x0000000041a17fc8&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -353,7 +362,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000002acd91e8&gt;
+#&gt; &lt;environment: 0x0000000041a17fc8&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -375,17 +384,17 @@
 #&gt; Residual standard error: 2.539 on 27 degrees of freedom
 #&gt; Multiple R-squared:  0.8454,	Adjusted R-squared:  0.8225 
 #&gt; F-statistic: 36.91 on 4 and 27 DF,  p-value: 1.408e-10
-#&gt; </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = the number of observations in the data for reference</span></div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, add more values to n_total for a smoother and more accurate curve</span></div><div class='img'><img src='e_lm_power-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = the number of observations in the data for reference</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, add more values to n_total for a smoother and more accurate curve</span></div><div class='img'><img src='e_lm_power-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># without data, sequence of n for power curve</span>
 <span class='va'>n_total</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>300</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>n_groups</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span>
   <span class='fu'>e_lm_power</span><span class='op'>(</span>
     dat           <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span>
   , formula_full  <span class='op'>=</span> <span class='va'>formula_full</span>
   , formula_red   <span class='op'>=</span> <span class='va'>formula_red</span>
   , n_total       <span class='op'>=</span> <span class='va'>n_total</span>
-  , n_groups      <span class='op'>=</span> <span class='va'>n_groups</span>
+  , n_param_full  <span class='op'>=</span> <span class='cn'>NULL</span>
+  , n_param_red   <span class='op'>=</span> <span class='cn'>NULL</span>
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
@@ -394,7 +403,7 @@
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000002acd91e8&gt;
+#&gt; &lt;environment: 0x0000000041a17fc8&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -421,7 +430,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000002acd91e8&gt;
+#&gt; &lt;environment: 0x0000000041a17fc8&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -443,7 +452,7 @@
 #&gt; Residual standard error: 2.539 on 27 degrees of freedom
 #&gt; Multiple R-squared:  0.8454,	Adjusted R-squared:  0.8225 
 #&gt; F-statistic: 36.91 on 4 and 27 DF,  p-value: 1.408e-10
-#&gt; </div><div class='output co'>#&gt; <span class='warning'>Warning: e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-4.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### RMarkdown results reporting</span>
 <span class='co'># The results above indicate the following.</span>
 <span class='co'>#</span>

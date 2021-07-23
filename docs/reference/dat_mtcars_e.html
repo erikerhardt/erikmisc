@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture a message, warning, or error to take actions — e_message_capture • erikmisc</title>
+<title>datasets::mtcars, factored and labeled — dat_mtcars_e • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Capture a message, warning, or error to take actions — e_message_capture" />
-<meta property="og:description" content="Capture a message, warning, or error to take actions" />
+<meta property="og:title" content="datasets::mtcars, factored and labeled — dat_mtcars_e" />
+<meta property="og:description" content="Using datasets::mtcars, then applying labeled factors and labeling variables with labelled::var_label based on ?datasets::mtcars" />
 
 
 
@@ -126,48 +126,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture a message, warning, or error to take actions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_message_capture.R'><code>R/e_message_capture.R</code></a></small>
-    <div class="hidden name"><code>e_message_capture.Rd</code></div>
+    <h1>datasets::mtcars, factored and labeled</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/erikmisc_DATA.R'><code>R/erikmisc_DATA.R</code></a></small>
+    <div class="hidden name"><code>dat_mtcars_e.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Capture a message, warning, or error to take actions</p>
+    <p>Using <code><a href='https://rdrr.io/r/datasets/mtcars.html'>datasets::mtcars</a></code>, then applying labeled factors and labeling variables with <code><a href='http://larmarange.github.io/labelled/reference/var_label.html'>labelled::var_label</a></code> based on <code><a href='https://rdrr.io/r/datasets/mtcars.html'>?datasets::mtcars</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_message_capture</span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>f</th>
-      <td><p>a function that might return a message, warning, or error</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>if there was an exception, return its content</p>
+    <p>tibble</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><code><a href='https://rdrr.io/r/datasets/mtcars.html'>?datasets::mtcars</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_message_capture</span><span class='op'>(</span><span class='va'>test_message</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; NULL
-#&gt; 
-#&gt; $logs
-#&gt; $logs[[1]]
-#&gt; $logs[[1]]$timestamp
-#&gt; [1] "2021-07-23 17:17:31"
-#&gt; 
-#&gt; $logs[[1]]$type
-#&gt; [1] "error"
-#&gt; 
-#&gt; $logs[[1]]$message
-#&gt; [1] "object 'test_message' not found"
-#&gt; 
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tibble [32 x 12] (S3: tbl_df/tbl/data.frame)
+#&gt;  $ model: chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
+#&gt;   ..- attr(*, "label")= chr "Model"
+#&gt;  $ mpg  : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+#&gt;   ..- attr(*, "label")= chr "Miles/(US) gallon"
+#&gt;  $ cyl  : Factor w/ 3 levels "four","six","eight": 2 2 1 2 3 2 3 1 1 2 ...
+#&gt;   ..- attr(*, "label")= chr "Number of cylinders"
+#&gt;  $ disp : num [1:32] 160 160 108 258 360 ...
+#&gt;   ..- attr(*, "label")= chr "Displacement (cu.in.)"
+#&gt;  $ hp   : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...
+#&gt;   ..- attr(*, "label")= chr "Gross horsepower"
+#&gt;  $ drat : num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+#&gt;   ..- attr(*, "label")= chr "Rear axle ratio"
+#&gt;  $ wt   : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...
+#&gt;   ..- attr(*, "label")= chr "Weight (1000 lbs)"
+#&gt;  $ qsec : num [1:32] 16.5 17 18.6 19.4 17 ...
+#&gt;   ..- attr(*, "label")= chr "1/4 mile time"
+#&gt;  $ vs   : Factor w/ 2 levels "V-shaped","straight": 1 1 2 2 1 2 1 2 2 2 ...
+#&gt;   ..- attr(*, "label")= chr "Engine"
+#&gt;  $ am   : Factor w/ 2 levels "automatic","manual": 2 2 2 1 1 1 1 1 1 1 ...
+#&gt;   ..- attr(*, "label")= chr "Transmission"
+#&gt;  $ gear : num [1:32] 4 4 4 3 3 3 3 4 4 4 ...
+#&gt;   ..- attr(*, "label")= chr "Number of forward gears"
+#&gt;  $ carb : num [1:32] 4 4 1 1 2 1 4 2 2 4 ...
+#&gt;   ..- attr(*, "label")= chr "Number of carburetors"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

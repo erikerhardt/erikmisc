@@ -112,41 +112,7 @@
 <a href="#data" class="anchor"></a>Data</h2>
 <p>The data variables are labelled and those will be used for plots.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Data for testing</span>
-<span class="va">dat_cont</span> <span class="op">&lt;-</span>
-  <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html">mtcars</a></span> <span class="op">%&gt;%</span>
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>
-    rownames <span class="op">=</span> <span class="st">"model"</span>
-  <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-    cyl <span class="op">=</span> <span class="va">cyl</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"six"</span>, <span class="st">"eight"</span><span class="op">)</span><span class="op">)</span>
-  , vs  <span class="op">=</span> <span class="va">vs</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"V-shaped"</span>, <span class="st">"straight"</span><span class="op">)</span><span class="op">)</span>
-  , am  <span class="op">=</span> <span class="va">am</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"automatic"</span>, <span class="st">"manual"</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">)</span>
-
-<span class="co"># Label columns</span>
-<span class="va">dat_labels</span> <span class="op">&lt;-</span>
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
-    <span class="op">~</span><span class="va">var</span>    , <span class="op">~</span><span class="va">label</span>
-  , <span class="st">"model"</span> , <span class="st">"Model"</span>
-  , <span class="st">"mpg"</span>   , <span class="st">"Miles/(US) gallon"</span>
-  , <span class="st">"cyl"</span>   , <span class="st">"Number of cylinders"</span>
-  , <span class="st">"disp"</span>  , <span class="st">"Displacement (cu.in.)"</span>
-  , <span class="st">"hp"</span>    , <span class="st">"Gross horsepower"</span>
-  , <span class="st">"drat"</span>  , <span class="st">"Rear axle ratio"</span>
-  , <span class="st">"wt"</span>    , <span class="st">"Weight (1000 lbs)"</span>
-  , <span class="st">"qsec"</span>  , <span class="st">"1/4 mile time"</span>
-  , <span class="st">"vs"</span>    , <span class="st">"Engine"</span>                     <span class="co"># (0 = V-shaped, 1 = straight)"</span>
-  , <span class="st">"am"</span>    , <span class="st">"Transmission"</span>               <span class="co"># (0 = automatic, 1 = manual)"</span>
-  , <span class="st">"gear"</span>  , <span class="st">"Number of forward gears"</span>
-  , <span class="st">"carb"</span>  , <span class="st">"Number of carburetors"</span>
-  <span class="op">)</span>
-
-<span class="kw">for</span> <span class="op">(</span><span class="va">i_row</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dat_labels</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html">var_label</a></span><span class="op">(</span><span class="va">dat_cont</span><span class="op">[[</span><span class="va">dat_labels</span><span class="op">[[</span><span class="st">"var"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="va">i_row</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">dat_labels</span><span class="op">[[</span><span class="st">"label"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="va">i_row</span><span class="op">]</span>
-<span class="op">}</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dat_cont</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">)</span>
 <span class="co">#&gt; tibble [32 x 12] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;  $ model: chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Model"</span>
@@ -185,7 +151,7 @@
 <span class="va">fit</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span>
     formula <span class="op">=</span> <span class="va">form_model</span>
-  , data    <span class="op">=</span> <span class="va">dat_cont</span>
+  , data    <span class="op">=</span> <span class="va">dat_mtcars_e</span>
   <span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
@@ -209,7 +175,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = form_model, data = dat_cont)</span>
+<span class="co">#&gt; lm(formula = form_model, data = dat_mtcars_e)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Residuals:</span>
 <span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
@@ -247,7 +213,7 @@
 <code class="sourceCode R"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/e_plot_model_contrasts.html">e_plot_model_contrasts</a></span><span class="op">(</span>
     fit                <span class="op">=</span> <span class="va">fit</span>
-  , dat_cont           <span class="op">=</span> <span class="va">dat_cont</span>
+  , dat_cont           <span class="op">=</span> <span class="va">dat_mtcars_e</span>
   , sw_print           <span class="op">=</span> <span class="cn">FALSE</span>
   <span class="op">)</span>
 <span class="co">#&gt; e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span>
@@ -515,7 +481,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <code class="sourceCode R"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/e_plot_model_contrasts.html">e_plot_model_contrasts</a></span><span class="op">(</span>
     fit                <span class="op">=</span> <span class="va">fit</span>
-  , dat_cont           <span class="op">=</span> <span class="va">dat_cont</span>
+  , dat_cont           <span class="op">=</span> <span class="va">dat_mtcars_e</span>
   , choose_contrasts   <span class="op">=</span> <span class="st">"cyl:vs"</span>
   , sw_print           <span class="op">=</span> <span class="cn">FALSE</span>
   , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span>

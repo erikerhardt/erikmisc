@@ -127,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Interval for plot breaks, determine a "nice" length of seq(by = Interval)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_missing.R'><code>R/e_plot_missing.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_calc_break_interval.R'><code>R/e_plot_calc_break_interval.R</code></a></small>
     <div class="hidden name"><code>e_plot_calc_break_interval.Rd</code></div>
     </div>
 
@@ -138,7 +138,7 @@
     <pre class="usage"><span class='fu'>e_plot_calc_break_interval</span><span class='op'>(</span>
   <span class='va'>values</span>,
   num_intervals <span class='op'>=</span> <span class='fl'>10</span>,
-  val_leading_digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>
+  val_leading_digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -153,7 +153,7 @@
       <td><p>rough desired number of intervals</p></td>
     </tr>
     <tr>
-      <th>val_leading_digit</th>
+      <th>val_leading_digits</th>
       <td><p>leading digits to consider (in ascending order, end with 10)</p></td>
     </tr>
     </table>
