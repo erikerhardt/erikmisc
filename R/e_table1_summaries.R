@@ -18,7 +18,7 @@
 #' @param moonbook_digits     An integer indicating the number of decimal places (round) or significant digits to be used. Default value is 3. (\code{?moonBook::mytable_sub})
 #' @param moonbook_method     An integer indicating methods for continuous variables. Possible values in methods are: 1 = forces analysis as normal-distributed; 2 = forces analysis as continuous non-normal; 3 = performs a Shapiro-Wilk test to decide between normal or non-normal. (\code{?moonBook::mytable_sub})
 #'
-#' @return
+#' @return NULL, invisibly
 #' @importFrom moonBook mytable mycsv
 #' @importFrom stringr str_wrap
 #' @importFrom stringr str_replace_all
@@ -30,10 +30,11 @@
 #'
 #' # specify tows to summarize and columns to summarize by
 #' list_var_col_table <- c("cyl", "am")
-#' list_var_row_table <- c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb")
+#' list_var_row_table <- c("mpg", "cyl", "disp", "hp", "drat", "wt"
+#'                       , "qsec", "vs", "am", "gear", "carb")
 #'
 #' # assigning to new dataset since you may want to filter or subset in some way,
-#' #   for example, only baseline measurements in a longtitudinal analysis
+#' #   for example, only baseline measurements in a longitudinal analysis
 #' dat_tab1 <-
 #'   dat_mtcars_e %>%
 #'   #dplyr::filter(EVENT_ID == "BL") %>%
@@ -76,7 +77,7 @@
 #' e_table1_summaries(
 #'     dat_tab1           = dat_tab1
 #'   , list_var_col_table = NULL
-#'   , list_var_col_names = "Total"
+#'   , list_var_col_names = "total"
 #'   , list_var_row_table = list_var_row_table
 #'   , list_var_row_names = list_var_row_names
 #'   , fn_root            = fn_root
