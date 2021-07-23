@@ -42,7 +42,7 @@ e_lm_power(
 \item{n_plot_ref}{a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total}
 }
 \value{
-list with both table and plots of power analysis results
+list with tables and plots of power analysis results
 }
 \description{
 Multiple regression power analysis
@@ -50,17 +50,14 @@ Multiple regression power analysis
 \examples{
 
 # without data, single n
-n_total  <- 100
-n_param_full <- 10
-n_param_red  <- 5
 out <-
   e_lm_power(
     dat           = NULL
   , formula_full  = NULL
   , formula_red   = NULL
-  , n_total       = n_total
-  , n_param_full  = n_param_full
-  , n_param_red   = n_param_red
+  , n_total       = 100
+  , n_param_full  = 10
+  , n_param_red   = 5
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
@@ -69,17 +66,14 @@ out <-
   )
 
 # without data, sequence of n for power curve
-n_total <- seq(20, 300, by = 5)
-n_param_full <- 10
-n_param_red  <- 5
 out <-
   e_lm_power(
     dat           = NULL
   , formula_full  = NULL
   , formula_red   = NULL
-  , n_total       = n_total
-  , n_param_full  = n_param_full
-  , n_param_red   = n_param_red
+  , n_total       = seq(20, 300, by = 5)
+  , n_param_full  = 10
+  , n_param_red   = 5
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
@@ -122,13 +116,12 @@ formula_red <-
 
 
 # with data, single n
-n_total  <- 100
 out <-
   e_lm_power(
     dat           = datasets::mtcars
   , formula_full  = formula_full
   , formula_red   = formula_red
-  , n_total       = n_total
+  , n_total       = 100
   , n_param_full  = NULL
   , n_param_red   = NULL
   , sig_level     = 0.05
@@ -138,21 +131,20 @@ out <-
   , n_plot_ref    = NULL
   )
 
-# without data, sequence of n for power curve
-n_total <- seq(10, 300, by = 5)
+# with data, sequence of n for power curve, multiple reference sample sizes
 out <-
   e_lm_power(
     dat           = datasets::mtcars
   , formula_full  = formula_full
   , formula_red   = formula_red
-  , n_total       = n_total
+  , n_total       = seq(10, 300, by = 5)
   , n_param_full  = NULL
   , n_param_red   = NULL
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
   , sw_plot       = TRUE
-  , n_plot_ref    = 100
+  , n_plot_ref    = c(100, 120, 150)
   )
 
 ### RMarkdown results reporting
