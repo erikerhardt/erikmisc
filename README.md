@@ -34,4 +34,12 @@ devtools::install_github("erikerhardt/erikmisc")
 library(erikmisc)
 #> erikmisc, solving common complex data analysis workflows
 #>   by Dr. Erik Barry Erhardt <erik@StatAcumen.com>
+erikmisc_logo()
+#> 
+#>    *    .   _ _  o      *    _  *  .     
+#>    ___ _ __(_) | ___ __ ___ (_)___  ___  
+#>   / _ \ '__| | |/ / '_ ` _ \| / __|/ __| 
+#>  |  __/ |  | |   <| | | | | | \__ \ (__  
+#>   \___|_|  |_|_|\_\_| |_| |_|_|___/\___| 
+#>      *       .           o      .     *
 ```

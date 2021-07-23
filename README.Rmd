@@ -40,5 +40,6 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ```{r example}
 library(erikmisc)
+erikmisc_logo()
 ```
 
