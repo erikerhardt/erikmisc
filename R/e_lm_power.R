@@ -9,8 +9,8 @@
 #' @param sig_level     Type-I error rate
 #' @param weights       observed effect size model fit, if it should be weighted regression
 #' @param sw_print      print results
-#' @param sw_plot       create plot
-#' @param n_plot_ref    a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total
+#' @param sw_plots      create histogram and power curve plots
+#' @param n_plot_ref    a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total.  Histogram is created for first reference value in the list.
 #'
 #' @return list with tables and plots of power analysis results
 #' @importFrom pwr pwr.f2.test
@@ -37,7 +37,7 @@
 #'   , sig_level     = 0.05
 #'   , weights       = NULL
 #'   , sw_print      = TRUE
-#'   , sw_plot       = TRUE
+#'   , sw_plots      = TRUE
 #'   , n_plot_ref    = NULL
 #'   )
 #'
@@ -53,7 +53,7 @@
 #'   , sig_level     = 0.05
 #'   , weights       = NULL
 #'   , sw_print      = TRUE
-#'   , sw_plot       = TRUE
+#'   , sw_plots      = TRUE
 #'   , n_plot_ref    = NULL
 #'   )
 #'
@@ -103,7 +103,7 @@
 #'   , sig_level     = 0.05
 #'   , weights       = NULL
 #'   , sw_print      = TRUE
-#'   , sw_plot       = TRUE
+#'   , sw_plots      = TRUE
 #'   , n_plot_ref    = NULL
 #'   )
 #'
@@ -119,7 +119,7 @@
 #'   , sig_level     = 0.05
 #'   , weights       = NULL
 #'   , sw_print      = TRUE
-#'   , sw_plot       = TRUE
+#'   , sw_plots      = TRUE
 #'   , n_plot_ref    = c(100, 120, 150)
 #'   )
 #' out$tab_power_ref
@@ -152,7 +152,7 @@ e_lm_power <-
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
-  , sw_plot       = TRUE
+  , sw_plots      = TRUE
   , n_plot_ref    = NULL
   ) {
 
@@ -322,7 +322,7 @@ e_lm_power <-
     dplyr::bind_rows()
 
 
-  if(sw_plot) {
+  if(sw_plots) {
 
     if (is.null(dat)) {
       tab_power <-
@@ -438,102 +438,105 @@ e_lm_power <-
       }
     }
 
-    if (length(n_total) == 1) {
+    ## Histogram plot for the first reference
 
-      #library(ggplot2)
-      p <- ggplot(dat_power_curve_long, aes(x = Effect_Size, y = Power))
-      p <- p + theme_bw()
-      #if (!is.null(n_plot_ref)) {
-      #  p <- p + geom_vline(xintercept = n_plot_ref , linetype = 3, size = 1/2, alpha = 1/2)
-      #}
-      p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
-      p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
-      p <- p + geom_bar(stat = "identity")
-      #if (!is.null(n_plot_ref)) {
-      #  p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size == n_plot_ref)
-      #                    , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
-      #}
+    #library(ggplot2)
+    p <- ggplot(dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[1]), aes(x = Effect_Size, y = Power))
+    p <- p + theme_bw()
+    #if (!is.null(n_plot_ref)) {
+    #  p <- p + geom_vline(xintercept = n_plot_ref , linetype = 3, size = 1/2, alpha = 1/2)
+    #}
+    p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
+    p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
+    p <- p + geom_bar(stat = "identity")
+    #if (!is.null(n_plot_ref)) {
+    #  p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size == n_plot_ref)
+    #                    , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
+    #}
 
-      p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
-      #p <- p + scale_x_continuous(breaks = c(seq(0, 1000, by = 50), n_total), minor_breaks = seq(0, 1000, by = 10))
-      p <- p + labs(  title = "Power"
-                    #, subtitle = "Progress and Starting Current"
-                    #, x = stringr::str_wrap(labelled::var_label(dat_pdp$a1c_baseline) %>% as.character(), width = text_width)
-                    #, y = labelled::var_label(dat_pdp$phq9_all_total_score_log2) %>% as.character()
-                    #, colour    = "Effect Size"
-                    #, shape     = "General Health"  # "Imputed"
-                    , linetype  = "Effect Size"  #"Diagnosis"
-                    , fill      = "Effect Size"
-                    )
-      if (!is.null(n_plot_ref)) {
-        p <- p + labs(caption = text_caption)
-      }
-      #p <- p + theme(legend.position = "bottom")
-      #p <- p + theme(legend.position = "none")
-      #p <- p + guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
-      p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
-      #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
+    p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
+    #p <- p + scale_x_continuous(breaks = c(seq(0, 1000, by = 50), n_total), minor_breaks = seq(0, 1000, by = 10))
+    p <- p + labs(  title = "Power"
+                  #, subtitle = "Progress and Starting Current"
+                  #, x = stringr::str_wrap(labelled::var_label(dat_pdp$a1c_baseline) %>% as.character(), width = text_width)
+                  #, y = labelled::var_label(dat_pdp$phq9_all_total_score_log2) %>% as.character()
+                  #, colour    = "Effect Size"
+                  #, shape     = "General Health"  # "Imputed"
+                  , linetype  = "Effect Size"  #"Diagnosis"
+                  , fill      = "Effect Size"
+                  )
+    if (!is.null(n_plot_ref)) {
+      p <- p + labs(caption = text_caption)
+    }
+    #p <- p + theme(legend.position = "bottom")
+    #p <- p + theme(legend.position = "none")
+    #p <- p + guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
+    p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
+    #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
 
-    } else {
+    plot_power_hist <- p
 
-      if (length(n_total) <= 5) {
-         message("e_lm_power, add more values to n_total for a smoother and more accurate curve")
-      }
 
-      #library(ggplot2)
-      p <- ggplot(dat_power_curve_long, aes(x = Sample_Size, y = Power, colour = Effect_Size, linetype = Effect_Size, group = Effect_Size))
-      p <- p + theme_bw()
-      if (!is.null(n_plot_ref)) {
-        p <- p + geom_vline(xintercept = n_plot_ref, linetype = 3, size = 1/2, alpha = 1/2)
-      }
-      p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
-      p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
-      p <- p + geom_line(alpha = 1, size = 1)
-      if (!is.null(n_plot_ref)) {
-        p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size %in% n_plot_ref)
-                          , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
-      }
-      p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
-      p <- p + scale_x_continuous(breaks = c(seq(0, max(n_total), by = e_plot_calc_break_interval(n_total, num_intervals = 3)), n_plot_ref)) #, minor_breaks = seq(0, 1000, by = 10))
-      p <- p + labs(  title = "Power curves"
-                    #, subtitle =
-                    #, x =
-                    #, y =
-                    , colour    = "Effect Size"
-                    #, shape     =
-                    , linetype  = "Effect Size"  #"Diagnosis"
-                    #, fill      =
-                    )
-      if (!is.null(n_plot_ref)) {
-        p <- p + labs(caption = text_caption)
-        # p <- p + labs(
-        #               caption = paste0(  "Power at a sample size of n = ", n_plot_ref, ":"
-        #                               , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
-        #                                )
-        #             )
-      }
-      p <- p + theme(legend.position = "bottom")
-      #p <- p + theme(legend.position = "none")
-      #p <- p + guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
-      p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
-      #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
-
-      p <- p + scale_colour_brewer(palette = "Dark2") # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
-
+    ## Power curves for all n_total values
+    if (length(n_total) <= 5) {
+       message("e_lm_power, add more values to n_total for a smoother and more accurate curve")
     }
 
-    if(sw_print) {
-      print(p)
+    #library(ggplot2)
+    p <- ggplot(dat_power_curve_long, aes(x = Sample_Size, y = Power, colour = Effect_Size, linetype = Effect_Size, group = Effect_Size))
+    p <- p + theme_bw()
+    if (!is.null(n_plot_ref)) {
+      p <- p + geom_vline(xintercept = n_plot_ref, linetype = 3, size = 1/2, alpha = 1/2)
     }
+    p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
+    p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
+    p <- p + geom_line(alpha = 1, size = 1)
+    if (!is.null(n_plot_ref)) {
+      p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size %in% n_plot_ref)
+                        , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
+    }
+    p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
+    p <- p + scale_x_continuous(breaks = c(seq(0, max(n_total), by = e_plot_calc_break_interval(n_total, num_intervals = 3)), n_plot_ref)) #, minor_breaks = seq(0, 1000, by = 10))
+    p <- p + labs(  title = "Power curves"
+                  #, subtitle =
+                  #, x =
+                  #, y =
+                  , colour    = "Effect Size"
+                  #, shape     =
+                  , linetype  = "Effect Size"  #"Diagnosis"
+                  #, fill      =
+                  )
+    if (!is.null(n_plot_ref)) {
+      p <- p + labs(caption = text_caption)
+      # p <- p + labs(
+      #               caption = paste0(  "Power at a sample size of n = ", n_plot_ref, ":"
+      #                               , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+      #                               , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+      #                               , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+      #                               , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+      #                                )
+      #             )
+    }
+    p <- p + theme(legend.position = "bottom")
+    #p <- p + theme(legend.position = "none")
+    #p <- p + guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
+    p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
+    #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
 
-    plot_power <- p
+    p <- p + scale_colour_brewer(palette = "Dark2") # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+
+    plot_power_curve <- p
 
   } else {
-    plot_power = NULL
+    plot_power_hist   = NULL
+    plot_power_curve  = NULL
+  } # sw_plots
+
+  if(sw_print) {
+    print(plot_power_hist )
+    print(plot_power_curve)
   }
+
 
   # table of powers at reference sizes
   tab_power_ref <-
@@ -543,15 +546,18 @@ e_lm_power <-
     ) %>%
     select(
       n_total
+    , n_param_full
+    , n_param_red
     , ends_with("_power")
     )
 
   # return a table and plot
   out <-
     list(
-      tab_power     = tab_power
-    , tab_power_ref = tab_power_ref
-    , plot_power    = plot_power
+      tab_power         = tab_power
+    , tab_power_ref     = tab_power_ref
+    , plot_power_hist   = plot_power_hist
+    , plot_power_curve  = plot_power_curve
     )
 
   return(out)

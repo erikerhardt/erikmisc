@@ -14,7 +14,7 @@ e_lm_power(
   sig_level = 0.05,
   weights = NULL,
   sw_print = TRUE,
-  sw_plot = TRUE,
+  sw_plots = TRUE,
   n_plot_ref = NULL
 )
 }
@@ -37,9 +37,9 @@ e_lm_power(
 
 \item{sw_print}{print results}
 
-\item{sw_plot}{create plot}
+\item{sw_plots}{create histogram and power curve plots}
 
-\item{n_plot_ref}{a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total}
+\item{n_plot_ref}{a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total.  Histogram is created for first reference value in the list.}
 }
 \value{
 list with tables and plots of power analysis results
@@ -61,7 +61,7 @@ out <-
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
-  , sw_plot       = TRUE
+  , sw_plots      = TRUE
   , n_plot_ref    = NULL
   )
 
@@ -77,7 +77,7 @@ out <-
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
-  , sw_plot       = TRUE
+  , sw_plots      = TRUE
   , n_plot_ref    = NULL
   )
 
@@ -127,7 +127,7 @@ out <-
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
-  , sw_plot       = TRUE
+  , sw_plots      = TRUE
   , n_plot_ref    = NULL
   )
 
@@ -143,7 +143,7 @@ out <-
   , sig_level     = 0.05
   , weights       = NULL
   , sw_print      = TRUE
-  , sw_plot       = TRUE
+  , sw_plots      = TRUE
   , n_plot_ref    = c(100, 120, 150)
   )
 out$tab_power_ref

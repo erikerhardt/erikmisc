@@ -53,7 +53,8 @@ Imports:
     crayon,
     purrr,
     moonBook,
-    sjPlot
+    sjPlot,
+    lmerTest
 Suggests:
     datasets,
     lme4,

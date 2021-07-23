@@ -171,7 +171,7 @@ e_lm_print_html_summary <-
     , digits.p      = n_digits_p
     , minus.sign    = "&#8722;"  # https://en.wikipedia.org/wiki/Plus_and_minus_signs
     , CSS           = sjPlot::css_theme(c("regression", "cells", "right_aligned")[1])
-    #, file          = "table_test.html"
+    #, file          = filename_html
     )
 
   return(tab_html)
