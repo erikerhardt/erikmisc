@@ -146,6 +146,7 @@ out <-
   , sw_plot       = TRUE
   , n_plot_ref    = c(100, 120, 150)
   )
+out$tab_power_ref
 
 ### RMarkdown results reporting
 # The results above indicate the following.

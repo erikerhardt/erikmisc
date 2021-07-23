@@ -122,6 +122,7 @@
 #'   , sw_plot       = TRUE
 #'   , n_plot_ref    = c(100, 120, 150)
 #'   )
+#' out$tab_power_ref
 #'
 #' ### RMarkdown results reporting
 #' # The results above indicate the following.
@@ -267,11 +268,6 @@ e_lm_power <-
 
     if(sw_print) {
       if(length(n_total) == 1) {
-        if (!is.null(dat)) {
-          cat("Observed effect size and power ====================================\n")
-          cat("  Observed ---------------\n")
-          print(pwr_summary_dat)
-        }
         cat("Cohen reference effect size and power =============================\n")
         cat("  Small ---------------\n")
         print(pwr_summary_s)
@@ -279,6 +275,11 @@ e_lm_power <-
         print(pwr_summary_m)
         cat("  Large ---------------\n")
         print(pwr_summary_l)
+        if (!is.null(dat)) {
+          cat("Observed effect size and power ====================================\n")
+          cat("  Observed ---------------\n")
+          print(pwr_summary_dat)
+        }
       } else {
         if(sw_print_message) {
           message("e_lm_power, not printing results when n_total > 1")
@@ -356,10 +357,10 @@ e_lm_power <-
       , obs_power
       ) %>%
       dplyr::rename(
-        `Observed`     = obs_power
-      , `Cohen Small`  = Cohen_small_power
+        `Cohen Small`  = Cohen_small_power
       , `Cohen Medium` = Cohen_medium_power
       , `Cohen Large`  = Cohen_large_power
+      , `Observed`     = obs_power
       ) %>%
       tidyr::pivot_longer(
         cols =
@@ -384,10 +385,10 @@ e_lm_power <-
       dplyr::mutate(
         Effect_Size = Effect_Size %>% factor(levels =
                                                 c(
-                                                  "Observed"
-                                                , "Cohen Small"
+                                                  "Cohen Small"
                                                 , "Cohen Medium"
                                                 , "Cohen Large"
+                                                , "Observed"
                                                 )
                                               , ordered = TRUE
                                               )
@@ -416,15 +417,6 @@ e_lm_power <-
           text_caption
         , "  "
         )
-      # observed
-      if (!is.null(dat)) {
-        text_caption <-
-          paste0(
-            text_caption
-          , "Observed: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-          , ";  "
-          )
-      }
       # Cohen
       text_caption <-
         paste0(
@@ -435,6 +427,15 @@ e_lm_power <-
         , ";  "
         , "Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
         )
+      # observed
+      if (!is.null(dat)) {
+        text_caption <-
+          paste0(
+            text_caption
+          , ";  "
+          , "Observed: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+          )
+      }
     }
 
     if (length(n_total) == 1) {
