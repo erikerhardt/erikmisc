@@ -7,6 +7,7 @@
 #' @param filename_html filename.html to save html
 #'
 #' @return html table to print within Rmd report
+#' @importFrom lmerTest as_lmerModLmerTest
 #' @importFrom sjPlot tab_df
 #' @importFrom sjPlot css_theme
 #' @import dplyr
@@ -33,7 +34,17 @@ e_lm_print_html_anova <-
   #library(sjmisc)
   #library(sjlabelled)
 
-  fit_anova <- fit %>% anova()
+  if (class(fit) == "lm") {
+    fit_anova <-
+      fit %>%
+      anova()
+  }
+  if (class(fit) == "lmerMod") {
+    fit_anova <-
+      fit %>%
+      lmerTest::as_lmerModLmerTest() %>%
+      anova()
+  }
 
   tab <-
     fit_anova %>%
@@ -90,6 +101,7 @@ e_lm_print_html_anova <-
 #' @param n_digits_p    number of digits to use for p-values in table
 #'
 #' @return html table to print within Rmd report
+#' @importFrom lmerTest as_lmerModLmerTest
 #' @importFrom sjPlot tab_model
 #' @importFrom sjPlot css_theme
 #' @import dplyr
@@ -115,6 +127,16 @@ e_lm_print_html_summary <-
   #library(sjPlot)
   #library(sjmisc)
   #library(sjlabelled)
+
+  if (class(fit) == "lm") {
+    fit <-
+      fit
+  }
+  if (class(fit) == "lmerMod") {
+    fit <-
+      fit %>%
+      lmerTest::as_lmerModLmerTest()
+  }
 
   # print table to folder (this is the only way to print the clean html file)
   # the print() wrapper is needed to execute the file writing within the function.
