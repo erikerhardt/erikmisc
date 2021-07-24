@@ -145,7 +145,7 @@
   sig_level <span class='op'>=</span> <span class='fl'>0.05</span>,
   weights <span class='op'>=</span> <span class='cn'>NULL</span>,
   sw_print <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  sw_plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sw_plots <span class='op'>=</span> <span class='cn'>TRUE</span>,
   n_plot_ref <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
@@ -189,12 +189,12 @@
       <td><p>print results</p></td>
     </tr>
     <tr>
-      <th>sw_plot</th>
-      <td><p>create plot</p></td>
+      <th>sw_plots</th>
+      <td><p>create histogram and power curve plots</p></td>
     </tr>
     <tr>
       <th>n_plot_ref</th>
-      <td><p>a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total</p></td>
+      <td><p>a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total.  Histogram is created for first reference value in the list.</p></td>
     </tr>
     </table>
 
@@ -216,7 +216,7 @@
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
-  , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
+  , sw_plots      <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = n_total for reference</span></div><div class='output co'>#&gt; Cohen reference effect size and power =============================
@@ -249,7 +249,7 @@
 #&gt;              f2 = 0.35
 #&gt;       sig.level = 0.05
 #&gt;           power = 0.997067
-#&gt; </div><div class='img'><img src='e_lm_power-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </div><div class='img'><img src='e_lm_power-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'>
 <span class='co'># without data, sequence of n for power curve</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span>
   <span class='fu'>e_lm_power</span><span class='op'>(</span>
@@ -262,10 +262,10 @@
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
-  , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
+  , sw_plots      <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = median(n_total) for reference</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = median(n_total) for reference</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_power-3.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'># with data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mtcars</span>, package<span class='op'>=</span><span class='st'>"datasets"</span><span class='op'>)</span>
@@ -323,12 +323,12 @@
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
-  , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
+  , sw_plots      <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x00000000486defe0&gt;
+#&gt; &lt;environment: 0x000000004a1fca00&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -355,7 +355,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x00000000486defe0&gt;
+#&gt; &lt;environment: 0x000000004a1fca00&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -377,7 +377,7 @@
 #&gt; Residual standard error: 2.539 on 27 degrees of freedom
 #&gt; Multiple R-squared:  0.8454,	Adjusted R-squared:  0.8225 
 #&gt; F-statistic: 36.91 on 4 and 27 DF,  p-value: 1.408e-10
-#&gt; </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = the number of observations in the data for reference</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, add more values to n_total for a smoother and more accurate curve</span></div><div class='img'><img src='e_lm_power-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>Setting n_plot_ref = the number of observations in the data for reference</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='output co'>#&gt; <span class='message'>e_lm_power, add more values to n_total for a smoother and more accurate curve</span></div><div class='img'><img src='e_lm_power-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_power-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># with data, sequence of n for power curve, multiple reference sample sizes</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span>
   <span class='fu'>e_lm_power</span><span class='op'>(</span>
@@ -390,12 +390,12 @@
   , sig_level     <span class='op'>=</span> <span class='fl'>0.05</span>
   , weights       <span class='op'>=</span> <span class='cn'>NULL</span>
   , sw_print      <span class='op'>=</span> <span class='cn'>TRUE</span>
-  , sw_plot       <span class='op'>=</span> <span class='cn'>TRUE</span>
+  , sw_plots      <span class='op'>=</span> <span class='cn'>TRUE</span>
   , n_plot_ref    <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>120</span>, <span class='fl'>150</span><span class='op'>)</span>
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x00000000486defe0&gt;
+#&gt; &lt;environment: 0x000000004a1fca00&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -422,7 +422,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x00000000486defe0&gt;
+#&gt; &lt;environment: 0x000000004a1fca00&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -444,13 +444,14 @@
 #&gt; Residual standard error: 2.539 on 27 degrees of freedom
 #&gt; Multiple R-squared:  0.8454,	Adjusted R-squared:  0.8225 
 #&gt; F-statistic: 36.91 on 4 and 27 DF,  p-value: 1.408e-10
-#&gt; </div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>out</span><span class='op'>$</span><span class='va'>tab_power_ref</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 5</span>
-#&gt;   n_total Cohen_small_power Cohen_medium_power Cohen_large_power obs_power
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span>     100             0.214              0.930              1.00     0.592
-#&gt; <span style='color: #BCBCBC;'>2</span>     120             0.252              0.967              1.00     0.682
-#&gt; <span style='color: #BCBCBC;'>3</span>     150             0.310              0.991              1.00     0.788</div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>e_lm_power, not printing results when n_total &gt; 1</span></div><div class='img'><img src='e_lm_power-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='e_lm_power-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>out</span><span class='op'>$</span><span class='va'>tab_power_ref</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 7</span>
+#&gt;   n_total n_param_full n_param_red Cohen_small_power Cohen_medium_power
+#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>     100            6           4             0.214              0.930
+#&gt; <span style='color: #BCBCBC;'>2</span>     120            6           4             0.252              0.967
+#&gt; <span style='color: #BCBCBC;'>3</span>     150            6           4             0.310              0.991
+#&gt; <span style='color: #949494;'># ... with 2 more variables: Cohen_large_power &lt;dbl&gt;, obs_power &lt;dbl&gt;</span></div><div class='input'>
 <span class='co'>### RMarkdown results reporting</span>
 <span class='co'># The results above indicate the following.</span>
 <span class='co'>#</span>
