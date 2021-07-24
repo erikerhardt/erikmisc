@@ -478,54 +478,59 @@ e_lm_power <-
 
 
     ## Power curves for all n_total values
-    if (length(n_total) <= 5) {
-       message("e_lm_power, add more values to n_total for a smoother and more accurate curve")
-    }
+    if (length(n_total) > 1) {
+      if (length(n_total) <= 5) {
+         message("e_lm_power, add more values to n_total for a smoother and more accurate curve")
+      }
 
-    #library(ggplot2)
-    p <- ggplot(dat_power_curve_long, aes(x = Sample_Size, y = Power, colour = Effect_Size, linetype = Effect_Size, group = Effect_Size))
-    p <- p + theme_bw()
-    if (!is.null(n_plot_ref)) {
-      p <- p + geom_vline(xintercept = n_plot_ref, linetype = 3, size = 1/2, alpha = 1/2)
-    }
-    p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
-    p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
-    p <- p + geom_line(alpha = 1, size = 1)
-    if (!is.null(n_plot_ref)) {
-      p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size %in% n_plot_ref)
-                        , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
-    }
-    p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
-    p <- p + scale_x_continuous(breaks = c(seq(0, max(n_total), by = e_plot_calc_break_interval(n_total, num_intervals = 3)), n_plot_ref)) #, minor_breaks = seq(0, 1000, by = 10))
-    p <- p + labs(  title = "Power curves"
-                  #, subtitle =
-                  #, x =
-                  #, y =
-                  , colour    = "Effect Size"
-                  #, shape     =
-                  , linetype  = "Effect Size"  #"Diagnosis"
-                  #, fill      =
-                  )
-    if (!is.null(n_plot_ref)) {
-      p <- p + labs(caption = text_caption)
-      # p <- p + labs(
-      #               caption = paste0(  "Power at a sample size of n = ", n_plot_ref, ":"
-      #                               , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-      #                               , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-      #                               , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-      #                               , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
-      #                                )
-      #             )
-    }
-    p <- p + theme(legend.position = "bottom")
-    #p <- p + theme(legend.position = "none")
-    #p <- p + guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
-    p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
-    #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
+      #library(ggplot2)
+      p <- ggplot(dat_power_curve_long, aes(x = Sample_Size, y = Power, colour = Effect_Size, linetype = Effect_Size, group = Effect_Size))
+      p <- p + theme_bw()
+      if (!is.null(n_plot_ref)) {
+        p <- p + geom_vline(xintercept = n_plot_ref, linetype = 3, size = 1/2, alpha = 1/2)
+      }
+      p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
+      p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
+      p <- p + geom_line(alpha = 1, size = 1)
+      if (!is.null(n_plot_ref)) {
+        p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size %in% n_plot_ref)
+                          , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
+      }
+      p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
+      p <- p + scale_x_continuous(breaks = c(seq(0, max(n_total), by = e_plot_calc_break_interval(n_total, num_intervals = 3)), n_plot_ref)) #, minor_breaks = seq(0, 1000, by = 10))
+      p <- p + labs(  title = "Power curves"
+                    #, subtitle =
+                    #, x =
+                    #, y =
+                    , colour    = "Effect Size"
+                    #, shape     =
+                    , linetype  = "Effect Size"  #"Diagnosis"
+                    #, fill      =
+                    )
+      if (!is.null(n_plot_ref)) {
+        p <- p + labs(caption = text_caption)
+        # p <- p + labs(
+        #               caption = paste0(  "Power at a sample size of n = ", n_plot_ref, ":"
+        #                               , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+        #                               , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+        #                               , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+        #                               , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+        #                                )
+        #             )
+      }
+      p <- p + theme(legend.position = "bottom")
+      #p <- p + theme(legend.position = "none")
+      #p <- p + guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
+      p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
+      #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
 
-    p <- p + scale_colour_brewer(palette = "Dark2") # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+      p <- p + scale_colour_brewer(palette = "Dark2") # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
 
-    plot_power_curve <- p
+      plot_power_curve <- p
+    } else {
+       message("e_lm_power, power curve only available when length of n_total > 1")
+      plot_power_curve  = NULL
+    } # n_total
 
   } else {
     plot_power_hist   = NULL
