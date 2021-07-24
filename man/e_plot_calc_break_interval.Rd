@@ -18,7 +18,7 @@ e_plot_calc_break_interval(
 \item{val_leading_digits}{leading digits to consider (in ascending order, end with 10)}
 }
 \value{
-interval for breaks
+interval for breaks; if \code{length(values) == 1}, then return \code{values}
 }
 \description{
 Interval for plot breaks, determine a "nice" length of seq(by = Interval)

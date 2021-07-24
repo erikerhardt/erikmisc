@@ -4,7 +4,7 @@
 #' @param num_intervals       rough desired number of intervals
 #' @param val_leading_digits  leading digits to consider (in ascending order, end with 10)
 #'
-#' @return interval for breaks
+#' @return interval for breaks; if \code{length(values) == 1}, then return \code{values}
 #' @export
 #'
 #' @examples
@@ -17,6 +17,11 @@ e_plot_calc_break_interval <-
   , num_intervals     = 10
   , val_leading_digits = c(1, 2, 5, 10)   # always end with 10 to assure a number is returned
   ) {
+
+  if (length(values) == 1) {
+    message("e_plot_calc_break_interval: values is length 1, returning values for break_interval")
+    return(values)
+  }
 
   # https://stackoverflow.com/questions/237220/tickmark-algorithm-for-a-graph-axis
 
