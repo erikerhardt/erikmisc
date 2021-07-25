@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Capture a message, warning, or error to take actions — e_message_capture • erikmisc</title>
+<title>For corner labels, remove the labs(tag=) argument and use this — e_plot_grid_corner_label • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Capture a message, warning, or error to take actions — e_message_capture" />
-<meta property="og:description" content="Capture a message, warning, or error to take actions" />
+<meta property="og:title" content="For corner labels, remove the labs(tag=) argument and use this — e_plot_grid_corner_label" />
+<meta property="og:description" content="See ?e_plot_grid_corner_label_list to use with a list." />
 
 
 
@@ -126,48 +126,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Capture a message, warning, or error to take actions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_message_capture.R'><code>R/e_message_capture.R</code></a></small>
-    <div class="hidden name"><code>e_message_capture.Rd</code></div>
+    <h1>For corner labels, remove the labs(tag=) argument and use this</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_plot_grid_corner_label_ALL.R'><code>R/e_plot_grid_corner_label_ALL.R</code></a></small>
+    <div class="hidden name"><code>e_plot_grid_corner_label.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Capture a message, warning, or error to take actions</p>
+    <p>See <code><a href='e_plot_grid_corner_label_list.html'>?e_plot_grid_corner_label_list</a></code> to use with a list.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_message_capture</span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_plot_grid_corner_label</span><span class='op'>(</span>
+  <span class='va'>p</span>,
+  label_corner <span class='op'>=</span> <span class='st'>"A"</span>,
+  font_color <span class='op'>=</span> <span class='st'>"black"</span>,
+  font_size <span class='op'>=</span> <span class='fl'>18</span>,
+  font_face <span class='op'>=</span> <span class='st'>"bold"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>f</th>
-      <td><p>a function that might return a message, warning, or error</p></td>
+      <th>p</th>
+      <td><p>ggplot grob</p></td>
+    </tr>
+    <tr>
+      <th>label_corner</th>
+      <td><p>label for top-left corner of plot</p></td>
+    </tr>
+    <tr>
+      <th>font_color</th>
+      <td><p>color</p></td>
+    </tr>
+    <tr>
+      <th>font_size</th>
+      <td><p>point size</p></td>
+    </tr>
+    <tr>
+      <th>font_face</th>
+      <td><p>font face</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>if there was an exception, return its content</p>
+    <p>grob with top-left corner label</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_message_capture</span><span class='op'>(</span><span class='va'>test_message</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; NULL
-#&gt; 
-#&gt; $logs
-#&gt; $logs[[1]]
-#&gt; $logs[[1]]$timestamp
-#&gt; [1] "2021-07-25 05:53:16"
-#&gt; 
-#&gt; $logs[[1]]$type
-#&gt; [1] "error"
-#&gt; 
-#&gt; $logs[[1]]$message
-#&gt; [1] "object 'test_message' not found"
-#&gt; 
-#&gt; 
-#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
