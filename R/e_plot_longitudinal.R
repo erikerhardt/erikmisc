@@ -333,7 +333,14 @@ e_plot_longitudinal <-
 
   if(!is.null(hist_scale_breaks)) {
     p2 <- p2 + scale_x_continuous(breaks = hist_scale_breaks)
+  } else {
+    ## https://gist.github.com/tomhopper/9076152
+    # two most extreme breaks
+    x_two_breaks <- ggplot_build(p2)$layout$panel_params[[1]]$x$breaks
+    x_two_breaks <- range(x_two_breaks, na.rm = TRUE)
+    p2 <- p2 + scale_x_continuous(breaks = x_two_breaks)
   }
+
 
   p2 <- p2 + labs(
                   title     = NULL
