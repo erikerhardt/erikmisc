@@ -26,7 +26,7 @@ e_plot_calc_break_interval <-
   # https://stackoverflow.com/questions/237220/tickmark-algorithm-for-a-graph-axis
 
   values_range  <- values %>% range() %>% diff()
-  num_digits    <- values_range %>% log10() %>% floor()
+  num_digits    <- values_range %>% log10() %>% floor
   order_mag     <- 10 ^ num_digits
 
   for (i_val in val_leading_digits) {
