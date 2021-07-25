@@ -122,7 +122,7 @@
 #'   , sw_plots      = TRUE
 #'   , n_plot_ref    = c(100, 120, 150)
 #'   )
-#' out$tab_power_ref
+#' out$tab_power_ref %>% print(width = Inf)
 #'
 #' ### RMarkdown results reporting
 #' # The results above indicate the following.
@@ -528,9 +528,9 @@ e_lm_power <-
 
       plot_power_curve <- p
     } else {
-       message("e_lm_power, power curve only available when length of n_total > 1")
+      message("e_lm_power, power curve only available when length of n_total > 1")
       plot_power_curve  = NULL
-    } # n_total
+    } # length(n_total)
 
   } else {
     plot_power_hist   = NULL

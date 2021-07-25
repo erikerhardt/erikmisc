@@ -146,7 +146,7 @@ out <-
   , sw_plots      = TRUE
   , n_plot_ref    = c(100, 120, 150)
   )
-out$tab_power_ref
+out$tab_power_ref \%>\% print(width = Inf)
 
 ### RMarkdown results reporting
 # The results above indicate the following.
