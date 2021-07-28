@@ -12,7 +12,8 @@ e_match_closest_in_range(
   id_vars_key,
   val_var_key,
   diff_lower = -Inf,
-  diff_upper = +Inf
+  diff_upper = +Inf,
+  sw_return_key_vars = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ e_match_closest_in_range(
 \item{diff_lower}{match from data to match can be no lower than the key data by this amount}
 
 \item{diff_upper}{match from data to match can be no higher than the key data by this amount}
+
+\item{sw_return_key_vars}{T/F return the key value for use in matching if multiple records per ID}
 }
 \value{
 dat_to_match restricted to only those unique observations that are closest to the key data

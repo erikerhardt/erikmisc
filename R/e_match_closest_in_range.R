@@ -12,6 +12,7 @@
 #' @param val_var_to_match  associated value variable in data to match
 #' @param diff_lower        match from data to match can be no lower than the key data by this amount
 #' @param diff_upper        match from data to match can be no higher than the key data by this amount
+#' @param sw_return_key_vars T/F return the key value for use in matching if multiple records per ID
 #'
 #' @return dat_to_match restricted to only those unique observations that are closest to the key data
 #' @import dplyr
@@ -85,6 +86,7 @@ e_match_closest_in_range <-
   , val_var_key
   , diff_lower        = -Inf
   , diff_upper        = +Inf
+  , sw_return_key_vars = FALSE
   ) {
 
   dat_key <-
@@ -137,12 +139,18 @@ e_match_closest_in_range <-
     dplyr::distinct(
       across(all_of(id_vars_to_match))
     , .keep_all = TRUE
-    ) %>%
-    # remove variables not originally part of dat_to_match
-    dplyr::select(
-      -val_var_key__
-    , -val_diff__
     )
+
+
+  if (!sw_return_key_vars) {
+    dat_temp_to_match <-
+      dat_temp_to_match %>%
+      # remove variables not originally part of dat_to_match
+      dplyr::select(
+        -val_var_key__
+      , -val_diff__
+      )
+  }
 
   return(dat_temp_to_match)
 }
