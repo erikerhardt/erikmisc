@@ -1,11 +1,23 @@
 # OLD: key_variables_completion.Rmd at https://statacumen.com/2021/03/28/r-key-variables-completion/
 
+
+
 #' Combine rows with different data values
 #'
-#' @param dat data.frame keys to combine
+#'
+#' For matching \code{group_by()} keys, keeps first non-NA value for each column.
+#'
+#' @param dat data.frame of keys (or other columns) to combine
 #'
 #' @return coalesced data.frame
 #' @import dplyr
+#' @export
+#' @examples
+#' \dontrun{
+#' dat %>%
+#'   dplyr::group_by(A) %>%
+#'   dplyr::summarise_all( e_coalesce_by_column )
+#' }
 e_coalesce_by_column <-
   function(
     dat

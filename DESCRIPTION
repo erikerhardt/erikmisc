@@ -57,5 +57,5 @@ Imports:
     lmerTest
 Suggests:
     datasets,
-    lme4,
-    rmarkdown
+    rmarkdown,
+    lme4

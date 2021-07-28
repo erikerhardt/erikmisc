@@ -7,11 +7,18 @@
 e_coalesce_by_column(dat)
 }
 \arguments{
-\item{dat}{data.frame keys to combine}
+\item{dat}{data.frame of keys (or other columns) to combine}
 }
 \value{
 coalesced data.frame
 }
 \description{
-Combine rows with different data values
+For matching \code{group_by()} keys, keeps first non-NA value for each column.
+}
+\examples{
+\dontrun{
+dat \%>\%
+  dplyr::group_by(A) \%>\%
+  dplyr::summarise_all( e_coalesce_by_column )
+}
 }
