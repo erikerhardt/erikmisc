@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Combine rows with different data values — e_coalesce_by_column" />
-<meta property="og:description" content="Combine rows with different data values" />
+<meta property="og:description" content="For matching group_by() keys, keeps first non-NA value for each column." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Combine rows with different data values</p>
+    <p>For matching <code>group_by()</code> keys, keeps first non-NA value for each column.</p>
     </div>
 
     <pre class="usage"><span class='fu'>e_coalesce_by_column</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span></pre>
@@ -142,7 +142,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dat</th>
-      <td><p>data.frame keys to combine</p></td>
+      <td><p>data.frame of keys (or other columns) to combine</p></td>
     </tr>
     </table>
 
@@ -150,6 +150,13 @@
 
     <p>coalesced data.frame</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>dat</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise_all.html'>summarise_all</a></span><span class='op'>(</span> <span class='va'>e_coalesce_by_column</span> <span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
