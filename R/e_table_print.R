@@ -27,6 +27,8 @@
 #' @param dat             data.frame or tibble to print
 #' @param sw_scale        if "latex" T/F to scale to fit page, if "html" then a point size to pass to \code{kableExtra::kable_styling} argument \code{font_size}
 #' @param sw_kable_format "html" or "latex" format
+#' @param sw_latex_options passed to \code{kableExtra::kable_styling(latex_options = sw_latex_options)}, updated if \code{sw_scale=TRUE} to include \code{"scale_down"}
+#' @param ...             other arguments passed to \code{knitr::kable()}
 #'
 #' @return \code{invisible(NULL)}
 #' @importFrom knitr kable
@@ -42,6 +44,8 @@
 #'   head() %>%
 #'   e_table_print(sw_scale = 6)
 #' # outputs into LaTeX document, scaling is automatic to fit page width
+#' # works best before a \clearpage
+#' # use chunk option: results = 'asis', see other options at https://yihui.org/knitr/options/
 #' datasets::mtcars %>%
 #'   head() %>%
 #'   e_table_print(sw_scale = TRUE, sw_kable_format = "latex")
@@ -50,7 +54,9 @@ e_table_print <-
   function(
     dat
   , sw_scale = FALSE
-  , sw_kable_format = c("html", "latex", "doc")[1]
+  , sw_kable_format  = c("html", "latex", "doc")[1]
+  , sw_latex_options = c("basic", "striped", "hold_position", "HOLD_position", "scale_down", "repeat_header")[c(2, 3)]
+  , ...
   ) {
   # printing pretty tables
   # requires
@@ -65,26 +71,27 @@ e_table_print <-
 
   if (sw_kable_format == "latex") {
     if (sw_scale) {
+      sw_latex_options = c(sw_latex_options, "scale_down") %>% unique()
       dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = c("striped", "scale_down")) %>%
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%
       print()
     } else {
       dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = c("striped")) %>%   # , "scale_down"
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%   # , "scale_down"
       print()
     }
   }
   if (sw_kable_format == "html") {
     if (sw_scale) {
       dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
       kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) %>%
       print()
     } else {
       dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "") %>%
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
       kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center") %>%
       print()
     }

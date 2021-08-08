@@ -7,7 +7,10 @@
 e_table_print(
   dat,
   sw_scale = FALSE,
-  sw_kable_format = c("html", "latex", "doc")[1]
+  sw_kable_format = c("html", "latex", "doc")[1],
+  sw_latex_options = c("basic", "striped", "hold_position", "HOLD_position",
+    "scale_down", "repeat_header")[c(2, 3)],
+  ...
 )
 }
 \arguments{
@@ -16,6 +19,10 @@ e_table_print(
 \item{sw_scale}{if "latex" T/F to scale to fit page, if "html" then a point size to pass to \code{kableExtra::kable_styling} argument \code{font_size}}
 
 \item{sw_kable_format}{"html" or "latex" format}
+
+\item{sw_latex_options}{passed to \code{kableExtra::kable_styling(latex_options = sw_latex_options)}, updated if \code{sw_scale=TRUE} to include \code{"scale_down"}}
+
+\item{...}{other arguments passed to \code{knitr::kable()}}
 }
 \value{
 \code{invisible(NULL)}
@@ -54,6 +61,8 @@ datasets::mtcars \%>\%
   head() \%>\%
   e_table_print(sw_scale = 6)
 # outputs into LaTeX document, scaling is automatic to fit page width
+# works best before a \clearpage
+# use chunk option: results = 'asis', see other options at https://yihui.org/knitr/options/
 datasets::mtcars \%>\%
   head() \%>\%
   e_table_print(sw_scale = TRUE, sw_kable_format = "latex")
