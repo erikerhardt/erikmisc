@@ -42,4 +42,20 @@ e_table_aggregate(
   , var_names_aggregate = c("disp", "hp", "drat", "wt", "qsec")
   , func_aggregate      = list(sum, sum, mean, mean, sum)
   )
+
+# assign variables and functions in a list
+list_aggregate_var_func <-
+  list(
+    `disp` = sum
+  , `hp`   = sum
+  , `drat` = mean
+  , `wt`   = mean
+  , `qsec` = sum
+  )
+e_table_aggregate(
+    dat                 = dat_mtcars_e
+  , var_names_by        = c("cyl", "am")
+  , var_names_aggregate = list_aggregate_var_func \%>\% names()
+  , func_aggregate      = list_aggregate_var_func
+  )
 }
