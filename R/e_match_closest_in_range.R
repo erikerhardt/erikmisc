@@ -12,6 +12,7 @@
 #' @param val_var_to_match  associated value variable in data to match
 #' @param diff_lower        match from data to match can be no lower than the key data by this amount
 #' @param diff_upper        match from data to match can be no higher than the key data by this amount
+#' @param sw_criteria       criteria for match proximity (useful when range values \code{diff_lower} and \code{diff_upper} are used) closest, lowest, or highest.
 #' @param sw_return_key_vars T/F return the key value for use in matching if multiple records per ID
 #'
 #' @return dat_to_match restricted to only those unique observations that are closest to the key data
@@ -73,8 +74,23 @@
 #' , dat_key           = dat_key
 #' , id_vars_key       = c("key1"  , "key2"  )
 #' , val_var_key       = "value"
-#' , diff_lower        = -1
-#' , diff_upper        = +2
+#' , diff_lower        = -2
+#' , diff_upper        = +4
+#' , sw_return_key_vars = TRUE
+#' )
+#'
+#' # within specified range, highest value
+#' e_match_closest_in_range(
+#'   dat_to_match      = dat_to_match
+#' , id_vars_to_match  = c("key1_m", "key2_m")
+#' , val_var_to_match  = "value_m"
+#' , dat_key           = dat_key
+#' , id_vars_key       = c("key1"  , "key2"  )
+#' , val_var_key       = "value"
+#' , diff_lower        = -2
+#' , diff_upper        = +4
+#' , sw_criteria       = "highest"
+#' , sw_return_key_vars = TRUE
 #' )
 e_match_closest_in_range <-
   function(
@@ -84,9 +100,10 @@ e_match_closest_in_range <-
   , dat_key
   , id_vars_key
   , val_var_key
-  , diff_lower        = -Inf
-  , diff_upper        = +Inf
-  , sw_return_key_vars = FALSE
+  , diff_lower          = -Inf
+  , diff_upper          = +Inf
+  , sw_criteria         = c("closest", "lowest", "highest")[1]
+  , sw_return_key_vars  = FALSE
   ) {
 
   dat_key <-
@@ -117,7 +134,7 @@ e_match_closest_in_range <-
     )
 
   # calculate difference in values, restrict to range, determine closest
-  dat_temp_to_match <-
+  dat_temp_to_match_pre <-
     dat_temp_to_match %>%
     dplyr::mutate(
       val_diff__ = !!sym(val_var_to_match) - val_var_key__
@@ -129,17 +146,40 @@ e_match_closest_in_range <-
     # find closest
     dplyr::group_by(
       across( {{id_vars_to_match}} )
-    ) %>%
-    # filter matches
-    dplyr::filter(
-      (abs(val_diff__) == min(abs(val_diff__)))
-    ) %>%
+    )
+
+  if (sw_criteria == c("closest", "lowest", "highest")[1]) {
+    dat_temp_to_match_post <-
+      dat_temp_to_match_pre %>%
+      # filter matches
+      dplyr::filter(
+        (abs(val_diff__) == min(abs(val_diff__)))
+      )
+  } else if (sw_criteria == c("closest", "lowest", "highest")[2]) {
+    dat_temp_to_match_post <-
+      dat_temp_to_match_pre %>%
+      # filter matches
+      dplyr::filter(
+        (val_diff__ == min(val_diff__))
+      )
+  } else if (sw_criteria == c("closest", "lowest", "highest")[3]) {
+    dat_temp_to_match_post <-
+      dat_temp_to_match_pre %>%
+      # filter matches
+      dplyr::filter(
+        (val_diff__ == max(val_diff__))
+      )
+  }
+
+  dat_temp_to_match <-
+    dat_temp_to_match_post %>%
     dplyr::ungroup() %>%
     # make unique (in case multiple matches of same distance)
     dplyr::distinct(
       across(all_of(id_vars_to_match))
     , .keep_all = TRUE
     )
+
 
 
   if (!sw_return_key_vars) {
