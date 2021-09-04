@@ -151,7 +151,7 @@ e_match_closest_in_range <-
   dat_temp_to_match_pre <-
     dat_temp_to_match %>%
     dplyr::mutate(
-      val_diff__ = !!sym(val_var_to_match) - val_var_key__
+      val_diff__ = as.numeric(!!sym(val_var_to_match) - val_var_key__)
     ) %>%
     # filter to be within difference range
     dplyr::filter(
