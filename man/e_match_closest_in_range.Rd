@@ -13,7 +13,7 @@ e_match_closest_in_range(
   val_var_key,
   diff_lower = -Inf,
   diff_upper = +Inf,
-  sw_criteria = c("closest", "lowest", "highest")[1],
+  sw_criteria = c("closest", "minimum", "maximum")[1],
   sw_return_key_vars = FALSE
 )
 }
@@ -34,7 +34,7 @@ e_match_closest_in_range(
 
 \item{diff_upper}{match from data to match can be no higher than the key data by this amount}
 
-\item{sw_criteria}{criteria for match proximity (useful when range values \code{diff_lower} and \code{diff_upper} are used) closest, lowest, or highest.}
+\item{sw_criteria}{criteria for match proximity (useful when range values \code{diff_lower} and \code{diff_upper} are used): closest, minimum, or maximum.}
 
 \item{sw_return_key_vars}{T/F return the key value for use in matching if multiple records per ID}
 }
@@ -107,7 +107,7 @@ e_match_closest_in_range(
 , sw_return_key_vars = TRUE
 )
 
-# within specified range, highest value
+# within specified range, maximum value
 e_match_closest_in_range(
   dat_to_match      = dat_to_match
 , id_vars_to_match  = c("key1_m", "key2_m")
@@ -117,7 +117,21 @@ e_match_closest_in_range(
 , val_var_key       = "value"
 , diff_lower        = -2
 , diff_upper        = +4
-, sw_criteria       = "highest"
+, sw_criteria       = "maximum"
+, sw_return_key_vars = TRUE
+)
+
+# within specified range, minimum value
+e_match_closest_in_range(
+  dat_to_match      = dat_to_match
+, id_vars_to_match  = c("key1_m", "key2_m")
+, val_var_to_match  = "value_m"
+, dat_key           = dat_key
+, id_vars_key       = c("key1"  , "key2"  )
+, val_var_key       = "value"
+, diff_lower        = -2
+, diff_upper        = +4
+, sw_criteria       = "minimum"
 , sw_return_key_vars = TRUE
 )
 }
