@@ -114,7 +114,7 @@ e_table1_summaries <-
 
   tab1_list <- NULL
   for (i_var in seq_along(list_var_row_table)) {
-    ## i_var = 3
+    ## i_var = 5
 
     if(!is.null(list_var_col_table)) {
       form <- stats::formula(paste0(paste0(list_var_col_table, collapse = " + "), " ~ ", list_var_row_table[i_var]))
@@ -185,6 +185,8 @@ e_table1_summaries <-
     #tab1_list[[i_var]]$res
 
     # didn't work inside this loop 4/20/2020
+    # modifications must go in the loop below!
+
     #moonBook::mycsv(tab1_list[[i_var]], file = paste0(fn_root, "_", i_var, ".csv"))
   } # i_var
 
@@ -193,6 +195,14 @@ e_table1_summaries <-
   # save each variable in a separate file to merge together below
   for (i_var in seq_along(list_var_row_table)) {
     if(!is.null(list_var_col_table)) {
+
+      # Label small p-values
+      print(tab1_list[[i_var]]$res$p)
+      if (tab1_list[[i_var]]$res$p[1] == "0.000") {
+        tab1_list[[i_var]]$res$p[1] <- "< 0.0005"
+        print(tab1_list[[i_var]]$res$p)
+      }
+
       moonBook::mycsv(tab1_list[[i_var]], file = paste0(fn_root, "_", i_var, ".csv"))
     } else {
       xxx     = list()
