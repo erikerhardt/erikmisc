@@ -197,10 +197,8 @@ e_table1_summaries <-
     if(!is.null(list_var_col_table)) {
 
       # Label small p-values
-      print(tab1_list[[i_var]]$res$p)
       if (tab1_list[[i_var]]$res$p[1] == "0.000") {
         tab1_list[[i_var]]$res$p[1] <- "< 0.0005"
-        print(tab1_list[[i_var]]$res$p)
       }
 
       moonBook::mycsv(tab1_list[[i_var]], file = paste0(fn_root, "_", i_var, ".csv"))
