@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -287,7 +287,7 @@
 <span class='va'>xvar_red</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>               <span class='st'>"hp"</span>, <span class='st'>"drat"</span>, <span class='st'>"wt"</span>, <span class='st'>"qsec"</span><span class='op'>)</span>
 
 <span class='va'>formula_full</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span>
+  <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span>
     <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
       <span class='va'>yvar</span>
     , <span class='st'>" ~ "</span>
@@ -299,7 +299,7 @@
   <span class='op'>)</span>
 
 <span class='va'>formula_red</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span>
+  <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span>
     <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
       <span class='va'>yvar</span>
     , <span class='st'>" ~ "</span>
@@ -328,7 +328,7 @@
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000005044b000&gt;
+#&gt; &lt;environment: 0x000000004bd5c9b0&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -355,7 +355,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000005044b000&gt;
+#&gt; &lt;environment: 0x000000004bd5c9b0&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)
@@ -395,7 +395,7 @@
   <span class='op'>)</span>
 </div><div class='output co'>#&gt; Full Model ========================================================
 #&gt; mpg ~ cyl + disp + hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000005044b000&gt;
+#&gt; &lt;environment: 0x000000004bd5c9b0&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_full, data = dat)
@@ -422,7 +422,7 @@
 #&gt; 
 #&gt; Reduced Model =====================================================
 #&gt; mpg ~ hp + drat + wt + qsec
-#&gt; &lt;environment: 0x000000005044b000&gt;
+#&gt; &lt;environment: 0x000000004bd5c9b0&gt;
 #&gt; 
 #&gt; Call:
 #&gt; lm(formula = formula_red, data = dat)

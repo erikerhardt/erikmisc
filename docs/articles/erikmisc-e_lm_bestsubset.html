@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
 
       
 
-      </header><script src="erikmisc-e_lm_bestsubset_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="erikmisc-e_lm_bestsubset_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Best subset selection</h1>
@@ -153,160 +153,25 @@
 <span class="co">#&gt;  8             1     1     1     1     0     3  261. 0.768 0.743  4.38 -32.9</span>
 <span class="co">#&gt;  9             1     1     1     1     1     4  249. 0.779 0.746  5.00 -31.0</span>
 <span class="co">#&gt; 10             1     0     0     1     0     1  448. 0.602 0.589 20.6  -22.6</span>
-  <span class="co"># options(op); # reset (all) initial options</span>
-
-<span class="co"># print into RStudio viewer or a pretty table in Rmd output</span>
+  <span class="co"># options(op); # reset (all) initial options</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># print into RStudio viewer or a pretty table in Rmd output</span>
 <span class="co"># include "always_allow_html: yes" in Rmd yaml header</span>
-<span class="va">tab_best</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/e_table_print.html">e_table_print</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; &lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;</span>
-<span class="co">#&gt;  &lt;thead&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; (Intercept) &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; cyl &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; disp &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; hp &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; gear &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; SIZE &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; rss &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; r2 &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; adjr2 &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; cp &lt;/th&gt;</span>
-<span class="co">#&gt;    &lt;th style="text-align:right;"&gt; bic &lt;/th&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;  &lt;/thead&gt;</span>
-<span class="co">#&gt; &lt;tbody&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 270.7403 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7595658 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7429841 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 3.399545 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -35.21267 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 308.3342 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7261800 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7170527 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 5.481852 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -34.51763 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 280.0914 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7512614 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7341070 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 4.414982 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -34.12607 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 283.4934 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7482402 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7308774 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 4.784403 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -33.73974 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 317.1587 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7183433 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7089548 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 6.440095 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -33.61466 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 257.8594 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7710048 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7464696 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 4.000814 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -33.30679 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 258.2204 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7706842 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7461147 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 4.040015 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -33.26203 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 261.3694 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7678877 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7430186 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 4.381960 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -32.87415 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 248.6429 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7791896 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.7464770 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 5.000000 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -31.00575 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt;   &lt;tr&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 447.6743 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.6024373 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 0.5891853 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; 20.612718 &lt;/td&gt;</span>
-<span class="co">#&gt;    &lt;td style="text-align:right;"&gt; -22.58542 &lt;/td&gt;</span>
-<span class="co">#&gt;   &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;/tbody&gt;</span>
-<span class="co">#&gt; &lt;/table&gt;</span></code></pre></div>
+<span class="va">tab_best</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/e_table_print.html">e_table_print</a></span><span class="op">(</span>sw_kable_format  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"simple"</span>, <span class="st">"kbl"</span>, <span class="st">"html"</span>, <span class="st">"latex"</span>, <span class="st">"doc"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  (Intercept)   cyl   disp   hp   gear   SIZE        rss          r2       adjr2          cp         bic</span>
+<span class="co">#&gt; ------------  ----  -----  ---  -----  -----  ---------  ----------  ----------  ----------  ----------</span>
+<span class="co">#&gt;            1     1      1    0      0      2   270.7403   0.7595658   0.7429841    3.399545   -35.21267</span>
+<span class="co">#&gt;            1     1      0    0      0      1   308.3342   0.7261800   0.7170527    5.481852   -34.51763</span>
+<span class="co">#&gt;            1     0      0    1      1      2   280.0914   0.7512614   0.7341070    4.414982   -34.12607</span>
+<span class="co">#&gt;            1     0      1    1      0      2   283.4934   0.7482402   0.7308774    4.784403   -33.73974</span>
+<span class="co">#&gt;            1     0      1    0      0      1   317.1587   0.7183433   0.7089548    6.440095   -33.61466</span>
+<span class="co">#&gt;            1     1      0    1      1      3   257.8594   0.7710048   0.7464696    4.000814   -33.30679</span>
+<span class="co">#&gt;            1     0      1    1      1      3   258.2204   0.7706842   0.7461147    4.040015   -33.26203</span>
+<span class="co">#&gt;            1     1      1    1      0      3   261.3694   0.7678877   0.7430186    4.381960   -32.87415</span>
+<span class="co">#&gt;            1     1      1    1      1      4   248.6429   0.7791896   0.7464770    5.000000   -31.00575</span>
+<span class="co">#&gt;            1     0      0    1      0      1   447.6743   0.6024373   0.5891853   20.612718   -22.58542</span></code></pre></div>
 </div>
 </div>
   </div>
