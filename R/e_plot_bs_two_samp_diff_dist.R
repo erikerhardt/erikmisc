@@ -9,6 +9,8 @@
 #' @param N    number of bootstrap iterations
 #'
 #' @return \code{invisible(NULL)}
+#' @importFrom stats sd
+#' @importFrom graphics hist
 #' @export
 #'
 #' @examples
@@ -34,33 +36,33 @@ e_plot_bs_two_samp_diff_dist <-
   # make smaller margins
   par(mfrow=c(3,1), mar=c(3,2,2,1), oma=c(1,1,1,1))
   # Histogram overlaid with kernel density curve
-  hist(dat1, freq = FALSE, breaks = 6
+  graphics::hist(dat1, freq = FALSE, breaks = 6
       , main = paste("Sample 1", "\n"
                     , "n =", n1
                     , ", mean =", signif(mean(dat1), digits = 5)
-                    , ", sd =", signif(sd(dat1), digits = 5))
+                    , ", sd =", signif(stats::sd(dat1), digits = 5))
       , xlim = range(c(dat1, dat2)))
   points(density(dat1), type = "l")
   rug(dat1)
 
-  hist(dat2, freq = FALSE, breaks = 6
+  graphics::hist(dat2, freq = FALSE, breaks = 6
       , main = paste("Sample 2", "\n"
                     , "n =", n2
                     , ", mean =", signif(mean(dat2), digits = 5)
-                    , ", sd =", signif(sd(dat2), digits = 5))
+                    , ", sd =", signif(stats::sd(dat2), digits = 5))
       , xlim = range(c(dat1, dat2)))
   points(density(dat2), type = "l")
   rug(dat2)
 
-  hist(diff_mean, freq = FALSE, breaks = 25
+  graphics::hist(diff_mean, freq = FALSE, breaks = 25
       , main = paste("Bootstrap sampling distribution of the difference in means", "\n"
                    , "mean =", signif(mean(diff_mean), digits = 5)
-                   , ", se =", signif(sd(diff_mean), digits = 5)))
+                   , ", se =", signif(stats::sd(diff_mean), digits = 5)))
   # overlay a density curve for the sample means
   points(density(diff_mean), type = "l")
   # overlay a normal distribution, bold and red
   x <- seq(min(diff_mean), max(diff_mean), length = 1000)
-  points(x, dnorm(x, mean = mean(diff_mean), sd = sd(diff_mean))
+  points(x, stats::dnorm(x, mean = mean(diff_mean), sd = stats::sd(diff_mean))
        , type = "l", lwd = 2, col = "red")
   # place a rug of points under the plot
   rug(diff_mean)

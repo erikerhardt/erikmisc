@@ -18,7 +18,9 @@
 #' @param ...         option
 #'
 #' @return \code{invisible(NULL)}
-#' @import ellipse
+#' @importFrom ellipse ellipse
+#' @importFrom graphics text
+#' @importFrom graphics lines
 #' @export
 #'
 #' @examples
@@ -108,8 +110,8 @@ e_plot_corr_ellipse <-
   ylabwidth <- max(strwidth(collabs[cols], units = "figure", cex = cex.lab))/(plt[4] - plt[3])
   ylabwidth <- ylabwidth * maxdim/(1 - ylabwidth)
   plot(c(-xlabwidth - 0.5, maxdim + 0.5), c(0.5, maxdim + 1 + ylabwidth), type = "n", bty = bty, axes = axes, xlab = "", ylab = "", asp = asp, cex.lab = cex.lab, ...)
-  text(rep(0, length(rows)), length(rows):1, labels = rowlabs[rows], adj = 1, cex = cex.lab)
-  text(cols, rep(length(rows) + 1, length(cols)), labels = collabs[cols], srt = 90, adj = 0, cex = cex.lab)
+  graphics::text(rep(0, length(rows)), length(rows):1, labels = rowlabs[rows], adj = 1, cex = cex.lab)
+  graphics::text(cols, rep(length(rows) + 1, length(cols)), labels = collabs[cols], srt = 90, adj = 0, cex = cex.lab)
   mtext(xlab, 1, 0)
   mtext(ylab, 2, 0)
   mat <- diag(c(1, 1))
@@ -118,7 +120,7 @@ e_plot_corr_ellipse <-
       if (diag == 'none'){
         return()
       } else if (diag == 'number'){
-        text(j + 0.3, length(rows) + 1 - i, round(corr[i, j], digits=digits), adj = 1, cex = cex)
+        graphics::text(j + 0.3, length(rows) + 1 - i, round(corr[i, j], digits=digits), adj = 1, cex = cex)
       } else if (diag == 'ellipse') {
         mat[1, 2] <- corr[i, j]
         mat[2, 1] <- mat[1, 2]
@@ -127,7 +129,7 @@ e_plot_corr_ellipse <-
         ell[, 2] <- ell[, 2] + length(rows) + 1 - i
         polygon(ell, col = col[i, j])
         if (outline)
-          lines(ell)
+          graphics::lines(ell)
       }
     } else if (i >= j){ #lower half of plot
       if (lower.panel == 'ellipse') { #check if ellipses should go here
@@ -138,9 +140,9 @@ e_plot_corr_ellipse <-
         ell[, 2] <- ell[, 2] + length(rows) + 1 - i
         polygon(ell, col = col[i, j])
         if (outline)
-          lines(ell)
+          graphics::lines(ell)
       } else if (lower.panel == 'number') { #check if ellipses should go here
-        text(j + 0.3, length(rows) + 1 - i, round(corr[i, j], digits=digits), adj = 1, cex = cex)
+        graphics::text(j + 0.3, length(rows) + 1 - i, round(corr[i, j], digits=digits), adj = 1, cex = cex)
       } else {
         return()
       }
@@ -153,9 +155,9 @@ e_plot_corr_ellipse <-
         ell[, 2] <- ell[, 2] + length(rows) + 1 - i
         polygon(ell, col = col[i, j])
         if (outline)
-          lines(ell)
+          graphics::lines(ell)
       } else if (upper.panel == 'number') { #check if ellipses should go here
-        text(j + 0.3, length(rows) + 1 - i, round(corr[i, j], digits=digits), adj = 1, cex = cex)
+        graphics::text(j + 0.3, length(rows) + 1 - i, round(corr[i, j], digits=digits), adj = 1, cex = cex)
       } else {
         return()
       }

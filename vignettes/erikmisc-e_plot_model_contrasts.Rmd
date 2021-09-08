@@ -150,6 +150,7 @@ fit_contrasts <-
   , sw_TWI_plots_keep  = c("singles", "both", "all")[2]
   , sw_TWI_both_orientation = c("wide", "tall")[2]
   )
+
 fit_contrasts$plots   # to print plots
 fit_contrasts$tables  # to print tables
 fit_contrasts$text    # to print caption text

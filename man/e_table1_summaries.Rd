@@ -92,7 +92,7 @@ for (i_col in seq_along(list_var_col_table)) {
     )
 
   # read final table
-  tab1_temp <- read.csv(paste0(fn_root, "_", "all", ".csv"))
+  tab1_temp <- utils::read.csv(paste0(fn_root, "_", "all", ".csv"))
   # display in Rmd file
   knitr::kable(tab1_temp)
 }
@@ -113,7 +113,7 @@ e_table1_summaries(
   )
 
 # read final table
-tab1_temp <- read.csv(paste0(fn_root, "_", "all", ".csv"))
+tab1_temp <- utils::read.csv(paste0(fn_root, "_", "all", ".csv"))
 # display in Rmd file
 knitr::kable(tab1_temp)
 

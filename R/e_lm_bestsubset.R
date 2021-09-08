@@ -7,6 +7,7 @@
 #' @return tibble (data.frame) of selection results
 #' @importFrom leaps regsubsets
 #' @importFrom tibble as_tibble
+#' @importFrom stats formula
 #' @import dplyr
 #' @export
 #'
@@ -14,7 +15,7 @@
 #' \dontrun{
 #' tab_best <-
 #'   e_lm_bestsubset(
-#'     form = formula(mpg ~ cyl + disp + hp + gear)
+#'     form = stats::formula(mpg ~ cyl + disp + hp + gear)
 #'   , dat  = datasets::mtcars
 #'   )
 #'

@@ -109,6 +109,7 @@ They are equal.
 ```{r}
 dat_keys      <- dat_keys     %>% dplyr::arrange(a, b, c, x)
 dat_keys_pre  <- dat_keys_pre %>% dplyr::arrange(a, b, c, x)
+
 dplyr::all_equal(dat_keys_pre, dat_keys)
 ```
 

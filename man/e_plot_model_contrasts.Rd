@@ -105,7 +105,7 @@ fit <-
   , data    = dat_cont
   )
 
-anova(fit)
+stats::anova(fit)
 summary(fit)
 
 fit_contrasts <-

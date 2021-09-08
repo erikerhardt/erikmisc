@@ -63,7 +63,7 @@ e_roc_gg <-
       mutate(
         dist = sqrt((1 - Sens)^2 + (1 - Spec)^2)
       ) %>%
-      filter(
+      dplyr::filter(
         dist == min(dist)
       )
     # unique best is in the middle (index rounded down)
@@ -78,10 +78,10 @@ e_roc_gg <-
   if (sw_thresh_criteria == "spec1_sensmax") {
     opt_t <-
       roc.curve %>%
-      filter(
+      dplyr::filter(
         Spec == max(Spec)
       ) %>%
-      filter(
+      dplyr::filter(
         Sens == max(Sens)
       )
     # roc.curve_sub <-
@@ -99,10 +99,10 @@ e_roc_gg <-
   if (sw_thresh_criteria == "sens1_specmax") {
     opt_t <-
       roc.curve %>%
-      filter(
+      dplyr::filter(
         Sens == max(Sens)
       ) %>%
-      filter(
+      dplyr::filter(
         Spec == max(Spec)
       )
     # roc.curve_sub <-
@@ -123,7 +123,7 @@ e_roc_gg <-
 
   roc.curve.best <-
     roc.curve %>%
-    filter(
+    dplyr::filter(
     #  dist == min(dist)
       thresh == opt_t$thresh
     ) %>%

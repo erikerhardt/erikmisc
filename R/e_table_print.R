@@ -26,12 +26,14 @@
 #'
 #' @param dat             data.frame or tibble to print
 #' @param sw_scale        if "latex" T/F to scale to fit page, if "html" then a point size to pass to \code{kableExtra::kable_styling} argument \code{font_size}
-#' @param sw_kable_format "html" or "latex" format
+#' @param sw_kable_format "simple", "html", "latex", or "doc"
 #' @param sw_latex_options passed to \code{kableExtra::kable_styling(latex_options = sw_latex_options)}, updated if \code{sw_scale=TRUE} to include \code{"scale_down"}
 #' @param ...             other arguments passed to \code{knitr::kable()}
 #'
 #' @return \code{invisible(NULL)}
 #' @importFrom knitr kable
+#' @importFrom kableExtra kbl
+#' @importFrom kableExtra kable_paper
 #' @importFrom kableExtra kable_styling
 #' @importFrom flextable regulartable
 #' @export
@@ -54,7 +56,7 @@ e_table_print <-
   function(
     dat
   , sw_scale = FALSE
-  , sw_kable_format  = c("html", "latex", "doc")[1]
+  , sw_kable_format  = c("simple", "kbl", "html", "latex", "doc")[2]
   , sw_latex_options = c("basic", "striped", "hold_position", "HOLD_position", "scale_down", "repeat_header")[c(2, 3)]
   , ...
   ) {
@@ -69,17 +71,23 @@ e_table_print <-
   # http://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf # tables
   # Example with packages: https://stackoverflow.com/questions/59994486/r-markdown-trouble-with-rowcolor-in-kable-styling
 
-  if (sw_kable_format == "latex") {
+  if (sw_kable_format == "simple") {
+    dat %>%
+    knitr::kable(format = sw_kable_format, ...) %>%
+    print()
+  }
+  if (sw_kable_format == "kbl") {
     if (sw_scale) {
-      sw_latex_options = c(sw_latex_options, "scale_down") %>% unique()
       dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%
+      kableExtra::kbl() %>%
+      kableExtra::kable_paper(lightable_options = "hover", full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) %>%
+      #kableExtra::kable_styling(font_size = sw_scale) %>%
       print()
     } else {
       dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%   # , "scale_down"
+      kableExtra::kbl() %>%
+      kableExtra::kable_paper(lightable_options = "hover", full_width = FALSE, bootstrap_options = "striped", position = "center") %>%
+      #kableExtra::kable_styling() %>%
       print()
     }
   }
@@ -93,6 +101,20 @@ e_table_print <-
       dat %>%
       knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
       kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center") %>%
+      print()
+    }
+  }
+  if (sw_kable_format == "latex") {
+    if (sw_scale) {
+      sw_latex_options = c(sw_latex_options, "scale_down") %>% unique()
+      dat %>%
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%
+      print()
+    } else {
+      dat %>%
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%   # , "scale_down"
       print()
     }
   }

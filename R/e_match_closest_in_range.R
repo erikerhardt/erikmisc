@@ -167,21 +167,21 @@ e_match_closest_in_range <-
       dat_temp_to_match_pre %>%
       # filter matches
       dplyr::filter(
-        (abs(val_diff__) == min(abs(val_diff__)))
+        (abs(val_diff__) == min(abs(val_diff__), na.rm = TRUE))
       )
   } else if (sw_criteria == c("closest", "minimum", "maximum")[2]) {
     dat_temp_to_match_post <-
       dat_temp_to_match_pre %>%
       # filter matches
       dplyr::filter(
-        (val_diff__ == min(val_diff__))
+        (val_diff__ == min(val_diff__, na.rm = TRUE))
       )
   } else if (sw_criteria == c("closest", "minimum", "maximum")[3]) {
     dat_temp_to_match_post <-
       dat_temp_to_match_pre %>%
       # filter matches
       dplyr::filter(
-        (val_diff__ == max(val_diff__))
+        (val_diff__ == max(val_diff__, na.rm = TRUE))
       )
   }
 

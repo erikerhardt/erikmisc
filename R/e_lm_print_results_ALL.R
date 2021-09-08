@@ -10,6 +10,7 @@
 #' @importFrom lmerTest as_lmerModLmerTest
 #' @importFrom sjPlot tab_df
 #' @importFrom sjPlot css_theme
+#' @importFrom stats anova
 #' @import dplyr
 #' @export
 #'
@@ -37,13 +38,13 @@ e_lm_print_html_anova <-
   if (class(fit) == "lm") {
     fit_anova <-
       fit %>%
-      anova()
+      stats::anova()
   }
   if (class(fit) == "lmerMod") {
     fit_anova <-
       fit %>%
       lmerTest::as_lmerModLmerTest() %>%
-      anova()
+      stats::anova()
   }
 
   tab <-

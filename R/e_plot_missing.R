@@ -74,7 +74,7 @@ e_plot_missing <-
     mutate(
       ID_MISSING___ = 1:n()
     ) %>%
-    select(
+    dplyr::select(
       ID_MISSING___
     , everything()
     )
@@ -111,7 +111,7 @@ e_plot_missing <-
   #### SORT BY COMPLETE PROPORTION
   ##   dat_NA_temp <-
   ##     dat_all %>%
-  ##     select(matches(match = "^Q[0-9]", perl = TRUE)) %>%
+  ##     dplyr::select(matches(match = "^Q[0-9]", perl = TRUE)) %>%
   ##     is.na()
   ##
   ##   dat_all$CompleteProp <-

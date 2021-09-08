@@ -15,6 +15,8 @@
 #' @return out_dat formatted data or \code{invisible(NULL)}, depending on \code{sw_return_dat}
 #'
 #' @import labelled
+#' @importFrom utils glob2rx
+#' @importFrom utils read.csv
 #' @export
 #'
 #' @examples
@@ -114,8 +116,8 @@ e_REDCap_read_format_data <-
 
     # Identify the current dat and format filenames
     #   Do a string compare and take the last one alphabetically (most recent by date/time)
-    fn_current_data <- fn_list_data_raw[max(which(grepl(glob2rx(fn_list_in_data[i_file]), fn_list_data_raw)))]
-    fn_current_R    <- fn_list_data_raw[max(which(grepl(glob2rx(fn_list_in_R   [i_file]), fn_list_data_raw)))]
+    fn_current_data <- fn_list_data_raw[max(which(grepl(utils::glob2rx(fn_list_in_data[i_file]), fn_list_data_raw)))]
+    fn_current_R    <- fn_list_data_raw[max(which(grepl(utils::glob2rx(fn_list_in_R   [i_file]), fn_list_data_raw)))]
     print(paste("Files: ", fn_current_data, fn_current_R))
 
     current_format <- readLines(fn_current_R)
@@ -155,7 +157,7 @@ e_REDCap_read_format_data <-
     #library(labelled, quietly = TRUE) # needed for var_label() lines
     # called "data" because that's the name given from REDCap for the R format file
     data <-
-      read.csv(
+      utils::read.csv(
         fn_list_out_data[i_file]
       , stringsAsFactors = FALSE
       )

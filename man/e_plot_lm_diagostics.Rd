@@ -50,7 +50,7 @@ Plotting residual diagnostics for an lm() object.
 \examples{
 fit <- lm(mpg ~ cyl + disp + hp + gear, data = datasets::mtcars)
 e_plot_lm_diagostics(fit)
-mod <- formula(mpg ~ cyl + disp + hp + gear)
+mod <- stats::formula(mpg ~ cyl + disp + hp + gear)
 fit <- lm(mod, data = datasets::mtcars)
 e_plot_lm_diagostics(fit)
 }

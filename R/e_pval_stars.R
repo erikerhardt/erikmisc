@@ -5,6 +5,7 @@
 #' @param symbols   list of symbols with length one fewer than cutpoints to indicate which two cutpoints the p-value was between
 #'
 #' @return a list of symbols of the same length as p_values
+#' @importFrom stats symnum
 #' @export
 #'
 #' @examples
@@ -18,7 +19,7 @@ e_pval_stars <-
 
   pval_stars <-
     unclass(
-      symnum(
+      stats::symnum(
         x         = p_values
       , corr      = FALSE
       , na        = FALSE

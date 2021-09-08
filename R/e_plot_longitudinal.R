@@ -265,10 +265,10 @@ e_plot_longitudinal <-
                 , x         = labelled::var_label(dat_plot[["var_x_time"]]) %>% as.character()
                 , y         = labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
                 #, caption = paste0(  "Power at a sample size = ", n_total, ":"
-                #                  , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_total, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-                #                  , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_total, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-                #                  , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_total, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-                #                  , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_total, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+                #                  , "\nObserved: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+                #                  , ";  Cohen Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+                #                  , ";  Cohen Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+                #                  , ";  Cohen Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
                 #                   )
                 )
 

@@ -19,6 +19,8 @@
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyr drop_na
 #' @importFrom scales percent
+#' @importFrom stats as.formula
+#' @importFrom stats quantile
 #' @import dplyr
 #' @import ggplot2
 #' @export
@@ -67,7 +69,7 @@
 #' xvar_red  <- c(               "hp", "drat", "wt", "qsec")
 #'
 #' formula_full <-
-#'   as.formula(
+#'   stats::as.formula(
 #'     paste0(
 #'       yvar
 #'     , " ~ "
@@ -79,7 +81,7 @@
 #'   )
 #'
 #' formula_red <-
-#'   as.formula(
+#'   stats::as.formula(
 #'     paste0(
 #'       yvar
 #'     , " ~ "
@@ -211,7 +213,7 @@ e_lm_power <-
 
   if (is.null(n_plot_ref)) {
     message("Setting n_plot_ref = median(n_total) for reference")
-    n_plot_ref <- as.numeric(quantile(n_total, probs = 0.5, type = 1))
+    n_plot_ref <- as.numeric(stats::quantile(n_total, probs = 0.5, type = 1))
   }
 
 
@@ -421,11 +423,11 @@ e_lm_power <-
       text_caption <-
         paste0(
           text_caption
-        , "Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+        , "Cohen Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
         , ";  "
-        , "Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+        , "Cohen Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
         , ";  "
-        , "Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+        , "Cohen Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
         )
       # observed
       if (!is.null(dat)) {
@@ -433,7 +435,7 @@ e_lm_power <-
           paste0(
             text_caption
           , ";  "
-          , "Observed: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+          , "Observed: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
           )
       }
     }
@@ -441,7 +443,7 @@ e_lm_power <-
     ## Histogram plot for the first reference
 
     #library(ggplot2)
-    p <- ggplot(dat_power_curve_long %>% filter(Sample_Size == n_plot_ref[1]), aes(x = Effect_Size, y = Power))
+    p <- ggplot(dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[1]), aes(x = Effect_Size, y = Power))
     p <- p + theme_bw()
     #if (!is.null(n_plot_ref)) {
     #  p <- p + geom_vline(xintercept = n_plot_ref , linetype = 3, size = 1/2, alpha = 1/2)
@@ -450,7 +452,7 @@ e_lm_power <-
     p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
     p <- p + geom_bar(stat = "identity")
     #if (!is.null(n_plot_ref)) {
-    #  p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size == n_plot_ref)
+    #  p <- p + geom_hline(data = dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref)
     #                    , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
     #}
 
@@ -493,7 +495,7 @@ e_lm_power <-
       p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
       p <- p + geom_line(alpha = 1, size = 1)
       if (!is.null(n_plot_ref)) {
-        p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size %in% n_plot_ref)
+        p <- p + geom_hline(data = dat_power_curve_long %>% dplyr::filter(Sample_Size %in% n_plot_ref)
                           , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
       }
       p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
@@ -511,10 +513,10 @@ e_lm_power <-
         p <- p + labs(caption = text_caption)
         # p <- p + labs(
         #               caption = paste0(  "Power at a sample size of n = ", n_plot_ref, ":"
-        #                               , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+        #                               , "\nObserved: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+        #                               , ";  Cohen Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+        #                               , ";  Cohen Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+        #                               , ";  Cohen Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
         #                                )
         #             )
       }
@@ -546,10 +548,10 @@ e_lm_power <-
   # table of powers at reference sizes
   tab_power_ref <-
     tab_power %>%
-    filter(
+    dplyr::filter(
       n_total %in% n_plot_ref
     ) %>%
-    select(
+    dplyr::select(
       n_total
     , n_param_full
     , n_param_red

@@ -22,6 +22,7 @@
 #' @importFrom moonBook mytable mycsv
 #' @importFrom stringr str_wrap
 #' @importFrom stringr str_replace_all
+#' @importFrom stats formula
 #' @export
 #'
 #' @examples
@@ -64,7 +65,7 @@
 #'     )
 #'
 #'   # read final table
-#'   tab1_temp <- read.csv(paste0(fn_root, "_", "all", ".csv"))
+#'   tab1_temp <- utils::read.csv(paste0(fn_root, "_", "all", ".csv"))
 #'   # display in Rmd file
 #'   knitr::kable(tab1_temp)
 #' }
@@ -85,7 +86,7 @@
 #'   )
 #'
 #' # read final table
-#' tab1_temp <- read.csv(paste0(fn_root, "_", "all", ".csv"))
+#' tab1_temp <- utils::read.csv(paste0(fn_root, "_", "all", ".csv"))
 #' # display in Rmd file
 #' knitr::kable(tab1_temp)
 #'
@@ -116,9 +117,9 @@ e_table1_summaries <-
     ## i_var = 3
 
     if(!is.null(list_var_col_table)) {
-      form <- formula(paste0(paste0(list_var_col_table, collapse = " + "), " ~ ", list_var_row_table[i_var]))
+      form <- stats::formula(paste0(paste0(list_var_col_table, collapse = " + "), " ~ ", list_var_row_table[i_var]))
     } else {
-      form <- formula(paste0(" ~ ", list_var_row_table[i_var]))
+      form <- stats::formula(paste0(" ~ ", list_var_row_table[i_var]))
     }
     if (sw_verbose) {
       print(form)

@@ -20,13 +20,17 @@
 #' @importFrom car qqPlot
 #' @importFrom car spreadLevelPlot
 #' @importFrom car vif
+#' @importFrom stats smooth.spline
+#' @importFrom stats formula
+#' @importFrom graphics dotchart
+#' @importFrom graphics lines
 #' @importFrom nortest ad.test
 #' @export
 #'
 #' @examples
 #' fit <- lm(mpg ~ cyl + disp + hp + gear, data = datasets::mtcars)
 #' e_plot_lm_diagostics(fit)
-#' mod <- formula(mpg ~ cyl + disp + hp + gear)
+#' mod <- stats::formula(mpg ~ cyl + disp + hp + gear)
 #' fit <- lm(mod, data = datasets::mtcars)
 #' e_plot_lm_diagostics(fit)
 e_plot_lm_diagostics <-
@@ -144,7 +148,7 @@ e_plot_lm_diagostics <-
           # Loess
           #lines(predict(loess(fit$residuals ~ fit$model[,var_names[i_plot]], enp.target=1)), col="red", lwd=1)
           # Friedman's SuperSmoother
-          lines(
+          graphics::lines(
             supsmu(
               x = fit$model[,var_names[i_plot]]
             , y = fit$residuals
@@ -157,8 +161,8 @@ e_plot_lm_diagostics <-
           ss_tol <- 1e-6 * IQR(fit$model[,var_names[i_plot]]) # default
           if (ss_tol == 0) { ss_tol <- 1e-6 * diff(range(fit$model[,var_names[i_plot]])) }
           if (ss_tol == 0) { ss_tol <- 0.1 }
-          lines(
-            smooth.spline(
+          graphics::lines(
+            stats::smooth.spline(
               fit$residuals ~ fit$model[,var_names[i_plot]]
             , spar = 0.8
             , tol = ss_tol
@@ -220,7 +224,7 @@ e_plot_lm_diagostics <-
       if (length(var_names) >= 2) {
         #library(car)
         vif_val <- car::vif(fit) # variance inflation factors
-        dotchart(vif_val, main = "Collinearity", xlab = "Variance Inflation Factor (VIF)", sub = "Not as useful with interactions")
+        graphics::dotchart(vif_val, main = "Collinearity", xlab = "Variance Inflation Factor (VIF)", sub = "Not as useful with interactions")
         abline(v = 0  , col = "gray75", lty = 3)  # horizontal line at zero
         abline(v = 2^2, col = "blue"  , lty = 2)  # vertical line
         abline(v = 10 , col = "blue"  , lty = 3)  # vertical line

@@ -7,6 +7,9 @@
 #' @param N   number of bootstrap iterations
 #'
 #' @return \code{invisible(NULL)}
+#' @importFrom stats sd
+#' @importFrom stats dnorm
+#' @importFrom graphics hist
 #' @export
 #'
 #' @examples
@@ -27,21 +30,21 @@ e_plot_bs_one_samp_dist <-
   # make smaller margins
   par(mfrow=c(2,1), mar=c(3,2,2,1), oma=c(1,1,1,1))
   # Histogram overlaid with kernel density curve
-  hist(dat, freq = FALSE, breaks = 6
+  graphics::hist(dat, freq = FALSE, breaks = 6
       , main = "Plot of data with smoothed density curve")
   points(density(dat), type = "l")
   rug(dat)
 
-  hist(sam_mean, freq = FALSE, breaks = 25
+  graphics::hist(sam_mean, freq = FALSE, breaks = 25
       , main = "Bootstrap sampling distribution of the mean"
       , xlab = paste("Data: n =", n
                    , ", mean =", signif(mean(dat), digits = 5)
-                   , ", se =", signif(sd(dat)/sqrt(n)), digits = 5))
+                   , ", se =", signif(stats::sd(dat)/sqrt(n)), digits = 5))
   # overlay a density curve for the sample means
   points(density(sam_mean), type = "l")
   # overlay a normal distribution, bold and red
   x <- seq(min(sam_mean), max(sam_mean), length = 1000)
-  points(x, dnorm(x, mean = mean(dat), sd = sd(dat)/sqrt(n))
+  points(x, stats::dnorm(x, mean = mean(dat), sd = stats::sd(dat)/sqrt(n))
        , type = "l", lwd = 2, col = "red")
   # place a rug of points under the plot
   rug(sam_mean)

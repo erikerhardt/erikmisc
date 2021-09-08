@@ -91,7 +91,7 @@ xvar_full <- c("cyl", "disp", "hp", "drat", "wt", "qsec")
 xvar_red  <- c(               "hp", "drat", "wt", "qsec")
 
 formula_full <-
-  as.formula(
+  stats::as.formula(
     paste0(
       yvar
     , " ~ "
@@ -103,7 +103,7 @@ formula_full <-
   )
 
 formula_red <-
-  as.formula(
+  stats::as.formula(
     paste0(
       yvar
     , " ~ "

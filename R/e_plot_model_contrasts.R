@@ -33,6 +33,9 @@
 #' @importFrom stringr str_split
 #' @importFrom gridExtra arrangeGrob
 #' @importFrom ggpubr as_ggplot
+#' @importFrom stats as.formula
+#' @importFrom stats quantile
+#' @importFrom stats anova
 #' @export
 #'
 #' @examples
@@ -80,7 +83,7 @@
 #'   , data    = dat_cont
 #'   )
 #'
-#' anova(fit)
+#' stats::anova(fit)
 #' summary(fit)
 #'
 #' fit_contrasts <-
@@ -157,7 +160,7 @@ e_plot_model_contrasts <-
   ## }
   ##
   ## ## form_model <-
-  ## ##   as.formula(
+  ## ##   stats::as.formula(
   ## ##     paste0(
   ## ##       "mpg"
   ## ##     , " ~ "
@@ -205,7 +208,7 @@ e_plot_model_contrasts <-
   ##     formula = form_model
   ##   , data    = dat_cont
   ##   )
-  ## anova(fit)
+  ## stats::anova(fit)
   ## summary(fit)
   ##
   ##
@@ -373,7 +376,7 @@ e_plot_model_contrasts <-
         text_averaged <-
           paste0("Tables: ", attributes(summary(cont_fit))$mesg)
 
-        form_var <- as.formula(paste0("~", var_xs))
+        form_var <- stats::as.formula(paste0("~", var_xs))
 
         p <-
           emmeans::emmip(
@@ -886,7 +889,7 @@ e_plot_model_contrasts <-
         }
 
         ## Table
-        form_var_fac <- as.formula(paste0("pairwise", " ~ ", var_xs[1]))
+        form_var_fac <- stats::as.formula(paste0("pairwise", " ~ ", var_xs[1]))
 
         cont_fit <-
           emmeans::emtrends(
@@ -985,7 +988,7 @@ e_plot_model_contrasts <-
 
 
 
-        form_var_fac_num <- as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
+        form_var_fac_num <- stats::as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
 
         text_long <-
           paste0(
@@ -1115,14 +1118,14 @@ e_plot_model_contrasts <-
             var_xs <- rev(var_xs)
           }
 
-          form_var_num_num <- as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
+          form_var_num_num <- stats::as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
 
           # values of numeric variables for plotting
           at_list <- list()
           at_list[[ var_xs[1] ]] <-
-            dat_cont[[ var_xs[1] ]] %>% quantile(probs = plot_quantiles) %>% unique()
+            dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
           at_list[[ var_xs[2] ]] <-
-            dat_cont[[ var_xs[2] ]] %>% quantile(probs = plot_quantiles) %>% unique()
+            dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
 
           fit_emm_at <-
             emmeans::ref_grid(
@@ -1132,7 +1135,7 @@ e_plot_model_contrasts <-
 
           ## Table
 
-          #form_var_fac <- as.formula(paste0("pairwise", " ~ ", var_xs[1]))
+          #form_var_fac <- stats::as.formula(paste0("pairwise", " ~ ", var_xs[1]))
 
           out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- NULL
           out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- NULL

@@ -23,7 +23,7 @@ Best subset selection returns results sorted by BIC
 \dontrun{
 tab_best <-
   e_lm_bestsubset(
-    form = formula(mpg ~ cyl + disp + hp + gear)
+    form = stats::formula(mpg ~ cyl + disp + hp + gear)
   , dat  = datasets::mtcars
   )
 

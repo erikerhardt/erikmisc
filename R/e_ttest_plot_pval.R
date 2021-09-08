@@ -124,7 +124,7 @@ e_ttest_alt_hyp_text <-
           paste0(
             out
           , x$alternative, "\nnull values:"
-          , round(x$null.value, digits=digits)
+          , round(x$null.value, digits = digits)
           )
       }
     } else {

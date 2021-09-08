@@ -276,7 +276,7 @@ e_complete_multiple_keys <-
   dat_data <-
     dat_data %>%
     dplyr::mutate(
-      .ID. = 1:n()
+      ID___ = 1:n()
     )
 
   # create complete keys
@@ -299,10 +299,10 @@ e_complete_multiple_keys <-
     ) %>%
     # restore original row order
     dplyr::arrange(
-      .ID.
+      ID___
     ) %>%
     dplyr::select(
-      -.ID.
+      -ID___
     )
 
   return(dat_data_updated)

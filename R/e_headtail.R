@@ -25,10 +25,10 @@ e_headtail <-
 
   ## Some checks
   if (!(is.matrix(x) | is.data.frame(x))) {
-    error("'x' must be a matrix or data.frame.")
+    stop("'x' must be a matrix or data.frame.")
   }
   if (length(n)!=1L) {
-    error("'n' must be a single number.")
+    stop("'n' must be a single number.")
   }
 
   ## Remove tbl_df class if it exists
