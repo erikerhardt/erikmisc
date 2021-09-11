@@ -8,10 +8,10 @@
 #'
 #' @examples
 #' t_summary <- t.test(datasets::mtcars$mpg, mu = 20, data = datasets::mtcars)
-#' e_ttest_plot_pval(t_summary)
+#' e_plot_ttest_pval(t_summary)
 #' t_summary <- t.test(mpg ~ am, mu = 0, data = datasets::mtcars)
-#' e_ttest_plot_pval(t_summary)
-e_ttest_plot_pval <-
+#' e_plot_ttest_pval(t_summary)
+e_plot_ttest_pval <-
   function(
     t_summary
   , sw_graphics = c("ggplot", "base")[2]
@@ -60,7 +60,7 @@ e_ttest_plot_pval <-
     invisible(NULL)
   }
 
-} # e_ttest_plot_pval
+} # e_plot_ttest_pval
 
 
 #' Return text of alternative hypothesis via modified code from stats::print.htest
