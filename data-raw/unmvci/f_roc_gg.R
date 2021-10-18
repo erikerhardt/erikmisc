@@ -49,6 +49,7 @@ f_roc_gg <-
                         , Sens = unlist(perf@y.values)
                         , thresh = unlist(perf@alpha.values))
   roc.curve$dist <- sqrt((1 - roc.curve$Sens)^2 + (1 - roc.curve$Spec)^2)
+  roc.curve <- subset(roc.curve, is.finite(roc.curve$thresh))
   opt_t <- subset(roc.curve, roc.curve$dist == min(roc.curve$dist))
   opt_t
 
