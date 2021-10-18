@@ -395,6 +395,14 @@ e_lm_power <-
                                               , ordered = TRUE
                                               )
       ) %>%
+      dplyr::mutate(
+        # plot size used in ggplot, Observed is larger
+        plot_size =
+          dplyr::case_when(
+            Effect_Size %>% stringr::str_detect(pattern = fixed("Cohen ")) ~ 1
+          , TRUE ~ 1.5
+          ) %>% as.factor()
+      ) %>%
       tidyr::drop_na()
 
 
@@ -493,10 +501,20 @@ e_lm_power <-
       }
       p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
       p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
-      p <- p + geom_line(alpha = 1, size = 1)
+
+      # observed
+      if (!is.null(dat)) {
+        p <- p + geom_line(aes(size = plot_size), alpha = 1)
+        p <- p + scale_size_manual(values = c(1, 1.5), breaks = c(1, 1.5))
+        p <- p + guides(size = "none")
+      } else {
+        p <- p + geom_line(size = 1, alpha = 1)
+      }
+
+
       if (!is.null(n_plot_ref)) {
         p <- p + geom_hline(data = dat_power_curve_long %>% dplyr::filter(Sample_Size %in% n_plot_ref)
-                          , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
+                          , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 1/2, alpha = 1/2)
       }
       p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
       p <- p + scale_x_continuous(breaks = c(seq(0, max(n_total), by = e_plot_calc_break_interval(n_total, num_intervals = 3)), n_plot_ref)) #, minor_breaks = seq(0, 1000, by = 10))
