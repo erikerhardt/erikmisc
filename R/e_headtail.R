@@ -1,6 +1,6 @@
 #' Print head and tail of a data.frame
 #'
-#' @param x           data.frame
+#' @param x           data.frame or vector
 #' @param n           number of top rows and bottom rows to print, it prints 2n rows
 #' @param which_col   selected columns, if desired
 #' @param ...         passed to head() and tail() functions
@@ -23,40 +23,64 @@ e_headtail <-
     # @param sw_addrownum  also print row numbers?
     # sw_addrownum  = TRUE
 
-  ## Some checks
-  if (!(is.matrix(x) | is.data.frame(x))) {
-    stop("'x' must be a matrix or data.frame.")
-  }
   if (length(n)!=1L) {
     stop("'n' must be a single number.")
   }
 
-  ## Remove tbl_df class if it exists
-  if ("tbl_df" %in% class(x)) {
-    x <- as.data.frame(x)
+  ## tables
+  if (is.matrix(x) | is.data.frame(x)) {
+
+    ## Remove tbl_df class if it exists
+    if ("tbl_df" %in% class(x)) {
+      x <- as.data.frame(x)
+    }
+
+    ## Process data.frame
+    N <- nrow(x)
+
+    if (n >= N) {
+      tmp <- x
+    } else {
+      dat_h <- utils::head(x, n, ...)
+
+      # if (sw_addrownum) {
+      #   if (is.null(rownames(x))) {
+      #     rownames(dat_h) <- paste0("[", seq_len(n), ",]")
+      #   }
+      # } else {
+      #   rownames(dat_h) <- NULL
+      # }
+
+      dat_t <- utils::tail(x, n, ...)
+      dat_ht <- rbind(dat_h, dat_t)
+    }
+    if (!is.null(which_col)) {
+      dat_ht <- dat_ht[, which_col]
+    }
   }
 
-  ## Process data.frame
-  N <- nrow(x)
+  # vector
+  if (is.vector(x)) {
 
-  if (n >= N) {
-    tmp <- x
-  } else {
-    dat_h <- utils::head(x, n, ...)
+    ## Process data.frame
+    N <- length(x)
 
-    # if (sw_addrownum) {
-    #   if (is.null(rownames(x))) {
-    #     rownames(dat_h) <- paste0("[", seq_len(n), ",]")
-    #   }
-    # } else {
-    #   rownames(dat_h) <- NULL
-    # }
+    if (n >= N) {
+      tmp <- x
+    } else {
+      dat_h <- utils::head(x, n, ...)
 
-    dat_t <- utils::tail(x, n, ...)
-    dat_ht <- rbind(dat_h, dat_t)
-  }
-  if (!is.null(which_col)) {
-    dat_ht <- dat_ht[, which_col]
+      # if (sw_addrownum) {
+      #   if (is.null(rownames(x))) {
+      #     rownames(dat_h) <- paste0("[", seq_len(n), ",]")
+      #   }
+      # } else {
+      #   rownames(dat_h) <- NULL
+      # }
+
+      dat_t <- utils::tail(x, n, ...)
+      dat_ht <- c(dat_h, dat_t)
+    }
   }
 
   return(dat_ht)

@@ -7,7 +7,7 @@
 e_headtail(x, n = 3L, which_col = NULL, ...)
 }
 \arguments{
-\item{x}{data.frame}
+\item{x}{data.frame or vector}
 
 \item{n}{number of top rows and bottom rows to print, it prints 2n rows}
 
