@@ -15,6 +15,7 @@
 #' @param fn_all              Filename for output table, defaults to \code{paste0(fn_root, "_", "all", ".csv")}.
 #' @param label_width         Width to wrap column and row variable labels, does not affect category labels.
 #' @param sw_verbose          Print status to console during execution?
+#' @param moonbook_max_ylev   An integer indicating the maximum number of levels of grouping variable ('y'). If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 2. (\code{?moonBook::mytable_sub})
 #' @param moonbook_digits     An integer indicating the number of decimal places (round) or significant digits to be used. Default value is 3. (\code{?moonBook::mytable_sub})
 #' @param moonbook_method     An integer indicating methods for continuous variables. Possible values in methods are: 1 = forces analysis as normal-distributed; 2 = forces analysis as continuous non-normal; 3 = performs a Shapiro-Wilk test to decide between normal or non-normal. (\code{?moonBook::mytable_sub})
 #'
@@ -102,6 +103,7 @@ e_table1_summaries <-
   , fn_all              = NULL
   , label_width         = 40
   , sw_verbose          = FALSE
+  , moonbook_max_ylev   = 2
   , moonbook_digits     = c(factor = 1, numeric = 3)
   , moonbook_method     = c(1, 2, 3)[2]
   ) {
@@ -157,6 +159,7 @@ e_table1_summaries <-
         , digits = temp_digits
         , method = moonbook_method # forces analysis as continuous non-normal (does not assume Normal)
         #, show.all = TRUE #  all statistical values have to be shown in table
+        , max.ylev    = moonbook_max_ylev
         , maxCatLevel = 100
         , show.total  = TRUE
         )

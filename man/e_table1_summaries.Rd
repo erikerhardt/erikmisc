@@ -14,6 +14,7 @@ e_table1_summaries(
   fn_all = NULL,
   label_width = 40,
   sw_verbose = FALSE,
+  moonbook_max_ylev = 2,
   moonbook_digits = c(factor = 1, numeric = 3),
   moonbook_method = c(1, 2, 3)[2]
 )
@@ -36,6 +37,8 @@ e_table1_summaries(
 \item{label_width}{Width to wrap column and row variable labels, does not affect category labels.}
 
 \item{sw_verbose}{Print status to console during execution?}
+
+\item{moonbook_max_ylev}{An integer indicating the maximum number of levels of grouping variable ('y'). If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 2. (\code{?moonBook::mytable_sub})}
 
 \item{moonbook_digits}{An integer indicating the number of decimal places (round) or significant digits to be used. Default value is 3. (\code{?moonBook::mytable_sub})}
 
