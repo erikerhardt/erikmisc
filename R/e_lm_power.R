@@ -340,61 +340,115 @@ e_lm_power <-
 
     # reshape for plotting
     dat_power_curve_long <-
-      tab_power %>%
-      dplyr::select(
-        n_total
-      #, n_param_full
-      #, n_param_red
-      #, df_num
-      #, df_den
-      #, sig_level
-      #, method
-      #, Cohen_small_effect_size
-      , Cohen_small_power
-      #, Cohen_medium_effect_size
-      , Cohen_medium_power
-      #, Cohen_large_effect_size
-      , Cohen_large_power
-      #, obs_effect_size
-      , obs_power
-      ) %>%
-      dplyr::rename(
-        `Cohen Small`  = Cohen_small_power
-      , `Cohen Medium` = Cohen_medium_power
-      , `Cohen Large`  = Cohen_large_power
-      , `Observed`     = obs_power
-      ) %>%
-      tidyr::pivot_longer(
-        cols =
-          c(
-            `Observed`
-          , `Cohen Small`
-          , `Cohen Medium`
-          , `Cohen Large`
-          )
-      , names_to = "Effect_Size"
-      , values_to = "Power"
-      ) %>%
-      dplyr::rename(
-        Sample_Size = n_total
-      ) %>%
-      dplyr::select(
-        Sample_Size, everything()
-      ) %>%
-      dplyr::arrange(
-        Power, Sample_Size, Effect_Size
-      ) %>%
-      dplyr::mutate(
-        Effect_Size = Effect_Size %>% factor(levels =
-                                                c(
-                                                  "Cohen Small"
-                                                , "Cohen Medium"
-                                                , "Cohen Large"
-                                                , "Observed"
+      dplyr::left_join(
+        ## power
+        tab_power %>%
+        dplyr::select(
+          n_total
+        #, n_param_full
+        #, n_param_red
+        #, df_num
+        #, df_den
+        #, sig_level
+        #, method
+        #, Cohen_small_effect_size
+        , Cohen_small_power
+        #, Cohen_medium_effect_size
+        , Cohen_medium_power
+        #, Cohen_large_effect_size
+        , Cohen_large_power
+        #, obs_effect_size
+        , obs_power
+        ) %>%
+        dplyr::rename(
+          `Cohen Small`  = Cohen_small_power
+        , `Cohen Medium` = Cohen_medium_power
+        , `Cohen Large`  = Cohen_large_power
+        , `Observed`     = obs_power
+        ) %>%
+        tidyr::pivot_longer(
+          cols =
+            c(
+              `Observed`
+            , `Cohen Small`
+            , `Cohen Medium`
+            , `Cohen Large`
+            )
+        , names_to = "Effect_Size"
+        , values_to = "Power"
+        ) %>%
+        dplyr::rename(
+          Sample_Size = n_total
+        ) %>%
+        dplyr::select(
+          Sample_Size, everything()
+        ) %>%
+        dplyr::arrange(
+          Power, Sample_Size, Effect_Size
+        ) %>%
+        dplyr::mutate(
+          Effect_Size = Effect_Size %>% factor(levels =
+                                                  c(
+                                                    "Cohen Small"
+                                                  , "Cohen Medium"
+                                                  , "Cohen Large"
+                                                  , "Observed"
+                                                  )
+                                                , ordered = TRUE
                                                 )
-                                              , ordered = TRUE
-                                              )
+        )
+        ## f2 effect size
+      , tab_power %>%
+        dplyr::select(
+          #n_total
+        #, n_param_full
+        #, n_param_red
+        #, df_num
+        #, df_den
+        #, sig_level
+        #, method
+          Cohen_small_effect_size
+        #, Cohen_small_power
+        , Cohen_medium_effect_size
+        #, Cohen_medium_power
+        , Cohen_large_effect_size
+        #, Cohen_large_power
+        , obs_effect_size
+        #, obs_power
+        ) %>%
+        dplyr::rename(
+          `Cohen Small`  = Cohen_small_effect_size
+        , `Cohen Medium` = Cohen_medium_effect_size
+        , `Cohen Large`  = Cohen_large_effect_size
+        , `Observed`     = obs_effect_size
+        ) %>%
+        tidyr::pivot_longer(
+          cols =
+            c(
+              `Observed`
+            , `Cohen Small`
+            , `Cohen Medium`
+            , `Cohen Large`
+            )
+        , names_to = "Effect_Size"
+        , values_to = "f2"
+        ) %>%
+        dplyr::arrange(
+          f2, Effect_Size
+        ) %>%
+        dplyr::mutate(
+          Effect_Size = Effect_Size %>% factor(levels =
+                                                  c(
+                                                    "Cohen Small"
+                                                  , "Cohen Medium"
+                                                  , "Cohen Large"
+                                                  , "Observed"
+                                                  )
+                                                , ordered = TRUE
+                                                )
+        )
       ) %>%
+      dplyr::distinct() %>%
       dplyr::mutate(
         # plot size used in ggplot, Observed is larger
         plot_size =
@@ -406,8 +460,11 @@ e_lm_power <-
       tidyr::drop_na()
 
 
+
+
     text_caption <- NULL
     for (i_n_plot_ref in seq_along(n_plot_ref)) {
+      ## i_n_plot_ref = 1
       # next line of powers
       if (i_n_plot_ref > 1) {
         text_caption <-
@@ -419,7 +476,7 @@ e_lm_power <-
       text_caption <-
         paste0(
           text_caption
-        , "Power at a sample size of n = ", n_plot_ref[i_n_plot_ref], ":\n"
+        , "Power (effect size) at a sample size of n = ", n_plot_ref[i_n_plot_ref], ":\n"
         )
       # spaces before power line
       text_caption <-
@@ -432,10 +489,16 @@ e_lm_power <-
         paste0(
           text_caption
         , "Cohen Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) %>% pull(f2) %>% round(3)
+        , ")"
         , ";  "
         , "Cohen Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium" ) %>% pull(f2) %>% round(3)
+        , ")"
         , ";  "
         , "Cohen Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(f2) %>% round(3)
+        , ")"
         )
       # observed
       if (!is.null(dat)) {
@@ -444,6 +507,8 @@ e_lm_power <-
             text_caption
           , ";  "
           , "Observed: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed" ) %>% pull(f2) %>% round(3)
+        , ")"
           )
       }
     }
@@ -574,6 +639,7 @@ e_lm_power <-
     , n_param_full
     , n_param_red
     , ends_with("_power")
+    , ends_with("_effect_size")
     )
 
   # return a table and plot
