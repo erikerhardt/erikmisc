@@ -463,6 +463,32 @@ e_lm_power <-
 
 
     text_caption <- NULL
+    ## Effect size
+    text_caption <-
+      paste0(
+        text_caption
+      , "Effect size (f2): "
+      , "Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Small" ) %>% pull(f2) %>% round(3)
+      , ";  "
+      , "Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Medium" ) %>% pull(f2) %>% round(3)
+      , ";  "
+      , "Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Large" ) %>% pull(f2) %>% round(3)
+      )
+    # observed
+    if (!is.null(dat)) {
+      text_caption <-
+        paste0(
+          text_caption
+        , ";  "
+        , "Observed: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Observed" ) %>% pull(f2) %>% round(3)
+        )
+    }
+    # new line
+    text_caption <-
+      paste0(
+        text_caption
+      , "\n"
+      )
     for (i_n_plot_ref in seq_along(n_plot_ref)) {
       ## i_n_plot_ref = 1
       # next line of powers
@@ -473,10 +499,11 @@ e_lm_power <-
           , "\n"
           )
       }
+      ## Power
       text_caption <-
         paste0(
           text_caption
-        , "Power (effect size) at a sample size of n = ", n_plot_ref[i_n_plot_ref], ":\n"
+        , "Power at a sample size of n = ", n_plot_ref[i_n_plot_ref], ":\n"
         )
       # spaces before power line
       text_caption <-
@@ -489,16 +516,10 @@ e_lm_power <-
         paste0(
           text_caption
         , "Cohen Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
-        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) %>% pull(f2) %>% round(3)
-        , ")"
         , ";  "
         , "Cohen Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium" ) %>% pull(f2) %>% round(3)
-        , ")"
         , ";  "
         , "Cohen Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) %>% pull(f2) %>% round(3)
-        , ")"
         )
       # observed
       if (!is.null(dat)) {
@@ -507,8 +528,6 @@ e_lm_power <-
             text_caption
           , ";  "
           , "Observed: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-        , " (f2 = ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed" ) %>% pull(f2) %>% round(3)
-        , ")"
           )
       }
     }
