@@ -387,15 +387,18 @@ e_lm_power <-
           Power, Sample_Size, Effect_Size
         ) %>%
         dplyr::mutate(
-          Effect_Size = Effect_Size %>% factor(levels =
-                                                  c(
-                                                    "Cohen Small"
-                                                  , "Cohen Medium"
-                                                  , "Cohen Large"
-                                                  , "Observed"
-                                                  )
-                                                , ordered = TRUE
-                                                )
+          Effect_Size =
+            Effect_Size %>%
+            factor(
+              levels =
+                c(
+                  "Cohen Small"
+                , "Cohen Medium"
+                , "Cohen Large"
+                , "Observed"
+                )
+            , ordered = TRUE
+            )
         )
         ## f2 effect size
       , tab_power %>%
@@ -437,15 +440,18 @@ e_lm_power <-
           f2, Effect_Size
         ) %>%
         dplyr::mutate(
-          Effect_Size = Effect_Size %>% factor(levels =
-                                                  c(
-                                                    "Cohen Small"
-                                                  , "Cohen Medium"
-                                                  , "Cohen Large"
-                                                  , "Observed"
-                                                  )
-                                                , ordered = TRUE
-                                                )
+          Effect_Size =
+            Effect_Size %>%
+            factor(
+              levels =
+                c(
+                  "Cohen Small"
+                , "Cohen Medium"
+                , "Cohen Large"
+                , "Observed"
+                )
+            , ordered = TRUE
+            )
         )
       ) %>%
       dplyr::distinct() %>%
