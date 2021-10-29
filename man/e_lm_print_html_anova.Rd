@@ -13,7 +13,7 @@ e_lm_print_html_anova(
 \arguments{
 \item{fit}{result of lm()}
 
-\item{n_digits}{number of digits to use in table}
+\item{n_digits}{number of digits to use for estimates in table}
 
 \item{filename_html}{filename.html to save html}
 }

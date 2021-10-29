@@ -6,6 +6,7 @@
 \usage{
 e_lm_print_html_summary(
   fit = fit,
+  n_digits = 3,
   n_digits_p = 4,
   filename_html = "table_model.html"
 )
@@ -13,9 +14,11 @@ e_lm_print_html_summary(
 \arguments{
 \item{fit}{result of lm()}
 
+\item{n_digits}{number of digits to use for estimates in table}
+
 \item{n_digits_p}{number of digits to use for p-values in table}
 
-\item{filename_html}{filename.html to save html}
+\item{filename_html}{filename.html to save html, NULL to not save}
 }
 \value{
 html table to print within Rmd report

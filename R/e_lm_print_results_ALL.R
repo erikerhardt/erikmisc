@@ -3,7 +3,7 @@
 #' Open and copy html and paste into Excel to format tables for manuscript in MS Word.
 #'
 #' @param fit           result of lm()
-#' @param n_digits      number of digits to use in table
+#' @param n_digits      number of digits to use for estimates in table
 #' @param filename_html filename.html to save html
 #'
 #' @return html table to print within Rmd report
@@ -98,7 +98,8 @@ e_lm_print_html_anova <-
 #' Open and copy html and paste into Excel to format tables for manuscript in MS Word.
 #'
 #' @param fit           result of lm()
-#' @param filename_html filename.html to save html
+#' @param filename_html filename.html to save html, NULL to not save
+#' @param n_digits      number of digits to use for estimates in table
 #' @param n_digits_p    number of digits to use for p-values in table
 #'
 #' @return html table to print within Rmd report
@@ -122,6 +123,7 @@ e_lm_print_html_anova <-
 e_lm_print_html_summary <-
   function(
     fit           = fit
+  , n_digits      = 3
   , n_digits_p    = 4
   , filename_html = "table_model.html"
   ) {
@@ -151,6 +153,7 @@ e_lm_print_html_summary <-
       , show.reflvl   = TRUE
       , prefix.labels = c("none", "varname", "label")[3]
       , p.style       = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars")[1]
+      , digits        = n_digits
       , digits.p      = n_digits_p
       , minus.sign    = "&#8722;"  # https://en.wikipedia.org/wiki/Plus_and_minus_signs
       , CSS           = sjPlot::css_theme(c("regression", "cells", "right_aligned")[1])
@@ -169,6 +172,7 @@ e_lm_print_html_summary <-
     , show.reflvl   = TRUE
     , prefix.labels = c("none", "varname", "label")[3]
     , p.style       = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars")[1]
+    , digits        = n_digits
     , digits.p      = n_digits_p
     , minus.sign    = "&#8722;"  # https://en.wikipedia.org/wiki/Plus_and_minus_signs
     , CSS           = sjPlot::css_theme(c("regression", "cells", "right_aligned")[1])
