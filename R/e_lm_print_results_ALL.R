@@ -10,7 +10,7 @@
 #' @importFrom lmerTest as_lmerModLmerTest
 #' @importFrom sjPlot tab_df
 #' @importFrom sjPlot css_theme
-#' @importFrom stats anova
+#' @importFrom car Anova
 #' @import dplyr
 #' @export
 #'
@@ -38,19 +38,29 @@ e_lm_print_html_anova <-
   if (class(fit) == "lm") {
     fit_anova <-
       fit %>%
-      stats::anova()
+      #stats::anova()
+      car::Anova(type = 3)
+    tab <-
+      fit_anova %>%
+      as_tibble(rownames = "Variables") %>%
+      mutate(sig = `Pr(>F)` %>% e_pval_stars())
   }
   if (class(fit) == "lmerMod") {
     fit_anova <-
       fit %>%
       lmerTest::as_lmerModLmerTest() %>%
-      stats::anova()
+      #stats::anova()
+      car::Anova(type = 3)
+    tab <-
+      fit_anova %>%
+      as_tibble(rownames = "Variables") %>%
+      mutate(sig = `Pr(>Chisq)` %>% e_pval_stars())
   }
 
-  tab <-
-    fit_anova %>%
-    as_tibble(rownames = "Variables") %>%
-    mutate(sig = `Pr(>F)` %>% e_pval_stars())
+  # tab <-
+  #   fit_anova %>%
+  #   as_tibble(rownames = "Variables") %>%
+  #   mutate(sig = `Pr(>F)` %>% e_pval_stars())
                         #  %>%
                         # rename(
                         #   `Sum Sq`  = Sum.Sq
