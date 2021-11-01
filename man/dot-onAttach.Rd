@@ -4,12 +4,10 @@
 \alias{.onAttach}
 \title{.onAttach start message}
 \usage{
-.onAttach(libname, pkgname)
+.onAttach(...)
 }
 \arguments{
-\item{libname}{defunct}
-
-\item{pkgname}{defunct}
+\item{...}{arguments}
 }
 \value{
 invisible(NULL)

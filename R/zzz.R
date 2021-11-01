@@ -1,19 +1,34 @@
 ## Startup functions ------------------------------------
 
+# Based on zzz.R from the tidyverse package, https://github.com/tidyverse/tidyverse/blob/main/R/zzz.R
 #' .onAttach start message
 #'
-#' @param libname defunct
-#' @param pkgname defunct
-#'
+#' @param ...             arguments
 #' @return invisible(NULL)
-.onAttach <- function(libname, pkgname) {
+.onAttach <- function(...) {
   start_message <- c( "erikmisc, solving common complex data analysis workflows\n"
                       , "  by Dr. Erik Barry Erhardt <erik@StatAcumen.com>")
   packageStartupMessage(start_message)
   #print(erikmisc_logo())
+
+  needed <- core[!is_attached(core)]
+  if (length(needed) == 0)
+    return()
+
+  crayon::num_colors(TRUE)
+  erikmisc_attach()
+
+  if (!"package:conflicted" %in% search()) {
+    x <- erikmisc_conflicts()
+    msg(erikmisc_conflict_message(x), startup = TRUE)
+  }
+
   invisible(NULL)
 }
 
+is_attached <- function(x) {
+  paste0("package:", x) %in% search()
+}
 
 #' .onLoad getOption package settings
 #'
