@@ -6,10 +6,6 @@
 #' @param ...             arguments
 #' @return invisible(NULL)
 .onAttach <- function(...) {
-  start_message <- c( "erikmisc, solving common complex data analysis workflows\n"
-                      , "  by Dr. Erik Barry Erhardt <erik@StatAcumen.com>")
-  packageStartupMessage(start_message)
-  #print(erikmisc_logo())
 
   needed <- core[!is_attached(core)]
   if (length(needed) == 0)
@@ -22,6 +18,11 @@
     x <- erikmisc_conflicts()
     msg(erikmisc_conflict_message(x), startup = TRUE)
   }
+
+  start_message <- c( "erikmisc, solving common complex data analysis workflows\n"
+                      , "  by Dr. Erik Barry Erhardt <erik@StatAcumen.com>")
+  packageStartupMessage(start_message)
+  #print(erikmisc_logo())
 
   invisible(NULL)
 }
