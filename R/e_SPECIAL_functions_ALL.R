@@ -1,3 +1,8 @@
+# Index for this file
+# notin
+# duplicated
+# extract numbers
+
 # ------------------------------------------------------------------------------
 # because of Check warnings from:
 #  `%notin%` <- Negate(`%in%`)
@@ -49,5 +54,40 @@ e_duplicated_all <-
   ) {
     # https://stat.ethz.ch/pipermail/r-help/2011-October/291383.html
 
-    duplicated(dat) | duplicated(dat, fromLast = TRUE)
+    base::duplicated(dat) | base::duplicated(dat, fromLast = TRUE)
 }
+
+
+
+#' Extract numbers from a string
+#'
+#' @param vec list of strings
+#'
+#' @return numeric list
+#' @export
+#'
+#' @examples
+#' # note difference in last two items
+#' vec <- c(NA, 1, "a", "a1a", "@%^#@0.23asdf", ")(&*.2&*", ")(&*0.2&*")
+#' e_extract_numbers_from_string(vec)
+e_extract_numbers_from_string <- function (vec) {
+  # https://stackoverflow.com/questions/14543627/extracting-numbers-from-vectors-of-strings
+  # pattern is by finding a set of numbers in the start and capturing them
+  # This approach makes the decimal point and decimal fraction optional and allows multiple numbers to be extracted:
+  # The concern about negative numbers can be address with optional perl style look-ahead:
+    # EBE: removed unlist() in order to keep NAs for blank values
+
+  out <- as.numeric(
+            regmatches(
+              vec
+            , gregexpr(
+                "(?>-)*[[:digit:]]+\\.*[[:digit:]]*"
+              , vec
+              , perl = TRUE
+              )
+            )
+          )
+
+  return(out)
+}
+
