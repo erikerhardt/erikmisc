@@ -11,6 +11,7 @@ e_split_list_columns_into_indicator_columns(
   code_other_below_freq = 5,
   label_other = "other",
   indicator_col_prefix = "item_",
+  sw_data_or_summary = c("data", "summary")[1],
   sw_replace_GT1_with_1 = FALSE,
   sw_print_unique = TRUE
 )
@@ -28,12 +29,14 @@ e_split_list_columns_into_indicator_columns(
 
 \item{indicator_col_prefix}{prefix for the new indicator columns}
 
+\item{sw_data_or_summary}{return data with indicator columns or return summary tables of frequencies of items}
+
 \item{sw_replace_GT1_with_1}{T/F, to replace "greater than 1" counts with an indicator of 1 (to interpret as "at least 1")}
 
 \item{sw_print_unique}{T/F, print list of items before and after replacing with "other"}
 }
 \value{
-dat_this with additional indicator columns
+dat_this               from \code{sw_data_or_summary}, either the data with additional indicator columns; or a list of summary tables of frequencies of items
 }
 \description{
 Commonly used for comorbidities or prescription lists within a single (or multiple) column(s).
@@ -56,10 +59,11 @@ dat_ex <-
   ) \%>\%
   dplyr::select(
     ID
-  , everything()
+  , tidyselect::everything()
   )
 dat_ex \%>\% print(n = Inf)
 
+# return data
 dat_ex_out <-
   e_split_list_columns_into_indicator_columns(
     dat_this              = dat_ex
@@ -68,8 +72,24 @@ dat_ex_out <-
   , code_other_below_freq = 2
   , label_other           = "other"
   , indicator_col_prefix  = "item_"
+  , sw_data_or_summary    = "data"
   , sw_replace_GT1_with_1 = FALSE
   , sw_print_unique       = TRUE
   )
 dat_ex_out \%>\% print(n = Inf)
+
+# return summary
+dat_ex_sum <-
+  e_split_list_columns_into_indicator_columns(
+    dat_this              = dat_ex
+  , var_names_items       = c("col1", "col2")
+  , item_delimiters       = ",.;/|"
+  , code_other_below_freq = 2
+  , label_other           = "other"
+  , indicator_col_prefix  = "item_"
+  , sw_data_or_summary    = "summary"
+  , sw_replace_GT1_with_1 = FALSE
+  , sw_print_unique       = FALSE
+  )
+dat_ex_sum \%>\% print(n = Inf)
 }
