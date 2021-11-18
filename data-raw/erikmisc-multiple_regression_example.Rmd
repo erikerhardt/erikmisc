@@ -61,10 +61,8 @@ Aspects of this example:
 Prepare the environment with packages and functions.
 
 ```{r}
+library(erikmisc)
 library(tidyverse)
-
-# load ada functions
-source("ada_functions.R")
 ```
 
 Read and format the data.

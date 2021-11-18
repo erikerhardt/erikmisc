@@ -1,9 +1,12 @@
-pandoc: 2.11.4
+pandoc: 2.14.0.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   erikmisc-e_lm_bestsubset: erikmisc-e_lm_bestsubset.html
   erikmisc-e_plot_model_contrasts: erikmisc-e_plot_model_contrasts.html
+  erikmisc-e_rmd_name_chunks: erikmisc-e_rmd_name_chunks.html
   erikmisc-key_variables_completion: erikmisc-key_variables_completion.html
-last_built: 2021-09-08T16:57Z
+  test_in: test_in.html
+  test_out: test_out.html
+last_built: 2021-11-18T04:55Z
 

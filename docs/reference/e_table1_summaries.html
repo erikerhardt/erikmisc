@@ -74,7 +74,7 @@ then join them into a single file at the end" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -103,7 +103,16 @@ then join them into a single file at the end" />
       <a href="../articles/erikmisc-e_plot_model_contrasts.html">Plot model contrasts</a>
     </li>
     <li>
+      <a href="../articles/erikmisc-e_rmd_name_chunks.html">Rmd/Rnw rename code chunks vignette</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc-key_variables_completion.html">Key variables completion</a>
+    </li>
+    <li>
+      <a href="../articles/test_in.html">RmdNameChunk test file</a>
+    </li>
+    <li>
+      <a href="../articles/test_out.html">RmdNameChunk test file</a>
     </li>
   </ul>
 </li>
@@ -149,6 +158,7 @@ then join them into a single file at the end</p>
   fn_all <span class='op'>=</span> <span class='cn'>NULL</span>,
   label_width <span class='op'>=</span> <span class='fl'>40</span>,
   sw_verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  moonbook_max_ylev <span class='op'>=</span> <span class='fl'>2</span>,
   moonbook_digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>factor <span class='op'>=</span> <span class='fl'>1</span>, numeric <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>,
   moonbook_method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
 <span class='op'>)</span></pre>
@@ -191,6 +201,10 @@ then join them into a single file at the end</p>
     <tr>
       <th>sw_verbose</th>
       <td><p>Print status to console during execution?</p></td>
+    </tr>
+    <tr>
+      <th>moonbook_max_ylev</th>
+      <td><p>An integer indicating the maximum number of levels of grouping variable ('y'). If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 2. (<code><a href='https://rdrr.io/pkg/moonBook/man/mytable_sub.html'>?moonBook::mytable_sub</a></code>)</p></td>
     </tr>
     <tr>
       <th>moonbook_digits</th>
