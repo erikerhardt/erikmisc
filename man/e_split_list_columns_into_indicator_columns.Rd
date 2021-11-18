@@ -91,5 +91,5 @@ dat_ex_sum <-
   , sw_replace_GT1_with_1 = FALSE
   , sw_print_unique       = FALSE
   )
-dat_ex_sum \%>\% print(n = Inf)
+dat_ex_sum
 }
