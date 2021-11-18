@@ -28,9 +28,9 @@ e_split_list_columns_into_indicator_columns(
 
 \item{indicator_col_prefix}{prefix for the new indicator columns}
 
-\item{sw_replace_GT1_with_1}{if a person's item count is more than one in the indicator column, should we replace with a "1" to interpret as "at least 1"}
+\item{sw_replace_GT1_with_1}{T/F, to replace "greater than 1" counts with an indicator of 1 (to interpret as "at least 1")}
 
-\item{sw_print_unique}{print list of items before and after replacing with "other"}
+\item{sw_print_unique}{T/F, print list of items before and after replacing with "other"}
 }
 \value{
 dat_this with additional indicator columns
@@ -38,7 +38,7 @@ dat_this with additional indicator columns
 \description{
 Commonly used for comorbidities or prescription lists within a single (or multiple) column(s).
 Takes a column where items are separated by puncutation (,.;/|) and creates separate columns with indicators.
-Can treat counts of items >1 as 1 to simplify summary tables.
+Can treat counts of items >1 as 1 to simplify summary tables (for example, multiple items coded as "other").
 }
 \examples{
 dat_ex <-

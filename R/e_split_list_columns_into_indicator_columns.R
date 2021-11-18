@@ -2,7 +2,7 @@
 #'
 #' Commonly used for comorbidities or prescription lists within a single (or multiple) column(s).
 #' Takes a column where items are separated by puncutation (,.;/|) and creates separate columns with indicators.
-#' Can treat counts of items >1 as 1 to simplify summary tables.
+#' Can treat counts of items >1 as 1 to simplify summary tables (for example, multiple items coded as "other").
 #'
 #' @param dat_this                entire data.frame or tibble, will return with additional indicator columns
 #' @param var_names_items         column names with lists of items
@@ -10,8 +10,8 @@
 #' @param code_other_below_freq   replace item name with \code{label_other} if total frequency for an item is less than this value
 #' @param label_other             label for the "other" category
 #' @param indicator_col_prefix    prefix for the new indicator columns
-#' @param sw_replace_GT1_with_1   if a person's item count is more than one in the indicator column, should we replace with a "1" to interpret as "at least 1"
-#' @param sw_print_unique         print list of items before and after replacing with "other"
+#' @param sw_replace_GT1_with_1   T/F, to replace "greater than 1" counts with an indicator of 1 (to interpret as "at least 1")
+#' @param sw_print_unique         T/F, print list of items before and after replacing with "other"
 #'
 #' @return dat_this with additional indicator columns
 #' @importFrom dplyr arrange
@@ -76,7 +76,7 @@ e_split_list_columns_into_indicator_columns <-
   ) {
 
   if(is.null(var_names_items)) {
-    warning("erikmisc::e_split_list_columns_into_indicator_columns:  No column name(s) for items provided, exiting")
+    warning("erikmisc::e_split_list_columns_into_indicator_columns:  No column name(s) for items provided, returning original data")
     return(dat_this)
   }
 
