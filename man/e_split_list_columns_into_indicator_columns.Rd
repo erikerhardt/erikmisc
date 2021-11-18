@@ -43,7 +43,12 @@ Can treat counts of items >1 as 1 to simplify summary tables.
 \examples{
 dat_ex <-
   dplyr::tibble(
-    col1 = c(NA, "", "a", "A, B  ,C", "b", "D. c ;    d", "x  ;Y", "ab/0|J", 2, "other", 1)
+    col1 =
+      c(
+        NA, "", "a", "A, B  ,C", "b", "D. c ;    d"
+      , "x  ;Y", "ab/0|J;1;1", 2, "other", 1
+      , "a a a", "1,a a a", "2,a a a"
+      )
   , col2 = LETTERS[1:length(col1)]
   ) \%>\%
   dplyr::mutate(

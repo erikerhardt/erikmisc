@@ -34,7 +34,12 @@
 #' @examples
 #' dat_ex <-
 #'   dplyr::tibble(
-#'     col1 = c(NA, "", "a", "A, B  ,C", "b", "D. c ;    d", "x  ;Y", "ab/0|J", 2, "other", 1)
+#'     col1 =
+#'       c(
+#'         NA, "", "a", "A, B  ,C", "b", "D. c ;    d"
+#'       , "x  ;Y", "ab/0|J;1;1", 2, "other", 1
+#'       , "a a a", "1,a a a", "2,a a a"
+#'       )
 #'   , col2 = LETTERS[1:length(col1)]
 #'   ) %>%
 #'   dplyr::mutate(
@@ -140,7 +145,7 @@ e_split_list_columns_into_indicator_columns <-
     as.character()
 
   if(label_other %in% tab_items_unique[["items"]]) {
-    message("erikmisc::e_split_list_columns_into_indicator_columns: Other category `", label_other, "` already appears in data.")
+    message("Note: erikmisc::e_split_list_columns_into_indicator_columns: Other category `", label_other, "` already appears in data.")
   }
 
 
