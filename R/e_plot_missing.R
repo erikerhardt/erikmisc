@@ -197,6 +197,7 @@ e_plot_missing <-
   #p <- p + ggplot2::scale_fill_grey(name = "", labels = c("Present", "Missing"))
   p <- p + ggplot2::theme_minimal()
   p <- p + ggplot2::theme(axis.text.x  = element_text(angle=90, vjust=0, hjust=0))
+  #p <- p + ggplot2::theme(axis.text.x  = element_text(angle=-90, vjust=0, hjust=0))
   p <- p + ggplot2::labs(x = "Variables in Dataset", y = "Rows / observations")
   #ggplot2::scale_y_continuous(expand = c(0,0)) +
   #p <- p + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
@@ -221,6 +222,14 @@ e_plot_missing <-
                 , prod(dim(dat))
                 , ",  "
                 , 100 * round(n_missing / prod(dim(dat)), 3)
+                , " %;"
+                , "    "
+                , "Complete observations: "
+                , sum(!NO_MISSING)
+                , " / "
+                , length(NO_MISSING)
+                , ",  "
+                , 100 * round(sum(!NO_MISSING) / length(NO_MISSING), 3)
                 , " %"
                 )
             )
