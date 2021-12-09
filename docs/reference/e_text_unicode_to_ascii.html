@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert from Odds Ratio to Probability — e_convert_oddsratio_to_probability • erikmisc</title>
+<title>Replace Unicode with ASCII — e_text_unicode_to_ascii • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Convert from Odds Ratio to Probability — e_convert_oddsratio_to_probability" />
-<meta property="og:description" content="Convert from Odds Ratio to Probability" />
+<meta property="og:title" content="Replace Unicode with ASCII — e_text_unicode_to_ascii" />
+<meta property="og:description" content="Read a text file and replace unicode characters [^\x00-\x7F] with equivalent ASCII or specified replacement.
+Review table ?dat_unicode_tables_sel_byhand_e for the ASCII replacements.
+Not all unicode has a natural ASCII replacement, so those replacements can be specified with unicode_generic_replacement." />
 
 
 
@@ -135,39 +137,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert from Odds Ratio to Probability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_convert_oddsratio-probability_ALL.R'><code>R/e_convert_oddsratio-probability_ALL.R</code></a></small>
-    <div class="hidden name"><code>e_convert_oddsratio_to_probability.Rd</code></div>
+    <h1>Replace Unicode with ASCII</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_text_unicode_to_ascii.R'><code>R/e_text_unicode_to_ascii.R</code></a></small>
+    <div class="hidden name"><code>e_text_unicode_to_ascii.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert from Odds Ratio to Probability</p>
+    <p>Read a text file and replace unicode characters <code>[^\x00-\x7F]</code> with equivalent ASCII or specified replacement.
+Review table <code><a href='dat_unicode_tables_sel_byhand_e.html'>?dat_unicode_tables_sel_byhand_e</a></code> for the ASCII replacements.
+Not all unicode has a natural ASCII replacement, so those replacements can be specified with <code>unicode_generic_replacement</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_convert_oddsratio_to_probability</span><span class='op'>(</span>or <span class='op'>=</span> <span class='cn'>NULL</span>, sw_percent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>e_text_unicode_to_ascii</span><span class='op'>(</span>
+  fn_in <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fn_out <span class='op'>=</span> <span class='cn'>NULL</span>,
+  unicode_generic_replacement <span class='op'>=</span> <span class='st'>"XunicodeX"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>or</th>
-      <td><p>list of odds ratios</p></td>
+      <th>fn_in</th>
+      <td><p>text filename in.</p></td>
     </tr>
     <tr>
-      <th>sw_percent</th>
-      <td><p>T/F return as percent, instead?</p></td>
+      <th>fn_out</th>
+      <td><p>text filename out.  If NULL, then this is assigned <code>fn_in</code>.</p></td>
+    </tr>
+    <tr>
+      <th>unicode_generic_replacement</th>
+      <td><p>a string to replace non-matched unicode characters</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>p         list of probabilities</p>
+    <p>NULL, invisibly</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>or</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>9</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>9</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>e_convert_oddsratio_to_probability</span><span class='op'>(</span><span class='va'>or</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.0000000 0.1000000 0.2000000 0.3333333 0.5000000 0.6666667 0.8000000</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [8] 0.9000000</span>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># e_text_unicode_to_ascii(</span></span>
+<span class='r-in'><span class='co'>#     fn_in  = "./data-raw/text_in_unicode.csv"</span></span>
+<span class='r-in'><span class='co'>#   , fn_out = "./data-raw/text_out_unicode.csv"</span></span>
+<span class='r-in'><span class='co'>#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span>
+<span class='r-in'><span class='co'>#   )</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

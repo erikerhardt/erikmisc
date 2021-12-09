@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -160,42 +160,44 @@
     <p>dat with factor variables converted to numeric</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>dat</span> <span class='op'>&lt;-</span>
-  <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
-    cyl <span class='op'>=</span> <span class='va'>cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='op'>)</span>
-  , vs  <span class='op'>=</span> <span class='va'>vs</span>  <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 'data.frame':	32 obs. of  11 variables:
-#&gt;  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-#&gt;  $ cyl : Factor w/ 3 levels "4","6","8": 2 2 1 2 3 2 3 1 1 2 ...
-#&gt;  $ disp: num  160 160 108 258 360 ...
-#&gt;  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
-#&gt;  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-#&gt;  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
-#&gt;  $ qsec: num  16.5 17 18.6 19.4 17 ...
-#&gt;  $ vs  : Factor w/ 2 levels "0","1": 1 1 2 2 1 2 1 2 2 2 ...
-#&gt;  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
-#&gt;  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
-#&gt;  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</div><div class='input'>
-<span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>dat</span> <span class='op'>%&gt;%</span> <span class='fu'>e_data_convert_factor_to_numeric</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 'data.frame':	32 obs. of  11 variables:
-#&gt;  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-#&gt;  $ cyl : num  2 2 1 2 3 2 3 1 1 2 ...
-#&gt;  $ disp: num  160 160 108 258 360 ...
-#&gt;  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
-#&gt;  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-#&gt;  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
-#&gt;  $ qsec: num  16.5 17 18.6 19.4 17 ...
-#&gt;  $ vs  : num  1 1 2 2 1 2 1 2 2 2 ...
-#&gt;  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
-#&gt;  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
-#&gt;  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</div><div class='input'>
-<span class='co'># readr::write_csv(x = dat , file = "dat.csv"    )</span>
-<span class='co'># readr::write_csv(x = dat2, file = "dat_num.csv")</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>dat</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span class='r-in'>    cyl <span class='op'>=</span> <span class='va'>cyl</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  , vs  <span class='op'>=</span> <span class='va'>vs</span>  <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 'data.frame':	32 obs. of  11 variables:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ cyl : Factor w/ 3 levels "4","6","8": 2 2 1 2 3 2 3 1 1 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ disp: num  160 160 108 258 360 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ qsec: num  16.5 17 18.6 19.4 17 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ vs  : Factor w/ 2 levels "0","1": 1 1 2 2 1 2 1 2 2 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>dat</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'>e_data_convert_factor_to_numeric</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 'data.frame':	32 obs. of  11 variables:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ cyl : num  2 2 1 2 3 2 3 1 1 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ disp: num  160 160 108 258 360 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ qsec: num  16.5 17 18.6 19.4 17 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ vs  : num  1 1 2 2 1 2 1 2 2 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># readr::write_csv(x = dat , file = "dat.csv"    )</span></span>
+<span class='r-in'><span class='co'># readr::write_csv(x = dat2, file = "dat_num.csv")</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

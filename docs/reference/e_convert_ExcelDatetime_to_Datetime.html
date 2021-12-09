@@ -87,7 +87,7 @@ Date SystemSerial number
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -194,10 +194,11 @@ Date SystemSerial number
     <p>datetimes   list of Datetimes</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>datetimes</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40606.25</span>, <span class='fl'>40613.32986</span>, <span class='fl'>40615.32986</span><span class='op'>)</span>
-<span class='fu'>e_convert_ExcelDatetime_to_Datetime</span><span class='op'>(</span><span class='va'>datetimes</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2011-03-04 06:00:00 UTC" "2011-03-11 07:54:59 UTC"
-#&gt; [3] "2011-03-13 07:54:59 UTC"</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>datetimes</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40606.25</span>, <span class='fl'>40613.32986</span>, <span class='fl'>40615.32986</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_convert_ExcelDatetime_to_Datetime</span><span class='op'>(</span><span class='va'>datetimes</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2011-03-04 06:00:00 UTC" "2011-03-11 07:54:59 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "2011-03-13 07:54:59 UTC"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

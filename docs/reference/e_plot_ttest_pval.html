@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -164,11 +164,13 @@
     <p>if base graphics, NULL invisibly; if ggplot, the plot grob</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>t_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>$</span><span class='va'>mpg</span>, mu <span class='op'>=</span> <span class='fl'>20</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span>
-<span class='fu'>e_plot_ttest_pval</span><span class='op'>(</span><span class='va'>t_summary</span><span class='op'>)</span>
-</div><div class='img'><img src='e_plot_ttest_pval-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>t_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>am</span>, mu <span class='op'>=</span> <span class='fl'>0</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span>
-<span class='fu'>e_plot_ttest_pval</span><span class='op'>(</span><span class='va'>t_summary</span><span class='op'>)</span>
-</div><div class='img'><img src='e_plot_ttest_pval-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>t_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>$</span><span class='va'>mpg</span>, mu <span class='op'>=</span> <span class='fl'>20</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_plot_ttest_pval</span><span class='op'>(</span><span class='va'>t_summary</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='e_plot_ttest_pval-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='va'>t_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>am</span>, mu <span class='op'>=</span> <span class='fl'>0</span>, data <span class='op'>=</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_plot_ttest_pval</span><span class='op'>(</span><span class='va'>t_summary</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='e_plot_ttest_pval-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

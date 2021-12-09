@@ -42,7 +42,7 @@
 <meta property="og:title" content="Split a (set of) item-listing columns into indicator columns — e_split_list_columns_into_indicator_columns" />
 <meta property="og:description" content="Commonly used for comorbidities or prescription lists within a single (or multiple) column(s).
 Takes a column where items are separated by puncutation (,.;/|) and creates separate columns with indicators.
-Can treat counts of items &amp;gt;1 as 1 to simplify summary tables." />
+Can treat counts of items &amp;gt;1 as 1 to simplify summary tables (for example, multiple items coded as &quot;other&quot;)." />
 
 
 
@@ -74,7 +74,7 @@ Can treat counts of items &amp;gt;1 as 1 to simplify summary tables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -138,22 +138,24 @@ Can treat counts of items &amp;gt;1 as 1 to simplify summary tables." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Split a (set of) item-listing columns into indicator columns</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_health_ALL.R'><code>R/e_health_ALL.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_split_list_columns_into_indicator_columns.R'><code>R/e_split_list_columns_into_indicator_columns.R</code></a></small>
     <div class="hidden name"><code>e_split_list_columns_into_indicator_columns.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Commonly used for comorbidities or prescription lists within a single (or multiple) column(s).
 Takes a column where items are separated by puncutation (,.;/|) and creates separate columns with indicators.
-Can treat counts of items &gt;1 as 1 to simplify summary tables.</p>
+Can treat counts of items &gt;1 as 1 to simplify summary tables (for example, multiple items coded as "other").</p>
     </div>
 
     <pre class="usage"><span class='fu'>e_split_list_columns_into_indicator_columns</span><span class='op'>(</span>
   <span class='va'>dat_this</span>,
   var_names_items <span class='op'>=</span> <span class='cn'>NULL</span>,
+  item_delimiters <span class='op'>=</span> <span class='st'>",.;/|"</span>,
   code_other_below_freq <span class='op'>=</span> <span class='fl'>5</span>,
   label_other <span class='op'>=</span> <span class='st'>"other"</span>,
   indicator_col_prefix <span class='op'>=</span> <span class='st'>"item_"</span>,
+  sw_data_or_summary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"summary"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
   sw_replace_GT1_with_1 <span class='op'>=</span> <span class='cn'>FALSE</span>,
   sw_print_unique <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
@@ -170,6 +172,10 @@ Can treat counts of items &gt;1 as 1 to simplify summary tables.</p>
       <td><p>column names with lists of items</p></td>
     </tr>
     <tr>
+      <th>item_delimiters</th>
+      <td><p>delimiter(s) that separate items within a single column</p></td>
+    </tr>
+    <tr>
       <th>code_other_below_freq</th>
       <td><p>replace item name with <code>label_other</code> if total frequency for an item is less than this value</p></td>
     </tr>
@@ -182,105 +188,180 @@ Can treat counts of items &gt;1 as 1 to simplify summary tables.</p>
       <td><p>prefix for the new indicator columns</p></td>
     </tr>
     <tr>
+      <th>sw_data_or_summary</th>
+      <td><p>return data with indicator columns or return summary tables of frequencies of items</p></td>
+    </tr>
+    <tr>
       <th>sw_replace_GT1_with_1</th>
-      <td><p>if a person's item count is more than one in the indicator column, should we replace with a "1" to interpret as "at least 1"</p></td>
+      <td><p>T/F, to replace "greater than 1" counts with an indicator of 1 (to interpret as "at least 1")</p></td>
     </tr>
     <tr>
       <th>sw_print_unique</th>
-      <td><p>print list of items before and after replacing with "other"</p></td>
+      <td><p>T/F, print list of items before and after replacing with "other"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dat_this with additional indicator columns</p>
+    <p>dat_this               from <code>sw_data_or_summary</code>, either the data with additional indicator columns; or a list of summary tables of frequencies of items</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>dat_ex</span> <span class='op'>&lt;-</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
-    col1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>""</span>, <span class='st'>"a"</span>, <span class='st'>"A, B  ,C"</span>, <span class='st'>"b"</span>, <span class='st'>"D. c ;    d"</span>, <span class='st'>"x  ;Y"</span>, <span class='st'>"ab/0|J"</span>, <span class='fl'>2</span>, <span class='st'>"other"</span>, <span class='fl'>1</span><span class='op'>)</span>
-  , col2 <span class='op'>=</span> <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>col1</span><span class='op'>)</span><span class='op'>]</span>
-  <span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
-    ID <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>
-    <span class='va'>ID</span>
-  , <span class='fu'>everything</span><span class='op'>(</span><span class='op'>)</span>
-  <span class='op'>)</span>
-<span class='va'>dat_ex</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 x 3</span>
-#&gt;       ID col1          col2 
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     1  <span style='color: #BB0000;'>NA</span>           A    
-#&gt; <span style='color: #BCBCBC;'> 2</span>     2 <span style='color: #949494;'>""</span>            B    
-#&gt; <span style='color: #BCBCBC;'> 3</span>     3 <span style='color: #949494;'>"</span>a<span style='color: #949494;'>"</span>           C    
-#&gt; <span style='color: #BCBCBC;'> 4</span>     4 <span style='color: #949494;'>"</span>A, B  ,C<span style='color: #949494;'>"</span>    D    
-#&gt; <span style='color: #BCBCBC;'> 5</span>     5 <span style='color: #949494;'>"</span>b<span style='color: #949494;'>"</span>           E    
-#&gt; <span style='color: #BCBCBC;'> 6</span>     6 <span style='color: #949494;'>"</span>D. c ;    d<span style='color: #949494;'>"</span> F    
-#&gt; <span style='color: #BCBCBC;'> 7</span>     7 <span style='color: #949494;'>"</span>x  ;Y<span style='color: #949494;'>"</span>       G    
-#&gt; <span style='color: #BCBCBC;'> 8</span>     8 <span style='color: #949494;'>"</span>ab/0|J<span style='color: #949494;'>"</span>      H    
-#&gt; <span style='color: #BCBCBC;'> 9</span>     9 <span style='color: #949494;'>"</span>2<span style='color: #949494;'>"</span>           I    
-#&gt; <span style='color: #BCBCBC;'>10</span>    10 <span style='color: #949494;'>"</span>other<span style='color: #949494;'>"</span>       J    
-#&gt; <span style='color: #BCBCBC;'>11</span>    11 <span style='color: #949494;'>"</span>1<span style='color: #949494;'>"</span>           K    </div><div class='input'>
-<span class='va'>dat_ex_out</span> <span class='op'>&lt;-</span>
-  <span class='fu'>e_split_list_columns_into_indicator_columns</span><span class='op'>(</span>
-    dat_this              <span class='op'>=</span> <span class='va'>dat_ex</span>
-  , var_names_items       <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"col1"</span>, <span class='st'>"col2"</span><span class='op'>)</span>
-  , code_other_below_freq <span class='op'>=</span> <span class='fl'>2</span>
-  , label_other           <span class='op'>=</span> <span class='st'>"other"</span>
-  , indicator_col_prefix  <span class='op'>=</span> <span class='st'>"item_"</span>
-  , sw_replace_GT1_with_1 <span class='op'>=</span> <span class='cn'>FALSE</span>
-  , sw_print_unique       <span class='op'>=</span> <span class='cn'>TRUE</span>
-  <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Unique items: 18"
-#&gt; <span style='color: #949494;'># A tibble: 18 x 2</span>
-#&gt;    items  Freq
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> a         3
-#&gt; <span style='color: #BCBCBC;'> 2</span> b         3
-#&gt; <span style='color: #BCBCBC;'> 3</span> c         3
-#&gt; <span style='color: #BCBCBC;'> 4</span> d         3
-#&gt; <span style='color: #BCBCBC;'> 5</span> j         2
-#&gt; <span style='color: #BCBCBC;'> 6</span> 0         1
-#&gt; <span style='color: #BCBCBC;'> 7</span> 1         1
-#&gt; <span style='color: #BCBCBC;'> 8</span> 2         1
-#&gt; <span style='color: #BCBCBC;'> 9</span> ab        1
-#&gt; <span style='color: #BCBCBC;'>10</span> e         1
-#&gt; <span style='color: #BCBCBC;'>11</span> f         1
-#&gt; <span style='color: #BCBCBC;'>12</span> g         1
-#&gt; <span style='color: #BCBCBC;'>13</span> h         1
-#&gt; <span style='color: #BCBCBC;'>14</span> i         1
-#&gt; <span style='color: #BCBCBC;'>15</span> k         1
-#&gt; <span style='color: #BCBCBC;'>16</span> other     1
-#&gt; <span style='color: #BCBCBC;'>17</span> x         1
-#&gt; <span style='color: #BCBCBC;'>18</span> y         1
-#&gt; [1] "Coding items with frequencies less than 2 to 'other'"</div><div class='output co'>#&gt; <span class='message'>erikmisc::e_split_list_columns_into_indicator_columns: Other category `other` already appears in data.</span></div><div class='output co'>#&gt; [1] "Unique items: 6 with other category `other`"
-#&gt; <span style='color: #949494;'># A tibble: 6 x 2</span>
-#&gt;   items  Freq
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> other    13
-#&gt; <span style='color: #BCBCBC;'>2</span> a         3
-#&gt; <span style='color: #BCBCBC;'>3</span> b         3
-#&gt; <span style='color: #BCBCBC;'>4</span> c         3
-#&gt; <span style='color: #BCBCBC;'>5</span> d         3
-#&gt; <span style='color: #BCBCBC;'>6</span> j         2</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* NA -&gt; ...1</span>
-#&gt; <span class='message'>* NA -&gt; ...2</span></div><div class='input'><span class='va'>dat_ex_out</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 x 9</span>
-#&gt;       ID col1          col2  item_other item_a item_b item_c item_d item_j
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     1  <span style='color: #BB0000;'>NA</span>           A              0      1      0      0      0      0
-#&gt; <span style='color: #BCBCBC;'> 2</span>     2 <span style='color: #949494;'>""</span>            B              0      0      1      0      0      0
-#&gt; <span style='color: #BCBCBC;'> 3</span>     3 <span style='color: #949494;'>"</span>a<span style='color: #949494;'>"</span>           C              0      1      0      1      0      0
-#&gt; <span style='color: #BCBCBC;'> 4</span>     4 <span style='color: #949494;'>"</span>A, B  ,C<span style='color: #949494;'>"</span>    D              0      1      1      1      1      0
-#&gt; <span style='color: #BCBCBC;'> 5</span>     5 <span style='color: #949494;'>"</span>b<span style='color: #949494;'>"</span>           E              1      0      1      0      0      0
-#&gt; <span style='color: #BCBCBC;'> 6</span>     6 <span style='color: #949494;'>"</span>D. c ;    d<span style='color: #949494;'>"</span> F              1      0      0      1      2      0
-#&gt; <span style='color: #BCBCBC;'> 7</span>     7 <span style='color: #949494;'>"</span>x  ;Y<span style='color: #949494;'>"</span>       G              3      0      0      0      0      0
-#&gt; <span style='color: #BCBCBC;'> 8</span>     8 <span style='color: #949494;'>"</span>ab/0|J<span style='color: #949494;'>"</span>      H              3      0      0      0      0      1
-#&gt; <span style='color: #BCBCBC;'> 9</span>     9 <span style='color: #949494;'>"</span>2<span style='color: #949494;'>"</span>           I              2      0      0      0      0      0
-#&gt; <span style='color: #BCBCBC;'>10</span>    10 <span style='color: #949494;'>"</span>other<span style='color: #949494;'>"</span>       J              1      0      0      0      0      1
-#&gt; <span style='color: #BCBCBC;'>11</span>    11 <span style='color: #949494;'>"</span>1<span style='color: #949494;'>"</span>           K              2      0      0      0      0      0</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>dat_ex</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span></span>
+<span class='r-in'>    col1 <span class='op'>=</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='cn'>NA</span>, <span class='st'>""</span>, <span class='st'>"a"</span>, <span class='st'>"A, B  ,C"</span>, <span class='st'>"b"</span>, <span class='st'>"D. c ;    d"</span></span>
+<span class='r-in'>      , <span class='st'>"x  ;Y"</span>, <span class='st'>"ab/0|J;1;1"</span>, <span class='fl'>2</span>, <span class='st'>"other"</span>, <span class='fl'>1</span></span>
+<span class='r-in'>      , <span class='st'>"a a a"</span>, <span class='st'>"1,a a a"</span>, <span class='st'>"2,a a a"</span></span>
+<span class='r-in'>      <span class='op'>)</span></span>
+<span class='r-in'>  , col2 <span class='op'>=</span> <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>col1</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'>  <span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span class='r-in'>    ID <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>ID</span></span>
+<span class='r-in'>  , <span class='fu'>tidyselect</span><span class='fu'>::</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dat_ex</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 14 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ID col1          col2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     1  <span style='color: #BB0000;'>NA</span>           A    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     2 <span style='color: #949494;'>""</span>            B    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     3 <span style='color: #949494;'>"</span>a<span style='color: #949494;'>"</span>           C    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     4 <span style='color: #949494;'>"</span>A, B  ,C<span style='color: #949494;'>"</span>    D    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     5 <span style='color: #949494;'>"</span>b<span style='color: #949494;'>"</span>           E    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     6 <span style='color: #949494;'>"</span>D. c ;    d<span style='color: #949494;'>"</span> F    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     7 <span style='color: #949494;'>"</span>x  ;Y<span style='color: #949494;'>"</span>       G    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     8 <span style='color: #949494;'>"</span>ab/0|J;1;1<span style='color: #949494;'>"</span>  H    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     9 <span style='color: #949494;'>"</span>2<span style='color: #949494;'>"</span>           I    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>    10 <span style='color: #949494;'>"</span>other<span style='color: #949494;'>"</span>       J    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>    11 <span style='color: #949494;'>"</span>1<span style='color: #949494;'>"</span>           K    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>    12 <span style='color: #949494;'>"</span>a a a<span style='color: #949494;'>"</span>       L    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>    13 <span style='color: #949494;'>"</span>1,a a a<span style='color: #949494;'>"</span>     M    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>    14 <span style='color: #949494;'>"</span>2,a a a<span style='color: #949494;'>"</span>     N    </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># return data</span></span>
+<span class='r-in'><span class='va'>dat_ex_out</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>e_split_list_columns_into_indicator_columns</span><span class='op'>(</span></span>
+<span class='r-in'>    dat_this              <span class='op'>=</span> <span class='va'>dat_ex</span></span>
+<span class='r-in'>  , var_names_items       <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"col1"</span>, <span class='st'>"col2"</span><span class='op'>)</span></span>
+<span class='r-in'>  , item_delimiters       <span class='op'>=</span> <span class='st'>",.;/|"</span></span>
+<span class='r-in'>  , code_other_below_freq <span class='op'>=</span> <span class='fl'>2</span></span>
+<span class='r-in'>  , label_other           <span class='op'>=</span> <span class='st'>"other"</span></span>
+<span class='r-in'>  , indicator_col_prefix  <span class='op'>=</span> <span class='st'>"item_"</span></span>
+<span class='r-in'>  , sw_data_or_summary    <span class='op'>=</span> <span class='st'>"data"</span></span>
+<span class='r-in'>  , sw_replace_GT1_with_1 <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  , sw_print_unique       <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Unique items: 22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 22 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    items  freq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1         4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> a         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> a a a     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> b         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> c         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> d         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> j         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 0         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> ab        1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> e         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> f         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span> g         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span> h         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span> i         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>16</span> k         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>17</span> l         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>18</span> m         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>19</span> n         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>20</span> other     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>21</span> x         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>22</span> y         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Coding items with frequencies less than 2 to 'other'"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Note: erikmisc::e_split_list_columns_into_indicator_columns: Other category `other` already appears in data.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Unique items: 9 with other category `other`"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   items  freq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> other    14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> 1         4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> a         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> a a a     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> b         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> c         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> d         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> j         2</span>
+<span class='r-in'><span class='va'>dat_ex_out</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 14 x 12</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ID col1   col2  item_other item_1 item_a `item_a a a` item_b item_c item_d</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     1  <span style='color: #BB0000;'>NA</span>    A              0      0      1            0      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     2 <span style='color: #949494;'>""</span>     B              0      0      0            0      1      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     3 <span style='color: #949494;'>"</span>a<span style='color: #949494;'>"</span>    C              0      0      1            0      0      1      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     4 <span style='color: #949494;'>"</span>A, B~ D              0      0      1            0      1      1      1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     5 <span style='color: #949494;'>"</span>b<span style='color: #949494;'>"</span>    E              1      0      0            0      1      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     6 <span style='color: #949494;'>"</span>D. c~ F              1      0      0            0      0      1      2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     7 <span style='color: #949494;'>"</span>x  ;~ G              3      0      0            0      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     8 <span style='color: #949494;'>"</span>ab/0~ H              3      2      0            0      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     9 <span style='color: #949494;'>"</span>2<span style='color: #949494;'>"</span>    I              1      0      0            0      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>    10 <span style='color: #949494;'>"</span>othe~ J              1      0      0            0      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>    11 <span style='color: #949494;'>"</span>1<span style='color: #949494;'>"</span>    K              1      1      0            0      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>    12 <span style='color: #949494;'>"</span>a a ~ L              1      0      0            1      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>    13 <span style='color: #949494;'>"</span>1,a ~ M              1      1      0            1      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>    14 <span style='color: #949494;'>"</span>2,a ~ N              1      0      0            1      0      0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># ... with 2 more variables: item_2 &lt;dbl&gt;, item_j &lt;dbl&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># return summary</span></span>
+<span class='r-in'><span class='va'>dat_ex_sum</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>e_split_list_columns_into_indicator_columns</span><span class='op'>(</span></span>
+<span class='r-in'>    dat_this              <span class='op'>=</span> <span class='va'>dat_ex</span></span>
+<span class='r-in'>  , var_names_items       <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"col1"</span>, <span class='st'>"col2"</span><span class='op'>)</span></span>
+<span class='r-in'>  , item_delimiters       <span class='op'>=</span> <span class='st'>",.;/|"</span></span>
+<span class='r-in'>  , code_other_below_freq <span class='op'>=</span> <span class='fl'>2</span></span>
+<span class='r-in'>  , label_other           <span class='op'>=</span> <span class='st'>"other"</span></span>
+<span class='r-in'>  , indicator_col_prefix  <span class='op'>=</span> <span class='st'>"item_"</span></span>
+<span class='r-in'>  , sw_data_or_summary    <span class='op'>=</span> <span class='st'>"summary"</span></span>
+<span class='r-in'>  , sw_replace_GT1_with_1 <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  , sw_print_unique       <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Note: erikmisc::e_split_list_columns_into_indicator_columns: Other category `other` already appears in data.</span>
+<span class='r-in'><span class='va'>dat_ex_sum</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $tab_items_unique</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 22 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    items  freq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1         4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> a         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> a a a     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> b         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> c         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> d         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> j         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 0         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> ab        1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># ... with 12 more rows</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $tab_items_unique_other</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   items  freq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> other    14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> 1         4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> a         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> a a a     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> b         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> c         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> d         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> j         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

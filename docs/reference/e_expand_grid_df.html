@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -163,23 +163,24 @@
         which case the suffix ".x", ".y", etc., are added in the returned data frame but may not be unique.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, B <span class='op'>=</span> <span class='fl'>11</span><span class='op'>:</span><span class='fl'>13</span><span class='op'>)</span>
-<span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>C <span class='op'>=</span> <span class='fl'>51</span><span class='op'>:</span><span class='fl'>52</span>, D <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Y"</span>, <span class='st'>"N"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>df3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>E <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"+"</span>, <span class='st'>"-"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>e_expand_grid_df</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span>, <span class='va'>df3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    A  B  C D E
-#&gt; 1  1 11 51 Y +
-#&gt; 2  2 12 51 Y +
-#&gt; 3  3 13 51 Y +
-#&gt; 4  1 11 52 N +
-#&gt; 5  2 12 52 N +
-#&gt; 6  3 13 52 N +
-#&gt; 7  1 11 51 Y -
-#&gt; 8  2 12 51 Y -
-#&gt; 9  3 13 51 Y -
-#&gt; 10 1 11 52 N -
-#&gt; 11 2 12 52 N -
-#&gt; 12 3 13 52 N -</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, B <span class='op'>=</span> <span class='fl'>11</span><span class='op'>:</span><span class='fl'>13</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>C <span class='op'>=</span> <span class='fl'>51</span><span class='op'>:</span><span class='fl'>52</span>, D <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Y"</span>, <span class='st'>"N"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>E <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"+"</span>, <span class='st'>"-"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_expand_grid_df</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span>, <span class='va'>df3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    A  B  C D E</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1 11 51 Y +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  2 12 51 Y +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  3 13 51 Y +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  1 11 52 N +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  2 12 52 N +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  3 13 52 N +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  1 11 51 Y -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  2 12 51 Y -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  3 13 51 Y -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 1 11 52 N -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 2 12 52 N -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12 3 13 52 N -</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

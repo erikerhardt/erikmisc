@@ -73,7 +73,7 @@ https://www.pcpcc.org/sites/default/files/resources/instructions.pdf" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -174,40 +174,42 @@ https://www.pcpcc.org/sites/default/files/resources/instructions.pdf</p>
     <p>phq9_cat, categorical levels of PHQ-9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_calc_phq9_categories</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, <span class='fl'>12</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] None-minimal Mild         Moderate     Severe      
-#&gt; Levels: None-minimal Mild Moderate Moderately Severe Severe</div><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>phq9 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>27</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, phq9_cat <span class='op'>=</span> <span class='va'>phq9</span> <span class='op'>%&gt;%</span> <span class='fu'>e_calc_phq9_categories</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 28 x 2</span>
-#&gt;     phq9 phq9_cat         
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>            
-#&gt; <span style='color: #BCBCBC;'> 1</span>     0 None-minimal     
-#&gt; <span style='color: #BCBCBC;'> 2</span>     1 None-minimal     
-#&gt; <span style='color: #BCBCBC;'> 3</span>     2 None-minimal     
-#&gt; <span style='color: #BCBCBC;'> 4</span>     3 None-minimal     
-#&gt; <span style='color: #BCBCBC;'> 5</span>     4 None-minimal     
-#&gt; <span style='color: #BCBCBC;'> 6</span>     5 Mild             
-#&gt; <span style='color: #BCBCBC;'> 7</span>     6 Mild             
-#&gt; <span style='color: #BCBCBC;'> 8</span>     7 Mild             
-#&gt; <span style='color: #BCBCBC;'> 9</span>     8 Mild             
-#&gt; <span style='color: #BCBCBC;'>10</span>     9 Mild             
-#&gt; <span style='color: #BCBCBC;'>11</span>    10 Moderate         
-#&gt; <span style='color: #BCBCBC;'>12</span>    11 Moderate         
-#&gt; <span style='color: #BCBCBC;'>13</span>    12 Moderate         
-#&gt; <span style='color: #BCBCBC;'>14</span>    13 Moderate         
-#&gt; <span style='color: #BCBCBC;'>15</span>    14 Moderate         
-#&gt; <span style='color: #BCBCBC;'>16</span>    15 Moderately Severe
-#&gt; <span style='color: #BCBCBC;'>17</span>    16 Moderately Severe
-#&gt; <span style='color: #BCBCBC;'>18</span>    17 Moderately Severe
-#&gt; <span style='color: #BCBCBC;'>19</span>    18 Moderately Severe
-#&gt; <span style='color: #BCBCBC;'>20</span>    19 Moderately Severe
-#&gt; <span style='color: #BCBCBC;'>21</span>    20 Severe           
-#&gt; <span style='color: #BCBCBC;'>22</span>    21 Severe           
-#&gt; <span style='color: #BCBCBC;'>23</span>    22 Severe           
-#&gt; <span style='color: #BCBCBC;'>24</span>    23 Severe           
-#&gt; <span style='color: #BCBCBC;'>25</span>    24 Severe           
-#&gt; <span style='color: #BCBCBC;'>26</span>    25 Severe           
-#&gt; <span style='color: #BCBCBC;'>27</span>    26 Severe           
-#&gt; <span style='color: #BCBCBC;'>28</span>    27 Severe           </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>e_calc_phq9_categories</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, <span class='fl'>12</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] None-minimal Mild         Moderate     Severe      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels: None-minimal Mild Moderate Moderately Severe Severe</span>
+<span class='r-in'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>phq9 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>27</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, phq9_cat <span class='op'>=</span> <span class='va'>phq9</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'>e_calc_phq9_categories</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 28 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     phq9 phq9_cat         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     0 None-minimal     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     1 None-minimal     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     2 None-minimal     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     3 None-minimal     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     4 None-minimal     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     5 Mild             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     6 Mild             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     7 Mild             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     8 Mild             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     9 Mild             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>    10 Moderate         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>    11 Moderate         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>    12 Moderate         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>    13 Moderate         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span>    14 Moderate         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>16</span>    15 Moderately Severe</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>17</span>    16 Moderately Severe</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>18</span>    17 Moderately Severe</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>19</span>    18 Moderately Severe</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>20</span>    19 Moderately Severe</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>21</span>    20 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>22</span>    21 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>23</span>    22 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>24</span>    23 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>25</span>    24 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>26</span>    25 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>27</span>    26 Severe           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>28</span>    27 Severe           </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

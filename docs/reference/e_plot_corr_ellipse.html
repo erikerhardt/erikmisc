@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -234,33 +234,34 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://rdrr.io/r/base/invisible.html'>invisible(NULL)</a></code></p>
+    <p><code>invisible(NULL)</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>e_plot_corr_ellipse</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='e_plot_corr_ellipse-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## Color version</span>
-<span class='co'># red neg, white 0, blue pos</span>
-<span class='va'>color_scale</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span><span class='fl'>241</span>,  <span class='fl'>54</span>,  <span class='fl'>23</span>, maxColorValue <span class='op'>=</span> <span class='fl'>255</span><span class='op'>)</span>
-  , <span class='st'>"white"</span>
-  , <span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span>  <span class='fl'>0</span>,  <span class='fl'>61</span>, <span class='fl'>104</span>, maxColorValue <span class='op'>=</span> <span class='fl'>255</span><span class='op'>)</span>
-  <span class='op'>)</span>
-<span class='co'># color ramp in "Lab" space</span>
-<span class='va'>color_ramp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='va'>color_scale</span>, space <span class='op'>=</span> <span class='st'>"Lab"</span><span class='op'>)</span>
-<span class='co'># Create scale with 100 points</span>
-<span class='va'>colors_plot</span> <span class='op'>&lt;-</span> <span class='fu'>color_ramp</span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span>
-<span class='co'># move correlation range from [-1, 1] to [0, 100] for colors</span>
-<span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>e_plot_corr_ellipse</span><span class='op'>(</span>
-    col  <span class='op'>=</span> <span class='va'>colors_plot</span><span class='op'>[</span><span class='op'>(</span><span class='op'>(</span><span class='va'>.</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>]</span>
-  , main <span class='op'>=</span> <span class='st'>"Colored ellipses"</span>
-  <span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'>e_plot_corr_ellipse</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='e_plot_corr_ellipse-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>## Color version</span></span>
+<span class='r-in'><span class='co'># red neg, white 0, blue pos</span></span>
+<span class='r-in'><span class='va'>color_scale</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span><span class='fl'>241</span>,  <span class='fl'>54</span>,  <span class='fl'>23</span>, maxColorValue <span class='op'>=</span> <span class='fl'>255</span><span class='op'>)</span></span>
+<span class='r-in'>  , <span class='st'>"white"</span></span>
+<span class='r-in'>  , <span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span>  <span class='fl'>0</span>,  <span class='fl'>61</span>, <span class='fl'>104</span>, maxColorValue <span class='op'>=</span> <span class='fl'>255</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='co'># color ramp in "Lab" space</span></span>
+<span class='r-in'><span class='va'>color_ramp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='va'>color_scale</span>, space <span class='op'>=</span> <span class='st'>"Lab"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Create scale with 100 points</span></span>
+<span class='r-in'><span class='va'>colors_plot</span> <span class='op'>&lt;-</span> <span class='fu'>color_ramp</span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># move correlation range from [-1, 1] to [0, 100] for colors</span></span>
+<span class='r-in'><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>e_plot_corr_ellipse</span><span class='op'>(</span></span>
+<span class='r-in'>    col  <span class='op'>=</span> <span class='va'>colors_plot</span><span class='op'>[</span><span class='op'>(</span><span class='op'>(</span><span class='va'>.</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>]</span></span>
+<span class='r-in'>  , main <span class='op'>=</span> <span class='st'>"Colored ellipses"</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

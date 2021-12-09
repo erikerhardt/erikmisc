@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -155,33 +155,34 @@
     <p><code><a href='https://rdrr.io/r/datasets/mtcars.html'>?datasets::mtcars</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; tibble [32 x 12] (S3: tbl_df/tbl/data.frame)
-#&gt;  $ model: chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
-#&gt;   ..- attr(*, "label")= chr "Model"
-#&gt;  $ mpg  : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-#&gt;   ..- attr(*, "label")= chr "Miles/(US) gallon"
-#&gt;  $ cyl  : Factor w/ 3 levels "four","six","eight": 2 2 1 2 3 2 3 1 1 2 ...
-#&gt;   ..- attr(*, "label")= chr "Number of cylinders"
-#&gt;  $ disp : num [1:32] 160 160 108 258 360 ...
-#&gt;   ..- attr(*, "label")= chr "Displacement (cu.in.)"
-#&gt;  $ hp   : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...
-#&gt;   ..- attr(*, "label")= chr "Gross horsepower"
-#&gt;  $ drat : num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-#&gt;   ..- attr(*, "label")= chr "Rear axle ratio"
-#&gt;  $ wt   : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...
-#&gt;   ..- attr(*, "label")= chr "Weight (1000 lbs)"
-#&gt;  $ qsec : num [1:32] 16.5 17 18.6 19.4 17 ...
-#&gt;   ..- attr(*, "label")= chr "1/4 mile time"
-#&gt;  $ vs   : Factor w/ 2 levels "V-shaped","straight": 1 1 2 2 1 2 1 2 2 2 ...
-#&gt;   ..- attr(*, "label")= chr "Engine"
-#&gt;  $ am   : Factor w/ 2 levels "automatic","manual": 2 2 2 1 1 1 1 1 1 1 ...
-#&gt;   ..- attr(*, "label")= chr "Transmission"
-#&gt;  $ gear : num [1:32] 4 4 4 3 3 3 3 4 4 4 ...
-#&gt;   ..- attr(*, "label")= chr "Number of forward gears"
-#&gt;  $ carb : num [1:32] 4 4 1 1 2 1 4 2 2 4 ...
-#&gt;   ..- attr(*, "label")= chr "Number of carburetors"</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat_mtcars_e</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> tibble [32 x 12] (S3: tbl_df/tbl/data.frame)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ model: chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Model"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ mpg  : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Miles/(US) gallon"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ cyl  : Factor w/ 3 levels "four","six","eight": 2 2 1 2 3 2 3 1 1 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Number of cylinders"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ disp : num [1:32] 160 160 108 258 360 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Displacement (cu.in.)"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ hp   : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Gross horsepower"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ drat : num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Rear axle ratio"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ wt   : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Weight (1000 lbs)"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ qsec : num [1:32] 16.5 17 18.6 19.4 17 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "1/4 mile time"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ vs   : Factor w/ 2 levels "V-shaped","straight": 1 1 2 2 1 2 1 2 2 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Engine"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ am   : Factor w/ 2 levels "automatic","manual": 2 2 2 1 1 1 1 1 1 1 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Transmission"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ gear : num [1:32] 4 4 4 3 3 3 3 4 4 4 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Number of forward gears"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ carb : num [1:32] 4 4 1 1 2 1 4 2 2 4 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "label")= chr "Number of carburetors"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

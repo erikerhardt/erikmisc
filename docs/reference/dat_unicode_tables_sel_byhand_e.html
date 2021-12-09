@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert from Odds Ratio to Probability — e_convert_oddsratio_to_probability • erikmisc</title>
+<title>Unicode characters from most of the tables from Wikipedia's "List of Unicode characters" — dat_unicode_tables_sel_byhand_e • erikmisc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Convert from Odds Ratio to Probability — e_convert_oddsratio_to_probability" />
-<meta property="og:description" content="Convert from Odds Ratio to Probability" />
+<meta property="og:title" content="Unicode characters from most of the tables from Wikipedia's "List of Unicode characters" — dat_unicode_tables_sel_byhand_e" />
+<meta property="og:description" content="The table includes Code, Glyph (symbol), Description of the character, CharacterSet group, whether it is_unicode (always TRUE), the CodeEscaped as stringi needs it, and the hand-selected ASCII replacement." />
 
 
 
@@ -135,39 +135,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert from Odds Ratio to Probability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/e_convert_oddsratio-probability_ALL.R'><code>R/e_convert_oddsratio-probability_ALL.R</code></a></small>
-    <div class="hidden name"><code>e_convert_oddsratio_to_probability.Rd</code></div>
+    <h1>Unicode characters from most of the tables from Wikipedia's "List of Unicode characters"</h1>
+    <small class="dont-index">Source: <a href='https://github.com/erikerhardt/erikmisc/blob/master/R/erikmisc_DATA.R'><code>R/erikmisc_DATA.R</code></a></small>
+    <div class="hidden name"><code>dat_unicode_tables_sel_byhand_e.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert from Odds Ratio to Probability</p>
+    <p>The table includes Code, Glyph (symbol), Description of the character, CharacterSet group, whether it is_unicode (always TRUE), the CodeEscaped as stringi needs it, and the hand-selected ASCII replacement.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>e_convert_oddsratio_to_probability</span><span class='op'>(</span>or <span class='op'>=</span> <span class='cn'>NULL</span>, sw_percent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dat_unicode_tables_sel_byhand_e</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>or</th>
-      <td><p>list of odds ratios</p></td>
-    </tr>
-    <tr>
-      <th>sw_percent</th>
-      <td><p>T/F return as percent, instead?</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>p         list of probabilities</p>
+    <p>tibble</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><code>https://en.wikipedia.org/wiki/List_of_Unicode_characters</code> from 4/25/2021</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>or</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>9</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>9</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>e_convert_oddsratio_to_probability</span><span class='op'>(</span><span class='va'>or</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.0000000 0.1000000 0.2000000 0.3333333 0.5000000 0.6666667 0.8000000</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [8] 0.9000000</span>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dat_unicode_tables_sel_byhand_e</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>dat_unicode_tables_sel_byhand_e</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> spec_tbl_df [1,190 x 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ Code        : chr [1:1190] "U+00A1" "U+00A2" "U+00A3" "U+00A4" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ Glyph       : chr [1:1190] "¡" "¢" "£" "¤" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ Description : chr [1:1190] "Inverted Exclamation Mark" "Cent sign" "Pound sign" "Currency sign" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ CharacterSet: chr [1:1190] "Table_Latin-1_Supplement" "Table_Latin-1_Supplement" "Table_Latin-1_Supplement" "Table_Latin-1_Supplement" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ is_unicode  : logi [1:1190] TRUE TRUE TRUE TRUE TRUE TRUE ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ CodeEscaped : chr [1:1190] "\\u00A1" "\\u00A2" "\\u00A3" "\\u00A4" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ ASCII       : chr [1:1190] "!" "cent" "pound" "currency" ...</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

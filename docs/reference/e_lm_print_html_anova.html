@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -172,17 +172,17 @@
     <p>html table to print within Rmd report</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>fit</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>
-    <span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span> <span class='op'>+</span> <span class='va'>drat</span> <span class='op'>+</span> <span class='va'>wt</span> <span class='op'>+</span> <span class='va'>qsec</span>
-  , data <span class='op'>=</span> <span class='va'>dat_mtcars_e</span>
-  <span class='op'>)</span>
-<span class='fu'>e_lm_print_html_anova</span><span class='op'>(</span>
-    fit           <span class='op'>=</span> <span class='va'>fit</span>
-  , n_digits      <span class='op'>=</span> <span class='fl'>3</span>
-  , filename_html <span class='op'>=</span> <span class='cn'>NULL</span> <span class='co'># NULL will not save html</span>
-  <span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span> <span class='op'>+</span> <span class='va'>drat</span> <span class='op'>+</span> <span class='va'>wt</span> <span class='op'>+</span> <span class='va'>qsec</span></span>
+<span class='r-in'>  , data <span class='op'>=</span> <span class='va'>dat_mtcars_e</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_lm_print_html_anova</span><span class='op'>(</span></span>
+<span class='r-in'>    fit           <span class='op'>=</span> <span class='va'>fit</span></span>
+<span class='r-in'>  , n_digits      <span class='op'>=</span> <span class='fl'>3</span></span>
+<span class='r-in'>  , filename_html <span class='op'>=</span> <span class='cn'>NULL</span> <span class='co'># NULL will not save html</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

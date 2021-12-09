@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -225,297 +225,318 @@ difference is not significant, based on the adjust setting (which defaults to
 "tukey").</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Data for testing</span>
-<span class='va'>dat_cont</span> <span class='op'>&lt;-</span>
-  <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span>
-    rownames <span class='op'>=</span> <span class='st'>"model"</span>
-  <span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
-    cyl <span class='op'>=</span> <span class='va'>cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"four"</span>, <span class='st'>"six"</span>, <span class='st'>"eight"</span><span class='op'>)</span><span class='op'>)</span>
-  , vs  <span class='op'>=</span> <span class='va'>vs</span>  <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"V-shaped"</span>, <span class='st'>"straight"</span><span class='op'>)</span><span class='op'>)</span>
-  , am  <span class='op'>=</span> <span class='va'>am</span>  <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"automatic"</span>, <span class='st'>"manual"</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='op'>)</span>
-
-<span class='co'># Label columns</span>
-<span class='va'>dat_labels</span> <span class='op'>&lt;-</span>
-  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
-    <span class='op'>~</span><span class='va'>var</span>    , <span class='op'>~</span><span class='va'>label</span>
-  , <span class='st'>"model"</span> , <span class='st'>"Model"</span>
-  , <span class='st'>"mpg"</span>   , <span class='st'>"Miles/(US) gallon"</span>
-  , <span class='st'>"cyl"</span>   , <span class='st'>"Number of cylinders"</span>
-  , <span class='st'>"disp"</span>  , <span class='st'>"Displacement (cu.in.)"</span>
-  , <span class='st'>"hp"</span>    , <span class='st'>"Gross horsepower"</span>
-  , <span class='st'>"drat"</span>  , <span class='st'>"Rear axle ratio"</span>
-  , <span class='st'>"wt"</span>    , <span class='st'>"Weight (1000 lbs)"</span>
-  , <span class='st'>"qsec"</span>  , <span class='st'>"1/4 mile time"</span>
-  , <span class='st'>"vs"</span>    , <span class='st'>"Engine"</span>                     <span class='co'># (0 = V-shaped, 1 = straight)"</span>
-  , <span class='st'>"am"</span>    , <span class='st'>"Transmission"</span>               <span class='co'># (0 = automatic, 1 = manual)"</span>
-  , <span class='st'>"gear"</span>  , <span class='st'>"Number of forward gears"</span>
-  , <span class='st'>"carb"</span>  , <span class='st'>"Number of carburetors"</span>
-  <span class='op'>)</span>
-
-<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i_row</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>dat_labels</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'>labelled</span><span class='fu'>::</span><span class='fu'><a href='http://larmarange.github.io/labelled/reference/var_label.html'>var_label</a></span><span class='op'>(</span><span class='va'>dat_cont</span><span class='op'>[[</span><span class='va'>dat_labels</span><span class='op'>[[</span><span class='st'>"var"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='va'>i_row</span><span class='op'>]</span> <span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>dat_labels</span><span class='op'>[[</span><span class='st'>"label"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='va'>i_row</span><span class='op'>]</span>
-<span class='op'>}</span>
-
- <span class='co'># Set specific model with some interactions</span>
-<span class='va'>form_model</span> <span class='op'>&lt;-</span>
-  <span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span> <span class='op'>+</span> <span class='va'>wt</span> <span class='op'>+</span> <span class='va'>vs</span> <span class='op'>+</span> <span class='va'>am</span> <span class='op'>+</span> <span class='va'>cyl</span><span class='op'>:</span><span class='va'>vs</span> <span class='op'>+</span> <span class='va'>disp</span><span class='op'>:</span><span class='va'>hp</span> <span class='op'>+</span> <span class='va'>hp</span><span class='op'>:</span><span class='va'>vs</span>
-
-<span class='va'>fit</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>
-    formula <span class='op'>=</span> <span class='va'>form_model</span>
-  , data    <span class='op'>=</span> <span class='va'>dat_cont</span>
-  <span class='op'>)</span>
-
-<span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Analysis of Variance Table
-#&gt; 
-#&gt; Response: mpg
-#&gt;           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-#&gt; cyl        2 824.78  412.39 70.6104 4.755e-10 ***
-#&gt; disp       1  57.64   57.64  9.8697  0.004927 ** 
-#&gt; hp         1  18.50   18.50  3.1680  0.089572 .  
-#&gt; wt         1  64.99   64.99 11.1278  0.003136 ** 
-#&gt; vs         1   0.65    0.65  0.1116  0.741682    
-#&gt; am         1  16.39   16.39  2.8055  0.108772    
-#&gt; cyl:vs     1   0.13    0.13  0.0216  0.884442    
-#&gt; disp:hp    1  15.31   15.31  2.6217  0.120336    
-#&gt; hp:vs      1   5.00    5.00  0.8568  0.365152    
-#&gt; Residuals 21 122.65    5.84                      
-#&gt; ---
-#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; Call:
-#&gt; lm(formula = form_model, data = dat_cont)
-#&gt; 
-#&gt; Residuals:
-#&gt;     Min      1Q  Median      3Q     Max 
-#&gt; -3.2634 -1.6094 -0.3633  1.3947  3.8193 
-#&gt; 
-#&gt; Coefficients: (1 not defined because of singularities)
-#&gt;                       Estimate Std. Error t value Pr(&gt;|t|)    
-#&gt; (Intercept)          3.598e+01  8.628e+00   4.170 0.000433 ***
-#&gt; cylsix              -1.967e+00  3.313e+00  -0.594 0.559012    
-#&gt; cyleight            -8.898e-01  4.369e+00  -0.204 0.840561    
-#&gt; disp                -1.501e-02  3.403e-02  -0.441 0.663566    
-#&gt; hp                  -5.193e-02  5.031e-02  -1.032 0.313707    
-#&gt; wt                  -2.821e+00  1.213e+00  -2.326 0.030086 *  
-#&gt; vsstraight           5.149e+00  5.521e+00   0.933 0.361603    
-#&gt; ammanual             1.521e+00  1.939e+00   0.784 0.441592    
-#&gt; cylsix:vsstraight    1.970e+00  3.603e+00   0.547 0.590322    
-#&gt; cyleight:vsstraight         NA         NA      NA       NA    
-#&gt; disp:hp              9.752e-05  1.696e-04   0.575 0.571500    
-#&gt; hp:vsstraight       -4.915e-02  5.310e-02  -0.926 0.365152    
-#&gt; ---
-#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#&gt; 
-#&gt; Residual standard error: 2.417 on 21 degrees of freedom
-#&gt; Multiple R-squared:  0.8911,	Adjusted R-squared:  0.8392 
-#&gt; F-statistic: 17.18 on 10 and 21 DF,  p-value: 5.984e-08
-#&gt; </div><div class='input'>
-<span class='va'>fit_contrasts</span> <span class='op'>&lt;-</span>
-  <span class='fu'>e_plot_model_contrasts</span><span class='op'>(</span>
-    fit                <span class='op'>=</span> <span class='va'>fit</span>
-  , dat_cont           <span class='op'>=</span> <span class='va'>dat_cont</span>
-  , sw_print           <span class='op'>=</span> <span class='cn'>FALSE</span>
-  , sw_table_in_plot   <span class='op'>=</span> <span class='cn'>FALSE</span>
-  , sw_TWI_plots_keep  <span class='op'>=</span> <span class='st'>"both"</span>
-  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "disp" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "hp" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='message'>e_plot_model_contrasts: Skipping "vs" since involved in interactions.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Comparison discrepancy in group "straight", four - six:</span>
-#&gt; <span class='warning'>    Target overlap = 0.9995, overlap on graph = -101.2269</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Comparison discrepancy in group "straight", four - six:</span>
-#&gt; <span class='warning'>    Target overlap = 0.9995, overlap on graph = -104.1881</span></div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>tables</span>  <span class='co'># to print tables</span>
-</div><div class='output co'>#&gt; $wt
-#&gt; $wt$est
-#&gt;    wt wt.trend   SE df lower.CL upper.CL
-#&gt;  3.22    -2.82 1.21 21    -5.34   -0.299
-#&gt; 
-#&gt; Results are averaged over the levels of: cyl, vs, am 
-#&gt; Confidence level used: 0.95 
-#&gt; 
-#&gt; 
-#&gt; $am
-#&gt; $am$est
-#&gt;  am        emmean   SE df lower.CL upper.CL
-#&gt;  automatic   17.5 1.25 21     14.5     20.5
-#&gt;  manual      19.0 1.77 21     14.7     23.3
-#&gt; 
-#&gt; Results are averaged over the levels of: cyl, vs 
-#&gt; Confidence level used: 0.95 
-#&gt; Conf-level adjustment: sidak method for 2 estimates 
-#&gt; 
-#&gt; $am$cont
-#&gt;  contrast           estimate   SE df t.ratio p.value
-#&gt;  automatic - manual    -1.52 1.94 21  -0.784  0.4416
-#&gt; 
-#&gt; Results are averaged over the levels of: cyl, vs 
-#&gt; 
-#&gt; 
-#&gt; $`cyl:vs`
-#&gt; $`cyl:vs`$est
-#&gt; cyl = four:
-#&gt;  vs       emmean   SE df lower.CL upper.CL
-#&gt;  V-shaped   19.9 3.53 21    11.39     28.4
-#&gt;  straight   17.8 2.73 21    11.24     24.4
-#&gt; 
-#&gt; cyl = six:
-#&gt;  vs       emmean   SE df lower.CL upper.CL
-#&gt;  V-shaped   17.9 1.82 21    13.54     22.3
-#&gt;  straight   17.8 1.91 21    13.23     22.4
-#&gt; 
-#&gt; cyl = eight:
-#&gt;  vs       emmean   SE df lower.CL upper.CL
-#&gt;  V-shaped   19.0 1.67 21    14.96     23.0
-#&gt;  straight   16.9 4.54 21     6.01     27.9
-#&gt; 
-#&gt; Results are averaged over the levels of: am 
-#&gt; Confidence level used: 0.95 
-#&gt; Conf-level adjustment: sidak method for 2 estimates 
-#&gt; 
-#&gt; $`cyl:vs`$cont
-#&gt; cyl = four:
-#&gt;  contrast              estimate   SE df t.ratio p.value
-#&gt;  (V-shaped) - straight   2.0601 3.97 21   0.519  0.6095
-#&gt; 
-#&gt; cyl = six:
-#&gt;  contrast              estimate   SE df t.ratio p.value
-#&gt;  (V-shaped) - straight   0.0901 2.82 21   0.032  0.9748
-#&gt; 
-#&gt; cyl = eight:
-#&gt;  contrast              estimate   SE df t.ratio p.value
-#&gt;  (V-shaped) - straight   nonEst   NA NA      NA      NA
-#&gt; 
-#&gt; Results are averaged over the levels of: am 
-#&gt; 
-#&gt; 
-#&gt; $`hp:vs`
-#&gt; $`hp:vs`$est
-#&gt;  vs       hp.trend     SE df lower.CL upper.CL
-#&gt;  V-shaped  -0.0294 0.0177 21  -0.0662  0.00732
-#&gt;  straight  -0.0786 0.0449 21  -0.1721  0.01490
-#&gt; 
-#&gt; Results are averaged over the levels of: cyl, am 
-#&gt; Confidence level used: 0.95 
-#&gt; 
-#&gt; $`hp:vs`$cont
-#&gt;  contrast              estimate     SE df t.ratio p.value
-#&gt;  (V-shaped) - straight   0.0491 0.0531 21   0.926  0.3652
-#&gt; 
-#&gt; Results are averaged over the levels of: cyl, am 
-#&gt; 
-#&gt; </div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>plots</span>   <span class='co'># to print plots</span>
-</div><div class='output co'>#&gt; $wt</div><div class='img'><img src='e_plot_model_contrasts-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; $am</div><div class='img'><img src='e_plot_model_contrasts-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; $`cyl:vs`
-#&gt; $`cyl:vs`$both</div><div class='img'><img src='e_plot_model_contrasts-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; 
-#&gt; $`disp:hp`
-#&gt; $`disp:hp`$both</div><div class='img'><img src='e_plot_model_contrasts-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; 
-#&gt; $`hp:vs`
-#&gt; $`hp:vs`$both</div><div class='img'><img src='e_plot_model_contrasts-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; </div><div class='input'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>text</span>    <span class='co'># to print caption text</span>
-</div><div class='output co'>#&gt; $wt
-#&gt; $wt[[1]]
-#&gt; [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  
-#&gt; [2] "Tables: Results are averaged over the levels of: cyl, vs, am"        
-#&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"
-#&gt; 
-#&gt; $wt[[2]]
-#&gt; [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  
-#&gt; [2] "Tables: Confidence level used: 0.95"                                 
-#&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"
-#&gt; 
-#&gt; 
-#&gt; $am
-#&gt; $am[[1]]
-#&gt; [1] "Estimate: automatic = 17.5, 95% CI: (14.5, 20.5)"      
-#&gt; [2] "Estimate: manual = 19, 95% CI: (14.7, 23.3)"           
-#&gt; [3] "Contrast: automatic - manual = -1.52, p-value = 0.4416"
-#&gt; [4] "Results are averaged over the levels of: cyl, vs"      
-#&gt; 
-#&gt; 
-#&gt; $`cyl:vs`
-#&gt; $`cyl:vs`[[1]]
-#&gt; $`cyl:vs`[[1]][[1]]
-#&gt;  [1] "vs = V-shaped:"                                 
-#&gt;  [2] "Estimate: four = 19.9, 95% CI: (10.7, 29)"      
-#&gt;  [3] "Estimate: six = 17.9, 95% CI: (13.2, 22.6)"     
-#&gt;  [4] "Estimate: eight = 19, 95% CI: (14.7, 23.3)"     
-#&gt;  [5] "vs = straight:"                                 
-#&gt;  [6] "Estimate: four = 17.8, 95% CI: (10.7, 24.9)"    
-#&gt;  [7] "Estimate: six = 17.8, 95% CI: (12.9, 22.8)"     
-#&gt;  [8] "Estimate: eight = 16.9, 95% CI: (5.17, 28.7)"   
-#&gt;  [9] ""                                               
-#&gt; [10] "vs = V-shaped:"                                 
-#&gt; [11] "Contrast: four - six = 1.97, p-value = 0.9142"  
-#&gt; [12] "Contrast: four - eight = 0.89, p-value = 0.9959"
-#&gt; [13] "Contrast: six - eight = -1.08, p-value = 0.9789"
-#&gt; [14] "vs = straight:"                                 
-#&gt; [15] "Contrast: four - six = -0.00314, p-value = 1"   
-#&gt; [16] "Contrast: four - eight = NA, p-value = NA"      
-#&gt; [17] "Contrast: six - eight = NA, p-value = NA"       
-#&gt; [18] ""                                               
-#&gt; [19] "Results are averaged over the levels of: am"    
-#&gt; [20] "P value adjustment: sidak method for 3 tests"   
-#&gt; 
-#&gt; 
-#&gt; $`cyl:vs`[[2]]
-#&gt; $`cyl:vs`[[2]][[1]]
-#&gt;  [1] "cyl = four:"                                               
-#&gt;  [2] "Estimate: V-shaped = 19.9, 95% CI: (11.4, 28.4)"           
-#&gt;  [3] "Estimate: straight = 17.8, 95% CI: (11.2, 24.4)"           
-#&gt;  [4] "cyl = six:"                                                
-#&gt;  [5] "Estimate: V-shaped = 17.9, 95% CI: (13.5, 22.3)"           
-#&gt;  [6] "Estimate: straight = 17.8, 95% CI: (13.2, 22.4)"           
-#&gt;  [7] "cyl = eight:"                                              
-#&gt;  [8] "Estimate: V-shaped = 19, 95% CI: (15, 23)"                 
-#&gt;  [9] "Estimate: straight = 16.9, 95% CI: (6.01, 27.9)"           
-#&gt; [10] ""                                                          
-#&gt; [11] "cyl = four:"                                               
-#&gt; [12] "Contrast: (V-shaped) - straight = 2.06, p-value = 0.6095"  
-#&gt; [13] "Contrast: (V-shaped) - straight = 0.0901, p-value = 0.9748"
-#&gt; [14] "cyl = six:"                                                
-#&gt; [15] "Contrast: (V-shaped) - straight = NA, p-value = NA"        
-#&gt; [16] "Contrast: NA = NA, p-value = NA"                           
-#&gt; [17] "cyl = eight:"                                              
-#&gt; [18] "Contrast: NA = NA, p-value = NA"                           
-#&gt; [19] "Contrast: NA = NA, p-value = NA"                           
-#&gt; [20] ""                                                          
-#&gt; [21] "Results are averaged over the levels of: am"               
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; $`disp:hp`
-#&gt; $`disp:hp`[[1]]
-#&gt; $`disp:hp`[[1]][[1]]
-#&gt; [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95; may be fewer if quantiles are not unique values."
-#&gt; [2] "Results are averaged over the levels of: cyl, vs, am"                                            
-#&gt; 
-#&gt; 
-#&gt; $`disp:hp`[[2]]
-#&gt; $`disp:hp`[[2]][[1]]
-#&gt; [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95; may be fewer if quantiles are not unique values."
-#&gt; [2] "Results are averaged over the levels of: cyl, vs, am"                                            
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; $`hp:vs`
-#&gt; $`hp:vs`[[1]]
-#&gt; $`hp:vs`[[1]][[1]]
-#&gt; [1] "Estimate: V-shaped = -0.0294, 95% CI: (-0.0662, 0.00732)"  
-#&gt; [2] "Estimate: straight = -0.0786, 95% CI: (-0.172, 0.0149)"    
-#&gt; [3] "Contrast: (V-shaped) - straight = 0.0491, p-value = 0.3652"
-#&gt; [4] "Results are averaged over the levels of: cyl, am"          
-#&gt; 
-#&gt; 
-#&gt; $`hp:vs`[[2]]
-#&gt; $`hp:vs`[[2]][[1]]
-#&gt; [1] "Results are averaged over the levels of: cyl, am"
-#&gt; 
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Data for testing</span></span>
+<span class='r-in'><span class='va'>dat_cont</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span></span>
+<span class='r-in'>    rownames <span class='op'>=</span> <span class='st'>"model"</span></span>
+<span class='r-in'>  <span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span class='r-in'>    cyl <span class='op'>=</span> <span class='va'>cyl</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"four"</span>, <span class='st'>"six"</span>, <span class='st'>"eight"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  , vs  <span class='op'>=</span> <span class='va'>vs</span>  <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"V-shaped"</span>, <span class='st'>"straight"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  , am  <span class='op'>=</span> <span class='va'>am</span>  <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"automatic"</span>, <span class='st'>"manual"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Label columns</span></span>
+<span class='r-in'><span class='va'>dat_labels</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='op'>~</span><span class='va'>var</span>    , <span class='op'>~</span><span class='va'>label</span></span>
+<span class='r-in'>  , <span class='st'>"model"</span> , <span class='st'>"Model"</span></span>
+<span class='r-in'>  , <span class='st'>"mpg"</span>   , <span class='st'>"Miles/(US) gallon"</span></span>
+<span class='r-in'>  , <span class='st'>"cyl"</span>   , <span class='st'>"Number of cylinders"</span></span>
+<span class='r-in'>  , <span class='st'>"disp"</span>  , <span class='st'>"Displacement (cu.in.)"</span></span>
+<span class='r-in'>  , <span class='st'>"hp"</span>    , <span class='st'>"Gross horsepower"</span></span>
+<span class='r-in'>  , <span class='st'>"drat"</span>  , <span class='st'>"Rear axle ratio"</span></span>
+<span class='r-in'>  , <span class='st'>"wt"</span>    , <span class='st'>"Weight (1000 lbs)"</span></span>
+<span class='r-in'>  , <span class='st'>"qsec"</span>  , <span class='st'>"1/4 mile time"</span></span>
+<span class='r-in'>  , <span class='st'>"vs"</span>    , <span class='st'>"Engine"</span>                     <span class='co'># (0 = V-shaped, 1 = straight)"</span></span>
+<span class='r-in'>  , <span class='st'>"am"</span>    , <span class='st'>"Transmission"</span>               <span class='co'># (0 = automatic, 1 = manual)"</span></span>
+<span class='r-in'>  , <span class='st'>"gear"</span>  , <span class='st'>"Number of forward gears"</span></span>
+<span class='r-in'>  , <span class='st'>"carb"</span>  , <span class='st'>"Number of carburetors"</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i_row</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>dat_labels</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'>labelled</span><span class='fu'>::</span><span class='fu'><a href='http://larmarange.github.io/labelled/reference/var_label.html'>var_label</a></span><span class='op'>(</span><span class='va'>dat_cont</span><span class='op'>[[</span><span class='va'>dat_labels</span><span class='op'>[[</span><span class='st'>"var"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='va'>i_row</span><span class='op'>]</span> <span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>dat_labels</span><span class='op'>[[</span><span class='st'>"label"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='va'>i_row</span><span class='op'>]</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># Set specific model with some interactions</span></span>
+<span class='r-in'><span class='va'>form_model</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span> <span class='op'>+</span> <span class='va'>wt</span> <span class='op'>+</span> <span class='va'>vs</span> <span class='op'>+</span> <span class='va'>am</span> <span class='op'>+</span> <span class='va'>cyl</span><span class='op'>:</span><span class='va'>vs</span> <span class='op'>+</span> <span class='va'>disp</span><span class='op'>:</span><span class='va'>hp</span> <span class='op'>+</span> <span class='va'>hp</span><span class='op'>:</span><span class='va'>vs</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span></span>
+<span class='r-in'>    formula <span class='op'>=</span> <span class='va'>form_model</span></span>
+<span class='r-in'>  , data    <span class='op'>=</span> <span class='va'>dat_cont</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Analysis of Variance Table</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Response: mpg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Df Sum Sq Mean Sq F value    Pr(&gt;F)    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl        2 824.78  412.39 70.6104 4.755e-10 ***</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> disp       1  57.64   57.64  9.8697  0.004927 ** </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> hp         1  18.50   18.50  3.1680  0.089572 .  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> wt         1  64.99   64.99 11.1278  0.003136 ** </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> vs         1   0.65    0.65  0.1116  0.741682    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> am         1  16.39   16.39  2.8055  0.108772    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl:vs     1   0.13    0.13  0.0216  0.884442    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> disp:hp    1  15.31   15.31  2.6217  0.120336    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> hp:vs      1   5.00    5.00  0.8568  0.365152    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Residuals 21 122.65    5.84                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> lm(formula = form_model, data = dat_cont)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Residuals:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Min      1Q  Median      3Q     Max </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -3.2634 -1.6094 -0.3633  1.3947  3.8193 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Coefficients: (1 not defined because of singularities)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)          3.598e+01  8.628e+00   4.170 0.000433 ***</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cylsix              -1.967e+00  3.313e+00  -0.594 0.559012    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyleight            -8.898e-01  4.369e+00  -0.204 0.840561    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> disp                -1.501e-02  3.403e-02  -0.441 0.663566    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> hp                  -5.193e-02  5.031e-02  -1.032 0.313707    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> wt                  -2.821e+00  1.213e+00  -2.326 0.030086 *  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> vsstraight           5.149e+00  5.521e+00   0.933 0.361603    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ammanual             1.521e+00  1.939e+00   0.784 0.441592    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cylsix:vsstraight    1.970e+00  3.603e+00   0.547 0.590322    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyleight:vsstraight         NA         NA      NA       NA    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> disp:hp              9.752e-05  1.696e-04   0.575 0.571500    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> hp:vsstraight       -4.915e-02  5.310e-02  -0.926 0.365152    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Residual standard error: 2.417 on 21 degrees of freedom</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Multiple R-squared:  0.8911,	Adjusted R-squared:  0.8392 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F-statistic: 17.18 on 10 and 21 DF,  p-value: 5.984e-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>fit_contrasts</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'>e_plot_model_contrasts</span><span class='op'>(</span></span>
+<span class='r-in'>    fit                <span class='op'>=</span> <span class='va'>fit</span></span>
+<span class='r-in'>  , dat_cont           <span class='op'>=</span> <span class='va'>dat_cont</span></span>
+<span class='r-in'>  , sw_print           <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  , sw_table_in_plot   <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  , sw_TWI_plots_keep  <span class='op'>=</span> <span class='st'>"both"</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> e_plot_model_contrasts: Skipping "disp" since involved in interactions.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> e_plot_model_contrasts: Skipping "hp" since involved in interactions.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> e_plot_model_contrasts: Skipping "vs" since involved in interactions.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>     Target overlap = 0.9995, overlap on graph = -101.2269</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>     Target overlap = 0.9995, overlap on graph = -104.1881</span>
+<span class='r-in'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>tables</span>  <span class='co'># to print tables</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $wt</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $wt$est</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    wt wt.trend   SE df lower.CL upper.CL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3.22    -2.82 1.21 21    -5.34   -0.299</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: cyl, vs, am </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Confidence level used: 0.95 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $am</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $am$est</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  am        emmean   SE df lower.CL upper.CL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  automatic   17.5 1.25 21     14.5     20.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  manual      19.0 1.77 21     14.7     23.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: cyl, vs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Confidence level used: 0.95 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Conf-level adjustment: sidak method for 2 estimates </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $am$cont</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  contrast           estimate   SE df t.ratio p.value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  automatic - manual    -1.52 1.94 21  -0.784  0.4416</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: cyl, vs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`$est</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl = four:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  vs       emmean   SE df lower.CL upper.CL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  V-shaped   19.9 3.53 21    11.39     28.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  straight   17.8 2.73 21    11.24     24.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl = six:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  vs       emmean   SE df lower.CL upper.CL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  V-shaped   17.9 1.82 21    13.54     22.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  straight   17.8 1.91 21    13.23     22.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl = eight:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  vs       emmean   SE df lower.CL upper.CL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  V-shaped   19.0 1.67 21    14.96     23.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  straight   16.9 4.54 21     6.01     27.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: am </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Confidence level used: 0.95 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Conf-level adjustment: sidak method for 2 estimates </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`$cont</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl = four:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  contrast              estimate   SE df t.ratio p.value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  (V-shaped) - straight   2.0601 3.97 21   0.519  0.6095</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl = six:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  contrast              estimate   SE df t.ratio p.value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  (V-shaped) - straight   0.0901 2.82 21   0.032  0.9748</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cyl = eight:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  contrast              estimate   SE df t.ratio p.value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  (V-shaped) - straight   nonEst   NA NA      NA      NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: am </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`$est</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  vs       hp.trend     SE df lower.CL upper.CL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  V-shaped  -0.0294 0.0177 21  -0.0662  0.00732</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  straight  -0.0786 0.0449 21  -0.1721  0.01490</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: cyl, am </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Confidence level used: 0.95 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`$cont</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  contrast              estimate     SE df t.ratio p.value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  (V-shaped) - straight   0.0491 0.0531 21   0.926  0.3652</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Results are averaged over the levels of: cyl, am </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>plots</span>   <span class='co'># to print plots</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $wt</span>
+<span class='r-plt img'><img src='e_plot_model_contrasts-1.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $am</span>
+<span class='r-plt img'><img src='e_plot_model_contrasts-2.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`$both</span>
+<span class='r-plt img'><img src='e_plot_model_contrasts-3.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`$both</span>
+<span class='r-plt img'><img src='e_plot_model_contrasts-4.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`$both</span>
+<span class='r-plt img'><img src='e_plot_model_contrasts-5.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>fit_contrasts</span><span class='op'>$</span><span class='va'>text</span>    <span class='co'># to print caption text</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $wt</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $wt[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "Tables: Results are averaged over the levels of: cyl, vs, am"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $wt[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "Tables: Confidence level used: 0.95"                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $am</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $am[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Estimate: automatic = 17.5, 95% CI: (14.5, 20.5)"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "Estimate: manual = 19, 95% CI: (14.7, 23.3)"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "Contrast: automatic - manual = -1.52, p-value = 0.4416"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] "Results are averaged over the levels of: cyl, vs"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`[[1]][[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "vs = V-shaped:"                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] "Estimate: four = 19.9, 95% CI: (10.7, 29)"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "Estimate: six = 17.9, 95% CI: (13.2, 22.6)"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "Estimate: eight = 19, 95% CI: (14.7, 23.3)"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "vs = straight:"                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "Estimate: four = 17.8, 95% CI: (10.7, 24.9)"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "Estimate: six = 17.8, 95% CI: (12.9, 22.8)"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "Estimate: eight = 16.9, 95% CI: (5.17, 28.7)"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] ""                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "vs = V-shaped:"                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "Contrast: four - six = 1.97, p-value = 0.9142"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12] "Contrast: four - eight = 0.89, p-value = 0.9959"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "Contrast: six - eight = -1.08, p-value = 0.9789"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [14] "vs = straight:"                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "Contrast: four - six = -0.00314, p-value = 1"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "Contrast: four - eight = NA, p-value = NA"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "Contrast: six - eight = NA, p-value = NA"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [18] ""                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "Results are averaged over the levels of: am"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [20] "P value adjustment: sidak method for 3 tests"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`cyl:vs`[[2]][[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "cyl = four:"                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] "Estimate: V-shaped = 19.9, 95% CI: (11.4, 28.4)"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "Estimate: straight = 17.8, 95% CI: (11.2, 24.4)"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "cyl = six:"                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "Estimate: V-shaped = 17.9, 95% CI: (13.5, 22.3)"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "Estimate: straight = 17.8, 95% CI: (13.2, 22.4)"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "cyl = eight:"                                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "Estimate: V-shaped = 19, 95% CI: (15, 23)"                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "Estimate: straight = 16.9, 95% CI: (6.01, 27.9)"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] ""                                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "cyl = four:"                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12] "Contrast: (V-shaped) - straight = 2.06, p-value = 0.6095"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "Contrast: (V-shaped) - straight = 0.0901, p-value = 0.9748"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [14] "cyl = six:"                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "Contrast: (V-shaped) - straight = NA, p-value = NA"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "Contrast: NA = NA, p-value = NA"                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "cyl = eight:"                                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [18] "Contrast: NA = NA, p-value = NA"                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "Contrast: NA = NA, p-value = NA"                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [20] ""                                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "Results are averaged over the levels of: am"               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`[[1]][[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95; may be fewer if quantiles are not unique values."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "Results are averaged over the levels of: cyl, vs, am"                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`disp:hp`[[2]][[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95; may be fewer if quantiles are not unique values."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "Results are averaged over the levels of: cyl, vs, am"                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`[[1]][[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Estimate: V-shaped = -0.0294, 95% CI: (-0.0662, 0.00732)"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "Estimate: straight = -0.0786, 95% CI: (-0.172, 0.0149)"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "Contrast: (V-shaped) - straight = 0.0491, p-value = 0.3652"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] "Results are averaged over the levels of: cyl, am"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hp:vs`[[2]][[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Results are averaged over the levels of: cyl, am"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

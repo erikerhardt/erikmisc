@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -160,10 +160,11 @@
     <p>numeric list</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># note difference in last two items</span>
-<span class='va'>vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='fl'>1</span>, <span class='st'>"a"</span>, <span class='st'>"a1a"</span>, <span class='st'>"@%^#@0.23asdf"</span>, <span class='st'>")(&amp;*.2&amp;*"</span>, <span class='st'>")(&amp;*0.2&amp;*"</span><span class='op'>)</span>
-<span class='fu'>e_extract_numbers_from_string</span><span class='op'>(</span><span class='va'>vec</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]   NA 1.00   NA 1.00 0.23 2.00 0.20</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># note difference in last two items</span></span>
+<span class='r-in'><span class='va'>vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='fl'>1</span>, <span class='st'>"a"</span>, <span class='st'>"a1a"</span>, <span class='st'>"@%^#@0.23asdf"</span>, <span class='st'>")(&amp;*.2&amp;*"</span>, <span class='st'>")(&amp;*0.2&amp;*"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_extract_numbers_from_string</span><span class='op'>(</span><span class='va'>vec</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]   NA 1.00   NA 1.00 0.23 2.00 0.20</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

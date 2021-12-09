@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -160,23 +160,24 @@
     <p>if there was an exception, return its content</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_message_capture</span><span class='op'>(</span><span class='va'>test_message</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; NULL
-#&gt; 
-#&gt; $logs
-#&gt; $logs[[1]]
-#&gt; $logs[[1]]$timestamp
-#&gt; [1] "2021-11-18 04:55:47"
-#&gt; 
-#&gt; $logs[[1]]$type
-#&gt; [1] "error"
-#&gt; 
-#&gt; $logs[[1]]$message
-#&gt; [1] "object 'test_message' not found"
-#&gt; 
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>e_message_capture</span><span class='op'>(</span><span class='va'>test_message</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $logs</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $logs[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $logs[[1]]$timestamp</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-12-09 23:31:52"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $logs[[1]]$type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "error"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $logs[[1]]$message</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "object 'test_message' not found"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

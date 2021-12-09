@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -182,56 +182,59 @@
     <p>aggregated data</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>e_table_aggregate</span><span class='op'>(</span>
-    dat                 <span class='op'>=</span> <span class='va'>dat_mtcars_e</span>
-  , var_names_by        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span><span class='op'>)</span>
-  , var_names_aggregate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span><span class='op'>)</span>
-  , func_aggregate      <span class='op'>=</span> <span class='va'>mean</span>
-  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span>
-#&gt;   cyl    disp    hp  drat
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> four   105.  82.6  4.07
-#&gt; <span style='color: #BCBCBC;'>2</span> six    183. 122.   3.59
-#&gt; <span style='color: #BCBCBC;'>3</span> eight  353. 209.   3.23</div><div class='input'><span class='fu'>e_table_aggregate</span><span class='op'>(</span>
-    dat                 <span class='op'>=</span> <span class='va'>dat_mtcars_e</span>
-  , var_names_by        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span>, <span class='st'>"am"</span><span class='op'>)</span>
-  , var_names_aggregate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>, <span class='st'>"wt"</span>, <span class='st'>"qsec"</span><span class='op'>)</span>
-  , func_aggregate      <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>sum</span>, <span class='va'>sum</span>, <span class='va'>mean</span>, <span class='va'>mean</span>, <span class='va'>sum</span><span class='op'>)</span>
-  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span>
-#&gt;   cyl   am         disp    hp  drat    wt  qsec
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> four  automatic  408.   254  3.77  2.94  62.9
-#&gt; <span style='color: #BCBCBC;'>2</span> four  manual     749.   655  4.18  2.04 148. 
-#&gt; <span style='color: #BCBCBC;'>3</span> six   automatic  818.   461  3.42  3.39  76.9
-#&gt; <span style='color: #BCBCBC;'>4</span> six   manual     465    395  3.81  2.76  49.0
-#&gt; <span style='color: #BCBCBC;'>5</span> eight automatic <span style='text-decoration: underline;'>4</span>291.  <span style='text-decoration: underline;'>2</span>330  3.12  4.10 206. 
-#&gt; <span style='color: #BCBCBC;'>6</span> eight manual     652    599  3.88  3.37  29.1</div><div class='input'>
-<span class='co'># assign variables and functions in a list</span>
-<span class='va'>list_aggregate_var_func</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    `disp` <span class='op'>=</span> <span class='va'>sum</span>
-  , `hp`   <span class='op'>=</span> <span class='va'>sum</span>
-  , `drat` <span class='op'>=</span> <span class='va'>mean</span>
-  , `wt`   <span class='op'>=</span> <span class='va'>mean</span>
-  , `qsec` <span class='op'>=</span> <span class='va'>sum</span>
-  <span class='op'>)</span>
-<span class='fu'>e_table_aggregate</span><span class='op'>(</span>
-    dat                 <span class='op'>=</span> <span class='va'>dat_mtcars_e</span>
-  , var_names_by        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span>, <span class='st'>"am"</span><span class='op'>)</span>
-  , var_names_aggregate <span class='op'>=</span> <span class='va'>list_aggregate_var_func</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='op'>)</span>
-  , func_aggregate      <span class='op'>=</span> <span class='va'>list_aggregate_var_func</span>
-  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span>
-#&gt;   cyl   am         disp    hp  drat    wt  qsec
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> four  automatic  408.   254  3.77  2.94  62.9
-#&gt; <span style='color: #BCBCBC;'>2</span> four  manual     749.   655  4.18  2.04 148. 
-#&gt; <span style='color: #BCBCBC;'>3</span> six   automatic  818.   461  3.42  3.39  76.9
-#&gt; <span style='color: #BCBCBC;'>4</span> six   manual     465    395  3.81  2.76  49.0
-#&gt; <span style='color: #BCBCBC;'>5</span> eight automatic <span style='text-decoration: underline;'>4</span>291.  <span style='text-decoration: underline;'>2</span>330  3.12  4.10 206. 
-#&gt; <span style='color: #BCBCBC;'>6</span> eight manual     652    599  3.88  3.37  29.1</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>e_table_aggregate</span><span class='op'>(</span></span>
+<span class='r-in'>    dat                 <span class='op'>=</span> <span class='va'>dat_mtcars_e</span></span>
+<span class='r-in'>  , var_names_by        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span><span class='op'>)</span></span>
+<span class='r-in'>  , var_names_aggregate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span><span class='op'>)</span></span>
+<span class='r-in'>  , func_aggregate      <span class='op'>=</span> <span class='va'>mean</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   cyl    disp    hp  drat</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> four   105.  82.6  4.07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> six    183. 122.   3.59</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> eight  353. 209.   3.23</span>
+<span class='r-in'><span class='fu'>e_table_aggregate</span><span class='op'>(</span></span>
+<span class='r-in'>    dat                 <span class='op'>=</span> <span class='va'>dat_mtcars_e</span></span>
+<span class='r-in'>  , var_names_by        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span>, <span class='st'>"am"</span><span class='op'>)</span></span>
+<span class='r-in'>  , var_names_aggregate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>, <span class='st'>"wt"</span>, <span class='st'>"qsec"</span><span class='op'>)</span></span>
+<span class='r-in'>  , func_aggregate      <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>sum</span>, <span class='va'>sum</span>, <span class='va'>mean</span>, <span class='va'>mean</span>, <span class='va'>sum</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 6 x 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   cyl   am         disp    hp  drat    wt  qsec</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> four  automatic  408.   254  3.77  2.94  62.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> four  manual     749.   655  4.18  2.04 148. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> six   automatic  818.   461  3.42  3.39  76.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> six   manual     465    395  3.81  2.76  49.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> eight automatic <span style='text-decoration: underline;'>4</span>291.  <span style='text-decoration: underline;'>2</span>330  3.12  4.10 206. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> eight manual     652    599  3.88  3.37  29.1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># assign variables and functions in a list</span></span>
+<span class='r-in'><span class='va'>list_aggregate_var_func</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>    `disp` <span class='op'>=</span> <span class='va'>sum</span></span>
+<span class='r-in'>  , `hp`   <span class='op'>=</span> <span class='va'>sum</span></span>
+<span class='r-in'>  , `drat` <span class='op'>=</span> <span class='va'>mean</span></span>
+<span class='r-in'>  , `wt`   <span class='op'>=</span> <span class='va'>mean</span></span>
+<span class='r-in'>  , `qsec` <span class='op'>=</span> <span class='va'>sum</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>e_table_aggregate</span><span class='op'>(</span></span>
+<span class='r-in'>    dat                 <span class='op'>=</span> <span class='va'>dat_mtcars_e</span></span>
+<span class='r-in'>  , var_names_by        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span>, <span class='st'>"am"</span><span class='op'>)</span></span>
+<span class='r-in'>  , var_names_aggregate <span class='op'>=</span> <span class='va'>list_aggregate_var_func</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  , func_aggregate      <span class='op'>=</span> <span class='va'>list_aggregate_var_func</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 6 x 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   cyl   am         disp    hp  drat    wt  qsec</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> four  automatic  408.   254  3.77  2.94  62.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> four  manual     749.   655  4.18  2.04 148. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> six   automatic  818.   461  3.42  3.39  76.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> six   manual     465    395  3.81  2.76  49.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> eight automatic <span style='text-decoration: underline;'>4</span>291.  <span style='text-decoration: underline;'>2</span>330  3.12  4.10 206. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> eight manual     652    599  3.88  3.37  29.1</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
