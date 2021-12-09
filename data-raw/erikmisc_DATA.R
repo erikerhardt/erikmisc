@@ -1,6 +1,8 @@
 library(tidyverse)
 
-## dat_mtcars_e
+# ----------------------------------------
+## Examples: dat_mtcars_e
+
 dat_mtcars_e <-
   datasets::mtcars %>%
   tibble::as_tibble(
@@ -45,3 +47,21 @@ usethis::use_data(
 #     dat_mtcars_e
 #   , file = "data/dat_mtcars_e.RData"
 #   )
+
+
+# ----------------------------------------
+## Unicode: dat_unicode_tables_sel_byhand_e
+
+# read unicode ascii table
+dat_unicode_tables_sel_byhand_e <-
+  readr::read_csv(
+  , file = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/unicode/unicode_tables_sel_byhand.csv"
+  )
+# remove attributes after readr::read_csv()
+attr(dat_unicode_tables_sel_byhand_e, "spec"    ) <- NULL
+attr(dat_unicode_tables_sel_byhand_e, "problems") <- NULL
+# save to package
+usethis::use_data(
+  dat_unicode_tables_sel_byhand_e
+, overwrite = TRUE
+)

@@ -1,0 +1,1191 @@
+Code,Glyph,Description,CharacterSet,is_unicode,CodeEscaped,ASCII
+U+00A1,¡,Inverted Exclamation Mark,Table_Latin-1_Supplement,TRUE,\u00A1,!
+U+00A2,¢,Cent sign,Table_Latin-1_Supplement,TRUE,\u00A2,cent
+U+00A3,£,Pound sign,Table_Latin-1_Supplement,TRUE,\u00A3,pound
+U+00A4,¤,Currency sign,Table_Latin-1_Supplement,TRUE,\u00A4,currency
+U+00A5,¥,Yen sign,Table_Latin-1_Supplement,TRUE,\u00A5,yen
+U+00A6,¦,Broken bar,Table_Latin-1_Supplement,TRUE,\u00A6,|
+U+00A7,§,Section sign,Table_Latin-1_Supplement,TRUE,\u00A7,S
+U+00A8,¨,Diaeresis (Umlaut),Table_Latin-1_Supplement,TRUE,\u00A8,XunicodeX
+U+00A9,©,Copyright sign,Table_Latin-1_Supplement,TRUE,\u00A9,C
+U+00AA,ª,Feminine Ordinal Indicator,Table_Latin-1_Supplement,TRUE,\u00AA,a
+U+00AB,«,Left-pointing double angle quotation mark,Table_Latin-1_Supplement,TRUE,\u00AB,""""
+U+00AC,¬,Not sign,Table_Latin-1_Supplement,TRUE,\u00AC,not
+U+00AE,®,Registered sign,Table_Latin-1_Supplement,TRUE,\u00AE,R
+U+00AF,¯,macron,Table_Latin-1_Supplement,TRUE,\u00AF,-
+U+00B0,°,Degree sign,Table_Latin-1_Supplement,TRUE,\u00B0,deg
+U+00B1,±,Plus-minus sign,Table_Latin-1_Supplement,TRUE,\u00B1,+-
+U+00B2,²,Superscript two,Table_Latin-1_Supplement,TRUE,\u00B2,2
+U+00B3,³,Superscript three,Table_Latin-1_Supplement,TRUE,\u00B3,3
+U+00B4,´,Acute accent,Table_Latin-1_Supplement,TRUE,\u00B4,^
+U+00B5,µ,Micro sign,Table_Latin-1_Supplement,TRUE,\u00B5,mu
+U+00B6,¶,Pilcrow sign,Table_Latin-1_Supplement,TRUE,\u00B6,paragraph
+U+00B7,·,Middle dot,Table_Latin-1_Supplement,TRUE,\u00B7,.
+U+00B8,¸,Cedilla,Table_Latin-1_Supplement,TRUE,\u00B8,","
+U+00B9,¹,Superscript one,Table_Latin-1_Supplement,TRUE,\u00B9,1
+U+00BA,º,Masculine ordinal indicator,Table_Latin-1_Supplement,TRUE,\u00BA,o
+U+00BB,»,Right-pointing double angle quotation mark,Table_Latin-1_Supplement,TRUE,\u00BB,""""
+U+00BC,¼,Vulgar fraction one quarter,Table_Latin-1_Supplement,TRUE,\u00BC,1/4
+U+00BD,½,Vulgar fraction one half,Table_Latin-1_Supplement,TRUE,\u00BD,1/2
+U+00BE,¾,Vulgar fraction three quarters,Table_Latin-1_Supplement,TRUE,\u00BE,3/4
+U+00BF,¿,Inverted Question Mark,Table_Latin-1_Supplement,TRUE,\u00BF,?
+U+00C0,À,Latin Capital Letter A with grave,Table_Latin-1_Supplement,TRUE,\u00C0,A
+U+00C1,Á,Latin Capital letter A with acute,Table_Latin-1_Supplement,TRUE,\u00C1,A
+U+00C2,Â,Latin Capital letter A with circumflex,Table_Latin-1_Supplement,TRUE,\u00C2,A
+U+00C3,Ã,Latin Capital letter A with tilde,Table_Latin-1_Supplement,TRUE,\u00C3,A
+U+00C4,Ä,Latin Capital letter A with diaeresis,Table_Latin-1_Supplement,TRUE,\u00C4,A
+U+00C5,Å,Latin Capital letter A with ring above,Table_Latin-1_Supplement,TRUE,\u00C5,A
+U+00C6,Æ,Latin Capital letter Æ,Table_Latin-1_Supplement,TRUE,\u00C6,A
+U+00C7,Ç,Latin Capital letter C with cedilla,Table_Latin-1_Supplement,TRUE,\u00C7,C
+U+00C8,È,Latin Capital letter E with grave,Table_Latin-1_Supplement,TRUE,\u00C8,E
+U+00C9,É,Latin Capital letter E with acute,Table_Latin-1_Supplement,TRUE,\u00C9,E
+U+00CA,Ê,Latin Capital letter E with circumflex,Table_Latin-1_Supplement,TRUE,\u00CA,E
+U+00CB,Ë,Latin Capital letter E with diaeresis,Table_Latin-1_Supplement,TRUE,\u00CB,E
+U+00CC,Ì,Latin Capital letter I with grave,Table_Latin-1_Supplement,TRUE,\u00CC,I
+U+00CD,Í,Latin Capital letter I with acute,Table_Latin-1_Supplement,TRUE,\u00CD,I
+U+00CE,Î,Latin Capital letter I with circumflex,Table_Latin-1_Supplement,TRUE,\u00CE,I
+U+00CF,Ï,Latin Capital letter I with diaeresis,Table_Latin-1_Supplement,TRUE,\u00CF,I
+U+00D0,Ð,Latin Capital letter Eth,Table_Latin-1_Supplement,TRUE,\u00D0,Eth
+U+00D1,Ñ,Latin Capital letter N with tilde,Table_Latin-1_Supplement,TRUE,\u00D1,N
+U+00D2,Ò,Latin Capital letter O with grave,Table_Latin-1_Supplement,TRUE,\u00D2,O
+U+00D3,Ó,Latin Capital letter O with acute,Table_Latin-1_Supplement,TRUE,\u00D3,O
+U+00D4,Ô,Latin Capital letter O with circumflex,Table_Latin-1_Supplement,TRUE,\u00D4,O
+U+00D5,Õ,Latin Capital letter O with tilde,Table_Latin-1_Supplement,TRUE,\u00D5,O
+U+00D6,Ö,Latin Capital letter O with diaeresis,Table_Latin-1_Supplement,TRUE,\u00D6,O
+U+00D7,×,Multiplication sign,Table_Latin-1_Supplement,TRUE,\u00D7,*
+U+00D8,Ø,Latin Capital letter O with stroke,Table_Latin-1_Supplement,TRUE,\u00D8,O
+U+00D9,Ù,Latin Capital letter U with grave,Table_Latin-1_Supplement,TRUE,\u00D9,U
+U+00DA,Ú,Latin Capital letter U with acute,Table_Latin-1_Supplement,TRUE,\u00DA,U
+U+00DB,Û,Latin Capital Letter U with circumflex,Table_Latin-1_Supplement,TRUE,\u00DB,U
+U+00DC,Ü,Latin Capital Letter U with diaeresis,Table_Latin-1_Supplement,TRUE,\u00DC,U
+U+00DD,Ý,Latin Capital Letter Y with acute,Table_Latin-1_Supplement,TRUE,\u00DD,Y
+U+00DE,Þ,Latin Capital Letter Thorn,Table_Latin-1_Supplement,TRUE,\u00DE,Th
+U+00DF,ß,Latin Small Letter sharp S,Table_Latin-1_Supplement,TRUE,\u00DF,S
+U+00E0,à,Latin Small Letter A with grave,Table_Latin-1_Supplement,TRUE,\u00E0,a
+U+00E1,á,Latin Small Letter A with acute,Table_Latin-1_Supplement,TRUE,\u00E1,a
+U+00E2,â,Latin Small Letter A with circumflex,Table_Latin-1_Supplement,TRUE,\u00E2,a
+U+00E3,ã,Latin Small Letter A with tilde,Table_Latin-1_Supplement,TRUE,\u00E3,a
+U+00E4,ä,Latin Small Letter A with diaeresis,Table_Latin-1_Supplement,TRUE,\u00E4,a
+U+00E5,å,Latin Small Letter A with ring above,Table_Latin-1_Supplement,TRUE,\u00E5,a
+U+00E6,æ,Latin Small Letter Æ,Table_Latin-1_Supplement,TRUE,\u00E6,a
+U+00E7,ç,Latin Small Letter C with cedilla,Table_Latin-1_Supplement,TRUE,\u00E7,c
+U+00E8,è,Latin Small Letter E with grave,Table_Latin-1_Supplement,TRUE,\u00E8,e
+U+00E9,é,Latin Small Letter E with acute,Table_Latin-1_Supplement,TRUE,\u00E9,e
+U+00EA,ê,Latin Small Letter E with circumflex,Table_Latin-1_Supplement,TRUE,\u00EA,e
+U+00EB,ë,Latin Small Letter E with diaeresis,Table_Latin-1_Supplement,TRUE,\u00EB,e
+U+00EC,ì,Latin Small Letter I with grave,Table_Latin-1_Supplement,TRUE,\u00EC,i
+U+00ED,í,Latin Small Letter I with acute,Table_Latin-1_Supplement,TRUE,\u00ED,i
+U+00EE,î,Latin Small Letter I with circumflex,Table_Latin-1_Supplement,TRUE,\u00EE,i
+U+00EF,ï,Latin Small Letter I with diaeresis,Table_Latin-1_Supplement,TRUE,\u00EF,i
+U+00F0,ð,Latin Small Letter Eth,Table_Latin-1_Supplement,TRUE,\u00F0,eth
+U+00F1,ñ,Latin Small Letter N with tilde,Table_Latin-1_Supplement,TRUE,\u00F1,n
+U+00F2,ò,Latin Small Letter O with grave,Table_Latin-1_Supplement,TRUE,\u00F2,o
+U+00F3,ó,Latin Small Letter O with acute,Table_Latin-1_Supplement,TRUE,\u00F3,o
+U+00F4,ô,Latin Small Letter O with circumflex,Table_Latin-1_Supplement,TRUE,\u00F4,o
+U+00F5,õ,Latin Small Letter O with tilde,Table_Latin-1_Supplement,TRUE,\u00F5,o
+U+00F6,ö,Latin Small Letter O with diaeresis,Table_Latin-1_Supplement,TRUE,\u00F6,o
+U+00F7,÷,Division sign,Table_Latin-1_Supplement,TRUE,\u00F7,/
+U+00F8,ø,Latin Small Letter O with stroke,Table_Latin-1_Supplement,TRUE,\u00F8,o
+U+00F9,ù,Latin Small Letter U with grave,Table_Latin-1_Supplement,TRUE,\u00F9,u
+U+00FA,ú,Latin Small Letter U with acute,Table_Latin-1_Supplement,TRUE,\u00FA,u
+U+00FB,û,Latin Small Letter U with circumflex,Table_Latin-1_Supplement,TRUE,\u00FB,u
+U+00FC,ü,Latin Small Letter U with diaeresis,Table_Latin-1_Supplement,TRUE,\u00FC,u
+U+00FD,ý,Latin Small Letter Y with acute,Table_Latin-1_Supplement,TRUE,\u00FD,y
+U+00FE,þ,Latin Small Letter Thorn,Table_Latin-1_Supplement,TRUE,\u00FE,th
+U+00FF,ÿ,Latin Small Letter Y with diaeresis,Table_Latin-1_Supplement,TRUE,\u00FF,y
+U+0100,Ā,Latin Capital Letter A with macron,Table_Latin_Extended-A,TRUE,\u0100,A
+U+0101,ā,Latin Small Letter A with macron,Table_Latin_Extended-A,TRUE,\u0101,a
+U+0102,Ă,Latin Capital Letter A with breve,Table_Latin_Extended-A,TRUE,\u0102,A
+U+0103,ă,Latin Small Letter A with breve,Table_Latin_Extended-A,TRUE,\u0103,a
+U+0104,Ą,Latin Capital Letter A with ogonek,Table_Latin_Extended-A,TRUE,\u0104,A
+U+0105,ą,Latin Small Letter A with ogonek,Table_Latin_Extended-A,TRUE,\u0105,a
+U+0106,Ć,Latin Capital Letter C with acute,Table_Latin_Extended-A,TRUE,\u0106,C
+U+0107,ć,Latin Small Letter C with acute,Table_Latin_Extended-A,TRUE,\u0107,c
+U+0108,Ĉ,Latin Capital Letter C with circumflex,Table_Latin_Extended-A,TRUE,\u0108,C
+U+0109,ĉ,Latin Small Letter C with circumflex,Table_Latin_Extended-A,TRUE,\u0109,c
+U+010A,Ċ,Latin Capital Letter C with dot above,Table_Latin_Extended-A,TRUE,\u010A,C
+U+010B,ċ,Latin Small Letter C with dot above,Table_Latin_Extended-A,TRUE,\u010B,c
+U+010C,Č,Latin Capital Letter C with caron,Table_Latin_Extended-A,TRUE,\u010C,C
+U+010D,č,Latin Small Letter C with caron,Table_Latin_Extended-A,TRUE,\u010D,c
+U+010E,Ď,Latin Capital Letter D with caron,Table_Latin_Extended-A,TRUE,\u010E,D
+U+010F,ď,Latin Small Letter D with caron,Table_Latin_Extended-A,TRUE,\u010F,d
+U+0110,Đ,Latin Capital Letter D with stroke,Table_Latin_Extended-A,TRUE,\u0110,D
+U+0111,đ,Latin Small Letter D with stroke,Table_Latin_Extended-A,TRUE,\u0111,d
+U+0112,Ē,Latin Capital Letter E with macron,Table_Latin_Extended-A,TRUE,\u0112,E
+U+0113,ē,Latin Small Letter E with macron,Table_Latin_Extended-A,TRUE,\u0113,e
+U+0114,Ĕ,Latin Capital Letter E with breve,Table_Latin_Extended-A,TRUE,\u0114,E
+U+0115,ĕ,Latin Small Letter E with breve,Table_Latin_Extended-A,TRUE,\u0115,e
+U+0116,Ė,Latin Capital Letter E with dot above,Table_Latin_Extended-A,TRUE,\u0116,E
+U+0117,ė,Latin Small Letter E with dot above,Table_Latin_Extended-A,TRUE,\u0117,e
+U+0118,Ę,Latin Capital Letter E with ogonek,Table_Latin_Extended-A,TRUE,\u0118,E
+U+0119,ę,Latin Small Letter E with ogonek,Table_Latin_Extended-A,TRUE,\u0119,e
+U+011A,Ě,Latin Capital Letter E with caron,Table_Latin_Extended-A,TRUE,\u011A,E
+U+011B,ě,Latin Small Letter E with caron,Table_Latin_Extended-A,TRUE,\u011B,e
+U+011C,Ĝ,Latin Capital Letter G with circumflex,Table_Latin_Extended-A,TRUE,\u011C,G
+U+011D,ĝ,Latin Small Letter G with circumflex,Table_Latin_Extended-A,TRUE,\u011D,g
+U+011E,Ğ,Latin Capital Letter G with breve,Table_Latin_Extended-A,TRUE,\u011E,G
+U+011F,ğ,Latin Small Letter G with breve,Table_Latin_Extended-A,TRUE,\u011F,g
+U+0120,Ġ,Latin Capital Letter G with dot above,Table_Latin_Extended-A,TRUE,\u0120,G
+U+0121,ġ,Latin Small Letter G with dot above,Table_Latin_Extended-A,TRUE,\u0121,g
+U+0122,Ģ,Latin Capital Letter G with cedilla,Table_Latin_Extended-A,TRUE,\u0122,G
+U+0123,ģ,Latin Small Letter G with cedilla,Table_Latin_Extended-A,TRUE,\u0123,g
+U+0124,Ĥ,Latin Capital Letter H with circumflex,Table_Latin_Extended-A,TRUE,\u0124,H
+U+0125,ĥ,Latin Small Letter H with circumflex,Table_Latin_Extended-A,TRUE,\u0125,h
+U+0126,Ħ,Latin Capital Letter H with stroke,Table_Latin_Extended-A,TRUE,\u0126,H
+U+0127,ħ,Latin Small Letter H with stroke,Table_Latin_Extended-A,TRUE,\u0127,h
+U+0128,Ĩ,Latin Capital Letter I with tilde,Table_Latin_Extended-A,TRUE,\u0128,I
+U+0129,ĩ,Latin Small Letter I with tilde,Table_Latin_Extended-A,TRUE,\u0129,i
+U+012A,Ī,Latin Capital Letter I with macron,Table_Latin_Extended-A,TRUE,\u012A,I
+U+012B,ī,Latin Small Letter I with macron,Table_Latin_Extended-A,TRUE,\u012B,i
+U+012C,Ĭ,Latin Capital Letter I with breve,Table_Latin_Extended-A,TRUE,\u012C,I
+U+012D,ĭ,Latin Small Letter I with breve,Table_Latin_Extended-A,TRUE,\u012D,i
+U+012E,Į,Latin Capital Letter I with ogonek,Table_Latin_Extended-A,TRUE,\u012E,I
+U+012F,į,Latin Small Letter I with ogonek,Table_Latin_Extended-A,TRUE,\u012F,i
+U+0130,İ,Latin Capital Letter I with dot above,Table_Latin_Extended-A,TRUE,\u0130,I
+U+0131,ı,Latin Small Letter dotless I,Table_Latin_Extended-A,TRUE,\u0131,i
+U+0132,Ĳ,Latin Capital Ligature IJ,Table_Latin_Extended-A,TRUE,\u0132,IJ
+U+0133,ĳ,Latin Small Ligature IJ,Table_Latin_Extended-A,TRUE,\u0133,ij
+U+0134,Ĵ,Latin Capital Letter J with circumflex,Table_Latin_Extended-A,TRUE,\u0134,J
+U+0135,ĵ,Latin Small Letter J with circumflex,Table_Latin_Extended-A,TRUE,\u0135,j
+U+0136,Ķ,Latin Capital Letter K with cedilla,Table_Latin_Extended-A,TRUE,\u0136,K
+U+0137,ķ,Latin Small Letter K with cedilla,Table_Latin_Extended-A,TRUE,\u0137,k
+U+0138,ĸ,Latin Small Letter Kra,Table_Latin_Extended-A,TRUE,\u0138,kra
+U+0139,Ĺ,Latin Capital Letter L with acute,Table_Latin_Extended-A,TRUE,\u0139,L
+U+013A,ĺ,Latin Small Letter L with acute,Table_Latin_Extended-A,TRUE,\u013A,l
+U+013B,Ļ,Latin Capital Letter L with cedilla,Table_Latin_Extended-A,TRUE,\u013B,L
+U+013C,ļ,Latin Small Letter L with cedilla,Table_Latin_Extended-A,TRUE,\u013C,l
+U+013D,Ľ,Latin Capital Letter L with caron,Table_Latin_Extended-A,TRUE,\u013D,L
+U+013E,ľ,Latin Small Letter L with caron,Table_Latin_Extended-A,TRUE,\u013E,l
+U+013F,Ŀ,Latin Capital Letter L with middle dot,Table_Latin_Extended-A,TRUE,\u013F,L
+U+0140,ŀ,Latin Small Letter L with middle dot,Table_Latin_Extended-A,TRUE,\u0140,l
+U+0141,Ł,Latin Capital Letter L with stroke,Table_Latin_Extended-A,TRUE,\u0141,L
+U+0142,ł,Latin Small Letter L with stroke,Table_Latin_Extended-A,TRUE,\u0142,l
+U+0143,Ń,Latin Capital Letter N with acute,Table_Latin_Extended-A,TRUE,\u0143,N
+U+0144,ń,Latin Small Letter N with acute,Table_Latin_Extended-A,TRUE,\u0144,n
+U+0145,Ņ,Latin Capital Letter N with cedilla,Table_Latin_Extended-A,TRUE,\u0145,N
+U+0146,ņ,Latin Small Letter N with cedilla,Table_Latin_Extended-A,TRUE,\u0146,n
+U+0147,Ň,Latin Capital Letter N with caron,Table_Latin_Extended-A,TRUE,\u0147,N
+U+0148,ň,Latin Small Letter N with caron,Table_Latin_Extended-A,TRUE,\u0148,n
+U+0149,ŉ,Latin Small Letter N preceded by apostrophe[1],Table_Latin_Extended-A,TRUE,\u0149,'n
+U+014A,Ŋ,Latin Capital Letter Eng,Table_Latin_Extended-A,TRUE,\u014A,Eng
+U+014B,ŋ,Latin Small Letter Eng,Table_Latin_Extended-A,TRUE,\u014B,eng
+U+014C,Ō,Latin Capital Letter O with macron,Table_Latin_Extended-A,TRUE,\u014C,O
+U+014D,ō,Latin Small Letter O with macron,Table_Latin_Extended-A,TRUE,\u014D,o
+U+014E,Ŏ,Latin Capital Letter O with breve,Table_Latin_Extended-A,TRUE,\u014E,O
+U+014F,ŏ,Latin Small Letter O with breve,Table_Latin_Extended-A,TRUE,\u014F,o
+U+0150,Ő,Latin Capital Letter O with double acute,Table_Latin_Extended-A,TRUE,\u0150,O
+U+0151,ő,Latin Small Letter O with double acute,Table_Latin_Extended-A,TRUE,\u0151,o
+U+0152,Œ,Latin Capital Ligature OE,Table_Latin_Extended-A,TRUE,\u0152,OE
+U+0153,œ,Latin Small Ligature OE,Table_Latin_Extended-A,TRUE,\u0153,oe
+U+0154,Ŕ,Latin Capital Letter R with acute,Table_Latin_Extended-A,TRUE,\u0154,R
+U+0155,ŕ,Latin Small Letter R with acute,Table_Latin_Extended-A,TRUE,\u0155,r
+U+0156,Ŗ,Latin Capital Letter R with cedilla,Table_Latin_Extended-A,TRUE,\u0156,R
+U+0157,ŗ,Latin Small Letter R with cedilla,Table_Latin_Extended-A,TRUE,\u0157,r
+U+0158,Ř,Latin Capital Letter R with caron,Table_Latin_Extended-A,TRUE,\u0158,R
+U+0159,ř,Latin Small Letter R with caron,Table_Latin_Extended-A,TRUE,\u0159,r
+U+015A,Ś,Latin Capital Letter S with acute,Table_Latin_Extended-A,TRUE,\u015A,S
+U+015B,ś,Latin Small Letter S with acute,Table_Latin_Extended-A,TRUE,\u015B,s
+U+015C,Ŝ,Latin Capital Letter S with circumflex,Table_Latin_Extended-A,TRUE,\u015C,S
+U+015D,ŝ,Latin Small Letter S with circumflex,Table_Latin_Extended-A,TRUE,\u015D,s
+U+015E,Ş,Latin Capital Letter S with cedilla,Table_Latin_Extended-A,TRUE,\u015E,S
+U+015F,ş,Latin Small Letter S with cedilla,Table_Latin_Extended-A,TRUE,\u015F,s
+U+0160,Š,Latin Capital Letter S with caron,Table_Latin_Extended-A,TRUE,\u0160,S
+U+0161,š,Latin Small Letter S with caron,Table_Latin_Extended-A,TRUE,\u0161,s
+U+0162,Ţ,Latin Capital Letter T with cedilla,Table_Latin_Extended-A,TRUE,\u0162,T
+U+0163,ţ,Latin Small Letter T with cedilla,Table_Latin_Extended-A,TRUE,\u0163,t
+U+0164,Ť,Latin Capital Letter T with caron,Table_Latin_Extended-A,TRUE,\u0164,T
+U+0165,ť,Latin Small Letter T with caron,Table_Latin_Extended-A,TRUE,\u0165,t
+U+0166,Ŧ,Latin Capital Letter T with stroke,Table_Latin_Extended-A,TRUE,\u0166,T
+U+0167,ŧ,Latin Small Letter T with stroke,Table_Latin_Extended-A,TRUE,\u0167,t
+U+0168,Ũ,Latin Capital Letter U with tilde,Table_Latin_Extended-A,TRUE,\u0168,U
+U+0169,ũ,Latin Small Letter U with tilde,Table_Latin_Extended-A,TRUE,\u0169,u
+U+016A,Ū,Latin Capital Letter U with macron,Table_Latin_Extended-A,TRUE,\u016A,U
+U+016B,ū,Latin Small Letter U with macron,Table_Latin_Extended-A,TRUE,\u016B,u
+U+016C,Ŭ,Latin Capital Letter U with breve,Table_Latin_Extended-A,TRUE,\u016C,U
+U+016D,ŭ,Latin Small Letter U with breve,Table_Latin_Extended-A,TRUE,\u016D,u
+U+016E,Ů,Latin Capital Letter U with ring above,Table_Latin_Extended-A,TRUE,\u016E,U
+U+016F,ů,Latin Small Letter U with ring above,Table_Latin_Extended-A,TRUE,\u016F,u
+U+0170,Ű,Latin Capital Letter U with double acute,Table_Latin_Extended-A,TRUE,\u0170,U
+U+0171,ű,Latin Small Letter U with double acute,Table_Latin_Extended-A,TRUE,\u0171,u
+U+0172,Ų,Latin Capital Letter U with ogonek,Table_Latin_Extended-A,TRUE,\u0172,U
+U+0173,ų,Latin Small Letter U with ogonek,Table_Latin_Extended-A,TRUE,\u0173,u
+U+0174,Ŵ,Latin Capital Letter W with circumflex,Table_Latin_Extended-A,TRUE,\u0174,W
+U+0175,ŵ,Latin Small Letter W with circumflex,Table_Latin_Extended-A,TRUE,\u0175,w
+U+0176,Ŷ,Latin Capital Letter Y with circumflex,Table_Latin_Extended-A,TRUE,\u0176,Y
+U+0177,ŷ,Latin Small Letter Y with circumflex,Table_Latin_Extended-A,TRUE,\u0177,y
+U+0178,Ÿ,Latin Capital Letter Y with diaeresis,Table_Latin_Extended-A,TRUE,\u0178,Y
+U+0179,Ź,Latin Capital Letter Z with acute,Table_Latin_Extended-A,TRUE,\u0179,Z
+U+017A,ź,Latin Small Letter Z with acute,Table_Latin_Extended-A,TRUE,\u017A,z
+U+017B,Ż,Latin Capital Letter Z with dot above,Table_Latin_Extended-A,TRUE,\u017B,Z
+U+017C,ż,Latin Small Letter Z with dot above,Table_Latin_Extended-A,TRUE,\u017C,z
+U+017D,Ž,Latin Capital Letter Z with caron,Table_Latin_Extended-A,TRUE,\u017D,Z
+U+017E,ž,Latin Small Letter Z with caron,Table_Latin_Extended-A,TRUE,\u017E,z
+U+017F,ſ,Latin Small Letter long S,Table_Latin_Extended-A,TRUE,\u017F,S
+U+0180,ƀ,Latin Small Letter B with stroke,Table_Latin_Extended-B,TRUE,\u0180,b
+U+0181,Ɓ,Latin Capital Letter B with hook,Table_Latin_Extended-B,TRUE,\u0181,B
+U+0182,Ƃ,Latin Capital Letter B with top bar,Table_Latin_Extended-B,TRUE,\u0182,B
+U+0183,ƃ,Latin Small Letter B with top bar,Table_Latin_Extended-B,TRUE,\u0183,b
+U+0184,Ƅ,Latin Capital Letter Tone Six,Table_Latin_Extended-B,TRUE,\u0184,6
+U+0185,ƅ,Latin Small Letter Tone Six,Table_Latin_Extended-B,TRUE,\u0185,6
+U+0186,Ɔ,Latin Capital Letter Open O,Table_Latin_Extended-B,TRUE,\u0186,O
+U+0187,Ƈ,Latin Capital Letter C with hook,Table_Latin_Extended-B,TRUE,\u0187,C
+U+0188,ƈ,Latin Small Letter C with hook,Table_Latin_Extended-B,TRUE,\u0188,c
+U+0189,Ɖ,Latin Capital Letter African D,Table_Latin_Extended-B,TRUE,\u0189,D
+U+018A,Ɗ,Latin Capital Letter D with hook,Table_Latin_Extended-B,TRUE,\u018A,D
+U+018B,Ƌ,Latin Capital Letter D with top bar,Table_Latin_Extended-B,TRUE,\u018B,D
+U+018C,ƌ,Latin Small Letter D with top bar,Table_Latin_Extended-B,TRUE,\u018C,d
+U+018D,ƍ,Latin Small Letter Turned Delta,Table_Latin_Extended-B,TRUE,\u018D,d
+U+018E,Ǝ,Latin Capital Letter Reversed E,Table_Latin_Extended-B,TRUE,\u018E,E
+U+018F,Ə,Latin Capital Letter Schwa,Table_Latin_Extended-B,TRUE,\u018F,E
+U+0190,Ɛ,Latin Capital Letter Open E,Table_Latin_Extended-B,TRUE,\u0190,E
+U+0191,Ƒ,Latin Capital Letter F with hook,Table_Latin_Extended-B,TRUE,\u0191,F
+U+0192,ƒ,Latin Small Letter F with hook,Table_Latin_Extended-B,TRUE,\u0192,f
+U+0193,Ɠ,Latin Capital Letter G with hook,Table_Latin_Extended-B,TRUE,\u0193,G
+U+0194,Ɣ,Latin Capital Letter Gamma,Table_Latin_Extended-B,TRUE,\u0194,G
+U+0195,ƕ,Latin Small Letter HV,Table_Latin_Extended-B,TRUE,\u0195,hv
+U+0196,Ɩ,Latin Capital Letter Iota,Table_Latin_Extended-B,TRUE,\u0196,I
+U+0197,Ɨ,Latin Capital Letter I with stroke,Table_Latin_Extended-B,TRUE,\u0197,I
+U+0198,Ƙ,Latin Capital Letter K with hook,Table_Latin_Extended-B,TRUE,\u0198,K
+U+0199,ƙ,Latin Small Letter K with hook,Table_Latin_Extended-B,TRUE,\u0199,k
+U+019A,ƚ,Latin Small Letter L with bar,Table_Latin_Extended-B,TRUE,\u019A,l
+U+019B,ƛ,Latin Small Letter Lambda with stroke,Table_Latin_Extended-B,TRUE,\u019B,l
+U+019C,Ɯ,Latin Capital Letter Turned M,Table_Latin_Extended-B,TRUE,\u019C,M
+U+019D,Ɲ,Latin Capital Letter N with left hook,Table_Latin_Extended-B,TRUE,\u019D,N
+U+019E,ƞ,Latin Small Letter N with long right leg,Table_Latin_Extended-B,TRUE,\u019E,n
+U+019F,Ɵ,Latin Capital Letter O with middle tilde,Table_Latin_Extended-B,TRUE,\u019F,O
+U+01A0,Ơ,Latin Capital Letter O with horn,Table_Latin_Extended-B,TRUE,\u01A0,O
+U+01A1,ơ,Latin Small Letter O with horn,Table_Latin_Extended-B,TRUE,\u01A1,o
+U+01A2,Ƣ,Latin Capital Letter OI (= Latin Capital Letter Gha),Table_Latin_Extended-B,TRUE,\u01A2,OI
+U+01A3,ƣ,Latin Small Letter OI (= Latin Small Letter Gha),Table_Latin_Extended-B,TRUE,\u01A3,oi
+U+01A4,Ƥ,Latin Capital Letter P with hook,Table_Latin_Extended-B,TRUE,\u01A4,P
+U+01A5,ƥ,Latin Small Letter P with hook,Table_Latin_Extended-B,TRUE,\u01A5,p
+U+01A6,Ʀ,Latin Letter YR,Table_Latin_Extended-B,TRUE,\u01A6,yr
+U+01A7,Ƨ,Latin Capital Letter Tone Two,Table_Latin_Extended-B,TRUE,\u01A7,2
+U+01A8,ƨ,Latin Small Letter Tone Two,Table_Latin_Extended-B,TRUE,\u01A8,2
+U+01A9,Ʃ,Latin Capital Letter Esh,Table_Latin_Extended-B,TRUE,\u01A9,E
+U+01AA,ƪ,Latin Letter Reversed Esh Loop,Table_Latin_Extended-B,TRUE,\u01AA,l
+U+01AB,ƫ,Latin Small Letter T with palatal hook,Table_Latin_Extended-B,TRUE,\u01AB,t
+U+01AC,Ƭ,Latin Capital Letter T with hook,Table_Latin_Extended-B,TRUE,\u01AC,T
+U+01AD,ƭ,Latin Small Letter T with hook,Table_Latin_Extended-B,TRUE,\u01AD,t
+U+01AE,Ʈ,Latin Capital Letter T with retroflex hook,Table_Latin_Extended-B,TRUE,\u01AE,T
+U+01AF,Ư,Latin Capital Letter U with horn,Table_Latin_Extended-B,TRUE,\u01AF,U
+U+01B0,ư,Latin Small Letter U with horn,Table_Latin_Extended-B,TRUE,\u01B0,u
+U+01B1,Ʊ,Latin Capital Letter Upsilon,Table_Latin_Extended-B,TRUE,\u01B1,U
+U+01B2,Ʋ,Latin Capital Letter V with hook,Table_Latin_Extended-B,TRUE,\u01B2,V
+U+01B3,Ƴ,Latin Capital Letter Y with hook,Table_Latin_Extended-B,TRUE,\u01B3,Y
+U+01B4,ƴ,Latin Small Letter Y with hook,Table_Latin_Extended-B,TRUE,\u01B4,y
+U+01B5,Ƶ,Latin Capital Letter Z with stroke,Table_Latin_Extended-B,TRUE,\u01B5,Z
+U+01B6,ƶ,Latin Small Letter Z with stroke,Table_Latin_Extended-B,TRUE,\u01B6,z
+U+01B7,Ʒ,Latin Capital Letter Ezh,Table_Latin_Extended-B,TRUE,\u01B7,Ezh
+U+01B8,Ƹ,Latin Capital Letter Ezh reversed,Table_Latin_Extended-B,TRUE,\u01B8,Ezh
+U+01B9,ƹ,Latin Small Letter Ezh reversed,Table_Latin_Extended-B,TRUE,\u01B9,ezh
+U+01BA,ƺ,Latin Small Letter Ezh with tail,Table_Latin_Extended-B,TRUE,\u01BA,ezh
+U+01BB,ƻ,Latin Letter Two with stroke,Table_Latin_Extended-B,TRUE,\u01BB,2
+U+01BC,Ƽ,Latin Capital Letter Tone Five,Table_Latin_Extended-B,TRUE,\u01BC,5
+U+01BD,ƽ,Latin Small Letter Tone Five,Table_Latin_Extended-B,TRUE,\u01BD,5
+U+01BE,ƾ,Latin Letter Inverted Glottal Stop with stroke,Table_Latin_Extended-B,TRUE,\u01BE,s
+U+01BF,ƿ,Latin Letter Wynn,Table_Latin_Extended-B,TRUE,\u01BF,p
+U+01C0,ǀ,Latin Letter Dental Click,Table_Latin_Extended-B,TRUE,\u01C0,|
+U+01C1,ǁ,Latin Letter Lateral Click,Table_Latin_Extended-B,TRUE,\u01C1,||
+U+01C2,ǂ,Latin Letter Alveolar Click,Table_Latin_Extended-B,TRUE,\u01C2,++
+U+01C3,ǃ,Latin Letter Retroflex Click,Table_Latin_Extended-B,TRUE,\u01C3,!
+U+01C4,Ǆ,Latin Capital Letter DZ with caron,Table_Latin_Extended-B,TRUE,\u01C4,DZ
+U+01C5,ǅ,Latin Capital Letter D with Small Letter Z with caron,Table_Latin_Extended-B,TRUE,\u01C5,Dz
+U+01C6,ǆ,Latin Small Letter DZ with caron,Table_Latin_Extended-B,TRUE,\u01C6,dz
+U+01C7,Ǉ,Latin Capital Letter LJ,Table_Latin_Extended-B,TRUE,\u01C7,LJ
+U+01C8,ǈ,Latin Capital Letter L with Small Letter J,Table_Latin_Extended-B,TRUE,\u01C8,Lj
+U+01C9,ǉ,Latin Small Letter LJ,Table_Latin_Extended-B,TRUE,\u01C9,lj
+U+01CA,Ǌ,Latin Capital Letter NJ,Table_Latin_Extended-B,TRUE,\u01CA,NJ
+U+01CB,ǋ,Latin Capital Letter N with Small Letter J,Table_Latin_Extended-B,TRUE,\u01CB,Nj
+U+01CC,ǌ,Latin Small Letter NJ,Table_Latin_Extended-B,TRUE,\u01CC,nj
+U+01CD,Ǎ,Latin Capital Letter A with caron,Table_Latin_Extended-B,TRUE,\u01CD,A
+U+01CE,ǎ,Latin Small Letter A with caron,Table_Latin_Extended-B,TRUE,\u01CE,a
+U+01CF,Ǐ,Latin Capital Letter I with caron,Table_Latin_Extended-B,TRUE,\u01CF,I
+U+01D0,ǐ,Latin Small Letter I with caron,Table_Latin_Extended-B,TRUE,\u01D0,i
+U+01D1,Ǒ,Latin Capital Letter O with caron,Table_Latin_Extended-B,TRUE,\u01D1,O
+U+01D2,ǒ,Latin Small Letter O with caron,Table_Latin_Extended-B,TRUE,\u01D2,o
+U+01D3,Ǔ,Latin Capital Letter U with caron,Table_Latin_Extended-B,TRUE,\u01D3,U
+U+01D4,ǔ,Latin Small Letter U with caron,Table_Latin_Extended-B,TRUE,\u01D4,u
+U+01D5,Ǖ,Latin Capital Letter U with diaeresis and macron,Table_Latin_Extended-B,TRUE,\u01D5,U
+U+01D6,ǖ,Latin Small Letter U with diaeresis and macron,Table_Latin_Extended-B,TRUE,\u01D6,u
+U+01D7,Ǘ,Latin Capital Letter U with diaeresis and acute,Table_Latin_Extended-B,TRUE,\u01D7,U
+U+01D8,ǘ,Latin Small Letter U with diaeresis and acute,Table_Latin_Extended-B,TRUE,\u01D8,u
+U+01D9,Ǚ,Latin Capital Letter U with diaeresis and caron,Table_Latin_Extended-B,TRUE,\u01D9,U
+U+01DA,ǚ,Latin Small Letter U with diaeresis and caron,Table_Latin_Extended-B,TRUE,\u01DA,u
+U+01DB,Ǜ,Latin Capital Letter U with diaeresis and grave,Table_Latin_Extended-B,TRUE,\u01DB,U
+U+01DC,ǜ,Latin Small Letter U with diaeresis and grave,Table_Latin_Extended-B,TRUE,\u01DC,u
+U+01DD,ǝ,Latin Small Letter Turned E,Table_Latin_Extended-B,TRUE,\u01DD,Ezh
+U+01DE,Ǟ,Latin Capital Letter A with diaeresis and macron,Table_Latin_Extended-B,TRUE,\u01DE,A
+U+01DF,ǟ,Latin Small Letter A with diaeresis and macron,Table_Latin_Extended-B,TRUE,\u01DF,a
+U+01E0,Ǡ,Latin Capital Letter A with dot above and macron,Table_Latin_Extended-B,TRUE,\u01E0,A
+U+01E1,ǡ,Latin Small Letter A with dot above and macron,Table_Latin_Extended-B,TRUE,\u01E1,a
+U+01E2,Ǣ,Latin Capital Letter Æ with macron,Table_Latin_Extended-B,TRUE,\u01E2,AE
+U+01E3,ǣ,Latin Small Letter Æ with macron,Table_Latin_Extended-B,TRUE,\u01E3,ae
+U+01E4,Ǥ,Latin Capital Letter G with stroke,Table_Latin_Extended-B,TRUE,\u01E4,G
+U+01E5,ǥ,Latin Small Letter G with stroke,Table_Latin_Extended-B,TRUE,\u01E5,g
+U+01E6,Ǧ,Latin Capital Letter G with caron,Table_Latin_Extended-B,TRUE,\u01E6,G
+U+01E7,ǧ,Latin Small Letter G with caron,Table_Latin_Extended-B,TRUE,\u01E7,g
+U+01E8,Ǩ,Latin Capital Letter K with caron,Table_Latin_Extended-B,TRUE,\u01E8,K
+U+01E9,ǩ,Latin Small Letter K with caron,Table_Latin_Extended-B,TRUE,\u01E9,k
+U+01EA,Ǫ,Latin Capital Letter O with ogonek,Table_Latin_Extended-B,TRUE,\u01EA,O
+U+01EB,ǫ,Latin Small Letter O with ogonek,Table_Latin_Extended-B,TRUE,\u01EB,o
+U+01EC,Ǭ,Latin Capital Letter O with ogonek and macron,Table_Latin_Extended-B,TRUE,\u01EC,O
+U+01ED,ǭ,Latin Small Letter O with ogonek and macron,Table_Latin_Extended-B,TRUE,\u01ED,o
+U+01EE,Ǯ,Latin Capital Letter Ezh with caron,Table_Latin_Extended-B,TRUE,\u01EE,Ezh
+U+01EF,ǯ,Latin Small Letter Ezh with caron,Table_Latin_Extended-B,TRUE,\u01EF,ezh
+U+01F0,ǰ,Latin Small Letter J with caron,Table_Latin_Extended-B,TRUE,\u01F0,j
+U+01F1,Ǳ,Latin Capital Letter DZ,Table_Latin_Extended-B,TRUE,\u01F1,DZ
+U+01F2,ǲ,Latin Capital Letter D with Small Letter Z,Table_Latin_Extended-B,TRUE,\u01F2,Dz
+U+01F3,ǳ,Latin Small Letter DZ,Table_Latin_Extended-B,TRUE,\u01F3,dz
+U+01F4,Ǵ,Latin Capital Letter G with acute,Table_Latin_Extended-B,TRUE,\u01F4,G
+U+01F5,ǵ,Latin Small Letter G with acute,Table_Latin_Extended-B,TRUE,\u01F5,g
+U+01F6,Ƕ,Latin Capital Letter Hwair,Table_Latin_Extended-B,TRUE,\u01F6,H
+U+01F7,Ƿ,Latin Capital Letter Wynn,Table_Latin_Extended-B,TRUE,\u01F7,P
+U+01F8,Ǹ,Latin Capital Letter N with grave,Table_Latin_Extended-B,TRUE,\u01F8,NJ
+U+01F9,ǹ,Latin Small Letter N with grave,Table_Latin_Extended-B,TRUE,\u01F9,NJ
+U+01FA,Ǻ,Latin Capital Letter A with ring above and acute,Table_Latin_Extended-B,TRUE,\u01FA,A
+U+01FB,ǻ,Latin Small Letter A with ring above and acute,Table_Latin_Extended-B,TRUE,\u01FB,a
+U+01FC,Ǽ,Latin Capital Letter Æ with acute,Table_Latin_Extended-B,TRUE,\u01FC,AE
+U+01FD,ǽ,Latin Small Letter Æ with acute,Table_Latin_Extended-B,TRUE,\u01FD,ae
+U+01FE,Ǿ,Latin Capital Letter O with stroke and acute,Table_Latin_Extended-B,TRUE,\u01FE,O
+U+01FF,ǿ,Latin Small Letter O with stroke and acute,Table_Latin_Extended-B,TRUE,\u01FF,o
+U+0200,Ȁ,Latin Capital Letter A with double grave,Table_Latin_Extended-B,TRUE,\u0200,A
+U+0201,ȁ,Latin Small Letter A with double grave,Table_Latin_Extended-B,TRUE,\u0201,a
+U+0202,Ȃ,Latin Capital Letter A with inverted breve,Table_Latin_Extended-B,TRUE,\u0202,A
+U+0203,ȃ,Latin Small Letter A with inverted breve,Table_Latin_Extended-B,TRUE,\u0203,a
+U+0204,Ȅ,Latin Capital Letter E with double grave,Table_Latin_Extended-B,TRUE,\u0204,Ezh
+U+0205,ȅ,Latin Small Letter E with double grave,Table_Latin_Extended-B,TRUE,\u0205,Ezh
+U+0206,Ȇ,Latin Capital Letter E with inverted breve,Table_Latin_Extended-B,TRUE,\u0206,Ezh
+U+0207,ȇ,Latin Small Letter E with inverted breve,Table_Latin_Extended-B,TRUE,\u0207,Ezh
+U+0208,Ȉ,Latin Capital Letter I with double grave,Table_Latin_Extended-B,TRUE,\u0208,I
+U+0209,ȉ,Latin Small Letter I with double grave,Table_Latin_Extended-B,TRUE,\u0209,i
+U+020A,Ȋ,Latin Capital Letter I with inverted breve,Table_Latin_Extended-B,TRUE,\u020A,I
+U+020B,ȋ,Latin Small Letter I with inverted breve,Table_Latin_Extended-B,TRUE,\u020B,i
+U+020C,Ȍ,Latin Capital Letter O with double grave,Table_Latin_Extended-B,TRUE,\u020C,O
+U+020D,ȍ,Latin Small Letter O with double grave,Table_Latin_Extended-B,TRUE,\u020D,o
+U+020E,Ȏ,Latin Capital Letter O with inverted breve,Table_Latin_Extended-B,TRUE,\u020E,O
+U+020F,ȏ,Latin Small Letter O with inverted breve,Table_Latin_Extended-B,TRUE,\u020F,o
+U+0210,Ȑ,Latin Capital Letter R with double grave,Table_Latin_Extended-B,TRUE,\u0210,R
+U+0211,ȑ,Latin Small Letter R with double grave,Table_Latin_Extended-B,TRUE,\u0211,r
+U+0212,Ȓ,Latin Capital Letter R with inverted breve,Table_Latin_Extended-B,TRUE,\u0212,R
+U+0213,ȓ,Latin Small Letter R with inverted breve,Table_Latin_Extended-B,TRUE,\u0213,r
+U+0214,Ȕ,Latin Capital Letter U with double grave,Table_Latin_Extended-B,TRUE,\u0214,U
+U+0215,ȕ,Latin Small Letter U with double grave,Table_Latin_Extended-B,TRUE,\u0215,u
+U+0216,Ȗ,Latin Capital Letter U with inverted breve,Table_Latin_Extended-B,TRUE,\u0216,U
+U+0217,ȗ,Latin Small Letter U with inverted breve,Table_Latin_Extended-B,TRUE,\u0217,u
+U+0218,Ș,Latin Capital Letter S with comma below,Table_Latin_Extended-B,TRUE,\u0218,S
+U+0219,ș,Latin Small Letter S with comma below,Table_Latin_Extended-B,TRUE,\u0219,s
+U+021A,Ț,Latin Capital Letter T with comma below,Table_Latin_Extended-B,TRUE,\u021A,T
+U+021B,ț,Latin Small Letter T with comma below,Table_Latin_Extended-B,TRUE,\u021B,t
+U+021C,Ȝ,Latin Capital Letter Yogh,Table_Latin_Extended-B,TRUE,\u021C,Y
+U+021D,ȝ,Latin Small Letter Yogh,Table_Latin_Extended-B,TRUE,\u021D,y
+U+021E,Ȟ,Latin Capital Letter H with caron,Table_Latin_Extended-B,TRUE,\u021E,H
+U+021F,ȟ,Latin Small Letter H with caron,Table_Latin_Extended-B,TRUE,\u021F,h
+U+0220,Ƞ,Latin Capital Letter N with long right leg,Table_Latin_Extended-B,TRUE,\u0220,NJ
+U+0221,ȡ,Latin Small Letter D with curl,Table_Latin_Extended-B,TRUE,\u0221,DZ
+U+0222,Ȣ,Latin Capital Letter OU,Table_Latin_Extended-B,TRUE,\u0222,OU
+U+0223,ȣ,Latin Small Letter OU,Table_Latin_Extended-B,TRUE,\u0223,ou
+U+0224,Ȥ,Latin Capital Letter Z with hook,Table_Latin_Extended-B,TRUE,\u0224,Z
+U+0225,ȥ,Latin Small Letter Z with hook,Table_Latin_Extended-B,TRUE,\u0225,z
+U+0226,Ȧ,Latin Capital Letter A with dot above,Table_Latin_Extended-B,TRUE,\u0226,A
+U+0227,ȧ,Latin Small Letter A with dot above,Table_Latin_Extended-B,TRUE,\u0227,a
+U+0228,Ȩ,Latin Capital Letter E with cedilla,Table_Latin_Extended-B,TRUE,\u0228,Ezh
+U+0229,ȩ,Latin Small Letter E with cedilla,Table_Latin_Extended-B,TRUE,\u0229,Ezh
+U+022A,Ȫ,Latin Capital Letter O with diaeresis and macron,Table_Latin_Extended-B,TRUE,\u022A,O
+U+022B,ȫ,Latin Small Letter O with diaeresis and macron,Table_Latin_Extended-B,TRUE,\u022B,o
+U+022C,Ȭ,Latin Capital Letter O with tilde and macron,Table_Latin_Extended-B,TRUE,\u022C,O
+U+022D,ȭ,Latin Small Letter O with tilde and macron,Table_Latin_Extended-B,TRUE,\u022D,o
+U+022E,Ȯ,Latin Capital Letter O with dot above,Table_Latin_Extended-B,TRUE,\u022E,O
+U+022F,ȯ,Latin Small Letter O with dot above,Table_Latin_Extended-B,TRUE,\u022F,o
+U+0230,Ȱ,Latin Capital Letter O with dot above and macron,Table_Latin_Extended-B,TRUE,\u0230,O
+U+0231,ȱ,Latin Small Letter O with dot above and macron,Table_Latin_Extended-B,TRUE,\u0231,o
+U+0232,Ȳ,Latin Capital Letter Y with macron,Table_Latin_Extended-B,TRUE,\u0232,Y
+U+0233,ȳ,Latin Small Letter Y with macron,Table_Latin_Extended-B,TRUE,\u0233,y
+U+0234,ȴ,Latin Small Letter L with curl,Table_Latin_Extended-B,TRUE,\u0234,l
+U+0235,ȵ,Latin Small Letter N with curl,Table_Latin_Extended-B,TRUE,\u0235,NJ
+U+0236,ȶ,Latin Small Letter T with curl,Table_Latin_Extended-B,TRUE,\u0236,t
+U+0237,ȷ,Latin Small Letter Dotless J,Table_Latin_Extended-B,TRUE,\u0237,j
+U+0238,ȸ,Latin Small Letter DB Digraph,Table_Latin_Extended-B,TRUE,\u0238,db
+U+0239,ȹ,Latin Small Letter QP Digraph,Table_Latin_Extended-B,TRUE,\u0239,qp
+U+023A,Ⱥ,Latin Capital Letter A with stroke,Table_Latin_Extended-B,TRUE,\u023A,A
+U+023B,Ȼ,Latin Capital Letter C with stroke,Table_Latin_Extended-B,TRUE,\u023B,C
+U+023C,ȼ,Latin Small Letter C with stroke,Table_Latin_Extended-B,TRUE,\u023C,c
+U+023D,Ƚ,Latin Capital Letter L with bar,Table_Latin_Extended-B,TRUE,\u023D,L
+U+023E,Ⱦ,Latin Capital Letter T with diagonal stroke,Table_Latin_Extended-B,TRUE,\u023E,T
+U+023F,ȿ,Latin Small Letter S with swash tail,Table_Latin_Extended-B,TRUE,\u023F,s
+U+0240,ɀ,Latin Small Letter Z with swash tail,Table_Latin_Extended-B,TRUE,\u0240,z
+U+0241,Ɂ,Latin Capital Letter Glottal Stop,Table_Latin_Extended-B,TRUE,\u0241,?
+U+0242,ɂ,Latin Small Letter Glottal Stop,Table_Latin_Extended-B,TRUE,\u0242,?
+U+0243,Ƀ,Latin Capital Letter B with stroke,Table_Latin_Extended-B,TRUE,\u0243,B
+U+0244,Ʉ,Latin Capital Letter U bar,Table_Latin_Extended-B,TRUE,\u0244,U
+U+0245,Ʌ,Latin Capital Letter Turned V,Table_Latin_Extended-B,TRUE,\u0245,V
+U+0246,Ɇ,Latin Capital Letter E with stroke,Table_Latin_Extended-B,TRUE,\u0246,Ezh
+U+0247,ɇ,Latin Small Letter E with stroke,Table_Latin_Extended-B,TRUE,\u0247,Ezh
+U+0248,Ɉ,Latin Capital Letter J with stroke,Table_Latin_Extended-B,TRUE,\u0248,J
+U+0249,ɉ,Latin Small Letter J with stroke,Table_Latin_Extended-B,TRUE,\u0249,j
+U+024A,Ɋ,Latin Capital Letter Q with hook tail,Table_Latin_Extended-B,TRUE,\u024A,qp
+U+024B,ɋ,Latin Small Letter Q with hook tail,Table_Latin_Extended-B,TRUE,\u024B,qp
+U+024C,Ɍ,Latin Capital Letter R with stroke,Table_Latin_Extended-B,TRUE,\u024C,R
+U+024D,ɍ,Latin Small Letter R with stroke,Table_Latin_Extended-B,TRUE,\u024D,r
+U+024E,Ɏ,Latin Capital Letter Y with stroke,Table_Latin_Extended-B,TRUE,\u024E,Y
+U+024F,ɏ,Latin Small Letter Y with stroke,Table_Latin_Extended-B,TRUE,\u024F,y
+U+1E02,Ḃ,Latin Capital Letter B with dot above,Table_Latin_Extended_Additional,TRUE,\u1E02,B
+U+1E03,ḃ,Latin Small Letter B with dot above,Table_Latin_Extended_Additional,TRUE,\u1E03,b
+U+1E0A,Ḋ,Latin Capital Letter D with dot above,Table_Latin_Extended_Additional,TRUE,\u1E0A,D
+U+1E0B,ḋ,Latin Small Letter D with dot above,Table_Latin_Extended_Additional,TRUE,\u1E0B,d
+U+1E1E,Ḟ,Latin Capital Letter F with dot above,Table_Latin_Extended_Additional,TRUE,\u1E1E,F
+U+1E1F,ḟ,Latin Small Letter F with dot above,Table_Latin_Extended_Additional,TRUE,\u1E1F,f
+U+1E40,Ṁ,Latin Capital Letter M with dot above,Table_Latin_Extended_Additional,TRUE,\u1E40,M
+U+1E41,ṁ,Latin Small Letter M with dot above,Table_Latin_Extended_Additional,TRUE,\u1E41,m
+U+1E56,Ṗ,Latin Capital Letter P with dot above,Table_Latin_Extended_Additional,TRUE,\u1E56,P
+U+1E57,ṗ,Latin Small Letter P with dot above,Table_Latin_Extended_Additional,TRUE,\u1E57,p
+U+1E60,Ṡ,Latin Capital Letter S with dot above,Table_Latin_Extended_Additional,TRUE,\u1E60,S
+U+1E61,ṡ,Latin Small Letter S with dot above,Table_Latin_Extended_Additional,TRUE,\u1E61,s
+U+1E6A,Ṫ,Latin Capital Letter T with dot above,Table_Latin_Extended_Additional,TRUE,\u1E6A,T
+U+1E6B,ṫ,Latin Small Letter T with dot above,Table_Latin_Extended_Additional,TRUE,\u1E6B,t
+U+1E80,Ẁ,Latin Capital Letter W with grave,Table_Latin_Extended_Additional,TRUE,\u1E80,W
+U+1E81,ẁ,Latin Small Letter W with grave,Table_Latin_Extended_Additional,TRUE,\u1E81,w
+U+1E82,Ẃ,Latin Capital Letter W with acute,Table_Latin_Extended_Additional,TRUE,\u1E82,W
+U+1E83,ẃ,Latin Small Letter W with acute,Table_Latin_Extended_Additional,TRUE,\u1E83,w
+U+1E84,Ẅ,Latin Capital Letter W with diaeresis,Table_Latin_Extended_Additional,TRUE,\u1E84,W
+U+1E85,ẅ,Latin Small Letter W with diaeresis,Table_Latin_Extended_Additional,TRUE,\u1E85,w
+U+1E9B,ẛ,Latin Small Letter Long S with dot above,Table_Latin_Extended_Additional,TRUE,\u1E9B,S
+U+1EF2,Ỳ,Latin Capital Letter Y with grave,Table_Latin_Extended_Additional,TRUE,\u1EF2,Y
+U+1EF3,ỳ,Latin Small Letter Y with grave,Table_Latin_Extended_Additional,TRUE,\u1EF3,y
+U+0259,ə,Latin Small Letter Schwa,Table_IPA_Extensions,TRUE,\u0259,Ezh
+U+027C,ɼ,Latin Small Letter R with long leg,Table_IPA_Extensions,TRUE,\u027C,r
+U+0292,ʒ,Latin Small Letter Ezh,Table_IPA_Extensions,TRUE,\u0292,Ezh
+U+02B0,ʰ,Modifier Letter Small H,Table_Spacing_Modifier_Letters,TRUE,\u02B0,h
+U+02B1,ʱ,Modifier Letter Small H with hook,Table_Spacing_Modifier_Letters,TRUE,\u02B1,h
+U+02B2,ʲ,Modifier Letter Small J,Table_Spacing_Modifier_Letters,TRUE,\u02B2,j
+U+02B3,ʳ,Modifier Letter Small R,Table_Spacing_Modifier_Letters,TRUE,\u02B3,r
+U+02B4,ʴ,Modifier Letter Small Turned R,Table_Spacing_Modifier_Letters,TRUE,\u02B4,r
+U+02B5,ʵ,Modifier Letter Small Turned R with hook,Table_Spacing_Modifier_Letters,TRUE,\u02B5,r
+U+02B6,ʶ,Modifier Letter Small Capital Inverted R,Table_Spacing_Modifier_Letters,TRUE,\u02B6,r
+U+02B7,ʷ,Modifier Letter Small W,Table_Spacing_Modifier_Letters,TRUE,\u02B7,w
+U+02B8,ʸ,Modifier Letter Small Y,Table_Spacing_Modifier_Letters,TRUE,\u02B8,y
+U+02B9,ʹ,Modifier Letter Prime,Table_Spacing_Modifier_Letters,TRUE,\u02B9,'
+U+02BA,ʺ,Modifier Letter Double Prime,Table_Spacing_Modifier_Letters,TRUE,\u02BA,""""
+U+02BB,ʻ,Modifier Letter Turned Comma,Table_Spacing_Modifier_Letters,TRUE,\u02BB,'
+U+02BC,ʼ,Modifier Letter Apostrophe,Table_Spacing_Modifier_Letters,TRUE,\u02BC,'
+U+02BD,ʽ,Modifier Letter Reversed Comma,Table_Spacing_Modifier_Letters,TRUE,\u02BD,'
+U+02BE,ʾ,Modifier Letter Right Half Ring,Table_Spacing_Modifier_Letters,TRUE,\u02BE,'
+U+02BF,ʿ,Modifier Letter Left Half Ring,Table_Spacing_Modifier_Letters,TRUE,\u02BF,'
+U+02C0,ˀ,Modifier Letter Glottal Stop,Table_Spacing_Modifier_Letters,TRUE,\u02C0,?
+U+02C1,ˁ,Modifier Letter Reversed Glottal Stop,Table_Spacing_Modifier_Letters,TRUE,\u02C1,?
+U+02C2,˂,Modifier Letter Left Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02C2,<
+U+02C3,˃,Modifier Letter Right Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02C3,>
+U+02C4,˄,Modifier Letter Up Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02C4,^
+U+02C5,˅,Modifier Letter Down Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02C5,v
+U+02C6,ˆ,Modifier Letter Circumflex Accent,Table_Spacing_Modifier_Letters,TRUE,\u02C6,^
+U+02C7,ˇ,Caron,Table_Spacing_Modifier_Letters,TRUE,\u02C7,^
+U+02C8,ˈ,Modifier Letter Vertical Line,Table_Spacing_Modifier_Letters,TRUE,\u02C8,'
+U+02C9,ˉ,Modifier Letter Macron,Table_Spacing_Modifier_Letters,TRUE,\u02C9,-
+U+02CA,ˊ,Modifier Letter Acute Accent,Table_Spacing_Modifier_Letters,TRUE,\u02CA,'
+U+02CB,ˋ,Modifier Letter Grave Accent,Table_Spacing_Modifier_Letters,TRUE,\u02CB,'
+U+02CC,ˌ,Modifier Letter Low Vertical Line,Table_Spacing_Modifier_Letters,TRUE,\u02CC,","
+U+02CD,ˍ,Modifier Letter Low Macron,Table_Spacing_Modifier_Letters,TRUE,\u02CD,-
+U+02CE,ˎ,Modifier Letter Low Grave Accent,Table_Spacing_Modifier_Letters,TRUE,\u02CE,","
+U+02CF,ˏ,Modifier Letter Low Acute Accent,Table_Spacing_Modifier_Letters,TRUE,\u02CF,","
+U+02D0,ː,Modifier Letter Triangular Colon,Table_Spacing_Modifier_Letters,TRUE,\u02D0,:
+U+02D1,ˑ,Modifier Letter Half Triangular Colon,Table_Spacing_Modifier_Letters,TRUE,\u02D1,.
+U+02D2,˒,Modifier Letter Centered Right Half Ring,Table_Spacing_Modifier_Letters,TRUE,\u02D2,","
+U+02D3,˓,Modifier Letter Centered Left Half Ring,Table_Spacing_Modifier_Letters,TRUE,\u02D3,","
+U+02D4,˔,Modifier Letter Up Tack,Table_Spacing_Modifier_Letters,TRUE,\u02D4,.
+U+02D5,˕,Modifier Letter Down Tack,Table_Spacing_Modifier_Letters,TRUE,\u02D5,.
+U+02D6,˖,Modifier Letter Plus Sign,Table_Spacing_Modifier_Letters,TRUE,\u02D6,+
+U+02D7,˗,Modifier Letter Minus Sign,Table_Spacing_Modifier_Letters,TRUE,\u02D7,-
+U+02D8,˘,Breve,Table_Spacing_Modifier_Letters,TRUE,\u02D8,.
+U+02D9,˙,Dot Above,Table_Spacing_Modifier_Letters,TRUE,\u02D9,.
+U+02DA,˚,Ring Above,Table_Spacing_Modifier_Letters,TRUE,\u02DA,.
+U+02DB,˛,Ogonek,Table_Spacing_Modifier_Letters,TRUE,\u02DB,","
+U+02DC,˜,Small Tilde,Table_Spacing_Modifier_Letters,TRUE,\u02DC,~
+U+02DD,˝,Double Acute Accent,Table_Spacing_Modifier_Letters,TRUE,\u02DD,""""
+U+02DE,˞,Modifier Letter Rhotic Hook,Table_Spacing_Modifier_Letters,TRUE,\u02DE,-
+U+02DF,˟,Modifier Letter Cross Accent,Table_Spacing_Modifier_Letters,TRUE,\u02DF,x
+U+02E0,ˠ,Modifier Letter Small Gamma,Table_Spacing_Modifier_Letters,TRUE,\u02E0,g
+U+02E1,ˡ,Modifier Letter Small L,Table_Spacing_Modifier_Letters,TRUE,\u02E1,l
+U+02E2,ˢ,Modifier Letter Small S,Table_Spacing_Modifier_Letters,TRUE,\u02E2,s
+U+02E3,ˣ,Modifier Letter Small X,Table_Spacing_Modifier_Letters,TRUE,\u02E3,x
+U+02E4,ˤ,Modifier Letter Small Reversed Glottal Stop,Table_Spacing_Modifier_Letters,TRUE,\u02E4,?
+U+02E5,˥,Modifier Letter Extra-High Tone Bar,Table_Spacing_Modifier_Letters,TRUE,\u02E5,XunicodeX
+U+02E6,˦,Modifier Letter High Tone Bar,Table_Spacing_Modifier_Letters,TRUE,\u02E6,XunicodeX
+U+02E7,˧,Modifier Letter Mid Tone Bar,Table_Spacing_Modifier_Letters,TRUE,\u02E7,XunicodeX
+U+02E8,˨,Modifier Letter Low Tone Bar,Table_Spacing_Modifier_Letters,TRUE,\u02E8,XunicodeX
+U+02E9,˩,Modifier Letter Extra-Low Tone Bar,Table_Spacing_Modifier_Letters,TRUE,\u02E9,XunicodeX
+U+02EA,˪,Modifier Letter Yin Departing Tone Mark,Table_Spacing_Modifier_Letters,TRUE,\u02EA,XunicodeX
+U+02EB,˫,Modifier Letter Yang Departing Tone Mark,Table_Spacing_Modifier_Letters,TRUE,\u02EB,XunicodeX
+U+02EC,ˬ,Modifier Letter Voicing,Table_Spacing_Modifier_Letters,TRUE,\u02EC,XunicodeX
+U+02ED,˭,Modifier Letter Unaspirated,Table_Spacing_Modifier_Letters,TRUE,\u02ED,=
+U+02EE,ˮ,Modifier Letter Double Apostrophe,Table_Spacing_Modifier_Letters,TRUE,\u02EE,""""
+U+02EF,˯,Modifier Letter Low Down Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02EF,XunicodeX
+U+02F0,˰,Modifier Letter Low Up Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02F0,XunicodeX
+U+02F1,˱,Modifier Letter Low Left Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02F1,XunicodeX
+U+02F2,˲,Modifier Letter Low Right Arrowhead,Table_Spacing_Modifier_Letters,TRUE,\u02F2,XunicodeX
+U+02F3,˳,Modifier Letter Low Ring,Table_Spacing_Modifier_Letters,TRUE,\u02F3,o
+U+02F4,˴,Modifier Letter Middle Grave Accent,Table_Spacing_Modifier_Letters,TRUE,\u02F4,'
+U+02F5,˵,Modifier Letter Middle Double Grave Accent,Table_Spacing_Modifier_Letters,TRUE,\u02F5,""""
+U+02F6,˶,Modifier Letter Middle Double Acute Accent,Table_Spacing_Modifier_Letters,TRUE,\u02F6,""""
+U+02F7,˷,Modifier Letter Low Tilde,Table_Spacing_Modifier_Letters,TRUE,\u02F7,~
+U+02F8,˸,Modifier Letter Raised Colon,Table_Spacing_Modifier_Letters,TRUE,\u02F8,:
+U+02F9,˹,Modifier Letter Begin High Tone,Table_Spacing_Modifier_Letters,TRUE,\u02F9,XunicodeX
+U+02FA,˺,Modifier Letter End High Tone,Table_Spacing_Modifier_Letters,TRUE,\u02FA,XunicodeX
+U+02FB,˻,Modifier Letter Begin Low Tone,Table_Spacing_Modifier_Letters,TRUE,\u02FB,XunicodeX
+U+02FC,˼,Modifier Letter End Low Tone,Table_Spacing_Modifier_Letters,TRUE,\u02FC,XunicodeX
+U+02FD,˽,Modifier Letter Shelf,Table_Spacing_Modifier_Letters,TRUE,\u02FD,XunicodeX
+U+02FE,˾,Modifier Letter Open Shelf,Table_Spacing_Modifier_Letters,TRUE,\u02FE,XunicodeX
+U+02FF,˿,Modifier Letter Low Left Arrow,Table_Spacing_Modifier_Letters,TRUE,\u02FF,XunicodeX
+U+0370,Ͱ,Greek Capital Letter Heta,Table_Greek_and_Coptic,TRUE,\u0370,XunicodeX
+U+0371,ͱ,Greek Small Letter Heta,Table_Greek_and_Coptic,TRUE,\u0371,XunicodeX
+U+0372,Ͳ,Greek Capital Letter Archaic Sampi,Table_Greek_and_Coptic,TRUE,\u0372,XunicodeX
+U+0373,ͳ,Greek Small Letter Archaic Sampi,Table_Greek_and_Coptic,TRUE,\u0373,XunicodeX
+U+0374,ʹ,Greek Numeral Sign,Table_Greek_and_Coptic,TRUE,\u0374,'
+U+0375,͵,Greek Lower Numeral Sign,Table_Greek_and_Coptic,TRUE,\u0375,","
+U+0376,Ͷ,Greek Capital Letter Pamphylian Digamma,Table_Greek_and_Coptic,TRUE,\u0376,XunicodeX
+U+0377,ͷ,Greek Small Letter Pamphylian Digamma,Table_Greek_and_Coptic,TRUE,\u0377,XunicodeX
+U+037A,ͺ,Greek Ypogegrammeni,Table_Greek_and_Coptic,TRUE,\u037A,XunicodeX
+U+037B,ͻ,Greek Small Reversed Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u037B,XunicodeX
+U+037C,ͼ,Greek Small Dotted Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u037C,XunicodeX
+U+037D,ͽ,Greek Small Reversed Dotted Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u037D,XunicodeX
+U+037F,Ϳ,Greek Capital Letter Yot,Table_Greek_and_Coptic,TRUE,\u037F,XunicodeX
+U+0384,΄,Greek acute accent (tonos),Table_Greek_and_Coptic,TRUE,\u0384,'
+U+0385,΅,Greek diaeresis with acute accent,Table_Greek_and_Coptic,TRUE,\u0385,XunicodeX
+U+0386,Ά,Greek Capital Letter A with acute accent,Table_Greek_and_Coptic,TRUE,\u0386,XunicodeX
+U+0387,·,Greek Ano Teleia,Table_Greek_and_Coptic,TRUE,\u0387,XunicodeX
+U+0388,Έ,Greek Capital Letter Epsilon with acute accent,Table_Greek_and_Coptic,TRUE,\u0388,E
+U+0389,Ή,Greek Capital Letter Eta with acute accent,Table_Greek_and_Coptic,TRUE,\u0389,E
+U+038A,Ί,Greek Capital Letter Iota with acute accent,Table_Greek_and_Coptic,TRUE,\u038A,I
+U+038C,Ό,Greek Capital Letter Omicron with acute accent,Table_Greek_and_Coptic,TRUE,\u038C,O
+U+038E,Ύ,Greek Capital Letter Upsilon with acute accent,Table_Greek_and_Coptic,TRUE,\u038E,U
+U+038F,Ώ,Greek Capital Letter Omega with acute accent,Table_Greek_and_Coptic,TRUE,\u038F,O
+U+0390,ΐ,Greek Small Letter Iota with diaeresis and acute accent,Table_Greek_and_Coptic,TRUE,\u0390,i
+U+0391,Α,Greek Capital Letter Alpha,Table_Greek_and_Coptic,TRUE,\u0391,A
+U+0392,Β,Greek Capital Letter Beta,Table_Greek_and_Coptic,TRUE,\u0392,B
+U+0393,Γ,Greek Capital Letter Gamma,Table_Greek_and_Coptic,TRUE,\u0393,G
+U+0394,Δ,Greek Capital Letter Delta,Table_Greek_and_Coptic,TRUE,\u0394,D
+U+0395,Ε,Greek Capital Letter Epsilon,Table_Greek_and_Coptic,TRUE,\u0395,E
+U+0396,Ζ,Greek Capital Letter Zeta,Table_Greek_and_Coptic,TRUE,\u0396,Z
+U+0397,Η,Greek Capital Letter Eta,Table_Greek_and_Coptic,TRUE,\u0397,E
+U+0398,Θ,Greek Capital Letter Theta,Table_Greek_and_Coptic,TRUE,\u0398,Th
+U+0399,Ι,Greek Capital Letter Iota,Table_Greek_and_Coptic,TRUE,\u0399,I
+U+039A,Κ,Greek Capital Letter Kappa,Table_Greek_and_Coptic,TRUE,\u039A,K
+U+039B,Λ,Greek Capital Letter Lambda,Table_Greek_and_Coptic,TRUE,\u039B,L
+U+039C,Μ,Greek Capital Letter Mu,Table_Greek_and_Coptic,TRUE,\u039C,M
+U+039D,Ν,Greek Capital Letter Nu,Table_Greek_and_Coptic,TRUE,\u039D,N
+U+039E,Ξ,Greek Capital Letter Xi,Table_Greek_and_Coptic,TRUE,\u039E,X
+U+039F,Ο,Greek Capital Letter Omicron,Table_Greek_and_Coptic,TRUE,\u039F,O
+U+03A0,Π,Greek Capital Letter Pi,Table_Greek_and_Coptic,TRUE,\u03A0,P
+U+03A1,Ρ,Greek Capital Letter Rho,Table_Greek_and_Coptic,TRUE,\u03A1,R
+U+03A3,Σ,Greek Capital Letter Sigma,Table_Greek_and_Coptic,TRUE,\u03A3,S
+U+03A4,Τ,Greek Capital Letter Tau,Table_Greek_and_Coptic,TRUE,\u03A4,Th
+U+03A5,Υ,Greek Capital Letter Upsilon,Table_Greek_and_Coptic,TRUE,\u03A5,U
+U+03A6,Φ,Greek Capital Letter Phi,Table_Greek_and_Coptic,TRUE,\u03A6,Ph
+U+03A7,Χ,Greek Capital Letter Chi,Table_Greek_and_Coptic,TRUE,\u03A7,Ch
+U+03A8,Ψ,Greek Capital Letter Psi,Table_Greek_and_Coptic,TRUE,\u03A8,Ps
+U+03A9,Ω,Greek Capital Letter Omega,Table_Greek_and_Coptic,TRUE,\u03A9,W
+U+03AA,Ϊ,Greek Capital Letter Iota with diaeresis,Table_Greek_and_Coptic,TRUE,\u03AA,I
+U+03AB,Ϋ,Greek Capital Letter Upsilon with diaeresis,Table_Greek_and_Coptic,TRUE,\u03AB,U
+U+03AC,ά,Greek Small Letter Alpha with acute accent,Table_Greek_and_Coptic,TRUE,\u03AC,A
+U+03AD,έ,Greek Small Letter Epsilon with acute accent,Table_Greek_and_Coptic,TRUE,\u03AD,E
+U+03AE,ή,Greek Small Letter Eta with acute accent,Table_Greek_and_Coptic,TRUE,\u03AE,E
+U+03AF,ί,Greek Small Letter Iota with acute accent,Table_Greek_and_Coptic,TRUE,\u03AF,I
+U+03B0,ΰ,Greek Small Letter Upsilon with diaeresis and acute accent,Table_Greek_and_Coptic,TRUE,\u03B0,U
+U+03B1,α,Greek Small Letter Alpha,Table_Greek_and_Coptic,TRUE,\u03B1,a
+U+03B2,β,Greek Small Letter Beta,Table_Greek_and_Coptic,TRUE,\u03B2,b
+U+03B3,γ,Greek Small Letter Gamma,Table_Greek_and_Coptic,TRUE,\u03B3,g
+U+03B4,δ,Greek Small Letter Delta,Table_Greek_and_Coptic,TRUE,\u03B4,d
+U+03B5,ε,Greek Small Letter Epsilon,Table_Greek_and_Coptic,TRUE,\u03B5,e
+U+03B6,ζ,Greek Small Letter Zeta,Table_Greek_and_Coptic,TRUE,\u03B6,z
+U+03B7,η,Greek Small Letter Eta,Table_Greek_and_Coptic,TRUE,\u03B7,e
+U+03B8,θ,Greek Small Letter Theta,Table_Greek_and_Coptic,TRUE,\u03B8,th
+U+03B9,ι,Greek Small Letter Iota,Table_Greek_and_Coptic,TRUE,\u03B9,i
+U+03BA,κ,Greek Small Letter Kappa,Table_Greek_and_Coptic,TRUE,\u03BA,k
+U+03BB,λ,Greek Small Letter Lambda,Table_Greek_and_Coptic,TRUE,\u03BB,l
+U+03BC,μ,Greek Small Letter Mu,Table_Greek_and_Coptic,TRUE,\u03BC,m
+U+03BD,ν,Greek Small Letter Nu,Table_Greek_and_Coptic,TRUE,\u03BD,n
+U+03BE,ξ,Greek Small Letter Xi,Table_Greek_and_Coptic,TRUE,\u03BE,x
+U+03BF,ο,Greek Small Letter Omicron,Table_Greek_and_Coptic,TRUE,\u03BF,o
+U+03C0,π,Greek Small Letter Pi,Table_Greek_and_Coptic,TRUE,\u03C0,p
+U+03C1,ρ,Greek Small Letter Rho,Table_Greek_and_Coptic,TRUE,\u03C1,r
+U+03C2,ς,Greek Small Letter Final Sigma,Table_Greek_and_Coptic,TRUE,\u03C2,s
+U+03C3,σ,Greek Small Letter Sigma,Table_Greek_and_Coptic,TRUE,\u03C3,s
+U+03C4,τ,Greek Small Letter Tau,Table_Greek_and_Coptic,TRUE,\u03C4,th
+U+03C5,υ,Greek Small Letter Upsilon,Table_Greek_and_Coptic,TRUE,\u03C5,u
+U+03C6,φ,Greek Small Letter Phi,Table_Greek_and_Coptic,TRUE,\u03C6,ph
+U+03C7,χ,Greek Small Letter Chi,Table_Greek_and_Coptic,TRUE,\u03C7,ch
+U+03C8,ψ,Greek Small Letter Psi,Table_Greek_and_Coptic,TRUE,\u03C8,ps
+U+03C9,ω,Greek Small Letter Omega,Table_Greek_and_Coptic,TRUE,\u03C9,w
+U+03CA,ϊ,Greek Small Letter Iota with diaeresis,Table_Greek_and_Coptic,TRUE,\u03CA,i
+U+03CB,ϋ,Greek Small Letter Upsilon with diaeresis,Table_Greek_and_Coptic,TRUE,\u03CB,u
+U+03CC,ό,Greek Small Letter Omicron with acute accent,Table_Greek_and_Coptic,TRUE,\u03CC,o
+U+03CD,ύ,Greek Small Letter Upsilon with acute accent,Table_Greek_and_Coptic,TRUE,\u03CD,u
+U+03CE,ώ,Greek Small Letter Omega with acute accent,Table_Greek_and_Coptic,TRUE,\u03CE,o
+U+03CF,Ϗ,Greek Capital Kai Symbol,Table_Greek_and_Coptic,TRUE,\u03CF,K
+U+03D0,ϐ,Greek Beta Symbol,Table_Greek_and_Coptic,TRUE,\u03D0,b
+U+03D1,ϑ,Greek Theta Symbol,Table_Greek_and_Coptic,TRUE,\u03D1,th
+U+03D2,ϒ,Greek Upsilon with hook Symbol,Table_Greek_and_Coptic,TRUE,\u03D2,U
+U+03D3,ϓ,Greek Upsilon with acute and hook Symbol,Table_Greek_and_Coptic,TRUE,\u03D3,U
+U+03D4,ϔ,Greek Upsilon with diaeresis and hook Symbol,Table_Greek_and_Coptic,TRUE,\u03D4,U
+U+03D5,ϕ,Greek Phi Symbol,Table_Greek_and_Coptic,TRUE,\u03D5,Ph
+U+03D6,ϖ,Greek Pi Symbol,Table_Greek_and_Coptic,TRUE,\u03D6,p
+U+03D7,ϗ,Greek Kai Symbol,Table_Greek_and_Coptic,TRUE,\u03D7,K
+U+03D8,Ϙ,Greek Letter Qoppa,Table_Greek_and_Coptic,TRUE,\u03D8,Q
+U+03D9,ϙ,Greek Small Letter Qoppa,Table_Greek_and_Coptic,TRUE,\u03D9,q
+U+03DA,Ϛ,Greek Letter Stigma,Table_Greek_and_Coptic,TRUE,\u03DA,S
+U+03DB,ϛ,Greek Small Letter Stigma,Table_Greek_and_Coptic,TRUE,\u03DB,s
+U+03DC,Ϝ,Greek Letter Digamma,Table_Greek_and_Coptic,TRUE,\u03DC,F
+U+03DD,ϝ,Greek Small Letter Digamma,Table_Greek_and_Coptic,TRUE,\u03DD,f
+U+03DE,Ϟ,Greek Letter Koppa,Table_Greek_and_Coptic,TRUE,\u03DE,K
+U+03DF,ϟ,Greek Small Letter Koppa,Table_Greek_and_Coptic,TRUE,\u03DF,k
+U+03E0,Ϡ,Greek Letter Sampi,Table_Greek_and_Coptic,TRUE,\u03E0,S
+U+03E1,ϡ,Greek Small Letter Sampi,Table_Greek_and_Coptic,TRUE,\u03E1,s
+U+03E2,Ϣ,Coptic Capital Letter Shei,Table_Greek_and_Coptic,TRUE,\u03E2,S
+U+03E3,ϣ,Coptic Small Letter Shei,Table_Greek_and_Coptic,TRUE,\u03E3,s
+U+03E4,Ϥ,Coptic Capital Letter Fei,Table_Greek_and_Coptic,TRUE,\u03E4,F
+U+03E5,ϥ,Coptic Small Letter Fei,Table_Greek_and_Coptic,TRUE,\u03E5,f
+U+03E6,Ϧ,Coptic Capital Letter Khei,Table_Greek_and_Coptic,TRUE,\u03E6,K
+U+03E7,ϧ,Coptic Small Letter Khei,Table_Greek_and_Coptic,TRUE,\u03E7,k
+U+03E8,Ϩ,Coptic Capital Letter Hori,Table_Greek_and_Coptic,TRUE,\u03E8,H
+U+03E9,ϩ,Coptic Small Letter Hori,Table_Greek_and_Coptic,TRUE,\u03E9,h
+U+03EA,Ϫ,Coptic Capital Letter Gangia,Table_Greek_and_Coptic,TRUE,\u03EA,G
+U+03EB,ϫ,Coptic Small Letter Gangia,Table_Greek_and_Coptic,TRUE,\u03EB,g
+U+03EC,Ϭ,Coptic Capital Letter Shima,Table_Greek_and_Coptic,TRUE,\u03EC,S
+U+03ED,ϭ,Coptic Small Letter Shima,Table_Greek_and_Coptic,TRUE,\u03ED,s
+U+03EE,Ϯ,Coptic Capital Letter Dei,Table_Greek_and_Coptic,TRUE,\u03EE,D
+U+03EF,ϯ,Coptic Small Letter Dei,Table_Greek_and_Coptic,TRUE,\u03EF,d
+U+03F0,ϰ,Greek Kappa Symbol,Table_Greek_and_Coptic,TRUE,\u03F0,k
+U+03F1,ϱ,Greek Rho Symbol,Table_Greek_and_Coptic,TRUE,\u03F1,r
+U+03F2,ϲ,Greek Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u03F2,c
+U+03F3,ϳ,Greek Letter Yot,Table_Greek_and_Coptic,TRUE,\u03F3,j
+U+03F4,ϴ,Greek Capital Theta Symbol,Table_Greek_and_Coptic,TRUE,\u03F4,Th
+U+03F5,ϵ,Greek Lunate Epsilon Symbol,Table_Greek_and_Coptic,TRUE,\u03F5,e
+U+03F6,϶,Greek Reversed Lunate Epsilon Symbol,Table_Greek_and_Coptic,TRUE,\u03F6,e
+U+03F7,Ϸ,Greek Capital Sho,Table_Greek_and_Coptic,TRUE,\u03F7,S
+U+03F8,ϸ,Greek Small Letter Sho,Table_Greek_and_Coptic,TRUE,\u03F8,S
+U+03F9,Ϲ,Greek Capital Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u03F9,ch
+U+03FA,Ϻ,Greek Capital San,Table_Greek_and_Coptic,TRUE,\u03FA,M
+U+03FB,ϻ,Greek Small Letter San,Table_Greek_and_Coptic,TRUE,\u03FB,m
+U+03FC,ϼ,Greek Rho with stroke Symbol,Table_Greek_and_Coptic,TRUE,\u03FC,r
+U+03FD,Ͻ,Greek Capital Reversed Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u03FD,C
+U+03FE,Ͼ,Greek Capital Dotted Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u03FE,C
+U+03FF,Ͽ,Greek Capital Reversed Dotted Lunate Sigma Symbol,Table_Greek_and_Coptic,TRUE,\u03FF,C
+U+0400,Ѐ,Cyrillic Capital Letter Ie with grave,Table_Cyrillic_script_in_Unicode,TRUE,\u0400,XunicodeX
+U+0401,Ё,Cyrillic Capital Letter Io,Table_Cyrillic_script_in_Unicode,TRUE,\u0401,XunicodeX
+U+0402,Ђ,Cyrillic Capital Letter Dje,Table_Cyrillic_script_in_Unicode,TRUE,\u0402,XunicodeX
+U+0403,Ѓ,Cyrillic Capital Letter Gje,Table_Cyrillic_script_in_Unicode,TRUE,\u0403,XunicodeX
+U+0404,Є,Cyrillic Capital Letter Ukrainian Ie,Table_Cyrillic_script_in_Unicode,TRUE,\u0404,XunicodeX
+U+0405,Ѕ,Cyrillic Capital Letter Dze,Table_Cyrillic_script_in_Unicode,TRUE,\u0405,XunicodeX
+U+0406,І,Cyrillic Capital Letter Byelorussian-Ukrainian I,Table_Cyrillic_script_in_Unicode,TRUE,\u0406,XunicodeX
+U+0407,Ї,Cyrillic Capital Letter Yi,Table_Cyrillic_script_in_Unicode,TRUE,\u0407,XunicodeX
+U+0408,Ј,Cyrillic Capital Letter Je,Table_Cyrillic_script_in_Unicode,TRUE,\u0408,XunicodeX
+U+0409,Љ,Cyrillic Capital Letter Lje,Table_Cyrillic_script_in_Unicode,TRUE,\u0409,XunicodeX
+U+040A,Њ,Cyrillic Capital Letter Nje,Table_Cyrillic_script_in_Unicode,TRUE,\u040A,XunicodeX
+U+040B,Ћ,Cyrillic Capital Letter Tshe,Table_Cyrillic_script_in_Unicode,TRUE,\u040B,XunicodeX
+U+040C,Ќ,Cyrillic Capital Letter Kje,Table_Cyrillic_script_in_Unicode,TRUE,\u040C,XunicodeX
+U+040D,Ѝ,Cyrillic Capital Letter I with grave,Table_Cyrillic_script_in_Unicode,TRUE,\u040D,XunicodeX
+U+040E,Ў,Cyrillic Capital Letter Short U,Table_Cyrillic_script_in_Unicode,TRUE,\u040E,XunicodeX
+U+040F,Џ,Cyrillic Capital Letter Dzhe,Table_Cyrillic_script_in_Unicode,TRUE,\u040F,XunicodeX
+U+0410,А,Cyrillic Capital Letter A,Table_Cyrillic_script_in_Unicode,TRUE,\u0410,XunicodeX
+U+0411,Б,Cyrillic Capital Letter Be,Table_Cyrillic_script_in_Unicode,TRUE,\u0411,XunicodeX
+U+0412,В,Cyrillic Capital Letter Ve,Table_Cyrillic_script_in_Unicode,TRUE,\u0412,XunicodeX
+U+0413,Г,Cyrillic Capital Letter Ghe,Table_Cyrillic_script_in_Unicode,TRUE,\u0413,XunicodeX
+U+0414,Д,Cyrillic Capital Letter De,Table_Cyrillic_script_in_Unicode,TRUE,\u0414,XunicodeX
+U+0415,Е,Cyrillic Capital Letter Ie,Table_Cyrillic_script_in_Unicode,TRUE,\u0415,XunicodeX
+U+0416,Ж,Cyrillic Capital Letter Zhe,Table_Cyrillic_script_in_Unicode,TRUE,\u0416,XunicodeX
+U+0417,З,Cyrillic Capital Letter Ze,Table_Cyrillic_script_in_Unicode,TRUE,\u0417,XunicodeX
+U+0418,И,Cyrillic Capital Letter I,Table_Cyrillic_script_in_Unicode,TRUE,\u0418,XunicodeX
+U+0419,Й,Cyrillic Capital Letter Short I,Table_Cyrillic_script_in_Unicode,TRUE,\u0419,XunicodeX
+U+041A,К,Cyrillic Capital Letter Ka,Table_Cyrillic_script_in_Unicode,TRUE,\u041A,XunicodeX
+U+041B,Л,Cyrillic Capital Letter El,Table_Cyrillic_script_in_Unicode,TRUE,\u041B,XunicodeX
+U+041C,М,Cyrillic Capital Letter Em,Table_Cyrillic_script_in_Unicode,TRUE,\u041C,XunicodeX
+U+041D,Н,Cyrillic Capital Letter En,Table_Cyrillic_script_in_Unicode,TRUE,\u041D,XunicodeX
+U+041E,О,Cyrillic Capital Letter O,Table_Cyrillic_script_in_Unicode,TRUE,\u041E,XunicodeX
+U+041F,П,Cyrillic Capital Letter Pe,Table_Cyrillic_script_in_Unicode,TRUE,\u041F,XunicodeX
+U+0420,Р,Cyrillic Capital Letter Er,Table_Cyrillic_script_in_Unicode,TRUE,\u0420,XunicodeX
+U+0421,С,Cyrillic Capital Letter Es,Table_Cyrillic_script_in_Unicode,TRUE,\u0421,XunicodeX
+U+0422,Т,Cyrillic Capital Letter Te,Table_Cyrillic_script_in_Unicode,TRUE,\u0422,XunicodeX
+U+0423,У,Cyrillic Capital Letter U,Table_Cyrillic_script_in_Unicode,TRUE,\u0423,XunicodeX
+U+0424,Ф,Cyrillic Capital Letter Ef,Table_Cyrillic_script_in_Unicode,TRUE,\u0424,XunicodeX
+U+0425,Х,Cyrillic Capital Letter Ha,Table_Cyrillic_script_in_Unicode,TRUE,\u0425,XunicodeX
+U+0426,Ц,Cyrillic Capital Letter Tse,Table_Cyrillic_script_in_Unicode,TRUE,\u0426,XunicodeX
+U+0427,Ч,Cyrillic Capital Letter Che,Table_Cyrillic_script_in_Unicode,TRUE,\u0427,XunicodeX
+U+0428,Ш,Cyrillic Capital Letter Sha,Table_Cyrillic_script_in_Unicode,TRUE,\u0428,XunicodeX
+U+0429,Щ,Cyrillic Capital Letter Shcha,Table_Cyrillic_script_in_Unicode,TRUE,\u0429,XunicodeX
+U+042A,Ъ,Cyrillic Capital Letter Hard Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u042A,XunicodeX
+U+042B,Ы,Cyrillic Capital Letter Yeru,Table_Cyrillic_script_in_Unicode,TRUE,\u042B,XunicodeX
+U+042C,Ь,Cyrillic Capital Letter Soft Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u042C,XunicodeX
+U+042D,Э,Cyrillic Capital Letter E,Table_Cyrillic_script_in_Unicode,TRUE,\u042D,XunicodeX
+U+042E,Ю,Cyrillic Capital Letter Yu,Table_Cyrillic_script_in_Unicode,TRUE,\u042E,XunicodeX
+U+042F,Я,Cyrillic Capital Letter Ya,Table_Cyrillic_script_in_Unicode,TRUE,\u042F,XunicodeX
+U+0430,а,Cyrillic Small Letter A,Table_Cyrillic_script_in_Unicode,TRUE,\u0430,XunicodeX
+U+0431,б,Cyrillic Small Letter Be,Table_Cyrillic_script_in_Unicode,TRUE,\u0431,XunicodeX
+U+0432,в,Cyrillic Small Letter Ve,Table_Cyrillic_script_in_Unicode,TRUE,\u0432,XunicodeX
+U+0433,г,Cyrillic Small Letter Ghe,Table_Cyrillic_script_in_Unicode,TRUE,\u0433,XunicodeX
+U+0434,д,Cyrillic Small Letter De,Table_Cyrillic_script_in_Unicode,TRUE,\u0434,XunicodeX
+U+0435,е,Cyrillic Small Letter Ie,Table_Cyrillic_script_in_Unicode,TRUE,\u0435,XunicodeX
+U+0436,ж,Cyrillic Small Letter Zhe,Table_Cyrillic_script_in_Unicode,TRUE,\u0436,XunicodeX
+U+0437,з,Cyrillic Small Letter Ze,Table_Cyrillic_script_in_Unicode,TRUE,\u0437,XunicodeX
+U+0438,и,Cyrillic Small Letter I,Table_Cyrillic_script_in_Unicode,TRUE,\u0438,XunicodeX
+U+0439,й,Cyrillic Small Letter Short I,Table_Cyrillic_script_in_Unicode,TRUE,\u0439,XunicodeX
+U+043A,к,Cyrillic Small Letter Ka,Table_Cyrillic_script_in_Unicode,TRUE,\u043A,XunicodeX
+U+043B,л,Cyrillic Small Letter El,Table_Cyrillic_script_in_Unicode,TRUE,\u043B,XunicodeX
+U+043C,м,Cyrillic Small Letter Em,Table_Cyrillic_script_in_Unicode,TRUE,\u043C,XunicodeX
+U+043D,н,Cyrillic Small Letter En,Table_Cyrillic_script_in_Unicode,TRUE,\u043D,XunicodeX
+U+043E,о,Cyrillic Small Letter O,Table_Cyrillic_script_in_Unicode,TRUE,\u043E,XunicodeX
+U+043F,п,Cyrillic Small Letter Pe,Table_Cyrillic_script_in_Unicode,TRUE,\u043F,XunicodeX
+U+0440,р,Cyrillic Small Letter Er,Table_Cyrillic_script_in_Unicode,TRUE,\u0440,XunicodeX
+U+0441,с,Cyrillic Small Letter Es,Table_Cyrillic_script_in_Unicode,TRUE,\u0441,XunicodeX
+U+0442,т,Cyrillic Small Letter Te,Table_Cyrillic_script_in_Unicode,TRUE,\u0442,XunicodeX
+U+0443,у,Cyrillic Small Letter U,Table_Cyrillic_script_in_Unicode,TRUE,\u0443,XunicodeX
+U+0444,ф,Cyrillic Small Letter Ef,Table_Cyrillic_script_in_Unicode,TRUE,\u0444,XunicodeX
+U+0445,х,Cyrillic Small Letter Ha,Table_Cyrillic_script_in_Unicode,TRUE,\u0445,XunicodeX
+U+0446,ц,Cyrillic Small Letter Tse,Table_Cyrillic_script_in_Unicode,TRUE,\u0446,XunicodeX
+U+0447,ч,Cyrillic Small Letter Che,Table_Cyrillic_script_in_Unicode,TRUE,\u0447,XunicodeX
+U+0448,ш,Cyrillic Small Letter Sha,Table_Cyrillic_script_in_Unicode,TRUE,\u0448,XunicodeX
+U+0449,щ,Cyrillic Small Letter Shcha,Table_Cyrillic_script_in_Unicode,TRUE,\u0449,XunicodeX
+U+044A,ъ,Cyrillic Small Letter Hard Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u044A,XunicodeX
+U+044B,ы,Cyrillic Small Letter Yeru,Table_Cyrillic_script_in_Unicode,TRUE,\u044B,XunicodeX
+U+044C,ь,Cyrillic Small Letter Soft Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u044C,XunicodeX
+U+044D,э,Cyrillic Small Letter E,Table_Cyrillic_script_in_Unicode,TRUE,\u044D,XunicodeX
+U+044E,ю,Cyrillic Small Letter Yu,Table_Cyrillic_script_in_Unicode,TRUE,\u044E,XunicodeX
+U+044F,я,Cyrillic Small Letter Ya,Table_Cyrillic_script_in_Unicode,TRUE,\u044F,XunicodeX
+U+0450,ѐ,Cyrillic Small Letter Ie with grave,Table_Cyrillic_script_in_Unicode,TRUE,\u0450,XunicodeX
+U+0451,ё,Cyrillic Small Letter Io,Table_Cyrillic_script_in_Unicode,TRUE,\u0451,XunicodeX
+U+0452,ђ,Cyrillic Small Letter Dje,Table_Cyrillic_script_in_Unicode,TRUE,\u0452,XunicodeX
+U+0453,ѓ,Cyrillic Small Letter Gje,Table_Cyrillic_script_in_Unicode,TRUE,\u0453,XunicodeX
+U+0454,є,Cyrillic Small Letter Ukrainian Ie,Table_Cyrillic_script_in_Unicode,TRUE,\u0454,XunicodeX
+U+0455,ѕ,Cyrillic Small Letter Dze,Table_Cyrillic_script_in_Unicode,TRUE,\u0455,XunicodeX
+U+0456,і,Cyrillic Small Letter Byelorussian-Ukrainian I,Table_Cyrillic_script_in_Unicode,TRUE,\u0456,XunicodeX
+U+0457,ї,Cyrillic Small Letter Yi,Table_Cyrillic_script_in_Unicode,TRUE,\u0457,XunicodeX
+U+0458,ј,Cyrillic Small Letter Je,Table_Cyrillic_script_in_Unicode,TRUE,\u0458,XunicodeX
+U+0459,љ,Cyrillic Small Letter Lje,Table_Cyrillic_script_in_Unicode,TRUE,\u0459,XunicodeX
+U+045A,њ,Cyrillic Small Letter Nje,Table_Cyrillic_script_in_Unicode,TRUE,\u045A,XunicodeX
+U+045B,ћ,Cyrillic Small Letter Tshe,Table_Cyrillic_script_in_Unicode,TRUE,\u045B,XunicodeX
+U+045C,ќ,Cyrillic Small Letter Kje,Table_Cyrillic_script_in_Unicode,TRUE,\u045C,XunicodeX
+U+045D,ѝ,Cyrillic Small Letter I with grave,Table_Cyrillic_script_in_Unicode,TRUE,\u045D,XunicodeX
+U+045E,ў,Cyrillic Small Letter Short U,Table_Cyrillic_script_in_Unicode,TRUE,\u045E,XunicodeX
+U+045F,џ,Cyrillic Small Letter Dzhe,Table_Cyrillic_script_in_Unicode,TRUE,\u045F,XunicodeX
+U+0460,Ѡ,Cyrillic Capital Letter Omega,Table_Cyrillic_script_in_Unicode,TRUE,\u0460,XunicodeX
+U+0461,ѡ,Cyrillic Small Letter Omega,Table_Cyrillic_script_in_Unicode,TRUE,\u0461,XunicodeX
+U+0462,Ѣ,Cyrillic Capital Letter Yat,Table_Cyrillic_script_in_Unicode,TRUE,\u0462,XunicodeX
+U+0463,ѣ,Cyrillic Small Letter Yat,Table_Cyrillic_script_in_Unicode,TRUE,\u0463,XunicodeX
+U+0464,Ѥ,Cyrillic Capital Letter Iotified E,Table_Cyrillic_script_in_Unicode,TRUE,\u0464,XunicodeX
+U+0465,ѥ,Cyrillic Small Letter Iotified E,Table_Cyrillic_script_in_Unicode,TRUE,\u0465,XunicodeX
+U+0466,Ѧ,Cyrillic Capital Letter Little Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u0466,XunicodeX
+U+0467,ѧ,Cyrillic Small Letter Little Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u0467,XunicodeX
+U+0468,Ѩ,Cyrillic Capital Letter Iotified Little Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u0468,XunicodeX
+U+0469,ѩ,Cyrillic Small Letter Iotified Little Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u0469,XunicodeX
+U+046A,Ѫ,Cyrillic Capital Letter Big Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u046A,XunicodeX
+U+046B,ѫ,Cyrillic Small Letter Big Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u046B,XunicodeX
+U+046C,Ѭ,Cyrillic Capital Letter Iotified Big Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u046C,XunicodeX
+U+046D,ѭ,Cyrillic Small Letter Iotified Big Yus,Table_Cyrillic_script_in_Unicode,TRUE,\u046D,XunicodeX
+U+046E,Ѯ,Cyrillic Capital Letter Ksi,Table_Cyrillic_script_in_Unicode,TRUE,\u046E,XunicodeX
+U+046F,ѯ,Cyrillic Small Letter Ksi,Table_Cyrillic_script_in_Unicode,TRUE,\u046F,XunicodeX
+U+0470,Ѱ,Cyrillic Capital Letter Psi,Table_Cyrillic_script_in_Unicode,TRUE,\u0470,XunicodeX
+U+0471,ѱ,Cyrillic Small Letter Psi,Table_Cyrillic_script_in_Unicode,TRUE,\u0471,XunicodeX
+U+0472,Ѳ,Cyrillic Capital Letter Fita,Table_Cyrillic_script_in_Unicode,TRUE,\u0472,XunicodeX
+U+0473,ѳ,Cyrillic Small Letter Fita,Table_Cyrillic_script_in_Unicode,TRUE,\u0473,XunicodeX
+U+0474,Ѵ,Cyrillic Capital Letter Izhitsa,Table_Cyrillic_script_in_Unicode,TRUE,\u0474,XunicodeX
+U+0475,ѵ,Cyrillic Small Letter Izhitsa,Table_Cyrillic_script_in_Unicode,TRUE,\u0475,XunicodeX
+U+0476,Ѷ,Cyrillic Capital Letter Izhitsa with double grave accent,Table_Cyrillic_script_in_Unicode,TRUE,\u0476,XunicodeX
+U+0477,ѷ,Cyrillic Small Letter Izhitsa with double grave accent,Table_Cyrillic_script_in_Unicode,TRUE,\u0477,XunicodeX
+U+0478,Ѹ,Cyrillic Capital Letter Uk,Table_Cyrillic_script_in_Unicode,TRUE,\u0478,XunicodeX
+U+0479,ѹ,Cyrillic Small Letter Uk,Table_Cyrillic_script_in_Unicode,TRUE,\u0479,XunicodeX
+U+047A,Ѻ,Cyrillic Capital Letter Round Omega,Table_Cyrillic_script_in_Unicode,TRUE,\u047A,XunicodeX
+U+047B,ѻ,Cyrillic Small Letter Round Omega,Table_Cyrillic_script_in_Unicode,TRUE,\u047B,XunicodeX
+U+047C,Ѽ,Cyrillic Capital Letter Omega with Titlo,Table_Cyrillic_script_in_Unicode,TRUE,\u047C,XunicodeX
+U+047D,ѽ,Cyrillic Small Letter Omega with Titlo,Table_Cyrillic_script_in_Unicode,TRUE,\u047D,XunicodeX
+U+047E,Ѿ,Cyrillic Capital Letter Ot,Table_Cyrillic_script_in_Unicode,TRUE,\u047E,XunicodeX
+U+047F,ѿ,Cyrillic Small Letter Ot,Table_Cyrillic_script_in_Unicode,TRUE,\u047F,XunicodeX
+U+0480,Ҁ,Cyrillic Capital Letter Koppa,Table_Cyrillic_script_in_Unicode,TRUE,\u0480,XunicodeX
+U+0481,ҁ,Cyrillic Small Letter Koppa,Table_Cyrillic_script_in_Unicode,TRUE,\u0481,XunicodeX
+U+0482,҂,Cyrillic Thousands Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u0482,XunicodeX
+U+0483,҃,Combining Cyrillic Titlo,Table_Cyrillic_script_in_Unicode,TRUE,\u0483,XunicodeX
+U+0484,҄,Combining Cyrillic Palatalization,Table_Cyrillic_script_in_Unicode,TRUE,\u0484,XunicodeX
+U+0485,҅,Combining Cyrillic Dasia Pneumata,Table_Cyrillic_script_in_Unicode,TRUE,\u0485,'
+U+0486,҆,Combining Cyrillic Psili Pneumata,Table_Cyrillic_script_in_Unicode,TRUE,\u0486,'
+U+0487,҇,Combining Cyrillic Pokrytie,Table_Cyrillic_script_in_Unicode,TRUE,\u0487,XunicodeX
+U+0488,҈,Combining Cyrillic Hundred Thousands Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u0488,XunicodeX
+U+0489,҉,Combining Cyrillic Millions Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u0489,XunicodeX
+U+048A,Ҋ,Cyrillic Capital Letter Short I with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u048A,XunicodeX
+U+048B,ҋ,Cyrillic Small Letter Short I with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u048B,XunicodeX
+U+048C,Ҍ,Cyrillic Capital Letter Semisoft Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u048C,XunicodeX
+U+048D,ҍ,Cyrillic Small Letter Semisoft Sign,Table_Cyrillic_script_in_Unicode,TRUE,\u048D,XunicodeX
+U+048E,Ҏ,Cyrillic Capital Letter Er with tick,Table_Cyrillic_script_in_Unicode,TRUE,\u048E,XunicodeX
+U+048F,ҏ,Cyrillic Small Letter Er with tick,Table_Cyrillic_script_in_Unicode,TRUE,\u048F,XunicodeX
+U+0490,Ґ,Cyrillic Capital Letter Ghe with upturn,Table_Cyrillic_script_in_Unicode,TRUE,\u0490,XunicodeX
+U+0491,ґ,Cyrillic Small Letter Ghe with upturn,Table_Cyrillic_script_in_Unicode,TRUE,\u0491,XunicodeX
+U+0492,Ғ,Cyrillic Capital Letter Ghe with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u0492,XunicodeX
+U+0493,ғ,Cyrillic Small Letter Ghe with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u0493,XunicodeX
+U+0494,Ҕ,Cyrillic Capital Letter Ghe with middle hook,Table_Cyrillic_script_in_Unicode,TRUE,\u0494,XunicodeX
+U+0495,ҕ,Cyrillic Small Letter Ghe with middle hook,Table_Cyrillic_script_in_Unicode,TRUE,\u0495,XunicodeX
+U+0496,Җ,Cyrillic Capital Letter Zhe with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u0496,XunicodeX
+U+0497,җ,Cyrillic Small Letter Zhe with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u0497,XunicodeX
+U+0498,Ҙ,Cyrillic Capital Letter Ze with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u0498,XunicodeX
+U+0499,ҙ,Cyrillic Small Letter Ze with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u0499,XunicodeX
+U+049A,Қ,Cyrillic Capital Letter Ka with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u049A,XunicodeX
+U+049B,қ,Cyrillic Small Letter Ka with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u049B,XunicodeX
+U+049C,Ҝ,Cyrillic Capital Letter Ka with vertical stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u049C,XunicodeX
+U+049D,ҝ,Cyrillic Small Letter Ka with vertical stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u049D,XunicodeX
+U+049E,Ҟ,Cyrillic Capital Letter Ka with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u049E,XunicodeX
+U+049F,ҟ,Cyrillic Small Letter Ka with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u049F,XunicodeX
+U+04A0,Ҡ,Cyrillic Capital Letter Bashkir Ka,Table_Cyrillic_script_in_Unicode,TRUE,\u04A0,XunicodeX
+U+04A1,ҡ,Cyrillic Small Letter Bashkir Ka,Table_Cyrillic_script_in_Unicode,TRUE,\u04A1,XunicodeX
+U+04A2,Ң,Cyrillic Capital Letter En with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04A2,XunicodeX
+U+04A3,ң,Cyrillic Small Letter En with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04A3,XunicodeX
+U+04A4,Ҥ,Cyrillic Capital Ligature En Ghe,Table_Cyrillic_script_in_Unicode,TRUE,\u04A4,XunicodeX
+U+04A5,ҥ,Cyrillic Small Ligature En Ghe,Table_Cyrillic_script_in_Unicode,TRUE,\u04A5,XunicodeX
+U+04A6,Ҧ,Cyrillic Capital Letter Pe with middle hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04A6,XunicodeX
+U+04A7,ҧ,Cyrillic Small Letter Pe with middle hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04A7,XunicodeX
+U+04A8,Ҩ,Cyrillic Capital Letter Abkhazian Ha,Table_Cyrillic_script_in_Unicode,TRUE,\u04A8,XunicodeX
+U+04A9,ҩ,Cyrillic Small Letter Abkhazian Ha,Table_Cyrillic_script_in_Unicode,TRUE,\u04A9,XunicodeX
+U+04AA,Ҫ,Cyrillic Capital Letter Es with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04AA,XunicodeX
+U+04AB,ҫ,Cyrillic Small Letter Es with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04AB,XunicodeX
+U+04AC,Ҭ,Cyrillic Capital Letter Te with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04AC,XunicodeX
+U+04AD,ҭ,Cyrillic Small Letter Te with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04AD,XunicodeX
+U+04AE,Ү,Cyrillic Capital Letter Straight U,Table_Cyrillic_script_in_Unicode,TRUE,\u04AE,XunicodeX
+U+04AF,ү,Cyrillic Small Letter Straight U,Table_Cyrillic_script_in_Unicode,TRUE,\u04AF,XunicodeX
+U+04B0,Ұ,Cyrillic Capital Letter Straight U with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u04B0,XunicodeX
+U+04B1,ұ,Cyrillic Small Letter Straight U with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u04B1,XunicodeX
+U+04B2,Ҳ,Cyrillic Capital Letter Ha with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04B2,XunicodeX
+U+04B3,ҳ,Cyrillic Small Letter Ha with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04B3,XunicodeX
+U+04B4,Ҵ,Cyrillic Capital Ligature Te Tse,Table_Cyrillic_script_in_Unicode,TRUE,\u04B4,XunicodeX
+U+04B5,ҵ,Cyrillic Small Ligature Te Tse,Table_Cyrillic_script_in_Unicode,TRUE,\u04B5,XunicodeX
+U+04B6,Ҷ,Cyrillic Capital Letter Che with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04B6,XunicodeX
+U+04B7,ҷ,Cyrillic Small Letter Che with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04B7,XunicodeX
+U+04B8,Ҹ,Cyrillic Capital Letter Che with vertical stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u04B8,XunicodeX
+U+04B9,ҹ,Cyrillic Small Letter Che with vertical stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u04B9,XunicodeX
+U+04BA,Һ,Cyrillic Capital Letter Shha,Table_Cyrillic_script_in_Unicode,TRUE,\u04BA,XunicodeX
+U+04BB,һ,Cyrillic Small Letter Shha,Table_Cyrillic_script_in_Unicode,TRUE,\u04BB,XunicodeX
+U+04BC,Ҽ,Cyrillic Capital Letter Abkhazian Che,Table_Cyrillic_script_in_Unicode,TRUE,\u04BC,XunicodeX
+U+04BD,ҽ,Cyrillic Small Letter Abkhazian Che,Table_Cyrillic_script_in_Unicode,TRUE,\u04BD,XunicodeX
+U+04BE,Ҿ,Cyrillic Capital Letter Abkhazian Che with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04BE,XunicodeX
+U+04BF,ҿ,Cyrillic Small Letter Abkhazian Che with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04BF,XunicodeX
+U+04C0,Ӏ,Cyrillic Letter Palochka,Table_Cyrillic_script_in_Unicode,TRUE,\u04C0,XunicodeX
+U+04C1,Ӂ,Cyrillic Capital Letter Zhe with breve,Table_Cyrillic_script_in_Unicode,TRUE,\u04C1,XunicodeX
+U+04C2,ӂ,Cyrillic Small Letter Zhe with breve,Table_Cyrillic_script_in_Unicode,TRUE,\u04C2,XunicodeX
+U+04C3,Ӄ,Cyrillic Capital Letter Ka with hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04C3,XunicodeX
+U+04C4,ӄ,Cyrillic Small Letter Ka with hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04C4,XunicodeX
+U+04C5,Ӆ,Cyrillic Capital Letter El with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u04C5,XunicodeX
+U+04C6,ӆ,Cyrillic Small Letter El with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u04C6,XunicodeX
+U+04C7,Ӈ,Cyrillic Capital Letter En with hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04C7,XunicodeX
+U+04C8,ӈ,Cyrillic Small Letter En with hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04C8,XunicodeX
+U+04C9,Ӊ,Cyrillic Capital Letter En with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u04C9,XunicodeX
+U+04CA,ӊ,Cyrillic Small Letter En with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u04CA,XunicodeX
+U+04CB,Ӌ,Cyrillic Capital Letter Khakassian Che,Table_Cyrillic_script_in_Unicode,TRUE,\u04CB,XunicodeX
+U+04CC,ӌ,Cyrillic Small Letter Khakassian Che,Table_Cyrillic_script_in_Unicode,TRUE,\u04CC,XunicodeX
+U+04CD,Ӎ,Cyrillic Capital Letter Em with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u04CD,XunicodeX
+U+04CE,ӎ,Cyrillic Small Letter Em with tail,Table_Cyrillic_script_in_Unicode,TRUE,\u04CE,XunicodeX
+U+04CF,ӏ,Cyrillic Small Letter Palochka,Table_Cyrillic_script_in_Unicode,TRUE,\u04CF,XunicodeX
+U+04D0,Ӑ,Cyrillic Capital Letter A with breve,Table_Cyrillic_script_in_Unicode,TRUE,\u04D0,XunicodeX
+U+04D1,ӑ,Cyrillic Small Letter A with breve,Table_Cyrillic_script_in_Unicode,TRUE,\u04D1,XunicodeX
+U+04D2,Ӓ,Cyrillic Capital Letter A with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04D2,XunicodeX
+U+04D3,ӓ,Cyrillic Small Letter A with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04D3,XunicodeX
+U+04D4,Ӕ,Cyrillic Capital Ligature A Ie,Table_Cyrillic_script_in_Unicode,TRUE,\u04D4,XunicodeX
+U+04D5,ӕ,Cyrillic Small Ligature A Ie,Table_Cyrillic_script_in_Unicode,TRUE,\u04D5,XunicodeX
+U+04D6,Ӗ,Cyrillic Capital Letter Ie with breve,Table_Cyrillic_script_in_Unicode,TRUE,\u04D6,XunicodeX
+U+04D7,ӗ,Cyrillic Small Letter Ie with breve,Table_Cyrillic_script_in_Unicode,TRUE,\u04D7,XunicodeX
+U+04D8,Ә,Cyrillic Capital Letter Schwa,Table_Cyrillic_script_in_Unicode,TRUE,\u04D8,XunicodeX
+U+04D9,ә,Cyrillic Small Letter Schwa,Table_Cyrillic_script_in_Unicode,TRUE,\u04D9,XunicodeX
+U+04DA,Ӛ,Cyrillic Capital Letter Schwa with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04DA,XunicodeX
+U+04DB,ӛ,Cyrillic Small Letter Schwa with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04DB,XunicodeX
+U+04DC,Ӝ,Cyrillic Capital Letter Zhe with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04DC,XunicodeX
+U+04DD,ӝ,Cyrillic Small Letter Zhe with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04DD,XunicodeX
+U+04DE,Ӟ,Cyrillic Capital Letter Ze with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04DE,XunicodeX
+U+04DF,ӟ,Cyrillic Small Letter Ze with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04DF,XunicodeX
+U+04E0,Ӡ,Cyrillic Capital Letter Abkhazian Dze,Table_Cyrillic_script_in_Unicode,TRUE,\u04E0,XunicodeX
+U+04E1,ӡ,Cyrillic Small Letter Abkhazian Dze,Table_Cyrillic_script_in_Unicode,TRUE,\u04E1,XunicodeX
+U+04E2,Ӣ,Cyrillic Capital Letter I with macron,Table_Cyrillic_script_in_Unicode,TRUE,\u04E2,XunicodeX
+U+04E3,ӣ,Cyrillic Small Letter I with macron,Table_Cyrillic_script_in_Unicode,TRUE,\u04E3,XunicodeX
+U+04E4,Ӥ,Cyrillic Capital Letter I with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04E4,XunicodeX
+U+04E5,ӥ,Cyrillic Small Letter I with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04E5,XunicodeX
+U+04E6,Ӧ,Cyrillic Capital Letter O with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04E6,XunicodeX
+U+04E7,ӧ,Cyrillic Small Letter O with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04E7,XunicodeX
+U+04E8,Ө,Cyrillic Capital Letter Barred O,Table_Cyrillic_script_in_Unicode,TRUE,\u04E8,XunicodeX
+U+04E9,ө,Cyrillic Small Letter Barred O,Table_Cyrillic_script_in_Unicode,TRUE,\u04E9,XunicodeX
+U+04EA,Ӫ,Cyrillic Capital Letter Barred O with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04EA,XunicodeX
+U+04EB,ӫ,Cyrillic Small Letter Barred O with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04EB,XunicodeX
+U+04EC,Ӭ,Cyrillic Capital Letter E with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04EC,XunicodeX
+U+04ED,ӭ,Cyrillic Small Letter E with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04ED,XunicodeX
+U+04EE,Ӯ,Cyrillic Capital Letter U with macron,Table_Cyrillic_script_in_Unicode,TRUE,\u04EE,XunicodeX
+U+04EF,ӯ,Cyrillic Small Letter U with macron,Table_Cyrillic_script_in_Unicode,TRUE,\u04EF,XunicodeX
+U+04F0,Ӱ,Cyrillic Capital Letter U with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04F0,XunicodeX
+U+04F1,ӱ,Cyrillic Small Letter U with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04F1,XunicodeX
+U+04F2,Ӳ,Cyrillic Capital Letter U with double acute,Table_Cyrillic_script_in_Unicode,TRUE,\u04F2,XunicodeX
+U+04F3,ӳ,Cyrillic Small Letter U with double acute,Table_Cyrillic_script_in_Unicode,TRUE,\u04F3,XunicodeX
+U+04F4,Ӵ,Cyrillic Capital Letter Che with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04F4,XunicodeX
+U+04F5,ӵ,Cyrillic Small Letter Che with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04F5,XunicodeX
+U+04F6,Ӷ,Cyrillic Capital Letter Ghe with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04F6,XunicodeX
+U+04F7,ӷ,Cyrillic Small Letter Ghe with descender,Table_Cyrillic_script_in_Unicode,TRUE,\u04F7,XunicodeX
+U+04F8,Ӹ,Cyrillic Capital Letter Yeru with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04F8,XunicodeX
+U+04F9,ӹ,Cyrillic Small Letter Yeru with diaeresis,Table_Cyrillic_script_in_Unicode,TRUE,\u04F9,XunicodeX
+U+04FA,Ӻ,Cyrillic Capital Letter Ghe with stroke and hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04FA,XunicodeX
+U+04FB,ӻ,Cyrillic Small Letter Ghe with stroke and hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04FB,XunicodeX
+U+04FC,Ӽ,Cyrillic Capital Letter Ha with hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04FC,XunicodeX
+U+04FD,ӽ,Cyrillic Small Letter Ha with hook,Table_Cyrillic_script_in_Unicode,TRUE,\u04FD,XunicodeX
+U+04FE,Ӿ,Cyrillic Capital Letter Ha with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u04FE,XunicodeX
+U+04FF,ӿ,Cyrillic Small Letter Ha with stroke,Table_Cyrillic_script_in_Unicode,TRUE,\u04FF,XunicodeX
+U+2013,–,En dash,Table_Unicode_symbols,TRUE,\u2013,--
+U+2014,—,Em dash,Table_Unicode_symbols,TRUE,\u2014,---
+U+2015,―,Horizontal bar,Table_Unicode_symbols,TRUE,\u2015,----
+U+2017,‗,Double low line,Table_Unicode_symbols,TRUE,\u2017,====
+U+2018,‘,Left single quotation mark,Table_Unicode_symbols,TRUE,\u2018,'
+U+2019,’,Right single quotation mark,Table_Unicode_symbols,TRUE,\u2019,'
+U+201A,‚,Single low-9 quotation mark,Table_Unicode_symbols,TRUE,\u201A,","
+U+201B,‛,Single high-reversed-9 quotation mark,Table_Unicode_symbols,TRUE,\u201B,'
+U+201C,“,Left double quotation mark,Table_Unicode_symbols,TRUE,\u201C,""""
+U+201D,”,Right double quotation mark,Table_Unicode_symbols,TRUE,\u201D,""""
+U+201E,„,Double low-9 quotation mark,Table_Unicode_symbols,TRUE,\u201E,""""
+U+2020,†,Dagger,Table_Unicode_symbols,TRUE,\u2020,t
+U+2021,‡,Double dagger,Table_Unicode_symbols,TRUE,\u2021,tt
+U+2022,•,Bullet,Table_Unicode_symbols,TRUE,\u2022,.
+U+2026,…,Horizontal ellipsis,Table_Unicode_symbols,TRUE,\u2026,...
+U+2030,‰,Per mille sign,Table_Unicode_symbols,TRUE,\u2030,%o
+U+2032,′,Prime,Table_Unicode_symbols,TRUE,\u2032,'
+U+2033,″,Double prime,Table_Unicode_symbols,TRUE,\u2033,''
+U+2039,‹,Single left-pointing angle quotation mark,Table_Unicode_symbols,TRUE,\u2039,""""
+U+203A,›,Single right-pointing angle quotation mark,Table_Unicode_symbols,TRUE,\u203A,""""
+U+203C,‼,Double exclamation mark,Table_Unicode_symbols,TRUE,\u203C,!!
+U+203E,‾,Overline,Table_Unicode_symbols,TRUE,\u203E,-
+U+2044,⁄,Fraction slash,Table_Unicode_symbols,TRUE,\u2044,/
+U+204A,⁊,Tironian et sign,Table_Unicode_symbols,TRUE,\u204A,7
+U+2000,NQ SP,,General_Punctuation,TRUE,\u2000,XunicodeX
+U+2001,MQ SP,,General_Punctuation,TRUE,\u2001,XunicodeX
+U+2002,EN SP,,General_Punctuation,TRUE,\u2002,XunicodeX
+U+2003,EM SP,,General_Punctuation,TRUE,\u2003,XunicodeX
+U+2004,3/M SP,,General_Punctuation,TRUE,\u2004,XunicodeX
+U+2005,4/M SP,,General_Punctuation,TRUE,\u2005,XunicodeX
+U+2006,6/M SP,,General_Punctuation,TRUE,\u2006,XunicodeX
+U+2007,F SP,,General_Punctuation,TRUE,\u2007,XunicodeX
+U+2008,P SP,,General_Punctuation,TRUE,\u2008,XunicodeX
+U+2009,TH SP,,General_Punctuation,TRUE,\u2009,XunicodeX
+U+200A,H SP,,General_Punctuation,TRUE,\u200A,XunicodeX
+U+200B,ZW SP,,General_Punctuation,TRUE,\u200B,XunicodeX
+U+200C,ZW NJ,,General_Punctuation,TRUE,\u200C,XunicodeX
+U+200D,ZW J,,General_Punctuation,TRUE,\u200D,XunicodeX
+U+200E,LRM,,General_Punctuation,TRUE,\u200E,XunicodeX
+U+200F,RLM,,General_Punctuation,TRUE,\u200F,XunicodeX
+U+2010,-,,General_Punctuation,TRUE,\u2010,-
+U+2011,NB -,,General_Punctuation,TRUE,\u2011,-
+U+2012,-,,General_Punctuation,TRUE,\u2012,-
+U+2013,�,,General_Punctuation,TRUE,\u2013,-
+U+2014,�,,General_Punctuation,TRUE,\u2014,-
+U+2015,-,,General_Punctuation,TRUE,\u2015,-
+U+2016,?,,General_Punctuation,TRUE,\u2016,|
+U+2017,=,,General_Punctuation,TRUE,\u2017,_
+U+2018,�,,General_Punctuation,TRUE,\u2018,''
+U+2019,�,,General_Punctuation,TRUE,\u2019,''
+U+201A,�,,General_Punctuation,TRUE,\u201A,","
+U+201B,',,General_Punctuation,TRUE,\u201B,''
+U+201C,�,,General_Punctuation,TRUE,\u201C,""""
+U+201D,�,,General_Punctuation,TRUE,\u201D,""""
+U+201E,�,,General_Punctuation,TRUE,\u201E,""""
+U+201F,"""",,General_Punctuation,TRUE,\u201F,""""
+U+2020,�,,General_Punctuation,TRUE,\u2020,XunicodeX
+U+2021,�,,General_Punctuation,TRUE,\u2021,XunicodeX
+U+2022,�,,General_Punctuation,TRUE,\u2022,XunicodeX
+U+2023,?,,General_Punctuation,TRUE,\u2023,XunicodeX
+U+2024,�,,General_Punctuation,TRUE,\u2024,.
+U+2025,?,,General_Punctuation,TRUE,\u2025,..
+U+2026,�,,General_Punctuation,TRUE,\u2026,...
+U+2027,?,,General_Punctuation,TRUE,\u2027,.
+U+2028,L SEP,,General_Punctuation,TRUE,\u2028,XunicodeX
+U+2029,P SEP,,General_Punctuation,TRUE,\u2029,XunicodeX
+U+202A,LRE,,General_Punctuation,TRUE,\u202A,XunicodeX
+U+202B,RLE,,General_Punctuation,TRUE,\u202B,XunicodeX
+U+202C,PDF,,General_Punctuation,TRUE,\u202C,XunicodeX
+U+202D,LRO,,General_Punctuation,TRUE,\u202D,XunicodeX
+U+202E,RLO,,General_Punctuation,TRUE,\u202E,XunicodeX
+U+202F,NNB SP,,General_Punctuation,TRUE,\u202F,XunicodeX
+U+2030,�,,General_Punctuation,TRUE,\u2030,%o
+U+2031,?,,General_Punctuation,TRUE,\u2031,%oo
+U+2032,',,General_Punctuation,TRUE,\u2032,'
+U+2033,"""",,General_Punctuation,TRUE,\u2033,""""
+U+2034,?,,General_Punctuation,TRUE,\u2034,""""
+U+2035,`,,General_Punctuation,TRUE,\u2035,'
+U+2036,"""",,General_Punctuation,TRUE,\u2036,""""
+U+2037,?,,General_Punctuation,TRUE,\u2037,""""
+U+2038,?,,General_Punctuation,TRUE,\u2038,XunicodeX
+U+2039,�,,General_Punctuation,TRUE,\u2039,XunicodeX
+U+203A,�,,General_Punctuation,TRUE,\u203A,XunicodeX
+U+203B,?,,General_Punctuation,TRUE,\u203B,XunicodeX
+U+203C,?,,General_Punctuation,TRUE,\u203C,!!
+U+203D,?,,General_Punctuation,TRUE,\u203D,?!
+U+203E,?,,General_Punctuation,TRUE,\u203E,-
+U+203F,?,,General_Punctuation,TRUE,\u203F,XunicodeX
+U+2040,?,,General_Punctuation,TRUE,\u2040,XunicodeX
+U+2041,?,,General_Punctuation,TRUE,\u2041,XunicodeX
+U+2042,?,,General_Punctuation,TRUE,\u2042,***
+U+2043,?,,General_Punctuation,TRUE,\u2043,-
+U+2044,/,,General_Punctuation,TRUE,\u2044,/
+U+2045,?,,General_Punctuation,TRUE,\u2045,XunicodeX
+U+2046,?,,General_Punctuation,TRUE,\u2046,XunicodeX
+U+2047,?,,General_Punctuation,TRUE,\u2047,??
+U+2048,?,,General_Punctuation,TRUE,\u2048,?!
+U+2049,?,,General_Punctuation,TRUE,\u2049,!?
+U+204A,?,,General_Punctuation,TRUE,\u204A,.7.
+U+204B,?,,General_Punctuation,TRUE,\u204B,XunicodeX
+U+204C,?,,General_Punctuation,TRUE,\u204C,XunicodeX
+U+204D,?,,General_Punctuation,TRUE,\u204D,XunicodeX
+U+204E,?,,General_Punctuation,TRUE,\u204E,*
+U+204F,?,,General_Punctuation,TRUE,\u204F,;
+U+2050,?,,General_Punctuation,TRUE,\u2050,XunicodeX
+U+2051,?,,General_Punctuation,TRUE,\u2051,**
+U+2052,?,,General_Punctuation,TRUE,\u2052,%
+U+2053,?,,General_Punctuation,TRUE,\u2053,~
+U+2054,?,,General_Punctuation,TRUE,\u2054,XunicodeX
+U+2055,?,,General_Punctuation,TRUE,\u2055,*
+U+2056,?,,General_Punctuation,TRUE,\u2056,XunicodeX
+U+2057,?,,General_Punctuation,TRUE,\u2057,""""""
+U+2058,?,,General_Punctuation,TRUE,\u2058,XunicodeX
+U+2059,?,,General_Punctuation,TRUE,\u2059,XunicodeX
+U+205A,?,,General_Punctuation,TRUE,\u205A,:
+U+205B,?,,General_Punctuation,TRUE,\u205B,XunicodeX
+U+205C,?,,General_Punctuation,TRUE,\u205C,XunicodeX
+U+205D,?,,General_Punctuation,TRUE,\u205D,XunicodeX
+U+205E,?,,General_Punctuation,TRUE,\u205E,XunicodeX
+U+205F,MM SP,,General_Punctuation,TRUE,\u205F,XunicodeX
+U+2060,WJ,,General_Punctuation,TRUE,\u2060,XunicodeX
+U+2061,�(),,General_Punctuation,TRUE,\u2061,f()
+U+2062,�,,General_Punctuation,TRUE,\u2062,x
+U+2063,",",,General_Punctuation,TRUE,\u2063,","
+U+2064,+,,General_Punctuation,TRUE,\u2064,+
+U+2065,,,General_Punctuation,TRUE,\u2065,XunicodeX
+U+2066,LRI,,General_Punctuation,TRUE,\u2066,XunicodeX
+U+2067,RLI,,General_Punctuation,TRUE,\u2067,XunicodeX
+U+2068,FSI,,General_Punctuation,TRUE,\u2068,XunicodeX
+U+2069,PDI,,General_Punctuation,TRUE,\u2069,XunicodeX
+U+206A,I SS,,General_Punctuation,TRUE,\u206A,XunicodeX
+U+206B,A SS,,General_Punctuation,TRUE,\u206B,XunicodeX
+U+206C,I AFS,,General_Punctuation,TRUE,\u206C,XunicodeX
+U+206D,A AFS,,General_Punctuation,TRUE,\u206D,XunicodeX
+U+206E,NA DS,,General_Punctuation,TRUE,\u206E,XunicodeX
+U+206F,NO DS,,General_Punctuation,TRUE,\u206F,XunicodeX
+U+2580,▀,Upper half block,Table_Block_Elements,TRUE,\u2580,XunicodeX
+U+2581,▁,Lower one eighth block,Table_Block_Elements,TRUE,\u2581,XunicodeX
+U+2582,▂,Lower one quarter block,Table_Block_Elements,TRUE,\u2582,XunicodeX
+U+2583,▃,Lower three eighths block,Table_Block_Elements,TRUE,\u2583,XunicodeX
+U+2584,▄,Lower half block,Table_Block_Elements,TRUE,\u2584,XunicodeX
+U+2585,▅,Lower five eighths block,Table_Block_Elements,TRUE,\u2585,XunicodeX
+U+2586,▆,Lower three quarters block,Table_Block_Elements,TRUE,\u2586,XunicodeX
+U+2587,▇,Lower seven eighths block,Table_Block_Elements,TRUE,\u2587,XunicodeX
+U+2588,█,Full block,Table_Block_Elements,TRUE,\u2588,XunicodeX
+U+2589,▉,Left seven eighths block,Table_Block_Elements,TRUE,\u2589,XunicodeX
+U+258A,▊,Left three quarters block,Table_Block_Elements,TRUE,\u258A,XunicodeX
+U+258B,▋,Left five eighths block,Table_Block_Elements,TRUE,\u258B,XunicodeX
+U+258C,▌,Left half block,Table_Block_Elements,TRUE,\u258C,XunicodeX
+U+258D,▍,Left three eighths block,Table_Block_Elements,TRUE,\u258D,XunicodeX
+U+258E,▎,Left one quarter block,Table_Block_Elements,TRUE,\u258E,XunicodeX
+U+258F,▏,Left one eighth block,Table_Block_Elements,TRUE,\u258F,XunicodeX
+U+2590,▐,Right half block,Table_Block_Elements,TRUE,\u2590,XunicodeX
+U+2591,░,Light shade,Table_Block_Elements,TRUE,\u2591,XunicodeX
+U+2592,▒,Medium shade,Table_Block_Elements,TRUE,\u2592,XunicodeX
+U+2593,▓,Dark shade,Table_Block_Elements,TRUE,\u2593,XunicodeX
+U+2594,▔,Upper one eighth block,Table_Block_Elements,TRUE,\u2594,XunicodeX
+U+2595,▕,Right one eighth block,Table_Block_Elements,TRUE,\u2595,XunicodeX
+U+2596,▖,Quadrant lower left,Table_Block_Elements,TRUE,\u2596,XunicodeX
+U+2597,▗,Quadrant lower right,Table_Block_Elements,TRUE,\u2597,XunicodeX
+U+2598,▘,Quadrant upper left,Table_Block_Elements,TRUE,\u2598,XunicodeX
+U+2599,▙,Quadrant upper left and lower left and lower right,Table_Block_Elements,TRUE,\u2599,XunicodeX
+U+259A,▚,Quadrant upper left and lower right,Table_Block_Elements,TRUE,\u259A,XunicodeX
+U+259B,▛,Quadrant upper left and upper right and lower left,Table_Block_Elements,TRUE,\u259B,XunicodeX
+U+259C,▜,Quadrant upper left and upper right and lower right,Table_Block_Elements,TRUE,\u259C,XunicodeX
+U+259D,▝,Quadrant upper right,Table_Block_Elements,TRUE,\u259D,XunicodeX
+U+259E,▞,Quadrant upper right and lower left,Table_Block_Elements,TRUE,\u259E,XunicodeX
+U+259F,▟,Quadrant upper right and lower left and lower right,Table_Block_Elements,TRUE,\u259F,XunicodeX
+U+25A0,■,Black square,Table_Geometric_Shapes,TRUE,\u25A0,XunicodeX
+U+25A1,□,White square,Table_Geometric_Shapes,TRUE,\u25A1,XunicodeX
+U+25A2,▢,White square with rounded corners,Table_Geometric_Shapes,TRUE,\u25A2,XunicodeX
+U+25A3,▣,White square containing small black square,Table_Geometric_Shapes,TRUE,\u25A3,XunicodeX
+U+25A4,▤,Square with horizontal fill,Table_Geometric_Shapes,TRUE,\u25A4,XunicodeX
+U+25A5,▥,Square with vertical fill,Table_Geometric_Shapes,TRUE,\u25A5,XunicodeX
+U+25A6,▦,Square with orthogonal crosshatch fill,Table_Geometric_Shapes,TRUE,\u25A6,XunicodeX
+U+25A7,▧,Square with upper left to lower right fill,Table_Geometric_Shapes,TRUE,\u25A7,XunicodeX
+U+25A8,▨,Square with upper right to lower left fill,Table_Geometric_Shapes,TRUE,\u25A8,XunicodeX
+U+25A9,▩,Square with diagonal crosshatch fill,Table_Geometric_Shapes,TRUE,\u25A9,XunicodeX
+U+25AA,▪,Black small square,Table_Geometric_Shapes,TRUE,\u25AA,XunicodeX
+U+25AB,▫,White small square,Table_Geometric_Shapes,TRUE,\u25AB,XunicodeX
+U+25AC,▬,Black rectangle,Table_Geometric_Shapes,TRUE,\u25AC,XunicodeX
+U+25AD,▭,White rectangle,Table_Geometric_Shapes,TRUE,\u25AD,XunicodeX
+U+25AE,▮,Black vertical rectangle,Table_Geometric_Shapes,TRUE,\u25AE,XunicodeX
+U+25AF,▯,White vertical rectangle,Table_Geometric_Shapes,TRUE,\u25AF,XunicodeX
+U+25B0,▰,Black parallelogram,Table_Geometric_Shapes,TRUE,\u25B0,XunicodeX
+U+25B1,▱,White parallelogram,Table_Geometric_Shapes,TRUE,\u25B1,XunicodeX
+U+25B2,▲,Black up-pointing triangle,Table_Geometric_Shapes,TRUE,\u25B2,XunicodeX
+U+25B3,△,White up-pointing triangle,Table_Geometric_Shapes,TRUE,\u25B3,XunicodeX
+U+25B4,▴,Black up-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25B4,XunicodeX
+U+25B5,▵,White up-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25B5,XunicodeX
+U+25B6,▶,Black right-pointing triangle,Table_Geometric_Shapes,TRUE,\u25B6,XunicodeX
+U+25B7,▷,White right-pointing triangle,Table_Geometric_Shapes,TRUE,\u25B7,XunicodeX
+U+25B8,▸,Black right-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25B8,XunicodeX
+U+25B9,▹,White right-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25B9,XunicodeX
+U+25BA,►,Black right-pointing pointer,Table_Geometric_Shapes,TRUE,\u25BA,XunicodeX
+U+25BB,▻,White right-pointing pointer,Table_Geometric_Shapes,TRUE,\u25BB,XunicodeX
+U+25BC,▼,Black down-pointing triangle,Table_Geometric_Shapes,TRUE,\u25BC,XunicodeX
+U+25BD,▽,White down-pointing triangle,Table_Geometric_Shapes,TRUE,\u25BD,XunicodeX
+U+25BE,▾,Black down-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25BE,XunicodeX
+U+25BF,▿,White down-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25BF,XunicodeX
+U+25C0,◀,Black left-pointing triangle,Table_Geometric_Shapes,TRUE,\u25C0,XunicodeX
+U+25C1,◁,White left-pointing triangle,Table_Geometric_Shapes,TRUE,\u25C1,XunicodeX
+U+25C2,◂,Black left-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25C2,XunicodeX
+U+25C3,◃,White left-pointing small triangle,Table_Geometric_Shapes,TRUE,\u25C3,XunicodeX
+U+25C4,◄,Black left-pointing pointer,Table_Geometric_Shapes,TRUE,\u25C4,XunicodeX
+U+25C5,◅,White left-pointing pointer,Table_Geometric_Shapes,TRUE,\u25C5,XunicodeX
+U+25C6,◆,Black diamond,Table_Geometric_Shapes,TRUE,\u25C6,XunicodeX
+U+25C7,◇,White diamond,Table_Geometric_Shapes,TRUE,\u25C7,XunicodeX
+U+25C8,◈,White diamond containing small black diamond,Table_Geometric_Shapes,TRUE,\u25C8,XunicodeX
+U+25C9,◉,Fisheye,Table_Geometric_Shapes,TRUE,\u25C9,XunicodeX
+U+25CA,◊,Lozenge,Table_Geometric_Shapes,TRUE,\u25CA,XunicodeX
+U+25CB,○,White circle,Table_Geometric_Shapes,TRUE,\u25CB,XunicodeX
+U+25CC,◌,Dotted circle,Table_Geometric_Shapes,TRUE,\u25CC,XunicodeX
+U+25CD,◍,Circle with vertical fill,Table_Geometric_Shapes,TRUE,\u25CD,XunicodeX
+U+25CE,◎,Bullseye,Table_Geometric_Shapes,TRUE,\u25CE,XunicodeX
+U+25CF,●,Black circle,Table_Geometric_Shapes,TRUE,\u25CF,XunicodeX
+U+25D0,◐,Circle with left half black,Table_Geometric_Shapes,TRUE,\u25D0,XunicodeX
+U+25D1,◑,Circle with right half black,Table_Geometric_Shapes,TRUE,\u25D1,XunicodeX
+U+25D2,◒,Circle with lower half black,Table_Geometric_Shapes,TRUE,\u25D2,XunicodeX
+U+25D3,◓,Circle with upper half black,Table_Geometric_Shapes,TRUE,\u25D3,XunicodeX
+U+25D4,◔,Circle with upper right quadrant black,Table_Geometric_Shapes,TRUE,\u25D4,XunicodeX
+U+25D5,◕,Circle with all but upper left quadrant black,Table_Geometric_Shapes,TRUE,\u25D5,XunicodeX
+U+25D6,◖,Left half circle black,Table_Geometric_Shapes,TRUE,\u25D6,XunicodeX
+U+25D7,◗,Right half black circle,Table_Geometric_Shapes,TRUE,\u25D7,XunicodeX
+U+25D8,◘,Inverse bullet,Table_Geometric_Shapes,TRUE,\u25D8,XunicodeX
+U+25D9,◙,Inverse white circle,Table_Geometric_Shapes,TRUE,\u25D9,XunicodeX
+U+25DA,◚,Upper half inverse white circle,Table_Geometric_Shapes,TRUE,\u25DA,XunicodeX
+U+25DB,◛,Lower half inverse white circle,Table_Geometric_Shapes,TRUE,\u25DB,XunicodeX
+U+25DC,◜,Upper left quadrant circular arc,Table_Geometric_Shapes,TRUE,\u25DC,XunicodeX
+U+25DD,◝,Upper right quadrant circular arc,Table_Geometric_Shapes,TRUE,\u25DD,XunicodeX
+U+25DE,◞,Lower right quadrant circular arc,Table_Geometric_Shapes,TRUE,\u25DE,XunicodeX
+U+25DF,◟,Lower left quadrant circular arc,Table_Geometric_Shapes,TRUE,\u25DF,XunicodeX
+U+25E0,◠,Upper half circle,Table_Geometric_Shapes,TRUE,\u25E0,XunicodeX
+U+25E1,◡,Lower half circle,Table_Geometric_Shapes,TRUE,\u25E1,XunicodeX
+U+25E2,◢,Black lower right triangle,Table_Geometric_Shapes,TRUE,\u25E2,XunicodeX
+U+25E3,◣,Black lower left triangle,Table_Geometric_Shapes,TRUE,\u25E3,XunicodeX
+U+25E4,◤,Black upper left triangle,Table_Geometric_Shapes,TRUE,\u25E4,XunicodeX
+U+25E5,◥,Black upper right triangle,Table_Geometric_Shapes,TRUE,\u25E5,XunicodeX
+U+25E6,◦,White bullet,Table_Geometric_Shapes,TRUE,\u25E6,XunicodeX
+U+25E7,◧,Square with left half black,Table_Geometric_Shapes,TRUE,\u25E7,XunicodeX
+U+25E8,◨,Square with right half black,Table_Geometric_Shapes,TRUE,\u25E8,XunicodeX
+U+25E9,◩,Square with upper left diagonal half black,Table_Geometric_Shapes,TRUE,\u25E9,XunicodeX
+U+25EA,◪,Square with lower right diagonal half black,Table_Geometric_Shapes,TRUE,\u25EA,XunicodeX
+U+25EB,◫,White square with vertical bisecting line,Table_Geometric_Shapes,TRUE,\u25EB,XunicodeX
+U+25EC,◬,White up-pointing triangle with dot,Table_Geometric_Shapes,TRUE,\u25EC,XunicodeX
+U+25ED,◭,Up-pointing triangle with left half black,Table_Geometric_Shapes,TRUE,\u25ED,XunicodeX
+U+25EE,◮,Up-pointing triangle with right half black,Table_Geometric_Shapes,TRUE,\u25EE,XunicodeX
+U+25EF,◯,Large circle,Table_Geometric_Shapes,TRUE,\u25EF,XunicodeX
+U+25F0,◰,White square with upper left quadrant,Table_Geometric_Shapes,TRUE,\u25F0,XunicodeX
+U+25F1,◱,White square with lower left quadrant,Table_Geometric_Shapes,TRUE,\u25F1,XunicodeX
+U+25F2,◲,White square with lower right quadrant,Table_Geometric_Shapes,TRUE,\u25F2,XunicodeX
+U+25F3,◳,White square with upper right quadrant,Table_Geometric_Shapes,TRUE,\u25F3,XunicodeX
+U+25F4,◴,White circle with upper left quadrant,Table_Geometric_Shapes,TRUE,\u25F4,XunicodeX
+U+25F5,◵,White circle with lower left quadrant,Table_Geometric_Shapes,TRUE,\u25F5,XunicodeX
+U+25F6,◶,White circle with lower right quadrant,Table_Geometric_Shapes,TRUE,\u25F6,XunicodeX
+U+25F7,◷,White circle with upper right quadrant,Table_Geometric_Shapes,TRUE,\u25F7,XunicodeX
+U+25F8,◸,Upper left triangle,Table_Geometric_Shapes,TRUE,\u25F8,XunicodeX
+U+25F9,◹,Upper right triangle,Table_Geometric_Shapes,TRUE,\u25F9,XunicodeX
+U+25FA,◺,Lower-left triangle,Table_Geometric_Shapes,TRUE,\u25FA,XunicodeX
+U+25FB,◻,White medium square,Table_Geometric_Shapes,TRUE,\u25FB,XunicodeX
+U+25FC,◼,Black medium square,Table_Geometric_Shapes,TRUE,\u25FC,XunicodeX
+U+25FD,◽,White medium small square,Table_Geometric_Shapes,TRUE,\u25FD,XunicodeX
+U+25FE,◾,Black medium small square,Table_Geometric_Shapes,TRUE,\u25FE,XunicodeX
+U+25FF,◿,Lower right triangle,Table_Geometric_Shapes,TRUE,\u25FF,XunicodeX
