@@ -171,7 +171,12 @@ e_calc_bmi_categories <-
 #'
 #' @examples
 #' e_calc_phq2_categories(c(0, 2, 3, 5))
-#' dplyr::tibble(phq2 = seq(0, 6, by = 1), phq2_cat = phq2 %>% e_calc_phq2_categories())
+#'
+#' dplyr::tibble(
+#'   phq2 = seq(0, 6, by = 1)
+#' , phq2_cat = phq2 %>% e_calc_phq2_categories()
+#' ) %>%
+#' print(n = Inf)
 e_calc_phq2_categories <-
   function(
     phq2
@@ -235,7 +240,12 @@ e_calc_phq2_categories <-
 #'
 #' @examples
 #' e_calc_phq9_categories(c(0, 6, 12, 21))
-#' dplyr::tibble(phq9 = seq(0, 27, by = 1), phq9_cat = phq9 %>% e_calc_phq9_categories()) %>% print(n = Inf)
+#'
+#' dplyr::tibble(
+#'   phq9 = seq(0, 27, by = 1)
+#' , phq9_cat = phq9 %>% e_calc_phq9_categories()
+#' ) %>%
+#' print(n = Inf)
 e_calc_phq9_categories <-
   function(
     phq9
