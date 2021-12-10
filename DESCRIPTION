@@ -29,6 +29,7 @@ Imports:
     ROCR,
     car,
     cli,
+    cowplot,
     crayon,
     dplyr,
     ellipse,

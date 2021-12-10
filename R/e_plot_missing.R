@@ -9,6 +9,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom tidyr pivot_longer
+#' @importFrom cowplot plot_grid
 #' @export
 #'
 #' @examples
@@ -182,38 +183,81 @@ e_plot_missing <-
     , name  = name %>% factor(levels = c(names_col, "NO_MISSING"))
     )
 
+  dat_barplot_missing <-
+    dat2 %>%
+    dplyr::group_by(
+      name
+    ) %>%
+    dplyr::summarize(
+      prop_missing = sum(value == "Missing") / dplyr::n()
+    ) %>%
+    dplyr::ungroup()
+
   #### OLD
   ## dat2 <-
   ##   cbind(dat2, NO_MISSING) %>%
   ##   reshape2::melt()
 
+  # bar plot of missing
+  p1 <- ggplot2::ggplot(data = dat_barplot_missing, aes(x = name, y = prop_missing))
+  p1 <- p1 + ggplot2::theme_bw()
+  p1 <- p1 + ggplot2::theme(axis.title.x = element_blank(), axis.text.x = element_blank()) #, axis.ticks.x = element_blank())
+  p1 <- p1 + ggplot2::geom_col(fill = "gray60")
+  p1 <- p1 + ggplot2::geom_text(aes(label = paste0(100 * round(prop_missing, 2), "%"), y = 1), colour = "black", size = 4, nudge_y = -0.2, hjust = 0.5)
+  p1 <- p1 + ggplot2::labs(y = "Missing %")
+  p1 <- p1 + ggplot2::scale_y_continuous(labels = scales::label_percent(), breaks = seq(0, 1, by = 0.5), minor_breaks = seq(0, 1, by = 0.1), limits = c(0, 1))
+  p1 <- p1 + labs(
+               title = "Missing values"
+             )
   if (sw_group) {
-    p <- ggplot2::ggplot(data = dat2, aes(x = name, y = ID_MISSING___, fill = GROUP___, alpha = value))
-  } else {
-    p <- ggplot2::ggplot(data = dat2, aes(x = name, y = ID_MISSING___, alpha = value))
+    # p1 <- p1 + labs(
+    #           fill = var_group
+    #         )
+    text_subtitle <- paste0("Grouped by ", var_group)
+
+    if(sw_var2_sort) {
+      text_subtitle <- paste0(text_subtitle, ", sorted by ", var2_sort)
+    }
+
+    p1 <- p1 + labs(
+              subtitle = text_subtitle
+            )
   }
-  p <- p + ggplot2::geom_raster()  # , alpha = 0.6
-  #p <- p + ggplot2::geom_raster(aes(fill = value))  # , alpha = 0.6
-  #p <- p + ggplot2::scale_fill_grey(name = "", labels = c("Present", "Missing"))
-  p <- p + ggplot2::theme_minimal()
-  p <- p + ggplot2::theme(axis.text.x  = element_text(angle=90, vjust=0, hjust=0))
-  #p <- p + ggplot2::theme(axis.text.x  = element_text(angle=-90, vjust=0, hjust=0))
-  p <- p + ggplot2::labs(x = "Variables in Dataset", y = "Rows / observations")
+
+
+  # indicate missing for each value
+  if (sw_group) {
+    p2 <- ggplot2::ggplot(data = dat2, aes(x = name, y = ID_MISSING___, fill = GROUP___, alpha = value))
+  } else {
+    p2 <- ggplot2::ggplot(data = dat2, aes(x = name, y = ID_MISSING___, alpha = value))
+  }
+  p2 <- p2 + ggplot2::geom_raster()  # , alpha = 0.6
+  #p2 <- p2 + ggplot2::geom_raster(aes(fill = value))  # , alpha = 0.6
+  #p2 <- p2 + ggplot2::scale_fill_grey(name = "", labels = c("Present", "Missing"))
+  p2 <- p2 + ggplot2::theme_minimal()
+  #p2 <- p2 + ggplot2::theme_bw()
+  p2 <- p2 + ggplot2::theme(axis.title.x = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_line())
+  p2 <- p2 + ggplot2::theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust=0.0))
+  #p2 <- p2 + ggplot2::theme(axis.text.x  = element_text(angle=-90, vjust=0, hjust=0))
+  p2 <- p2 + ggplot2::labs(x = "Variables in Dataset", y = "Rows / observations")
   #ggplot2::scale_y_continuous(expand = c(0,0)) +
-  #p <- p + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
+  #p2 <- p2 + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
 
   if (n_missing == 0) {
-    p <- p + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
+    p2 <- p2 + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
   }
 
   breaks_seq_by = e_plot_calc_break_interval(values = 1:nrow(dat))
 
-  #p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, 10000, by=20)))
-  p <- p + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat), by = breaks_seq_by)))
+  #p2 <- p2 + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, 10000, by=20)))
+  p2 <- p2 + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat), by = breaks_seq_by)))
 
-  p <- p + labs(
-              title = "Missing values"
-            , alpha = "Value is"
+  p2 <- p2 + theme(legend.position = "bottom") # "none"
+  p2 <- p2 + theme(plot.caption = element_text(hjust = 0))
+
+  p2 <- p2 + labs(
+            #  title = "Missing values"
+              alpha = "Value is"
             , caption =
                 paste0(
                   "Missing values: "
@@ -233,24 +277,32 @@ e_plot_missing <-
                 , " %"
                 )
             )
-
   if (sw_group) {
-    p <- p + labs(
+    p2  <- p2  + labs(
               fill = var_group
             )
-    text_subtitle <- paste0("Grouped by ", var_group)
-
-    if(sw_var2_sort) {
-      text_subtitle <- paste0(text_subtitle, ", sorted by ", var2_sort)
-    }
-
-    p <- p + labs(
-              subtitle = text_subtitle
-            )
+    # text_subtitle <- paste0("Grouped by ", var_group)
+    #
+    # if(sw_var2_sort) {
+    #   text_subtitle <- paste0(text_subtitle, ", sorted by ", var2_sort)
+    # }
+    #
+    # p2  <- p2  + labs(
+    #           subtitle = text_subtitle
+    #         )
   }
 
-  #print(p)
+  p_arranged <-
+    cowplot::plot_grid(
+      p1
+    , p2
+    , ncol = 1
+    , rel_heights = c(0.2, 0.8)
+    , align = "v"
+    )
+
+  #print(p_arranged)
 
 
-  return(p)
+  return(p_arranged)
 } # e_plot_missing
