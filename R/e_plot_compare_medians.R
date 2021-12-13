@@ -60,6 +60,13 @@ e_plot_compare_medians <-
   #   var_name <- var_response
   # }
 
+  if (is.null(label_response)) {
+    label_response = var_response
+  }
+  if (is.null(label_groups)) {
+    label_groups = var_groups
+  }
+
   # select columns
   dat_plot <-
     dat_plot %>%
@@ -78,13 +85,6 @@ e_plot_compare_medians <-
     , !is.na(response)
     , !is.na(groups)
     )
-
-  if (is.null(label_response)) {
-    label_response = var_response
-  }
-  if (is.null(label_groups)) {
-    label_groups = var_groups
-  }
 
   # Perform pairwise comparisons
   result_compare_means <-
