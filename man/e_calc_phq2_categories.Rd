@@ -37,5 +37,10 @@ Interpretation:
 }
 \examples{
 e_calc_phq2_categories(c(0, 2, 3, 5))
-dplyr::tibble(phq2 = seq(0, 6, by = 1), phq2_cat = phq2 \%>\% e_calc_phq2_categories())
+
+dplyr::tibble(
+  phq2 = seq(0, 6, by = 1)
+, phq2_cat = phq2 \%>\% e_calc_phq2_categories()
+) \%>\%
+print(n = Inf)
 }
