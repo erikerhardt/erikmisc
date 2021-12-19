@@ -23,7 +23,9 @@
 #' @param sw_marginal_even_if_interaction T/F whether to also calculate marginal results when involved in interaction(s)
 #' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.
 #' @param sw_TWI_both_orientation   "tall" or "wide" orientation for when both two-way interaction plots are combined in a grid
-#' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots
+#' @param sw_plot_quantiles_values  "quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values
+#' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots, if \code{sw_plot_quantiles_values} is "quantiles"
+#' @param plot_values               a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}
 #'
 #' @return out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
 #' @import dplyr
@@ -86,6 +88,7 @@
 #' stats::anova(fit)
 #' summary(fit)
 #'
+#' # all contrasts from model
 #' fit_contrasts <-
 #'   e_plot_model_contrasts(
 #'     fit                = fit
@@ -97,6 +100,28 @@
 #' fit_contrasts$tables  # to print tables
 #' fit_contrasts$plots   # to print plots
 #' fit_contrasts$text    # to print caption text
+#'
+#'
+#'
+#' # one specific numeric:numeric contrast with specified values
+#' fit_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                     = fit
+#'   , dat_cont                = dat_cont
+#'   , choose_contrasts        = "disp:hp"
+#'   , sw_table_in_plot        = TRUE
+#'   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+#'   , CI_level                = 0.95
+#'   , sw_print                = FALSE
+#'   , sw_marginal_even_if_interaction = TRUE
+#'   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
+#'   , sw_TWI_both_orientation = c("tall", "wide")[1]
+#'   , sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
+#'   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+#'   , plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
+#'   )
+#' fit_contrasts$plots$`disp:hp`$both
+#'
 e_plot_model_contrasts <-
   function(
     fit                     = NULL
@@ -109,7 +134,9 @@ e_plot_model_contrasts <-
   , sw_marginal_even_if_interaction = FALSE
   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
   , sw_TWI_both_orientation = c("wide", "tall")[1]
-  , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
+  , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
+  , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+  , plot_values             = NULL                            # for numeric:numeric plots
   ) {
   ###### START Example dataset for testing
   ##
@@ -123,7 +150,9 @@ e_plot_model_contrasts <-
   ## sw_marginal_even_if_interaction = TRUE
   ## sw_TWI_plots_keep       = c("singles", "both", "all")[3]
   ## sw_TWI_both_orientation = c("tall", "wide")[1]
+  ## sw_plot_quantiles_values = c("quantiles", "values")[1] # for numeric:numeric plots
   ## plot_quantiles = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
+  ## plot_values             = c(-1, 0, 1)             # for numeric:numeric plots
   ##
   ## # Data for testing
   ## dat_cont <-
@@ -223,7 +252,24 @@ e_plot_model_contrasts <-
   ## , sw_marginal_even_if_interaction = TRUE
   ## , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
   ## , sw_TWI_both_orientation = c("tall", "wide")[1]
-  ## , plot_quantiles = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
+  ## , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95)  # for numeric:numeric plots
+  ## )
+  ##
+  ##
+  ## e_plot_model_contrasts(
+  ##   fit                     = fit
+  ## , dat_cont                = dat_cont
+  ## , choose_contrasts        = "disp:hp"
+  ## , sw_table_in_plot        = TRUE
+  ## , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+  ## , CI_level                = 0.95
+  ## , sw_print                = TRUE
+  ## , sw_marginal_even_if_interaction = TRUE
+  ## , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
+  ## , sw_TWI_both_orientation = c("tall", "wide")[1]
+  ## , sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
+  ## , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+  ## , plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
   ## )
   ##
   ##
@@ -1120,12 +1166,24 @@ e_plot_model_contrasts <-
 
           form_var_num_num <- stats::as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
 
-          # values of numeric variables for plotting
-          at_list <- list()
-          at_list[[ var_xs[1] ]] <-
-            dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
-          at_list[[ var_xs[2] ]] <-
-            dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
+          # this is the common every-variable situation
+          if (sw_plot_quantiles_values == "quantiles" | is.null(plot_values)) {
+            # values of numeric variables for plotting
+            at_list <- list()
+            at_list[[ var_xs[1] ]] <-
+              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
+            at_list[[ var_xs[2] ]] <-
+              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
+          }
+          # this is for a specific numeric:numeric interaction
+          if (sw_plot_quantiles_values == "values") {
+            # values of numeric variables for plotting
+            at_list <- list()
+            at_list[[ var_xs[1] ]] <-
+              plot_values[[ var_xs[1] ]]
+            at_list[[ var_xs[2] ]] <-
+              plot_values[[ var_xs[2] ]]
+          }
 
           fit_emm_at <-
             emmeans::ref_grid(

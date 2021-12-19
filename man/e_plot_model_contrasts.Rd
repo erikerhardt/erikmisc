@@ -16,7 +16,9 @@ e_plot_model_contrasts(
   sw_marginal_even_if_interaction = FALSE,
   sw_TWI_plots_keep = c("singles", "both", "all")[3],
   sw_TWI_both_orientation = c("wide", "tall")[1],
-  plot_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95)
+  sw_plot_quantiles_values = c("quantiles", "values")[1],
+  plot_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+  plot_values = NULL
 )
 }
 \arguments{
@@ -40,7 +42,11 @@ e_plot_model_contrasts(
 
 \item{sw_TWI_both_orientation}{"tall" or "wide" orientation for when both two-way interaction plots are combined in a grid}
 
-\item{plot_quantiles}{quantiles plotted for numeric:numeric interaction plots}
+\item{sw_plot_quantiles_values}{"quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values}
+
+\item{plot_quantiles}{quantiles plotted for numeric:numeric interaction plots, if \code{sw_plot_quantiles_values} is "quantiles"}
+
+\item{plot_values}{a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}}
 }
 \value{
 out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
@@ -119,4 +125,25 @@ fit_contrasts <-
 fit_contrasts$tables  # to print tables
 fit_contrasts$plots   # to print plots
 fit_contrasts$text    # to print caption text
+
+
+
+# one specific numeric:numeric contrast with specified values
+e_plot_model_contrasts(
+  fit                     = fit
+, dat_cont                = dat_cont
+, choose_contrasts        = "disp:hp"
+, sw_table_in_plot        = TRUE
+, adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+, CI_level                = 0.95
+, sw_print                = TRUE
+, sw_marginal_even_if_interaction = TRUE
+, sw_TWI_plots_keep       = c("singles", "both", "all")[3]
+, sw_TWI_both_orientation = c("tall", "wide")[2]
+, sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
+, plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+, plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
+)
+
+
 }
