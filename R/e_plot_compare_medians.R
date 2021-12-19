@@ -13,6 +13,8 @@
 #' @param cm_dot              Compare method: red center estimate "mean", "median"
 #' @param cm_fun              Compare method: red error bar range "mean", "mean_se", "mean_sd", "mean_ci", "mean_range", "median", "median_iqr", "median_hilow", "median_q1q3", "median_mad", "median_range"
 #' @param cm_error.plot       Compare method: red error bar style "pointrange", "linerange", "crossbar", "errorbar", "upper_errorbar", "lower_errorbar", "upper_pointrange", "lower_pointrange", "upper_linerange", "lower_linerange"
+#' @param sw_add              Add a second plot to the violin plot: "none", "dotplot", "jitter", "boxplot", "point"
+#' @param sw_caption_desc     T/F for caption describing red summary center and spread
 #' @param symnum.args         List of cutpoints and symbols for significance
 #'
 #' @return p_pub              \code{p_pub$result_compare_means} has pairwise comparison table.  \code{p_pub} is a ggplot plot grob.
@@ -22,6 +24,7 @@
 #' @export
 #'
 #' @examples
+#' # medians
 #' e_plot_compare_medians(
 #'     dat_plot            = dat_mtcars_e
 #'   , var_response        = "mpg"
@@ -36,6 +39,27 @@
 #'   , cm_dot              = "median"
 #'   , cm_fun              = "median_iqr"
 #'   , cm_error.plot       = "errorbar"
+#'   , sw_add              = "dotplot"
+#'   , sw_caption_desc     = TRUE
+#'   )
+#'
+#' # means
+#' e_plot_compare_medians(
+#'     dat_plot            = dat_mtcars_e
+#'   , var_response        = "mpg"
+#'   , var_groups          = "cyl"
+#'   , label_response      = labelled::var_label(dat_mtcars_e$mpg)
+#'   , label_groups        = labelled::var_label(dat_mtcars_e$cyl)
+#'   , plot_title          = "MPG by cylinders"
+#'   , plot_subtitle       = "Comparison of meeans"
+#'   , comparisons         = "all"
+#'   , cm_method           = "t.test"
+#'   , cm_p.adjust.method  = "holm"
+#'   , cm_dot              = "mean"
+#'   , cm_fun              = "mean_ci"
+#'   , cm_error.plot       = "errorbar"
+#'   , sw_add              = "boxplot"
+#'   , sw_caption_desc     = FALSE
 #'   )
 #'
 e_plot_compare_medians <-
@@ -53,12 +77,10 @@ e_plot_compare_medians <-
   , cm_dot              = c("mean", "median")[2]
   , cm_fun              = c("mean", "mean_se", "mean_sd", "mean_ci", "mean_range", "median", "median_iqr", "median_hilow", "median_q1q3", "median_mad", "median_range")[7]
   , cm_error.plot       = c("pointrange", "linerange", "crossbar", "errorbar", "upper_errorbar", "lower_errorbar", "upper_pointrange", "lower_pointrange", "upper_linerange", "lower_linerange")[4]
+  , sw_add              = c("none", "dotplot", "jitter", "boxplot", "point")[2]
+  , sw_caption_desc     = c(TRUE, FALSE)[1]
   , symnum.args         = list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 0.10, 1), symbols = c("****", "***", "**", "*", "-", "ns"))
   ) {
-
-  # if(is.null(var_name)) {
-  #   var_name <- var_response
-  # }
 
   if (is.null(label_response)) {
     label_response = var_response
@@ -146,10 +168,11 @@ e_plot_compare_medians <-
                 , x           = "groups"
                 , y           = "response"
                 #, notch      = TRUE
-                , width       = 0.2
+                , size        = 0.8
+                , width       = 1
                 , color       = "gray80"
                 , fill        = "gray90"
-                , add         = c("dotplot")
+                , add         = sw_add
                 , add.params  = list(color = "black")
                 , ggtheme     = ggplot2::theme_bw()
                 )
@@ -162,19 +185,30 @@ e_plot_compare_medians <-
                     , symnum.args = symnum.args
                     , hide.ns     = TRUE             # hide "ns" for non-sig comparisons
                     )
+
+  # Add global p-value
+  if (cm_method == "t.test") {
+    cm_method_omnibus = "anova"
+  } else {
+    cm_method_omnibus = "kruskal.test"
+  }
   p_pub <- p_pub + ggpubr::stat_compare_means(
-                      label.y = min(dat_plot$response, na.rm = TRUE)    # - 0.1 * diff(range(dat_plot$response, na.rm = TRUE))
+                      method  = cm_method_omnibus
+                    , label.y = min(dat_plot$response, na.rm = TRUE)    # - 0.1 * diff(range(dat_plot$response, na.rm = TRUE))
                     , label.x = min(as.numeric(dat_plot$groups))        # + diff(range(unique(as.numeric(dat_plot$groups)))) * 0.2
-                    , vjust = 2
-                    , hjust = +0.1
-                    , size = 4  # text size in plot
-                    )     # Add global p-value
+                    , vjust   = 2
+                    , hjust   = +0.1
+                    , size    = 4  # text size in plot
+                    )
 
-
-  text_caption <-
-    paste0(
-      "Red is ", cm_dot, ", ", cm_fun, " ", cm_error.plot
-    )
+  if (sw_caption_desc) {
+    text_caption <-
+      paste0(
+        "Red is ", cm_dot, ", ", cm_fun, " ", cm_error.plot
+      )
+  } else {
+    text_caption <- NULL
+  }
 
   p_pub <- ggpubr::ggpar(
                   p_pub

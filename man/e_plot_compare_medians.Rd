@@ -22,6 +22,8 @@ e_plot_compare_medians(
   cm_error.plot = c("pointrange", "linerange", "crossbar", "errorbar",
     "upper_errorbar", "lower_errorbar", "upper_pointrange", "lower_pointrange",
     "upper_linerange", "lower_linerange")[4],
+  sw_add = c("none", "dotplot", "jitter", "boxplot", "point")[2],
+  sw_caption_desc = c(TRUE, FALSE)[1],
   symnum.args = list(cutpoints = c(0, 1e-04, 0.001, 0.01, 0.05, 0.1, 1), symbols =
     c("****", "***", "**", "*", "-", "ns"))
 )
@@ -53,6 +55,10 @@ e_plot_compare_medians(
 
 \item{cm_error.plot}{Compare method: red error bar style "pointrange", "linerange", "crossbar", "errorbar", "upper_errorbar", "lower_errorbar", "upper_pointrange", "lower_pointrange", "upper_linerange", "lower_linerange"}
 
+\item{sw_add}{Add a second plot to the violin plot: "none", "dotplot", "jitter", "boxplot", "point"}
+
+\item{sw_caption_desc}{T/F for caption describing red summary center and spread}
+
 \item{symnum.args}{List of cutpoints and symbols for significance}
 }
 \value{
@@ -62,6 +68,7 @@ p_pub              \code{p_pub$result_compare_means} has pairwise comparison tab
 ANOVA-style dot-plot comparing means
 }
 \examples{
+# medians
 e_plot_compare_medians(
     dat_plot            = dat_mtcars_e
   , var_response        = "mpg"
@@ -76,6 +83,27 @@ e_plot_compare_medians(
   , cm_dot              = "median"
   , cm_fun              = "median_iqr"
   , cm_error.plot       = "errorbar"
+  , sw_add              = "dotplot"
+  , sw_caption_desc     = TRUE
+  )
+
+# means
+e_plot_compare_medians(
+    dat_plot            = dat_mtcars_e
+  , var_response        = "mpg"
+  , var_groups          = "cyl"
+  , label_response      = labelled::var_label(dat_mtcars_e$mpg)
+  , label_groups        = labelled::var_label(dat_mtcars_e$cyl)
+  , plot_title          = "MPG by cylinders"
+  , plot_subtitle       = "Comparison of meeans"
+  , comparisons         = "all"
+  , cm_method           = "t.test"
+  , cm_p.adjust.method  = "holm"
+  , cm_dot              = "mean"
+  , cm_fun              = "mean_ci"
+  , cm_error.plot       = "errorbar"
+  , sw_add              = "boxplot"
+  , sw_caption_desc     = FALSE
   )
 
 }
