@@ -18,6 +18,7 @@ e_plot_model_contrasts(
   sw_TWI_both_orientation = c("wide", "tall")[1],
   sw_plot_quantiles_values = c("quantiles", "values")[1],
   plot_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+  sw_quantile_type = 7,
   plot_values = NULL
 )
 }
@@ -45,6 +46,8 @@ e_plot_model_contrasts(
 \item{sw_plot_quantiles_values}{"quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values}
 
 \item{plot_quantiles}{quantiles plotted for numeric:numeric interaction plots, if \code{sw_plot_quantiles_values} is "quantiles"}
+
+\item{sw_quantile_type}{quantile type as specified in \code{?stats::quantile}.}
 
 \item{plot_values}{a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}}
 }
@@ -122,6 +125,7 @@ fit_contrasts <-
   , sw_print           = FALSE
   , sw_table_in_plot   = FALSE
   , sw_TWI_plots_keep  = "both"
+  , sw_quantile_type   = 1
   )
 fit_contrasts$tables  # to print tables
 fit_contrasts$plots   # to print plots
@@ -144,6 +148,7 @@ fit_contrasts <-
   , sw_TWI_both_orientation = c("tall", "wide")[1]
   , sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+  , sw_quantile_type        = 1
   , plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
   )
 fit_contrasts$plots$`disp:hp`$both

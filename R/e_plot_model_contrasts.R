@@ -25,6 +25,7 @@
 #' @param sw_TWI_both_orientation   "tall" or "wide" orientation for when both two-way interaction plots are combined in a grid
 #' @param sw_plot_quantiles_values  "quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values
 #' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots, if \code{sw_plot_quantiles_values} is "quantiles"
+#' @param sw_quantile_type          quantile type as specified in \code{?stats::quantile}.
 #' @param plot_values               a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}
 #'
 #' @return out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
@@ -96,6 +97,7 @@
 #'   , sw_print           = FALSE
 #'   , sw_table_in_plot   = FALSE
 #'   , sw_TWI_plots_keep  = "both"
+#'   , sw_quantile_type   = 1
 #'   )
 #' fit_contrasts$tables  # to print tables
 #' fit_contrasts$plots   # to print plots
@@ -118,6 +120,7 @@
 #'   , sw_TWI_both_orientation = c("tall", "wide")[1]
 #'   , sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
 #'   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+#'   , sw_quantile_type        = 1
 #'   , plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
 #'   )
 #' fit_contrasts$plots$`disp:hp`$both
@@ -136,6 +139,7 @@ e_plot_model_contrasts <-
   , sw_TWI_both_orientation = c("wide", "tall")[1]
   , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+  , sw_quantile_type        = 7
   , plot_values             = NULL                            # for numeric:numeric plots
   ) {
   ###### START Example dataset for testing
@@ -950,7 +954,7 @@ e_plot_model_contrasts <-
 
         ## Plot
         # CI text
-            # is.null is for when no values coulbe be estimated
+            # is.null is for when no values could be be estimated
         if(!is.null(summary(cont_fit$emtrends)[["lower.CL"]])) {
           text_cont <- summary(cont_fit$emtrends)[[ var_xs[1] ]]
           text_est  <- summary(cont_fit$emtrends)[[2]]
@@ -1036,19 +1040,20 @@ e_plot_model_contrasts <-
 
         form_var_fac_num <- stats::as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
 
-        text_long <-
-          paste0(
-            text_averaged
-          )
-        text_short <-
-          paste0(
-            text_averaged
-          )
-        if (sw_table_in_plot) {
-          text_caption <- text_long
-        } else {
-          text_caption <- text_short
-        }
+        # 12/20/2021 removed because it was removing the table in plot
+        # text_long <-
+        #   paste0(
+        #     text_averaged
+        #   )
+        # text_short <-
+        #   paste0(
+        #     text_averaged
+        #   )
+        # if (sw_table_in_plot) {
+        #   text_caption <- text_long
+        # } else {
+        #   text_caption <- text_short
+        # }
 
 
         p2 <- emmeans::emmip(
@@ -1171,9 +1176,9 @@ e_plot_model_contrasts <-
             # values of numeric variables for plotting
             at_list <- list()
             at_list[[ var_xs[1] ]] <-
-              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
+              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
             at_list[[ var_xs[2] ]] <-
-              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles) %>% unique()
+              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
           }
           # this is for a specific numeric:numeric interaction
           if (sw_plot_quantiles_values == "values") {
@@ -1208,18 +1213,37 @@ e_plot_model_contrasts <-
           text_averaged_plot <-
             attributes(p$data)$mesg
 
-          text_long <-
-            paste0(
-              paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
-            , "\n"
-            , text_averaged_plot
-            )
-          text_short <-
-            paste0(
-              paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
-            , "\n"
-            , text_averaged_plot
-            )
+          # this is the common every-variable situation
+          if (sw_plot_quantiles_values == "quantiles" | is.null(plot_values)) {
+            text_long <-
+              paste0(
+                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
+              , "\n"
+              , text_averaged_plot
+              )
+            text_short <-
+              paste0(
+                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
+              , "\n"
+              , text_averaged_plot
+              )
+          }
+          # this is for a specific numeric:numeric interaction
+          if (sw_plot_quantiles_values == "values") {
+            text_long <-
+              paste0(
+                paste0("Specified values plotted.")
+              , "\n"
+              , text_averaged_plot
+              )
+            text_short <-
+              paste0(
+                paste0("Specified values plotted.")
+              , "\n"
+              , text_averaged_plot
+              )
+          }
+
           if (sw_table_in_plot) {
             text_caption <- text_long
           } else {
