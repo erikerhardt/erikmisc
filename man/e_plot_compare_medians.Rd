@@ -65,7 +65,7 @@ e_plot_compare_medians(
 p_pub              \code{p_pub$result_compare_means} has pairwise comparison table.  \code{p_pub} is a ggplot plot grob.
 }
 \description{
-ANOVA-style dot-plot comparing means
+Some functions won't work without running \code{library(ggpubr)}.
 }
 \examples{
 # medians

@@ -1,5 +1,7 @@
 #' ANOVA-style dot-plot comparing means
 #'
+#' Some functions won't work without running \code{library(ggpubr)}.
+#'
 #' @param dat_plot            Data.frame
 #' @param var_response        Variable name of response (y) (as string, "var_name")
 #' @param var_groups          Variable name of groups (x) (as string, "var_name")
@@ -177,9 +179,9 @@ e_plot_compare_medians <-
                 , ggtheme     = ggplot2::theme_bw()
                 )
   p_pub <- p_pub + ggplot2::geom_hline(yintercept = mean(dat_plot$response, na.rm = TRUE), linetype = 2, color = "gray50")
-  p_pub <- ggpubr::add_summary(p_pub, cm_dot, size = 1, color = "red", shape = 3)
+  p_pub <- ggpubr::add_summary(p_pub, cm_dot, size = 0.25, color = "red", shape = 3)
   #p_pub <- ggpubr::add_summary(p_pub, "mean_ci")
-  p_pub <- ggpubr::add_summary(p_pub, cm_fun, size = 0.75, width = 0.25, color = "red", error.plot = cm_error.plot)
+  p_pub <- ggpubr::add_summary(p_pub, cm_fun, size = 0.75, width = 0.15, color = "red", error.plot = cm_error.plot)
   p_pub <- p_pub + ggpubr::stat_compare_means(
                       comparisons = my_comparisons   #, label = "p.signif") # Add pairwise comparisons p-value
                     , symnum.args = symnum.args
@@ -197,8 +199,8 @@ e_plot_compare_medians <-
                     , label.y = min(dat_plot$response, na.rm = TRUE)    # - 0.1 * diff(range(dat_plot$response, na.rm = TRUE))
                     , label.x = min(as.numeric(dat_plot$groups))        # + diff(range(unique(as.numeric(dat_plot$groups)))) * 0.2
                     , vjust   = 2
-                    , hjust   = +0.1
-                    , size    = 4  # text size in plot
+                    , hjust   = +0.2
+                    , size    = 3  # text size in plot
                     )
 
   if (sw_caption_desc) {
