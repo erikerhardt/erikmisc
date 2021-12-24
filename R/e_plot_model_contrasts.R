@@ -382,7 +382,7 @@ e_plot_model_contrasts <-
       }
 
       # if numeric
-      if ( class(dat_cont[[var_xs]]) == "numeric" ) {
+      if ( class(dat_cont[[var_xs]]) %in% c("numeric", "integer") ) {
 
         ## Table
         cont_fit <-
@@ -930,7 +930,7 @@ e_plot_model_contrasts <-
 
       ### if factor:numeric
       if (any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) == "factor" ) &
-          any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) == "numeric")
+          any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) %in% c("numeric", "integer"))
         ) {
 
         # make first variable the factor and second numeric
@@ -1158,7 +1158,7 @@ e_plot_model_contrasts <-
 
 
       ### if numeric:numeric
-      if (all(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) == "numeric")) {
+      if (all(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) %in% c("numeric", "integer"))) {
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {
