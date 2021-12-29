@@ -53,7 +53,7 @@
 #'   , label_response      = labelled::var_label(dat_mtcars_e$mpg)
 #'   , label_groups        = labelled::var_label(dat_mtcars_e$cyl)
 #'   , plot_title          = "MPG by cylinders"
-#'   , plot_subtitle       = "Comparison of meeans"
+#'   , plot_subtitle       = "Comparison of means"
 #'   , comparisons         = "all"
 #'   , cm_method           = "t.test"
 #'   , cm_p.adjust.method  = "holm"
