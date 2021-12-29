@@ -503,6 +503,7 @@ e_plot_model_contrasts <-
           , adjust  = adjust_method
           , level   = CI_level
           )
+
         cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
 
         if(sw_print) {
@@ -513,13 +514,24 @@ e_plot_model_contrasts <-
         out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
         out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- cont_pairs
 
+        col_name_LCL <- "lower.CL"
+        col_name_UCL <- "upper.CL"
+
+        # ## lmer fit issue can cause a cont_fit to not provide an estimate
+        # #     fit warnings:
+        # #     fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+        # # if the estimate is NA, then the column headers differ, too.
+        if (!(col_name_LCL %in% names(summary(cont_fit)))) {
+          col_name_LCL <- "asymp.LCL"
+          col_name_UCL <- "asymp.UCL"
+        }
 
         ## Plot
         # CI text
         text_cont <- summary(cont_fit)[[var_xs]]
         text_est  <- summary(cont_fit)[["emmean"]]
-        text_LCL  <- summary(cont_fit)[["lower.CL"]]
-        text_UCL  <- summary(cont_fit)[["upper.CL"]]
+        text_LCL  <- summary(cont_fit)[[col_name_LCL]]
+        text_UCL  <- summary(cont_fit)[[col_name_UCL]]
         text_CI  <-
           paste0(
             "Estimate: "
