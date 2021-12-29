@@ -199,6 +199,11 @@ e_table1_summaries <-
   for (i_var in seq_along(list_var_row_table)) {
     if(!is.null(list_var_col_table)) {
 
+      # skip if no table created
+      if(is.null(tab1_list[[i_var]])) {
+        next
+      }
+
       # Label small p-values
       if (tab1_list[[i_var]]$res$p[1] == "0.000") {
         tab1_list[[i_var]]$res$p[1] <- "< 0.0005"
@@ -223,6 +228,12 @@ e_table1_summaries <-
     if (sw_verbose) {
       print(fn_in)
     }
+
+    # skip if no table created
+    if(is.null(tab1_list[[i_var]])) {
+      next
+    }
+
     temp_in <- readLines(fn_in)
     if (i_var > 1) {
       temp_in <- temp_in[-(1:2)]
