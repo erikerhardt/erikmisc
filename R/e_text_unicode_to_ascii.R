@@ -7,6 +7,7 @@
 #' @param fn_in                       text filename in.
 #' @param fn_out                      text filename out.  If NULL, then this is assigned \code{fn_in}.
 #' @param unicode_generic_replacement a string to replace non-matched unicode characters
+#' @param sw_print_line_text          \code{FALSE} to print only the line number, \code{TRUE} to print the line number and text on the line
 #'
 #' @return NULL, invisibly
 #' @import dplyr
@@ -17,9 +18,10 @@
 #' @examples
 #' \dontrun{
 #' # e_text_unicode_to_ascii(
-#' #     fn_in  = "./data-raw/text_in_unicode.csv"
-#' #   , fn_out = "./data-raw/text_out_unicode.csv"
+#' #     fn_in  = "./data-raw/unicode/text_in_unicode.csv"
+#' #   , fn_out = "./data-raw/unicode/text_out_unicode.csv"
 #' #   , unicode_generic_replacement = "XxXunicodeXxX"
+#' #   , sw_print_line_text          = FALSE
 #' #   )
 #' }
 e_text_unicode_to_ascii <-
@@ -27,6 +29,7 @@ e_text_unicode_to_ascii <-
     fn_in  = NULL
   , fn_out = NULL
   , unicode_generic_replacement = "XunicodeX"
+  , sw_print_line_text          = FALSE
   ) {
 
   if(is.null(fn_in)) {
@@ -58,8 +61,15 @@ e_text_unicode_to_ascii <-
     message("No unicode detected, not returning output file.")
     invisible(NULL)
   } else {
-    message("Unicode detected on ", length(ind_unicode), " lines of the Input text file; row numbers:")
-    print(ind_unicode)
+    message("Unicode detected on ", length(ind_unicode), " lines of the Input text file.")
+    if(sw_print_line_text) {
+      message("Line numbers and line text:")
+      print(paste0("L", ind_unicode, ":  ", text_out[ind_unicode]))
+
+    } else {
+      message("Line numbers:")
+      print(ind_unicode)
+    }
   }
 
   # set unicode_generic_replacement in unicode table
@@ -99,6 +109,7 @@ e_text_unicode_to_ascii <-
     invisible(NULL)
   } else {
     message("Unicode remains on ", length(ind_unicode), " lines of the Output text file.  Replacing with generic \"", unicode_generic_replacement, "\" string.")
+    message("Line numbers:")
     print(ind_unicode)
   }
 

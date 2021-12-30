@@ -7,7 +7,8 @@
 e_text_unicode_to_ascii(
   fn_in = NULL,
   fn_out = NULL,
-  unicode_generic_replacement = "XunicodeX"
+  unicode_generic_replacement = "XunicodeX",
+  sw_print_line_text = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ e_text_unicode_to_ascii(
 \item{fn_out}{text filename out.  If NULL, then this is assigned \code{fn_in}.}
 
 \item{unicode_generic_replacement}{a string to replace non-matched unicode characters}
+
+\item{sw_print_line_text}{\code{FALSE} to print only the line number, \code{TRUE} to print the line number and text on the line}
 }
 \value{
 NULL, invisibly
@@ -28,9 +31,10 @@ Not all unicode has a natural ASCII replacement, so those replacements can be sp
 \examples{
 \dontrun{
 # e_text_unicode_to_ascii(
-#     fn_in  = "./data-raw/text_in_unicode.csv"
-#   , fn_out = "./data-raw/text_out_unicode.csv"
+#     fn_in  = "./data-raw/unicode/text_in_unicode.csv"
+#   , fn_out = "./data-raw/unicode/text_out_unicode.csv"
 #   , unicode_generic_replacement = "XxXunicodeXxX"
+#   , sw_print_line_text          = FALSE
 #   )
 }
 }
