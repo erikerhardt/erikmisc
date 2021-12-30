@@ -1,6 +1,6 @@
 #' Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.
 #'
-#' @param dat           data.frame or tibble
+#' @param dat_plot      data.frame or tibble
 #' @param var_group     variable name to group by (colors data)
 #' @param sw_group_sort TRUE/FALSE to sort by grouped variable
 #' @param var2_sort     second variable name to sort by if data is grouped
@@ -13,35 +13,35 @@
 #' @export
 #'
 #' @examples
-#' dat = datasets::mtcars
+#' dat_plot = datasets::mtcars
 #' prop_missing = 0.10
-#' n_missing = sample.int(n = prod(dim(dat)), size = round( prop_missing * prod(dim(dat))))
-#' ind_missing = expand.grid(1:dim(dat)[1], 1:dim(dat)[2])[n_missing, ]
+#' n_missing = sample.int(n = prod(dim(dat_plot)), size = round( prop_missing * prod(dim(dat_plot))))
+#' ind_missing = expand.grid(1:dim(dat_plot)[1], 1:dim(dat_plot)[2])[n_missing, ]
 #' for (i_row in seq_along(n_missing)) {
-#'   dat[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
+#'   dat_plot[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
 #' }
 #'
 #' e_plot_missing(
-#'     dat            = dat
+#'     dat_plot            = dat_plot
 #'   , var_group      = "cyl"
 #'   , sw_group_sort  = TRUE
 #'   , var2_sort      = "disp"
 #'   )
 e_plot_missing <-
   function(
-    dat
+    dat_plot
   , var_group     = NULL
   , sw_group_sort = FALSE
   , var2_sort     = NULL
   ) {
   ## DEBUG
   ## 6/17/2021
-  # #dat = datasets::mtcars %>% as_tibble(rownames = "Model")
-  # dat = datasets::mtcars
-  # n_missing = sample.int(n = prod(dim(dat)), size = round( 0.10 * prod(dim(dat))))
-  # ind_missing = expand.grid(1:dim(dat)[1], 1:dim(dat)[2])[n_missing, ]
+  # #dat_plot = datasets::mtcars %>% as_tibble(rownames = "Model")
+  # dat_plot = datasets::mtcars
+  # n_missing = sample.int(n = prod(dim(dat_plot)), size = round( 0.10 * prod(dim(dat_plot))))
+  # ind_missing = expand.grid(1:dim(dat_plot)[1], 1:dim(dat_plot)[2])[n_missing, ]
   # for (i_row in seq_along(n_missing)) {
-  #   dat[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
+  #   dat_plot[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
   # }
   # var_group = "cyl"
   # #var_group = "cylx"
@@ -49,11 +49,11 @@ e_plot_missing <-
   # var2_sort = "hp"
 
   # If there are rownames, then create a separate variable
-  if (any(is.na(as.numeric(rownames(dat))))) {
+  if (any(is.na(as.numeric(rownames(dat_plot))))) {
     # if there are any non-numeric rownames, then process this
     sw_rowname_column <- TRUE
   } else {
-    if (all(as.numeric(rownames(dat)) == 1:nrow(dat))) {
+    if (all(as.numeric(rownames(dat_plot)) == 1:nrow(dat_plot))) {
       # if all number in order, then they don't have rownames
       sw_rowname_column <- FALSE
     } else {
@@ -62,16 +62,16 @@ e_plot_missing <-
     }
   }
   if (sw_rowname_column) {
-    dat <-
-      dat %>%
+    dat_plot <-
+      dat_plot %>%
       as_tibble(rownames = "ROWNAME")
   }
 
-  names_col <- colnames(dat)
+  names_col <- colnames(dat_plot)
 
 
-  dat <-
-    dat %>%
+  dat_plot <-
+    dat_plot %>%
     mutate(
       ID_MISSING___ = 1:n()
     ) %>%
@@ -88,17 +88,17 @@ e_plot_missing <-
       warning("erikmisc::plot_missing() var_group name not in dataset, plotting without group.")
       sw_group <- FALSE
     }
-    n_levels <- factor(dat[[var_group]]) %>% levels() %>% length()
-    if ((n_levels > nrow(dat)/2) | (n_levels > 20) ) {
+    n_levels <- factor(dat_plot[[var_group]]) %>% levels() %>% length()
+    if ((n_levels > nrow(dat_plot)/2) | (n_levels > 20) ) {
       warning("erikmisc::plot_missing() var_group variable has too many levels (>20 or > nrow/2), plotting without group.")
       sw_group <- FALSE
     }
   }
   if (sw_group) {
     # turn it into a factor variable (it might already be, that's ok)
-    dat[["GROUP___"]] <- factor(dat[[var_group]])
+    dat_plot[["GROUP___"]] <- factor(dat_plot[[var_group]])
   } else {
-    dat[["GROUP___"]] <- factor(1)
+    dat_plot[["GROUP___"]] <- factor(1)
   }
 
   # sort by group
@@ -128,51 +128,51 @@ e_plot_missing <-
       var2_sort <- NULL
     }
     if (!is.null(var2_sort)) {
-      dat <-
-        dat %>%
+      dat_plot <-
+        dat_plot %>%
         arrange(
           GROUP___, !!as.name(var2_sort)
         )
     } else {
-      dat <-
-        dat %>%
+      dat_plot <-
+        dat_plot %>%
         arrange(
           GROUP___
         )
     }
     # update ID number for sorted data
-    dat <-
-      dat %>%
+    dat_plot <-
+      dat_plot %>%
       mutate(
         ID_MISSING___ = 1:n()
       )
   }
 
   # Find the NAs
-  dat2 <-
-    dat %>%
+  dat_plot2 <-
+    dat_plot %>%
     is.na()
 
-  n_missing <- sum(dat2)
+  n_missing <- sum(dat_plot2)
 
   # create a column indicating which rows all have data (no missing)
   NO_MISSING <-
-    !(rowSums(!dat2) == ncol(dat2))
+    !(rowSums(!dat_plot2) == ncol(dat_plot2))
 
-  dat2 <-
-    cbind(dat2, NO_MISSING) %>%
+  dat_plot2 <-
+    cbind(dat_plot2, NO_MISSING) %>%
     as_tibble()
 
   # convert to numeric
-  #cols_logical <- sapply(dat2, is.logical)
-  #dat2[ ,cols_logical] <- lapply(dat2[ ,cols_logical], as.numeric)
+  #cols_logical <- sapply(dat_plot2, is.logical)
+  #dat_plot2[ ,cols_logical] <- lapply(dat_plot2[ ,cols_logical], as.numeric)
 
-  dat2 <-
-    dat2 %>%
+  dat_plot2 <-
+    dat_plot2 %>%
     as_tibble() %>%
     mutate(
-      ID_MISSING___ = dat$ID_MISSING___
-    , GROUP___      = dat$GROUP___
+      ID_MISSING___ = dat_plot$ID_MISSING___
+    , GROUP___      = dat_plot$GROUP___
     ) %>%
     tidyr::pivot_longer(
       cols = one_of(c(names_col, "NO_MISSING"))
@@ -184,7 +184,7 @@ e_plot_missing <-
     )
 
   dat_barplot_missing <-
-    dat2 %>%
+    dat_plot2 %>%
     dplyr::group_by(
       name
     ) %>%
@@ -194,8 +194,8 @@ e_plot_missing <-
     dplyr::ungroup()
 
   #### OLD
-  ## dat2 <-
-  ##   cbind(dat2, NO_MISSING) %>%
+  ## dat_plot2 <-
+  ##   cbind(dat_plot2, NO_MISSING) %>%
   ##   reshape2::melt()
 
   # bar plot of missing
@@ -227,9 +227,9 @@ e_plot_missing <-
 
   # indicate missing for each value
   if (sw_group) {
-    p2 <- ggplot2::ggplot(data = dat2, aes(x = name, y = ID_MISSING___, fill = GROUP___, alpha = value))
+    p2 <- ggplot2::ggplot(data = dat_plot2, aes(x = name, y = ID_MISSING___, fill = GROUP___, alpha = value))
   } else {
-    p2 <- ggplot2::ggplot(data = dat2, aes(x = name, y = ID_MISSING___, alpha = value))
+    p2 <- ggplot2::ggplot(data = dat_plot2, aes(x = name, y = ID_MISSING___, alpha = value))
   }
   p2 <- p2 + ggplot2::geom_raster()  # , alpha = 0.6
   #p2 <- p2 + ggplot2::geom_raster(aes(fill = value))  # , alpha = 0.6
@@ -247,10 +247,10 @@ e_plot_missing <-
     p2 <- p2 + ggplot2::scale_alpha_discrete(limits = c(0, 1), labels = c("Missing", "Present"))
   }
 
-  breaks_seq_by = e_plot_calc_break_interval(values = 1:nrow(dat))
+  breaks_seq_by = e_plot_calc_break_interval(values = 1:nrow(dat_plot))
 
   #p2 <- p2 + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, 10000, by=20)))
-  p2 <- p2 + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat), by = breaks_seq_by)))
+  p2 <- p2 + ggplot2::scale_y_reverse(expand = c(0,0), breaks = c(1, seq(0, nrow(dat_plot), by = breaks_seq_by)))
 
   p2 <- p2 + theme(legend.position = "bottom") # "none"
   p2 <- p2 + theme(plot.caption = element_text(hjust = 0))
@@ -263,9 +263,9 @@ e_plot_missing <-
                   "Missing values: "
                 , n_missing
                 , " / "
-                , prod(dim(dat))
+                , prod(dim(dat_plot))
                 , ",  "
-                , 100 * round(n_missing / prod(dim(dat)), 3)
+                , 100 * round(n_missing / prod(dim(dat_plot)), 3)
                 , " %;"
                 , "    "
                 , "Complete observations: "

@@ -4,10 +4,15 @@
 \alias{e_plot_missing}
 \title{Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.}
 \usage{
-e_plot_missing(dat, var_group = NULL, sw_group_sort = FALSE, var2_sort = NULL)
+e_plot_missing(
+  dat_plot,
+  var_group = NULL,
+  sw_group_sort = FALSE,
+  var2_sort = NULL
+)
 }
 \arguments{
-\item{dat}{data.frame or tibble}
+\item{dat_plot}{data.frame or tibble}
 
 \item{var_group}{variable name to group by (colors data)}
 
@@ -22,16 +27,16 @@ ggplot grob plot object
 Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.
 }
 \examples{
-dat = datasets::mtcars
+dat_plot = datasets::mtcars
 prop_missing = 0.10
-n_missing = sample.int(n = prod(dim(dat)), size = round( prop_missing * prod(dim(dat))))
-ind_missing = expand.grid(1:dim(dat)[1], 1:dim(dat)[2])[n_missing, ]
+n_missing = sample.int(n = prod(dim(dat_plot)), size = round( prop_missing * prod(dim(dat_plot))))
+ind_missing = expand.grid(1:dim(dat_plot)[1], 1:dim(dat_plot)[2])[n_missing, ]
 for (i_row in seq_along(n_missing)) {
-  dat[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
+  dat_plot[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
 }
 
 e_plot_missing(
-    dat            = dat
+    dat_plot            = dat_plot
   , var_group      = "cyl"
   , sw_group_sort  = TRUE
   , var2_sort      = "disp"
