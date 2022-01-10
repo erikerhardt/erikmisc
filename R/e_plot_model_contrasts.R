@@ -1229,13 +1229,13 @@ e_plot_model_contrasts <-
           if (sw_plot_quantiles_values == "quantiles" | is.null(plot_values)) {
             text_long <-
               paste0(
-                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
+                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), ";\n  may be fewer if quantiles are not unique values.")
               , "\n"
               , text_averaged_plot
               )
             text_short <-
               paste0(
-                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), "; may be fewer if quantiles are not unique values.")
+                paste0("Quantiles plotted: ", paste(plot_quantiles, collapse = ", "), ";\n  may be fewer if quantiles are not unique values.")
               , "\n"
               , text_averaged_plot
               )
