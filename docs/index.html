@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -55,6 +51,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
+    </li>
+    <li>
+      <a href="articles/erikmisc-e_multiple_regression_example.html">Multiple regression using erikmisc</a>
     </li>
     <li>
       <a href="articles/erikmisc-e_plot_model_contrasts.html">Plot model contrasts</a>
@@ -76,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/erikerhardt/erikmisc/">
+  <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -93,35 +92,35 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="erikmisc-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#erikmisc-" class="anchor"></a>erikmisc <a href="https://github.com/erikerhardt/erikmisc"><img src="reference/figures/erikmisc.png" align="right" height="138.5"></a>
+<div class="section level1">
+<div class="page-header"><h1 id="erikmisc-">erikmisc <a href="https://github.com/erikerhardt/erikmisc" class="external-link"><img src="reference/figures/erikmisc.png" align="right" height="138.5"></a>
+<a class="anchor" aria-label="anchor" href="#erikmisc-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>Erik Erhardt’s miscellaneous functions for solving complex data analysis workflows</p>
 <ul>
-<li><strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation and Vignettes</a></strong></li>
-<li><a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or Request Feature</a></li>
+<li><strong><a href="https://erikerhardt.github.io/erikmisc/" class="external-link">Documentation and Vignettes</a></strong></li>
+<li><a href="https://github.com/erikerhardt/erikmisc/issues" class="external-link">Report Bug or Request Feature</a></li>
 </ul>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The development version from GitHub</span>
 <span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"erikerhardt/erikmisc"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"erikerhardt/erikmisc"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>7/9/2021 - Vignettes will be written soon.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc">erikmisc</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
 <span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
 <span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span>
 <span class="fu"><a href="reference/erikmisc_logo.html">erikmisc_logo</a></span><span class="op">(</span><span class="op">)</span>
@@ -138,44 +137,55 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/erikerhardt/erikmisc/">https://​github.com/​erikerhardt/​erikmisc/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/erikerhardt/erikmisc/issues">https://​github.com/​erikerhardt/​erikmisc/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Erik Erhardt <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9817-4011" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://github.com/erikerhardt/erikmisc/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/erikerhardt/erikmisc/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml"><img src="https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing erikmisc</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Erik Erhardt <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9817-4011" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Erik Erhardt.</p>
+  <p></p>
+<p>Developed by Erik Erhardt.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -183,6 +193,8 @@
 
   
 
+
+  
 
   </body>
 </html>
