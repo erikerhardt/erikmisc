@@ -9,7 +9,7 @@ output:
 vignette: >
   %\VignetteIndexEntry{Rmd/Rnw rename code chunks vignette}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 #always_allow_html: yes
 ---
 
@@ -25,10 +25,11 @@ library(erikmisc)
 ```
 
 Read an Rmd file, update existing prefixed code chunks, and renumber.
+(These are replaced with a `.txt` extension to not interfere with other vignettes.)
 ```{r}
 e_rmd_name_chunks(
-    fn_in             = "test_in.Rmd"
-  , fn_out            = "test_out.Rmd"
+    fn_in             = "test_in_Rmd.txt"
+  , fn_out            = "test_out_Rmd.txt"
   , prefix_chunk_name = "chunk-"
   )
 ```
