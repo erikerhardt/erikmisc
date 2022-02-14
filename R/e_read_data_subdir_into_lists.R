@@ -3,7 +3,7 @@
 #' Recurse through subdirectories returning either filenames or tibbles (data.frames) by reading csv, xls, or xlsx with \code{e_read_data_files()}.
 #'
 #' @param fn_path                Starting directory path
-#' @param fn_detect              File specification, used by \code{stringr::str_detect()}, usually specifying file extensions.
+#' @param fn_detect              NULL for all.  File specification, used by \code{stringr::str_detect()}, usually specifying file extensions.
 #' @param sw_fn_or_dat           Return filenames or tibbles (data.frames)
 #' @param sw_exclude_empty_dir   T/F exclude empty directories
 #' @param sw_dat_add_col_path_fn T/F for data, add two columns specifying the directory (\code{DIR__}) and filename (\code{FILE__})
@@ -32,7 +32,7 @@
 #' #   )
 #' # # selected data
 #' # e_read_data_subdir_into_lists(
-#' #     fn_path                 = "./data-raw/dat_subdir" #/dir_a/dir_aa/dir_aaa"
+#' #     fn_path                 = "./data-raw/dat_subdir"
 #' #   , fn_detect               = c("csv$", "xls$", "xlsx$")
 #' #   , sw_fn_or_dat            = c("fn", "dat")[2]
 #' #   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
@@ -50,7 +50,7 @@ e_read_data_subdir_into_lists <-
   , sw_dat_print_fn_read   = c(TRUE, FALSE)[2]
   ) {
 
-  ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir"
+  ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir"  #/dir_a/dir_aa/dir_aaa"
   ## fn_detect = NULL #c("csv$", "xls$", "xlsx$")
   ## sw_fn_or_dat  = c("fn", "dat")[1]
   ## sw_exclude_empty_dir = c(TRUE, FALSE)[1]

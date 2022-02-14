@@ -16,7 +16,7 @@ e_read_data_subdir_into_lists(
 \arguments{
 \item{fn_path}{Starting directory path}
 
-\item{fn_detect}{File specification, used by \code{stringr::str_detect()}, usually specifying file extensions.}
+\item{fn_detect}{NULL for all.  File specification, used by \code{stringr::str_detect()}, usually specifying file extensions.}
 
 \item{sw_fn_or_dat}{Return filenames or tibbles (data.frames)}
 
@@ -50,7 +50,7 @@ Recurse through subdirectories returning either filenames or tibbles (data.frame
 #   )
 # # selected data
 # e_read_data_subdir_into_lists(
-#     fn_path                 = "./data-raw/dat_subdir" #/dir_a/dir_aa/dir_aaa"
+#     fn_path                 = "./data-raw/dat_subdir"
 #   , fn_detect               = c("csv$", "xls$", "xlsx$")
 #   , sw_fn_or_dat            = c("fn", "dat")[2]
 #   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
