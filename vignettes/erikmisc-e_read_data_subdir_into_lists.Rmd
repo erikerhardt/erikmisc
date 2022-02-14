@@ -38,10 +38,12 @@ This is the directory tree with files that are being recursed.
   * two subdirectories with no files
 
 ```{r}
-system(
-    command = "tree ..\\data-raw\\dat_subdir /f"
-  , intern  = TRUE
-  )
+if (.Platform$OS.type == "windows") {
+  system(
+      command = "tree ..\\data-raw\\dat_subdir /f"
+    , intern  = TRUE
+    )
+}
 ```
 
 # Read and return filenames in list
