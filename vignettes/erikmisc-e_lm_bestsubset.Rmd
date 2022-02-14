@@ -9,7 +9,7 @@ output:
 vignette: >
   %\VignetteIndexEntry{Best subset selection}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 #always_allow_html: yes
 ---
 

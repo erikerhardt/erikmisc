@@ -9,7 +9,7 @@ output:
 vignette: >
   %\VignetteIndexEntry{Key variables completion}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r, include = FALSE}
