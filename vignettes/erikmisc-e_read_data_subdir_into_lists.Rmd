@@ -82,7 +82,7 @@ Note that all of these example files have the same content, columns A, B, and C.
 
 ```{r}
 # selected data
-dat <-
+dat_sheet <-
   e_read_data_subdir_into_lists(
     fn_path                 = "../data-raw/dat_subdir"
   , fn_detect               = c("csv$", "xls$", "xlsx$")
@@ -92,12 +92,12 @@ dat <-
   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
   )
 
-dat %>% print()
+dat_sheet %>% print()
 ```
 
 Finally, files within a folder with no other subdirectories can easily be bind'ed together.
 
 ```{r}
-dplyr::bind_rows(dat$dir_b)
+dplyr::bind_rows(dat_sheet$dir_b)
 ```
 
