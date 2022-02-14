@@ -19,7 +19,8 @@ e_plot_model_contrasts(
   sw_plot_quantiles_values = c("quantiles", "values")[1],
   plot_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
   sw_quantile_type = 7,
-  plot_values = NULL
+  plot_values = NULL,
+  emmip_rg.limit = 10000
 )
 }
 \arguments{
@@ -50,6 +51,8 @@ e_plot_model_contrasts(
 \item{sw_quantile_type}{quantile type as specified in \code{?stats::quantile}.}
 
 \item{plot_values}{a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}}
+
+\item{emmip_rg.limit}{from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be [your value], which exceeds the limit of 10000 (not including any multivariate responses)."}
 }
 \value{
 out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.

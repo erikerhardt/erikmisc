@@ -9,7 +9,7 @@ output:
 vignette: >
   %\VignetteIndexEntry{Plot model contrasts}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r, include = FALSE}
@@ -60,7 +60,11 @@ fit <-
   , data    = dat_mtcars_e
   )
 
-anova(fit)
+car::Anova(
+    fit
+  , type = 3
+  , singular.ok = TRUE
+  )
 ```
 
 ```{r}

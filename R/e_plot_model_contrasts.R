@@ -27,6 +27,7 @@
 #' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots, if \code{sw_plot_quantiles_values} is "quantiles"
 #' @param sw_quantile_type          quantile type as specified in \code{?stats::quantile}.
 #' @param plot_values               a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}
+#' @param emmip_rg.limit            from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be [your value], which exceeds the limit of 10000 (not including any multivariate responses)."
 #'
 #' @return out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
 #' @import dplyr
@@ -141,6 +142,7 @@ e_plot_model_contrasts <-
   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
   , sw_quantile_type        = 7
   , plot_values             = NULL                            # for numeric:numeric plots
+  , emmip_rg.limit          = 10000
   ) {
   ###### START Example dataset for testing
   ##
@@ -433,6 +435,7 @@ e_plot_model_contrasts <-
             object     = fit
           , formula    = form_var
           , cov.reduce = range
+          , rg.limit   = emmip_rg.limit
           )
         text_averaged_plot <-
           paste0("Plot: ", attributes(p$data)$mesg)
@@ -1072,6 +1075,7 @@ e_plot_model_contrasts <-
             object     = fit
           , formula    = form_var_fac_num
           , cov.reduce = range
+          , rg.limit   = emmip_rg.limit
           )
         p2 <- p2 + theme_bw()
         p2 <- p2 + labs(
@@ -1218,8 +1222,10 @@ e_plot_model_contrasts <-
 
           ## Plot
           p <- emmeans::emmip(
-              object  = fit_emm_at
-            , formula = form_var_num_num
+              object    = fit_emm_at
+            , formula   = form_var_num_num
+            #, cov.reduce = range  #not originally here, but maybe belongs
+            , rg.limit  = emmip_rg.limit
             )
 
           text_averaged_plot <-
