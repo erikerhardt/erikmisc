@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
       </span>
     </div>
 
@@ -59,16 +59,13 @@
       <a href="../articles/erikmisc-e_plot_model_contrasts.html">Plot model contrasts</a>
     </li>
     <li>
+      <a href="../articles/erikmisc-e_read_data_subdir_into_lists.html">Read data from subdirectories into a structured list</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc-e_rmd_name_chunks.html">Rmd/Rnw rename code chunks vignette</a>
     </li>
     <li>
       <a href="../articles/erikmisc-key_variables_completion.html">Key variables completion</a>
-    </li>
-    <li>
-      <a href="../articles/test_in.html">RmdNameChunk test file</a>
-    </li>
-    <li>
-      <a href="../articles/test_out.html">RmdNameChunk test file</a>
     </li>
   </ul>
 </li>
@@ -111,16 +108,16 @@
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>fig.width <span class="op">=</span> <span class="fl">6</span>, fig.height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.6 --</span>
+<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
 <span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.7</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
 <span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
 <span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
-<div class="section level1">
-<h1 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
-</h1>
+<div class="section level2">
+<h2 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
+</h2>
 <ul>
 <li>Calculating <code>mpg_log2</code> and dropping two extremely influential observations.</li>
 <li>Creating some missing values to illustrate missing values plot.</li>
@@ -171,16 +168,16 @@
 <span class="co">#&gt;   ..- attr(*, "label")= chr "1/4 mile time"</span>
 <span class="co">#&gt;  $ vs      : Factor w/ 2 levels "V-shaped","straight": 1 1 2 2 1 2 1 2 2 2 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Engine"</span>
-<span class="co">#&gt;  $ am      : Factor w/ 2 levels "automatic","manual": 2 2 NA 1 1 1 NA 1 1 NA ...</span>
+<span class="co">#&gt;  $ am      : Factor w/ 2 levels "automatic","manual": 2 2 2 1 1 1 1 1 NA 1 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Transmission"</span>
 <span class="co">#&gt;  $ gear    : num [1:30] 4 4 4 3 3 3 3 4 4 4 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Number of forward gears"</span>
-<span class="co">#&gt;  $ carb    : num [1:30] 4 NA 1 NA 2 1 4 2 2 4 ...</span>
+<span class="co">#&gt;  $ carb    : num [1:30] 4 4 1 NA NA 1 4 2 NA 4 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Number of carburetors"</span>
 <span class="co">#summary(dat_mtcars_e)</span></code></pre></div>
-<div class="section level2">
-<h2 id="plot-missing-values">Plot missing values<a class="anchor" aria-label="anchor" href="#plot-missing-values"></a>
-</h2>
+<div class="section level3">
+<h3 id="plot-missing-values">Plot missing values<a class="anchor" aria-label="anchor" href="#plot-missing-values"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/e_plot_missing.html">e_plot_missing</a></span><span class="op">(</span>
     dat_plot       <span class="op">=</span> <span class="va">dat_mtcars_e</span>
@@ -192,9 +189,9 @@
 <p><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="fit-full-model">Fit full model<a class="anchor" aria-label="anchor" href="#fit-full-model"></a>
-</h1>
+<div class="section level2">
+<h2 id="fit-full-model">Fit full model<a class="anchor" aria-label="anchor" href="#fit-full-model"></a>
+</h2>
 <ul>
 <li>This model is chosen to have numeric and categorical main effects, and at least two of possible types of two-way interaction (cat:cat, cat:num, num:num).</li>
 </ul>
@@ -273,9 +270,9 @@
 <span class="co">#&gt; Residual standard error: 0.1745 on 15 degrees of freedom</span>
 <span class="co">#&gt; Multiple R-squared:  0.9169, Adjusted R-squared:  0.8393 </span>
 <span class="co">#&gt; F-statistic: 11.82 on 14 and 15 DF,  p-value: 1.144e-05</span></code></pre></div>
-<div class="section level2">
-<h2 id="assess-model-assumptions">Assess model assumptions<a class="anchor" aria-label="anchor" href="#assess-model-assumptions"></a>
-</h2>
+<div class="section level3">
+<h3 id="assess-model-assumptions">Assess model assumptions<a class="anchor" aria-label="anchor" href="#assess-model-assumptions"></a>
+</h3>
 <ul>
 <li>On full dataset:
 <ul>
@@ -300,9 +297,9 @@
 <p><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-7-1.png" width="768"><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-7-2.png" width="768"><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-7-3.png" width="768"></p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="best-subset-selection">Best subset selection<a class="anchor" aria-label="anchor" href="#best-subset-selection"></a>
-</h1>
+<div class="section level2">
+<h2 id="best-subset-selection">Best subset selection<a class="anchor" aria-label="anchor" href="#best-subset-selection"></a>
+</h2>
 <ul>
 <li>The best model by BIC has <code>hp</code> and <code>wt</code>.</li>
 </ul>
@@ -376,9 +373,9 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">53</span>             1      1        1     1     1     1             1               1           1             1           1             1         1         1       1    14 0.457 0.917 0.839 15     -<span style="color: #BB0000;">23.6</span></span>
   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span>; <span class="co"># reset (all) initial options</span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="fit-reduced-model">Fit reduced model<a class="anchor" aria-label="anchor" href="#fit-reduced-model"></a>
-</h1>
+<div class="section level2">
+<h2 id="fit-reduced-model">Fit reduced model<a class="anchor" aria-label="anchor" href="#fit-reduced-model"></a>
+</h2>
 <ul>
 <li>For demonstration purposes, I’m choosing Model 9 because it has both <code>factor:numeric</code> and <code>numeric:numeric</code> interactions.</li>
 </ul>
@@ -443,9 +440,9 @@
 <span class="co">#&gt; Residual standard error: 0.1694 on 22 degrees of freedom</span>
 <span class="co">#&gt; Multiple R-squared:  0.8851, Adjusted R-squared:  0.8486 </span>
 <span class="co">#&gt; F-statistic: 24.21 on 7 and 22 DF,  p-value: 6.067e-09</span></code></pre></div>
-<div class="section level2">
-<h2 id="assess-model-assumptions-1">Assess model assumptions<a class="anchor" aria-label="anchor" href="#assess-model-assumptions-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="assess-model-assumptions-1">Assess model assumptions<a class="anchor" aria-label="anchor" href="#assess-model-assumptions-1"></a>
+</h3>
 <ul>
 <li>Cook’s distance shows Observation 17 is influential.</li>
 </ul>
@@ -457,9 +454,9 @@
 <p><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-10-1.png" width="768"><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-10-2.png" width="768"><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-10-3.png" width="768"><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-10-4.png" width="768"><img src="erikmisc-e_multiple_regression_example_files/figure-html/unnamed-chunk-10-5.png" width="768"></p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="plot-model-contrasts">Plot model contrasts<a class="anchor" aria-label="anchor" href="#plot-model-contrasts"></a>
-</h1>
+<div class="section level2">
+<h2 id="plot-model-contrasts">Plot model contrasts<a class="anchor" aria-label="anchor" href="#plot-model-contrasts"></a>
+</h2>
 <ul>
 <li>See the help <code><a href="../reference/e_plot_model_contrasts.html">?e_plot_model_contrasts</a></code> for the method defaults.</li>
 <li>I’m choosing to not print the output (default) while the function runs so that we can examine the separate lists in the output.</li>
@@ -482,9 +479,9 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lm_fit_contrasts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "tables" "plots"  "text"</span></code></pre></div>
-<div class="section level2">
-<h2 id="tables">tables<a class="anchor" aria-label="anchor" href="#tables"></a>
-</h2>
+<div class="section level3">
+<h3 id="tables">tables<a class="anchor" aria-label="anchor" href="#tables"></a>
+</h3>
 <ul>
 <li>The <code>tables</code> are give the estimates (<code>$est</code>) and contrasts (<code>$cont</code>) for each effect in the model not involved with an interaction (argument <code>sw_marginal_even_if_interaction</code> can include all main effects).</li>
 </ul>
@@ -508,9 +505,9 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; P value adjustment: tukey method for comparing a family of 3 estimates</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="text">text<a class="anchor" aria-label="anchor" href="#text"></a>
-</h2>
+<div class="section level3">
+<h3 id="text">text<a class="anchor" aria-label="anchor" href="#text"></a>
+</h3>
 <ul>
 <li>The <code>text</code> of the tables are written in a form that can be copy/pasted into a report and worked into sentences.</li>
 </ul>
@@ -518,9 +515,9 @@
 <code class="sourceCode R"><span class="co"># to print caption text</span>
 <span class="co">#lm_fit_contrasts$text</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="plots">plots<a class="anchor" aria-label="anchor" href="#plots"></a>
-</h2>
+<div class="section level3">
+<h3 id="plots">plots<a class="anchor" aria-label="anchor" href="#plots"></a>
+</h3>
 <ul>
 <li>The <code>plots</code> illustrate the effects with labelled plots and the <code>text</code> in the caption for a single complete result.</li>
 </ul>
@@ -552,7 +549,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

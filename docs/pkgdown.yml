@@ -1,13 +1,12 @@
 pandoc: 2.14.0.3
-pkgdown: 2.0.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   erikmisc-e_lm_bestsubset: erikmisc-e_lm_bestsubset.html
   erikmisc-e_multiple_regression_example: erikmisc-e_multiple_regression_example.html
   erikmisc-e_plot_model_contrasts: erikmisc-e_plot_model_contrasts.html
+  erikmisc-e_read_data_subdir_into_lists: erikmisc-e_read_data_subdir_into_lists.html
   erikmisc-e_rmd_name_chunks: erikmisc-e_rmd_name_chunks.html
   erikmisc-key_variables_completion: erikmisc-key_variables_completion.html
-  test_in: test_in.html
-  test_out: test_out.html
-last_built: 2022-01-10T05:13Z
+last_built: 2022-02-14T04:47Z
 

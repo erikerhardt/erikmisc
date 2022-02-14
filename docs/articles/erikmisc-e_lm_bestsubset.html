@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
       </span>
     </div>
 
@@ -59,16 +59,13 @@
       <a href="../articles/erikmisc-e_plot_model_contrasts.html">Plot model contrasts</a>
     </li>
     <li>
+      <a href="../articles/erikmisc-e_read_data_subdir_into_lists.html">Read data from subdirectories into a structured list</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc-e_rmd_name_chunks.html">Rmd/Rnw rename code chunks vignette</a>
     </li>
     <li>
       <a href="../articles/erikmisc-key_variables_completion.html">Key variables completion</a>
-    </li>
-    <li>
-      <a href="../articles/test_in.html">RmdNameChunk test file</a>
-    </li>
-    <li>
-      <a href="../articles/test_out.html">RmdNameChunk test file</a>
     </li>
   </ul>
 </li>
@@ -106,21 +103,21 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.6 --</span>
+<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
 <span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.7</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
 <span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
 <span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
-<div class="section level1">
-<h1 id="best-subset-selection">Best subset selection<a class="anchor" aria-label="anchor" href="#best-subset-selection"></a>
-</h1>
+<div class="section level2">
+<h2 id="best-subset-selection">Best subset selection<a class="anchor" aria-label="anchor" href="#best-subset-selection"></a>
+</h2>
 <p>The <code><a href="../reference/e_lm_bestsubset.html">e_lm_bestsubset()</a></code> function is a wrapper for <code><a href="https://rdrr.io/pkg/leaps/man/regsubsets.html" class="external-link">leaps::regsubsets()</a></code>. It takes a “full model” formula and returns the best <code>nbest</code> models of each model size (1 predictor, 2 predictors, etc.), in a table that’s easy to review.</p>
 <p>NOTE: This does not assess model fit! For that, see <code>e_lm_diag_plots()</code>.</p>
-<div class="section level2">
-<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h2>
+<div class="section level3">
+<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h3>
 <p>Fit the best 3 models of each model size. For each column, a 1 or 0 indicates the variable is or is not in the model. The model <code>SIZE</code> is how many terms are in the model (not counting the intercept). Other model statistics are provided and the results are sorted by BIC (lowest BIC is preferred, best on top).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tab_best</span> <span class="op">&lt;-</span>
@@ -187,7 +184,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

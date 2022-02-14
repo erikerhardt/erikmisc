@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
       </span>
     </div>
 
@@ -59,16 +59,13 @@
       <a href="../articles/erikmisc-e_plot_model_contrasts.html">Plot model contrasts</a>
     </li>
     <li>
+      <a href="../articles/erikmisc-e_read_data_subdir_into_lists.html">Read data from subdirectories into a structured list</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc-e_rmd_name_chunks.html">Rmd/Rnw rename code chunks vignette</a>
     </li>
     <li>
       <a href="../articles/erikmisc-key_variables_completion.html">Key variables completion</a>
-    </li>
-    <li>
-      <a href="../articles/test_in.html">RmdNameChunk test file</a>
-    </li>
-    <li>
-      <a href="../articles/test_out.html">RmdNameChunk test file</a>
     </li>
   </ul>
 </li>
@@ -108,21 +105,21 @@
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>fig.height <span class="op">=</span> <span class="fl">6</span>, fig.width <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.6 --</span>
+<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
 <span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.7</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
 <span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
 <span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
-<div class="section level1">
-<h1 id="plotting-model-contrasts">Plotting model contrasts<a class="anchor" aria-label="anchor" href="#plotting-model-contrasts"></a>
-</h1>
+<div class="section level2">
+<h2 id="plotting-model-contrasts">Plotting model contrasts<a class="anchor" aria-label="anchor" href="#plotting-model-contrasts"></a>
+</h2>
 <p>The <code><a href="../reference/e_plot_model_contrasts.html">e_plot_model_contrasts()</a></code> function is a wrapper for <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>. It automates plotting all of the model effects and annotating the plots with estimates and contrasts. Now it is (almost) effortless to interpret a linear model output.</p>
 <p>This has been tested for <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> (fixed-effects model) and <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lme4::lmer</a></code> (mixed fixed- and random-effects model).</p>
-<div class="section level2">
-<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h2>
+<div class="section level3">
+<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h3>
 <p>The data variables are labelled and those will be used for plots.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">)</span>
@@ -152,9 +149,9 @@
 <span class="co">#&gt;  $ carb : num [1:32] 4 4 1 1 2 1 4 2 2 4 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Number of carburetors"</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="fit-model">Fit model<a class="anchor" aria-label="anchor" href="#fit-model"></a>
-</h2>
+<div class="section level3">
+<h3 id="fit-model">Fit model<a class="anchor" aria-label="anchor" href="#fit-model"></a>
+</h3>
 <p>This model is specifically chosen to have numeric and categorical main effects, and each type of two-way interaction (cat:cat, cat:num, num:num), as well as some categories that were not estimable. “Statistical significance” and “model fit” are not concerns in this demonstration.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="co"># Set specific model with some interactions</span>
@@ -167,21 +164,27 @@
   , data    <span class="op">=</span> <span class="va">dat_mtcars_e</span>
   <span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
-<span class="co">#&gt; Analysis of Variance Table</span>
+<span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>
+    <span class="va">fit</span>
+  , type <span class="op">=</span> <span class="fl">3</span>
+  , singular.ok <span class="op">=</span> <span class="cn">TRUE</span>
+  <span class="op">)</span>
+<span class="co">#&gt; Note: model has aliased coefficients</span>
+<span class="co">#&gt;       sums of squares computed by model comparison</span>
+<span class="co">#&gt; Anova Table (Type III tests)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Response: mpg</span>
-<span class="co">#&gt;           Df Sum Sq Mean Sq F value    Pr(&gt;F)    </span>
-<span class="co">#&gt; cyl        2 824.78  412.39 70.6104 4.755e-10 ***</span>
-<span class="co">#&gt; disp       1  57.64   57.64  9.8697  0.004927 ** </span>
-<span class="co">#&gt; hp         1  18.50   18.50  3.1680  0.089572 .  </span>
-<span class="co">#&gt; wt         1  64.99   64.99 11.1278  0.003136 ** </span>
-<span class="co">#&gt; vs         1   0.65    0.65  0.1116  0.741682    </span>
-<span class="co">#&gt; am         1  16.39   16.39  2.8055  0.108772    </span>
-<span class="co">#&gt; cyl:vs     1   0.13    0.13  0.0216  0.884442    </span>
-<span class="co">#&gt; disp:hp    1  15.31   15.31  2.6217  0.120336    </span>
-<span class="co">#&gt; hp:vs      1   5.00    5.00  0.8568  0.365152    </span>
-<span class="co">#&gt; Residuals 21 122.65    5.84                      </span>
+<span class="co">#&gt;            Sum Sq Df F values  Pr(&gt;F)  </span>
+<span class="co">#&gt; cyl         2.701  2   0.2312 0.79554  </span>
+<span class="co">#&gt; disp        1.137  1   0.1947 0.66357  </span>
+<span class="co">#&gt; hp          6.223  1   1.0655 0.31371  </span>
+<span class="co">#&gt; wt         31.610  1   5.4123 0.03009 *</span>
+<span class="co">#&gt; vs          5.080  1   0.8698 0.36160  </span>
+<span class="co">#&gt; am          3.593  1   0.6152 0.44159  </span>
+<span class="co">#&gt; cyl:vs      1.746  1   0.2989 0.59032  </span>
+<span class="co">#&gt; disp:hp     1.930  1   0.3305 0.57150  </span>
+<span class="co">#&gt; hp:vs       5.004  1   0.8568 0.36515  </span>
+<span class="co">#&gt; Residuals 122.648 21                   </span>
 <span class="co">#&gt; ---</span>
 <span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -215,12 +218,12 @@
 <span class="co">#&gt; Multiple R-squared:  0.8911, Adjusted R-squared:  0.8392 </span>
 <span class="co">#&gt; F-statistic: 17.18 on 10 and 21 DF,  p-value: 5.984e-08</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="plotting-model-effects-and-contrasts">Plotting model effects and contrasts<a class="anchor" aria-label="anchor" href="#plotting-model-effects-and-contrasts"></a>
-</h2>
 <div class="section level3">
-<h3 id="defaults">Defaults<a class="anchor" aria-label="anchor" href="#defaults"></a>
+<h3 id="plotting-model-effects-and-contrasts">Plotting model effects and contrasts<a class="anchor" aria-label="anchor" href="#plotting-model-effects-and-contrasts"></a>
 </h3>
+<div class="section level4">
+<h4 id="defaults">Defaults<a class="anchor" aria-label="anchor" href="#defaults"></a>
+</h4>
 <p>See the help <code><a href="../reference/e_plot_model_contrasts.html">?e_plot_model_contrasts</a></code> for the method defaults. I’m choosing to not print the output (default) while the function runs so that we can examine the separate lists in the output.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span>
@@ -241,9 +244,9 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_contrasts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "tables" "plots"  "text"</span></code></pre></div>
-<div class="section level4">
-<h4 id="tables">tables<a class="anchor" aria-label="anchor" href="#tables"></a>
-</h4>
+<div class="section level5">
+<h5 id="tables">tables<a class="anchor" aria-label="anchor" href="#tables"></a>
+</h5>
 <p>The <code>tables</code> are give the estimates (<code>$est</code>) and contrasts (<code>$cont</code>) for each effect in the model not involved with an interaction (argument <code>sw_marginal_even_if_interaction</code> can include all main effects).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_contrasts</span><span class="op">$</span><span class="va">tables</span>  <span class="co"># to print tables</span>
@@ -325,9 +328,9 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Results are averaged over the levels of: cyl, am</span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="text">text<a class="anchor" aria-label="anchor" href="#text"></a>
-</h4>
+<div class="section level5">
+<h5 id="text">text<a class="anchor" aria-label="anchor" href="#text"></a>
+</h5>
 <p>The <code>text</code> of the tables are written in a form that can be copy/pasted into a report and worked into sentences.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_contrasts</span><span class="op">$</span><span class="va">text</span>    <span class="co"># to print caption text</span>
@@ -434,9 +437,9 @@
 <span class="co">#&gt; [3] "Contrast: (V-shaped) - straight = 0.0491, p-value = 0.3652"</span>
 <span class="co">#&gt; [4] "Results are averaged over the levels of: cyl, am"</span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="plots">plots<a class="anchor" aria-label="anchor" href="#plots"></a>
-</h4>
+<div class="section level5">
+<h5 id="plots">plots<a class="anchor" aria-label="anchor" href="#plots"></a>
+</h5>
 <p>The <code>plots</code> illustrate the effects with labelled plots and the <code>text</code> in the caption for a single complete result.</p>
 <p>From the help:</p>
 <pre><code>Plot interpretation:
@@ -491,9 +494,9 @@ difference is not significant, based on the adjust setting (which defaults to
 <p><img src="erikmisc-e_plot_model_contrasts_files/figure-html/unnamed-chunk-9-11.png" width="576"></p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="some-options">Some options<a class="anchor" aria-label="anchor" href="#some-options"></a>
-</h3>
+<div class="section level4">
+<h4 id="some-options">Some options<a class="anchor" aria-label="anchor" href="#some-options"></a>
+</h4>
 <p>Below I use some options to specify one two-way interaction, stack them above-below (“tall”), and exclude the table in the plot.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span>
@@ -623,7 +626,7 @@ difference is not significant, based on the adjust setting (which defaults to
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

@@ -13,6 +13,9 @@
     <loc>/articles/erikmisc-e_plot_model_contrasts.html</loc>
   </url>
   <url>
+    <loc>/articles/erikmisc-e_read_data_subdir_into_lists.html</loc>
+  </url>
+  <url>
     <loc>/articles/erikmisc-e_rmd_name_chunks.html</loc>
   </url>
   <url>
@@ -230,6 +233,12 @@
   </url>
   <url>
     <loc>/reference/e_pval_stars.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_read_data_files.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_read_data_subdir_into_lists.html</loc>
   </url>
   <url>
     <loc>/reference/e_REDCap_read_format_data.html</loc>
