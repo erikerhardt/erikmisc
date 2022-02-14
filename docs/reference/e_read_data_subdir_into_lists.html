@@ -90,7 +90,7 @@
     <dl><dt>fn_path</dt>
 <dd><p>Starting directory path</p></dd>
 <dt>fn_detect</dt>
-<dd><p>File specification, used by <code><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">stringr::str_detect()</a></code>, usually specifying file extensions.</p></dd>
+<dd><p>NULL for all.  File specification, used by <code><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">stringr::str_detect()</a></code>, usually specifying file extensions.</p></dd>
 <dt>sw_fn_or_dat</dt>
 <dd><p>Return filenames or tibbles (data.frames)</p></dd>
 <dt>sw_exclude_empty_dir</dt>
@@ -124,7 +124,7 @@
 <span class="r-in"><span class="co">#   )</span></span>
 <span class="r-in"><span class="co"># # selected data</span></span>
 <span class="r-in"><span class="co"># e_read_data_subdir_into_lists(</span></span>
-<span class="r-in"><span class="co">#     fn_path                 = "./data-raw/dat_subdir" #/dir_a/dir_aa/dir_aaa"</span></span>
+<span class="r-in"><span class="co">#     fn_path                 = "./data-raw/dat_subdir"</span></span>
 <span class="r-in"><span class="co">#   , fn_detect               = c("csv$", "xls$", "xlsx$")</span></span>
 <span class="r-in"><span class="co">#   , sw_fn_or_dat            = c("fn", "dat")[2]</span></span>
 <span class="r-in"><span class="co">#   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]</span></span>
