@@ -49,6 +49,8 @@ Imports:
     nortest,
     purrr,
     pwr,
+    readr,
+    readxl,
     rstudioapi,
     scales,
     sjPlot,

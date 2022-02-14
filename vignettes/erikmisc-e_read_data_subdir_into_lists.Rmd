@@ -1,0 +1,103 @@
+---
+title: "Read data from subdirectories into a structured list"
+subtitle: "Return file names or tibbles in a list with same structure as subdirectories"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Read data from subdirectories into a structured list}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+* This is an example of reading a hierarchy of subdirectories and returning the
+    * file list or
+    * data as tibbles
+* in a structured list in the same hierachy as the subdirectories.
+
+```{r setup}
+library(erikmisc)
+```
+
+# Show example files in subdirectories
+
+This is the directory tree with files that are being recursed.
+
+* 4 root files
+* 3 subdirectories
+  * a few sub-subdirectories with multiple files and additional subdirectories
+  * two subdirectories with no files
+
+```{r}
+system(
+    command = "tree ..\\data-raw\\dat_subdir /f"
+  , intern  = TRUE
+  )
+```
+
+# Read and return filenames in list
+
+It's good to clarify the files before reading them.
+
+This includes all files and empty directories.
+
+```{r}
+e_read_data_subdir_into_lists(
+    fn_path   = "../data-raw/dat_subdir"
+  , fn_detect = NULL
+  , sw_fn_or_dat  = c("fn", "dat")[1]
+  , sw_exclude_empty_dir = c(TRUE, FALSE)[2]
+  )
+```
+
+This selects specified file extensions and excludes empty directories.
+
+```{r}
+# selected file names
+e_read_data_subdir_into_lists(
+    fn_path   = "../data-raw/dat_subdir"
+  , fn_detect = c("csv$", "xls$", "xlsx$")
+  , sw_fn_or_dat  = c("fn", "dat")[1]
+  , sw_exclude_empty_dir = c(TRUE, FALSE)[1]
+  )
+```
+
+# Read and return data in list
+
+Now that we're happy with the files to read,
+  we read the files,
+  including the path and filename as additional columns in each file,
+  and printing the filename path and dimension during the process.
+
+Note that all of these example files have the same content, columns A, B, and C.
+
+```{r}
+# selected data
+dat <-
+  e_read_data_subdir_into_lists(
+    fn_path                 = "../data-raw/dat_subdir"
+  , fn_detect               = c("csv$", "xls$", "xlsx$")
+  , sw_fn_or_dat            = c("fn", "dat")[2]
+  , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
+  , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
+  , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+  )
+
+dat %>% print()
+```
+
+Finally, files within a folder with no other subdirectories can easily be bind'ed together.
+
+```{r}
+dplyr::bind_rows(dat$dir_b)
+```
+
