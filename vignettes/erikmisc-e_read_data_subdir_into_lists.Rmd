@@ -63,6 +63,9 @@ e_read_data_subdir_into_lists(
 
 This selects specified file extensions and excludes empty directories.
 
+* No `.txt` in root
+* No final `dir_cb`
+
 ```{r}
 # selected file names
 e_read_data_subdir_into_lists(
