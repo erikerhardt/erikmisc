@@ -1,5 +1,57 @@
 ## Convert Units
 
+
+#' convert letter grades to GPA equivalent
+#'
+#' Using UNM standard: <https://unm-student.custhelp.com/app/answers/detail/a_id/3461>
+#'
+#' @param Grade character string letter grades with trailing + or -: "F", "D-", "D", "D+", ..., "A-", "A", "A+"
+#'
+#' @return GPA  numeric from F = 0 to A+ = 4.33, NA if not a letter grade
+#' @importFrom dplyr case_when
+#' @export
+#'
+#' @examples
+#' e_convert_Grade_to_GPA(
+#'     Grade =
+#'       c("A+", "A", "A-"
+#'       , "B+", "B", "B-"
+#'       , "C+", "C", "C-"
+#'       , "D+", "D", "D-"
+#'       , "F"
+#'       , NA, 0, "hello"
+#'       )
+#'   )
+e_convert_Grade_to_GPA <-
+  function(
+    Grade
+  ) {
+
+  GPA <-
+    dplyr::case_when(
+      Grade == "A+" ~ 4.33
+    , Grade == "A"  ~ 4.00
+    , Grade == "A-" ~ 3.67
+    , Grade == "B+" ~ 3.33
+    , Grade == "B"  ~ 3.00
+    , Grade == "B-" ~ 2.67
+    , Grade == "C+" ~ 2.33
+    , Grade == "C"  ~ 2.00
+    , Grade == "C-" ~ 1.67
+    , Grade == "D+" ~ 1.33
+    , Grade == "D"  ~ 1.00
+    , Grade == "D-" ~ 0.67
+    , Grade == "F"  ~ 0.00
+    , TRUE          ~ NA %>% as.numeric()
+    )
+
+  return(GPA)
+}
+
+
+
+
+
 #' Convert inches (in) to centimeters (cm)
 #'
 #' @param   inches  list of values in inches (in)

@@ -50,6 +50,9 @@ e_read_data_subdir_into_lists <-
   , sw_dat_print_fn_read   = c(TRUE, FALSE)[2]
   ) {
 
+  # original idea
+  # https://stackoverflow.com/questions/27780593/read-nested-folder-and-file-names-as-nested-list/27783472#27783472
+
   ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir"  #/dir_a/dir_aa/dir_aaa"
   ## fn_detect = NULL #c("csv$", "xls$", "xlsx$")
   ## sw_fn_or_dat  = c("fn", "dat")[1]
