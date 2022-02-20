@@ -22,7 +22,7 @@
 #' }
 #'
 #' e_plot_missing(
-#'     dat_plot            = dat_plot
+#'     dat_plot       = dat_plot
 #'   , var_group      = "cyl"
 #'   , sw_group_sort  = TRUE
 #'   , var2_sort      = "disp"
@@ -47,6 +47,13 @@ e_plot_missing <-
   # #var_group = "cylx"
   # sw_group_sort = TRUE
   # var2_sort = "hp"
+
+  dims <-
+    c(
+      rows = dim(dat_plot)[1]
+    , cols = dim(dat_plot)[2]
+    , vals = prod(dim(dat_plot))
+    )
 
   # If there are rownames, then create a separate variable
   if (any(is.na(as.numeric(rownames(dat_plot))))) {
@@ -203,7 +210,7 @@ e_plot_missing <-
   p1 <- p1 + ggplot2::theme_bw()
   p1 <- p1 + ggplot2::theme(axis.title.x = element_blank(), axis.text.x = element_blank()) #, axis.ticks.x = element_blank())
   p1 <- p1 + ggplot2::geom_col(fill = "gray60")
-  p1 <- p1 + ggplot2::geom_text(aes(label = paste0(100 * round(prop_missing, 2), "%"), y = 1), colour = "black", size = 4, nudge_y = -0.2, hjust = 0.5)
+  p1 <- p1 + ggplot2::geom_text(aes(label = paste0(100 * round(prop_missing, 2), "%"), y = 1), colour = "black", nudge_y = -0.2, hjust = 0.5) # size = 4,
   p1 <- p1 + ggplot2::labs(y = "Missing %")
   p1 <- p1 + ggplot2::scale_y_continuous(labels = scales::label_percent(), breaks = seq(0, 1, by = 0.5), minor_breaks = seq(0, 1, by = 0.1), limits = c(0, 1))
   p1 <- p1 + labs(
@@ -260,12 +267,19 @@ e_plot_missing <-
               alpha = "Value is"
             , caption =
                 paste0(
-                  "Missing values: "
+                  "Dimensions: "
+                , dims["rows"], " rows"
+                , " * "
+                , dims["cols"], " cols"
+                , " = "
+                , dims["vals"], " vals"
+                , "\n"
+                , "Missing values: "
                 , n_missing
                 , " / "
-                , prod(dim(dat_plot))
+                , dims["vals"]  # prod(dim(dat_plot))
                 , ",  "
-                , 100 * round(n_missing / prod(dim(dat_plot)), 3)
+                , 100 * round(n_missing / dims["vals"], 3)  # prod(dim(dat_plot))
                 , " %;"
                 , "    "
                 , "Complete observations: "

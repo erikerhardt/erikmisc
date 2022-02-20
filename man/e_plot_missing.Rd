@@ -36,7 +36,7 @@ for (i_row in seq_along(n_missing)) {
 }
 
 e_plot_missing(
-    dat_plot            = dat_plot
+    dat_plot       = dat_plot
   , var_group      = "cyl"
   , sw_group_sort  = TRUE
   , var2_sort      = "disp"
