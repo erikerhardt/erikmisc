@@ -270,9 +270,9 @@ e_plot_missing <-
                   "Dimensions: "
                 , dims["rows"], " rows"
                 , " * "
-                , dims["cols"], " cols"
+                , dims["cols"], " columns"
                 , " = "
-                , dims["vals"], " vals"
+                , dims["vals"], " values"
                 , "\n"
                 , "Missing values: "
                 , n_missing
