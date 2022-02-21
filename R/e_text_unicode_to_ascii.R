@@ -20,6 +20,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' # # file with lots of unicode to replace
 #' # e_text_unicode_to_ascii(
 #' #     fn_in    = "./data-raw/unicode/text_in_unicode.csv"
 #' #   , fn_out   = "./data-raw/unicode/text_out_unicode.csv"
@@ -28,6 +29,7 @@
 #' #   , sw_print_line_text          = FALSE
 #' #   )
 #' #
+#' # # list with lots of unicode to replace
 #' # text_no_unicode <-
 #' #  e_text_unicode_to_ascii(
 #' #     fn_in    = NULL
@@ -37,6 +39,7 @@
 #' #   , sw_print_line_text          = FALSE
 #' #   )
 #' #
+#' # # no unicode in text_in list
 #' # text_no_unicode <-
 #' #  e_text_unicode_to_ascii(
 #' #     fn_in    = NULL
@@ -44,6 +47,16 @@
 #' #   , text_in  = c("a", "b", "c")
 #' #   , unicode_generic_replacement = "XxXunicodeXxX"
 #' #   , sw_print_line_text          = FALSE
+#' #   )
+#' #
+#' # # remove all unicode from all variables
+#' # dat_all <-
+#' #   dat_all %>%
+#' #   dplyr::mutate(
+#' #     dplyr::across(
+#' #       .cols = everything()
+#' #     , .fns  = ~ e_text_unicode_to_ascii(text_in = .x)
+#' #     )
 #' #   )
 #' }
 e_text_unicode_to_ascii <-
