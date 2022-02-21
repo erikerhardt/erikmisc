@@ -8,7 +8,8 @@ e_read_data_files(
   read_fn_path = ".",
   read_fn_names = NULL,
   sw_dat_add_col_path_fn = c(TRUE, FALSE)[1],
-  sw_dat_print_fn_read = c(TRUE, FALSE)[1]
+  sw_dat_print_fn_read = c(TRUE, FALSE)[1],
+  excel_sheets = "all"
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ e_read_data_files(
 \item{sw_dat_add_col_path_fn}{T/F for data, add two columns specifying the directory (\code{DIR__}) and filename (\code{FILE__})}
 
 \item{sw_dat_print_fn_read}{T/F print file names and dimensions as the files are read}
+
+\item{excel_sheets}{"all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.}
 }
 \value{
 dat_sheet             A list of tibbles

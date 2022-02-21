@@ -10,7 +10,8 @@ e_read_data_subdir_into_lists(
   sw_fn_or_dat = c("fn", "dat")[1],
   sw_exclude_empty_dir = c(TRUE, FALSE)[1],
   sw_dat_add_col_path_fn = c(TRUE, FALSE)[1],
-  sw_dat_print_fn_read = c(TRUE, FALSE)[2]
+  sw_dat_print_fn_read = c(TRUE, FALSE)[2],
+  excel_sheets = "all"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ e_read_data_subdir_into_lists(
 \item{sw_dat_add_col_path_fn}{T/F for data, add two columns specifying the directory (\code{DIR__}) and filename (\code{FILE__})}
 
 \item{sw_dat_print_fn_read}{T/F print file names and dimensions as the files are read}
+
+\item{excel_sheets}{"all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.  Passed to \code{e_read_data_files()}.}
 }
 \value{
 fn_names              Either a structured list of filenames or of tibbles

@@ -8,6 +8,7 @@
 #' @param sw_exclude_empty_dir   T/F exclude empty directories
 #' @param sw_dat_add_col_path_fn T/F for data, add two columns specifying the directory (\code{DIR__}) and filename (\code{FILE__})
 #' @param sw_dat_print_fn_read   T/F print file names and dimensions as the files are read
+#' @param excel_sheets           "all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.  Passed to \code{e_read_data_files()}.
 #'
 #' @return fn_names              Either a structured list of filenames or of tibbles
 #' @import dplyr
@@ -48,6 +49,7 @@ e_read_data_subdir_into_lists <-
   , sw_exclude_empty_dir   = c(TRUE, FALSE)[1]
   , sw_dat_add_col_path_fn = c(TRUE, FALSE)[1]
   , sw_dat_print_fn_read   = c(TRUE, FALSE)[2]
+  , excel_sheets           = "all"
   ) {
 
   # original idea
@@ -88,6 +90,7 @@ e_read_data_subdir_into_lists <-
       , sw_exclude_empty_dir   = sw_exclude_empty_dir
       , sw_dat_add_col_path_fn = sw_dat_add_col_path_fn
       , sw_dat_print_fn_read   = sw_dat_print_fn_read
+      , excel_sheets           = excel_sheets
       )
     # Set names for the new list
     names(fn_subdir) <-
@@ -152,6 +155,7 @@ e_read_data_subdir_into_lists <-
           , read_fn_names           = fn_to_return
           , sw_dat_add_col_path_fn  = sw_dat_add_col_path_fn
           , sw_dat_print_fn_read    = sw_dat_print_fn_read
+          , excel_sheets            = excel_sheets
           )
 
         fn_names <-
@@ -166,6 +170,7 @@ e_read_data_subdir_into_lists <-
       }
     }
 
+  # end of directories
   } else {
     if (sw_fn_or_dat == "dat") {
       if(length(fn_names)) {
@@ -175,6 +180,7 @@ e_read_data_subdir_into_lists <-
           , read_fn_names           = fn_names
           , sw_dat_add_col_path_fn  = sw_dat_add_col_path_fn
           , sw_dat_print_fn_read    = sw_dat_print_fn_read
+          , excel_sheets            = excel_sheets
           )
 
         fn_names <-
