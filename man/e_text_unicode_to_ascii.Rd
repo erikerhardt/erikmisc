@@ -7,6 +7,7 @@
 e_text_unicode_to_ascii(
   fn_in = NULL,
   fn_out = NULL,
+  text_in = NULL,
   unicode_generic_replacement = "XunicodeX",
   sw_print_line_text = FALSE
 )
@@ -16,23 +17,47 @@ e_text_unicode_to_ascii(
 
 \item{fn_out}{text filename out.  If NULL, then this is assigned \code{fn_in}.}
 
-\item{unicode_generic_replacement}{a string to replace non-matched unicode characters}
+\item{text_in}{character list in.}
 
-\item{sw_print_line_text}{\code{FALSE} to print only the line number, \code{TRUE} to print the line number and text on the line}
+\item{unicode_generic_replacement}{a string to replace non-matched unicode characters.}
+
+\item{sw_print_line_text}{\code{FALSE} to print only the line/index number, \code{TRUE} to print the line/index number and text on the line.}
 }
 \value{
 NULL, invisibly
 }
 \description{
-Read a text file and replace unicode characters \code{[^\\x00-\\x7F]} with equivalent ASCII or specified replacement.
+Read a text file or character list and replace unicode characters \code{[^\\x00-\\x7F]} with equivalent ASCII or specified replacement.
 Review table \code{?dat_unicode_tables_sel_byhand_e} for the ASCII replacements.
 Not all unicode has a natural ASCII replacement, so those replacements can be specified with \code{unicode_generic_replacement}.
+}
+\details{
+Either use \code{fn_in} and \code{fn_out} for files, or use \code{text_in} for a character list, but not both.
 }
 \examples{
 \dontrun{
 # e_text_unicode_to_ascii(
-#     fn_in  = "./data-raw/unicode/text_in_unicode.csv"
-#   , fn_out = "./data-raw/unicode/text_out_unicode.csv"
+#     fn_in    = "./data-raw/unicode/text_in_unicode.csv"
+#   , fn_out   = "./data-raw/unicode/text_out_unicode.csv"
+#   , text_in  = NULL
+#   , unicode_generic_replacement = "XxXunicodeXxX"
+#   , sw_print_line_text          = FALSE
+#   )
+#
+# text_no_unicode <-
+#  e_text_unicode_to_ascii(
+#     fn_in    = NULL
+#   , fn_out   = NULL
+#   , text_in  = erikmisc::dat_unicode_tables_sel_byhand_e$Glyph
+#   , unicode_generic_replacement = "XxXunicodeXxX"
+#   , sw_print_line_text          = FALSE
+#   )
+#
+# text_no_unicode <-
+#  e_text_unicode_to_ascii(
+#     fn_in    = NULL
+#   , fn_out   = NULL
+#   , text_in  = c("a", "b", "c")
 #   , unicode_generic_replacement = "XxXunicodeXxX"
 #   , sw_print_line_text          = FALSE
 #   )
