@@ -8,7 +8,8 @@ e_plot_missing(
   dat_plot,
   var_group = NULL,
   sw_group_sort = FALSE,
-  var2_sort = NULL
+  var2_sort = NULL,
+  sw_title_data_name = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ e_plot_missing(
 \item{sw_group_sort}{TRUE/FALSE to sort by grouped variable}
 
 \item{var2_sort}{second variable name to sort by if data is grouped}
+
+\item{sw_title_data_name}{TRUE/FALSE to include data object name in title}
 }
 \value{
 ggplot grob plot object

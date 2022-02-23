@@ -4,6 +4,7 @@
 #' @param var_group     variable name to group by (colors data)
 #' @param sw_group_sort TRUE/FALSE to sort by grouped variable
 #' @param var2_sort     second variable name to sort by if data is grouped
+#' @param sw_title_data_name TRUE/FALSE to include data object name in title
 #'
 #' @return              ggplot grob plot object
 #' @import dplyr
@@ -33,6 +34,7 @@ e_plot_missing <-
   , var_group     = NULL
   , sw_group_sort = FALSE
   , var2_sort     = NULL
+  , sw_title_data_name = TRUE
   ) {
   ## DEBUG
   ## 6/17/2021
@@ -54,6 +56,11 @@ e_plot_missing <-
     , cols = dim(dat_plot)[2]
     , vals = prod(dim(dat_plot))
     )
+
+  # extract name of data.frame passed to function
+  name_dat <- deparse(substitute(dat_plot))
+  #print(name_dat)
+
 
   # If there are rownames, then create a separate variable
   if (any(is.na(as.numeric(rownames(dat_plot))))) {
@@ -213,9 +220,15 @@ e_plot_missing <-
   p1 <- p1 + ggplot2::geom_text(aes(label = paste0(100 * round(prop_missing, 2), "%"), y = 1), colour = "black", nudge_y = -0.2, hjust = 0.5) # size = 4,
   p1 <- p1 + ggplot2::labs(y = "Missing %")
   p1 <- p1 + ggplot2::scale_y_continuous(labels = scales::label_percent(), breaks = seq(0, 1, by = 0.5), minor_breaks = seq(0, 1, by = 0.1), limits = c(0, 1))
-  p1 <- p1 + labs(
-               title = "Missing values"
-             )
+  if (sw_title_data_name) {
+    p1 <- p1 + labs(
+                 title = paste0("Missing values: ", name_dat)
+               )
+  } else {
+    p1 <- p1 + labs(
+                 title = "Missing values"
+               )
+  }
   if (sw_group) {
     # p1 <- p1 + labs(
     #           fill = var_group
