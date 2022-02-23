@@ -1,10 +1,11 @@
 #' Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.
 #'
-#' @param dat_plot      data.frame or tibble
-#' @param var_group     variable name to group by (colors data)
-#' @param sw_group_sort TRUE/FALSE to sort by grouped variable
-#' @param var2_sort     second variable name to sort by if data is grouped
-#' @param sw_title_data_name TRUE/FALSE to include data object name in title
+#' @param dat_plot            data.frame or tibble
+#' @param var_group           variable name to group by (colors data)
+#' @param sw_group_sort       TRUE/FALSE to sort by grouped variable
+#' @param var2_sort           second variable name to sort by if data is grouped
+#' @param sw_title_data_name  TRUE/FALSE to include data object name in title
+#' @param sw_text_pct_miss    TRUE/FALSE to include text values of percent missing on bar plot
 #'
 #' @return              ggplot grob plot object
 #' @import dplyr
@@ -31,10 +32,11 @@
 e_plot_missing <-
   function(
     dat_plot
-  , var_group     = NULL
-  , sw_group_sort = FALSE
-  , var2_sort     = NULL
-  , sw_title_data_name = TRUE
+  , var_group           = NULL
+  , sw_group_sort       = FALSE
+  , var2_sort           = NULL
+  , sw_title_data_name  = TRUE
+  , sw_text_pct_miss    = FALSE
   ) {
   ## DEBUG
   ## 6/17/2021
@@ -217,7 +219,9 @@ e_plot_missing <-
   p1 <- p1 + ggplot2::theme_bw()
   p1 <- p1 + ggplot2::theme(axis.title.x = element_blank(), axis.text.x = element_blank()) #, axis.ticks.x = element_blank())
   p1 <- p1 + ggplot2::geom_col(fill = "gray60")
-  p1 <- p1 + ggplot2::geom_text(aes(label = paste0(100 * round(prop_missing, 2), "%"), y = 1), colour = "black", nudge_y = -0.2, hjust = 0.5) # size = 4,
+  if (sw_text_pct_miss) {
+    p1 <- p1 + ggplot2::geom_text(aes(label = paste0(100 * round(prop_missing, 2), "%"), y = 1), colour = "black", nudge_y = -0.2, hjust = 0.5) # size = 4,
+  }
   p1 <- p1 + ggplot2::labs(y = "Missing %")
   p1 <- p1 + ggplot2::scale_y_continuous(labels = scales::label_percent(), breaks = seq(0, 1, by = 0.5), minor_breaks = seq(0, 1, by = 0.1), limits = c(0, 1))
   if (sw_title_data_name) {
