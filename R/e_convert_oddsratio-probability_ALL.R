@@ -50,3 +50,59 @@ e_convert_probability_to_oddsratio <-
 
   return(or)
 }
+
+
+#' Logit: Convert from Probability to log(Odds Ratio)
+#'
+#' See \code{car::logit} for a better implementation.
+#'
+#' @param p          list of probabilities
+#' @param sw_percent T/F input is percent
+#'
+#' @return z         list of log(odds ratios) logit-scale values
+#' @export
+#'
+#' @examples
+#' p <- seq(0, 1, by = 0.1)
+#' e_convert_logit(p)
+e_convert_logit <-
+  function(
+    p          = NULL
+  , sw_percent = FALSE
+  ) {
+
+  if(sw_percent) {
+    p <- p / 100
+  }
+
+  z <- log(p / (1 - p))
+
+  return(z)
+}
+
+
+#' Logistic: Convert from log(Odds Ratio) to Probability
+#'
+#' @param z          list of log(odds ratios) logit-scale values
+#' @param sw_percent T/F output is percent
+#'
+#' @return p         list of probabilities
+#' @export
+#'
+#' @examples
+#' z <- qnorm(seq(0, 1, by = 0.1))
+#' e_convert_logistic(z)
+e_convert_logistic <-
+  function(
+    z          = NULL
+  , sw_percent = FALSE
+  ) {
+
+  p <- exp(z) / (1 + exp(z))
+
+  if(sw_percent) {
+    p <- p * 100
+  }
+
+  return(p)
+}
