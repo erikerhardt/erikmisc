@@ -28,18 +28,24 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ## Usage
 
-7/9/2021 - Vignettes will be written soon.
-
 ``` r
 library(erikmisc)
+#> -- Attaching packages ---------------------------------------- erikmisc 0.1.7 --
+#> v tibble 3.1.6     v dplyr  1.0.8
+#> -- Conflicts ------------------------------------------- erikmisc_conflicts() --
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
 #> erikmisc, solving common complex data analysis workflows
 #>   by Dr. Erik Barry Erhardt <erik@StatAcumen.com>
 erikmisc_logo()
 #> 
-#>    *    .   _ _  o      *    _  *  .     
+#>  *        . _ _   o          _    *  o   
 #>    ___ _ __(_) | ___ __ ___ (_)___  ___  
 #>   / _ \ '__| | |/ / '_ ` _ \| / __|/ __| 
 #>  |  __/ |  | |   <| | | | | | \__ \ (__  
 #>   \___|_|  |_|_|\_\_| |_| |_|_|___/\___| 
-#>      *       .           o      .     *
+#>     . .       *           *   *       .
+?`erikmisc-package`
+#> starting httpd help server ...
+#>  done
 ```

@@ -36,10 +36,9 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ## Usage
 
-7/9/2021 - Vignettes will be written soon.
-
 ```{r example}
 library(erikmisc)
 erikmisc_logo()
+?`erikmisc-package`
 ```
 
