@@ -117,7 +117,7 @@ fit <-
   , data    = dat_cont
   )
 
-#car::Anova(fit, type = 3)
+car::Anova(fit)  #, type = 3)
 summary(fit)
 
 # all contrasts from model
