@@ -12,17 +12,7 @@ msg <- function(..., startup = FALSE) {
 }
 
 
-#' text_col
-#'
-#' @param x message
-#'
-#' @return color
-#'
-#' @importFrom rstudioapi isAvailable
-#' @importFrom rstudioapi hasFun
-#' @importFrom rstudioapi getThemeInfo
-#' @importFrom crayon white
-#' @importFrom crayon black
+
 text_col <- function(x) {
   # If RStudio not available, messages already printed in black
   if (!rstudioapi::isAvailable()) {
@@ -36,7 +26,6 @@ text_col <- function(x) {
   theme <- rstudioapi::getThemeInfo()
 
   if (isTRUE(theme$dark)) crayon::white(x) else crayon::black(x)
-
 }
 
 #' List all packages in the erikmisc
@@ -70,3 +59,19 @@ style_grey <- function(level, ...) {
     crayon::make_style(grDevices::grey(level), grey = TRUE)
   )
 }
+
+
+## This header still exported this function, even without @explort
+## so I moved it down here to disconnect it from the function.
+
+#' text_col
+#'
+#' @param x message
+#'
+#' @return color
+#'
+#' @importFrom rstudioapi isAvailable
+#' @importFrom rstudioapi hasFun
+#' @importFrom rstudioapi getThemeInfo
+#' @importFrom crayon white
+#' @importFrom crayon black
