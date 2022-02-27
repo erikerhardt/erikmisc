@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
       </span>
     </div>
 
@@ -90,8 +90,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Read data from subdirectories into a structured list</h1>
-            <h3 data-toc-skip class="subtitle">Return file names or tibbles in a list with same structure as subdirectories</h3>
+      <h1 data-toc-skip>Read data from subdirectories into a structured
+list</h1>
+            <h3 data-toc-skip class="subtitle">Return file names or
+tibbles in a list with same structure as subdirectories</h3>
             
       
       <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/vignettes/erikmisc-e_read_data_subdir_into_lists.Rmd" class="external-link"><code>vignettes/erikmisc-e_read_data_subdir_into_lists.Rmd</code></a></small>
@@ -102,18 +104,20 @@
     
     
 <ul>
-<li>This is an example of reading a hierarchy of subdirectories and returning the
+<li>This is an example of reading a hierarchy of subdirectories and
+returning the
 <ul>
 <li>file list or</li>
 <li>data as tibbles</li>
 </ul>
 </li>
-<li>in a structured list in the same hierachy as the subdirectories.</li>
+<li>in a structured list in the same hierachy as the
+subdirectories.</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.7</span>
+<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
@@ -127,7 +131,8 @@
 <li>4 root files</li>
 <li>3 subdirectories
 <ul>
-<li>a few sub-subdirectories with multiple files and additional subdirectories</li>
+<li>a few sub-subdirectories with multiple files and additional
+subdirectories</li>
 <li>two subdirectories with no files</li>
 </ul>
 </li>
@@ -213,7 +218,13 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $dir_c$dir_cb</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
-<p>This selects specified file extensions and excludes empty directories.</p>
+<p>This selects specified file extensions and excludes empty
+directories.</p>
+<ul>
+<li>No <code>.txt</code> in root</li>
+<li>No final <code>dir_cb</code>
+</li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># selected file names</span>
 <span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span>
@@ -251,8 +262,11 @@
 <div class="section level2">
 <h2 id="read-and-return-data-in-list">Read and return data in list<a class="anchor" aria-label="anchor" href="#read-and-return-data-in-list"></a>
 </h2>
-<p>Now that we’re happy with the files to read, we read the files, including the path and filename as additional columns in each file, and printing the filename path and dimension during the process.</p>
-<p>Note that all of these example files have the same content, columns A, B, and C.</p>
+<p>Now that we’re happy with the files to read, we read the files,
+including the path and filename as additional columns in each file, and
+printing the filename path and dimension during the process.</p>
+<p>Note that all of these example files have the same content, columns
+A, B, and C.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># selected data</span>
 <span class="va">dat_sheet</span> <span class="op">&lt;-</span>
@@ -417,7 +431,8 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span></code></pre></div>
-<p>Finally, files within a folder with no other subdirectories can easily be bind’ed together.</p>
+<p>Finally, files within a folder with no other subdirectories can
+easily be bind’ed together.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">dat_sheet</span><span class="op">$</span><span class="va">dir_b</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 x 5</span></span>
@@ -452,7 +467,8 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>

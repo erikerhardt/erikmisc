@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
       </span>
     </div>
 
@@ -91,7 +91,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Key variables completion</h1>
-            <h3 data-toc-skip class="subtitle">Efficient completion of keys from multiple data sources</h3>
+            <h3 data-toc-skip class="subtitle">Efficient completion of
+keys from multiple data sources</h3>
             
       
       <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/vignettes/erikmisc-key_variables_completion.Rmd" class="external-link"><code>vignettes/erikmisc-key_variables_completion.Rmd</code></a></small>
@@ -104,7 +105,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.7</span>
+<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
@@ -113,10 +114,17 @@
 <div class="section level2">
 <h2 id="completing-combinations-of-key-variables">Completing combinations of key variables<a class="anchor" aria-label="anchor" href="#completing-combinations-of-key-variables"></a>
 </h2>
-<p>Consider the data below. Let <code>a</code>, <code>b</code>, and <code>c</code> each be unique keys from a variety of data sources, where some data sources contain more than one of the keys, but not necessarily all of them at the same time. The goal is to complete the keys best by cross-referencing all other matching pairs.</p>
-<p>For example, <code>a=1</code> and <code>b=11</code> appear together, and <code>a=1</code> and <code>c=10</code> appear together, therefore these three key values should appear together on the first two rows.</p>
+<p>Consider the data below. Let <code>a</code>, <code>b</code>, and
+<code>c</code> each be unique keys from a variety of data sources, where
+some data sources contain more than one of the keys, but not necessarily
+all of them at the same time. The goal is to complete the keys best by
+cross-referencing all other matching pairs.</p>
+<p>For example, <code>a=1</code> and <code>b=11</code> appear together,
+and <code>a=1</code> and <code>c=10</code> appear together, therefore
+these three key values should appear together on the first two rows.</p>
 <p>Data and best key variables completion.</p>
-<p><code>x</code> is a key variable but does not appear in this subset. The function handles empty keys, too.</p>
+<p><code>x</code> is a key variable but does not appear in this subset.
+The function handles empty keys, too.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># with data for key matching imputation</span>
 <span class="va">dat_data</span> <span class="op">&lt;-</span>
@@ -273,7 +281,8 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>

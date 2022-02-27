@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
       </span>
     </div>
 
@@ -91,7 +91,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multiple regression using erikmisc</h1>
-            <h3 data-toc-skip class="subtitle">Plotting all linear model effects and contrasts</h3>
+            <h3 data-toc-skip class="subtitle">Plotting all linear model
+effects and contrasts</h3>
             
       
       <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/vignettes/erikmisc-e_multiple_regression_example.Rmd" class="external-link"><code>vignettes/erikmisc-e_multiple_regression_example.Rmd</code></a></small>
@@ -102,14 +103,15 @@
     
     
 <ul>
-<li>This is an example of multiple regression using the functions in the <code>erikmisc</code> package.</li>
+<li>This is an example of multiple regression using the functions in the
+<code>erikmisc</code> package.</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>fig.width <span class="op">=</span> <span class="fl">6</span>, fig.height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.7</span>
+<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
@@ -119,7 +121,8 @@
 <h2 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
 </h2>
 <ul>
-<li>Calculating <code>mpg_log2</code> and dropping two extremely influential observations.</li>
+<li>Calculating <code>mpg_log2</code> and dropping two extremely
+influential observations.</li>
 <li>Creating some missing values to illustrate missing values plot.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -164,15 +167,15 @@
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Rear axle ratio"</span>
 <span class="co">#&gt;  $ wt      : num [1:30] 2.62 2.88 2.32 3.21 3.44 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Weight (1000 lbs)"</span>
-<span class="co">#&gt;  $ qsec    : num [1:30] NA 17 18.6 NA 17 ...</span>
+<span class="co">#&gt;  $ qsec    : num [1:30] 16.5 17 18.6 NA 17 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "1/4 mile time"</span>
 <span class="co">#&gt;  $ vs      : Factor w/ 2 levels "V-shaped","straight": 1 1 2 2 1 2 1 2 2 2 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Engine"</span>
-<span class="co">#&gt;  $ am      : Factor w/ 2 levels "automatic","manual": NA NA NA 1 1 1 NA 1 1 1 ...</span>
+<span class="co">#&gt;  $ am      : Factor w/ 2 levels "automatic","manual": 2 2 2 1 1 1 1 1 1 NA ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Transmission"</span>
 <span class="co">#&gt;  $ gear    : num [1:30] 4 4 4 3 3 3 3 4 4 4 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Number of forward gears"</span>
-<span class="co">#&gt;  $ carb    : num [1:30] NA 4 1 1 NA 1 NA 2 2 4 ...</span>
+<span class="co">#&gt;  $ carb    : num [1:30] 4 4 1 1 2 NA 4 2 2 4 ...</span>
 <span class="co">#&gt;   ..- attr(*, "label")= chr "Number of carburetors"</span>
 <span class="co">#summary(dat_mtcars_e)</span></code></pre></div>
 <div class="section level3">
@@ -193,7 +196,9 @@
 <h2 id="fit-full-model">Fit full model<a class="anchor" aria-label="anchor" href="#fit-full-model"></a>
 </h2>
 <ul>
-<li>This model is chosen to have numeric and categorical main effects, and at least two of possible types of two-way interaction (cat:cat, cat:num, num:num).</li>
+<li>This model is chosen to have numeric and categorical main effects,
+and at least two of possible types of two-way interaction (cat:cat,
+cat:num, num:num).</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="co"># Set model with all two-way interactions</span>
@@ -211,7 +216,8 @@
   , data    <span class="op">=</span> <span class="va">dat_mtcars_e</span>
   <span class="op">)</span></code></pre></div>
 <ul>
-<li>Anova shows of the many two-way interactions in the model, almost none are significant.</li>
+<li>Anova shows of the many two-way interactions in the model, almost
+none are significant.</li>
 <li>We can greatly simplify this model.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -276,19 +282,25 @@
 <ul>
 <li>On full dataset:
 <ul>
-<li>QQ-plot shows roughly normal (outliers in the direction of high kurtosis, “leptokurtosis”).</li>
+<li>QQ-plot shows roughly normal (outliers in the direction of high
+kurtosis, “leptokurtosis”).</li>
 <li>Cook’s distance shows two highly influential observations.</li>
-<li>Cook’s vs leverage plot shows that these influential observations (y-axis) are because of their high leverage (outlier in the x-direction).</li>
-<li>Box-Cox suggests a lambda = 0, log(y) transformation will improve normality.</li>
+<li>Cook’s vs leverage plot shows that these influential observations
+(y-axis) are because of their high leverage (outlier in the
+x-direction).</li>
+<li>Box-Cox suggests a lambda = 0, log(y) transformation will improve
+normality.</li>
 </ul>
 </li>
-<li>After log2 transform and dropping two extremely influential observations (below)…
+<li>After log2 transform and dropping two extremely influential
+observations (below)…
 <ul>
 <li>Cook’s distance shows two or three influential observations.</li>
 </ul>
 </li>
 </ul>
-<p><em>Recall, our goal is not to resolve all issues, but to illustrate the functions in the <code>erikmisc</code> package.</em></p>
+<p><em>Recall, our goal is not to resolve all issues, but to illustrate
+the functions in the <code>erikmisc</code> package.</em></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/e_plot_lm_diagostics.html">e_plot_lm_diagostics</a></span><span class="op">(</span>
     fit <span class="op">=</span> <span class="va">lm_fit</span>
@@ -377,7 +389,9 @@
 <h2 id="fit-reduced-model">Fit reduced model<a class="anchor" aria-label="anchor" href="#fit-reduced-model"></a>
 </h2>
 <ul>
-<li>For demonstration purposes, I’m choosing Model 9 because it has both <code>factor:numeric</code> and <code>numeric:numeric</code> interactions.</li>
+<li>For demonstration purposes, I’m choosing Model 9 because it has both
+<code>factor:numeric</code> and <code>numeric:numeric</code>
+interactions.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tab_lm_best</span><span class="op">[</span><span class="fl">9</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
@@ -458,8 +472,10 @@
 <h2 id="plot-model-contrasts">Plot model contrasts<a class="anchor" aria-label="anchor" href="#plot-model-contrasts"></a>
 </h2>
 <ul>
-<li>See the help <code><a href="../reference/e_plot_model_contrasts.html">?e_plot_model_contrasts</a></code> for the method defaults.</li>
-<li>I’m choosing to not print the output (default) while the function runs so that we can examine the separate lists in the output.</li>
+<li>See the help <code><a href="../reference/e_plot_model_contrasts.html">?e_plot_model_contrasts</a></code> for the method
+defaults.</li>
+<li>I’m choosing to not print the output (default) while the function
+runs so that we can examine the separate lists in the output.</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lm_fit_contrasts</span> <span class="op">&lt;-</span>
@@ -483,7 +499,11 @@
 <h3 id="tables">tables<a class="anchor" aria-label="anchor" href="#tables"></a>
 </h3>
 <ul>
-<li>The <code>tables</code> are give the estimates (<code>$est</code>) and contrasts (<code>$cont</code>) for each effect in the model not involved with an interaction (argument <code>sw_marginal_even_if_interaction</code> can include all main effects).</li>
+<li>The <code>tables</code> are give the estimates (<code>$est</code>)
+and contrasts (<code>$cont</code>) for each effect in the model not
+involved with an interaction (argument
+<code>sw_marginal_even_if_interaction</code> can include all main
+effects).</li>
 </ul>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to print tables</span>
@@ -509,7 +529,8 @@
 <h3 id="text">text<a class="anchor" aria-label="anchor" href="#text"></a>
 </h3>
 <ul>
-<li>The <code>text</code> of the tables are written in a form that can be copy/pasted into a report and worked into sentences.</li>
+<li>The <code>text</code> of the tables are written in a form that can
+be copy/pasted into a report and worked into sentences.</li>
 </ul>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to print caption text</span>
@@ -519,7 +540,9 @@
 <h3 id="plots">plots<a class="anchor" aria-label="anchor" href="#plots"></a>
 </h3>
 <ul>
-<li>The <code>plots</code> illustrate the effects with labelled plots and the <code>text</code> in the caption for a single complete result.</li>
+<li>The <code>plots</code> illustrate the effects with labelled plots
+and the <code>text</code> in the caption for a single complete
+result.</li>
 </ul>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># These are the two plots</span>
@@ -549,7 +572,8 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>

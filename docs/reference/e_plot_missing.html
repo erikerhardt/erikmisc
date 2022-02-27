@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
       </span>
     </div>
 
@@ -79,7 +79,9 @@
   <span class="va">dat_plot</span>,
   var_group <span class="op">=</span> <span class="cn">NULL</span>,
   sw_group_sort <span class="op">=</span> <span class="cn">FALSE</span>,
-  var2_sort <span class="op">=</span> <span class="cn">NULL</span>
+  var2_sort <span class="op">=</span> <span class="cn">NULL</span>,
+  sw_title_data_name <span class="op">=</span> <span class="cn">TRUE</span>,
+  sw_text_pct_miss <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -93,6 +95,10 @@
 <dd><p>TRUE/FALSE to sort by grouped variable</p></dd>
 <dt>var2_sort</dt>
 <dd><p>second variable name to sort by if data is grouped</p></dd>
+<dt>sw_title_data_name</dt>
+<dd><p>TRUE/FALSE to include data object name in title</p></dd>
+<dt>sw_text_pct_miss</dt>
+<dd><p>TRUE/FALSE to include text values of percent missing on bar plot</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -110,7 +116,7 @@
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">e_plot_missing</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot            <span class="op">=</span> <span class="va">dat_plot</span></span>
+<span class="r-in">    dat_plot       <span class="op">=</span> <span class="va">dat_plot</span></span>
 <span class="r-in">  , var_group      <span class="op">=</span> <span class="st">"cyl"</span></span>
 <span class="r-in">  , sw_group_sort  <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in">  , var2_sort      <span class="op">=</span> <span class="st">"disp"</span></span>
@@ -132,7 +138,8 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer></div>
