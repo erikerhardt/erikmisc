@@ -24,7 +24,7 @@ Best subset selection returns results sorted by BIC
 tab_best <-
   e_lm_bestsubset(
     form = stats::formula(mpg ~ cyl + disp + hp + gear)
-  , dat  = datasets::mtcars
+  , dat  = erikmisc::dat_mtcars_e
   )
 
   op <- options(); # saving old options
