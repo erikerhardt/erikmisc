@@ -87,7 +87,7 @@
 #'   , data    = dat_cont
 #'   )
 #'
-#' stats::anova(fit)
+#' car::Anova(fit)  #, type = 3)
 #' summary(fit)
 #'
 #' # all contrasts from model
@@ -286,6 +286,11 @@ e_plot_model_contrasts <-
       "NOTE: Results may be misleading due to involvement in interactions\n"
   # END Capture warnings to take actions
 
+  # confidence limits (CL) column names differ depending on method and rank deficiency
+  # provide a list of possibilities to look for from the summary tables
+  col_names_LCL <- c("lower.CL", "asymp.LCL")
+  col_names_UCL <- c("upper.CL", "asymp.UCL")
+
 
   # check for label, create label if unlabelled
   for (n_col in names(dat_cont)) {
@@ -394,18 +399,23 @@ e_plot_model_contrasts <-
           , var     = var_xs
           )
 
+        # confidence limit (CL) column names
+        col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
+        col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
+
         out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
         out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- NULL
 
 
         ## Plot
         # CI text
-            # is.null is for when no values coulbe be estimated
-        if(!is.null(summary(cont_fit)[["lower.CL"]])) {
+            # is.null is for when no values could be estimated
+        #CLs#if(!is.null(summary(cont_fit)[["lower.CL"]])) {
+        if(!is.null(summary(cont_fit)[[col_name_LCL]])) {
           text_cont <- summary(cont_fit)[[ var_xs[1] ]]
           text_est  <- summary(cont_fit)[[2]]
-          text_LCL  <- summary(cont_fit)[["lower.CL"]]
-          text_UCL  <- summary(cont_fit)[["upper.CL"]]
+          text_LCL  <- summary(cont_fit)[[col_name_LCL]]
+          text_UCL  <- summary(cont_fit)[[col_name_UCL]]
           text_CI  <-
             paste0(
               "Estimate: "
@@ -506,8 +516,11 @@ e_plot_model_contrasts <-
           , adjust  = adjust_method
           , level   = CI_level
           )
-
         cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
+
+        # confidence limit (CL) column names
+        col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
+        col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
 
         if(sw_print) {
           cont_fit   %>% print()
@@ -517,17 +530,17 @@ e_plot_model_contrasts <-
         out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
         out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- cont_pairs
 
-        col_name_LCL <- "lower.CL"
-        col_name_UCL <- "upper.CL"
-
-        # ## lmer fit issue can cause a cont_fit to not provide an estimate
-        # #     fit warnings:
-        # #     fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
-        # # if the estimate is NA, then the column headers differ, too.
-        if (!(col_name_LCL %in% names(summary(cont_fit)))) {
-          col_name_LCL <- "asymp.LCL"
-          col_name_UCL <- "asymp.UCL"
-        }
+        #CLs#col_name_LCL <- "lower.CL"
+        #CLs#col_name_UCL <- "upper.CL"
+        #CLs#
+        #CLs## ## lmer fit issue can cause a cont_fit to not provide an estimate
+        #CLs## #     fit warnings:
+        #CLs## #     fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+        #CLs## # if the estimate is NA, then the column headers differ, too.
+        #CLs#if (!(col_name_LCL %in% names(summary(cont_fit)))) {
+        #CLs#  col_name_LCL <- "asymp.LCL"
+        #CLs#  col_name_UCL <- "asymp.UCL"
+        #CLs#}
 
         ## Plot
         # CI text
@@ -653,6 +666,10 @@ e_plot_model_contrasts <-
             )
           cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
 
+          # confidence limit (CL) column names
+          col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
+          col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
+
           if(sw_print) {
             cont_fit   %>% print()
             cont_pairs %>% print()
@@ -679,10 +696,10 @@ e_plot_model_contrasts <-
             for (i_specs in seq_along(levels_specs)) {
               i_row_cont_fit = i_row_cont_fit + 1
 
-              text_cont <- summary(cont_fit)[[ var_xs[1] ]][i_row_cont_fit]
-              text_est  <- summary(cont_fit)[["emmean"]]   [i_row_cont_fit]
-              text_LCL  <- summary(cont_fit)[["lower.CL"]] [i_row_cont_fit]
-              text_UCL  <- summary(cont_fit)[["upper.CL"]] [i_row_cont_fit]
+              text_cont <- summary(cont_fit)[[ var_xs[1] ]] [i_row_cont_fit]
+              text_est  <- summary(cont_fit)[["emmean"]]    [i_row_cont_fit]
+              text_LCL  <- summary(cont_fit)[[col_name_LCL]][i_row_cont_fit]
+              text_UCL  <- summary(cont_fit)[[col_name_UCL]][i_row_cont_fit]
               text_CI  <-
                 paste0(
                   text_CI
@@ -964,17 +981,22 @@ e_plot_model_contrasts <-
           #, mult.name = "variety"
           )
 
+        # confidence limit (CL) column names
+        col_name_LCL <- names(summary(cont_fit)$emtrends)[which(names(summary(cont_fit)$emtrends) %in% col_names_LCL)]
+        col_name_UCL <- names(summary(cont_fit)$emtrends)[which(names(summary(cont_fit)$emtrends) %in% col_names_UCL)]
+
         out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit$emtrends
         out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- cont_fit$contrasts
 
         ## Plot
         # CI text
             # is.null is for when no values could be be estimated
-        if(!is.null(summary(cont_fit$emtrends)[["lower.CL"]])) {
+        #CLs#if(!is.null(summary(cont_fit$emtrends)[["lower.CL"]])) {
+        if(!is.null(summary(cont_fit$emtrends)[[col_name_LCL]])) {
           text_cont <- summary(cont_fit$emtrends)[[ var_xs[1] ]]
           text_est  <- summary(cont_fit$emtrends)[[2]]
-          text_LCL  <- summary(cont_fit$emtrends)[["lower.CL"]]
-          text_UCL  <- summary(cont_fit$emtrends)[["upper.CL"]]
+          text_LCL  <- summary(cont_fit$emtrends)[[col_name_LCL]]
+          text_UCL  <- summary(cont_fit$emtrends)[[col_name_UCL]]
           text_CI  <-
             paste0(
               "Estimate: "
