@@ -12,6 +12,7 @@ e_plot_model_contrasts(
   adjust_method = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx",
     "mvt")[4],
   CI_level = 0.95,
+  sw_glm_scale = c("link", "response")[1],
   sw_print = TRUE,
   sw_marginal_even_if_interaction = FALSE,
   sw_TWI_plots_keep = c("singles", "both", "all")[3],
@@ -35,6 +36,8 @@ e_plot_model_contrasts(
 \item{adjust_method}{see         `?emmeans::summary.emmGrid`}
 
 \item{CI_level}{level from `?emmeans::emmeans`}
+
+\item{sw_glm_scale}{for glm fit, choose results on the "link" (default) or "response" scale}
 
 \item{sw_print}{T/F whether to print results as this function runs}
 
@@ -107,7 +110,7 @@ for (i_row in 1:nrow(dat_labels)) {
   labelled::var_label(dat_cont[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
 }
 
- # Set specific model with some interactions
+# Set specific model with some interactions
 form_model <-
   mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
 
@@ -143,8 +146,10 @@ fit_contrasts <-
   , dat_cont                = dat_cont
   , choose_contrasts        = "disp:hp"
   , sw_table_in_plot        = TRUE
-  , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+  , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni"
+                                , "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
   , CI_level                = 0.95
+  , sw_glm_scale            = c("link", "response")[1]
   , sw_print                = FALSE
   , sw_marginal_even_if_interaction = TRUE
   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
@@ -152,8 +157,105 @@ fit_contrasts <-
   , sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
   , sw_quantile_type        = 1
-  , plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
+  , plot_values             = list(hp = c(75, 100, 150, 200, 250)
+                                 , disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
   )
 fit_contrasts$plots$`disp:hp`$both
+
+
+## GLM on logit and probability scales
+
+dat_cont <-
+  dat_cont \%>\%
+  dplyr::mutate(
+    am_01 =
+      dplyr::case_when(
+        am == "manual"    ~ 0
+      , am == "automatic" ~ 1
+      )
+  )
+labelled::var_label(dat_cont[["am_01"]]) <- labelled::var_label(dat_cont[["am"]])
+
+# numeric:factor interaction
+fit_glm <-
+  glm(
+    cbind(am_01, 1 - am_01) ~
+      vs + hp + vs:hp
+  , family  = binomial
+  , data    = dat_cont
+  )
+
+car::Anova(fit_glm, type = 3)
+summary(fit_glm)
+
+# all contrasts from model, logit scale
+fit_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_glm
+  , dat_cont           = dat_cont
+  , sw_glm_scale       = c("link", "response")[1]
+  , sw_print           = FALSE
+  , sw_marginal_even_if_interaction = TRUE
+  , sw_TWI_plots_keep  = "both"
+  )
+fit_contrasts
+
+# all contrasts from model, probability scale
+fit_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_glm
+  , dat_cont           = dat_cont
+  , sw_glm_scale       = c("link", "response")[2]
+  , sw_print           = FALSE
+  , sw_marginal_even_if_interaction = TRUE
+  , sw_TWI_plots_keep  = "both"
+  )
+fit_contrasts
+
+
+# numeric:numeric interaction
+fit_glm <-
+  glm(
+    cbind(am_01, 1 - am_01) ~
+      disp + hp + disp:hp
+  , family  = binomial
+  , data    = dat_cont
+  )
+
+car::Anova(fit_glm, type = 3)
+summary(fit_glm)
+
+fit_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_glm
+  , dat_cont           = dat_cont
+  , sw_glm_scale       = c("link", "response")[2]
+  , sw_print           = FALSE
+  , sw_TWI_plots_keep  = "both"
+  )
+fit_contrasts
+
+
+# factor:factor interaction
+fit_glm <-
+  glm(
+    cbind(am_01, 1 - am_01) ~
+      vs + cyl + vs:cyl
+  , family  = binomial
+  , data    = dat_cont
+  )
+
+car::Anova(fit_glm) #, type = 3)
+summary(fit_glm)
+
+fit_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_glm
+  , dat_cont           = dat_cont
+  , sw_glm_scale       = c("link", "response")[2]
+  , sw_print           = FALSE
+  , sw_TWI_plots_keep  = "both"
+  )
+fit_contrasts
 
 }

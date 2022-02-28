@@ -19,6 +19,7 @@
 #' @param sw_table_in_plot          T/F put table of results in caption of plot
 #' @param adjust_method see         `?emmeans::summary.emmGrid`
 #' @param CI_level                  level from `?emmeans::emmeans`
+#' @param sw_glm_scale              for glm fit, choose results on the "link" (default) or "response" scale
 #' @param sw_print                  T/F whether to print results as this function runs
 #' @param sw_marginal_even_if_interaction T/F whether to also calculate marginal results when involved in interaction(s)
 #' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.
@@ -34,9 +35,13 @@
 #' @import ggplot2
 #' @import emmeans
 #' @importFrom labelled var_label
+#' @importFrom stringr fixed
+#' @importFrom stringr str_detect
 #' @importFrom stringr str_split
+#' @importFrom stringr str_split_fixed
 #' @importFrom gridExtra arrangeGrob
 #' @importFrom ggpubr as_ggplot
+#' @importFrom magrittr extract
 #' @importFrom stats as.formula
 #' @importFrom stats quantile
 #' @importFrom stats anova
@@ -77,7 +82,7 @@
 #'   labelled::var_label(dat_cont[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
 #' }
 #'
-#'  # Set specific model with some interactions
+#' # Set specific model with some interactions
 #' form_model <-
 #'   mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
 #'
@@ -113,8 +118,10 @@
 #'   , dat_cont                = dat_cont
 #'   , choose_contrasts        = "disp:hp"
 #'   , sw_table_in_plot        = TRUE
-#'   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
+#'   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni"
+#'                                 , "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
 #'   , CI_level                = 0.95
+#'   , sw_glm_scale            = c("link", "response")[1]
 #'   , sw_print                = FALSE
 #'   , sw_marginal_even_if_interaction = TRUE
 #'   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
@@ -122,9 +129,106 @@
 #'   , sw_plot_quantiles_values = c("quantiles", "values")[2]    # for numeric:numeric plots
 #'   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
 #'   , sw_quantile_type        = 1
-#'   , plot_values             = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
+#'   , plot_values             = list(hp = c(75, 100, 150, 200, 250)
+#'                                  , disp = c(80, 120, 200, 350, 450)) # for numeric:numeric plots
 #'   )
 #' fit_contrasts$plots$`disp:hp`$both
+#'
+#'
+#' ## GLM on logit and probability scales
+#'
+#' dat_cont <-
+#'   dat_cont %>%
+#'   dplyr::mutate(
+#'     am_01 =
+#'       dplyr::case_when(
+#'         am == "manual"    ~ 0
+#'       , am == "automatic" ~ 1
+#'       )
+#'   )
+#' labelled::var_label(dat_cont[["am_01"]]) <- labelled::var_label(dat_cont[["am"]])
+#'
+#' # numeric:factor interaction
+#' fit_glm <-
+#'   glm(
+#'     cbind(am_01, 1 - am_01) ~
+#'       vs + hp + vs:hp
+#'   , family  = binomial
+#'   , data    = dat_cont
+#'   )
+#'
+#' car::Anova(fit_glm, type = 3)
+#' summary(fit_glm)
+#'
+#' # all contrasts from model, logit scale
+#' fit_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                = fit_glm
+#'   , dat_cont           = dat_cont
+#'   , sw_glm_scale       = c("link", "response")[1]
+#'   , sw_print           = FALSE
+#'   , sw_marginal_even_if_interaction = TRUE
+#'   , sw_TWI_plots_keep  = "both"
+#'   )
+#' fit_contrasts
+#'
+#' # all contrasts from model, probability scale
+#' fit_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                = fit_glm
+#'   , dat_cont           = dat_cont
+#'   , sw_glm_scale       = c("link", "response")[2]
+#'   , sw_print           = FALSE
+#'   , sw_marginal_even_if_interaction = TRUE
+#'   , sw_TWI_plots_keep  = "both"
+#'   )
+#' fit_contrasts
+#'
+#'
+#' # numeric:numeric interaction
+#' fit_glm <-
+#'   glm(
+#'     cbind(am_01, 1 - am_01) ~
+#'       disp + hp + disp:hp
+#'   , family  = binomial
+#'   , data    = dat_cont
+#'   )
+#'
+#' car::Anova(fit_glm, type = 3)
+#' summary(fit_glm)
+#'
+#' fit_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                = fit_glm
+#'   , dat_cont           = dat_cont
+#'   , sw_glm_scale       = c("link", "response")[2]
+#'   , sw_print           = FALSE
+#'   , sw_TWI_plots_keep  = "both"
+#'   )
+#' fit_contrasts
+#'
+#'
+#' # factor:factor interaction
+#' fit_glm <-
+#'   glm(
+#'     cbind(am_01, 1 - am_01) ~
+#'       vs + cyl + vs:cyl
+#'   , family  = binomial
+#'   , data    = dat_cont
+#'   )
+#'
+#' car::Anova(fit_glm) #, type = 3)
+#' summary(fit_glm)
+#'
+#' fit_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                = fit_glm
+#'   , dat_cont           = dat_cont
+#'   , sw_glm_scale       = c("link", "response")[2]
+#'   , sw_print           = FALSE
+#'   , sw_TWI_plots_keep  = "both"
+#'   )
+#' fit_contrasts
 #'
 e_plot_model_contrasts <-
   function(
@@ -134,6 +238,7 @@ e_plot_model_contrasts <-
   , sw_table_in_plot        = TRUE
   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
   , CI_level                = 0.95
+  , sw_glm_scale            = c("link", "response")[1]
   , sw_print                = TRUE
   , sw_marginal_even_if_interaction = FALSE
   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
@@ -281,6 +386,10 @@ e_plot_model_contrasts <-
   ##
   ###### END Example dataset for testing
 
+  # indicates, lm, glm, or another method based on the call
+  fit_model_type <-
+    as.character(fit$call)[1]
+
   # BEGIN Capture warnings to take actions
     message_involve_interaction <-
       "NOTE: Results may be misleading due to involvement in interactions\n"
@@ -311,6 +420,24 @@ e_plot_model_contrasts <-
     , pattern = fixed(" + ")
     ) %>%
     unlist()
+
+  if (fit_model_type == "glm" & stringr::str_detect(var_name_y, pattern = stringr::fixed("cbind("))) {
+    # the y-variable usually looks like "cbind(y, 1-y)", so strip out the variable name
+    var_name_y <-
+      var_name_y %>%
+      stringr::str_split_fixed(
+        pattern = stringr::fixed(",")
+      , n = 2
+      ) %>%
+      as.character() %>%
+      magrittr::extract(1) %>%
+      stringr::str_split_fixed(
+        pattern = stringr::fixed("cbind(")
+      , n = 2
+      ) %>%
+      as.character() %>%
+      magrittr::extract(2)
+  }
 
 
   # restrict to chosen contrasts
@@ -388,16 +515,29 @@ e_plot_model_contrasts <-
         }
       }
 
-      # if numeric
+      ### if numeric
       if ( class(dat_cont[[var_xs]]) %in% c("numeric", "integer") ) {
 
         ## Table
-        cont_fit <-
-          emmeans::emtrends(
-            object  = fit
-          , specs   = var_xs
-          , var     = var_xs
-          )
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          # response scale
+          cont_fit <-
+            emmeans::emtrends(
+              object  = fit
+            , specs   = var_xs
+            , var     = var_xs
+            , transform = "response"
+            )
+        } else {
+          # default scale
+          cont_fit <-
+            emmeans::emtrends(
+              object  = fit
+            , specs   = var_xs
+            , var     = var_xs
+            #, transform = "response"
+            )
+        }
 
         # confidence limit (CL) column names
         col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
@@ -440,13 +580,32 @@ e_plot_model_contrasts <-
 
         form_var <- stats::as.formula(paste0("~", var_xs))
 
-        p <-
-          emmeans::emmip(
-            object     = fit
-          , formula    = form_var
-          , cov.reduce = range
-          , rg.limit   = emmip_rg.limit
-          )
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          ## ?emmeans::ref_grid for cov.reduce option
+          # response scale
+          at_list <- list()
+          at_list[[var_xs]] <- unique(quantile(dat_cont[[var_xs]], probs = seq(0, 1, by = 0.01)))
+
+          p <-
+            emmeans::emmip(
+              object     = fit
+            , formula    = form_var
+            #, cov.reduce = range
+            , at         = at_list
+            , rg.limit   = emmip_rg.limit
+            , transform  = "response"
+            )
+
+        } else {
+          # default scale
+          p <-
+            emmeans::emmip(
+              object     = fit
+            , formula    = form_var
+            , cov.reduce = range
+            , rg.limit   = emmip_rg.limit
+            )
+        }
         text_averaged_plot <-
           paste0("Plot: ", attributes(p$data)$mesg)
 
@@ -479,11 +638,23 @@ e_plot_model_contrasts <-
           text_caption <- text_short
         }
 
+        if (!(fit_model_type == "glm")) {
+          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+        } else {
+          if (sw_glm_scale == "response") {
+            # response scale
+            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          } else {
+            # default scale
+            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          }
+        }
+
         p <- p + labs(
             title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
           , x         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
-          , y         = paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+          , y         = y_label
           , caption   = text_caption
           )
         p <- p + theme_bw()
@@ -502,20 +673,36 @@ e_plot_model_contrasts <-
 
 
 
-      # if factor
+      ### if factor
       if ( class(dat_cont[[var_xs]]) == "factor" ) {
 
         ## Table
         # if a factor, then compute the contrast and statistics and create plot
-        cont_fit <-
-          emmeans::emmeans(
-            object  = fit
-          , specs   = var_xs
-          #, by    =
-          #, simple = "each", combine = FALSE
-          , adjust  = adjust_method
-          , level   = CI_level
-          )
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          # response scale
+          cont_fit <-
+            emmeans::emmeans(
+              object  = fit
+            , specs   = var_xs
+            #, by    =
+            #, simple = "each", combine = FALSE
+            , adjust  = adjust_method
+            , level   = CI_level
+            , type = "response"
+            )
+        } else {
+          # default scale
+          cont_fit <-
+            emmeans::emmeans(
+              object  = fit
+            , specs   = var_xs
+            #, by    =
+            #, simple = "each", combine = FALSE
+            , adjust  = adjust_method
+            , level   = CI_level
+            #, type = "response"
+            )
+        }
         cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
 
         # confidence limit (CL) column names
@@ -545,7 +732,13 @@ e_plot_model_contrasts <-
         ## Plot
         # CI text
         text_cont <- summary(cont_fit)[[var_xs]]
-        text_est  <- summary(cont_fit)[["emmean"]]
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          # response scale
+          text_est  <- summary(cont_fit)[["prob"]]
+        } else {
+          # default scale
+          text_est  <- summary(cont_fit)[["emmean"]]
+        }
         text_LCL  <- summary(cont_fit)[[col_name_LCL]]
         text_UCL  <- summary(cont_fit)[[col_name_UCL]]
         text_CI  <-
@@ -566,7 +759,13 @@ e_plot_model_contrasts <-
 
         # Contrast text
         text_cont <- summary(cont_pairs)[["contrast"]]
-        text_est  <- summary(cont_pairs)[["estimate"]]
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          # response scale
+          text_est  <- summary(cont_pairs)[["odds.ratio"]]
+        } else {
+          # default scale
+          text_est  <- summary(cont_pairs)[["estimate"]]
+        }
         text_pval <- summary(cont_pairs)[["p.value"]]
         text_diff  <-
           paste0(
@@ -613,11 +812,25 @@ e_plot_model_contrasts <-
           , adjust      = adjust_method
           , horizontal  = TRUE #FALSE
           #, by          = "surv_prog.factor"
+          #, type = "scale" #"response"
           )
+
+        if (!(fit_model_type == "glm")) {
+          x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+        } else {
+          if (sw_glm_scale == "response") {
+            # response scale
+            x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          } else {
+            # default scale
+            x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          }
+        }
+
         p <- p + labs(
             title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          , x         = x_label
           , y         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
           , caption   = text_caption
           )
@@ -655,15 +868,30 @@ e_plot_model_contrasts <-
 
           ## Table
           # if a factor, then compute the contrast and statistics and create plot
-          cont_fit <-
-            emmeans::emmeans(
-              object  = fit
-            , specs   = var_xs[1]
-            , by      = var_xs[2]
-            #, simple = "each", combine = FALSE
-            , adjust  = adjust_method
-            , level   = CI_level
-            )
+          if (fit_model_type == "glm" & sw_glm_scale == "response") {
+            # response scale
+            cont_fit <-
+              emmeans::emmeans(
+                object  = fit
+              , specs   = var_xs[1]
+              , by      = var_xs[2]
+              #, simple = "each", combine = FALSE
+              , adjust  = adjust_method
+              , level   = CI_level
+              , type = "response"
+              )
+          } else {
+            # default scale
+            cont_fit <-
+              emmeans::emmeans(
+                object  = fit
+              , specs   = var_xs[1]
+              , by      = var_xs[2]
+              #, simple = "each", combine = FALSE
+              , adjust  = adjust_method
+              , level   = CI_level
+              )
+          }
           cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
 
           # confidence limit (CL) column names
@@ -697,7 +925,13 @@ e_plot_model_contrasts <-
               i_row_cont_fit = i_row_cont_fit + 1
 
               text_cont <- summary(cont_fit)[[ var_xs[1] ]] [i_row_cont_fit]
-              text_est  <- summary(cont_fit)[["emmean"]]    [i_row_cont_fit]
+              if (fit_model_type == "glm" & sw_glm_scale == "response") {
+                # response scale
+                text_est  <- summary(cont_fit)[["prob"]]      [i_row_cont_fit]
+              } else {
+                # default scale
+                text_est  <- summary(cont_fit)[["emmean"]]    [i_row_cont_fit]
+              }
               text_LCL  <- summary(cont_fit)[[col_name_LCL]][i_row_cont_fit]
               text_UCL  <- summary(cont_fit)[[col_name_UCL]][i_row_cont_fit]
               text_CI  <-
@@ -754,7 +988,13 @@ e_plot_model_contrasts <-
               i_row_cont_fit = i_row_cont_fit + 1
 
               text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
-              text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
+              if (fit_model_type == "glm" & sw_glm_scale == "response") {
+                # response scale
+                text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
+              } else {
+                # default scale
+                text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
+              }
               text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
               text_diff  <-
                 paste0(
@@ -851,10 +1091,22 @@ e_plot_model_contrasts <-
               )
           }
 
+          if (!(fit_model_type == "glm")) {
+            x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          } else {
+            if (sw_glm_scale == "response") {
+              # response scale
+              x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            } else {
+              # default scale
+              x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            }
+          }
+
           p <- p + labs(
               title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
             , subtitle  = var_name_x[i_var_x]
-            , x         = paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            , x         = x_label
             , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
             , caption   = text_caption
             )
@@ -973,13 +1225,29 @@ e_plot_model_contrasts <-
         ## Table
         form_var_fac <- stats::as.formula(paste0("pairwise", " ~ ", var_xs[1]))
 
-        cont_fit <-
-          emmeans::emtrends(
-            object  = fit
-          , specs   = form_var_fac
-          , var     = var_xs[2]
-          #, mult.name = "variety"
-          )
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          # response scale
+          cont_fit <-
+            emmeans::emtrends(
+              object  = fit
+            , specs   = form_var_fac
+            , var     = var_xs[2]
+            , adjust  = adjust_method
+            , level   = CI_level
+            , transform = "response"
+            )
+        } else {
+          # default scale
+          cont_fit <-
+            emmeans::emtrends(
+              object  = fit
+            , specs   = form_var_fac
+            , var     = var_xs[2]
+            , adjust  = adjust_method
+            , level   = CI_level
+            #, transform = "response"
+            )
+        }
 
         # confidence limit (CL) column names
         col_name_LCL <- names(summary(cont_fit)$emtrends)[which(names(summary(cont_fit)$emtrends) %in% col_names_LCL)]
@@ -1093,18 +1361,51 @@ e_plot_model_contrasts <-
         # }
 
 
-        p2 <- emmeans::emmip(
-            object     = fit
-          , formula    = form_var_fac_num
-          , cov.reduce = range
-          , rg.limit   = emmip_rg.limit
-          )
+
+        if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          ## ?emmeans::ref_grid for cov.reduce option
+          # response scale
+          at_list <- list()
+          at_list[[var_xs[2]]] <- unique(quantile(dat_cont[[var_xs[2]]], probs = seq(0, 1, by = 0.01)))
+
+          p2 <- emmeans::emmip(
+              object     = fit
+            , formula    = form_var_fac_num
+            #, cov.reduce = range
+            , at = at_list
+            , rg.limit   = emmip_rg.limit
+            , transform = "response"
+            )
+
+        } else {
+          # default scale
+          p2 <- emmeans::emmip(
+              object     = fit
+            , formula    = form_var_fac_num
+            , cov.reduce = range
+            , rg.limit   = emmip_rg.limit
+            )
+
+        }
+
+        if (!(fit_model_type == "glm")) {
+          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+        } else {
+          if (sw_glm_scale == "response") {
+            # response scale
+            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          } else {
+            # default scale
+            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          }
+        }
+
         p2 <- p2 + theme_bw()
         p2 <- p2 + labs(
             title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
           , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
-          , y         = paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+          , y         = y_label
           , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
           , caption   = text_caption
           #, tag       = "B"
@@ -1216,7 +1517,8 @@ e_plot_model_contrasts <-
             at_list[[ var_xs[1] ]] <-
               dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
             at_list[[ var_xs[2] ]] <-
-              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
+              #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
+              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
           }
           # this is for a specific numeric:numeric interaction
           if (sw_plot_quantiles_values == "values") {
@@ -1228,11 +1530,27 @@ e_plot_model_contrasts <-
               plot_values[[ var_xs[2] ]]
           }
 
-          fit_emm_at <-
-            emmeans::ref_grid(
-              object  = fit
-            , at      = at_list
-            )
+
+          if (fit_model_type == "glm" & sw_glm_scale == "response") {
+            ## ?emmeans::ref_grid for cov.reduce option
+            # response scale
+            fit_emm_at <-
+              emmeans::ref_grid(
+                object  = fit
+              , at      = at_list
+              #, type    = "response"
+              , transform  = "response"
+              )
+
+          } else {
+            # default scale
+            fit_emm_at <-
+              emmeans::ref_grid(
+                object  = fit
+              , at      = at_list
+              )
+          }
+
 
           ## Table
 
@@ -1290,11 +1608,23 @@ e_plot_model_contrasts <-
             text_caption <- text_short
           }
 
+          if (!(fit_model_type == "glm")) {
+            y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+          } else {
+            if (sw_glm_scale == "response") {
+              # response scale
+              y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            } else {
+              # default scale
+              y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            }
+          }
+
           p <- p + labs(
               title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
             , subtitle  = var_name_x[i_var_x]
             , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
-            , y         = paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+            , y         = y_label
             , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
             , caption   = text_caption
             #, tag       = "A"
