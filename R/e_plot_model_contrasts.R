@@ -952,7 +952,7 @@ e_plot_model_contrasts <-
                 #, collapse = "\n"
                 )
             }
-          }
+          } # i_by
 
           # # CI text
           # text_cont <- summary(cont_fit)[[ var_xs[1] ]]
@@ -984,31 +984,30 @@ e_plot_model_contrasts <-
                 text_diff
               , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
               )
-            for (i_specs in seq_along(levels_specs)) {
-              i_row_cont_fit = i_row_cont_fit + 1
 
-              text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
-              if (fit_model_type == "glm" & sw_glm_scale == "response") {
-                # response scale
-                text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
-              } else {
-                # default scale
-                text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
-              }
-              text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
-              text_diff  <-
-                paste0(
-                  text_diff
-                , "Contrast: "
-                , text_cont
-                , " = "
-                , signif(text_est, 3)
-                , ", p-value = "
-                , round(text_pval, 4)
-                , "\n"
-                #, collapse = "\n"
-                )
+            i_row_cont_fit = i_row_cont_fit + 1
+
+            text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
+            if (fit_model_type == "glm" & sw_glm_scale == "response") {
+              # response scale
+              text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
+            } else {
+              # default scale
+              text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
             }
+            text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
+            text_diff  <-
+              paste0(
+                text_diff
+              , "Contrast: "
+              , text_cont
+              , " = "
+              , signif(text_est, 3)
+              , ", p-value = "
+              , round(text_pval, 4)
+              , "\n"
+              #, collapse = "\n"
+              )
           }
 
           # # Contrast text
