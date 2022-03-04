@@ -9,7 +9,8 @@ e_read_data_files(
   read_fn_names = NULL,
   sw_dat_add_col_path_fn = c(TRUE, FALSE)[1],
   sw_dat_print_fn_read = c(TRUE, FALSE)[1],
-  excel_sheets = "all"
+  excel_sheets = "all",
+  sw_clean_names = c(TRUE, FALSE)[2]
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ e_read_data_files(
 \item{sw_dat_print_fn_read}{T/F print file names and dimensions as the files are read}
 
 \item{excel_sheets}{"all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.}
+
+\item{sw_clean_names}{T/F to clean column names using \code{janitor::clean_names}}
 }
 \value{
 dat_sheet             A list of tibbles

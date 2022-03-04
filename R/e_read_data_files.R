@@ -7,6 +7,7 @@
 #' @param sw_dat_add_col_path_fn T/F for data, add two columns specifying the directory (\code{DIR__}) and filename (\code{FILE__})
 #' @param sw_dat_print_fn_read   T/F print file names and dimensions as the files are read
 #' @param excel_sheets           "all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.
+#' @param sw_clean_names         T/F to clean column names using \code{janitor::clean_names}
 #'
 #' @return dat_sheet             A list of tibbles
 #' @import dplyr
@@ -15,6 +16,7 @@
 #' @importFrom readxl read_xlsx
 #' @importFrom readxl excel_sheets
 #' @importFrom dplyr mutate
+#' @importFrom janitor clean_names
 #' @export
 #'
 #' @examples
@@ -28,9 +30,10 @@ e_read_data_files <-
   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
   , excel_sheets            = "all"
+  , sw_clean_names          = c(TRUE, FALSE)[2]
   ) {
 
-  ## read_fn_path <- "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa/dir_aaa"
+  ## read_fn_path <- "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa"
   ## read_fn_names <- c("dat_aa1.csv", "dat_aa2.csv")
   ## sw_dat_add_col_path_fn = c(TRUE, FALSE)[1]
 
@@ -70,6 +73,12 @@ e_read_data_files <-
         , show_col_types = FALSE
         )
 
+      if (sw_clean_names) {
+        dat_sheet[[ read_fn_names[i_fn] ]] <-
+          dat_sheet[[ read_fn_names[i_fn] ]] %>%
+          janitor::clean_names()
+      }
+
       # remove column attributes
       attr(dat_sheet[[ read_fn_names[i_fn] ]], 'spec') <- NULL
 
@@ -100,6 +109,13 @@ e_read_data_files <-
               path  = fn_full_this
             , sheet = i_sheet
             )
+
+          if (sw_clean_names) {
+            dat_sheet[[ read_fn_names[i_fn] ]] <-
+              dat_sheet[[ read_fn_names[i_fn] ]] %>%
+              janitor::clean_names()
+          }
+
         }
       } # = 1
 
@@ -113,6 +129,13 @@ e_read_data_files <-
                 path  = fn_full_this
               , sheet = i_sheet
               )
+
+            if (sw_clean_names) {
+              dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] <-
+                dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] %>%
+                janitor::clean_names()
+            }
+
           }
         }
 

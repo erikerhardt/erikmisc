@@ -11,7 +11,8 @@ e_read_data_subdir_into_lists(
   sw_exclude_empty_dir = c(TRUE, FALSE)[1],
   sw_dat_add_col_path_fn = c(TRUE, FALSE)[1],
   sw_dat_print_fn_read = c(TRUE, FALSE)[2],
-  excel_sheets = "all"
+  excel_sheets = "all",
+  sw_clean_names = c(TRUE, FALSE)[2]
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ e_read_data_subdir_into_lists(
 \item{sw_dat_print_fn_read}{T/F print file names and dimensions as the files are read}
 
 \item{excel_sheets}{"all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.  Passed to \code{e_read_data_files()}.}
+
+\item{sw_clean_names}{For data, T/F to clean column names using \code{janitor::clean_names}}
 }
 \value{
 fn_names              Either a structured list of filenames or of tibbles
@@ -59,6 +62,7 @@ Recurse through subdirectories returning either filenames or tibbles (data.frame
 #   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
 #   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
 #   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+#   , sw_clean_names          = c(TRUE, FALSE)[2]
 #   )
 }
 }
