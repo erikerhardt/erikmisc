@@ -76,7 +76,9 @@ e_read_data_files <-
       if (sw_clean_names) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
           dat_sheet[[ read_fn_names[i_fn] ]] %>%
-          janitor::clean_names()
+          janitor::clean_names(
+            case = "none"
+          )
       }
 
       # remove column attributes
@@ -113,7 +115,9 @@ e_read_data_files <-
           if (sw_clean_names) {
             dat_sheet[[ read_fn_names[i_fn] ]] <-
               dat_sheet[[ read_fn_names[i_fn] ]] %>%
-              janitor::clean_names()
+              janitor::clean_names(
+                case = "none"
+              )
           }
 
         }
@@ -133,7 +137,9 @@ e_read_data_files <-
             if (sw_clean_names) {
               dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] <-
                 dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] %>%
-                janitor::clean_names()
+                janitor::clean_names(
+                  case = "none"
+                )
             }
 
           }
