@@ -39,6 +39,7 @@ Imports:
     ggpubr,
     grid,
     gridExtra,
+    janitor,
     kableExtra,
     knitr,
     labelled,
