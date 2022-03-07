@@ -21,8 +21,8 @@ e_pval_stars(
 a list of symbols of the same length as p_values
 }
 \description{
-Return star symbols for ranges between a set of p-values, or any set of numbers
+Default text for caption: "p-value stars:  (blank): not sig.;   -: p > 0.10;   *: p <= 0.05;   **: p <= 0.01;   *** : p <= 0.001;   **** : p <= 0.0001"
 }
 \examples{
-e_pval_stars(c(0.049, 0.05, 0.051, NA))
+e_pval_stars(c(0.049, 0.050, 0.051, NA))
 }
