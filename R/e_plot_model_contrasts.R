@@ -559,8 +559,8 @@ e_plot_model_contrasts <-
           text_CI  <-
             paste0(
               "Estimate: "
-            , text_cont
-            , " = "
+            , "(at mean = ", signif(text_cont, 3), ")"
+            , ": "
             , signif(text_est, 3)
             , ", "
             , round(CI_level * 100, 1), "% CI: "
@@ -860,6 +860,7 @@ e_plot_model_contrasts <-
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {
+          ## i_repeat = 1
 
           ## Repeat, but reverse factors
           if (i_repeat == 2) {
@@ -912,18 +913,28 @@ e_plot_model_contrasts <-
 
 
           ## Plot
-          # CI text
-          text_CI  <- NULL
+          # CI and Contrast text
+          text_CI   <- NULL
+          text_diff <- NULL
           i_row_cont_fit = 0
           for (i_by in seq_along(levels_by)) {
+            ## i_by = 1
+
             text_CI  <-
               paste0(
                 text_CI
               , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
               )
+            text_diff  <-
+              paste0(
+                text_diff
+              , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
+              )
+
             for (i_specs in seq_along(levels_specs)) {
               i_row_cont_fit = i_row_cont_fit + 1
 
+              # CI text
               text_cont <- summary(cont_fit)[[ var_xs[1] ]] [i_row_cont_fit]
               if (fit_model_type == "glm" & sw_glm_scale == "response") {
                 # response scale
@@ -951,79 +962,32 @@ e_plot_model_contrasts <-
                 , "\n"
                 #, collapse = "\n"
                 )
-            }
+
+              # Contrast text
+              text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
+              if (fit_model_type == "glm" & sw_glm_scale == "response") {
+                # response scale
+                text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
+              } else {
+                # default scale
+                text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
+              }
+              text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
+              text_diff  <-
+                paste0(
+                  text_diff
+                , "Contrast: "
+                , text_cont
+                , " = "
+                , signif(text_est, 3)
+                , ", p-value = "
+                , round(text_pval, 4)
+                , "\n"
+                #, collapse = "\n"
+                )
+
+            } # i_specs
           } # i_by
-
-          # # CI text
-          # text_cont <- summary(cont_fit)[[ var_xs[1] ]]
-          # text_est  <- summary(cont_fit)[["emmean"]]
-          # text_LCL  <- summary(cont_fit)[["lower.CL"]]
-          # text_UCL  <- summary(cont_fit)[["upper.CL"]]
-          # text_CI  <-
-          #   paste0(
-          #     "Estimate: "
-          #   , text_cont
-          #   , " = "
-          #   , signif(text_est, 3)
-          #   , ", "
-          #   , round(CI_level * 100, 1), "% CI: "
-          #   , "("
-          #   , signif(text_LCL, 3)
-          #   , ", "
-          #   , signif(text_UCL, 3)
-          #   , ")"
-          #   , collapse = "\n"
-          #   )
-
-          # Contrast text
-          text_diff  <- NULL
-          i_row_cont_fit = 0
-          for (i_by in seq_along(levels_by)) {
-            text_diff  <-
-              paste0(
-                text_diff
-              , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
-              )
-
-            i_row_cont_fit = i_row_cont_fit + 1
-
-            text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
-            if (fit_model_type == "glm" & sw_glm_scale == "response") {
-              # response scale
-              text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
-            } else {
-              # default scale
-              text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
-            }
-            text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
-            text_diff  <-
-              paste0(
-                text_diff
-              , "Contrast: "
-              , text_cont
-              , " = "
-              , signif(text_est, 3)
-              , ", p-value = "
-              , round(text_pval, 4)
-              , "\n"
-              #, collapse = "\n"
-              )
-          }
-
-          # # Contrast text
-          # text_cont <- summary(cont_pairs)[["contrast"]]
-          # text_est  <- summary(cont_pairs)[["estimate"]]
-          # text_pval <- summary(cont_pairs)[["p.value"]]
-          # text_diff  <-
-          #   paste0(
-          #     "Contrast: "
-          #   , text_cont
-          #   , " = "
-          #   , signif(text_est, 3)
-          #   , ", p-value = "
-          #   , round(text_pval, 4)
-          #   , collapse = "\n"
-          #   )
 
           text_averaged <-
             paste0(attributes(summary(cont_pairs))$mesg, collapse = "\n")
@@ -1088,7 +1052,7 @@ e_plot_model_contrasts <-
               , horizontal  = TRUE #FALSE
               #, by          = "surv_prog.factor"
               )
-          }
+          } # if sw_try_ok
 
           if (!(fit_model_type == "glm")) {
             x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
@@ -1209,8 +1173,6 @@ e_plot_model_contrasts <-
 
 
 
-
-
       ### if factor:numeric
       if (any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) == "factor" ) &
           any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) %in% c("numeric", "integer"))
@@ -1257,7 +1219,7 @@ e_plot_model_contrasts <-
 
         ## Plot
         # CI text
-            # is.null is for when no values could be be estimated
+            # is.null is for when no values could be estimated
         #CLs#if(!is.null(summary(cont_fit$emtrends)[["lower.CL"]])) {
         if(!is.null(summary(cont_fit$emtrends)[[col_name_LCL]])) {
           text_cont <- summary(cont_fit$emtrends)[[ var_xs[1] ]]
@@ -1279,23 +1241,25 @@ e_plot_model_contrasts <-
             , ")"
             , collapse = "\n"
             )
+
+          # Contrast text
+          text_cont <- summary(cont_fit$contrasts)[["contrast"]]
+          text_est  <- summary(cont_fit$contrasts)[["estimate"]]
+          text_pval <- summary(cont_fit$contrasts)[["p.value"]]
+          text_diff  <-
+            paste0(
+              "Contrast: "
+            , text_cont
+            , " = "
+            , signif(text_est, 3)
+            , ", p-value = "
+            , round(text_pval, 4)
+            , collapse = "\n"
+            )
+
         } else {
           text_CI <- NULL
         }
-        # Contrast text
-        text_cont <- summary(cont_fit$contrasts)[["contrast"]]
-        text_est  <- summary(cont_fit$contrasts)[["estimate"]]
-        text_pval <- summary(cont_fit$contrasts)[["p.value"]]
-        text_diff  <-
-          paste0(
-            "Contrast: "
-          , text_cont
-          , " = "
-          , signif(text_est, 3)
-          , ", p-value = "
-          , round(text_pval, 4)
-          , collapse = "\n"
-          )
 
         text_averaged <-
           attributes(summary(cont_fit$contrasts))$mesg
