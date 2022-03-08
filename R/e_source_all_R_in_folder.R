@@ -13,18 +13,18 @@ e_source_all_R_in_folder <-
 
   # list of files
   fn_R_to_source <-
-    list.files(
-      path    = fn_R_location
-    , pattern = fn_list_name
+    Sys.glob(
+      paths =
+        file.path(
+          fn_R_location
+        , fn_list_name
+        )
     )
 
   if (length(fn_R_to_source) > 0) {
     # source the files
     sapply(
-      file.path(
-        fn_R_location
-      , fn_R_to_source
-      )
+      fn_R_to_source
     , source
     )
   } else {
