@@ -13,8 +13,8 @@
 #' difference is not significant, based on the adjust setting (which defaults to
 #' "tukey").
 #'
-#' @param fit                       lm object
-#' @param dat_cont                  data used for the lm object (only used for variable labels using labelled::var_label()
+#' @param fit                       (required) lm object
+#' @param dat_cont                  (required) data used for the lm object (only used for variable labels using labelled::var_label()
 #' @param choose_contrasts          is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.
 #' @param sw_table_in_plot          T/F put table of results in caption of plot
 #' @param adjust_method see         `?emmeans::summary.emmGrid`
@@ -385,6 +385,12 @@ e_plot_model_contrasts <-
   ##
   ##
   ###### END Example dataset for testing
+
+  # give error if two main inputs aren't specified
+  if (is.null(fit) | is.null(dat_cont)) {
+    stop("erikmisc::e_plot_model_contrasts() \"fit\" and \"dat_cont\" arguments are required.")
+    return(NULL)
+  }
 
   # indicates, lm, glm, or another method based on the call
   fit_model_type <-

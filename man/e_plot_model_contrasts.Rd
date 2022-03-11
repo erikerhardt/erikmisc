@@ -25,9 +25,9 @@ e_plot_model_contrasts(
 )
 }
 \arguments{
-\item{fit}{lm object}
+\item{fit}{(required) lm object}
 
-\item{dat_cont}{data used for the lm object (only used for variable labels using labelled::var_label()}
+\item{dat_cont}{(required) data used for the lm object (only used for variable labels using labelled::var_label()}
 
 \item{choose_contrasts}{is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.}
 
