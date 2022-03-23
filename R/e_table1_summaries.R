@@ -170,18 +170,37 @@ e_table1_summaries <-
 
     #tab1_list[[i_var]]$res
 
-    # Better name for column
-    if (i_var == 1) {
-      # first row, only, for long column name
-      if (!is.null(list_var_col_names) & !(list_var_col_names == "NULL") & !(list_var_col_names == "character(0)")) {
-        colnames(tab1_list[[i_var]]$res)[1] <- stringr::str_wrap(list_var_col_names, width = label_width)
+    if(!is.null(list_var_col_table)) {
+      # Better name for column
+      if (i_var == 1) {
+        # first row, only, for long column name
+        if (!is.null(list_var_col_names) & !(list_var_col_names == "NULL") & !(list_var_col_names == "character(0)")) {
+          colnames(tab1_list[[i_var]]$res)[1] <- stringr::str_wrap(list_var_col_names, width = label_width)
+        }
       }
-    }
+      # Better name for variable
+      if (!is.na(list_var_row_names[i_var])) {
+        if (!is.null(list_var_row_names[i_var]) & !(list_var_row_names[i_var] == "NULL") & !(list_var_row_names[i_var] == "character(0)")) {
+          tab1_list[[i_var]]$res[1,1] <- stringr::str_wrap(list_var_row_names[i_var], width = label_width)
+        }
+      }
 
-    # Better name for variable
-    if (!is.na(list_var_row_names[i_var])) {
-      if (!is.null(list_var_row_names[i_var]) & !(list_var_row_names[i_var] == "NULL") & !(list_var_row_names[i_var] == "character(0)")) {
-        tab1_list[[i_var]]$res[1,1] <- stringr::str_wrap(list_var_row_names[i_var], width = label_width)
+    } else {
+      ## 3/22/2022 (moonbook updated?)
+      ## For "Total", the data structure is different, can only label a row
+
+      # # Better name for column
+      # if (i_var == 1) {
+      #   # first row, only, for long column name
+      #   if (!is.null(list_var_col_names) & !(list_var_col_names == "NULL") & !(list_var_col_names == "character(0)")) {
+      #     colnames(tab1_list[[i_var]]$res)[1] <- stringr::str_wrap(list_var_col_names, width = label_width)
+      #   }
+      # }
+      # Better name for variable
+      if (!is.na(list_var_row_names[i_var])) {
+        if (!is.null(list_var_row_names[i_var]) & !(list_var_row_names[i_var] == "NULL") & !(list_var_row_names[i_var] == "character(0)")) {
+          tab1_list[[i_var]]$name <- stringr::str_wrap(list_var_row_names[i_var], width = label_width)
+        }
       }
     }
 
