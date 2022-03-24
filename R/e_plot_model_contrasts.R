@@ -13,7 +13,7 @@
 #' difference is not significant, based on the adjust setting (which defaults to
 #' "tukey").
 #'
-#' @param fit                       (required) lm object
+#' @param fit                       (required) model object: lm, glm, lmerModLmerTest (from \code{lme4::lmer}, or lmerMod (from \code{lmerTest::as_lmerModLmerTest})
 #' @param dat_cont                  (required) data used for the lm object (only used for variable labels using labelled::var_label()
 #' @param choose_contrasts          is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.
 #' @param sw_table_in_plot          T/F put table of results in caption of plot
@@ -230,6 +230,38 @@
 #'   )
 #' fit_contrasts
 #'
+#'
+#' ## lme4::lmer mixed-effects model
+#' fit_lmer <-
+#'   lme4::lmer(
+#'     formula = Reaction ~ Days + (Days | Subject)
+#'   , data    = lme4::sleepstudy
+#'   )
+#'
+#' fit_lmer_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                = fit_lmer
+#'   , dat_cont           = lme4::sleepstudy
+#'   , sw_print           = FALSE
+#'   , sw_table_in_plot   = FALSE
+#'   )
+#' fit_lmer_contrasts
+#'
+#'
+#' ## lmerTest::as_lmerModLmerTest mixed-effects model
+#'
+#' fit_lmer <-
+#'   lmerTest::as_lmerModLmerTest(fit_lmer)
+#'
+#' fit_lmer_contrasts <-
+#'   e_plot_model_contrasts(
+#'     fit                = fit_lmer
+#'   , dat_cont           = lme4::sleepstudy
+#'   , sw_print           = FALSE
+#'   , sw_table_in_plot   = FALSE
+#'   )
+#' fit_lmer_contrasts
+#'
 e_plot_model_contrasts <-
   function(
     fit                     = NULL
@@ -392,9 +424,14 @@ e_plot_model_contrasts <-
     return(NULL)
   }
 
-  # indicates, lm, glm, or another method based on the call
+  # indicates, "lm", "glm", or "lmerMod" (future, another method based on the call)
   fit_model_type <-
-    as.character(fit$call)[1]
+    #as.character(fit$call)[1]
+    class(fit)[1]
+
+  if (fit_model_type %notin% c("lm", "glm", "lmerModLmerTest", "lmerMod")) {
+    message(paste0("e_plot_model_contrasts: fit class\"", fit_model_type, "\" not tested."))
+  }
 
   # BEGIN Capture warnings to take actions
     message_involve_interaction <-

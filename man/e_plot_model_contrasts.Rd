@@ -25,7 +25,7 @@ e_plot_model_contrasts(
 )
 }
 \arguments{
-\item{fit}{(required) lm object}
+\item{fit}{(required) model object: lm, glm, lmerModLmerTest (from \code{lme4::lmer}, or lmerMod (from \code{lmerTest::as_lmerModLmerTest})}
 
 \item{dat_cont}{(required) data used for the lm object (only used for variable labels using labelled::var_label()}
 
@@ -257,5 +257,37 @@ fit_contrasts <-
   , sw_TWI_plots_keep  = "both"
   )
 fit_contrasts
+
+
+## lme4::lmer mixed-effects model
+fit_lmer <-
+  lme4::lmer(
+    formula = Reaction ~ Days + (Days | Subject)
+  , data    = lme4::sleepstudy
+  )
+
+fit_lmer_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_lmer
+  , dat_cont           = lme4::sleepstudy
+  , sw_print           = FALSE
+  , sw_table_in_plot   = FALSE
+  )
+fit_lmer_contrasts
+
+
+## lmerTest::as_lmerModLmerTest mixed-effects model
+
+fit_lmer <-
+  lmerTest::as_lmerModLmerTest(fit_lmer)
+
+fit_lmer_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_lmer
+  , dat_cont           = lme4::sleepstudy
+  , sw_print           = FALSE
+  , sw_table_in_plot   = FALSE
+  )
+fit_lmer_contrasts
 
 }
