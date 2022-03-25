@@ -6,10 +6,10 @@
 \usage{
 e_table1_summaries(
   dat_tab1 = dat_sub,
-  list_var_col_table = NULL,
   list_var_col_names = NULL,
-  list_var_row_table = NULL,
+  list_var_col_labels = NULL,
   list_var_row_names = NULL,
+  list_var_row_labels = NULL,
   fn_root = "tab1_vars",
   fn_all = NULL,
   label_width = 40,
@@ -22,13 +22,13 @@ e_table1_summaries(
 \arguments{
 \item{dat_tab1}{Dataset for table.}
 
-\item{list_var_col_table}{Column variable name.}
+\item{list_var_col_names}{Column variable name.}
 
-\item{list_var_col_names}{Column variable label.}
+\item{list_var_col_labels}{Column variable label.}
 
-\item{list_var_row_table}{Variable names to loop over.}
+\item{list_var_row_names}{Variable names to loop over.}
 
-\item{list_var_row_names}{Variable labels to label table.}
+\item{list_var_row_labels}{Variable labels to label table.}
 
 \item{fn_root}{Filename for temporary tables.}
 
@@ -60,8 +60,8 @@ Uses \code{moonBook::mytable}; default is CatMethod = 2: Numeric summaries are M
 ## For Rmd code chunk attractive html table, code chunk option ```{r, results='asis'}
 
 # specify tows to summarize and columns to summarize by
-list_var_col_table <- c("cyl", "am")
-list_var_row_table <- c("mpg", "cyl", "disp", "hp", "drat", "wt"
+list_var_col_names <- c("cyl", "am")
+list_var_row_names <- c("mpg", "cyl", "disp", "hp", "drat", "wt"
                       , "qsec", "vs", "am", "gear", "carb")
 
 # assigning to new dataset since you may want to filter or subset in some way,
@@ -69,27 +69,27 @@ list_var_row_table <- c("mpg", "cyl", "disp", "hp", "drat", "wt"
 dat_tab1 <-
   dat_mtcars_e \%>\%
   #dplyr::filter(EVENT_ID == "BL") \%>\%
-  dplyr::select(all_of(c(list_var_col_table, list_var_row_table)))
+  dplyr::select(all_of(c(list_var_col_names, list_var_row_names)))
 
 
 # label variables
-list_var_col_names <- labelled::var_label(dat_tab1[, list_var_col_table]) \%>\% unlist()
-list_var_row_names <- labelled::var_label(dat_tab1[, list_var_row_table]) \%>\% unlist()
+list_var_col_labels <- labelled::var_label(dat_tab1[, list_var_col_names]) \%>\% unlist()
+list_var_row_labels <- labelled::var_label(dat_tab1[, list_var_row_names]) \%>\% unlist()
 
 # This loop creates a table summarized by each variable,
 #   but can also specify multiple columns to summarize conditional on multiple columns.
-for (i_col in seq_along(list_var_col_table)) {
+for (i_col in seq_along(list_var_col_names)) {
 
   # filename root for each separate variable (will write, then read to compile into one)
-  fn_root <- paste0("tab1_vars_", list_var_col_table[i_col], "_summary")
+  fn_root <- paste0("tab1_vars_", list_var_col_names[i_col], "_summary")
 
   # run function (additional options are available)
   e_table1_summaries(
       dat_tab1           = dat_tab1
-    , list_var_col_table = list_var_col_table[i_col]
     , list_var_col_names = list_var_col_names[i_col]
-    , list_var_row_table = list_var_row_table
+    , list_var_col_labels = list_var_col_labels[i_col]
     , list_var_row_names = list_var_row_names
+    , list_var_row_labels = list_var_row_labels
     , fn_root            = fn_root
     , sw_verbose         = TRUE
     )
@@ -107,10 +107,10 @@ fn_root <- paste0("tab1_vars_", "total", "_summary")
 # run function (additional options are available)
 e_table1_summaries(
     dat_tab1           = dat_tab1
-  , list_var_col_table = NULL
-  , list_var_col_names = "total"
-  , list_var_row_table = list_var_row_table
+  , list_var_col_names = NULL
+  , list_var_col_labels = "total"
   , list_var_row_names = list_var_row_names
+  , list_var_row_labels = list_var_row_labels
   , fn_root            = fn_root
   , sw_verbose         = TRUE
   )
