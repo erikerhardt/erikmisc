@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -116,7 +116,7 @@ subdirectories.</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
+<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.10 --</span>
 <span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
@@ -352,7 +352,7 @@ A, B, and C.</p>
 <span class="co">#&gt; $dir_a$dir_aa</span>
 <span class="co">#&gt; $dir_a$dir_aa$dat_aa1.csv</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                               FILE__     </span>
+<span class="co">#&gt;   `A 1` `B 1` `C 1` DIR__                               FILE__     </span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span>
@@ -360,7 +360,7 @@ A, B, and C.</p>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $dir_a$dir_aa$dat_aa2.csv</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                               FILE__     </span>
+<span class="co">#&gt;   `A 2` `B 2` `C 2` DIR__                               FILE__     </span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span>
@@ -369,11 +369,11 @@ A, B, and C.</p>
 <span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span>
 <span class="co">#&gt; $dir_a$dir_aa$dir_aaa$dat_aaa1.csv</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                                       FILE__      </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.csv</span>
+<span class="co">#&gt;   `A A A` `B B B` `C C C` DIR__                                       FILE__    </span>
+<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1       2       3 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.~</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      11      22      33 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.~</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     111     222     333 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.~</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>

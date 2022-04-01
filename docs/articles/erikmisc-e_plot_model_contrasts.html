@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -106,7 +106,7 @@ effects and contrasts</h3>
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>fig.height <span class="op">=</span> <span class="fl">6</span>, fig.width <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> ---------------------------------------- erikmisc 0.1.7 --</span>
+<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.10 --</span>
 <span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
@@ -353,12 +353,12 @@ copy/pasted into a report and worked into sentences.</p>
 <code class="sourceCode R"><span class="va">fit_contrasts</span><span class="op">$</span><span class="va">text</span>    <span class="co"># to print caption text</span>
 <span class="co">#&gt; $wt</span>
 <span class="co">#&gt; $wt[[1]]</span>
-<span class="co">#&gt; [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  </span>
+<span class="co">#&gt; [1] "Estimate: (at mean = 3.22): -2.82, 95% CI: (-5.34, -0.299)"          </span>
 <span class="co">#&gt; [2] "Tables: Results are averaged over the levels of: cyl, vs, am"        </span>
 <span class="co">#&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $wt[[2]]</span>
-<span class="co">#&gt; [1] "Estimate: 3.21725 = -2.82, 95% CI: (-5.34, -0.299)"                  </span>
+<span class="co">#&gt; [1] "Estimate: (at mean = 3.22): -2.82, 95% CI: (-5.34, -0.299)"          </span>
 <span class="co">#&gt; [2] "Tables: Confidence level used: 0.95"                                 </span>
 <span class="co">#&gt; [3] "Plot: Results are averaged over the levels of: cyl, disp, hp, vs, am"</span>
 <span class="co">#&gt; </span>

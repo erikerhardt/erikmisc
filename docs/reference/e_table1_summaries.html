@@ -19,7 +19,7 @@ then join them into a single file at the end"><!-- mathjax --><script src="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@ then join them into a single file at the end"><!-- mathjax --><script src="https
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -81,10 +81,10 @@ then join them into a single file at the end</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_table1_summaries</span><span class="op">(</span>
   dat_tab1 <span class="op">=</span> <span class="va">dat_sub</span>,
-  list_var_col_table <span class="op">=</span> <span class="cn">NULL</span>,
   list_var_col_names <span class="op">=</span> <span class="cn">NULL</span>,
-  list_var_row_table <span class="op">=</span> <span class="cn">NULL</span>,
+  list_var_col_labels <span class="op">=</span> <span class="cn">NULL</span>,
   list_var_row_names <span class="op">=</span> <span class="cn">NULL</span>,
+  list_var_row_labels <span class="op">=</span> <span class="cn">NULL</span>,
   fn_root <span class="op">=</span> <span class="st">"tab1_vars"</span>,
   fn_all <span class="op">=</span> <span class="cn">NULL</span>,
   label_width <span class="op">=</span> <span class="fl">40</span>,
@@ -99,13 +99,13 @@ then join them into a single file at the end</p>
     <h2>Arguments</h2>
     <dl><dt>dat_tab1</dt>
 <dd><p>Dataset for table.</p></dd>
-<dt>list_var_col_table</dt>
-<dd><p>Column variable name.</p></dd>
 <dt>list_var_col_names</dt>
+<dd><p>Column variable name.</p></dd>
+<dt>list_var_col_labels</dt>
 <dd><p>Column variable label.</p></dd>
-<dt>list_var_row_table</dt>
-<dd><p>Variable names to loop over.</p></dd>
 <dt>list_var_row_names</dt>
+<dd><p>Variable names to loop over.</p></dd>
+<dt>list_var_row_labels</dt>
 <dd><p>Variable labels to label table.</p></dd>
 <dt>fn_root</dt>
 <dd><p>Filename for temporary tables.</p></dd>
@@ -137,8 +137,8 @@ then join them into a single file at the end</p>
 <span class="r-in"><span class="co">## For Rmd code chunk attractive html table, code chunk option ```{r, results='asis'}</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># specify tows to summarize and columns to summarize by</span></span>
-<span class="r-in"><span class="va">list_var_col_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"am"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">list_var_row_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span></span>
+<span class="r-in"><span class="va">list_var_col_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"am"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">list_var_row_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span></span>
 <span class="r-in">                      , <span class="st">"qsec"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span>, <span class="st">"carb"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># assigning to new dataset since you may want to filter or subset in some way,</span></span>
@@ -146,27 +146,27 @@ then join them into a single file at the end</p>
 <span class="r-in"><span class="va">dat_tab1</span> <span class="op">&lt;-</span></span>
 <span class="r-in">  <span class="va">dat_mtcars_e</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="co">#dplyr::filter(EVENT_ID == "BL") %&gt;%</span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">list_var_col_table</span>, <span class="va">list_var_row_table</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">list_var_col_names</span>, <span class="va">list_var_row_names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># label variables</span></span>
-<span class="r-in"><span class="va">list_var_col_names</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_col_table</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">list_var_row_names</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_row_table</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">list_var_col_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_col_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">list_var_row_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_row_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># This loop creates a table summarized by each variable,</span></span>
 <span class="r-in"><span class="co">#   but can also specify multiple columns to summarize conditional on multiple columns.</span></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i_col</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">list_var_col_table</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i_col</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">list_var_col_names</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># filename root for each separate variable (will write, then read to compile into one)</span></span>
-<span class="r-in">  <span class="va">fn_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tab1_vars_"</span>, <span class="va">list_var_col_table</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span>, <span class="st">"_summary"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">fn_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tab1_vars_"</span>, <span class="va">list_var_col_names</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span>, <span class="st">"_summary"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># run function (additional options are available)</span></span>
 <span class="r-in">  <span class="fu">e_table1_summaries</span><span class="op">(</span></span>
 <span class="r-in">      dat_tab1           <span class="op">=</span> <span class="va">dat_tab1</span></span>
-<span class="r-in">    , list_var_col_table <span class="op">=</span> <span class="va">list_var_col_table</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span>
 <span class="r-in">    , list_var_col_names <span class="op">=</span> <span class="va">list_var_col_names</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span>
-<span class="r-in">    , list_var_row_table <span class="op">=</span> <span class="va">list_var_row_table</span></span>
+<span class="r-in">    , list_var_col_labels <span class="op">=</span> <span class="va">list_var_col_labels</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span>
 <span class="r-in">    , list_var_row_names <span class="op">=</span> <span class="va">list_var_row_names</span></span>
+<span class="r-in">    , list_var_row_labels <span class="op">=</span> <span class="va">list_var_row_labels</span></span>
 <span class="r-in">    , fn_root            <span class="op">=</span> <span class="va">fn_root</span></span>
 <span class="r-in">    , sw_verbose         <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in">    <span class="op">)</span></span>
@@ -184,10 +184,10 @@ then join them into a single file at the end</p>
 <span class="r-in"><span class="co"># run function (additional options are available)</span></span>
 <span class="r-in"><span class="fu">e_table1_summaries</span><span class="op">(</span></span>
 <span class="r-in">    dat_tab1           <span class="op">=</span> <span class="va">dat_tab1</span></span>
-<span class="r-in">  , list_var_col_table <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , list_var_col_names <span class="op">=</span> <span class="st">"total"</span></span>
-<span class="r-in">  , list_var_row_table <span class="op">=</span> <span class="va">list_var_row_table</span></span>
+<span class="r-in">  , list_var_col_names <span class="op">=</span> <span class="cn">NULL</span></span>
+<span class="r-in">  , list_var_col_labels <span class="op">=</span> <span class="st">"total"</span></span>
 <span class="r-in">  , list_var_row_names <span class="op">=</span> <span class="va">list_var_row_names</span></span>
+<span class="r-in">  , list_var_row_labels <span class="op">=</span> <span class="va">list_var_row_labels</span></span>
 <span class="r-in">  , fn_root            <span class="op">=</span> <span class="va">fn_root</span></span>
 <span class="r-in">  , sw_verbose         <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in">  <span class="op">)</span></span>

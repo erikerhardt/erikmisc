@@ -142,6 +142,12 @@
     <loc>/reference/e_convert_lb_to_kg.html</loc>
   </url>
   <url>
+    <loc>/reference/e_convert_logistic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_convert_logit.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_convert_oddsratio_to_probability.html</loc>
   </url>
   <url>
@@ -194,6 +200,12 @@
   </url>
   <url>
     <loc>/reference/e_mnv_norm_qqplot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_model_all_subsets_formula.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_model_binary_complete.html</loc>
   </url>
   <url>
     <loc>/reference/e_plot_bs_one_samp_dist.html</loc>

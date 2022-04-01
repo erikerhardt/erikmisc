@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -80,7 +80,8 @@
   read_fn_names <span class="op">=</span> <span class="cn">NULL</span>,
   sw_dat_add_col_path_fn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
   sw_dat_print_fn_read <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
-  excel_sheets <span class="op">=</span> <span class="st">"all"</span>
+  excel_sheets <span class="op">=</span> <span class="st">"all"</span>,
+  sw_clean_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -96,6 +97,8 @@
 <dd><p>T/F print file names and dimensions as the files are read</p></dd>
 <dt>excel_sheets</dt>
 <dd><p>"all" for all sheets, or a list of numbers "<code>c(1, 2)</code>"; applies to all excel sheets.</p></dd>
+<dt>sw_clean_names</dt>
+<dd><p>T/F to clean column names using <code><a href="https://rdrr.io/pkg/janitor/man/clean_names.html" class="external-link">janitor::clean_names</a></code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
