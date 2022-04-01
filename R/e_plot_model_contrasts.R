@@ -98,13 +98,15 @@
 #'
 #' # all contrasts from model
 #' fit_contrasts <-
-#'   e_plot_model_contrasts(
-#'     fit                = fit
-#'   , dat_cont           = dat_cont
-#'   , sw_print           = FALSE
-#'   , sw_table_in_plot   = FALSE
-#'   , sw_TWI_plots_keep  = "both"
-#'   , sw_quantile_type   = 1
+#'   suppressWarnings(  # supress for documentation purposes
+#'     e_plot_model_contrasts(
+#'       fit                = fit
+#'     , dat_cont           = dat_cont
+#'     , sw_print           = FALSE
+#'     , sw_table_in_plot   = FALSE
+#'     , sw_TWI_plots_keep  = "both"
+#'     , sw_quantile_type   = 1
+#'     )
 #'   )
 #' fit_contrasts$tables  # to print tables
 #' fit_contrasts$plots   # to print plots
@@ -163,13 +165,15 @@
 #'
 #' # all contrasts from model, logit scale
 #' fit_contrasts <-
-#'   e_plot_model_contrasts(
-#'     fit                = fit_glm
-#'   , dat_cont           = dat_cont
-#'   , sw_glm_scale       = c("link", "response")[1]
-#'   , sw_print           = FALSE
-#'   , sw_marginal_even_if_interaction = TRUE
-#'   , sw_TWI_plots_keep  = "both"
+#'   suppressWarnings(  # supress for documentation purposes
+#'     e_plot_model_contrasts(
+#'       fit                = fit_glm
+#'     , dat_cont           = dat_cont
+#'     , sw_glm_scale       = c("link", "response")[1]
+#'     , sw_print           = FALSE
+#'     , sw_marginal_even_if_interaction = TRUE
+#'     , sw_TWI_plots_keep  = "both"
+#'     )
 #'   )
 #' fit_contrasts
 #'
