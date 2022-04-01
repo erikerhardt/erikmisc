@@ -190,14 +190,16 @@ summary(fit_glm)
 
 # all contrasts from model, logit scale
 fit_contrasts <-
-  e_plot_model_contrasts(
-    fit                = fit_glm
-  , dat_cont           = dat_cont
-  , sw_glm_scale       = c("link", "response")[1]
-  , sw_print           = FALSE
-  , sw_marginal_even_if_interaction = TRUE
-  , sw_TWI_plots_keep  = "both"
-  )
+  suppressWarnings(  # supress for documentation purposes
+    e_plot_model_contrasts(
+      fit                = fit_glm
+    , dat_cont           = dat_cont
+    , sw_glm_scale       = c("link", "response")[1]
+    , sw_print           = FALSE
+    , sw_marginal_even_if_interaction = TRUE
+    , sw_TWI_plots_keep  = "both"
+    )
+ )
 fit_contrasts
 
 # all contrasts from model, probability scale
