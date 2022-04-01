@@ -26,7 +26,6 @@
 #' @importFrom stringr str_replace
 #' @importFrom stringr fixed
 #' @importFrom stats na.omit
-#'
 #' @export
 #'
 #' @examples
