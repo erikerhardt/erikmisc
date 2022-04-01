@@ -20,6 +20,7 @@
 #' @importFrom tidyr drop_na
 #' @importFrom scales percent
 #' @importFrom stats as.formula
+#' @importFrom stats lm
 #' @importFrom stats quantile
 #' @import dplyr
 #' @import ggplot2

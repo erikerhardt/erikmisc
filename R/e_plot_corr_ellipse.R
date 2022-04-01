@@ -20,7 +20,10 @@
 #' @return \code{invisible(NULL)}
 #' @importFrom ellipse ellipse
 #' @importFrom graphics text
+#' @importFrom graphics polygon
 #' @importFrom graphics lines
+#' @importFrom graphics mtext
+#' @importFrom graphics strwidth
 #' @export
 #'
 #' @examples

@@ -45,6 +45,7 @@
 #' @importFrom stats as.formula
 #' @importFrom stats quantile
 #' @importFrom stats anova
+#' @importFrom stats terms.formula
 #' @export
 #'
 #' @examples

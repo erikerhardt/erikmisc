@@ -30,6 +30,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr uncount
 #' @importFrom tidyselect all_of
+#' @importFrom stats na.omit
 #' @export
 #'
 #' @examples

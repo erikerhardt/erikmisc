@@ -25,6 +25,7 @@
 #' @importFrom stringr str_subset
 #' @importFrom stringr str_replace
 #' @importFrom stringr fixed
+#' @importFrom stats na.omit
 #'
 #' @export
 #'

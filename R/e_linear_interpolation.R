@@ -10,6 +10,8 @@
 #' @param sw_extrapolation switch to indicate how to extrapolate to head and tail missing values.  "martingale" sets NAs to closest non-NA value, while "linear" performs a linear extrapolation from the two closest non-NA values.
 #'
 #' @return y Completed list of numbers
+#' @importFrom stats lm
+#' @importFrom stats predict
 #' @export
 #'
 #' @examples

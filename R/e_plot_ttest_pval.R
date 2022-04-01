@@ -4,6 +4,8 @@
 #' @param sw_graphics choice of ggplot or base graphics
 #'
 #' @return if base graphics, NULL invisibly; if ggplot, the plot grob
+#' @importFrom graphics polygon
+#' @importFrom stats dt
 #' @export
 #'
 #' @examples

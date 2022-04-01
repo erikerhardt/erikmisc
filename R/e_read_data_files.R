@@ -17,6 +17,7 @@
 #' @importFrom readxl excel_sheets
 #' @importFrom dplyr mutate
 #' @importFrom janitor clean_names
+#' @importFrom stats na.omit
 #' @export
 #'
 #' @examples

@@ -9,8 +9,13 @@
 #' @param N    number of bootstrap iterations
 #'
 #' @return \code{invisible(NULL)}
-#' @importFrom stats sd
 #' @importFrom graphics hist
+#' @importFrom graphics par
+#' @importFrom graphics points
+#' @importFrom graphics rug
+#' @importFrom stats density
+#' @importFrom stats dnorm
+#' @importFrom stats sd
 #' @export
 #'
 #' @examples
