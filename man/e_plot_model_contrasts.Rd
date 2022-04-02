@@ -201,11 +201,7 @@ fit_contrasts <-
     , sw_marginal_even_if_interaction = TRUE
     , sw_TWI_plots_keep  = "both"
     )
-<<<<<<< HEAD
   )
-=======
- )
->>>>>>> 7a3716dba69ef3e9711c9cfec2d3364c87dbc854
 fit_contrasts
 
 # all contrasts from model, probability scale
