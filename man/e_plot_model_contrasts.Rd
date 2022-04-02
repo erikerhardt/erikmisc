@@ -125,15 +125,13 @@ summary(fit)
 
 # all contrasts from model
 fit_contrasts <-
-  suppressWarnings(  # supress for documentation purposes
-    e_plot_model_contrasts(
-      fit                = fit
-    , dat_cont           = dat_cont
-    , sw_print           = FALSE
-    , sw_table_in_plot   = FALSE
-    , sw_TWI_plots_keep  = "both"
-    , sw_quantile_type   = 1
-    )
+  e_plot_model_contrasts(
+    fit                = fit
+  , dat_cont           = dat_cont
+  , sw_print           = FALSE
+  , sw_table_in_plot   = FALSE
+  , sw_TWI_plots_keep  = "both"
+  , sw_quantile_type   = 1
   )
 fit_contrasts$tables  # to print tables
 fit_contrasts$plots   # to print plots
@@ -165,6 +163,7 @@ fit_contrasts <-
 fit_contrasts$plots$`disp:hp`$both
 
 
+\dontrun{
 ## GLM on logit and probability scales
 
 dat_cont <-
@@ -192,20 +191,14 @@ summary(fit_glm)
 
 # all contrasts from model, logit scale
 fit_contrasts <-
-  suppressWarnings(  # supress for documentation purposes
-    e_plot_model_contrasts(
-      fit                = fit_glm
-    , dat_cont           = dat_cont
-    , sw_glm_scale       = c("link", "response")[1]
-    , sw_print           = FALSE
-    , sw_marginal_even_if_interaction = TRUE
-    , sw_TWI_plots_keep  = "both"
-    )
-<<<<<<< HEAD
+  e_plot_model_contrasts(
+    fit                = fit_glm
+  , dat_cont           = dat_cont
+  , sw_glm_scale       = c("link", "response")[1]
+  , sw_print           = FALSE
+  , sw_marginal_even_if_interaction = TRUE
+  , sw_TWI_plots_keep  = "both"
   )
-=======
- )
->>>>>>> 7a3716dba69ef3e9711c9cfec2d3364c87dbc854
 fit_contrasts
 
 # all contrasts from model, probability scale
@@ -297,5 +290,6 @@ fit_lmer_contrasts <-
   , sw_table_in_plot   = FALSE
   )
 fit_lmer_contrasts
+}
 
 }
