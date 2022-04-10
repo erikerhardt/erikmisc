@@ -14,10 +14,9 @@
 #' * `r2` R-squared statistic
 #' * `r2adj` Adjusted R-squared statistic
 #' * `f_stat` F-statistic compared to grand mean model
-#' * `f_stat_numdf` F-statistic numerator degrees-of-freedom (number of parameters in the model)
-#' * `f_stat_dendf` F-statistic denominator degrees-of-freedom (number of df estimating the variance)
+#' * `p` F-statistic numerator degrees-of-freedom (number of parameters in the model)
+#' * `df` F-statistic denominator degrees-of-freedom (number of df estimating the variance)
 #' * `f_stat_pval` F-statistic p-value
-#' * `p` number of parameters in the model for 'lme4' and 'lme'
 #' * `rse` Residual standard error.
 #'
 #' Several criteria are defined in \code{?modelr::`model-quality`}:
@@ -50,6 +49,7 @@
 #' @importFrom modelr mae
 #' @importFrom modelr mape
 #' @importFrom modelr rsae
+#' @importFrom cAIC4  cAIC
 #' @export
 #'
 #' @examples
@@ -86,9 +86,9 @@ e_lm_model_criteria <-
       , r2            = summary(object = lm_fit)$r.squared
       , r2adj         = summary(object = lm_fit)$adj.r.squared
       , f_stat        = summary(object = lm_fit)$fstatistic["value"]
-      , f_stat_numdf  = summary(object = lm_fit)$fstatistic["numdf"]
-      , f_stat_dendf  = summary(object = lm_fit)$fstatistic["dendf"]
-      , f_stat_pval   = stats::pf(q = f_stat, df1 = f_stat_numdf, df2 = f_stat_dendf, lower.tail = FALSE)
+      , p             = summary(object = lm_fit)$fstatistic["numdf"]
+      , df            = summary(object = lm_fit)$fstatistic["dendf"]
+      , f_stat_pval   = stats::pf(q = f_stat, df1 = p, df2 = df, lower.tail = FALSE)
       , rse           = summary(object = lm_fit)$sigma
       , mse           = modelr::mse     (model = lm_fit, data = dat_fit)
       , rmse          = modelr::rmse    (model = lm_fit, data = dat_fit)
@@ -114,6 +114,7 @@ e_lm_model_criteria <-
       # , f_stat_dendf  = summary(object = lm_fit)$fstatistic["dendf"]
       # , f_stat_pval   = stats::pf(q = f_stat, df1 = f_stat_numdf, df2 = f_stat_dendf, lower.tail = FALSE)
       , p             = summary(object = lm_fit)$devcomp$dims["p"]
+      , df            = summary(object = lm_fit)$devcomp$dims["nmp"]
       , rse           = summary(object = lm_fit)$sigma
       , mse           = modelr::mse     (model = lm_fit, data = dat_fit)
       , rmse          = modelr::rmse    (model = lm_fit, data = dat_fit)

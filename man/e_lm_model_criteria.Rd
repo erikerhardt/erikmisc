@@ -31,10 +31,9 @@ Several criteria from the lm summary:
 \item \code{r2} R-squared statistic
 \item \code{r2adj} Adjusted R-squared statistic
 \item \code{f_stat} F-statistic compared to grand mean model
-\item \code{f_stat_numdf} F-statistic numerator degrees-of-freedom (number of parameters in the model)
-\item \code{f_stat_dendf} F-statistic denominator degrees-of-freedom (number of df estimating the variance)
+\item \code{p} F-statistic numerator degrees-of-freedom (number of parameters in the model)
+\item \code{df} F-statistic denominator degrees-of-freedom (number of df estimating the variance)
 \item \code{f_stat_pval} F-statistic p-value
-\item \code{p} number of parameters in the model for 'lme4' and 'lme'
 \item \code{rse} Residual standard error.
 }
 
