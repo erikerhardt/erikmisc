@@ -36,6 +36,7 @@
 #'
 #' @param lm_fit    fitted model object
 #' @param dat_fit   data used for model fit
+#' @param model_id  label for each model that is fit, helps to match up with original model
 #'
 #' @return          a tibble of model selection criteria
 #' @importFrom tibble tibble
@@ -61,14 +62,16 @@
 #'   )
 #' lm_crit <-
 #'   e_lm_model_criteria(
-#'     lm_fit  = lm_fit
-#'   , dat_fit = dat_mtcars_e
+#'     lm_fit   = lm_fit
+#'   , dat_fit  = dat_mtcars_e
+#'   , model_id = 1
 #'   )
 #' lm_crit
 e_lm_model_criteria <-
   function(
-    lm_fit  = NULL
-  , dat_fit = NULL
+    lm_fit    = NULL
+  , dat_fit   = NULL
+  , model_id  = NULL
   ) {
 
   if ( is.null(lm_fit) | is.null(dat_fit) ) {
@@ -80,7 +83,8 @@ e_lm_model_criteria <-
   if (class(lm_fit) == "lm") {
     out <-
       tibble::tibble(
-        aic           = stats::AIC      (object = lm_fit)
+        model_id      = model_id
+      , aic           = stats::AIC      (object = lm_fit)
       , bic           = stats::BIC      (object = lm_fit)
       , nobs          = stats::nobs     (object = lm_fit)
       , r2            = summary(object = lm_fit)$r.squared
@@ -103,7 +107,8 @@ e_lm_model_criteria <-
   if (class(lm_fit) == "lmerMod") {
     out <-
       tibble::tibble(
-        aic           = stats::AIC      (object = lm_fit)
+        model_id      = model_id
+      , aic           = stats::AIC      (object = lm_fit)
       , bic           = stats::BIC      (object = lm_fit)
       , caic          = cAIC4::cAIC     (object = lm_fit)$caic
       , nobs          = stats::nobs     (object = lm_fit)

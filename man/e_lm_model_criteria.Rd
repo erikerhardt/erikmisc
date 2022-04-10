@@ -4,12 +4,14 @@
 \alias{e_lm_model_criteria}
 \title{Return table of model selection criteria}
 \usage{
-e_lm_model_criteria(lm_fit = NULL, dat_fit = NULL)
+e_lm_model_criteria(lm_fit = NULL, dat_fit = NULL, model_id = NULL)
 }
 \arguments{
 \item{lm_fit}{fitted model object}
 
 \item{dat_fit}{data used for model fit}
+
+\item{model_id}{label for each model that is fit, helps to match up with original model}
 }
 \value{
 \preformatted{     a tibble of model selection criteria
@@ -65,8 +67,9 @@ lm_fit <-
   )
 lm_crit <-
   e_lm_model_criteria(
-    lm_fit  = lm_fit
-  , dat_fit = dat_mtcars_e
+    lm_fit   = lm_fit
+  , dat_fit  = dat_mtcars_e
+  , model_id = 1
   )
 lm_crit
 }
