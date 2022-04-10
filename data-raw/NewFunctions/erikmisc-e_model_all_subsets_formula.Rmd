@@ -235,6 +235,7 @@ lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
 
 ```{r, eval=FALSE}
 ## Set up parallel backend
+  ## From: https://www.blasbenito.com/post/02_parallelizing_loops_with_r/
   library(doParallel)
   # use n-1 cores
   n_cores <- parallel::detectCores() - 1
