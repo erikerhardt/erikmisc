@@ -2,11 +2,12 @@
 % Please edit documentation in R/e_plot_scatterplot.R
 \name{e_plot_scatterplot}
 \alias{e_plot_scatterplot}
-\title{Plot scatterplot of two numeric variables, by up to one color factor variables and two facets factor variables}
+\title{Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables}
 \usage{
 e_plot_scatterplot(
   dat_plot = NULL,
-  var_num = NULL,
+  var_x = NULL,
+  var_y = NULL,
   var_color = NULL,
   var_facet = NULL,
   sw_print = FALSE
@@ -15,7 +16,9 @@ e_plot_scatterplot(
 \arguments{
 \item{dat_plot}{data to plot}
 
-\item{var_num}{two numeric variable names to plot}
+\item{var_x}{a numeric or categorical variable name}
+
+\item{var_y}{a numeric variable name}
 
 \item{var_color}{factor or numeric color variable}
 
@@ -24,36 +27,53 @@ e_plot_scatterplot(
 \item{sw_print}{T/F whether to print table and display plot}
 }
 \value{
-\preformatted{     a list including a table and ggplot
+\preformatted{     a ggplot object
 }
 }
 \description{
-Plot scatterplot of two numeric variables, by up to one color factor variables and two facets factor variables
+Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables
 }
 \examples{
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
-  , var_num   = c("mpg", "disp")
+  , var_x     = "disp"           # numeric x
+  , var_y     = "mpg"
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
-  , var_num   = c("mpg", "disp")
-  , var_color = c("cyl")
+  , var_x     = "am"             # factor x
+  , var_y     = "mpg"
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
-  , var_num   = c("mpg", "disp")
-  , var_color = c("wt")          # numeric color
+  , var_x     = "disp"
+  , var_y     = "mpg"
+  , var_color = "cyl"            # factor color
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
-  , var_num   = c("mpg", "disp")
-  , var_facet = c("vs", "am")
+  , var_x     = "disp"
+  , var_y     = "mpg"
+  , var_color = "wt"             # numeric color
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
-  , var_num   = c("mpg", "disp")
-  , var_color = c("cyl")
-  , var_facet = c("vs", "am")
+  , var_x     = "disp"
+  , var_y     = "mpg"
+  , var_facet = c("vs")          # one facet
+  )
+e_plot_scatterplot(
+    dat_plot  = dat_mtcars_e
+  , var_x     = "disp"
+  , var_y     = "mpg"
+  , var_color = "cyl"
+  , var_facet = c("vs", "am")    # two facets
+  )
+e_plot_scatterplot(
+    dat_plot  = dat_mtcars_e
+  , var_x     = "am"             # factor x
+  , var_y     = "mpg"
+  , var_color = "wt"             # numeric color
+  , var_facet = c("vs")
   )
 }
