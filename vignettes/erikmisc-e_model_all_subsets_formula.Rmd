@@ -1,0 +1,247 @@
+---
+title: "All model subsets"
+subtitle: "Best subset selection for all binary subsets of selected variables"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{All model subsets}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This has a few examples of specifying model subsets and fitting linear models
+in order to choose the "best" model via a model selection criterion.
+
+```{r setup}
+library(erikmisc)
+```
+
+# Using `e_model_all_subsets_formula`
+
+In this example, variables "a" and "b" are always in the model,
+  while variables "c" and "d" are subject to model selection up to a second-order model.
+
+* Maximal model: `z ~ a + b + c + d + c^2 + d^2 + c:d`
+* Minimal model: `z ~ a + b`
+
+In biostatistical or epidemiological applications,
+  certain demographic variables such as age, sex, and race
+  are often included regardless of "statistical signicance",
+  and other variables are subject to selection.
+
+```{r}
+# Two variables always in the model with a second-order model of two others
+e_model_all_subsets_formula(
+    var_formula = NULL
+  , x_var_names = list(c("a", "b"), c("c", "d"))
+  , y_var_name  = "z"
+  , max_scope   = list("always", "SO")
+  , sw_return   = c("formula", "table")[2]
+  )
+```
+
+# Applications
+
+## Linear model fit and model selection
+
+_Note that in these examples we are ignoring model fit;
+  see `e_plot_lm_diagostics` for diagnostics._
+
+We'll fit all the linear models between the maximal and minimal models:
+
+* Maximal model: `mpg ~ cyl + carb + disp + hp + disp:hp + wt + vs + am + gear`
+* Minimal model: `mpg ~ cyl + carb`
+
+Then we select the model with the lowest BIC statistic.
+
+```{r}
+dat_mtcars_e %>% head(3)
+
+# table of the candidate models
+form_table <-
+  e_model_all_subsets_formula(
+      var_formula = NULL
+    , x_var_names = list(c("cyl", "carb"), c("disp", "hp"), c("wt", "vs", "am", "gear"))
+    , y_var_name  = "mpg"
+    , max_scope   = list("always", "TWI", "FO")
+    , sw_return   = c("formula", "table")[2]
+    )
+print(form_table)
+
+# generate candidate model formulas
+form_list <-
+  e_model_all_subsets_formula(
+      var_formula = NULL
+    , x_var_names = list(c("cyl", "carb"), c("disp", "hp"), c("wt", "vs", "am", "gear"))
+    , y_var_name  = "mpg"
+    , max_scope   = list("always", "TWI", "FO")
+    , sw_return   = c("formula", "table")[1]
+    )
+
+# fit models and calculate model selection criteria
+lm_fit_list <- list()
+lm_fit_list_crit <- list()
+
+for (i_form in seq_len(length(form_list))) {
+  # model fit
+  lm_fit_list[[ i_form ]] <-
+    stats::lm(
+      formula = form_list[[ i_form ]]
+    , data    = dat_mtcars_e
+    )
+
+  # model selection criteria
+  lm_fit_list_crit[[ i_form ]] <-
+    e_lm_model_criteria(
+      lm_fit  = lm_fit_list[[ i_form ]]
+    , dat_fit = dat_mtcars_e
+    )
+}
+
+# sort the models by a criterion
+lm_fit_crit <-
+  lm_fit_list_crit %>%
+  dplyr::bind_rows() %>%
+  dplyr::mutate(
+    # number the model criteria with same indices as lm_fit_list above
+    model_id = 1:dplyr::n()
+  ) %>%
+  dplyr::select(
+    # move model_id to first column
+    model_id
+  , tidyselect::everything()
+  ) %>%
+  dplyr::arrange(
+    # arrange models by this model criterion
+    bic               # ascending by bic (best on top)
+    # dplyr::desc(r2)   # descending by r2 (best on top)
+  )
+
+# print the head and tail of fit criteria table
+lm_fit_crit %>% head()
+lm_fit_crit %>% tail(3)
+
+# best model ID
+lm_fit_crit$model_id[1]
+
+# summarize "best" model
+lm_fit_list[[ lm_fit_crit$model_id[1] ]] %>%
+  car::Anova(type = 3)
+lm_fit_list[[ lm_fit_crit$model_id[1] ]] %>%
+  summary()
+```
+
+
+
+## Longitudinal linear model fit and model selection
+
+For the purpose of illustrating the method, variables `x1`, `x2`, and `x3` are
+  generated as indepedent standard normal random variables.
+The correct model would remove all of those variables and keep only the
+  fixed effect of `Type` and the random effect `(1 | Subject)`.
+
+We'll fit all the longitudinal linear models between the maximal and minimal models:
+
+* Maximal model: `Effort ~ Type + (1 | Subject) + x1 + x2 + x3 + x1^2 + x2^2 + x3^3 + x1:x2 + x1:x3 + x2:x3`
+* Minimal model: `Effort ~ Type + (1 | Subject)`
+
+Then we select the model with the lowest cAIC statistic.
+
+```{r}
+set.seed(76543)
+
+dat_ergoStool_e <-
+  dat_ergoStool_e %>%
+  # add a few noise variables just to use for model selection example
+  dplyr::mutate(
+    x1 = stats::rnorm(n = dplyr::n())
+  , x2 = stats::rnorm(n = dplyr::n())
+  , x3 = stats::rnorm(n = dplyr::n())
+  )
+dat_ergoStool_e %>% head(8)
+
+# table of the candidate models
+form_table <-
+  e_model_all_subsets_formula(
+      var_formula = NULL
+    , x_var_names = list(c("Type", "(1 | Subject)"), c("x1", "x2", "x3"))
+    , y_var_name  = "Effort"
+    , max_scope   = list("always", "SO")
+    , sw_return   = c("formula", "table")[2]
+    )
+print(form_table)
+
+# generate candidate model formulas
+form_list <-
+  e_model_all_subsets_formula(
+      var_formula = NULL
+    , x_var_names = list(c("Type", "(1 | Subject)"), c("x1", "x2", "x3"))
+    , y_var_name  = "Effort"
+    , max_scope   = list("always", "SO")
+    , sw_return   = c("formula", "table")[1]
+    )
+
+# fit models and calculate model selection criteria
+lmer_fit_list <- list()
+lmer_fit_list_crit <- list()
+
+for (i_form in seq_len(length(form_list))) {
+  # model fit
+  lmer_fit_list[[ i_form ]] <-
+    lme4::lmer(
+      formula = form_list[[ i_form ]]
+    , REML    = TRUE
+    , data    = dat_ergoStool_e
+    )
+
+  # model selection criteria
+  lmer_fit_list_crit[[ i_form ]] <-
+    e_lm_model_criteria(
+      lm_fit  = lmer_fit_list[[ i_form ]]
+    , dat_fit = dat_ergoStool_e
+    )
+}
+
+# sort the models by a criterion
+lmer_fit_crit <-
+  lmer_fit_list_crit %>%
+  dplyr::bind_rows() %>%
+  dplyr::mutate(
+    # number the model criteria with same indices as lm_fit_list above
+    model_id = 1:dplyr::n()
+  ) %>%
+  dplyr::select(
+    # move model_id to first column
+    model_id
+  , tidyselect::everything()
+  ) %>%
+  dplyr::arrange(
+    # arrange models by this model criterion
+    caic              # ascending by caic (best on top)
+    # dplyr::desc(r2)   # descending by r2 (best on top)
+  )
+
+# print the head and tail of fit criteria table
+lmer_fit_crit %>% head()
+lmer_fit_crit %>% tail(3)
+
+# best model ID
+lmer_fit_crit$model_id[1]
+
+# summarize "best" model
+lmer_fit_list[[ lmer_fit_crit$model_id[1] ]] %>%
+  car::Anova(type = 3)
+lmer_fit_list[[ lmer_fit_crit$model_id[1] ]] %>%
+  summary()
+```
+
