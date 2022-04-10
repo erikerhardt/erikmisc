@@ -49,6 +49,44 @@ usethis::use_data(
 #   )
 
 
+
+# ----------------------------------------
+## Examples: dat_ergoStool_e
+
+dat_ergoStool_e <-
+  nlme::ergoStool %>%
+  tibble::as_tibble() %>%
+  dplyr::rename(
+    Effort = effort
+  )
+attr(dat_ergoStool_e, "formula"     ) <- NULL
+attr(dat_ergoStool_e, "labels"      ) <- NULL
+attr(dat_ergoStool_e, "units"       ) <- NULL
+attr(dat_ergoStool_e, "FUN"         ) <- NULL
+attr(dat_ergoStool_e, "order.groups") <- NULL
+
+# Label columns
+dat_labels <-
+  tibble::tribble(
+    ~var    , ~label
+  , "Effort"  , "Effort (Borg scale) required to arise from a stool"
+  , "Type"    , "Stool type"
+  , "Subject" , "Unique identifier for the subject"
+  )
+
+for (i_row in 1:nrow(dat_labels)) {
+  labelled::var_label(dat_ergoStool_e[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
+}
+
+str(dat_ergoStool_e)
+
+usethis::use_data(
+    dat_ergoStool_e
+  , overwrite = TRUE
+  )
+
+
+
 # ----------------------------------------
 ## Unicode: dat_unicode_tables_sel_byhand_e
 

@@ -1,6 +1,7 @@
 # https://kbroman.org/pkg_primer/pages/data.html
 # Including datasets
 
+
 ## dat_mtcars_e
 
 #' datasets::mtcars, factored and labeled
@@ -16,6 +17,23 @@
 #' data(dat_mtcars_e)
 #' str(dat_mtcars_e)
 "dat_mtcars_e"
+
+
+## dat_ergoStool_e
+
+#' nlme::ergoStool, labeled
+#'
+#' Using \code{nlme::ergoStool}, then applying labeling variables with \code{labelled::var_label} based on \code{?nlme::ergoStool}
+#'
+#' @docType data
+#' @usage data(dat_ergoStool_e)
+#' @keywords datasets
+#' @source \code{?nlme::ergoStool}
+#' @format tibble
+#' @examples
+#' data(dat_ergoStool_e)
+#' str(dat_ergoStool_e)
+"dat_ergoStool_e"
 
 
 ## dat_unicode_tables_sel_byhand_e
