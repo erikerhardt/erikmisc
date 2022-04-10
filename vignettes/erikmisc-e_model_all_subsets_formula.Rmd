@@ -52,7 +52,7 @@ e_model_all_subsets_formula(
 
 # Applications
 
-## Linear model fit and model selection
+# Linear model fit and model selection
 
 _Note that in these examples we are ignoring model fit;
   see `e_plot_lm_diagostics` for diagnostics._
@@ -143,7 +143,7 @@ lm_fit_list[[ lm_fit_crit$model_id[1] ]] %>%
 
 
 
-## Longitudinal linear model fit and model selection
+# Longitudinal linear model fit and model selection
 
 For the purpose of illustrating the method, variables `x1`, `x2`, and `x3` are
   generated as indepedent standard normal random variables.
