@@ -28,6 +28,7 @@ Depends:
     graphics
 Imports:
     ROCR,
+    cAIC4,
     car,
     cli,
     cowplot,
