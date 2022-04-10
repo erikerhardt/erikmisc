@@ -54,6 +54,12 @@
 #'   , var_color = "wt"             # numeric color
 #'   , var_facet = c("vs")
 #'   )
+#' e_plot_scatterplot(
+#'     dat_plot  = dat_mtcars_e
+#'   , var_x     = "am"             # factor x
+#'   , var_y     = "mpg"
+#'   , var_color = "vs"             # factor color
+#'   )
 e_plot_scatterplot <-
   function(
     dat_plot  = NULL
@@ -90,8 +96,8 @@ e_plot_scatterplot <-
     p <- p + geom_hline(yintercept = mean(dat_plot[[ var_y ]]),
                         colour = "black", linetype = "dashed", size = 0.3, alpha = 0.5)
     # boxplot, size=.75 to stand out behind CI
-    p <- p + geom_violin(width = 0.25, alpha = 0.25, position = position_dodge_val)
-    p <- p + geom_boxplot(width = 0.25, alpha = 0.25, position = position_dodge_val)
+    p <- p + geom_violin(width = 0.2, alpha = 0.25, position = position_dodge_val)
+    p <- p + geom_boxplot(width = 0.2, alpha = 0.25, position = position_dodge_val)
     # points for observed data
     p <- p + geom_point(position = position_jitter(w = 0.1, h = 0), alpha = 1) #, position = position_dodge_val)
     # diamond at mean for each group

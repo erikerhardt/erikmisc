@@ -76,4 +76,10 @@ e_plot_scatterplot(
   , var_color = "wt"             # numeric color
   , var_facet = c("vs")
   )
+e_plot_scatterplot(
+    dat_plot  = dat_mtcars_e
+  , var_x     = "am"             # factor x
+  , var_y     = "mpg"
+  , var_color = "vs"             # factor color
+  )
 }
