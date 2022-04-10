@@ -14,8 +14,8 @@ data.frame with most complete key rows
 }
 \description{
 For a set of key variables that are unique for participants,
-  identify sets of rows with unique key variables in common
-  and collapse them together to have a single "most complete" row
-  of key values by removing the NAs.
+identify sets of rows with unique key variables in common
+and collapse them together to have a single "most complete" row
+of key values by removing the NAs.
 Each key variable must have a unique value for each participant.
 }

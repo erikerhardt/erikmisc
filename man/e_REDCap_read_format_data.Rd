@@ -19,11 +19,11 @@ e_REDCap_read_format_data(
 \arguments{
 \item{fn_path}{is the location of the data, assumed to be the current path.}
 
-\item{fn_root}{the root name(s) of the file(s), typically the project name(s) (the part before _DATA_*.*)}
+\item{fn_root}{the root name(s) of the file(s), typically the project name(s) (the part before \emph{DATA}\emph{.})}
 
-\item{fn_suffix_data}{typically "_DATA_" to indicate this is the data}
+\item{fn_suffix_data}{typically "\emph{DATA}" to indicate this is the data}
 
-\item{fn_suffix_R}{typically "_R_" to indicate this is the R formatting file}
+\item{fn_suffix_R}{typically "\emph{R}" to indicate this is the R formatting file}
 
 \item{fn_suffix_out}{an added name to the outputted saved and formatted data files, maybe you want to add a date, a version number, or a another label}
 
@@ -39,7 +39,7 @@ e_REDCap_read_format_data(
 out_dat formatted data or \code{invisible(NULL)}, depending on \code{sw_return_dat}
 }
 \description{
-Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.
+Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of \emph{_yyyy-mm-dd_hhmm.}) and read and format that given the R formatting file.
 }
 \examples{
 \dontrun{

@@ -16,22 +16,22 @@ dates   list of integers
 }
 \description{
 Differences between Windows and Mac Serial number date systems
-  \itemize{
-  \item <https://support.microsoft.com/en-us/office/date-systems-in-excel-e7fe7167-48a9-4b96-bb53-5612a800b487#ID0EAACAAA=Windows>
-    \itemize{
-    \item Excel supports two date systems, the 1900 date system and the 1904 date system.
-    \item Each date system uses a unique starting date from which all other workbook dates are calculated.
-    \item All versions of Excel for Windows calculate dates based on the 1900 date system.
-    \item Excel 2008 for Mac and earlier Excel for Mac versions calculate dates based on the 1904 date system.
-    \item Excel 2016 for Mac and Excel for Mac 2011 use the 1900 date system, which guarantees date compatibility with Excel for Windows.
-    }
-  \item For example, July 5, 2011, can have two different serial numbers, as follows:
-    \tabular{ll}{
-    Date System  \tab  Serial number \cr
-    1900         \tab  40729         \cr
-    1904         \tab  39267         \cr
-    }
-  }
+\itemize{
+\item \url{https://support.microsoft.com/en-us/office/date-systems-in-excel-e7fe7167-48a9-4b96-bb53-5612a800b487#ID0EAACAAA=Windows}
+\itemize{
+\item Excel supports two date systems, the 1900 date system and the 1904 date system.
+\item Each date system uses a unique starting date from which all other workbook dates are calculated.
+\item All versions of Excel for Windows calculate dates based on the 1900 date system.
+\item Excel 2008 for Mac and earlier Excel for Mac versions calculate dates based on the 1904 date system.
+\item Excel 2016 for Mac and Excel for Mac 2011 use the 1900 date system, which guarantees date compatibility with Excel for Windows.
+}
+\item For example, July 5, 2011, can have two different serial numbers, as follows:
+\tabular{ll}{
+Date System  \tab  Serial number \cr
+1900         \tab  40729         \cr
+1904         \tab  39267         \cr
+}
+}
 }
 \examples{
 dates <- c("2017-07-01", "2017-07-02", "2017-07-03")

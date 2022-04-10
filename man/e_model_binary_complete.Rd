@@ -10,7 +10,8 @@ e_model_binary_complete(var_names)
 \item{var_names}{a character list of variable names}
 }
 \value{
-a data.frame of all binary subsets of variables
+\preformatted{     a data.frame of all binary subsets of variables
+}
 }
 \description{
 Return data.frame of all binary subsets of a list of variable names

@@ -11,9 +11,9 @@ e_expand_grid_df(...)
 }
 \value{
 A data frame containing one block of rows for each combination of
-        the supplied data frames. The last data frames vary fastest. The columns retain
-        their original names except for identical names in different data frames, in
-        which case the suffix ".x", ".y", etc., are added in the returned data frame but may not be unique.
+the supplied data frames. The last data frames vary fastest. The columns retain
+their original names except for identical names in different data frames, in
+which case the suffix ".x", ".y", etc., are added in the returned data frame but may not be unique.
 }
 \description{
 \code{expand.grid} for data.frames.  Create a data frame from all combinations of the supplied data frames.

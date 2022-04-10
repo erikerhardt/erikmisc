@@ -31,9 +31,9 @@ Patients who screen positive should be further evaluated with the PHQ-9 to deter
 PHQ-2 score obtained by adding score for each question (total points)
 
 Interpretation:
-  A PHQ-2 score ranges from 0-6. The authors identified a score of 3 as the optimal cutpoint when using the PHQ-2 to screen for depression.
-  If the score is 3 or greater, major depressive disorder is likely.
-  Patients who screen positive should be further evaluated with the PHQ-9, other diagnostic instruments, or direct interview to determine whether they meet criteria for a depressive disorder.
+A PHQ-2 score ranges from 0-6. The authors identified a score of 3 as the optimal cutpoint when using the PHQ-2 to screen for depression.
+If the score is 3 or greater, major depressive disorder is likely.
+Patients who screen positive should be further evaluated with the PHQ-9, other diagnostic instruments, or direct interview to determine whether they meet criteria for a depressive disorder.
 }
 \examples{
 e_calc_phq2_categories(c(0, 2, 3, 5))

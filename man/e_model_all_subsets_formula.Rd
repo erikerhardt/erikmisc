@@ -32,7 +32,8 @@ or each can have it's own \code{max_scope}.}
 \item{sw_return}{return a list of "formula", or a "table" of x-variable combinations}
 }
 \value{
-a list of functions
+\preformatted{         a list of functions
+}
 }
 \description{
 Return all possible model subsets based on specified model scopes.

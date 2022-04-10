@@ -33,9 +33,9 @@ e_plot_model_contrasts(
 
 \item{sw_table_in_plot}{T/F put table of results in caption of plot}
 
-\item{adjust_method}{see         `?emmeans::summary.emmGrid`}
+\item{adjust_method}{see         \code{?emmeans::summary.emmGrid}}
 
-\item{CI_level}{level from `?emmeans::emmeans`}
+\item{CI_level}{level from \code{?emmeans::emmeans}}
 
 \item{sw_glm_scale}{for glm fit, choose results on the "link" (default) or "response" scale}
 
@@ -55,7 +55,7 @@ e_plot_model_contrasts(
 
 \item{plot_values}{a named list for values plotted for a single specified numeric:numeric interaction plot, if \code{sw_plot_quantiles_values} is "values".  Specify a specific contrast, for example: \code{choose_contrasts = "disp:hp"}.  Then specify the values for each variable, for example: \code{plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))}}
 
-\item{emmip_rg.limit}{from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be [your value], which exceeds the limit of 10000 (not including any multivariate responses)."}
+\item{emmip_rg.limit}{from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be \link{your value}, which exceeds the limit of 10000 (not including any multivariate responses)."}
 }
 \value{
 out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.

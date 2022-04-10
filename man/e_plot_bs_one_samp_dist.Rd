@@ -16,7 +16,7 @@ e_plot_bs_one_samp_dist(dat, N = 10000)
 }
 \description{
 A function to compare the bootstrap sampling distribution with
-  a normal distribution with mean and SEM estimated from the data
+a normal distribution with mean and SEM estimated from the data
 }
 \examples{
 e_plot_bs_one_samp_dist(dat = runif(6))

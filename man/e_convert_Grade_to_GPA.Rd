@@ -13,7 +13,7 @@ e_convert_Grade_to_GPA(Grade)
 GPA  numeric from F = 0 to A+ = 4.33, NA if not a letter grade
 }
 \description{
-Using UNM standard: <https://unm-student.custhelp.com/app/answers/detail/a_id/3461>
+Using UNM standard: \url{https://unm-student.custhelp.com/app/answers/detail/a_id/3461}
 }
 \examples{
 e_convert_Grade_to_GPA(

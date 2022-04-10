@@ -7,11 +7,11 @@
 erikmisc_logo(sw_unicode = l10n_info()$`UTF-8`)
 }
 \arguments{
-\item{sw_unicode}{Whether to use Unicode symbols. Default is `TRUE`
+\item{sw_unicode}{Whether to use Unicode symbols. Default is \code{TRUE}
 on UTF-8 platforms.}
 }
 \description{
-Use [crayon::strip_style()] to get rid of the colors.
+Use \code{\link[crayon:strip_style]{crayon::strip_style()}} to get rid of the colors.
 }
 \examples{
 erikmisc_logo()

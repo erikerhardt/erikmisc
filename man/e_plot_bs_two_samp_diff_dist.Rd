@@ -18,8 +18,8 @@ e_plot_bs_two_samp_diff_dist(dat1, dat2, N = 10000)
 }
 \description{
 A function to compare the bootstrap sampling distribution
-  of the difference of means from two samples with
-  a normal distribution with mean and SEM estimated from the data
+of the difference of means from two samples with
+a normal distribution with mean and SEM estimated from the data
 }
 \examples{
 e_plot_bs_two_samp_diff_dist(dat1 = runif(6), dat2 = runif(6) - 2)

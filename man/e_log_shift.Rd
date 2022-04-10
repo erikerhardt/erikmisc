@@ -18,11 +18,11 @@ numeric vector with attributes
 }
 \description{
 Default \code{min_add} values:
-  If specified, use that.
-  All positive, add 0.
-  Min is 0, add the minimum non-0 value.
-  Min is negative and max is positive, add the minimum non-0 value (so minimum is now the previous non-0 value).
-  Max is negative, add the minimum value plus 1 so \code{log2(x)=0} is the minimum value.
+If specified, use that.
+All positive, add 0.
+Min is 0, add the minimum non-0 value.
+Min is negative and max is positive, add the minimum non-0 value (so minimum is now the previous non-0 value).
+Max is negative, add the minimum value plus 1 so \code{log2(x)=0} is the minimum value.
 }
 \examples{
 
