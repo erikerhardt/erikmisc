@@ -45,7 +45,6 @@ e_plot_table_prop <-
   x_var_name <- var_names[length(var_names)]
 
 
-  library(ggplot2)
   p <- ggplot(tab_plot, aes_string(x = x_var_name, y = "prop"))
   p <- p + theme_bw()
   p <- p + geom_col()

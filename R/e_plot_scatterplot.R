@@ -70,7 +70,6 @@ e_plot_scatterplot <-
   , sw_print  = FALSE
   ) {
 
-  library(ggplot2)
   text_title <- paste0("Plot of ", var_y, " vs ", var_x)
 
   position_dodge_val <- position_dodge(0)
