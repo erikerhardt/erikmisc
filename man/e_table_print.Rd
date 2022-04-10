@@ -36,7 +36,7 @@ EXAMPLE OF .Rmd YAML header for pdf via LaTeX
 
 ---
 title: "Title"
-date: "April 09, 2022"
+date: "April 10, 2022"
 output:
   pdf_document:
     df_print: kable
