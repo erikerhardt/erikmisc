@@ -7,6 +7,9 @@
     <loc>/articles/erikmisc-e_lm_bestsubset.html</loc>
   </url>
   <url>
+    <loc>/articles/erikmisc-e_model_all_subsets_formula.html</loc>
+  </url>
+  <url>
     <loc>/articles/erikmisc-e_multiple_regression_example.html</loc>
   </url>
   <url>
@@ -50,6 +53,9 @@
   </url>
   <url>
     <loc>/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dat_ergoStool_e.html</loc>
   </url>
   <url>
     <loc>/reference/dat_mtcars_e.html</loc>
@@ -179,6 +185,9 @@
   </url>
   <url>
     <loc>/reference/e_lm_diag_plots.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_lm_model_criteria.html</loc>
   </url>
   <url>
     <loc>/reference/e_lm_power.html</loc>

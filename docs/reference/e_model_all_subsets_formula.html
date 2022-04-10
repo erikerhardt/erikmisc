@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.11</span>
       </span>
     </div>
 
@@ -33,6 +33,9 @@
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
+    </li>
+    <li>
+      <a href="../articles/erikmisc-e_model_all_subsets_formula.html">All model subsets</a>
     </li>
     <li>
       <a href="../articles/erikmisc-e_multiple_regression_example.html">Multiple regression using erikmisc</a>
@@ -107,7 +110,8 @@ or each can have it's own <code>max_scope</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list of functions</p>
+    <div class="sourceCode"><pre><code>         a list of functions
+</code></pre></div>
     </div>
 
     <div id="ref-examples">
@@ -122,75 +126,75 @@ or each can have it's own <code>max_scope</code>.</p></dd>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000542c56a0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d2558e8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000054403bc8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d23e518&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000005440f148&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d21d5f0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000005441a6c8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d200e38&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + a:b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000561c5498&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d1e2338&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000561d4650&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d1c5778&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000561dfbd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d1ae418&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + c + a:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000561eb0a8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d183fe0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ b + c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000561f6430&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d14fef8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ b + c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000056201908&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d0ff700&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[11]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000056211038&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d0b8928&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[12]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000005621c9e0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d0a7220&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[13]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000564296d8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d09b9c8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[14]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b + a:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000056434f30&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d08e250&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[15]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000056440638&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004d052780&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[16]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000005644be90&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cfdc0e0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[17]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000056457598&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cfb9538&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[18]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b + a:c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000056462ca0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cf7b6b0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="co"># Two-way interaction model, return table of x-variable combinations</span></span>
 <span class="r-in"><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span>

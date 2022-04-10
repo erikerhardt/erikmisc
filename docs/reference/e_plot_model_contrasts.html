@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.11</span>
       </span>
     </div>
 
@@ -33,6 +33,9 @@
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
+    </li>
+    <li>
+      <a href="../articles/erikmisc-e_model_all_subsets_formula.html">All model subsets</a>
     </li>
     <li>
       <a href="../articles/erikmisc-e_multiple_regression_example.html">Multiple regression using erikmisc</a>
@@ -107,9 +110,9 @@
 <dt>sw_table_in_plot</dt>
 <dd><p>T/F put table of results in caption of plot</p></dd>
 <dt>adjust_method</dt>
-<dd><p>see         `?emmeans::summary.emmGrid`</p></dd>
+<dd><p>see         <code><a href="https://rdrr.io/pkg/emmeans/man/summary.emmGrid.html" class="external-link">?emmeans::summary.emmGrid</a></code></p></dd>
 <dt>CI_level</dt>
-<dd><p>level from `?emmeans::emmeans`</p></dd>
+<dd><p>level from <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">?emmeans::emmeans</a></code></p></dd>
 <dt>sw_glm_scale</dt>
 <dd><p>for glm fit, choose results on the "link" (default) or "response" scale</p></dd>
 <dt>sw_print</dt>
@@ -129,7 +132,7 @@
 <dt>plot_values</dt>
 <dd><p>a named list for values plotted for a single specified numeric:numeric interaction plot, if <code>sw_plot_quantiles_values</code> is "values".  Specify a specific contrast, for example: <code>choose_contrasts = "disp:hp"</code>.  Then specify the values for each variable, for example: <code>plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))</code></p></dd>
 <dt>emmip_rg.limit</dt>
-<dd><p>from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be [your value], which exceeds the limit of 10000 (not including any multivariate responses)."</p></dd>
+<dd><p>from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be your value, which exceeds the limit of 10000 (not including any multivariate responses)."</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -499,6 +502,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-plt img"><img src="e_plot_model_contrasts-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co">## GLM on logit and probability scales</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">dat_cont</span> <span class="op">&lt;-</span></span>
@@ -522,38 +526,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span><span class="va">fit_glm</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Analysis of Deviance Table (Type III tests)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Response: cbind(am_01, 1 - am_01)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       LR Chisq Df Pr(&gt;Chisq)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs     1.78742  1     0.1812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hp     0.21115  1     0.6459</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs:hp  2.23005  1     0.1353</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_glm</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glm(formula = cbind(am_01, 1 - am_01) ~ vs + hp + vs:hp, family = binomial, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     data = dat_cont)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance Residuals: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Min       1Q   Median       3Q      Max  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.7489  -1.2260   0.8176   0.9134   1.7682  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error z value Pr(&gt;|z|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   -0.058088   1.714742  -0.034    0.973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vsstraight    -4.022917   3.155368  -1.275    0.202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hp             0.004009   0.008861   0.452    0.651</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vsstraight:hp  0.040392   0.029123   1.387    0.165</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Dispersion parameter for binomial family taken to be 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Null deviance: 43.23  on 31  degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual deviance: 38.98  on 28  degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AIC: 46.98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Fisher Scoring iterations: 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># all contrasts from model, logit scale</span></span>
 <span class="r-in"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span></span>
@@ -565,113 +538,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  , sw_marginal_even_if_interaction <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in">  , sw_TWI_plots_keep  <span class="op">=</span> <span class="st">"both"</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Continuing with "vs" even though involved in interactions.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: Results may be misleading due to involvement in interactions</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Continuing with "hp" even though involved in interactions.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: Results may be misleading due to involvement in interactions</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: Results may be misleading due to involvement in interactions</span>
 <span class="r-in"><span class="va">fit_contrasts</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  vs       emmean    SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  V-shaped   0.53 0.607 Inf    -0.827      1.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  straight   2.43 1.607 Inf    -1.161      6.03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Results are given on the logit (not the response) scale. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Conf-level adjustment: sidak method for 2 estimates </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs$cont</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast              estimate   SE  df z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  (V-shaped) - straight     -1.9 1.72 Inf  -1.107  0.2681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Results are given on the log odds ratio (not the response) scale. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$hp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$hp$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   hp hp.trend     SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  147   0.0242 0.0146 Inf  -0.00433    0.0527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Results are averaged over the levels of: vs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  vs       hp.trend      SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  V-shaped  0.00401 0.00886 Inf  -0.01336    0.0214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  straight  0.04440 0.02774 Inf  -0.00997    0.0988</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`$cont</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast              estimate     SE  df z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  (V-shaped) - straight  -0.0404 0.0291 Inf  -1.387  0.1655</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$vs</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-7.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$hp</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-8.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`vs:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`vs:hp`$both</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-9.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$vs[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NOTE: Results may be misleading due to involvement in interactions"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Estimate: V-shaped = 0.53, 95% CI: (-0.827, 1.89)"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Estimate: straight = 2.43, 95% CI: (-1.16, 6.03)"                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Contrast: (V-shaped) - straight = -1.9, p-value = 0.2681"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "Results are given on the log odds ratio (not the response) scale." </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$hp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$hp[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NOTE: Results may be misleading due to involvement in interactions"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Estimate: (at mean = 147): 0.0242, 95% CI: (-0.00433, 0.0527)"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Tables: Results are averaged over the levels of: vs"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Plot: Results are averaged over the levels of: vs"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$hp[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NOTE: Results may be misleading due to involvement in interactions"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Estimate: (at mean = 147): 0.0242, 95% CI: (-0.00433, 0.0527)"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Tables: Confidence level used: 0.95"                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Plot: Results are given on the logit (not the response) scale."    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[1]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: V-shaped = 0.00401, 95% CI: (-0.0134, 0.0214)"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Estimate: straight = 0.0444, 95% CI: (-0.00997, 0.0988)"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Contrast: (V-shaped) - straight = -0.0404, p-value = 0.1655"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] ""                                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[2]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: V-shaped = 0.00401, 95% CI: (-0.0134, 0.0214)"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Estimate: straight = 0.0444, 95% CI: (-0.00997, 0.0988)"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Contrast: (V-shaped) - straight = -0.0404, p-value = 0.1655"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] ""                                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># all contrasts from model, probability scale</span></span>
 <span class="r-in"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span></span>
@@ -683,113 +550,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  , sw_marginal_even_if_interaction <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in">  , sw_TWI_plots_keep  <span class="op">=</span> <span class="st">"both"</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Continuing with "vs" even though involved in interactions.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: Results may be misleading due to involvement in interactions</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Continuing with "hp" even though involved in interactions.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: Results may be misleading due to involvement in interactions</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: Results may be misleading due to involvement in interactions</span>
 <span class="r-in"><span class="va">fit_contrasts</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  vs        prob    SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  V-shaped 0.629 0.142 Inf     0.304     0.868</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  straight 0.919 0.119 Inf     0.238     0.998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Conf-level adjustment: sidak method for 2 estimates </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intervals are back-transformed from the logit scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs$cont</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast              odds.ratio    SE  df null z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  (V-shaped) / straight      0.149 0.256 Inf    1  -1.107  0.2681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tests are performed on the log odds ratio scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$hp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$hp$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   hp hp.trend     SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  147  0.00211 0.0017 Inf  -0.00123   0.00545</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Results are averaged over the levels of: vs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  vs       hp.trend      SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  V-shaped 0.000935 0.00215 Inf  -0.00328   0.00515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  straight 0.003279 0.00265 Inf  -0.00191   0.00846</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`$cont</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast              estimate      SE  df z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  (V-shaped) - straight -0.00234 0.00341 Inf  -0.687  0.4918</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$vs</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-10.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$hp</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-11.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`vs:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`vs:hp`$both</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-12.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$vs[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NOTE: Results may be misleading due to involvement in interactions"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Estimate: V-shaped = 0.629, 95% CI: (0.304, 0.868)"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Estimate: straight = 0.919, 95% CI: (0.238, 0.998)"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Contrast: (V-shaped) / straight = 0.149, p-value = 0.2681"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "Tests are performed on the log odds ratio scale"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$hp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$hp[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NOTE: Results may be misleading due to involvement in interactions"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Estimate: (at mean = 147): 0.00211, 95% CI: (-0.00123, 0.00545)"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Tables: Results are averaged over the levels of: vs"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Plot: Results are averaged over the levels of: vs"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$hp[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NOTE: Results may be misleading due to involvement in interactions"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Estimate: (at mean = 147): 0.00211, 95% CI: (-0.00123, 0.00545)"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Tables: Confidence level used: 0.95"                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Plot: Results are averaged over the levels of: vs"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[1]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: V-shaped = 0.000935, 95% CI: (-0.00328, 0.00515)"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Estimate: straight = 0.00328, 95% CI: (-0.00191, 0.00846)"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Contrast: (V-shaped) - straight = -0.00234, p-value = 0.4918"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] ""                                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:hp`[[2]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: V-shaped = 0.000935, 95% CI: (-0.00328, 0.00515)"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Estimate: straight = 0.00328, 95% CI: (-0.00191, 0.00846)"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Contrast: (V-shaped) - straight = -0.00234, p-value = 0.4918"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] ""                                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># numeric:numeric interaction</span></span>
@@ -802,42 +563,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span><span class="va">fit_glm</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Analysis of Deviance Table (Type III tests)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Response: cbind(am_01, 1 - am_01)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         LR Chisq Df Pr(&gt;Chisq)    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp     17.3730  1  3.072e-05 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hp        0.1824  1     0.6693    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp:hp   2.4178  1     0.1200    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_glm</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glm(formula = cbind(am_01, 1 - am_01) ~ disp + hp + disp:hp, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     family = binomial, data = dat_cont)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance Residuals: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Min        1Q    Median        3Q       Max  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.64090  -0.21860   0.00604   0.18884   1.88968  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error z value Pr(&gt;|z|)  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) -9.3246479  6.8384757  -1.364   0.1727  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp         0.1138638  0.0482517   2.360   0.0183 *</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hp          -0.0312992  0.0794230  -0.394   0.6935  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp:hp     -0.0002503  0.0001947  -1.285   0.1987  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Dispersion parameter for binomial family taken to be 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Null deviance: 43.230  on 31  degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual deviance: 14.295  on 28  degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AIC: 22.295</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Fisher Scoring iterations: 8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span></span>
 <span class="r-in">  <span class="fu">e_plot_model_contrasts</span><span class="op">(</span></span>
@@ -847,37 +573,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  , sw_print           <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span class="r-in">  , sw_TWI_plots_keep  <span class="op">=</span> <span class="st">"both"</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "disp" since involved in interactions.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "hp" since involved in interactions.</span>
 <span class="r-in"><span class="va">fit_contrasts</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`disp:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`disp:hp`$both</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-13.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`disp:hp`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`disp:hp`[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`disp:hp`[[1]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95;"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "  may be fewer if quantiles are not unique values."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] ""                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`disp:hp`[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`disp:hp`[[2]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Quantiles plotted: 0.05, 0.25, 0.5, 0.75, 0.95;"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "  may be fewer if quantiles are not unique values."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] ""                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># factor:factor interaction</span></span>
@@ -890,45 +586,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span><span class="va">fit_glm</span><span class="op">)</span> <span class="co">#, type = 3)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>glm.fit: fitted probabilities numerically 0 or 1 occurred</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>glm.fit: fitted probabilities numerically 0 or 1 occurred</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>glm.fit: fitted probabilities numerically 0 or 1 occurred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Analysis of Deviance Table (Type II tests)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Response: cbind(am_01, 1 - am_01)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        LR Chisq Df Pr(&gt;Chisq)    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs       10.234  1   0.001378 ** </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cyl      18.622  2  9.042e-05 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs:cyl    0.000  1   1.000000    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_glm</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glm(formula = cbind(am_01, 1 - am_01) ~ vs + cyl + vs:cyl, family = binomial, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     data = dat_cont)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance Residuals: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Min        1Q    Median        3Q       Max  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.97277  -0.84460   0.00013   0.55525   1.55176  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients: (1 not defined because of singularities)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       Estimate Std. Error z value Pr(&gt;|z|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)         -1.857e+01  6.523e+03  -0.003    0.998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vsstraight           1.772e+01  6.523e+03   0.003    0.998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cylsix               1.191e-11  7.532e+03   0.000    1.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cyleight             2.036e+01  6.523e+03   0.003    0.998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vsstraight:cylsix    1.941e+01  8.207e+03   0.002    0.998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vsstraight:cyleight         NA         NA      NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Dispersion parameter for binomial family taken to be 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Null deviance: 43.230  on 31  degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual deviance: 23.701  on 27  degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AIC: 33.701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Fisher Scoring iterations: 17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">fit_contrasts</span> <span class="op">&lt;-</span></span>
 <span class="r-in">  <span class="fu">e_plot_model_contrasts</span><span class="op">(</span></span>
@@ -938,116 +596,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  , sw_print           <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span class="r-in">  , sw_TWI_plots_keep  <span class="op">=</span> <span class="st">"both"</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "vs" since involved in interactions.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     Target overlap = 0.9975, overlap on graph = -20.8762</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     Target overlap = 0.9975, overlap on graph = -21.2872</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_point).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_segment).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_point).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_point).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_segment).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_point).</span>
 <span class="r-in"><span class="va">fit_contrasts</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:cyl`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:cyl`$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs = V-shaped:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  cyl      prob         SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four  0.00000 0.00005640 Inf   0.00000   1.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  six   0.00000 0.00003256 Inf   0.00000   1.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  eight 0.85714 0.09352195 Inf   0.49202   0.97380</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs = straight:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  cyl      prob         SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four  0.30000 0.14491377 Inf   0.07621   0.69006</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  six   1.00000 0.00002820 Inf   0.00000   1.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  eight  nonEst         NA  NA        NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Conf-level adjustment: sidak method for 3 estimates </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intervals are back-transformed from the logit scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:cyl`$cont</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs = V-shaped:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast     odds.ratio   SE  df null z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four / six            1 7532 Inf    1   0.000  1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four / eight          0    0 Inf    1  -0.003  1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  six / eight           0    0 Inf    1  -0.005  1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs = straight:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast     odds.ratio   SE  df null z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four / six            0    0 Inf    1  -0.006  1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four / eight     nonEst   NA  NA    1      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  six / eight      nonEst   NA  NA    1      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> P value adjustment: sidak method for 3 tests </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tests are performed on the log odds ratio scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`vs:cyl`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$`vs:cyl`$both</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-14.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:cyl`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:cyl`[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:cyl`[[1]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "cyl = four:"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "Estimate: V-shaped = 8.65e-09, 95% CI: (2.22e-16, 1)"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "Estimate: straight = 0.3, 95% CI: (0.0839, 0.667)"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "cyl = six:"                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "Estimate: V-shaped = 8.65e-09, 95% CI: (2.22e-16, 1)"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "Estimate: straight = 1, 95% CI: (2.22e-16, 1)"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "cyl = eight:"                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Estimate: V-shaped = 0.857, 95% CI: (0.521, 0.971)"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "Estimate: straight = NA, 95% CI: (NA, NA)"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] ""                                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "cyl = four:"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12] "Contrast: (V-shaped) / straight = 2.02e-08, p-value = 0.9978"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "Contrast: (V-shaped) / straight = 2.22e-16, p-value = 0.9941"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "cyl = six:"                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "Contrast: (V-shaped) / straight = NA, p-value = NA"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "Contrast: NA = NA, p-value = NA"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "cyl = eight:"                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "Contrast: NA = NA, p-value = NA"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "Contrast: NA = NA, p-value = NA"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20] ""                                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "Tests are performed on the log odds ratio scale"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:cyl`[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$`vs:cyl`[[2]][[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "vs = V-shaped:"                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "Estimate: four = 8.65e-09, 95% CI: (2.22e-16, 1)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "Estimate: six = 8.65e-09, 95% CI: (2.22e-16, 1)" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "Estimate: eight = 0.857, 95% CI: (0.492, 0.974)" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "vs = straight:"                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "Estimate: four = 0.3, 95% CI: (0.0762, 0.69)"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "Estimate: six = 1, 95% CI: (2.22e-16, 1)"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Estimate: eight = NA, 95% CI: (NA, NA)"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] ""                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "vs = V-shaped:"                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "Contrast: four / six = 1, p-value = 1"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12] "Contrast: four / eight = 1.44e-09, p-value = 1"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "Contrast: six / eight = 1.44e-09, p-value = 1"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "vs = straight:"                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "Contrast: four / six = 3.71e-09, p-value = 1"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "Contrast: four / eight = NA, p-value = NA"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "Contrast: six / eight = NA, p-value = NA"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18] ""                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "P value adjustment: sidak method for 3 tests"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "Tests are performed on the log odds ratio scale" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## lme4::lmer mixed-effects model</span></span>
@@ -1065,36 +614,6 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="va">fit_lmer_contrasts</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Days Days.trend   SE df lower.CL upper.CL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.5       10.5 1.55 17     7.21     13.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Degrees-of-freedom method: kenward-roger </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$Days</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-15.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Degrees-of-freedom method: kenward-roger"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Degrees-of-freedom method: kenward-roger"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Confidence level used: 0.95"                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Degrees-of-freedom method: kenward-roger"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## lmerTest::as_lmerModLmerTest mixed-effects model</span></span>
@@ -1110,36 +629,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in">  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="va">fit_lmer_contrasts</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Days Days.trend   SE df lower.CL upper.CL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.5       10.5 1.55 17     7.21     13.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Degrees-of-freedom method: kenward-roger </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$Days</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-16.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Degrees-of-freedom method: kenward-roger"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Degrees-of-freedom method: kenward-roger"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate: (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Confidence level used: 0.95"                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Degrees-of-freedom method: kenward-roger"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
