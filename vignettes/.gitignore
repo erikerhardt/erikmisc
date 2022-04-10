@@ -3,3 +3,4 @@ figure
 *.md
 *.R
 rsconnect
+*.*
