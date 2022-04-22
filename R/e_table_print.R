@@ -7,7 +7,7 @@
 #'
 #' ---
 #' title: "Title"
-#' date: "`r format(Sys.time(), '%B %d, %Y')`"
+#' date: "Today"
 #' output:
 #'   pdf_document:
 #'     df_print: kable
