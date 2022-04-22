@@ -461,9 +461,9 @@ e_plot_model_contrasts <-
   var_name_y <-
     as.character(formula(fit))[2]
   var_name_x <-
-    str_split(
+    stringr::str_split(
       string = attr(terms.formula(formula(fit)), "term.labels")   #as.character(formula(fit))[3]
-    , pattern = fixed(" + ")
+    , pattern = stringr::fixed(" + ")
     ) %>%
     unlist()
 
@@ -497,7 +497,7 @@ e_plot_model_contrasts <-
       sapply(
         stringr::str_split(
           string  = choose_contrasts
-        , pattern = fixed(":")
+        , pattern = stringr::fixed(":")
         )
       , function(x) {
           paste0(rev(x), collapse = ":")
@@ -533,7 +533,7 @@ e_plot_model_contrasts <-
     var_xs <-
       stringr::str_split(
         string = var_name_x[i_var_x]
-      , pattern = fixed(":")
+      , pattern = stringr::fixed(":")
       ) %>%
       unlist()
 
@@ -572,7 +572,8 @@ e_plot_model_contrasts <-
               object  = fit
             , specs   = var_xs
             , var     = var_xs
-            , transform = "response"
+            #, transform = "response" # updated in emmeans 1.7.3
+            , regrid  = "response"
             )
         } else {
           # default scale
@@ -581,7 +582,8 @@ e_plot_model_contrasts <-
               object  = fit
             , specs   = var_xs
             , var     = var_xs
-            #, transform = "response"
+            ##, transform = "response" # updated in emmeans 1.7.3
+            #, regrid  = "response"
             )
         }
 
@@ -639,7 +641,8 @@ e_plot_model_contrasts <-
             #, cov.reduce = range
             , at         = at_list
             , rg.limit   = emmip_rg.limit
-            , transform  = "response"
+            #, transform = "response" # updated in emmeans 1.7.3
+            , regrid  = "response"
             )
 
         } else {
@@ -1241,7 +1244,8 @@ e_plot_model_contrasts <-
             , var     = var_xs[2]
             , adjust  = adjust_method
             , level   = CI_level
-            , transform = "response"
+            #, transform = "response" # updated in emmeans 1.7.3
+            , regrid  = "response"
             )
         } else {
           # default scale
@@ -1252,7 +1256,8 @@ e_plot_model_contrasts <-
             , var     = var_xs[2]
             , adjust  = adjust_method
             , level   = CI_level
-            #, transform = "response"
+            ##, transform = "response" # updated in emmeans 1.7.3
+            #, regrid  = "response"
             )
         }
 
@@ -1383,7 +1388,8 @@ e_plot_model_contrasts <-
             #, cov.reduce = range
             , at = at_list
             , rg.limit   = emmip_rg.limit
-            , transform = "response"
+            #, transform = "response" # updated in emmeans 1.7.3
+            , regrid  = "response"
             )
 
         } else {
@@ -1548,7 +1554,8 @@ e_plot_model_contrasts <-
                 object  = fit
               , at      = at_list
               #, type    = "response"
-              , transform  = "response"
+              #, transform = "response" # updated in emmeans 1.7.3
+              , regrid  = "response"
               )
 
           } else {
