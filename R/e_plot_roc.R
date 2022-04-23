@@ -156,7 +156,7 @@ e_plot_roc <-
     interval <- 0.2
     breaks   <- seq(0, 1, interval)
 
-    library(ggplot2)
+    #library(ggplot2)
     p <- ggplot(roc_curve, aes(x = Spec, y = Sens))
     p <- p + theme_bw()
     #p <- p + theme(axis.ticks = element_line(color = "grey80"))
