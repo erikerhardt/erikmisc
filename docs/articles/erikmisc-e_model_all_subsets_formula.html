@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
       </span>
     </div>
 
@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -110,13 +113,17 @@ linear models in order to choose the “best” model via a model selection
 criterion.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'parameters':</span>
+<span class="co">#&gt;   method                         from      </span>
+<span class="co">#&gt;   format.parameters_distribution datawizard</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.11 --</span>
 <span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
 <span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
 <span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
 <span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
-<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
+<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
 <div class="section level2">
 <h2 id="using-e_model_all_subsets_formula">Using <code>e_model_all_subsets_formula</code><a class="anchor" aria-label="anchor" href="#using-e_model_all_subsets_formula"></a>
 </h2>
@@ -289,7 +296,7 @@ models:</p>
 
 <span class="co"># fit models and calculate model selection criteria</span>
 <span class="va">lm_fit_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">lm_fit_list_crit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">lm_fit_list_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i_form</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># model fit</span>
@@ -300,26 +307,18 @@ models:</p>
     <span class="op">)</span>
 
   <span class="co"># model selection criteria</span>
-  <span class="va">lm_fit_list_crit</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
+  <span class="va">lm_fit_list_criteria</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
     <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span>
-      lm_fit  <span class="op">=</span> <span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , dat_fit <span class="op">=</span> <span class="va">dat_mtcars_e</span>
+      lm_fit    <span class="op">=</span> <span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
+    , dat_fit   <span class="op">=</span> <span class="va">dat_mtcars_e</span>
+    , model_id  <span class="op">=</span> <span class="va">i_form</span>
     <span class="op">)</span>
 <span class="op">}</span>
 
 <span class="co"># sort the models by a criterion</span>
-<span class="va">lm_fit_crit</span> <span class="op">&lt;-</span>
-  <span class="va">lm_fit_list_crit</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">lm_fit_criteria</span> <span class="op">&lt;-</span>
+  <span class="va">lm_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    <span class="co"># number the model criteria with same indices as lm_fit_list above</span>
-    model_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>
-    <span class="co"># move model_id to first column</span>
-    <span class="va">model_id</span>
-  , <span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span>
     <span class="co"># arrange models by this model criterion</span>
     <span class="va">bic</span>               <span class="co"># ascending by bic (best on top)</span>
@@ -327,7 +326,7 @@ models:</p>
   <span class="op">)</span>
 
 <span class="co"># print the head and tail of fit criteria table</span>
-<span class="va">lm_fit_crit</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">lm_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 x 17</span></span>
 <span class="co">#&gt;   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df f_stat_pval   rse</span>
 <span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -339,7 +338,7 @@ models:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       50  154.  168.    32 0.892 0.854   23.7     8    23    2.35<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span>  2.30</span>
 <span class="co">#&gt; <span style="color: #949494;"># ... with 6 more variables: mse &lt;dbl&gt;, rmse &lt;dbl&gt;, rsquare &lt;dbl&gt;, mae &lt;dbl&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
-<span class="va">lm_fit_crit</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+<span class="va">lm_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 17</span></span>
 <span class="co">#&gt;   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df  f_stat_pval   rse</span>
 <span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -350,11 +349,11 @@ models:</p>
 <span class="co">#&gt; <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
 
 <span class="co"># best model ID</span>
-<span class="va">lm_fit_crit</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+<span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="co">#&gt; [1] 6</span>
 
 <span class="co"># summarize "best" model</span>
-<span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_crit</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; Anova Table (Type III tests)</span>
 <span class="co">#&gt; </span>
@@ -367,7 +366,7 @@ models:</p>
 <span class="co">#&gt; Residuals    173.82 27                       </span>
 <span class="co">#&gt; ---</span>
 <span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_crit</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
@@ -552,7 +551,7 @@ minimal models:</p>
 
 <span class="co"># fit models and calculate model selection criteria</span>
 <span class="va">lmer_fit_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">lmer_fit_list_crit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">lmer_fit_list_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i_form</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># model fit</span>
@@ -564,26 +563,18 @@ minimal models:</p>
     <span class="op">)</span>
 
   <span class="co"># model selection criteria</span>
-  <span class="va">lmer_fit_list_crit</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
+  <span class="va">lmer_fit_list_criteria</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
     <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span>
-      lm_fit  <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , dat_fit <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
+      lm_fit    <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
+    , dat_fit   <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
+    , model_id  <span class="op">=</span> <span class="va">i_form</span>
     <span class="op">)</span>
 <span class="op">}</span>
 
 <span class="co"># sort the models by a criterion</span>
-<span class="va">lmer_fit_crit</span> <span class="op">&lt;-</span>
-  <span class="va">lmer_fit_list_crit</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">lmer_fit_criteria</span> <span class="op">&lt;-</span>
+  <span class="va">lmer_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    <span class="co"># number the model criteria with same indices as lm_fit_list above</span>
-    model_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>
-    <span class="co"># move model_id to first column</span>
-    <span class="va">model_id</span>
-  , <span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span>
     <span class="co"># arrange models by this model criterion</span>
     <span class="va">caic</span>              <span class="co"># ascending by caic (best on top)</span>
@@ -591,7 +582,7 @@ minimal models:</p>
   <span class="op">)</span>
 
 <span class="co"># print the head and tail of fit criteria table</span>
-<span class="va">lmer_fit_crit</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 x 14</span></span>
 <span class="co">#&gt;   model_id   aic   bic  caic  nobs     p    df   rse   mse  rmse rsquare   mae</span>
 <span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -602,7 +593,7 @@ minimal models:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       60  130.  149.  95.8    36    10    26 0.695 0.248 0.498   0.949 0.394</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       90  133.  154.  96.2    36    11    25 0.689 0.230 0.480   0.953 0.385</span>
 <span class="co">#&gt; <span style="color: #949494;"># ... with 2 more variables: mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
-<span class="va">lmer_fit_crit</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 14</span></span>
 <span class="co">#&gt;   model_id   aic   bic  caic  nobs     p    df   rse   mse  rmse rsquare   mae</span>
 <span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -612,11 +603,11 @@ minimal models:</p>
 <span class="co">#&gt; <span style="color: #949494;"># ... with 2 more variables: mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
 
 <span class="co"># best model ID</span>
-<span class="va">lmer_fit_crit</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+<span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="co">#&gt; [1] 12</span>
 
 <span class="co"># summarize "best" model</span>
-<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_crit</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; Analysis of Deviance Table (Type III Wald chisquare tests)</span>
 <span class="co">#&gt; </span>
@@ -630,7 +621,7 @@ minimal models:</p>
 <span class="co">#&gt; I(x2^2)       9.9588  1   0.001601 ** </span>
 <span class="co">#&gt; ---</span>
 <span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_crit</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Linear mixed model fit by REML ['lmerMod']</span>
 <span class="co">#&gt; Formula: Effort ~ Type + (1 | Subject) + x1 + x2 + I(x1^2) + I(x2^2)</span>
@@ -668,6 +659,108 @@ minimal models:</p>
 <span class="co">#&gt; x2      -0.022  0.009 -0.103  0.108  0.269              </span>
 <span class="co">#&gt; I(x1^2) -0.174  0.022 -0.162  0.137  0.241  0.388       </span>
 <span class="co">#&gt; I(x2^2) -0.349  0.290  0.257  0.384  0.047  0.217  0.096</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="longitudinal-linear-in-parallel-for-200-models">Longitudinal linear (in parallel, for 200+ models)<a class="anchor" aria-label="anchor" href="#longitudinal-linear-in-parallel-for-200-models"></a>
+</h2>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Set up parallel backend</span>
+  <span class="co">## From: https://www.blasbenito.com/post/02_parallelizing_loops_with_r/</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span>
+  <span class="co"># use n-1 cores</span>
+  <span class="va">n_cores</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>
+  <span class="co"># create the cluster</span>
+  <span class="va">my_cluster</span> <span class="op">&lt;-</span>
+    <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">makeCluster</a></span><span class="op">(</span>
+      spec <span class="op">=</span> <span class="va">n_cores</span>
+    , type <span class="op">=</span> <span class="st">"PSOCK"</span>
+    <span class="op">)</span>
+  <span class="co"># check cluster definition (optional)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_cluster</span><span class="op">)</span>
+  <span class="co"># register it to be used by %dopar%</span>
+  <span class="fu">doParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span>cl <span class="op">=</span> <span class="va">my_cluster</span><span class="op">)</span>
+  <span class="co"># check if it is registered (optional)</span>
+  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/getDoParWorkers.html" class="external-link">getDoParRegistered</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="co"># how many workers are available? (optional)</span>
+  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/getDoParWorkers.html" class="external-link">getDoParWorkers</a></span><span class="op">(</span><span class="op">)</span>
+
+
+<span class="co"># table of the candidate models</span>
+<span class="va">form_table</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
+      var_formula <span class="op">=</span> <span class="cn">NULL</span>
+    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span>
+    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span>
+    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
+    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
+    <span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span>
+
+<span class="co"># generate candidate model formulas</span>
+<span class="va">form_list</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
+      var_formula <span class="op">=</span> <span class="cn">NULL</span>
+    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span>
+    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span>
+    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
+    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+    <span class="op">)</span>
+
+<span class="co"># fit models and calculate model selection criteria</span>
+<span class="va">lmer_fit_list</span> <span class="op">&lt;-</span>
+  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>
+    i_form <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span>
+  , .combine <span class="op">=</span> <span class="st">"c"</span>
+  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span>
+    <span class="co"># model fit</span>
+    <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span>
+      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
+    , REML    <span class="op">=</span> <span class="cn">TRUE</span>
+    , data    <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
+    <span class="op">)</span>
+  <span class="op">}</span>
+
+<span class="va">lmer_fit_list_criteria</span> <span class="op">&lt;-</span>
+  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>
+    i_form <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span>
+  <span class="co">#, .combine = "c"</span>
+  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span>
+    <span class="co"># model selection criteria</span>
+    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span>
+      lm_fit    <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
+    , dat_fit   <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
+    , model_id  <span class="op">=</span> <span class="va">i_form</span>
+    <span class="op">)</span>
+  <span class="op">}</span>
+
+
+
+<span class="co"># sort the models by a criterion</span>
+<span class="va">lmer_fit_criteria</span> <span class="op">&lt;-</span>
+  <span class="va">lmer_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span>
+    <span class="co"># arrange models by this model criterion</span>
+    <span class="va">caic</span>              <span class="co"># ascending by caic (best on top)</span>
+    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span>
+  <span class="op">)</span>
+
+<span class="co"># print the head and tail of fit criteria table</span>
+<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+
+<span class="co"># best model ID</span>
+<span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+
+<span class="co"># summarize "best" model</span>
+<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span>
+
+
+<span class="co">## stop cluster</span>
+<span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span>cl <span class="op">=</span> <span class="va">my_cluster</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 

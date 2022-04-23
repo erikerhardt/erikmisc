@@ -50,7 +50,7 @@ variance of the response.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
       </span>
     </div>
 
@@ -65,6 +65,9 @@ variance of the response.
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
+    </li>
+    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -132,7 +135,7 @@ variance of the response.</p></li>
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_lm_model_criteria</span><span class="op">(</span>lm_fit <span class="op">=</span> <span class="cn">NULL</span>, dat_fit <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_lm_model_criteria</span><span class="op">(</span>lm_fit <span class="op">=</span> <span class="cn">NULL</span>, dat_fit <span class="op">=</span> <span class="cn">NULL</span>, model_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -141,6 +144,8 @@ variance of the response.</p></li>
 <dd><p>fitted model object</p></dd>
 <dt>dat_fit</dt>
 <dd><p>data used for model fit</p></dd>
+<dt>model_id</dt>
+<dd><p>label for each model that is fit, helps to match up with original model</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -158,15 +163,17 @@ variance of the response.</p></li>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="va">lm_crit</span> <span class="op">&lt;-</span></span>
 <span class="r-in">  <span class="fu">e_lm_model_criteria</span><span class="op">(</span></span>
-<span class="r-in">    lm_fit  <span class="op">=</span> <span class="va">lm_fit</span></span>
-<span class="r-in">  , dat_fit <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
+<span class="r-in">    lm_fit   <span class="op">=</span> <span class="va">lm_fit</span></span>
+<span class="r-in">  , dat_fit  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
+<span class="r-in">  , model_id <span class="op">=</span> <span class="fl">1</span></span>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="va">lm_crit</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 x 16</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     aic   bic  nobs    r2 r2adj f_stat     p    df f_stat_pval   rse   mse  rmse</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  157.  175.    32 0.893 0.842   17.5    10    21     5.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span>  2.40  3.78  1.94</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 4 more variables: rsquare &lt;dbl&gt;, mae &lt;dbl&gt;, mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 x 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df  f_stat_pval   rse</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1  157.  175.    32 0.893 0.842   17.5    10    21 0.000<span style="text-decoration: underline;">000</span>051<span style="text-decoration: underline;">4</span>  2.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 6 more variables: mse &lt;dbl&gt;, rmse &lt;dbl&gt;, rsquare &lt;dbl&gt;, mae &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </div>
