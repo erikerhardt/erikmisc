@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.1.11
-Date: 2022-04-09
+Version: 0.1.12
+Date: 2022-04-22
 Authors@R:
     c(person(
       given = "Erik"
@@ -30,6 +30,7 @@ Imports:
     ROCR,
     cAIC4,
     car,
+    caret,
     cli,
     cowplot,
     crayon,
