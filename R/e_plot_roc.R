@@ -1,6 +1,6 @@
 #' A function to calculate the ROC curve, determine the optimal threshold, plot the curve, and provide classification statistics
 #'
-#' @param actual_labels   true labels of binary observations
+#' @param actual_labels   true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model
 #' @param pred_values     either predicted labels or a value (such as a probability) associated with the success label
 #' @param sw_plot         T/F to return a ROC curve ggplot object
 #' @param cm_mode         \code{mode} from \code{caret::confusionMatrix}
@@ -18,8 +18,8 @@
 #' @importFrom tibble tibble
 #' @importFrom tibble as_tibble
 #' @importFrom caret confusionMatrix
-#' @import ggplot2
 #' @import dplyr
+#' @import ggplot2
 #' @export
 #'
 #' @examples
@@ -58,6 +58,7 @@ e_plot_roc <-
 
   # need only 2 levels for ROCR functions
   if ((actual_labels %>% unique() %>% length()) > 2) {
+    warning("e_plot_roc: Only two classes for ROC at this time")
     out <-
       list(
         roc_curve_best    = NULL
@@ -70,9 +71,18 @@ e_plot_roc <-
   }
 
   #library(ROCR)
-  rocr_pred <- ROCR::prediction (predictions = pred_values %>% as.numeric(), labels = actual_labels)
+  rocr_pred <-
+    ROCR::prediction(
+      predictions = pred_values   %>% as.numeric()
+    , labels      = actual_labels
+    )
   #rocr_perf <- ROCR::performance(rocr_pred, measure = "tpr", x.measure = "fpr")
-  rocr_perf <- ROCR::performance(rocr_pred, measure="sens", x.measure="spec")
+  rocr_perf <-
+    ROCR::performance(
+      prediction.obj  = rocr_pred
+    , measure         = "sens"
+    , x.measure       = "spec"
+    )
 
   # determine the best threshold as having the highest overall classification rate
   # Find t that minimizes error
@@ -90,8 +100,8 @@ e_plot_roc <-
   #   )
   roc_curve <-
     tibble::tibble(
-      Spec    = unlist(rocr_perf@x.values)
-    , Sens    = unlist(rocr_perf@y.values)
+      Sens    = unlist(rocr_perf@y.values)
+    , Spec    = unlist(rocr_perf@x.values)
     , thresh  = unlist(rocr_perf@alpha.values)
     ) %>%
     dplyr::mutate(
@@ -123,6 +133,7 @@ e_plot_roc <-
     )
   # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
   if (abs(confusion_matrix$byClass["Sensitivity"] + roc_curve_best$Spec - 1) < 1e-4) {
+    message("e_plot_roc: swapping success index")
     confusion_matrix <-
       caret::confusionMatrix(
         data      = factor(pred_positive , levels = c(1, 0))

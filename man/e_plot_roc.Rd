@@ -12,7 +12,7 @@ e_plot_roc(
 )
 }
 \arguments{
-\item{actual_labels}{true labels of binary observations}
+\item{actual_labels}{true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model}
 
 \item{pred_values}{either predicted labels or a value (such as a probability) associated with the success label}
 
