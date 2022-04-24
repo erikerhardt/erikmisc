@@ -23,7 +23,7 @@
 #' @export
 #'
 #' @examples
-#' # Categorical prediction-value example (from ?caret::confusionMatrix)
+#' ## Categorical prediction-value example (from ?caret::confusionMatrix)
 #' ex_lvs    <- c("normal", "abnormal")
 #' ex_truth  <- factor(rep(ex_lvs, times = c(86, 258)), levels = rev(ex_lvs))
 #' ex_pred   <- factor(c(rep(ex_lvs, times = c(54,  32))
@@ -36,9 +36,10 @@
 #'   , sw_plot       = TRUE
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
+#' out$confusion_matrix
 #'
 #'
-#' # Numeric prediction-value example
+#' ## Numeric prediction-value example
 #' out <-
 #'   e_plot_roc(
 #'     actual_labels = sample(c("a", "b"), size = 50, replace = TRUE)
@@ -47,6 +48,41 @@
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
 #' out$p_roc
+#' out$confusion_matrix
+#'
+#'
+#' ## Logistic regression
+#' data(dat_mtcars_e)
+#'
+#' dat_mtcars_e <-
+#'   dat_mtcars_e %>%
+#'   dplyr::mutate(
+#'     vs_V = ifelse(vs == "V-shaped", 1, 0) # 0-1 binary for logistic regression
+#'   )
+#'
+#' # Predict engine type `vs` ("V-shaped" vs "straight") from other features.
+#' fit_glm_vs <-
+#'   glm(
+#'     cbind(vs_V, 1 - vs_V) ~ disp + wt + carb
+#'   , family = binomial
+#'   , data = dat_mtcars_e
+#'   )
+#' cat("Test residual deviance for lack-of-fit (if > 0.10, little-to-no lack-of-fit)\n")
+#' dev_p_val <- 1 - pchisq(fit_glm_vs$deviance, fit_glm_vs$df.residual)
+#' dev_p_val %>% print()
+#' car::Anova(fit_glm_vs, type = 3)
+#' #summary(fit_glm_vs)
+#'
+#' glm_roc <-
+#'   e_plot_roc(
+#'     actual_labels = dat_mtcars_e$vs_V
+#'   , pred_values   = fit_glm_vs$fitted.values
+#'   , sw_plot       = TRUE
+#'   , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
+#'   )
+#' glm_roc$roc_curve_best %>% print(width = Inf)
+#' glm_roc$p_roc
+#' glm_roc$confusion_matrix
 #'
 e_plot_roc <-
   function(
@@ -121,14 +157,14 @@ e_plot_roc <-
     )
 
 
-  # define peak using optimal threshold
+  # define positive classification using optimal threshold
   pred_positive <- ifelse(as.numeric(pred_values) >= roc_curve_best$thresh, 1, 0)
 
   # assess confusion matrix accuracy
   confusion_matrix <-
     caret::confusionMatrix(
-      data      = factor(pred_positive , levels = c(1, 0))
-    , reference = factor(as.numeric(actual_labels == unique(sort(actual_labels))[2]), levels = c(1, 0))
+      data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(actual_labels))))
+    , reference = actual_labels %>% factor()
     , mode      = cm_mode
     )
   # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
@@ -136,11 +172,29 @@ e_plot_roc <-
     message("e_plot_roc: swapping success index")
     confusion_matrix <-
       caret::confusionMatrix(
-        data      = factor(pred_positive , levels = c(1, 0))
-      , reference = factor(as.numeric(actual_labels == unique(sort(actual_labels))[1]), levels = c(1, 0))
+        data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(actual_labels, decreasing = TRUE))))
+      , reference = actual_labels %>% factor()
       , mode      = cm_mode
       )
   }
+  # # assess confusion matrix accuracy
+  # confusion_matrix <-
+  #   caret::confusionMatrix(
+  #     data      = factor(pred_positive , levels = c(1, 0))
+  #   , reference = factor(as.numeric(actual_labels == unique(sort(actual_labels))[2]), levels = c(1, 0))
+  #   , mode      = cm_mode
+  #   )
+  # # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
+  # if (abs(confusion_matrix$byClass["Sensitivity"] + roc_curve_best$Spec - 1) < 1e-4) {
+  #   message("e_plot_roc: swapping success index")
+  #   confusion_matrix <-
+  #     caret::confusionMatrix(
+  #       data      = factor(pred_positive , levels = c(1, 0))
+  #     , reference = factor(as.numeric(actual_labels == unique(sort(actual_labels))[1]), levels = c(1, 0))
+  #     , mode      = cm_mode
+  #     )
+  # }
+
 
   roc_curve_best <-
     dplyr::bind_cols(

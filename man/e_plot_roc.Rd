@@ -36,7 +36,7 @@ e_plot_roc(
 A function to calculate the ROC curve, determine the optimal threshold, plot the curve, and provide classification statistics
 }
 \examples{
-# Categorical prediction-value example (from ?caret::confusionMatrix)
+## Categorical prediction-value example (from ?caret::confusionMatrix)
 ex_lvs    <- c("normal", "abnormal")
 ex_truth  <- factor(rep(ex_lvs, times = c(86, 258)), levels = rev(ex_lvs))
 ex_pred   <- factor(c(rep(ex_lvs, times = c(54,  32))
@@ -49,9 +49,10 @@ out <-
   , sw_plot       = TRUE
   )
 out$roc_curve_best \%>\% print(width = Inf)
+out$confusion_matrix
 
 
-# Numeric prediction-value example
+## Numeric prediction-value example
 out <-
   e_plot_roc(
     actual_labels = sample(c("a", "b"), size = 50, replace = TRUE)
@@ -60,5 +61,40 @@ out <-
   )
 out$roc_curve_best \%>\% print(width = Inf)
 out$p_roc
+out$confusion_matrix
+
+
+## Logistic regression
+data(dat_mtcars_e)
+
+dat_mtcars_e <-
+  dat_mtcars_e \%>\%
+  dplyr::mutate(
+    vs_V = ifelse(vs == "V-shaped", 1, 0) # 0-1 binary for logistic regression
+  )
+
+# Predict engine type `vs` ("V-shaped" vs "straight") from other features.
+fit_glm_vs <-
+  glm(
+    cbind(vs_V, 1 - vs_V) ~ disp + wt + carb
+  , family = binomial
+  , data = dat_mtcars_e
+  )
+cat("Test residual deviance for lack-of-fit (if > 0.10, little-to-no lack-of-fit)\n")
+dev_p_val <- 1 - pchisq(fit_glm_vs$deviance, fit_glm_vs$df.residual)
+dev_p_val \%>\% print()
+car::Anova(fit_glm_vs, type = 3)
+#summary(fit_glm_vs)
+
+glm_roc <-
+  e_plot_roc(
+    actual_labels = dat_mtcars_e$vs_V
+  , pred_values   = fit_glm_vs$fitted.values
+  , sw_plot       = TRUE
+  , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
+  )
+glm_roc$roc_curve_best \%>\% print(width = Inf)
+glm_roc$p_roc
+glm_roc$confusion_matrix
 
 }
