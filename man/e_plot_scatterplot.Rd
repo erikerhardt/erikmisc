@@ -10,7 +10,9 @@ e_plot_scatterplot(
   var_y = NULL,
   var_color = NULL,
   var_facet = NULL,
-  sw_print = FALSE
+  sw_print = FALSE,
+  smooth_all = c("none", "loess", "lm", "glm", "gam")[1],
+  smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[1]
 )
 }
 \arguments{
@@ -25,6 +27,10 @@ e_plot_scatterplot(
 \item{var_facet}{factor varibles (1 or 2) to facet by, (row facets, then column facets),}
 
 \item{sw_print}{T/F whether to print table and display plot}
+
+\item{smooth_all}{Smooth method for all the points together.}
+
+\item{smooth_by_var_color}{Smooth method by the color variable.}
 }
 \value{
 \preformatted{     a ggplot object
@@ -49,12 +55,20 @@ e_plot_scatterplot(
   , var_x     = "disp"
   , var_y     = "mpg"
   , var_color = "cyl"            # factor color
+  , smooth_all = c("none", "loess", "lm", "glm", "gam")[2]
+  )
+e_plot_scatterplot(
+    dat_plot  = dat_mtcars_e
+  , var_x     = "disp"
+  , var_y     = "mpg"
+  , var_color = "cyl"            # factor color
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
   , var_x     = "disp"
   , var_y     = "mpg"
   , var_color = "wt"             # numeric color
+  , smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[3]
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e

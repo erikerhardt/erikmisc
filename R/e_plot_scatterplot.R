@@ -6,6 +6,8 @@
 #' @param var_color factor or numeric color variable
 #' @param var_facet factor varibles (1 or 2) to facet by, (row facets, then column facets),
 #' @param sw_print  T/F whether to print table and display plot
+#' @param smooth_all  Smooth method for all the points together.
+#' @param smooth_by_var_color Smooth method by the color variable.
 #'
 #' @return          a ggplot object
 #' @import ggplot2
@@ -27,6 +29,20 @@
 #'   , var_x     = "disp"
 #'   , var_y     = "mpg"
 #'   , var_color = "cyl"            # factor color
+#'   )
+#' e_plot_scatterplot(
+#'     dat_plot  = dat_mtcars_e
+#'   , var_x     = "disp"
+#'   , var_y     = "mpg"
+#'   , var_color = "cyl"            # factor color
+#'   , smooth_all = c("none", "loess", "lm", "glm", "gam")[2]  # with all smooth
+#'   )
+#' e_plot_scatterplot(
+#'     dat_plot  = dat_mtcars_e
+#'   , var_x     = "disp"
+#'   , var_y     = "mpg"
+#'   , var_color = "cyl"            # factor color
+#'   , smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[3]  # with group smooth
 #'   )
 #' e_plot_scatterplot(
 #'     dat_plot  = dat_mtcars_e
@@ -68,6 +84,8 @@ e_plot_scatterplot <-
   , var_color = NULL
   , var_facet = NULL
   , sw_print  = FALSE
+  , smooth_all = c("none", "loess", "lm", "glm", "gam")[1]
+  , smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[1]
   ) {
 
   text_title <- paste0("Plot of ", var_y, " vs ", var_x)
@@ -119,6 +137,13 @@ e_plot_scatterplot <-
 
       text_title <- paste0(text_title, ", by ", var_facet[1], " and ", var_facet[2])
     }
+  }
+
+  if (smooth_all %in% c("loess", "lm", "glm", "gam")) {
+    p <- p + stat_smooth(method = smooth_all, aes(group = 1), colour = "black", alpha = 1/6)  # se = FALSE,
+  }
+  if (smooth_by_var_color %in% c("loess", "lm", "glm", "gam")) {
+    p <- p + stat_smooth(method = smooth_by_var_color, aes_string(fill = var_color), alpha = 1/8)
   }
 
   p <- p + labs(
