@@ -55,20 +55,26 @@ e_plot_scatterplot(
   , var_x     = "disp"
   , var_y     = "mpg"
   , var_color = "cyl"            # factor color
-  , smooth_all = c("none", "loess", "lm", "glm", "gam")[2]
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
   , var_x     = "disp"
   , var_y     = "mpg"
   , var_color = "cyl"            # factor color
+  , smooth_all = c("none", "loess", "lm", "glm", "gam")[2]  # with all smooth
+  )
+e_plot_scatterplot(
+    dat_plot  = dat_mtcars_e
+  , var_x     = "disp"
+  , var_y     = "mpg"
+  , var_color = "cyl"            # factor color
+  , smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[3]  # with group smooth
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
   , var_x     = "disp"
   , var_y     = "mpg"
   , var_color = "wt"             # numeric color
-  , smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[3]
   )
 e_plot_scatterplot(
     dat_plot  = dat_mtcars_e
