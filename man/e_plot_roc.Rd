@@ -28,7 +28,7 @@ e_plot_roc(
 \item roc_curve_best   - one-row tibble of classification statistics for best Sensitivity and Specificity (closest to upper-left corner of ROC curve)
 \item pred_positive    - pred_values, returned as numeric 1 or 0
 \item confusion_matrix - confusion matrix statistics
-\item p_roc            - ROC curve ggplot object
+\item plot_roc         - ROC curve ggplot object
 \item roc_curve        - ROC curve data
 }
 }
@@ -49,6 +49,7 @@ out <-
   , sw_plot       = TRUE
   )
 out$roc_curve_best \%>\% print(width = Inf)
+out$plot_roc
 out$confusion_matrix
 
 
@@ -60,7 +61,7 @@ out <-
   , sw_plot       = TRUE
   )
 out$roc_curve_best \%>\% print(width = Inf)
-out$p_roc
+out$plot_roc
 out$confusion_matrix
 
 
@@ -94,7 +95,7 @@ glm_roc <-
   , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
   )
 glm_roc$roc_curve_best \%>\% print(width = Inf)
-glm_roc$p_roc
+glm_roc$plot_roc
 glm_roc$confusion_matrix
 
 }

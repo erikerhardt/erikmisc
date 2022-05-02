@@ -10,7 +10,7 @@
 #'   \item roc_curve_best   - one-row tibble of classification statistics for best Sensitivity and Specificity (closest to upper-left corner of ROC curve)
 #'   \item pred_positive    - pred_values, returned as numeric 1 or 0
 #'   \item confusion_matrix - confusion matrix statistics
-#'   \item p_roc            - ROC curve ggplot object
+#'   \item plot_roc         - ROC curve ggplot object
 #'   \item roc_curve        - ROC curve data
 #' }
 #' @importFrom ROCR prediction
@@ -36,6 +36,7 @@
 #'   , sw_plot       = TRUE
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
+#' out$plot_roc
 #' out$confusion_matrix
 #'
 #'
@@ -47,7 +48,7 @@
 #'   , sw_plot       = TRUE
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
-#' out$p_roc
+#' out$plot_roc
 #' out$confusion_matrix
 #'
 #'
@@ -81,7 +82,7 @@
 #'   , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
 #'   )
 #' glm_roc$roc_curve_best %>% print(width = Inf)
-#' glm_roc$p_roc
+#' glm_roc$plot_roc
 #' glm_roc$confusion_matrix
 #'
 e_plot_roc <-
@@ -100,25 +101,35 @@ e_plot_roc <-
         roc_curve_best    = NULL
       , pred_positive     = NULL
       , confusion_matrix  = NULL
-      , p_roc             = ggplot() + theme_void() + geom_text(aes(0,0,label="ROC N/A for >2 groups")) + xlab(NULL)
+      , plot_roc          = ggplot() + theme_void() + geom_text(aes(0,0,label="ROC N/A for >2 groups")) + xlab(NULL)
       , roc_curve         = NULL
       )
     return(out)
   }
 
   #library(ROCR)
+  ## Most would assume the first category be the "positive", but not ROCR...
+  ## Note: "Ideally, labels should be supplied as ordered factor(s),
+  ##        the lower level corresponding to the negative class,
+  ##        the upper level to the positive class."
+  ##  Thus, below I swap Sens and Spec for plots and summaries.
   rocr_pred <-
     ROCR::prediction(
       predictions = pred_values   %>% as.numeric()
-    , labels      = actual_labels
+    , labels      = actual_labels %>% factor()
+    #, labels      = factor(actual_labels, levels = rev(levels(factor(actual_labels))))
+    #, label.ordering = levels(factor(actual_labels))
     )
   #rocr_perf <- ROCR::performance(rocr_pred, measure = "tpr", x.measure = "fpr")
   rocr_perf <-
     ROCR::performance(
       prediction.obj  = rocr_pred
-    , measure         = "sens"
-    , x.measure       = "spec"
+    #, measure         = "sens"
+    #, x.measure       = "spec"
+    , measure         = "spec"      # x,y swapped, see ROCR note above
+    , x.measure       = "sens"      # x,y swapped, see ROCR note above
     )
+  #plot(rocr_perf)
 
   # determine the best threshold as having the highest overall classification rate
   # Find t that minimizes error
@@ -143,9 +154,14 @@ e_plot_roc <-
     dplyr::mutate(
       dist = sqrt((1 - Sens)^2 + (1 - Spec)^2)
     ) %>%
-    dplyr::filter(
-      is.finite(thresh)
+    dplyr::arrange(
+      Sens
+    , desc(Spec)
     )
+    #%>%
+    #dplyr::filter(
+    #  is.finite(thresh)
+    #)
 
   roc_curve_best <-
     roc_curve %>%
@@ -165,6 +181,7 @@ e_plot_roc <-
     caret::confusionMatrix(
       data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(actual_labels))))
     , reference = actual_labels %>% factor()
+    #, positive  = levels(factor(actual_labels))[1]
     , mode      = cm_mode
     )
   # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
@@ -226,8 +243,36 @@ e_plot_roc <-
     #                               breaks = c("RF", "LR", "EFA", "SIVDS"),
     #                               labels = roc.auc.labels)
 
-      # optim values
-      p <- p + geom_point(aes(x = roc_curve_best$Spec, y = roc_curve_best$Sens), shape = 21, size = 3, alpha = 1)
+    # optim values
+    p <- p + geom_point(aes(x = roc_curve_best$Spec, y = roc_curve_best$Sens), shape = 21, size = 3, alpha = 1)
+
+    # optim values
+    p <- p + annotate(
+               geom     = "segment"
+             , x        = roc_curve_best$Spec
+             , xend     = roc_curve_best$Spec
+             , y        = roc_curve_best$Sens
+             , yend     = 0
+             #, colour   = "gray25"
+             , size     = 0.5
+             , alpha    = 1/2
+             , linetype = 2
+             #, arrow = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
+             )
+    p <- p + annotate(
+               geom     = "segment"
+             , x        = roc_curve_best$Spec
+             , xend     = 1
+             , y        = roc_curve_best$Sens
+             , yend     = roc_curve_best$Sens
+             #, colour   = "gray25"
+             , size     = 0.5
+             , alpha    = 1/2
+             , linetype = 2
+             #, arrow = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
+             )
+
+
     p <- p + coord_equal()
     #p <- p + annotate("text", x = interval/2, y = interval/2, vjust = 0, label = paste("AUC =",sprintf("%.3f",roc$auc)))
     p <- p +
@@ -262,7 +307,7 @@ e_plot_roc <-
       roc_curve_best    = roc_curve_best
     , pred_positive     = pred_positive
     , confusion_matrix  = confusion_matrix
-    , p_roc             = p
+    , plot_roc          = p
     , roc_curve         = roc_curve
     #, actual_labels   = actual_labels
     #, pred_values     = pred_values
