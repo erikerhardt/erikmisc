@@ -14,8 +14,8 @@ e_plot_table_prop(dat_plot = NULL, var_names = NULL, sw_print = FALSE)
 \item{sw_print}{T/F whether to print table and display plot}
 }
 \value{
-\preformatted{     a list including a table and ggplot object
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{     a list including a table and ggplot object
+}\if{html}{\out{</div>}}
 }
 \description{
 Calculate proportions and plot factor variable by up to two other factor variables

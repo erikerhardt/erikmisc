@@ -27,8 +27,8 @@ e_plot_missing(
 \item{sw_text_pct_miss}{TRUE/FALSE to include text values of percent missing on bar plot}
 }
 \value{
-\preformatted{         ggplot grob plot object
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{         ggplot grob plot object
+}\if{html}{\out{</div>}}
 }
 \description{
 Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.

@@ -33,8 +33,8 @@ e_plot_scatterplot(
 \item{smooth_by_var_color}{Smooth method by the color variable.}
 }
 \value{
-\preformatted{     a ggplot object
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{     a ggplot object
+}\if{html}{\out{</div>}}
 }
 \description{
 Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables

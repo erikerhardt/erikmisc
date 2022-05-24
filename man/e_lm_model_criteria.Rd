@@ -14,8 +14,8 @@ e_lm_model_criteria(lm_fit = NULL, dat_fit = NULL, model_id = NULL)
 \item{model_id}{label for each model that is fit, helps to match up with original model}
 }
 \value{
-\preformatted{     a tibble of model selection criteria
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{     a tibble of model selection criteria
+}\if{html}{\out{</div>}}
 }
 \description{
 Calculates a large set of model selection criteria and returns them in a one-row tibble.

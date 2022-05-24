@@ -21,8 +21,8 @@ e_plot_roc(
 \item{cm_mode}{\code{mode} from \code{caret::confusionMatrix}}
 }
 \value{
-\preformatted{           a list including
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           a list including
+}\if{html}{\out{</div>}}
 
 \itemize{
 \item roc_curve_best   - one-row tibble of classification statistics for best Sensitivity and Specificity (closest to upper-left corner of ROC curve)
