@@ -9,7 +9,7 @@ e_model_all_subsets_formula(
   x_var_names = NULL,
   y_var_name = NULL,
   max_scope = c("always", "FO", "TWI", "PQ", "SO")[3],
-  sw_return = c("formula", "table")[1]
+  sw_return = c("formula", "table", "both")[1]
 )
 }
 \arguments{
@@ -29,7 +29,7 @@ or each can have it's own \code{max_scope}.}
 "PQ" for pure quadratic terms (squares of the "FO"), and
 "SO" for all terms in "FO", "TWI", and "PQ".}
 
-\item{sw_return}{return a list of "formula", or a "table" of x-variable combinations}
+\item{sw_return}{return a list of "formula", or a "table" of x-variable combinations, or a list of "both"}
 }
 \value{
 \preformatted{         a list of functions

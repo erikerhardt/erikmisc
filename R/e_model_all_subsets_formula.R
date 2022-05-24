@@ -14,7 +14,7 @@
 #'                        "TWI" for two-way interactions,
 #'                        "PQ" for pure quadratic terms (squares of the "FO"), and
 #'                        "SO" for all terms in "FO", "TWI", and "PQ".
-#' @param sw_return     return a list of "formula", or a "table" of x-variable combinations
+#' @param sw_return     return a list of "formula", or a "table" of x-variable combinations, or a list of "both"
 #'
 #' @return              a list of functions
 #'
@@ -71,7 +71,7 @@ e_model_all_subsets_formula <-
   , x_var_names = NULL
   , y_var_name  = NULL
   , max_scope   = c("always", "FO", "TWI", "PQ", "SO")[3]
-  , sw_return   = c("formula", "table")[1]
+  , sw_return   = c("formula", "table", "both")[1]
   ) {
   ## var_formula  = NULL
   ## x_var_names  = list(letters[1:2], letters[4:5], letters[7:8], letters[10:11], letters[13:14])
@@ -282,5 +282,13 @@ e_model_all_subsets_formula <-
     return(sub_models_combine)
   }
 
+  if (sw_return == "both") {
+    out <-
+      list(
+        table    = sub_models_combine
+      , formulas = sub_models_combine_formulas
+      )
+    return(out)
+  }
 } # e_model_all_subsets_formula
 
