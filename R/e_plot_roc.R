@@ -131,20 +131,7 @@ e_plot_roc <-
     )
   #plot(rocr_perf)
 
-  # determine the best threshold as having the highest overall classification rate
-  # Find t that minimizes error
-  # roc_curve <-
-  #   tibble::tibble(
-  #     Spec    = 1 - unlist(rocr_perf@x.values)
-  #   , Sens    = unlist(rocr_perf@y.values)
-  #   , thresh  = unlist(rocr_perf@alpha.values)
-  #   ) %>%
-  #   dplyr::mutate(
-  #     dist = sqrt((1 - Sens)^2 + (1 - Spec)^2)
-  #   ) %>%
-  #   dplyr::filter(
-  #     is.finite(thresh)
-  #   )
+  # ROC curve details in a tibble, calculate distance from top-lelt corner
   roc_curve <-
     tibble::tibble(
       Sens    = unlist(rocr_perf@y.values)
@@ -163,6 +150,7 @@ e_plot_roc <-
     #  is.finite(thresh)
     #)
 
+  # determine best threshold as closest to top-left corner: highest overall classification rate
   roc_curve_best <-
     roc_curve %>%
     filter(
@@ -171,7 +159,6 @@ e_plot_roc <-
     mutate(
       AUC = unlist(ROCR::performance(rocr_pred, measure = "auc")@y.values)
     )
-
 
   # define positive classification using optimal threshold
   pred_positive <- ifelse(as.numeric(pred_values) >= roc_curve_best$thresh, 1, 0)
@@ -194,32 +181,14 @@ e_plot_roc <-
       , mode      = cm_mode
       )
   }
-  # # assess confusion matrix accuracy
-  # confusion_matrix <-
-  #   caret::confusionMatrix(
-  #     data      = factor(pred_positive , levels = c(1, 0))
-  #   , reference = factor(as.numeric(actual_labels == unique(sort(actual_labels))[2]), levels = c(1, 0))
-  #   , mode      = cm_mode
-  #   )
-  # # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
-  # if (abs(confusion_matrix$byClass["Sensitivity"] + roc_curve_best$Spec - 1) < 1e-4) {
-  #   message("e_plot_roc: swapping success index")
-  #   confusion_matrix <-
-  #     caret::confusionMatrix(
-  #       data      = factor(pred_positive , levels = c(1, 0))
-  #     , reference = factor(as.numeric(actual_labels == unique(sort(actual_labels))[1]), levels = c(1, 0))
-  #     , mode      = cm_mode
-  #     )
-  # }
 
-
+  # add classification statistics
   roc_curve_best <-
     dplyr::bind_cols(
       roc_curve_best
     , confusion_matrix$byClass %>% t() %>% tibble::as_tibble()
     )
-
-  # roc_curve_best
+  # roc_curve_best %>% print()
 
   # plot results
   if (sw_plot) {
@@ -230,18 +199,10 @@ e_plot_roc <-
     #library(ggplot2)
     p <- ggplot(roc_curve, aes(x = Spec, y = Sens))
     p <- p + theme_bw()
-    #p <- p + theme(axis.ticks = element_line(color = "grey80"))
     p <- p + geom_segment(aes(x = 0, y = 1, xend = 1, yend = 0), alpha = 0.25, linetype = 3)
     p <- p + geom_step(size = 1) # aes(colour = Method, linetype = Method),
     p <- p + scale_x_reverse   (name = "Specificity", limits = c(1,0), breaks = breaks, expand = c(0.001, 0.001))
     p <- p + scale_y_continuous(name = "Sensitivity", limits = c(0,1), breaks = breaks, expand = c(0.001, 0.001))
-    # manual scale labels
-    #p <- p + scale_colour_discrete(name = "Method AUC",
-    #                               breaks = c("RF", "LR", "EFA", "SIVDS"),
-    #                               labels = roc.auc.labels)
-    #p <- p + scale_linetype_discrete(name = "Method AUC",
-    #                               breaks = c("RF", "LR", "EFA", "SIVDS"),
-    #                               labels = roc.auc.labels)
 
     # optim values
     p <- p + geom_point(aes(x = roc_curve_best$Spec, y = roc_curve_best$Sens), shape = 21, size = 3, alpha = 1)
@@ -274,7 +235,7 @@ e_plot_roc <-
 
 
     p <- p + coord_equal()
-    #p <- p + annotate("text", x = interval/2, y = interval/2, vjust = 0, label = paste("AUC =",sprintf("%.3f",roc$auc)))
+
     p <- p +
       annotate(
         "text"
@@ -293,11 +254,6 @@ e_plot_roc <-
           )
       )
 
-    #p <- p + theme(legend.position = c(0.8, 0.2))
-    #p <- p + labs(title = "ROC Curves by classification method")
-    #p <- p + theme(plot.title = element_text(hjust = 0.5))
-    #print(p)
-
   } else {
     p <- NULL
   }
@@ -309,8 +265,6 @@ e_plot_roc <-
     , confusion_matrix  = confusion_matrix
     , plot_roc          = p
     , roc_curve         = roc_curve
-    #, actual_labels   = actual_labels
-    #, pred_values     = pred_values
     )
 
   return(out)
