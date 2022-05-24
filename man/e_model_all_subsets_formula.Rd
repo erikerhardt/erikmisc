@@ -5,16 +5,14 @@
 \title{All model subsets}
 \usage{
 e_model_all_subsets_formula(
-  var_formula = NULL,
   x_var_names = NULL,
   y_var_name = NULL,
-  max_scope = c("always", "FO", "TWI", "PQ", "SO")[3],
+  var_formula = NULL,
+  max_scope = c("always", "FO", "TWI", "PQ", "SO", "one_TWI")[3],
   sw_return = c("formula", "table", "both")[1]
 )
 }
 \arguments{
-\item{var_formula}{NOT YET IMPLEMENTED}
-
 \item{x_var_names}{a character list of variable names or list of character lists.
 If a list of multiple formulas or character lists is provided,
 then each is subject to the \code{max_scope} independently,
@@ -22,18 +20,21 @@ or each can have it's own \code{max_scope}.}
 
 \item{y_var_name}{a character string}
 
+\item{var_formula}{NOT YET IMPLEMENTED}
+
 \item{max_scope}{one of or a list (corresponding to \code{x_var_names}) of
 "always" to always keep this full list (no binary subsets),
 "FO" for first-order (main) effects,
 "TWI" for two-way interactions,
-"PQ" for pure quadratic terms (squares of the "FO"), and
-"SO" for all terms in "FO", "TWI", and "PQ".}
+"PQ" for pure quadratic terms (squares of the "FO"),
+"SO" for all terms in "FO", "TWI", and "PQ", and
+"one_TWI" for two-way interactions with only the first in the list.}
 
 \item{sw_return}{return a list of "formula", or a "table" of x-variable combinations, or a list of "both"}
 }
 \value{
-\preformatted{         a list of functions
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{         a list of functions
+}\if{html}{\out{</div>}}
 }
 \description{
 Return all possible model subsets based on specified model scopes.
@@ -41,37 +42,45 @@ Return all possible model subsets based on specified model scopes.
 \examples{
 # Two-way interaction model, return formulas
 e_model_all_subsets_formula(
-    var_formula = NULL
-  , x_var_names = c("a", "b", "c")
+    x_var_names = c("a", "b", "c")
   , y_var_name  = "z"
+  , var_formula = NULL
   , max_scope   = "TWI"
-  , sw_return   = c("formula", "table")[1]
+  , sw_return   = c("formula", "table", "both")[1]
   )
 # Two-way interaction model, return table of x-variable combinations
 e_model_all_subsets_formula(
-    var_formula = NULL
-  , x_var_names = c("a", "b", "c")
+    x_var_names = c("a", "b", "c")
   , y_var_name  = "z"
+  , var_formula = NULL
   , max_scope   = "TWI"
-  , sw_return   = c("formula", "table")[2]
+  , sw_return   = c("formula", "table", "both")[2]
   )
 
 # Two variables always in the model with a second-order model of two others
 e_model_all_subsets_formula(
-    var_formula = NULL
-  , x_var_names = list(c("a", "b"), c("c", "d"))
+    x_var_names = list(c("a", "b"), c("c", "d"))
   , y_var_name  = "z"
+  , var_formula = NULL
   , max_scope   = list("always", "SO")
-  , sw_return   = c("formula", "table")[2]
+  , sw_return   = c("formula", "table", "both")[2]
+  )
+# One variable in two-way interactions with the other variables
+e_model_all_subsets_formula(
+    x_var_names = list(c("a", "b", "c", "d"))
+  , y_var_name  = "z"
+  , var_formula = NULL
+  , max_scope   = list("one_TWI")
+  , sw_return   = c("formula", "table", "both")[2]
   )
 \dontrun{
 # Large example showing all options
 e_model_all_subsets_formula(
-    var_formula = NULL
-  , x_var_names = list(letters[1:2], letters[4:5], letters[7:8], letters[10:11], letters[13:14])
+    x_var_names = list(letters[1:2], letters[4:5], letters[7:8], letters[10:11], letters[13:14])
   , y_var_name  = "z"
+  , var_formula = NULL
   , max_scope   = list("always", "FO", "TWI", "PQ", "SO")
-  , sw_return   = c("formula", "table")[2]
+  , sw_return   = c("formula", "table", "both")[2]
   )
 }
 
