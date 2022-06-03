@@ -3,6 +3,7 @@
 #' @param dat           observed effect size data set
 #' @param formula_full  observed effect size full model formula, used with dat
 #' @param formula_red   observed effect size reduced model formula, used with dat
+#' @param fit_model_type "lm" or "lmer", used with dat to specify how formulas should be fit
 #' @param n_total       a total sample size value or list of values, used for power curve
 #' @param n_param_full  number of parameters in full model, only used if dat is not specified
 #' @param n_param_red   number of parameters in reduced model, only used if dat is not specified; must be fewer than n_param_full
@@ -15,6 +16,7 @@
 #' @return list with tables and plots of power analysis results
 #' @importFrom pwr pwr.f2.test
 #' @importFrom pwr cohen.ES
+#' @importFrom modelr rsquare
 #' @importFrom tibble tibble
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyr drop_na
@@ -149,6 +151,7 @@ e_lm_power <-
     dat           = NULL
   , formula_full  = NULL
   , formula_red   = NULL
+  , fit_model_type = c("lm", "lmer")[1]
   , n_total
   , n_param_full  = NULL
   , n_param_red   = NULL
@@ -161,13 +164,25 @@ e_lm_power <-
 
   if (!is.null(dat)) {
 
-    if(!is.null(weights)) {
-      lm_summary_AB <- lm(formula_full, data = dat, weights = weights)
-      lm_summary_A  <- lm(formula_red , data = dat, weights = weights)
-    } else {
-      lm_summary_AB <- lm(formula_full, data = dat)
-      lm_summary_A  <- lm(formula_red , data = dat)
-    }
+
+    if(fit_model_type == c("lm", "lmer")[1]) {
+      if(!is.null(weights)) {
+        lm_summary_AB <- lm(formula_full, data = dat, weights = weights)
+        lm_summary_A  <- lm(formula_red , data = dat, weights = weights)
+      } else {
+        lm_summary_AB <- lm(formula_full, data = dat)
+        lm_summary_A  <- lm(formula_red , data = dat)
+      }
+    } # if lm
+    if(fit_model_type == c("lm", "lmer")[2]) {
+      if(!is.null(weights)) {
+        lm_summary_AB <- lme4::lmer(formula_full, data = dat, weights = weights, REML = TRUE)
+        lm_summary_A  <- lme4::lmer(formula_red , data = dat, weights = weights, REML = TRUE)
+      } else {
+        lm_summary_AB <- lme4::lmer(formula_full, data = dat, REML = TRUE)
+        lm_summary_A  <- lme4::lmer(formula_red , data = dat, REML = TRUE)
+      }
+    } # if lmer
 
     if(sw_print) {
       cat("Full Model ========================================================\n")
@@ -187,14 +202,27 @@ e_lm_power <-
     # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3328081/
     #   https://dx.doi.org/10.3389%2Ffpsyg.2012.00111
     #   Equation 2
-    f2 <- (summary(lm_summary_AB)$r.squared - summary(lm_summary_A)$r.squared) /
-          (1 - summary(lm_summary_AB)$r.squared)
-    # f2
-    df_full  <- summary(lm_summary_AB)$fstatistic[c("numdf", "dendf")]
-    df_red   <- summary(lm_summary_A )$fstatistic[c("numdf", "dendf")]
 
-    n_param_full <- df_full[1]
-    n_param_red  <- df_red [1]
+    if(fit_model_type == c("lm", "lmer")[1]) {
+      f2 <- (summary(lm_summary_AB)$r.squared - summary(lm_summary_A)$r.squared) /
+            (1 - summary(lm_summary_AB)$r.squared)
+      # f2
+      df_full  <- summary(lm_summary_AB)$fstatistic[c("numdf", "dendf")]
+      df_red   <- summary(lm_summary_A )$fstatistic[c("numdf", "dendf")]
+
+      n_param_full <- df_full[1]
+      n_param_red  <- df_red [1]
+    } # if lm
+    if(fit_model_type == c("lm", "lmer")[2]) {
+      f2 <- (modelr::rsquare(lm_summary_AB, data = dat) - modelr::rsquare(lm_summary_A, data = dat)) /
+            (1 - modelr::rsquare(lm_summary_AB, data = dat))
+      # f2
+      df_full  <- summary(lm_summary_AB)$devcomp$dims[c("p", "q")]
+      df_red   <- summary(lm_summary_A )$devcomp$dims[c("p", "q")]
+
+      n_param_full <- df_full[1]
+      n_param_red  <- df_red [1]
+    } # if lmer
 
     n_total <- c(n_total, nrow(dat))
 
@@ -299,7 +327,12 @@ e_lm_power <-
       , df_num                    = pwr_summary_s  $u
       , df_den                    = pwr_summary_s  $v
       , sig_level                 = pwr_summary_s  $sig.level
-      , method                    = pwr_summary_s  $method
+      , method                    =
+          dplyr::case_when(
+            fit_model_type == c("lm", "lmer")[1] ~ pwr_summary_s  $method  # "Multiple regression power calculation"
+          , fit_model_type == c("lm", "lmer")[2] ~ "Longitudinal multiple regression power calculation"
+          , TRUE                                 ~ NA %>% as.character()
+          )
       , Cohen_small_effect_size   = pwr_summary_s  $f2
       , Cohen_small_power         = pwr_summary_s  $power
       , Cohen_medium_effect_size  = pwr_summary_m  $f2

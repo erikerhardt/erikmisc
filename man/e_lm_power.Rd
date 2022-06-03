@@ -8,6 +8,7 @@ e_lm_power(
   dat = NULL,
   formula_full = NULL,
   formula_red = NULL,
+  fit_model_type = c("lm", "lmer")[1],
   n_total,
   n_param_full = NULL,
   n_param_red = NULL,
@@ -24,6 +25,8 @@ e_lm_power(
 \item{formula_full}{observed effect size full model formula, used with dat}
 
 \item{formula_red}{observed effect size reduced model formula, used with dat}
+
+\item{fit_model_type}{"lm" or "lmer", used with dat to specify how formulas should be fit}
 
 \item{n_total}{a total sample size value or list of values, used for power curve}
 
