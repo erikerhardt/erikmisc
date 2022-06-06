@@ -126,7 +126,7 @@ for (i in 1:nrow(dat)) {
 }
 
 last_chance <-
-  tibble(
+  tibble::tibble(
     T = seq(C_max, C_max - UDC_min, by = -15)
   , UD = seq(UDC_min, 0, by = -15)
   , LUDTM = NA
