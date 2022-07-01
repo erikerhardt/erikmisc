@@ -5,6 +5,8 @@
 #' @param var_y_resp        y response variable
 #' @param var_ID            ID variable for each repeated measures subject
 #' @param var_group         If there are groups, this is the group variable.
+#' @param label_title       plot title, defaults to y-variable
+#' @param label_subtitle    plot subtitle
 #' @param label_x_time      x-axis label
 #' @param label_y_resp      y-axis label
 #' @param label_group       group label
@@ -26,12 +28,15 @@
 #' @export
 #'
 #' @examples
+#' # numeric
 #' e_plot_longitudinal(
 #'     dat_plot         = lme4::sleepstudy
 #'   , var_x_time       = "Days"
 #'   , var_y_resp       = "Reaction"
 #'   , var_ID           = "Subject"
 #'   , var_group        = NULL
+#'   , label_title      = NULL
+#'   , label_subtitle   = "Longitudinal plot"
 #'   , label_x_time     = "Number of days of sleep deprivation"
 #'   , label_y_resp     = "Average reaction time (ms)"
 #'   #, label_group      = "Program"
@@ -44,6 +49,28 @@
 #'   , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
 #'   , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
 #'   )
+#'
+#' # categorical
+#' e_plot_longitudinal(
+#'     dat_plot         = lme4::sleepstudy %>% dplyr::mutate(Reaction_cat = cut(Reaction, breaks = seq(200, 400, by = 50)))
+#'   , var_x_time       = "Days"
+#'   , var_y_resp       = "Reaction_cat"
+#'   , var_ID           = "Subject"
+#'   , var_group        = NULL
+#'   , label_title      = NULL
+#'   , label_subtitle   = "Longitudinal plot"
+#'   , label_x_time     = "Number of days of sleep deprivation"
+#'   , label_y_resp     = "Average reaction time (ms)"
+#'   #, label_group      = "Program"
+#'   , x_scale_breaks   = seq(0, 9, by = 2)
+#'   , y_scale_breaks   = NULL
+#'   , hist_scale_breaks = NULL
+#'   #, sw_group_reverse = TRUE
+#'   , hist_binwidth    = NULL
+#'   , hist_align       = c("center", "boundary")[2]
+#'   , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
+#'   , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
+#'   )
 e_plot_longitudinal <-
   function(
     dat_plot         = dat
@@ -51,6 +78,8 @@ e_plot_longitudinal <-
   , var_y_resp       = "y"
   , var_ID           = "ID"
   , var_group        = NULL
+  , label_title      = NULL
+  , label_subtitle   = "Longitudinal plot"
   , label_x_time     = NULL
   , label_y_resp     = NULL
   #, label_ID         = NULL
@@ -72,6 +101,8 @@ e_plot_longitudinal <-
   ## var_y_resp       = "Reaction"
   ## var_ID           = "Subject"
   ## var_group        = NULL
+  ## label_title      = "My title"
+  ## label_subtitle   = "Longitudinal plot"
   ## label_x_time     = "Number of days of sleep deprivation"
   ## label_y_resp     = "Average reaction time (ms)"
   ##  label_group      = "Program"
@@ -82,6 +113,9 @@ e_plot_longitudinal <-
   ## hist_binwidth    = 25
   ## hist_align       = c("center", "boundary")[2]
 
+  #### Categorical y-variable
+  ## dat_plot$Reaction_cat <- cut(dat_plot$Reaction, breaks = seq(200, 400, by = 50))
+  ## var_y_resp       = "Reaction_cat"
 
 
   # subset and rename variables
@@ -158,53 +192,70 @@ e_plot_longitudinal <-
     labelled::var_label(dat_plot[["var_group" ]]) <- var_group
   }
 
-
-  # grand mean over time
-  annotate_y_mean <-
-    dat_plot %>%
-    dplyr::pull(var_y_resp) %>%
-    mean(na.rm = TRUE)
-
-  # mean for each group over time
-  if (!is.null(var_group)) {
-    annotate_y_group_means <-
-      dat_plot %>%
-      dplyr::group_by(
-        var_group
-      ) %>%
-      dplyr::summarise(
-        var_y_resp = mean(var_y_resp, na.rm = TRUE)
-      , .groups = "drop"
-      ) %>%
-      dplyr::ungroup()
+  # title
+  if(is.null(label_title)) {
+    label_title <- labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
   }
+  #if(is.null(label_subtitle)) {
+  #  label_subtitle <- "Longitudinal plot"
+  #}
 
-  # mean for each group at each time
-  if (!is.null(var_group)) {
-    annotate_y_time_group_means <-
-      dat_plot %>%
-      dplyr::group_by(
-        var_x_time
-      , var_group
-      ) %>%
-      dplyr::summarise(
-        var_y_resp = mean(var_y_resp, na.rm = TRUE)
-      , .groups = "drop"
-      ) %>%
-      dplyr::ungroup()
+  # numeric or categorical?
+  if (is.numeric(dat_plot$var_y_resp)) {
+    sw_categorical <- FALSE
   } else {
-    annotate_y_time_group_means <-
-      dat_plot %>%
-      dplyr::group_by(
-        var_x_time
-      #, var_group
-      ) %>%
-      dplyr::summarise(
-        var_y_resp = mean(var_y_resp, na.rm = TRUE)
-      , .groups = "drop"
-      ) %>%
-      dplyr::ungroup()
+    sw_categorical <- TRUE
   }
+
+
+  if (!sw_categorical) {
+    # grand mean over time
+    annotate_y_mean <-
+      dat_plot %>%
+      dplyr::pull(var_y_resp) %>%
+      mean(na.rm = TRUE)
+
+    # mean for each group over time
+    if (!is.null(var_group)) {
+      annotate_y_group_means <-
+        dat_plot %>%
+        dplyr::group_by(
+          var_group
+        ) %>%
+        dplyr::summarise(
+          var_y_resp = mean(var_y_resp, na.rm = TRUE)
+        , .groups = "drop"
+        ) %>%
+        dplyr::ungroup()
+    }
+
+    # mean for each group at each time
+    if (!is.null(var_group)) {
+      annotate_y_time_group_means <-
+        dat_plot %>%
+        dplyr::group_by(
+          var_x_time
+        , var_group
+        ) %>%
+        dplyr::summarise(
+          var_y_resp = mean(var_y_resp, na.rm = TRUE)
+        , .groups = "drop"
+        ) %>%
+        dplyr::ungroup()
+    } else {
+      annotate_y_time_group_means <-
+        dat_plot %>%
+        dplyr::group_by(
+          var_x_time
+        #, var_group
+        ) %>%
+        dplyr::summarise(
+          var_y_resp = mean(var_y_resp, na.rm = TRUE)
+        , .groups = "drop"
+        ) %>%
+        dplyr::ungroup()
+    }
+  } # if !sw_categorical
 
   # Plot the data using ggplot
   #library(ggplot2)
@@ -216,22 +267,36 @@ e_plot_longitudinal <-
   }
   p1 <- p1 + theme_bw()
 
-  # plot a reference line for the global mean (assuming no groups)
-  #p1 <- p1 + geom_hline(aes(yintercept = 0), colour = "black", linetype = "solid", size = 0.2, alpha = 0.3)
-  #p1 <- p1 + geom_hline(aes(yintercept =  0), alpha = 0.5)
-  #p1 <- p1 + geom_hline(aes(yintercept = 23), alpha = 0.5)
-  p1 <- p1 + geom_hline(aes(yintercept = annotate_y_mean), colour = "black", linetype = line_type_grand, size = 0.3, alpha = 0.5)
 
-  if (!is.null(var_group)) {
-    p1 <- p1 + geom_hline(data = annotate_y_group_means, aes(yintercept = var_y_resp, colour = var_group), linetype = line_type_group, size = 0.3, alpha = 1)
-  }
+  if (!sw_categorical) {
+    # plot a reference line for the global mean (assuming no groups)
+    #p1 <- p1 + geom_hline(aes(yintercept = 0), colour = "black", linetype = "solid", size = 0.2, alpha = 0.3)
+    #p1 <- p1 + geom_hline(aes(yintercept =  0), alpha = 0.5)
+    #p1 <- p1 + geom_hline(aes(yintercept = 23), alpha = 0.5)
+    p1 <- p1 + geom_hline(aes(yintercept = annotate_y_mean), colour = "black", linetype = line_type_grand, size = 0.3, alpha = 0.5)
 
-  # colored line for each patient
-  if (!is.null(var_group)) {
-    p1 <- p1 + geom_line(aes(group = var_ID, colour = var_group), alpha = 1/4)
-  } else {
-    p1 <- p1 + geom_line(aes(group = var_ID), alpha = 1/4)
-  }
+    if (!is.null(var_group)) {
+      p1 <- p1 + geom_hline(data = annotate_y_group_means, aes(yintercept = var_y_resp, colour = var_group), linetype = line_type_group, size = 0.3, alpha = 1)
+    }
+  } # if !sw_categorical
+
+
+  if (!sw_categorical) {
+    # colored line for each patient
+    if (!is.null(var_group)) {
+      p1 <- p1 + geom_line(aes(group = var_ID, colour = var_group), alpha = 1/4)
+    } else {
+      p1 <- p1 + geom_line(aes(group = var_ID), alpha = 1/4)
+    }
+  } # if !sw_categorical
+  if (sw_categorical) {
+    # colored line for each patient
+    if (!is.null(var_group)) {
+      p1 <- p1 + geom_line(aes(group = var_ID, colour = var_group), alpha = 1/10, size = 3)
+    } else {
+      p1 <- p1 + geom_line(aes(group = var_ID), alpha = 1/10, size = 3)
+    }
+  } # if sw_categorical
 
   # boxplot, size=.75 to stand out behind CI
   #p1 <- p1 + geom_boxplot(size = 0.25, alpha = 0.5)
@@ -239,28 +304,34 @@ e_plot_longitudinal <-
   #p1 <- p1 + geom_point(aes(colour = var_group), alpha = 0.5)
 
 
-  #p1 <- p1 + geom_smooth(aes(group = 1), method = mgcv::gam, size = 1, colour = "blue", se = FALSE)
-  #p1 <- p1 + geom_smooth(aes(group = var_group, colour = var_group), size = 1, se = FALSE)
-  if (!is.null(var_group)) {
-    p1 <- p1 + geom_line(data = annotate_y_time_group_means, aes(group = var_group), size = 1.25)
-  } else {
-    p1 <- p1 + geom_line(data = annotate_y_time_group_means, group = 1, size = 1.25)
-  }
+  if (!sw_categorical) {
+    #p1 <- p1 + geom_smooth(aes(group = 1), method = mgcv::gam, size = 1, colour = "blue", se = FALSE)
+    #p1 <- p1 + geom_smooth(aes(group = var_group, colour = var_group), size = 1, se = FALSE)
+    if (!is.null(var_group)) {
+      p1 <- p1 + geom_line(data = annotate_y_time_group_means, aes(group = var_group), size = 1.25)
+    } else {
+      p1 <- p1 + geom_line(data = annotate_y_time_group_means, group = 1, size = 1.25)
+    }
+  } # if !sw_categorical
 
-  # diamond at mean for each group
-  p1 <- p1 + stat_summary(fun = mean, geom = "point", shape = 18, size = 4, alpha = 1)
-  # confidence limits based on normal distribution
-  #p1 <- p1 + stat_summary(fun.data = "mean_cl_normal", geom = "errorbar", width = 0.2, alpha = 0.8)
-  #p1 <- p1 + facet_grid(surv_prog ~ pci_part_id_ps, drop = TRUE)
-  if(!is.null(y_scale_breaks)) {
-    p1 <- p1 + scale_y_continuous(breaks = y_scale_breaks)
-  }
+
+  if (!sw_categorical) {
+    # diamond at mean for each group
+    p1 <- p1 + stat_summary(fun = mean, geom = "point", shape = 18, size = 4, alpha = 1)
+    # confidence limits based on normal distribution
+    #p1 <- p1 + stat_summary(fun.data = "mean_cl_normal", geom = "errorbar", width = 0.2, alpha = 0.8)
+    #p1 <- p1 + facet_grid(surv_prog ~ pci_part_id_ps, drop = TRUE)
+    if(!is.null(y_scale_breaks)) {
+      p1 <- p1 + scale_y_continuous(breaks = y_scale_breaks)
+    }
+  } # if !sw_categorical
+
   if(!is.null(x_scale_breaks)) {
     p1 <- p1 + scale_x_continuous(breaks = x_scale_breaks)
   }
   p1 <- p1 + labs(
-                  title     = labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
-                , subtitle  = "Longitudinal plot"
+                  title     = label_title
+                , subtitle  = label_subtitle
                 #, x         = labelled::var_label(dat_pdp[["redcap_event_name.factor"]]) %>% as.character()
                 , x         = labelled::var_label(dat_plot[["var_x_time"]]) %>% as.character()
                 , y         = labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
@@ -300,24 +371,33 @@ e_plot_longitudinal <-
   }
   p2 <- p2 + theme_bw()
 
-  # grand mean line
-  p2 <- p2 + geom_vline(aes(xintercept = annotate_y_mean), colour = "black", linetype = line_type_grand, size = 0.5, alpha = 0.5)
+  if (!sw_categorical) {
+    # grand mean line
+    p2 <- p2 + geom_vline(aes(xintercept = annotate_y_mean), colour = "black", linetype = line_type_grand, size = 0.5, alpha = 0.5)
+  } # if !sw_categorical
 
-  # histogram
-  if (hist_align == c("center", "boundary")[1]) {
-    p2 <- p2 + geom_histogram(binwidth = hist_binwidth, alpha = 1, center = 0)
-  }
-  if (hist_align == c("center", "boundary")[2]) {
-    p2 <- p2 + geom_histogram(binwidth = hist_binwidth, alpha = 1, boundary = 0)
-  }
+  if (!sw_categorical) {
+    # histogram
+    if (hist_align == c("center", "boundary")[1]) {
+      p2 <- p2 + geom_histogram(binwidth = hist_binwidth, alpha = 1, center = 0)
+    }
+    if (hist_align == c("center", "boundary")[2]) {
+      p2 <- p2 + geom_histogram(binwidth = hist_binwidth, alpha = 1, boundary = 0)
+    }
 
-  # group mean lines
-  if (!is.null(var_group)) {
-    p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), colour = "black", linetype = line_type_group, size = 0.5, alpha = 1)
-  } else {
-    p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), colour = "black", linetype = line_type_group, size = 0.5, alpha = 1)
-  }
-  #p2 <- p2 + geom_line(data = annotate_y_time_group_means, size = 1.5)
+    # group mean lines
+    if (!is.null(var_group)) {
+      p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), colour = "black", linetype = line_type_group, size = 0.5, alpha = 1)
+    } else {
+      p2 <- p2 + geom_vline(data = annotate_y_time_group_means, aes(xintercept = var_y_resp), colour = "black", linetype = line_type_group, size = 0.5, alpha = 1)
+    }
+    #p2 <- p2 + geom_line(data = annotate_y_time_group_means, size = 1.5)
+  } # if !sw_categorical
+
+  if (sw_categorical) {
+    # bar plot
+    p2 <- p2 + geom_bar(width = 0.8, alpha = 1)
+  } # if sw_categorical
 
 
   # facets
@@ -331,15 +411,17 @@ e_plot_longitudinal <-
     p2 <- p2 + facet_grid(. ~ var_x_time, drop = TRUE)
   }
 
-  if(!is.null(hist_scale_breaks)) {
-    p2 <- p2 + scale_x_continuous(breaks = hist_scale_breaks)
-  } else {
-    ## https://gist.github.com/tomhopper/9076152
-    # two most extreme breaks
-    x_two_breaks <- ggplot_build(p2)$layout$panel_params[[1]]$x$breaks
-    x_two_breaks <- range(x_two_breaks, na.rm = TRUE)
-    p2 <- p2 + scale_x_continuous(breaks = x_two_breaks)
-  }
+  if (!sw_categorical) {
+    if(!is.null(hist_scale_breaks)) {
+      p2 <- p2 + scale_x_continuous(breaks = hist_scale_breaks)
+    } else {
+      ## https://gist.github.com/tomhopper/9076152
+      # two most extreme breaks
+      x_two_breaks <- ggplot_build(p2)$layout$panel_params[[1]]$x$breaks
+      x_two_breaks <- range(x_two_breaks, na.rm = TRUE)
+      p2 <- p2 + scale_x_continuous(breaks = x_two_breaks)
+    }
+  } # if !sw_categorical
 
 
   p2 <- p2 + labs(

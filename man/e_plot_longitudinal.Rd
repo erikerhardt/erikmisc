@@ -10,6 +10,8 @@ e_plot_longitudinal(
   var_y_resp = "y",
   var_ID = "ID",
   var_group = NULL,
+  label_title = NULL,
+  label_subtitle = "Longitudinal plot",
   label_x_time = NULL,
   label_y_resp = NULL,
   label_group = NULL,
@@ -35,6 +37,10 @@ e_plot_longitudinal(
 \item{var_ID}{ID variable for each repeated measures subject}
 
 \item{var_group}{If there are groups, this is the group variable.}
+
+\item{label_title}{plot title, defaults to y-variable}
+
+\item{label_subtitle}{plot subtitle}
 
 \item{label_x_time}{x-axis label}
 
@@ -65,12 +71,15 @@ plot in ggplot grob format
 Longitudinal interaction plots
 }
 \examples{
+# numeric
 e_plot_longitudinal(
     dat_plot         = lme4::sleepstudy
   , var_x_time       = "Days"
   , var_y_resp       = "Reaction"
   , var_ID           = "Subject"
   , var_group        = NULL
+  , label_title      = NULL
+  , label_subtitle   = "Longitudinal plot"
   , label_x_time     = "Number of days of sleep deprivation"
   , label_y_resp     = "Average reaction time (ms)"
   #, label_group      = "Program"
@@ -79,6 +88,28 @@ e_plot_longitudinal(
   , hist_scale_breaks = NULL
   #, sw_group_reverse = TRUE
   , hist_binwidth    = 25
+  , hist_align       = c("center", "boundary")[2]
+  , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
+  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
+  )
+
+# categorical
+e_plot_longitudinal(
+    dat_plot         = lme4::sleepstudy \%>\% dplyr::mutate(Reaction_cat = cut(Reaction, breaks = seq(200, 400, by = 50)))
+  , var_x_time       = "Days"
+  , var_y_resp       = "Reaction_cat"
+  , var_ID           = "Subject"
+  , var_group        = NULL
+  , label_title      = NULL
+  , label_subtitle   = "Longitudinal plot"
+  , label_x_time     = "Number of days of sleep deprivation"
+  , label_y_resp     = "Average reaction time (ms)"
+  #, label_group      = "Program"
+  , x_scale_breaks   = seq(0, 9, by = 2)
+  , y_scale_breaks   = NULL
+  , hist_scale_breaks = NULL
+  #, sw_group_reverse = TRUE
+  , hist_binwidth    = NULL
   , hist_align       = c("center", "boundary")[2]
   , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
   , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
