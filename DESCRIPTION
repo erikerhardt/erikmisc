@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.1.13
-Date: 2022-06-06
+Version: 0.1.15
+Date: 2022-06-28
 Authors@R:
     c(person(
       given = "Erik"
@@ -11,7 +11,7 @@ Authors@R:
     , email = "erike@statacumen.com"
     , comment = c(ORCID = "0000-0002-9817-4011")
     ))
-Description: Solving common complex data analysis workflows.
+Description: Solving common complex data analysis workflows
 License: MIT + file LICENSE
 URL: https://github.com/erikerhardt/erikmisc
 BugReports: https://github.com/erikerhardt/erikmisc/issues
@@ -22,7 +22,7 @@ VignetteBuilder: knitr
 NeedsCompilation: no
 LazyData: true
 Depends:
-    R (>= 3.5.0),
+    R (>= 4.0.0),
     stats,
     utils,
     graphics
