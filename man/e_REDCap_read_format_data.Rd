@@ -52,7 +52,7 @@ For each project file:
 \item Click both of the R and CSV file icons
 \itemize{
 \item a. Save to your path
-\item b. Name as: (default name) \link{fn_root}_DATA_yyyy-mm-dd_hhmm.csv, \link{fn_root}_R_yyyy-mm-dd_hhmm.csv
+\item b. Name as: (default name) (fn_root)_DATA_yyyy-mm-dd_hhmm.csv, (fn_root)_R_yyyy-mm-dd_hhmm.csv
 }
 }
 }
