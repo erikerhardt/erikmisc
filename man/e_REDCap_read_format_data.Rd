@@ -39,7 +39,22 @@ e_REDCap_read_format_data(
 out_dat formatted data or \code{invisible(NULL)}, depending on \code{sw_return_dat}
 }
 \description{
-Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of \emph{_yyyy-mm-dd_hhmm.}) and read and format that given the R formatting file.
+Read the files in the fn_path and find the most recent file (last
+alphabetically, which is by date based on REDCap file name convention of
+\emph{_yyyy-mm-dd_hhmm.}) and read and format that given the R formatting file.
+}
+\details{
+For each project file:
+\itemize{
+\item Menu > Reports (Data Exports, Reports, and Stats) > All data
+\item All data (all records and fields), Export Data
+\item R Statistical Software
+\item Click both of the R and CSV file icons
+\itemize{
+\item a. Save to your path
+\item b. Name as: (default name) \link{fn_root}_DATA_yyyy-mm-dd_hhmm.csv, \link{fn_root}_R_yyyy-mm-dd_hhmm.csv
+}
+}
 }
 \examples{
 \dontrun{

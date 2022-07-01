@@ -1,6 +1,20 @@
 #' REDCap data, reading and formatting data
 #'
-#' Read the files in the fn_path and find the most recent file (last alphabetically, which is by date based on REDCap file name convention of *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.
+#' Read the files in the fn_path and find the most recent file (last
+#'  alphabetically, which is by date based on REDCap file name convention of
+#'  *_yyyy-mm-dd_hhmm.*) and read and format that given the R formatting file.
+#'
+#' For each project file:
+#' \itemize{
+#'   \item Menu > Reports (Data Exports, Reports, and Stats) > All data
+#'   \item All data (all records and fields), Export Data
+#'   \item R Statistical Software
+#'   \item Click both of the R and CSV file icons
+#'   \itemize{
+#'     \item a. Save to your path
+#'     \item b. Name as: (default name) [fn_root]_DATA_yyyy-mm-dd_hhmm.csv, [fn_root]_R_yyyy-mm-dd_hhmm.csv
+#'   }
+#' }
 #'
 #' @param fn_path         is the location of the data, assumed to be the current path.
 #' @param fn_root         the root name(s) of the file(s), typically the project name(s) (the part before _DATA_*.*)
@@ -183,6 +197,8 @@ e_REDCap_read_format_data <-
 
   }
 
+  # set back to original path
+  setwd(fn_path_org)
 
   if (sw_return_dat) {
     return(out_dat)
