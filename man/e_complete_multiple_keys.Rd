@@ -28,6 +28,7 @@ By definition, each key value is unique within its column to identify an observa
 }
 \examples{
 
+## derive dat_keys from dat_data using columns col_keys
 dat_data <-
   tibble::tribble(
     ~a, ~b, ~c, ~x, ~d1, ~d2
@@ -49,9 +50,49 @@ dat_data <-
 
 dat_data_updated <-
   e_complete_multiple_keys(
-    dat_data
+    dat_data = dat_data
   , dat_keys = NULL
   , col_keys = c("a", "b", "c", "x")
+  )
+
+dat_data_updated \%>\% print(n=Inf)
+
+## specify dat_keys explicitly
+dat_data <-
+  tibble::tribble(
+    ~a, ~b, ~c, ~x, ~d1, ~d2
+  ,  1, 11, NA, NA,   1,  20
+  ,  1, NA, 10, NA,   2,  21
+  ,  2, NA, NA, NA,   3,  22
+  , NA, 22, 20, NA,   4,  23
+  ,  2, NA, 20, NA,   5,  24
+  ,  3, 33, NA, NA,   6,  25
+  ,  4, NA, 40, NA,   7,  26
+  ,  5, NA, NA, NA,   8,  27
+  ,  6, NA, 60, NA,   9,  28
+  ,  6, NA, 60, NA,  10,  29
+  , NA, 77, NA, NA,  11,  30
+  , NA, 88, 80, NA,  12,  31
+  , NA, 88, NA, NA,  13,  32
+  , NA, NA, NA, NA,  14,  33
+  )
+dat_keys <-
+  tibble::tribble(
+    ~a, ~b, ~c
+  ,  1, 11, 10
+  ,  2, 22, 20
+  ,  3, 33, NA
+  ,  4, 99, 40     # over-specified (b)
+  ,  5, NA, NA
+  ,  6, NA, NA     # underspecified (c)
+                   # unspecified when a=NA
+  )
+
+dat_data_updated <-
+  e_complete_multiple_keys(
+    dat_data = dat_data
+  , dat_keys = dat_keys
+  , col_keys = c("a", "b", "c")
   )
 
 dat_data_updated \%>\% print(n=Inf)
