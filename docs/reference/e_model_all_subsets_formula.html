@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,132 +81,150 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span>
-  var_formula <span class="op">=</span> <span class="cn">NULL</span>,
-  x_var_names <span class="op">=</span> <span class="cn">NULL</span>,
-  y_var_name <span class="op">=</span> <span class="cn">NULL</span>,
-  max_scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"FO"</span>, <span class="st">"TWI"</span>, <span class="st">"PQ"</span>, <span class="st">"SO"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,
-  sw_return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span>
+<span>  x_var_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y_var_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var_formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"FO"</span>, <span class="st">"TWI"</span>, <span class="st">"PQ"</span>, <span class="st">"SO"</span>, <span class="st">"one_TWI"</span>, <span class="st">"only_TWI"</span>, <span class="st">"only_PQ"</span>,</span>
+<span>    <span class="st">"only_SO"</span>, <span class="st">"only_one_TWI"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
+<span>  sw_return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>var_formula</dt>
-<dd><p>NOT YET IMPLEMENTED</p></dd>
-<dt>x_var_names</dt>
+    <dl><dt>x_var_names</dt>
 <dd><p>a character list of variable names or list of character lists.
 If a list of multiple formulas or character lists is provided,
 then each is subject to the <code>max_scope</code> independently,
 or each can have it's own <code>max_scope</code>.</p></dd>
+
+
 <dt>y_var_name</dt>
 <dd><p>a character string</p></dd>
+
+
+<dt>var_formula</dt>
+<dd><p>NOT YET IMPLEMENTED</p></dd>
+
+
 <dt>max_scope</dt>
 <dd><p>one of or a list (corresponding to <code>x_var_names</code>) of
 "always" to always keep this full list (no binary subsets),
 "FO" for first-order (main) effects,
 "TWI" for two-way interactions,
-"PQ" for pure quadratic terms (squares of the "FO"), and
-"SO" for all terms in "FO", "TWI", and "PQ".</p></dd>
+"PQ" for pure quadratic terms (squares of the "FO"),
+"SO" for all terms in "FO", "TWI", and "PQ", and
+"one_TWI" for two-way interactions with only the first in the list.
+The options that start with "only_" must be used with
+the same <code>x_var_names</code> variables as a subset in an "always" list.
+For example, <code>c("a", "b")</code> specified as both "always" and "only_TWI"
+will always keep the main effects performing selection only on the TWIs.</p></dd>
+
+
 <dt>sw_return</dt>
-<dd><p>return a list of "formula", or a "table" of x-variable combinations</p></dd>
+<dd><p>return a list of "formula", or a "table" of x-variable combinations, or a list of "both"</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <div class="sourceCode"><pre><code>         a list of functions
-</code></pre></div>
+    
+
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>         a list of functions</span></code></pre><p></p></div>
+
+
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Two-way interaction model, return formulas</span></span>
-<span class="r-in"><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span>
-<span class="r-in">    var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span>
-<span class="r-in">  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span>
-<span class="r-in">  , max_scope   <span class="op">=</span> <span class="st">"TWI"</span></span>
-<span class="r-in">  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Two-way interaction model, return formulas</span></span></span>
+<span class="r-in"><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span></span>
+<span class="r-in"><span>  , var_formula <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , max_scope   <span class="op">=</span> <span class="st">"TWI"</span></span></span>
+<span class="r-in"><span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cc3b898&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dccaba0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cc24e50&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dcafd98&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cc12900&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc9ade0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cbff688&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dca3e18&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + a:b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cbea850&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc82ea8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cbd05f0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc76348&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cbbc610&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc672c0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + c + a:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cbace60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc62430&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ b + c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cb96698&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc51590&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ b + c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cb4cbd8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc4ba30&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[11]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cb273a0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc1e838&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[12]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cb0e120&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc193d8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[13]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cafffd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc161d8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[14]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b + a:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004caeb990&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dc0ae98&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[15]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cacbea8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dbfdc98&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[16]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004cabb9e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dbe6c18&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[17]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004caaf3a0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dbe1a58&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[18]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z ~ a + b + c + a:b + a:c + b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004ca9b200&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088dbbc898&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># Two-way interaction model, return table of x-variable combinations</span></span>
-<span class="r-in"><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span>
-<span class="r-in">    var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span>
-<span class="r-in">  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span>
-<span class="r-in">  , max_scope   <span class="op">=</span> <span class="st">"TWI"</span></span>
-<span class="r-in">  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Two-way interaction model, return table of x-variable combinations</span></span></span>
+<span class="r-in"><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span></span>
+<span class="r-in"><span>  , var_formula <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , max_scope   <span class="op">=</span> <span class="st">"TWI"</span></span></span>
+<span class="r-in"><span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    a b c  a:b  a:c  b:c</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  a     &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
@@ -226,15 +244,15 @@ or each can have it's own <code>max_scope</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 a b c  a:b       b:c</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17 a b c       a:c  b:c</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18 a b c  a:b  a:c  b:c</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Two variables always in the model with a second-order model of two others</span></span>
-<span class="r-in"><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span>
-<span class="r-in">    var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span>
-<span class="r-in">  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
-<span class="r-in">  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Two variables always in the model with a second-order model of two others</span></span></span>
+<span class="r-in"><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span></span>
+<span class="r-in"><span>  , var_formula <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    a b c d I(c^2) I(d^2)  c:d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  a b       &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  a b c            &lt;NA&gt; &lt;NA&gt;</span>
@@ -249,17 +267,104 @@ or each can have it's own <code>max_scope</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 a b c d        I(d^2)  c:d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12 a b c d I(c^2) I(d^2)     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13 a b c d I(c^2) I(d^2)  c:d</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Large example showing all options</span></span>
-<span class="r-in"><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span>
-<span class="r-in">    var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">10</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">13</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in">  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span>
-<span class="r-in">  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"FO"</span>, <span class="st">"TWI"</span>, <span class="st">"PQ"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
-<span class="r-in">  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># One variable in two-way interactions with the other variables</span></span></span>
+<span class="r-in"><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span></span>
+<span class="r-in"><span>  , var_formula <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"one_TWI"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    a b c d  a:b  a:c  a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  a       &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  a b          &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  a b      a:b &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  a   c   &lt;NA&gt;      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  a   c   &lt;NA&gt;  a:c &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  a b c             &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  a b c    a:b      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  a b c         a:c &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  a b c    a:b  a:c &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 a     d &lt;NA&gt; &lt;NA&gt;     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 a     d &lt;NA&gt; &lt;NA&gt;  a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 a b   d      &lt;NA&gt;     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 a b   d  a:b &lt;NA&gt;     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 a b   d      &lt;NA&gt;  a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 a b   d  a:b &lt;NA&gt;  a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 a   c d &lt;NA&gt;          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 a   c d &lt;NA&gt;  a:c     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 a   c d &lt;NA&gt;       a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 a   c d &lt;NA&gt;  a:c  a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 a b c d               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 a b c d  a:b          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 a b c d       a:c     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 a b c d  a:b  a:c     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 a b c d            a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 a b c d  a:b       a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 a b c d       a:c  a:d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 a b c d  a:b  a:c  a:d</span>
+<span class="r-in"><span><span class="co"># Four variables always in the model (a, b, c, d)</span></span></span>
+<span class="r-in"><span><span class="co">#   with selection only on the two second-order variables (c, d),</span></span></span>
+<span class="r-in"><span><span class="co">#   with TWI on the two variables (e, f)</span></span></span>
+<span class="r-in"><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"e"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span></span>
+<span class="r-in"><span>  , var_formula <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"only_SO"</span>, <span class="st">"TWI"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    a b c d c:d I(c^2) I(d^2) e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  a b c d                       &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  a b c d c:d                   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  a b c d     I(c^2)            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  a b c d c:d I(c^2)            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  a b c d            I(d^2)     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  a b c d c:d        I(d^2)     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  a b c d     I(c^2) I(d^2)     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  a b c d c:d I(c^2) I(d^2)     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  a b c d                   e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 a b c d c:d               e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 a b c d     I(c^2)        e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 a b c d c:d I(c^2)        e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 a b c d            I(d^2) e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 a b c d c:d        I(d^2) e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 a b c d     I(c^2) I(d^2) e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 a b c d c:d I(c^2) I(d^2) e   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 a b c d                     f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 a b c d c:d                 f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 a b c d     I(c^2)          f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 a b c d c:d I(c^2)          f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 a b c d            I(d^2)   f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 a b c d c:d        I(d^2)   f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 a b c d     I(c^2) I(d^2)   f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 a b c d c:d I(c^2) I(d^2)   f &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 a b c d                   e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 a b c d c:d               e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 a b c d     I(c^2)        e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 a b c d c:d I(c^2)        e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 a b c d            I(d^2) e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 a b c d c:d        I(d^2) e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 a b c d     I(c^2) I(d^2) e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 a b c d c:d I(c^2) I(d^2) e f     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 a b c d                   e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 a b c d c:d               e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 a b c d     I(c^2)        e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 a b c d c:d I(c^2)        e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37 a b c d            I(d^2) e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 a b c d c:d        I(d^2) e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 a b c d     I(c^2) I(d^2) e f  e:f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40 a b c d c:d I(c^2) I(d^2) e f  e:f</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Large example showing all options</span></span></span>
+<span class="r-in"><span><span class="fu">e_model_all_subsets_formula</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">10</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">13</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span></span>
+<span class="r-in"><span>  , var_formula <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"FO"</span>, <span class="st">"TWI"</span>, <span class="st">"PQ"</span>, <span class="st">"SO"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -274,8 +379,7 @@ or each can have it's own <code>max_scope</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

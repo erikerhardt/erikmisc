@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -109,17 +109,14 @@ effects and contrasts</h3>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'parameters':</span>
-<span class="co">#&gt;   method                         from      </span>
-<span class="co">#&gt;   format.parameters_distribution datawizard</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.11 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
-<span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
-<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ─────────────────────────────────────── erikmisc 0.1.15 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble</span> 3.1.7     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr </span> 1.0.9</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ─────────────────────────────────────────── erikmisc_conflicts() ──</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
+<span><span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span></span>
+<span><span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="best-subset-selection">Best subset selection<a class="anchor" aria-label="anchor" href="#best-subset-selection"></a>
 </h2>
@@ -138,49 +135,49 @@ indicates the variable is or is not in the model. The model
 intercept). Other model statistics are provided and the results are
 sorted by BIC (lowest BIC is preferred, best on top).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tab_best</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_lm_bestsubset.html">e_lm_bestsubset</a></span><span class="op">(</span>
-    form  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">+</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">gear</span><span class="op">)</span>
-  , dat   <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span>
-  , nbest <span class="op">=</span> <span class="fl">3</span>
-  <span class="op">)</span>
-
-  <span class="co">### consider these options if you temporarily need a wider output in your Rmd output</span>
-  <span class="co"># op &lt;- options(); # saving old options</span>
-  <span class="co"># options(width=100) # setting command window output text width wider</span>
-<span class="va">tab_best</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 x 11</span></span>
-<span class="co">#&gt;    `(Intercept)`   cyl  disp    hp  gear  SIZE   rss    r2 adjr2    cp   bic</span>
-<span class="co">#&gt;            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>             1     1     1     0     0     2  271. 0.760 0.743  3.40 -<span style="color: #BB0000;">35.2</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>             1     1     0     0     0     1  308. 0.726 0.717  5.48 -<span style="color: #BB0000;">34.5</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>             1     0     0     1     1     2  280. 0.751 0.734  4.41 -<span style="color: #BB0000;">34.1</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>             1     0     1     1     0     2  283. 0.748 0.731  4.78 -<span style="color: #BB0000;">33.7</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>             1     0     1     0     0     1  317. 0.718 0.709  6.44 -<span style="color: #BB0000;">33.6</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>             1     1     0     1     1     3  258. 0.771 0.746  4.00 -<span style="color: #BB0000;">33.3</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>             1     0     1     1     1     3  258. 0.771 0.746  4.04 -<span style="color: #BB0000;">33.3</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>             1     1     1     1     0     3  261. 0.768 0.743  4.38 -<span style="color: #BB0000;">32.9</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>             1     1     1     1     1     4  249. 0.779 0.746  5.00 -<span style="color: #BB0000;">31.0</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>             1     0     0     1     0     1  448. 0.602 0.589 20.6  -<span style="color: #BB0000;">22.6</span></span>
-  <span class="co"># options(op); # reset (all) initial options</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tab_best</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_lm_bestsubset.html">e_lm_bestsubset</a></span><span class="op">(</span></span>
+<span>    form  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">+</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">gear</span><span class="op">)</span></span>
+<span>  , dat   <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span>
+<span>  , nbest <span class="op">=</span> <span class="fl">3</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co">### consider these options if you temporarily need a wider output in your Rmd output</span></span>
+<span>  <span class="co"># op &lt;- options(); # saving old options</span></span>
+<span>  <span class="co"># options(width=100) # setting command window output text width wider</span></span>
+<span><span class="va">tab_best</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 11</span></span></span>
+<span><span class="co">#&gt;    `(Intercept)`   cyl  disp    hp  gear  SIZE   rss    r2 adjr2    cp   bic</span></span>
+<span><span class="co">#&gt;            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>             1     1     1     0     0     2  271. 0.760 0.743  3.40 -<span style="color: #BB0000;">35.2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>             1     1     0     0     0     1  308. 0.726 0.717  5.48 -<span style="color: #BB0000;">34.5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>             1     0     0     1     1     2  280. 0.751 0.734  4.41 -<span style="color: #BB0000;">34.1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>             1     0     1     1     0     2  283. 0.748 0.731  4.78 -<span style="color: #BB0000;">33.7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>             1     0     1     0     0     1  317. 0.718 0.709  6.44 -<span style="color: #BB0000;">33.6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>             1     1     0     1     1     3  258. 0.771 0.746  4.00 -<span style="color: #BB0000;">33.3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>             1     0     1     1     1     3  258. 0.771 0.746  4.04 -<span style="color: #BB0000;">33.3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>             1     1     1     1     0     3  261. 0.768 0.743  4.38 -<span style="color: #BB0000;">32.9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>             1     1     1     1     1     4  249. 0.779 0.746  5.00 -<span style="color: #BB0000;">31.0</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>             1     0     0     1     0     1  448. 0.602 0.589 20.6  -<span style="color: #BB0000;">22.6</span></span></span>
+<span>  <span class="co"># options(op); # reset (all) initial options</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print into RStudio viewer or a pretty table in Rmd output</span>
-<span class="co"># include "always_allow_html: yes" in Rmd yaml header</span>
-<span class="va">tab_best</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/e_table_print.html">e_table_print</a></span><span class="op">(</span>sw_kable_format  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"simple"</span>, <span class="st">"kbl"</span>, <span class="st">"html"</span>, <span class="st">"latex"</span>, <span class="st">"doc"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  (Intercept)   cyl   disp   hp   gear   SIZE        rss          r2       adjr2          cp         bic</span>
-<span class="co">#&gt; ------------  ----  -----  ---  -----  -----  ---------  ----------  ----------  ----------  ----------</span>
-<span class="co">#&gt;            1     1      1    0      0      2   270.7403   0.7595658   0.7429841    3.399545   -35.21267</span>
-<span class="co">#&gt;            1     1      0    0      0      1   308.3342   0.7261800   0.7170527    5.481852   -34.51763</span>
-<span class="co">#&gt;            1     0      0    1      1      2   280.0914   0.7512614   0.7341070    4.414982   -34.12607</span>
-<span class="co">#&gt;            1     0      1    1      0      2   283.4934   0.7482402   0.7308774    4.784403   -33.73974</span>
-<span class="co">#&gt;            1     0      1    0      0      1   317.1587   0.7183433   0.7089548    6.440095   -33.61466</span>
-<span class="co">#&gt;            1     1      0    1      1      3   257.8594   0.7710048   0.7464696    4.000814   -33.30679</span>
-<span class="co">#&gt;            1     0      1    1      1      3   258.2204   0.7706842   0.7461147    4.040015   -33.26203</span>
-<span class="co">#&gt;            1     1      1    1      0      3   261.3694   0.7678877   0.7430186    4.381960   -32.87415</span>
-<span class="co">#&gt;            1     1      1    1      1      4   248.6429   0.7791896   0.7464770    5.000000   -31.00575</span>
-<span class="co">#&gt;            1     0      0    1      0      1   447.6743   0.6024373   0.5891853   20.612718   -22.58542</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># print into RStudio viewer or a pretty table in Rmd output</span></span>
+<span><span class="co"># include "always_allow_html: yes" in Rmd yaml header</span></span>
+<span><span class="va">tab_best</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/e_table_print.html">e_table_print</a></span><span class="op">(</span>sw_kable_format  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"simple"</span>, <span class="st">"kbl"</span>, <span class="st">"html"</span>, <span class="st">"latex"</span>, <span class="st">"doc"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  (Intercept)   cyl   disp   hp   gear   SIZE        rss          r2       adjr2          cp         bic</span></span>
+<span><span class="co">#&gt; ------------  ----  -----  ---  -----  -----  ---------  ----------  ----------  ----------  ----------</span></span>
+<span><span class="co">#&gt;            1     1      1    0      0      2   270.7403   0.7595658   0.7429841    3.399545   -35.21267</span></span>
+<span><span class="co">#&gt;            1     1      0    0      0      1   308.3342   0.7261800   0.7170527    5.481852   -34.51763</span></span>
+<span><span class="co">#&gt;            1     0      0    1      1      2   280.0914   0.7512614   0.7341070    4.414982   -34.12607</span></span>
+<span><span class="co">#&gt;            1     0      1    1      0      2   283.4934   0.7482402   0.7308774    4.784403   -33.73974</span></span>
+<span><span class="co">#&gt;            1     0      1    0      0      1   317.1587   0.7183433   0.7089548    6.440095   -33.61466</span></span>
+<span><span class="co">#&gt;            1     1      0    1      1      3   257.8594   0.7710048   0.7464696    4.000814   -33.30679</span></span>
+<span><span class="co">#&gt;            1     0      1    1      1      3   258.2204   0.7706842   0.7461147    4.040015   -33.26203</span></span>
+<span><span class="co">#&gt;            1     1      1    1      0      3   261.3694   0.7678877   0.7430186    4.381960   -32.87415</span></span>
+<span><span class="co">#&gt;            1     1      1    1      1      4   248.6429   0.7791896   0.7464770    5.000000   -31.00575</span></span>
+<span><span class="co">#&gt;            1     0      0    1      0      1   447.6743   0.6024373   0.5891853   20.612718   -22.58542</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -202,8 +199,7 @@ sorted by BIC (lowest BIC is preferred, best on top).</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,46 +81,67 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_match_closest_in_range</span><span class="op">(</span>
-  <span class="va">dat_to_match</span>,
-  <span class="va">id_vars_to_match</span>,
-  <span class="va">val_var_to_match</span>,
-  <span class="va">dat_key</span>,
-  <span class="va">id_vars_key</span>,
-  <span class="va">val_var_key</span>,
-  diff_lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,
-  diff_upper <span class="op">=</span> <span class="op">+</span><span class="cn">Inf</span>,
-  sw_criteria <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"closest"</span>, <span class="st">"minimum"</span>, <span class="st">"maximum"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
-  sw_return_key_vars <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span>
+<span>  <span class="va">dat_to_match</span>,</span>
+<span>  <span class="va">id_vars_to_match</span>,</span>
+<span>  <span class="va">val_var_to_match</span>,</span>
+<span>  <span class="va">dat_key</span>,</span>
+<span>  <span class="va">id_vars_key</span>,</span>
+<span>  <span class="va">val_var_key</span>,</span>
+<span>  diff_lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>  diff_upper <span class="op">=</span> <span class="op">+</span><span class="cn">Inf</span>,</span>
+<span>  sw_criteria <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"closest"</span>, <span class="st">"minimum"</span>, <span class="st">"maximum"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  sw_return_key_vars <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat_to_match</dt>
 <dd><p>data to match to the key dataset</p></dd>
+
+
 <dt>id_vars_to_match</dt>
 <dd><p>associated ID variables in data to match</p></dd>
+
+
 <dt>val_var_to_match</dt>
 <dd><p>associated value variable in data to match</p></dd>
+
+
 <dt>dat_key</dt>
 <dd><p>key dataset</p></dd>
+
+
 <dt>id_vars_key</dt>
 <dd><p>ID variables in key dataset</p></dd>
+
+
 <dt>val_var_key</dt>
 <dd><p>value variable to determine closeness in key dataset</p></dd>
+
+
 <dt>diff_lower</dt>
 <dd><p>match from data to match can be no lower than the key data by this amount</p></dd>
+
+
 <dt>diff_upper</dt>
 <dd><p>match from data to match can be no higher than the key data by this amount</p></dd>
+
+
 <dt>sw_criteria</dt>
 <dd><p>criteria for match proximity (useful when range values <code>diff_lower</code> and <code>diff_upper</code> are used): closest, minimum, or maximum.</p></dd>
+
+
 <dt>sw_return_key_vars</dt>
 <dd><p>T/F return the key value for use in matching if multiple records per ID</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>dat_to_match restricted to only those unique observations that are closest to the key data</p>
+    
+
+<p>dat_to_match restricted to only those unique observations that are closest to the key data</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -129,49 +150,49 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_key</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span></span>
-<span class="r-in">    key1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span>
-<span class="r-in">  , key2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span class="r-in">    value <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_to_match</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span></span>
-<span class="r-in">    key1_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>      <span class="co"># no "c"</span></span>
-<span class="r-in">  , key2_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span><span class="op">)</span> <span class="co"># added "z"</span></span>
-<span class="r-in">  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="fl">3</span>, size <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> <span class="fl">2</span><span class="op">*</span><span class="fl">3</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># produce multiple per obs</span></span>
-<span class="r-in">  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span class="r-in">    value_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in">  , other1  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  , other2  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="va">key1_m</span>, <span class="va">key2_m</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_to_match_sub</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">e_match_closest_in_range</span><span class="op">(</span></span>
-<span class="r-in">    dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span>
-<span class="r-in">  , id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span>
-<span class="r-in">  , val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span>
-<span class="r-in">  , dat_key           <span class="op">=</span> <span class="va">dat_key</span></span>
-<span class="r-in">  , id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span>
-<span class="r-in">  , val_var_key       <span class="op">=</span> <span class="st">"value"</span></span>
-<span class="r-in">  , diff_lower        <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span></span>
-<span class="r-in">  , diff_upper        <span class="op">=</span> <span class="op">+</span><span class="cn">Inf</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_key</span>          <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 x 3</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_key</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    key1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , key2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    value <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_to_match</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    key1_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>      <span class="co"># no "c"</span></span></span>
+<span class="r-in"><span>  , key2_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span><span class="op">)</span> <span class="co"># added "z"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="fl">3</span>, size <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> <span class="fl">2</span><span class="op">*</span><span class="fl">3</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># produce multiple per obs</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    value_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , other1  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , other2  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">key1_m</span>, <span class="va">key2_m</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_to_match_sub</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_match_closest_in_range</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span></span>
+<span class="r-in"><span>  , id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span></span>
+<span class="r-in"><span>  , dat_key           <span class="op">=</span> <span class="va">dat_key</span></span></span>
+<span class="r-in"><span>  , id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  , val_var_key       <span class="op">=</span> <span class="st">"value"</span></span></span>
+<span class="r-in"><span>  , diff_lower        <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span></span></span>
+<span class="r-in"><span>  , diff_upper        <span class="op">=</span> <span class="op">+</span><span class="cn">Inf</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_key</span>          <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   key1  key2  value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     x         1</span>
@@ -180,8 +201,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> b     y         4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     x         5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> c     y         6</span>
-<span class="r-in"><span class="va">dat_to_match</span>     <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 x 5</span></span>
+<span class="r-in"><span><span class="va">dat_to_match</span>     <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    key1_m key2_m value_m  other1  other2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> a      x        8.05  -<span style="color: #BB0000;">0.156</span>   0.398 </span>
@@ -208,69 +229,69 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">22</span> b      z        6.74  -<span style="color: #BB0000;">0.165</span>  -<span style="color: #BB0000;">0.743</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">23</span> b      z        3.30  -<span style="color: #BB0000;">0.253</span>   0.189 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">24</span> b      z        2.16  -<span style="color: #BB0000;">0.112</span>   0.611 </span>
-<span class="r-in"><span class="va">dat_to_match_sub</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 x 5</span></span>
+<span class="r-in"><span><span class="va">dat_to_match_sub</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   key1_m key2_m value_m other1 other2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a      x        2.23  -<span style="color: #BB0000;">0.478</span>  0.341</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> a      y        2.95   0.697 -<span style="color: #BB0000;">1.80</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b      x        0.105 -<span style="color: #BB0000;">1.47</span>  -<span style="color: #BB0000;">0.612</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> b      y        2.40   1.36   1.43 </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># within specified range</span></span>
-<span class="r-in"><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span>
-<span class="r-in">  dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span>
-<span class="r-in">, id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span>
-<span class="r-in">, val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span>
-<span class="r-in">, dat_key           <span class="op">=</span> <span class="va">dat_key</span></span>
-<span class="r-in">, id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span>
-<span class="r-in">, val_var_key       <span class="op">=</span> <span class="st">"value"</span></span>
-<span class="r-in">, diff_lower        <span class="op">=</span> <span class="op">-</span><span class="fl">2</span></span>
-<span class="r-in">, diff_upper        <span class="op">=</span> <span class="op">+</span><span class="fl">4</span></span>
-<span class="r-in">, sw_return_key_vars <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 x 7</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># within specified range</span></span></span>
+<span class="r-in"><span><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span></span>
+<span class="r-in"><span>, id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>, val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span></span>
+<span class="r-in"><span>, dat_key           <span class="op">=</span> <span class="va">dat_key</span></span></span>
+<span class="r-in"><span>, id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>, val_var_key       <span class="op">=</span> <span class="st">"value"</span></span></span>
+<span class="r-in"><span>, diff_lower        <span class="op">=</span> <span class="op">-</span><span class="fl">2</span></span></span>
+<span class="r-in"><span>, diff_upper        <span class="op">=</span> <span class="op">+</span><span class="fl">4</span></span></span>
+<span class="r-in"><span>, sw_return_key_vars <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   key1_m key2_m value_m other1 other2 val_var_key__ val_diff__</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a      x         2.23 -<span style="color: #BB0000;">0.478</span>  0.341             1      1.23 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> a      y         2.95  0.697 -<span style="color: #BB0000;">1.80</span>              2      0.946</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b      y         2.40  1.36   1.43              4     -<span style="color: #BB0000;">1.60</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># within specified range, maximum value</span></span>
-<span class="r-in"><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span>
-<span class="r-in">  dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span>
-<span class="r-in">, id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span>
-<span class="r-in">, val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span>
-<span class="r-in">, dat_key           <span class="op">=</span> <span class="va">dat_key</span></span>
-<span class="r-in">, id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span>
-<span class="r-in">, val_var_key       <span class="op">=</span> <span class="st">"value"</span></span>
-<span class="r-in">, diff_lower        <span class="op">=</span> <span class="op">-</span><span class="fl">2</span></span>
-<span class="r-in">, diff_upper        <span class="op">=</span> <span class="op">+</span><span class="fl">4</span></span>
-<span class="r-in">, sw_criteria       <span class="op">=</span> <span class="st">"maximum"</span></span>
-<span class="r-in">, sw_return_key_vars <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 x 7</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># within specified range, maximum value</span></span></span>
+<span class="r-in"><span><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span></span>
+<span class="r-in"><span>, id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>, val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span></span>
+<span class="r-in"><span>, dat_key           <span class="op">=</span> <span class="va">dat_key</span></span></span>
+<span class="r-in"><span>, id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>, val_var_key       <span class="op">=</span> <span class="st">"value"</span></span></span>
+<span class="r-in"><span>, diff_lower        <span class="op">=</span> <span class="op">-</span><span class="fl">2</span></span></span>
+<span class="r-in"><span>, diff_upper        <span class="op">=</span> <span class="op">+</span><span class="fl">4</span></span></span>
+<span class="r-in"><span>, sw_criteria       <span class="op">=</span> <span class="st">"maximum"</span></span></span>
+<span class="r-in"><span>, sw_return_key_vars <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   key1_m key2_m value_m  other1 other2 val_var_key__ val_diff__</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a      x         2.23 -<span style="color: #BB0000;">0.478</span>   0.341             1       1.23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> a      y         5.03 -<span style="color: #BB0000;">0.053</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">1.04</span>              2       3.03</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b      y         7.92  0.881  -<span style="color: #BB0000;">0.934</span>             4       3.92</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># within specified range, minimum value</span></span>
-<span class="r-in"><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span>
-<span class="r-in">  dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span>
-<span class="r-in">, id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span>
-<span class="r-in">, val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span>
-<span class="r-in">, dat_key           <span class="op">=</span> <span class="va">dat_key</span></span>
-<span class="r-in">, id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span>
-<span class="r-in">, val_var_key       <span class="op">=</span> <span class="st">"value"</span></span>
-<span class="r-in">, diff_lower        <span class="op">=</span> <span class="op">-</span><span class="fl">2</span></span>
-<span class="r-in">, diff_upper        <span class="op">=</span> <span class="op">+</span><span class="fl">4</span></span>
-<span class="r-in">, sw_criteria       <span class="op">=</span> <span class="st">"minimum"</span></span>
-<span class="r-in">, sw_return_key_vars <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 x 7</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># within specified range, minimum value</span></span></span>
+<span class="r-in"><span><span class="fu">e_match_closest_in_range</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  dat_to_match      <span class="op">=</span> <span class="va">dat_to_match</span></span></span>
+<span class="r-in"><span>, id_vars_to_match  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1_m"</span>, <span class="st">"key2_m"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>, val_var_to_match  <span class="op">=</span> <span class="st">"value_m"</span></span></span>
+<span class="r-in"><span>, dat_key           <span class="op">=</span> <span class="va">dat_key</span></span></span>
+<span class="r-in"><span>, id_vars_key       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key1"</span>  , <span class="st">"key2"</span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>, val_var_key       <span class="op">=</span> <span class="st">"value"</span></span></span>
+<span class="r-in"><span>, diff_lower        <span class="op">=</span> <span class="op">-</span><span class="fl">2</span></span></span>
+<span class="r-in"><span>, diff_upper        <span class="op">=</span> <span class="op">+</span><span class="fl">4</span></span></span>
+<span class="r-in"><span>, sw_criteria       <span class="op">=</span> <span class="st">"minimum"</span></span></span>
+<span class="r-in"><span>, sw_return_key_vars <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   key1_m key2_m value_m other1 other2 val_var_key__ val_diff__</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a      x         2.23 -<span style="color: #BB0000;">0.478</span>  0.341             1      1.23 </span>
@@ -290,8 +311,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -112,18 +112,15 @@ all binary subsets of selected variables</h3>
 linear models in order to choose the “best” model via a model selection
 criterion.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'parameters':</span>
-<span class="co">#&gt;   method                         from      </span>
-<span class="co">#&gt;   format.parameters_distribution datawizard</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.11 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
-<span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
-<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ─────────────────────────────────────── erikmisc 0.1.15 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble</span> 3.1.7     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr </span> 1.0.9</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ─────────────────────────────────────────── erikmisc_conflicts() ──</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
+<span><span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span></span>
+<span><span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="using-e_model_all_subsets_formula">Using <code>e_model_all_subsets_formula</code><a class="anchor" aria-label="anchor" href="#using-e_model_all_subsets_formula"></a>
 </h2>
@@ -141,28 +138,28 @@ demographic variables such as age, sex, and race are often included
 regardless of “statistical signicance”, and other variables are subject
 to selection.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Two variables always in the model with a second-order model of two others</span>
-<span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-    var_formula <span class="op">=</span> <span class="cn">NULL</span>
-  , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span>
-  , y_var_name  <span class="op">=</span> <span class="st">"z"</span>
-  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
-  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-  <span class="op">)</span>
-<span class="co">#&gt;    a b c d I(c^2) I(d^2)  c:d</span>
-<span class="co">#&gt; 1  a b       &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;</span>
-<span class="co">#&gt; 2  a b c            &lt;NA&gt; &lt;NA&gt;</span>
-<span class="co">#&gt; 3  a b c   I(c^2)   &lt;NA&gt; &lt;NA&gt;</span>
-<span class="co">#&gt; 4  a b   d   &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt; 5  a b   d   &lt;NA&gt; I(d^2) &lt;NA&gt;</span>
-<span class="co">#&gt; 6  a b c d                   </span>
-<span class="co">#&gt; 7  a b c d                c:d</span>
-<span class="co">#&gt; 8  a b c d I(c^2)            </span>
-<span class="co">#&gt; 9  a b c d I(c^2)         c:d</span>
-<span class="co">#&gt; 10 a b c d        I(d^2)     </span>
-<span class="co">#&gt; 11 a b c d        I(d^2)  c:d</span>
-<span class="co">#&gt; 12 a b c d I(c^2) I(d^2)     </span>
-<span class="co">#&gt; 13 a b c d I(c^2) I(d^2)  c:d</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Two variables always in the model with a second-order model of two others</span></span>
+<span><span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>    var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  , y_var_name  <span class="op">=</span> <span class="st">"z"</span></span>
+<span>  , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
+<span>  , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt;    a b c d I(c^2) I(d^2)  c:d</span></span>
+<span><span class="co">#&gt; 1  a b       &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  a b c            &lt;NA&gt; &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3  a b c   I(c^2)   &lt;NA&gt; &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4  a b   d   &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  a b   d   &lt;NA&gt; I(d^2) &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  a b c d                   </span></span>
+<span><span class="co">#&gt; 7  a b c d                c:d</span></span>
+<span><span class="co">#&gt; 8  a b c d I(c^2)            </span></span>
+<span><span class="co">#&gt; 9  a b c d I(c^2)         c:d</span></span>
+<span><span class="co">#&gt; 10 a b c d        I(d^2)     </span></span>
+<span><span class="co">#&gt; 11 a b c d        I(d^2)  c:d</span></span>
+<span><span class="co">#&gt; 12 a b c d I(c^2) I(d^2)     </span></span>
+<span><span class="co">#&gt; 13 a b c d I(c^2) I(d^2)  c:d</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
@@ -184,211 +181,211 @@ models:</p>
 </ul>
 <p>Then we select the model with the lowest BIC statistic.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_mtcars_e</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 12</span></span>
-<span class="co">#&gt;   model          mpg cyl    disp    hp  drat    wt  qsec vs    am     gear  carb</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Mazda RX4     21   six     160   110  3.9   2.62  16.5 V-sh~ manu~     4     4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Mazda RX4 W~  21   six     160   110  3.9   2.88  17.0 V-sh~ manu~     4     4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Datsun 710    22.8 four    108    93  3.85  2.32  18.6 stra~ manu~     4     1</span>
-
-<span class="co"># table of the candidate models</span>
-<span class="va">form_table</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-      var_formula <span class="op">=</span> <span class="cn">NULL</span>
-    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"carb"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"disp"</span>, <span class="st">"hp"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wt"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span><span class="op">)</span><span class="op">)</span>
-    , y_var_name  <span class="op">=</span> <span class="st">"mpg"</span>
-    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"TWI"</span>, <span class="st">"FO"</span><span class="op">)</span>
-    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-    <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span>
-<span class="co">#&gt;    cyl carb disp hp disp:hp wt vs am gear</span>
-<span class="co">#&gt; 1  cyl carb            &lt;NA&gt;              </span>
-<span class="co">#&gt; 2  cyl carb disp       &lt;NA&gt;              </span>
-<span class="co">#&gt; 3  cyl carb      hp    &lt;NA&gt;              </span>
-<span class="co">#&gt; 4  cyl carb disp hp                      </span>
-<span class="co">#&gt; 5  cyl carb disp hp disp:hp              </span>
-<span class="co">#&gt; 6  cyl carb            &lt;NA&gt; wt           </span>
-<span class="co">#&gt; 7  cyl carb disp       &lt;NA&gt; wt           </span>
-<span class="co">#&gt; 8  cyl carb      hp    &lt;NA&gt; wt           </span>
-<span class="co">#&gt; 9  cyl carb disp hp         wt           </span>
-<span class="co">#&gt; 10 cyl carb disp hp disp:hp wt           </span>
-<span class="co">#&gt; 11 cyl carb            &lt;NA&gt;    vs        </span>
-<span class="co">#&gt; 12 cyl carb disp       &lt;NA&gt;    vs        </span>
-<span class="co">#&gt; 13 cyl carb      hp    &lt;NA&gt;    vs        </span>
-<span class="co">#&gt; 14 cyl carb disp hp            vs        </span>
-<span class="co">#&gt; 15 cyl carb disp hp disp:hp    vs        </span>
-<span class="co">#&gt; 16 cyl carb            &lt;NA&gt; wt vs        </span>
-<span class="co">#&gt; 17 cyl carb disp       &lt;NA&gt; wt vs        </span>
-<span class="co">#&gt; 18 cyl carb      hp    &lt;NA&gt; wt vs        </span>
-<span class="co">#&gt; 19 cyl carb disp hp         wt vs        </span>
-<span class="co">#&gt; 20 cyl carb disp hp disp:hp wt vs        </span>
-<span class="co">#&gt; 21 cyl carb            &lt;NA&gt;       am     </span>
-<span class="co">#&gt; 22 cyl carb disp       &lt;NA&gt;       am     </span>
-<span class="co">#&gt; 23 cyl carb      hp    &lt;NA&gt;       am     </span>
-<span class="co">#&gt; 24 cyl carb disp hp               am     </span>
-<span class="co">#&gt; 25 cyl carb disp hp disp:hp       am     </span>
-<span class="co">#&gt; 26 cyl carb            &lt;NA&gt; wt    am     </span>
-<span class="co">#&gt; 27 cyl carb disp       &lt;NA&gt; wt    am     </span>
-<span class="co">#&gt; 28 cyl carb      hp    &lt;NA&gt; wt    am     </span>
-<span class="co">#&gt; 29 cyl carb disp hp         wt    am     </span>
-<span class="co">#&gt; 30 cyl carb disp hp disp:hp wt    am     </span>
-<span class="co">#&gt; 31 cyl carb            &lt;NA&gt;    vs am     </span>
-<span class="co">#&gt; 32 cyl carb disp       &lt;NA&gt;    vs am     </span>
-<span class="co">#&gt; 33 cyl carb      hp    &lt;NA&gt;    vs am     </span>
-<span class="co">#&gt; 34 cyl carb disp hp            vs am     </span>
-<span class="co">#&gt; 35 cyl carb disp hp disp:hp    vs am     </span>
-<span class="co">#&gt; 36 cyl carb            &lt;NA&gt; wt vs am     </span>
-<span class="co">#&gt; 37 cyl carb disp       &lt;NA&gt; wt vs am     </span>
-<span class="co">#&gt; 38 cyl carb      hp    &lt;NA&gt; wt vs am     </span>
-<span class="co">#&gt; 39 cyl carb disp hp         wt vs am     </span>
-<span class="co">#&gt; 40 cyl carb disp hp disp:hp wt vs am     </span>
-<span class="co">#&gt; 41 cyl carb            &lt;NA&gt;          gear</span>
-<span class="co">#&gt; 42 cyl carb disp       &lt;NA&gt;          gear</span>
-<span class="co">#&gt; 43 cyl carb      hp    &lt;NA&gt;          gear</span>
-<span class="co">#&gt; 44 cyl carb disp hp                  gear</span>
-<span class="co">#&gt; 45 cyl carb disp hp disp:hp          gear</span>
-<span class="co">#&gt; 46 cyl carb            &lt;NA&gt; wt       gear</span>
-<span class="co">#&gt; 47 cyl carb disp       &lt;NA&gt; wt       gear</span>
-<span class="co">#&gt; 48 cyl carb      hp    &lt;NA&gt; wt       gear</span>
-<span class="co">#&gt; 49 cyl carb disp hp         wt       gear</span>
-<span class="co">#&gt; 50 cyl carb disp hp disp:hp wt       gear</span>
-<span class="co">#&gt; 51 cyl carb            &lt;NA&gt;    vs    gear</span>
-<span class="co">#&gt; 52 cyl carb disp       &lt;NA&gt;    vs    gear</span>
-<span class="co">#&gt; 53 cyl carb      hp    &lt;NA&gt;    vs    gear</span>
-<span class="co">#&gt; 54 cyl carb disp hp            vs    gear</span>
-<span class="co">#&gt; 55 cyl carb disp hp disp:hp    vs    gear</span>
-<span class="co">#&gt; 56 cyl carb            &lt;NA&gt; wt vs    gear</span>
-<span class="co">#&gt; 57 cyl carb disp       &lt;NA&gt; wt vs    gear</span>
-<span class="co">#&gt; 58 cyl carb      hp    &lt;NA&gt; wt vs    gear</span>
-<span class="co">#&gt; 59 cyl carb disp hp         wt vs    gear</span>
-<span class="co">#&gt; 60 cyl carb disp hp disp:hp wt vs    gear</span>
-<span class="co">#&gt; 61 cyl carb            &lt;NA&gt;       am gear</span>
-<span class="co">#&gt; 62 cyl carb disp       &lt;NA&gt;       am gear</span>
-<span class="co">#&gt; 63 cyl carb      hp    &lt;NA&gt;       am gear</span>
-<span class="co">#&gt; 64 cyl carb disp hp               am gear</span>
-<span class="co">#&gt; 65 cyl carb disp hp disp:hp       am gear</span>
-<span class="co">#&gt; 66 cyl carb            &lt;NA&gt; wt    am gear</span>
-<span class="co">#&gt; 67 cyl carb disp       &lt;NA&gt; wt    am gear</span>
-<span class="co">#&gt; 68 cyl carb      hp    &lt;NA&gt; wt    am gear</span>
-<span class="co">#&gt; 69 cyl carb disp hp         wt    am gear</span>
-<span class="co">#&gt; 70 cyl carb disp hp disp:hp wt    am gear</span>
-<span class="co">#&gt; 71 cyl carb            &lt;NA&gt;    vs am gear</span>
-<span class="co">#&gt; 72 cyl carb disp       &lt;NA&gt;    vs am gear</span>
-<span class="co">#&gt; 73 cyl carb      hp    &lt;NA&gt;    vs am gear</span>
-<span class="co">#&gt; 74 cyl carb disp hp            vs am gear</span>
-<span class="co">#&gt; 75 cyl carb disp hp disp:hp    vs am gear</span>
-<span class="co">#&gt; 76 cyl carb            &lt;NA&gt; wt vs am gear</span>
-<span class="co">#&gt; 77 cyl carb disp       &lt;NA&gt; wt vs am gear</span>
-<span class="co">#&gt; 78 cyl carb      hp    &lt;NA&gt; wt vs am gear</span>
-<span class="co">#&gt; 79 cyl carb disp hp         wt vs am gear</span>
-<span class="co">#&gt; 80 cyl carb disp hp disp:hp wt vs am gear</span>
-
-<span class="co"># generate candidate model formulas</span>
-<span class="va">form_list</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-      var_formula <span class="op">=</span> <span class="cn">NULL</span>
-    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"carb"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"disp"</span>, <span class="st">"hp"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wt"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span><span class="op">)</span><span class="op">)</span>
-    , y_var_name  <span class="op">=</span> <span class="st">"mpg"</span>
-    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"TWI"</span>, <span class="st">"FO"</span><span class="op">)</span>
-    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-    <span class="op">)</span>
-
-<span class="co"># fit models and calculate model selection criteria</span>
-<span class="va">lm_fit_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">lm_fit_list_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="kw">for</span> <span class="op">(</span><span class="va">i_form</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="co"># model fit</span>
-  <span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
-    <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span>
-      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , data    <span class="op">=</span> <span class="va">dat_mtcars_e</span>
-    <span class="op">)</span>
-
-  <span class="co"># model selection criteria</span>
-  <span class="va">lm_fit_list_criteria</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
-    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span>
-      lm_fit    <span class="op">=</span> <span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , dat_fit   <span class="op">=</span> <span class="va">dat_mtcars_e</span>
-    , model_id  <span class="op">=</span> <span class="va">i_form</span>
-    <span class="op">)</span>
-<span class="op">}</span>
-
-<span class="co"># sort the models by a criterion</span>
-<span class="va">lm_fit_criteria</span> <span class="op">&lt;-</span>
-  <span class="va">lm_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span>
-    <span class="co"># arrange models by this model criterion</span>
-    <span class="va">bic</span>               <span class="co"># ascending by bic (best on top)</span>
-    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span>
-  <span class="op">)</span>
-
-<span class="co"># print the head and tail of fit criteria table</span>
-<span class="va">lm_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 x 17</span></span>
-<span class="co">#&gt;   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df f_stat_pval   rse</span>
-<span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        6  157.  166.    32 0.846 0.823   37.0     4    27    1.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.54</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        8  156.  166.    32 0.858 0.831   31.5     5    26    3.03<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.48</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       10  154.  167.    32 0.884 0.850   26.1     7    24    9.37<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.33</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       26  158.  168.    32 0.852 0.823   29.8     5    26    5.47<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.53</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       28  156.  168.    32 0.866 0.834   26.9     6    25    9.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.46</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       50  154.  168.    32 0.892 0.854   23.7     8    23    2.35<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span>  2.30</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 6 more variables: mse &lt;dbl&gt;, rmse &lt;dbl&gt;, rsquare &lt;dbl&gt;, mae &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
-<span class="va">lm_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 17</span></span>
-<span class="co">#&gt;   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df  f_stat_pval   rse</span>
-<span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        3  172.  181.    32 0.754 0.718   20.7     4    27 0.000<span style="text-decoration: underline;">000</span>065<span style="text-decoration: underline;">7</span>  3.20</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       11  173.  181.    32 0.748 0.711   20.1     4    27 0.000<span style="text-decoration: underline;">000</span>090<span style="text-decoration: underline;">8</span>  3.24</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       13  174.  184.    32 0.756 0.709   16.1     5    26 0.000<span style="text-decoration: underline;">000</span>294   3.25</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 6 more variables: mse &lt;dbl&gt;, rmse &lt;dbl&gt;, rsquare &lt;dbl&gt;, mae &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
-
-<span class="co"># best model ID</span>
-<span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt; [1] 6</span>
-
-<span class="co"># summarize "best" model</span>
-<span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; Anova Table (Type III tests)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Response: mpg</span>
-<span class="co">#&gt;              Sum Sq Df  F value    Pr(&gt;F)    </span>
-<span class="co">#&gt; (Intercept) 2059.02  1 319.8427 &lt; 2.2e-16 ***</span>
-<span class="co">#&gt; cyl           59.90  2   4.6527 0.0183567 *  </span>
-<span class="co">#&gt; carb           9.24  1   1.4359 0.2412195    </span>
-<span class="co">#&gt; wt           115.76  1  17.9816 0.0002336 ***</span>
-<span class="co">#&gt; Residuals    173.82 27                       </span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; stats::lm(formula = form_list[[i_form]], data = dat_mtcars_e)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Residuals:</span>
-<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
-<span class="co">#&gt; -4.8205 -1.6016 -0.0819  1.1547  5.5797 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class="co">#&gt; (Intercept)  34.5592     1.9324  17.884  &lt; 2e-16 ***</span>
-<span class="co">#&gt; cylsix       -3.5017     1.5125  -2.315 0.028442 *  </span>
-<span class="co">#&gt; cyleight     -5.3150     1.7567  -3.026 0.005396 ** </span>
-<span class="co">#&gt; carb         -0.4142     0.3457  -1.198 0.241220    </span>
-<span class="co">#&gt; wt           -3.1742     0.7486  -4.240 0.000234 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Residual standard error: 2.537 on 27 degrees of freedom</span>
-<span class="co">#&gt; Multiple R-squared:  0.8456, Adjusted R-squared:  0.8228 </span>
-<span class="co">#&gt; F-statistic: 36.98 on 4 and 27 DF,  p-value: 1.378e-10</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dat_mtcars_e</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
+<span><span class="co">#&gt;   model          mpg cyl    disp    hp  drat    wt  qsec vs    am     gear  carb</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Mazda RX4     21   six     160   110  3.9   2.62  16.5 V-sh… manu…     4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Mazda RX4 W…  21   six     160   110  3.9   2.88  17.0 V-sh… manu…     4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Datsun 710    22.8 four    108    93  3.85  2.32  18.6 stra… manu…     4     1</span></span>
+<span></span>
+<span><span class="co"># table of the candidate models</span></span>
+<span><span class="va">form_table</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>      var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"carb"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"disp"</span>, <span class="st">"hp"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wt"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    , y_var_name  <span class="op">=</span> <span class="st">"mpg"</span></span>
+<span>    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"TWI"</span>, <span class="st">"FO"</span><span class="op">)</span></span>
+<span>    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    cyl carb wt vs am gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 1  cyl carb                          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  cyl carb wt                       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3  cyl carb    vs                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4  cyl carb wt vs                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  cyl carb       am                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  cyl carb wt    am                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7  cyl carb    vs am                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8  cyl carb wt vs am                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9  cyl carb          gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10 cyl carb wt       gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 11 cyl carb    vs    gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 12 cyl carb wt vs    gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 13 cyl carb       am gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 14 cyl carb wt    am gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 15 cyl carb    vs am gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 16 cyl carb wt vs am gear            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 17 cyl carb               disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 18 cyl carb wt            disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 19 cyl carb    vs         disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 20 cyl carb wt vs         disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 21 cyl carb       am      disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 22 cyl carb wt    am      disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 23 cyl carb    vs am      disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 24 cyl carb wt vs am      disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 25 cyl carb          gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 26 cyl carb wt       gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 27 cyl carb    vs    gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 28 cyl carb wt vs    gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 29 cyl carb       am gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 30 cyl carb wt    am gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 31 cyl carb    vs am gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 32 cyl carb wt vs am gear disp       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 33 cyl carb                    hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 34 cyl carb wt                 hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 35 cyl carb    vs              hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 36 cyl carb wt vs              hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 37 cyl carb       am           hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 38 cyl carb wt    am           hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 39 cyl carb    vs am           hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 40 cyl carb wt vs am           hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 41 cyl carb          gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 42 cyl carb wt       gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 43 cyl carb    vs    gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 44 cyl carb wt vs    gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 45 cyl carb       am gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 46 cyl carb wt    am gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 47 cyl carb    vs am gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 48 cyl carb wt vs am gear      hp    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 49 cyl carb               disp hp        </span></span>
+<span><span class="co">#&gt; 50 cyl carb wt            disp hp        </span></span>
+<span><span class="co">#&gt; 51 cyl carb    vs         disp hp        </span></span>
+<span><span class="co">#&gt; 52 cyl carb wt vs         disp hp        </span></span>
+<span><span class="co">#&gt; 53 cyl carb       am      disp hp        </span></span>
+<span><span class="co">#&gt; 54 cyl carb wt    am      disp hp        </span></span>
+<span><span class="co">#&gt; 55 cyl carb    vs am      disp hp        </span></span>
+<span><span class="co">#&gt; 56 cyl carb wt vs am      disp hp        </span></span>
+<span><span class="co">#&gt; 57 cyl carb          gear disp hp        </span></span>
+<span><span class="co">#&gt; 58 cyl carb wt       gear disp hp        </span></span>
+<span><span class="co">#&gt; 59 cyl carb    vs    gear disp hp        </span></span>
+<span><span class="co">#&gt; 60 cyl carb wt vs    gear disp hp        </span></span>
+<span><span class="co">#&gt; 61 cyl carb       am gear disp hp        </span></span>
+<span><span class="co">#&gt; 62 cyl carb wt    am gear disp hp        </span></span>
+<span><span class="co">#&gt; 63 cyl carb    vs am gear disp hp        </span></span>
+<span><span class="co">#&gt; 64 cyl carb wt vs am gear disp hp        </span></span>
+<span><span class="co">#&gt; 65 cyl carb               disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 66 cyl carb wt            disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 67 cyl carb    vs         disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 68 cyl carb wt vs         disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 69 cyl carb       am      disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 70 cyl carb wt    am      disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 71 cyl carb    vs am      disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 72 cyl carb wt vs am      disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 73 cyl carb          gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 74 cyl carb wt       gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 75 cyl carb    vs    gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 76 cyl carb wt vs    gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 77 cyl carb       am gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 78 cyl carb wt    am gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 79 cyl carb    vs am gear disp hp disp:hp</span></span>
+<span><span class="co">#&gt; 80 cyl carb wt vs am gear disp hp disp:hp</span></span>
+<span></span>
+<span><span class="co"># generate candidate model formulas</span></span>
+<span><span class="va">form_list</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>      var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"carb"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"disp"</span>, <span class="st">"hp"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wt"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    , y_var_name  <span class="op">=</span> <span class="st">"mpg"</span></span>
+<span>    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"TWI"</span>, <span class="st">"FO"</span><span class="op">)</span></span>
+<span>    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># fit models and calculate model selection criteria</span></span>
+<span><span class="va">lm_fit_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">lm_fit_list_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i_form</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># model fit</span></span>
+<span>  <span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<span>      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span></span>
+<span>    , data    <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># model selection criteria</span></span>
+<span>  <span class="va">lm_fit_list_criteria</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span></span>
+<span>      lm_fit    <span class="op">=</span> <span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span></span>
+<span>    , dat_fit   <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
+<span>    , model_id  <span class="op">=</span> <span class="va">i_form</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># sort the models by a criterion</span></span>
+<span><span class="va">lm_fit_criteria</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">lm_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span></span>
+<span>    <span class="co"># arrange models by this model criterion</span></span>
+<span>    <span class="va">bic</span>               <span class="co"># ascending by bic (best on top)</span></span>
+<span>    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print the head and tail of fit criteria table</span></span>
+<span><span class="va">lm_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 17</span></span></span>
+<span><span class="co">#&gt;   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df f_stat_pval   rse</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        2  157.  166.    32 0.846 0.823   37.0     4    27    1.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       34  156.  166.    32 0.858 0.831   31.5     5    26    3.03<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.48</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       66  154.  167.    32 0.884 0.850   26.1     7    24    9.37<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.33</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        6  158.  168.    32 0.852 0.823   29.8     5    26    5.47<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.53</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       38  156.  168.    32 0.866 0.834   26.9     6    25    9.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>  2.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       74  154.  168.    32 0.892 0.854   23.7     8    23    2.35<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span>  2.30</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: mse &lt;dbl&gt;, rmse &lt;dbl&gt;, rsquare &lt;dbl&gt;, mae &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span></span>
+<span><span class="va">lm_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 17</span></span></span>
+<span><span class="co">#&gt;   model_id   aic   bic  nobs    r2 r2adj f_stat     p    df  f_stat_pval   rse</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       33  172.  181.    32 0.754 0.718   20.7     4    27 0.000<span style="text-decoration: underline;">000</span>065<span style="text-decoration: underline;">7</span>  3.20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        3  173.  181.    32 0.748 0.711   20.1     4    27 0.000<span style="text-decoration: underline;">000</span>090<span style="text-decoration: underline;">8</span>  3.24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       35  174.  184.    32 0.756 0.709   16.1     5    26 0.000<span style="text-decoration: underline;">000</span>294   3.25</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: mse &lt;dbl&gt;, rmse &lt;dbl&gt;, rsquare &lt;dbl&gt;, mae &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span></span>
+<span></span>
+<span><span class="co"># best model ID</span></span>
+<span><span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span></span>
+<span><span class="co"># summarize "best" model</span></span>
+<span><span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Anova Table (Type III tests)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Response: mpg</span></span>
+<span><span class="co">#&gt;              Sum Sq Df  F value    Pr(&gt;F)    </span></span>
+<span><span class="co">#&gt; (Intercept) 2059.02  1 319.8427 &lt; 2.2e-16 ***</span></span>
+<span><span class="co">#&gt; cyl           59.90  2   4.6527 0.0183567 *  </span></span>
+<span><span class="co">#&gt; carb           9.24  1   1.4359 0.2412195    </span></span>
+<span><span class="co">#&gt; wt           115.76  1  17.9816 0.0002336 ***</span></span>
+<span><span class="co">#&gt; Residuals    173.82 27                       </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="va">lm_fit_list</span><span class="op">[[</span> <span class="va">lm_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; stats::lm(formula = form_list[[i_form]], data = dat_mtcars_e)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -4.8205 -1.6016 -0.0819  1.1547  5.5797 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  34.5592     1.9324  17.884  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; cylsix       -3.5017     1.5125  -2.315 0.028442 *  </span></span>
+<span><span class="co">#&gt; cyleight     -5.3150     1.7567  -3.026 0.005396 ** </span></span>
+<span><span class="co">#&gt; carb         -0.4142     0.3457  -1.198 0.241220    </span></span>
+<span><span class="co">#&gt; wt           -3.1742     0.7486  -4.240 0.000234 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 2.537 on 27 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.8456, Adjusted R-squared:  0.8228 </span></span>
+<span><span class="co">#&gt; F-statistic: 36.98 on 4 and 27 DF,  p-value: 1.378e-10</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="longitudinal-linear-model-fit-and-model-selection">Longitudinal linear model fit and model selection<a class="anchor" aria-label="anchor" href="#longitudinal-linear-model-fit-and-model-selection"></a>
@@ -409,358 +406,358 @@ minimal models:</p>
 </ul>
 <p>Then we select the model with the lowest cAIC statistic.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">76543</span><span class="op">)</span>
-
-<span class="va">dat_ergoStool_e</span> <span class="op">&lt;-</span>
-  <span class="va">dat_ergoStool_e</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="co"># add a few noise variables just to use for model selection example</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    x1 <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-  , x2 <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-  , x3 <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="va">dat_ergoStool_e</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 x 6</span></span>
-<span class="co">#&gt;   Effort Type  Subject     x1      x2     x3</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     12 T1    1       -<span style="color: #BB0000;">0.948</span> -<span style="color: #BB0000;">0.088</span><span style="color: #BB0000; text-decoration: underline;">1</span>  1.59 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     15 T2    1       -<span style="color: #BB0000;">0.527</span>  0.547  -<span style="color: #BB0000;">0.632</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     12 T3    1        0.124 -<span style="color: #BB0000;">0.510</span>  -<span style="color: #BB0000;">0.128</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     10 T4    1        0.103  0.054<span style="text-decoration: underline;">2</span>  0.614</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     10 T1    2       -<span style="color: #BB0000;">0.337</span> -<span style="color: #BB0000;">1.18</span>   -<span style="color: #BB0000;">0.955</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     14 T2    2        1.13  -<span style="color: #BB0000;">1.46</span>   -<span style="color: #BB0000;">0.734</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     13 T3    2        1.41   0.127  -<span style="color: #BB0000;">0.131</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">8</span>     12 T4    2        0.849 -<span style="color: #BB0000;">0.977</span>  -<span style="color: #BB0000;">0.611</span></span>
-
-<span class="co"># table of the candidate models</span>
-<span class="va">form_table</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-      var_formula <span class="op">=</span> <span class="cn">NULL</span>
-    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span>
-    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span>
-    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
-    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-    <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span>
-<span class="co">#&gt;    Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 1  Type (1 | Subject)             &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 2  Type (1 | Subject) x1                  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 3  Type (1 | Subject) x1       I(x1^2)    &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 4  Type (1 | Subject)    x2       &lt;NA&gt;          &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 5  Type (1 | Subject)    x2       &lt;NA&gt; I(x2^2)  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 6  Type (1 | Subject) x1 x2                             &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 7  Type (1 | Subject) x1 x2                    x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 8  Type (1 | Subject) x1 x2    I(x1^2)                  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 9  Type (1 | Subject) x1 x2    I(x1^2)         x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 10 Type (1 | Subject) x1 x2            I(x2^2)          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 11 Type (1 | Subject) x1 x2            I(x2^2) x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 12 Type (1 | Subject) x1 x2    I(x1^2) I(x2^2)          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 13 Type (1 | Subject) x1 x2    I(x1^2) I(x2^2) x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 14 Type (1 | Subject)       x3    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 15 Type (1 | Subject)       x3    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt; I(x3^2)  &lt;NA&gt;  &lt;NA&gt;</span>
-<span class="co">#&gt; 16 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt;                &lt;NA&gt;</span>
-<span class="co">#&gt; 17 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt;         x1:x3  &lt;NA&gt;</span>
-<span class="co">#&gt; 18 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt;                &lt;NA&gt;</span>
-<span class="co">#&gt; 19 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt;         x1:x3  &lt;NA&gt;</span>
-<span class="co">#&gt; 20 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt; I(x3^2)        &lt;NA&gt;</span>
-<span class="co">#&gt; 21 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt; I(x3^2) x1:x3  &lt;NA&gt;</span>
-<span class="co">#&gt; 22 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt; I(x3^2)        &lt;NA&gt;</span>
-<span class="co">#&gt; 23 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt; I(x3^2) x1:x3  &lt;NA&gt;</span>
-<span class="co">#&gt; 24 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;      </span>
-<span class="co">#&gt; 25 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt; x2:x3</span>
-<span class="co">#&gt; 26 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt;          &lt;NA&gt;      </span>
-<span class="co">#&gt; 27 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt;          &lt;NA&gt; x2:x3</span>
-<span class="co">#&gt; 28 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt; I(x3^2)  &lt;NA&gt;      </span>
-<span class="co">#&gt; 29 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt; I(x3^2)  &lt;NA&gt; x2:x3</span>
-<span class="co">#&gt; 30 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt; I(x3^2)  &lt;NA&gt;      </span>
-<span class="co">#&gt; 31 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt; I(x3^2)  &lt;NA&gt; x2:x3</span>
-<span class="co">#&gt; 32 Type (1 | Subject) x1 x2 x3                                          </span>
-<span class="co">#&gt; 33 Type (1 | Subject) x1 x2 x3                 x1:x2                    </span>
-<span class="co">#&gt; 34 Type (1 | Subject) x1 x2 x3                               x1:x3      </span>
-<span class="co">#&gt; 35 Type (1 | Subject) x1 x2 x3                 x1:x2         x1:x3      </span>
-<span class="co">#&gt; 36 Type (1 | Subject) x1 x2 x3                                     x2:x3</span>
-<span class="co">#&gt; 37 Type (1 | Subject) x1 x2 x3                 x1:x2               x2:x3</span>
-<span class="co">#&gt; 38 Type (1 | Subject) x1 x2 x3                               x1:x3 x2:x3</span>
-<span class="co">#&gt; 39 Type (1 | Subject) x1 x2 x3                 x1:x2         x1:x3 x2:x3</span>
-<span class="co">#&gt; 40 Type (1 | Subject) x1 x2 x3 I(x1^2)                                  </span>
-<span class="co">#&gt; 41 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2                    </span>
-<span class="co">#&gt; 42 Type (1 | Subject) x1 x2 x3 I(x1^2)                       x1:x3      </span>
-<span class="co">#&gt; 43 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2         x1:x3      </span>
-<span class="co">#&gt; 44 Type (1 | Subject) x1 x2 x3 I(x1^2)                             x2:x3</span>
-<span class="co">#&gt; 45 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2               x2:x3</span>
-<span class="co">#&gt; 46 Type (1 | Subject) x1 x2 x3 I(x1^2)                       x1:x3 x2:x3</span>
-<span class="co">#&gt; 47 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2         x1:x3 x2:x3</span>
-<span class="co">#&gt; 48 Type (1 | Subject) x1 x2 x3         I(x2^2)                          </span>
-<span class="co">#&gt; 49 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2                    </span>
-<span class="co">#&gt; 50 Type (1 | Subject) x1 x2 x3         I(x2^2)               x1:x3      </span>
-<span class="co">#&gt; 51 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2         x1:x3      </span>
-<span class="co">#&gt; 52 Type (1 | Subject) x1 x2 x3         I(x2^2)                     x2:x3</span>
-<span class="co">#&gt; 53 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2               x2:x3</span>
-<span class="co">#&gt; 54 Type (1 | Subject) x1 x2 x3         I(x2^2)               x1:x3 x2:x3</span>
-<span class="co">#&gt; 55 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2         x1:x3 x2:x3</span>
-<span class="co">#&gt; 56 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)                          </span>
-<span class="co">#&gt; 57 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2                    </span>
-<span class="co">#&gt; 58 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)               x1:x3      </span>
-<span class="co">#&gt; 59 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2         x1:x3      </span>
-<span class="co">#&gt; 60 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)                     x2:x3</span>
-<span class="co">#&gt; 61 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2               x2:x3</span>
-<span class="co">#&gt; 62 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)               x1:x3 x2:x3</span>
-<span class="co">#&gt; 63 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2         x1:x3 x2:x3</span>
-<span class="co">#&gt; 64 Type (1 | Subject) x1 x2 x3                       I(x3^2)            </span>
-<span class="co">#&gt; 65 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2)            </span>
-<span class="co">#&gt; 66 Type (1 | Subject) x1 x2 x3                       I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 67 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 68 Type (1 | Subject) x1 x2 x3                       I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 69 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 70 Type (1 | Subject) x1 x2 x3                       I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 71 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 72 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2)            </span>
-<span class="co">#&gt; 73 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2)            </span>
-<span class="co">#&gt; 74 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 75 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 76 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 77 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 78 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 79 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 80 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2)            </span>
-<span class="co">#&gt; 81 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2)            </span>
-<span class="co">#&gt; 82 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 83 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 84 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 85 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 86 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 87 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 88 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2)            </span>
-<span class="co">#&gt; 89 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2)            </span>
-<span class="co">#&gt; 90 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 91 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2) x1:x3      </span>
-<span class="co">#&gt; 92 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 93 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2)       x2:x3</span>
-<span class="co">#&gt; 94 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2) x1:x3 x2:x3</span>
-<span class="co">#&gt; 95 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2) x1:x3 x2:x3</span>
-
-<span class="co"># generate candidate model formulas</span>
-<span class="va">form_list</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-      var_formula <span class="op">=</span> <span class="cn">NULL</span>
-    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span>
-    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span>
-    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
-    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-    <span class="op">)</span>
-
-<span class="co"># fit models and calculate model selection criteria</span>
-<span class="va">lmer_fit_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">lmer_fit_list_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="kw">for</span> <span class="op">(</span><span class="va">i_form</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="co"># model fit</span>
-  <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
-    <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span>
-      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , REML    <span class="op">=</span> <span class="cn">TRUE</span>
-    , data    <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
-    <span class="op">)</span>
-
-  <span class="co"># model selection criteria</span>
-  <span class="va">lmer_fit_list_criteria</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>
-    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span>
-      lm_fit    <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , dat_fit   <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
-    , model_id  <span class="op">=</span> <span class="va">i_form</span>
-    <span class="op">)</span>
-<span class="op">}</span>
-
-<span class="co"># sort the models by a criterion</span>
-<span class="va">lmer_fit_criteria</span> <span class="op">&lt;-</span>
-  <span class="va">lmer_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span>
-    <span class="co"># arrange models by this model criterion</span>
-    <span class="va">caic</span>              <span class="co"># ascending by caic (best on top)</span>
-    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span>
-  <span class="op">)</span>
-
-<span class="co"># print the head and tail of fit criteria table</span>
-<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 x 14</span></span>
-<span class="co">#&gt;   model_id   aic   bic  caic  nobs     p    df   rse   mse  rmse rsquare   mae</span>
-<span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       12  124.  140.  91.4    36     8    28 0.672 0.256 0.506   0.948 0.396</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       13  127.  144.  94.2    36     9    27 0.689 0.257 0.507   0.948 0.404</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       56  128.  145.  94.2    36     9    27 0.689 0.257 0.507   0.948 0.397</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       88  131.  150.  95.6    36    10    26 0.693 0.246 0.496   0.950 0.402</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       60  130.  149.  95.8    36    10    26 0.695 0.248 0.498   0.949 0.394</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       90  133.  154.  96.2    36    11    25 0.689 0.230 0.480   0.953 0.385</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 2 more variables: mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
-<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 14</span></span>
-<span class="co">#&gt;   model_id   aic   bic  caic  nobs     p    df   rse   mse  rmse rsquare   mae</span>
-<span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       14  136.  147.  125.    36     5    31  1.12 0.841 0.917   0.829 0.788</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       25  140.  154.  125.    36     7    29  1.09 0.726 0.852   0.852 0.706</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       15  139.  151.  126.    36     6    30  1.12 0.803 0.896   0.836 0.779</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 2 more variables: mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span>
-
-<span class="co"># best model ID</span>
-<span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="co">#&gt; [1] 12</span>
-
-<span class="co"># summarize "best" model</span>
-<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; Analysis of Deviance Table (Type III Wald chisquare tests)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Response: Effort</span>
-<span class="co">#&gt;                Chisq Df Pr(&gt;Chisq)    </span>
-<span class="co">#&gt; (Intercept) 191.9907  1  &lt; 2.2e-16 ***</span>
-<span class="co">#&gt; Type        163.2542  3  &lt; 2.2e-16 ***</span>
-<span class="co">#&gt; x1            9.2274  1   0.002384 ** </span>
-<span class="co">#&gt; x2            5.1175  1   0.023685 *  </span>
-<span class="co">#&gt; I(x1^2)       8.5834  1   0.003392 ** </span>
-<span class="co">#&gt; I(x2^2)       9.9588  1   0.001601 ** </span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Linear mixed model fit by REML ['lmerMod']</span>
-<span class="co">#&gt; Formula: Effort ~ Type + (1 | Subject) + x1 + x2 + I(x1^2) + I(x2^2)</span>
-<span class="co">#&gt;    Data: dat_ergoStool_e</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; REML criterion at convergence: 103.8</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Scaled residuals: </span>
-<span class="co">#&gt;      Min       1Q   Median       3Q      Max </span>
-<span class="co">#&gt; -1.55308 -0.39838 -0.03427  0.54363  1.87852 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Random effects:</span>
-<span class="co">#&gt;  Groups   Name        Variance Std.Dev.</span>
-<span class="co">#&gt;  Subject  (Intercept) 2.7140   1.6474  </span>
-<span class="co">#&gt;  Residual             0.4522   0.6724  </span>
-<span class="co">#&gt; Number of obs: 36, groups:  Subject, 9</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Fixed effects:</span>
-<span class="co">#&gt;             Estimate Std. Error t value</span>
-<span class="co">#&gt; (Intercept)   8.9611     0.6467  13.856</span>
-<span class="co">#&gt; TypeT2        3.6669     0.3332  11.004</span>
-<span class="co">#&gt; TypeT3        2.0506     0.3504   5.853</span>
-<span class="co">#&gt; TypeT4        0.2066     0.3474   0.595</span>
-<span class="co">#&gt; x1           -0.4980     0.1639  -3.038</span>
-<span class="co">#&gt; x2            0.3759     0.1662   2.262</span>
-<span class="co">#&gt; I(x1^2)       0.4374     0.1493   2.930</span>
-<span class="co">#&gt; I(x2^2)      -0.4649     0.1473  -3.156</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Correlation of Fixed Effects:</span>
-<span class="co">#&gt;         (Intr) TypeT2 TypeT3 TypeT4 x1     x2     I(1^2)</span>
-<span class="co">#&gt; TypeT2  -0.345                                          </span>
-<span class="co">#&gt; TypeT3  -0.312  0.535                                   </span>
-<span class="co">#&gt; TypeT4  -0.368  0.537  0.468                            </span>
-<span class="co">#&gt; x1       0.027 -0.084 -0.303  0.132                     </span>
-<span class="co">#&gt; x2      -0.022  0.009 -0.103  0.108  0.269              </span>
-<span class="co">#&gt; I(x1^2) -0.174  0.022 -0.162  0.137  0.241  0.388       </span>
-<span class="co">#&gt; I(x2^2) -0.349  0.290  0.257  0.384  0.047  0.217  0.096</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">76543</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat_ergoStool_e</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">dat_ergoStool_e</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># add a few noise variables just to use for model selection example</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    x1 <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>  , x2 <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>  , x3 <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">dat_ergoStool_e</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 6</span></span></span>
+<span><span class="co">#&gt;   Effort Type  Subject     x1      x2     x3</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     12 T1    1       -<span style="color: #BB0000;">0.948</span> -<span style="color: #BB0000;">0.088</span><span style="color: #BB0000; text-decoration: underline;">1</span>  1.59 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     15 T2    1       -<span style="color: #BB0000;">0.527</span>  0.547  -<span style="color: #BB0000;">0.632</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     12 T3    1        0.124 -<span style="color: #BB0000;">0.510</span>  -<span style="color: #BB0000;">0.128</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     10 T4    1        0.103  0.054<span style="text-decoration: underline;">2</span>  0.614</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     10 T1    2       -<span style="color: #BB0000;">0.337</span> -<span style="color: #BB0000;">1.18</span>   -<span style="color: #BB0000;">0.955</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     14 T2    2        1.13  -<span style="color: #BB0000;">1.46</span>   -<span style="color: #BB0000;">0.734</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     13 T3    2        1.41   0.127  -<span style="color: #BB0000;">0.131</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>     12 T4    2        0.849 -<span style="color: #BB0000;">0.977</span>  -<span style="color: #BB0000;">0.611</span></span></span>
+<span></span>
+<span><span class="co"># table of the candidate models</span></span>
+<span><span class="va">form_table</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>      var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span></span>
+<span>    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
+<span>    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 1  Type (1 | Subject)             &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  Type (1 | Subject) x1                  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3  Type (1 | Subject) x1       I(x1^2)    &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4  Type (1 | Subject)    x2       &lt;NA&gt;          &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  Type (1 | Subject)    x2       &lt;NA&gt; I(x2^2)  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  Type (1 | Subject) x1 x2                             &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7  Type (1 | Subject) x1 x2                    x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8  Type (1 | Subject) x1 x2    I(x1^2)                  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9  Type (1 | Subject) x1 x2    I(x1^2)         x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10 Type (1 | Subject) x1 x2            I(x2^2)          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 11 Type (1 | Subject) x1 x2            I(x2^2) x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 12 Type (1 | Subject) x1 x2    I(x1^2) I(x2^2)          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 13 Type (1 | Subject) x1 x2    I(x1^2) I(x2^2) x1:x2    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 14 Type (1 | Subject)       x3    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 15 Type (1 | Subject)       x3    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt; I(x3^2)  &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 16 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt;                &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 17 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt;         x1:x3  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 18 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt;                &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 19 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt;         x1:x3  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 20 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt; I(x3^2)        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 21 Type (1 | Subject) x1    x3            &lt;NA&gt;  &lt;NA&gt; I(x3^2) x1:x3  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 22 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt; I(x3^2)        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 23 Type (1 | Subject) x1    x3 I(x1^2)    &lt;NA&gt;  &lt;NA&gt; I(x3^2) x1:x3  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 24 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;      </span></span>
+<span><span class="co">#&gt; 25 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt; x2:x3</span></span>
+<span><span class="co">#&gt; 26 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt;          &lt;NA&gt;      </span></span>
+<span><span class="co">#&gt; 27 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt;          &lt;NA&gt; x2:x3</span></span>
+<span><span class="co">#&gt; 28 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt; I(x3^2)  &lt;NA&gt;      </span></span>
+<span><span class="co">#&gt; 29 Type (1 | Subject)    x2 x3    &lt;NA&gt;          &lt;NA&gt; I(x3^2)  &lt;NA&gt; x2:x3</span></span>
+<span><span class="co">#&gt; 30 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt; I(x3^2)  &lt;NA&gt;      </span></span>
+<span><span class="co">#&gt; 31 Type (1 | Subject)    x2 x3    &lt;NA&gt; I(x2^2)  &lt;NA&gt; I(x3^2)  &lt;NA&gt; x2:x3</span></span>
+<span><span class="co">#&gt; 32 Type (1 | Subject) x1 x2 x3                                          </span></span>
+<span><span class="co">#&gt; 33 Type (1 | Subject) x1 x2 x3                 x1:x2                    </span></span>
+<span><span class="co">#&gt; 34 Type (1 | Subject) x1 x2 x3                               x1:x3      </span></span>
+<span><span class="co">#&gt; 35 Type (1 | Subject) x1 x2 x3                 x1:x2         x1:x3      </span></span>
+<span><span class="co">#&gt; 36 Type (1 | Subject) x1 x2 x3                                     x2:x3</span></span>
+<span><span class="co">#&gt; 37 Type (1 | Subject) x1 x2 x3                 x1:x2               x2:x3</span></span>
+<span><span class="co">#&gt; 38 Type (1 | Subject) x1 x2 x3                               x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 39 Type (1 | Subject) x1 x2 x3                 x1:x2         x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 40 Type (1 | Subject) x1 x2 x3 I(x1^2)                                  </span></span>
+<span><span class="co">#&gt; 41 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2                    </span></span>
+<span><span class="co">#&gt; 42 Type (1 | Subject) x1 x2 x3 I(x1^2)                       x1:x3      </span></span>
+<span><span class="co">#&gt; 43 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2         x1:x3      </span></span>
+<span><span class="co">#&gt; 44 Type (1 | Subject) x1 x2 x3 I(x1^2)                             x2:x3</span></span>
+<span><span class="co">#&gt; 45 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2               x2:x3</span></span>
+<span><span class="co">#&gt; 46 Type (1 | Subject) x1 x2 x3 I(x1^2)                       x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 47 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2         x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 48 Type (1 | Subject) x1 x2 x3         I(x2^2)                          </span></span>
+<span><span class="co">#&gt; 49 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2                    </span></span>
+<span><span class="co">#&gt; 50 Type (1 | Subject) x1 x2 x3         I(x2^2)               x1:x3      </span></span>
+<span><span class="co">#&gt; 51 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2         x1:x3      </span></span>
+<span><span class="co">#&gt; 52 Type (1 | Subject) x1 x2 x3         I(x2^2)                     x2:x3</span></span>
+<span><span class="co">#&gt; 53 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2               x2:x3</span></span>
+<span><span class="co">#&gt; 54 Type (1 | Subject) x1 x2 x3         I(x2^2)               x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 55 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2         x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 56 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)                          </span></span>
+<span><span class="co">#&gt; 57 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2                    </span></span>
+<span><span class="co">#&gt; 58 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)               x1:x3      </span></span>
+<span><span class="co">#&gt; 59 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2         x1:x3      </span></span>
+<span><span class="co">#&gt; 60 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)                     x2:x3</span></span>
+<span><span class="co">#&gt; 61 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2               x2:x3</span></span>
+<span><span class="co">#&gt; 62 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)               x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 63 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2         x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 64 Type (1 | Subject) x1 x2 x3                       I(x3^2)            </span></span>
+<span><span class="co">#&gt; 65 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2)            </span></span>
+<span><span class="co">#&gt; 66 Type (1 | Subject) x1 x2 x3                       I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 67 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 68 Type (1 | Subject) x1 x2 x3                       I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 69 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 70 Type (1 | Subject) x1 x2 x3                       I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 71 Type (1 | Subject) x1 x2 x3                 x1:x2 I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 72 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2)            </span></span>
+<span><span class="co">#&gt; 73 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2)            </span></span>
+<span><span class="co">#&gt; 74 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 75 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 76 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 77 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 78 Type (1 | Subject) x1 x2 x3 I(x1^2)               I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 79 Type (1 | Subject) x1 x2 x3 I(x1^2)         x1:x2 I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 80 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2)            </span></span>
+<span><span class="co">#&gt; 81 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2)            </span></span>
+<span><span class="co">#&gt; 82 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 83 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 84 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 85 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 86 Type (1 | Subject) x1 x2 x3         I(x2^2)       I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 87 Type (1 | Subject) x1 x2 x3         I(x2^2) x1:x2 I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 88 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2)            </span></span>
+<span><span class="co">#&gt; 89 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2)            </span></span>
+<span><span class="co">#&gt; 90 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 91 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2) x1:x3      </span></span>
+<span><span class="co">#&gt; 92 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 93 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2)       x2:x3</span></span>
+<span><span class="co">#&gt; 94 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2)       I(x3^2) x1:x3 x2:x3</span></span>
+<span><span class="co">#&gt; 95 Type (1 | Subject) x1 x2 x3 I(x1^2) I(x2^2) x1:x2 I(x3^2) x1:x3 x2:x3</span></span>
+<span></span>
+<span><span class="co"># generate candidate model formulas</span></span>
+<span><span class="va">form_list</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>      var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span></span>
+<span>    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
+<span>    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># fit models and calculate model selection criteria</span></span>
+<span><span class="va">lmer_fit_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">lmer_fit_list_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i_form</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># model fit</span></span>
+<span>  <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span></span>
+<span>      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span></span>
+<span>    , REML    <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    , data    <span class="op">=</span> <span class="va">dat_ergoStool_e</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># model selection criteria</span></span>
+<span>  <span class="va">lmer_fit_list_criteria</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span></span>
+<span>      lm_fit    <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span></span>
+<span>    , dat_fit   <span class="op">=</span> <span class="va">dat_ergoStool_e</span></span>
+<span>    , model_id  <span class="op">=</span> <span class="va">i_form</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># sort the models by a criterion</span></span>
+<span><span class="va">lmer_fit_criteria</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">lmer_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span></span>
+<span>    <span class="co"># arrange models by this model criterion</span></span>
+<span>    <span class="va">caic</span>              <span class="co"># ascending by caic (best on top)</span></span>
+<span>    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print the head and tail of fit criteria table</span></span>
+<span><span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
+<span><span class="co">#&gt;   model_id   aic   bic  caic  nobs     p    df   rse   mse  rmse rsquare   mae</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       12  124.  140.  91.4    36     8    28 0.672 0.256 0.506   0.948 0.396</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       13  127.  144.  94.2    36     9    27 0.689 0.257 0.507   0.948 0.404</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       56  128.  145.  94.2    36     9    27 0.689 0.257 0.507   0.948 0.397</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       88  131.  150.  95.6    36    10    26 0.693 0.246 0.496   0.950 0.402</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       60  130.  149.  95.8    36    10    26 0.695 0.248 0.498   0.949 0.394</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       90  133.  154.  96.2    36    11    25 0.689 0.230 0.480   0.953 0.385</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span></span>
+<span><span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
+<span><span class="co">#&gt;   model_id   aic   bic  caic  nobs     p    df   rse   mse  rmse rsquare   mae</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       14  136.  147.  125.    36     5    31  1.12 0.841 0.917   0.829 0.788</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       25  140.  154.  125.    36     7    29  1.09 0.726 0.852   0.852 0.706</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       15  139.  151.  126.    36     6    30  1.12 0.803 0.896   0.836 0.779</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mape &lt;dbl&gt;, rsae &lt;dbl&gt;</span></span></span>
+<span></span>
+<span><span class="co"># best model ID</span></span>
+<span><span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] 12</span></span>
+<span></span>
+<span><span class="co"># summarize "best" model</span></span>
+<span><span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table (Type III Wald chisquare tests)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Response: Effort</span></span>
+<span><span class="co">#&gt;                Chisq Df Pr(&gt;Chisq)    </span></span>
+<span><span class="co">#&gt; (Intercept) 191.9907  1  &lt; 2.2e-16 ***</span></span>
+<span><span class="co">#&gt; Type        163.2542  3  &lt; 2.2e-16 ***</span></span>
+<span><span class="co">#&gt; x1            9.2274  1   0.002384 ** </span></span>
+<span><span class="co">#&gt; x2            5.1175  1   0.023685 *  </span></span>
+<span><span class="co">#&gt; I(x1^2)       8.5834  1   0.003392 ** </span></span>
+<span><span class="co">#&gt; I(x2^2)       9.9588  1   0.001601 ** </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Linear mixed model fit by REML ['lmerMod']</span></span>
+<span><span class="co">#&gt; Formula: Effort ~ Type + (1 | Subject) + x1 + x2 + I(x1^2) + I(x2^2)</span></span>
+<span><span class="co">#&gt;    Data: dat_ergoStool_e</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; REML criterion at convergence: 103.8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Scaled residuals: </span></span>
+<span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">#&gt; -1.55308 -0.39838 -0.03427  0.54363  1.87852 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Random effects:</span></span>
+<span><span class="co">#&gt;  Groups   Name        Variance Std.Dev.</span></span>
+<span><span class="co">#&gt;  Subject  (Intercept) 2.7140   1.6474  </span></span>
+<span><span class="co">#&gt;  Residual             0.4522   0.6724  </span></span>
+<span><span class="co">#&gt; Number of obs: 36, groups:  Subject, 9</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Fixed effects:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value</span></span>
+<span><span class="co">#&gt; (Intercept)   8.9611     0.6467  13.856</span></span>
+<span><span class="co">#&gt; TypeT2        3.6669     0.3332  11.004</span></span>
+<span><span class="co">#&gt; TypeT3        2.0506     0.3504   5.853</span></span>
+<span><span class="co">#&gt; TypeT4        0.2066     0.3474   0.595</span></span>
+<span><span class="co">#&gt; x1           -0.4980     0.1639  -3.038</span></span>
+<span><span class="co">#&gt; x2            0.3759     0.1662   2.262</span></span>
+<span><span class="co">#&gt; I(x1^2)       0.4374     0.1493   2.930</span></span>
+<span><span class="co">#&gt; I(x2^2)      -0.4649     0.1473  -3.156</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Correlation of Fixed Effects:</span></span>
+<span><span class="co">#&gt;         (Intr) TypeT2 TypeT3 TypeT4 x1     x2     I(1^2)</span></span>
+<span><span class="co">#&gt; TypeT2  -0.345                                          </span></span>
+<span><span class="co">#&gt; TypeT3  -0.312  0.535                                   </span></span>
+<span><span class="co">#&gt; TypeT4  -0.368  0.537  0.468                            </span></span>
+<span><span class="co">#&gt; x1       0.027 -0.084 -0.303  0.132                     </span></span>
+<span><span class="co">#&gt; x2      -0.022  0.009 -0.103  0.108  0.269              </span></span>
+<span><span class="co">#&gt; I(x1^2) -0.174  0.022 -0.162  0.137  0.241  0.388       </span></span>
+<span><span class="co">#&gt; I(x2^2) -0.349  0.290  0.257  0.384  0.047  0.217  0.096</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="longitudinal-linear-in-parallel-for-200-models">Longitudinal linear (in parallel, for 200+ models)<a class="anchor" aria-label="anchor" href="#longitudinal-linear-in-parallel-for-200-models"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Set up parallel backend</span>
-  <span class="co">## From: https://www.blasbenito.com/post/02_parallelizing_loops_with_r/</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span>
-  <span class="co"># use n-1 cores</span>
-  <span class="va">n_cores</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>
-  <span class="co"># create the cluster</span>
-  <span class="va">my_cluster</span> <span class="op">&lt;-</span>
-    <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">makeCluster</a></span><span class="op">(</span>
-      spec <span class="op">=</span> <span class="va">n_cores</span>
-    , type <span class="op">=</span> <span class="st">"PSOCK"</span>
-    <span class="op">)</span>
-  <span class="co"># check cluster definition (optional)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_cluster</span><span class="op">)</span>
-  <span class="co"># register it to be used by %dopar%</span>
-  <span class="fu">doParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span>cl <span class="op">=</span> <span class="va">my_cluster</span><span class="op">)</span>
-  <span class="co"># check if it is registered (optional)</span>
-  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/getDoParWorkers.html" class="external-link">getDoParRegistered</a></span><span class="op">(</span><span class="op">)</span>
-  <span class="co"># how many workers are available? (optional)</span>
-  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/getDoParWorkers.html" class="external-link">getDoParWorkers</a></span><span class="op">(</span><span class="op">)</span>
-
-
-<span class="co"># table of the candidate models</span>
-<span class="va">form_table</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-      var_formula <span class="op">=</span> <span class="cn">NULL</span>
-    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span>
-    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span>
-    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
-    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-    <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span>
-
-<span class="co"># generate candidate model formulas</span>
-<span class="va">form_list</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span>
-      var_formula <span class="op">=</span> <span class="cn">NULL</span>
-    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span>
-    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span>
-    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span>
-    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-    <span class="op">)</span>
-
-<span class="co"># fit models and calculate model selection criteria</span>
-<span class="va">lmer_fit_list</span> <span class="op">&lt;-</span>
-  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>
-    i_form <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span>
-  , .combine <span class="op">=</span> <span class="st">"c"</span>
-  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span>
-    <span class="co"># model fit</span>
-    <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span>
-      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , REML    <span class="op">=</span> <span class="cn">TRUE</span>
-    , data    <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
-    <span class="op">)</span>
-  <span class="op">}</span>
-
-<span class="va">lmer_fit_list_criteria</span> <span class="op">&lt;-</span>
-  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>
-    i_form <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span>
-  <span class="co">#, .combine = "c"</span>
-  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span>
-    <span class="co"># model selection criteria</span>
-    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span>
-      lm_fit    <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span>
-    , dat_fit   <span class="op">=</span> <span class="va">dat_ergoStool_e</span>
-    , model_id  <span class="op">=</span> <span class="va">i_form</span>
-    <span class="op">)</span>
-  <span class="op">}</span>
-
-
-
-<span class="co"># sort the models by a criterion</span>
-<span class="va">lmer_fit_criteria</span> <span class="op">&lt;-</span>
-  <span class="va">lmer_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span>
-    <span class="co"># arrange models by this model criterion</span>
-    <span class="va">caic</span>              <span class="co"># ascending by caic (best on top)</span>
-    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span>
-  <span class="op">)</span>
-
-<span class="co"># print the head and tail of fit criteria table</span>
-<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
-
-<span class="co"># best model ID</span>
-<span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-
-<span class="co"># summarize "best" model</span>
-<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span>
-
-
-<span class="co">## stop cluster</span>
-<span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span>cl <span class="op">=</span> <span class="va">my_cluster</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## Set up parallel backend</span></span>
+<span>  <span class="co">## From: https://www.blasbenito.com/post/02_parallelizing_loops_with_r/</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span></span>
+<span>  <span class="co"># use n-1 cores</span></span>
+<span>  <span class="va">n_cores</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span>  <span class="co"># create the cluster</span></span>
+<span>  <span class="va">my_cluster</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">makeCluster</a></span><span class="op">(</span></span>
+<span>      spec <span class="op">=</span> <span class="va">n_cores</span></span>
+<span>    , type <span class="op">=</span> <span class="st">"PSOCK"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="co"># check cluster definition (optional)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_cluster</span><span class="op">)</span></span>
+<span>  <span class="co"># register it to be used by %dopar%</span></span>
+<span>  <span class="fu">doParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span>cl <span class="op">=</span> <span class="va">my_cluster</span><span class="op">)</span></span>
+<span>  <span class="co"># check if it is registered (optional)</span></span>
+<span>  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/getDoParWorkers.html" class="external-link">getDoParRegistered</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="co"># how many workers are available? (optional)</span></span>
+<span>  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/getDoParWorkers.html" class="external-link">getDoParWorkers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># table of the candidate models</span></span>
+<span><span class="va">form_table</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>      var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span></span>
+<span>    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
+<span>    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">form_table</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># generate candidate model formulas</span></span>
+<span><span class="va">form_list</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_model_all_subsets_formula.html">e_model_all_subsets_formula</a></span><span class="op">(</span></span>
+<span>      var_formula <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    , x_var_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Type"</span>, <span class="st">"(1 | Subject)"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    , y_var_name  <span class="op">=</span> <span class="st">"Effort"</span></span>
+<span>    , max_scope   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"SO"</span><span class="op">)</span></span>
+<span>    , sw_return   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># fit models and calculate model selection criteria</span></span>
+<span><span class="va">lmer_fit_list</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span></span>
+<span>    i_form <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span></span>
+<span>  , .combine <span class="op">=</span> <span class="st">"c"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span></span>
+<span>    <span class="co"># model fit</span></span>
+<span>    <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span></span>
+<span>      formula <span class="op">=</span> <span class="va">form_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span></span>
+<span>    , REML    <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    , data    <span class="op">=</span> <span class="va">dat_ergoStool_e</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span><span class="va">lmer_fit_list_criteria</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">foreach</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span></span>
+<span>    i_form <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">form_list</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="co">#, .combine = "c"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span></span>
+<span>    <span class="co"># model selection criteria</span></span>
+<span>    <span class="fu"><a href="../reference/e_lm_model_criteria.html">e_lm_model_criteria</a></span><span class="op">(</span></span>
+<span>      lm_fit    <span class="op">=</span> <span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">i_form</span> <span class="op">]</span><span class="op">]</span></span>
+<span>    , dat_fit   <span class="op">=</span> <span class="va">dat_ergoStool_e</span></span>
+<span>    , model_id  <span class="op">=</span> <span class="va">i_form</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co"># sort the models by a criterion</span></span>
+<span><span class="va">lmer_fit_criteria</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">lmer_fit_list_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span></span>
+<span>    <span class="co"># arrange models by this model criterion</span></span>
+<span>    <span class="va">caic</span>              <span class="co"># ascending by caic (best on top)</span></span>
+<span>    <span class="co"># dplyr::desc(r2)   # descending by r2 (best on top)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print the head and tail of fit criteria table</span></span>
+<span><span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">lmer_fit_criteria</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># best model ID</span></span>
+<span><span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># summarize "best" model</span></span>
+<span><span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html" class="external-link">Anova</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">lmer_fit_list</span><span class="op">[[</span> <span class="va">lmer_fit_criteria</span><span class="op">$</span><span class="va">model_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">## stop cluster</span></span>
+<span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span>cl <span class="op">=</span> <span class="va">my_cluster</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -781,8 +778,7 @@ minimal models:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

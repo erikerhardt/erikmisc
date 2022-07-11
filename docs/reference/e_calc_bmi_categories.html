@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,33 +81,40 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_calc_bmi_categories</span><span class="op">(</span>
-  <span class="va">bmi</span>,
-  bmi_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="cn">Inf</span><span class="op">)</span>,
-  bmi_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Underweight"</span>, <span class="st">"Normal or Healthy Weight"</span>, <span class="st">"Overweight"</span>, <span class="st">"Obese"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_calc_bmi_categories</span><span class="op">(</span></span>
+<span>  <span class="va">bmi</span>,</span>
+<span>  bmi_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  bmi_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Underweight"</span>, <span class="st">"Normal or Healthy Weight"</span>, <span class="st">"Overweight"</span>, <span class="st">"Obese"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>bmi</dt>
 <dd><p>BMI value</p></dd>
+
+
 <dt>bmi_breaks</dt>
 <dd><p>Breaks defining labeled ranges, intervals are closed on the left</p></dd>
+
+
 <dt>bmi_labels</dt>
 <dd><p>Labels for values between break values including lower bound</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>bmi_cat, categorical levels of BMI</p>
+    
+
+<p>bmi_cat, categorical levels of BMI</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Overweight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Underweight Normal or Healthy Weight Overweight Obese</span>
-<span class="r-in"><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="fl">150</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="fl">150</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Underweight              Normal or Healthy Weight Normal or Healthy Weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] Normal or Healthy Weight Overweight               Overweight              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] Obese                   </span>
@@ -126,8 +133,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

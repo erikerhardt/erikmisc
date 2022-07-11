@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -121,17 +121,14 @@ returning the
 subdirectories.</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'parameters':</span>
-<span class="co">#&gt;   method                         from      </span>
-<span class="co">#&gt;   format.parameters_distribution datawizard</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.11 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
-<span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
-<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ─────────────────────────────────────── erikmisc 0.1.15 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble</span> 3.1.7     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr </span> 1.0.9</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ─────────────────────────────────────────── erikmisc_conflicts() ──</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
+<span><span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span></span>
+<span><span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="show-example-files-in-subdirectories">Show example files in subdirectories<a class="anchor" aria-label="anchor" href="#show-example-files-in-subdirectories"></a>
 </h2>
@@ -147,45 +144,45 @@ subdirectories</li>
 </li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span>
-      command <span class="op">=</span> <span class="st">"tree ..\\data-raw\\dat_subdir /f"</span>
-    , intern  <span class="op">=</span> <span class="cn">TRUE</span>
-    <span class="op">)</span>
-<span class="op">}</span>
-<span class="co">#&gt;  [1] "Folder PATH listing for volume DATA"                                        </span>
-<span class="co">#&gt;  [2] "Volume serial number is F4B0-A267"                                          </span>
-<span class="co">#&gt;  [3] "D:\\DROPBOX\\STATACUMEN\\CONSULT\\RPACKAGES\\ERIKMISC\\DATA-RAW\\DAT_SUBDIR"</span>
-<span class="co">#&gt;  [4] "¦   dat_root1.csv"                                                          </span>
-<span class="co">#&gt;  [5] "¦   dat_root2.csv"                                                          </span>
-<span class="co">#&gt;  [6] "¦   dat_root3.csv"                                                          </span>
-<span class="co">#&gt;  [7] "¦   dat_root4.txt"                                                          </span>
-<span class="co">#&gt;  [8] "¦   "                                                                       </span>
-<span class="co">#&gt;  [9] "+---dir_a"                                                                  </span>
-<span class="co">#&gt; [10] "¦   ¦   dat_a1.csv"                                                         </span>
-<span class="co">#&gt; [11] "¦   ¦   dat_a2.csv"                                                         </span>
-<span class="co">#&gt; [12] "¦   ¦   "                                                                   </span>
-<span class="co">#&gt; [13] "¦   +---dir_aa"                                                             </span>
-<span class="co">#&gt; [14] "¦   ¦   ¦   dat_aa1.csv"                                                    </span>
-<span class="co">#&gt; [15] "¦   ¦   ¦   dat_aa2.csv"                                                    </span>
-<span class="co">#&gt; [16] "¦   ¦   ¦   "                                                               </span>
-<span class="co">#&gt; [17] "¦   ¦   +---dir_aaa"                                                        </span>
-<span class="co">#&gt; [18] "¦   ¦           dat_aaa1.csv"                                               </span>
-<span class="co">#&gt; [19] "¦   ¦           "                                                           </span>
-<span class="co">#&gt; [20] "¦   +---dir_ab"                                                             </span>
-<span class="co">#&gt; [21] "¦           dat_ab1.csv"                                                    </span>
-<span class="co">#&gt; [22] "¦           dat_ab2.csv"                                                    </span>
-<span class="co">#&gt; [23] "¦           "                                                               </span>
-<span class="co">#&gt; [24] "+---dir_b"                                                                  </span>
-<span class="co">#&gt; [25] "¦       dat_b1.csv"                                                         </span>
-<span class="co">#&gt; [26] "¦       dat_b2.csv"                                                         </span>
-<span class="co">#&gt; [27] "¦       dat_b3.csv"                                                         </span>
-<span class="co">#&gt; [28] "¦       "                                                                   </span>
-<span class="co">#&gt; [29] "+---dir_c"                                                                  </span>
-<span class="co">#&gt; [30] "    +---dir_ca"                                                             </span>
-<span class="co">#&gt; [31] "    ¦       dat_cc1.csv"                                                    </span>
-<span class="co">#&gt; [32] "    ¦       "                                                               </span>
-<span class="co">#&gt; [33] "    +---dir_cb"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span></span>
+<span>      command <span class="op">=</span> <span class="st">"tree ..\\data-raw\\dat_subdir /f"</span></span>
+<span>    , intern  <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt;  [1] "Folder PATH listing for volume DATA"                                        </span></span>
+<span><span class="co">#&gt;  [2] "Volume serial number is F4B0-A267"                                          </span></span>
+<span><span class="co">#&gt;  [3] "D:\\DROPBOX\\STATACUMEN\\CONSULT\\RPACKAGES\\ERIKMISC\\DATA-RAW\\DAT_SUBDIR"</span></span>
+<span><span class="co">#&gt;  [4] "\xa6   dat_root1.csv"                                                       </span></span>
+<span><span class="co">#&gt;  [5] "\xa6   dat_root2.csv"                                                       </span></span>
+<span><span class="co">#&gt;  [6] "\xa6   dat_root3.csv"                                                       </span></span>
+<span><span class="co">#&gt;  [7] "\xa6   dat_root4.txt"                                                       </span></span>
+<span><span class="co">#&gt;  [8] "\xa6   "                                                                    </span></span>
+<span><span class="co">#&gt;  [9] "+---dir_a"                                                                  </span></span>
+<span><span class="co">#&gt; [10] "\xa6   \xa6   dat_a1.csv"                                                   </span></span>
+<span><span class="co">#&gt; [11] "\xa6   \xa6   dat_a2.csv"                                                   </span></span>
+<span><span class="co">#&gt; [12] "\xa6   \xa6   "                                                             </span></span>
+<span><span class="co">#&gt; [13] "\xa6   +---dir_aa"                                                          </span></span>
+<span><span class="co">#&gt; [14] "\xa6   \xa6   \xa6   dat_aa1.csv"                                           </span></span>
+<span><span class="co">#&gt; [15] "\xa6   \xa6   \xa6   dat_aa2.csv"                                           </span></span>
+<span><span class="co">#&gt; [16] "\xa6   \xa6   \xa6   "                                                      </span></span>
+<span><span class="co">#&gt; [17] "\xa6   \xa6   +---dir_aaa"                                                  </span></span>
+<span><span class="co">#&gt; [18] "\xa6   \xa6           dat_aaa1.csv"                                         </span></span>
+<span><span class="co">#&gt; [19] "\xa6   \xa6           "                                                     </span></span>
+<span><span class="co">#&gt; [20] "\xa6   +---dir_ab"                                                          </span></span>
+<span><span class="co">#&gt; [21] "\xa6           dat_ab1.csv"                                                 </span></span>
+<span><span class="co">#&gt; [22] "\xa6           dat_ab2.csv"                                                 </span></span>
+<span><span class="co">#&gt; [23] "\xa6           "                                                            </span></span>
+<span><span class="co">#&gt; [24] "+---dir_b"                                                                  </span></span>
+<span><span class="co">#&gt; [25] "\xa6       dat_b1.csv"                                                      </span></span>
+<span><span class="co">#&gt; [26] "\xa6       dat_b2.csv"                                                      </span></span>
+<span><span class="co">#&gt; [27] "\xa6       dat_b3.csv"                                                      </span></span>
+<span><span class="co">#&gt; [28] "\xa6       "                                                                </span></span>
+<span><span class="co">#&gt; [29] "+---dir_c"                                                                  </span></span>
+<span><span class="co">#&gt; [30] "    +---dir_ca"                                                             </span></span>
+<span><span class="co">#&gt; [31] "    \xa6       dat_cc1.csv"                                                 </span></span>
+<span><span class="co">#&gt; [32] "    \xa6       "                                                            </span></span>
+<span><span class="co">#&gt; [33] "    +---dir_cb"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="read-and-return-filenames-in-list">Read and return filenames in list<a class="anchor" aria-label="anchor" href="#read-and-return-filenames-in-list"></a>
@@ -193,40 +190,40 @@ subdirectories</li>
 <p>It’s good to clarify the files before reading them.</p>
 <p>This includes all files and empty directories.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span>
-    fn_path   <span class="op">=</span> <span class="st">"../data-raw/dat_subdir"</span>
-  , fn_detect <span class="op">=</span> <span class="cn">NULL</span>
-  , sw_fn_or_dat  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn"</span>, <span class="st">"dat"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  , sw_exclude_empty_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-  <span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] "dat_root1.csv" "dat_root2.csv" "dat_root3.csv" "dat_root4.txt"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a</span>
-<span class="co">#&gt; $dir_a[[1]]</span>
-<span class="co">#&gt; [1] "dat_a1.csv" "dat_a2.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa</span>
-<span class="co">#&gt; $dir_a$dir_aa[[1]]</span>
-<span class="co">#&gt; [1] "dat_aa1.csv" "dat_aa2.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span>
-<span class="co">#&gt; [1] "dat_aaa1.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_ab</span>
-<span class="co">#&gt; [1] "dat_ab1.csv" "dat_ab2.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_b</span>
-<span class="co">#&gt; [1] "dat_b1.csv" "dat_b2.csv" "dat_b3.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_c</span>
-<span class="co">#&gt; $dir_c$dir_ca</span>
-<span class="co">#&gt; [1] "dat_cc1.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_c$dir_cb</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span></span>
+<span>    fn_path   <span class="op">=</span> <span class="st">"../data-raw/dat_subdir"</span></span>
+<span>  , fn_detect <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  , sw_fn_or_dat  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn"</span>, <span class="st">"dat"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  , sw_exclude_empty_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] "dat_root1.csv" "dat_root2.csv" "dat_root3.csv" "dat_root4.txt"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a</span></span>
+<span><span class="co">#&gt; $dir_a[[1]]</span></span>
+<span><span class="co">#&gt; [1] "dat_a1.csv" "dat_a2.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa</span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa[[1]]</span></span>
+<span><span class="co">#&gt; [1] "dat_aa1.csv" "dat_aa2.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span></span>
+<span><span class="co">#&gt; [1] "dat_aaa1.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_ab</span></span>
+<span><span class="co">#&gt; [1] "dat_ab1.csv" "dat_ab2.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_b</span></span>
+<span><span class="co">#&gt; [1] "dat_b1.csv" "dat_b2.csv" "dat_b3.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_c</span></span>
+<span><span class="co">#&gt; $dir_c$dir_ca</span></span>
+<span><span class="co">#&gt; [1] "dat_cc1.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_c$dir_cb</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>This selects specified file extensions and excludes empty
 directories.</p>
 <ul>
@@ -235,38 +232,38 @@ directories.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># selected file names</span>
-<span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span>
-    fn_path   <span class="op">=</span> <span class="st">"../data-raw/dat_subdir"</span>
-  , fn_detect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"csv$"</span>, <span class="st">"xls$"</span>, <span class="st">"xlsx$"</span><span class="op">)</span>
-  , sw_fn_or_dat  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn"</span>, <span class="st">"dat"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  , sw_exclude_empty_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  <span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] "dat_root1.csv" "dat_root2.csv" "dat_root3.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a</span>
-<span class="co">#&gt; $dir_a[[1]]</span>
-<span class="co">#&gt; [1] "dat_a1.csv" "dat_a2.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa</span>
-<span class="co">#&gt; $dir_a$dir_aa[[1]]</span>
-<span class="co">#&gt; [1] "dat_aa1.csv" "dat_aa2.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span>
-<span class="co">#&gt; [1] "dat_aaa1.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_ab</span>
-<span class="co">#&gt; [1] "dat_ab1.csv" "dat_ab2.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_b</span>
-<span class="co">#&gt; [1] "dat_b1.csv" "dat_b2.csv" "dat_b3.csv"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_c</span>
-<span class="co">#&gt; $dir_c$dir_ca</span>
-<span class="co">#&gt; [1] "dat_cc1.csv"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># selected file names</span></span>
+<span><span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span></span>
+<span>    fn_path   <span class="op">=</span> <span class="st">"../data-raw/dat_subdir"</span></span>
+<span>  , fn_detect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"csv$"</span>, <span class="st">"xls$"</span>, <span class="st">"xlsx$"</span><span class="op">)</span></span>
+<span>  , sw_fn_or_dat  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn"</span>, <span class="st">"dat"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  , sw_exclude_empty_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] "dat_root1.csv" "dat_root2.csv" "dat_root3.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a</span></span>
+<span><span class="co">#&gt; $dir_a[[1]]</span></span>
+<span><span class="co">#&gt; [1] "dat_a1.csv" "dat_a2.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa</span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa[[1]]</span></span>
+<span><span class="co">#&gt; [1] "dat_aa1.csv" "dat_aa2.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span></span>
+<span><span class="co">#&gt; [1] "dat_aaa1.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_ab</span></span>
+<span><span class="co">#&gt; [1] "dat_ab1.csv" "dat_ab2.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_b</span></span>
+<span><span class="co">#&gt; [1] "dat_b1.csv" "dat_b2.csv" "dat_b3.csv"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_c</span></span>
+<span><span class="co">#&gt; $dir_c$dir_ca</span></span>
+<span><span class="co">#&gt; [1] "dat_cc1.csv"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="read-and-return-data-in-list">Read and return data in list<a class="anchor" aria-label="anchor" href="#read-and-return-data-in-list"></a>
@@ -277,185 +274,185 @@ printing the filename path and dimension during the process.</p>
 <p>Note that all of these example files have the same content, columns
 A, B, and C.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># selected data</span>
-<span class="va">dat_sheet</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span>
-    fn_path                 <span class="op">=</span> <span class="st">"../data-raw/dat_subdir"</span>
-  , fn_detect               <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"csv$"</span>, <span class="st">"xls$"</span>, <span class="st">"xlsx$"</span><span class="op">)</span>
-  , sw_fn_or_dat            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn"</span>, <span class="st">"dat"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-  , sw_exclude_empty_dir    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  , sw_dat_add_col_path_fn  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  , sw_dat_print_fn_read    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  <span class="op">)</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa/dat_aaa1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_aa/dat_aa1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_aa/dat_aa2.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_ab/dat_ab1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_ab/dat_ab2.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dat_a1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dat_a2.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_b/dat_b1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_b/dat_b2.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_b/dat_b3.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_c/dir_ca/dat_cc1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dat_root1.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dat_root2.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-<span class="co">#&gt; [1] "../data-raw/dat_subdir/dat_root3.csv"</span>
-<span class="co">#&gt; [1] 3 3</span>
-
-<span class="va">dat_sheet</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; $dat_root1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                  FILE__       </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir dat_root1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir dat_root1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir dat_root1.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dat_root2.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                  FILE__       </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir dat_root2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir dat_root2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir dat_root2.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dat_root3.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                  FILE__       </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir dat_root3.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir dat_root3.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir dat_root3.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a</span>
-<span class="co">#&gt; $dir_a$dat_a1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                        FILE__    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a dat_a1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a dat_a1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a dat_a1.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dat_a2.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                        FILE__    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a dat_a2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a dat_a2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a dat_a2.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa</span>
-<span class="co">#&gt; $dir_a$dir_aa$dat_aa1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;   `A 1` `B 1` `C 1` DIR__                               FILE__     </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa$dat_aa2.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;   `A 2` `B 2` `C 2` DIR__                               FILE__     </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span>
-<span class="co">#&gt; $dir_a$dir_aa$dir_aaa$dat_aaa1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;   `A A A` `B B B` `C C C` DIR__                                       FILE__    </span>
-<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1       2       3 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.~</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      11      22      33 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.~</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     111     222     333 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.~</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_ab</span>
-<span class="co">#&gt; $dir_a$dir_ab$dat_ab1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                               FILE__     </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab1.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_a$dir_ab$dat_ab2.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                               FILE__     </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab2.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_b</span>
-<span class="co">#&gt; $dir_b$dat_b1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                        FILE__    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b1.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_b$dat_b2.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                        FILE__    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b2.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_b$dat_b3.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                        FILE__    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b3.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b3.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b3.csv</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dir_c</span>
-<span class="co">#&gt; $dir_c$dir_ca</span>
-<span class="co">#&gt; $dir_c$dir_ca$dat_cc1.csv</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                               FILE__     </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># selected data</span></span>
+<span><span class="va">dat_sheet</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_read_data_subdir_into_lists.html">e_read_data_subdir_into_lists</a></span><span class="op">(</span></span>
+<span>    fn_path                 <span class="op">=</span> <span class="st">"../data-raw/dat_subdir"</span></span>
+<span>  , fn_detect               <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"csv$"</span>, <span class="st">"xls$"</span>, <span class="st">"xlsx$"</span><span class="op">)</span></span>
+<span>  , sw_fn_or_dat            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fn"</span>, <span class="st">"dat"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>  , sw_exclude_empty_dir    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  , sw_dat_add_col_path_fn  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  , sw_dat_print_fn_read    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa/dat_aaa1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_aa/dat_aa1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_aa/dat_aa2.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_ab/dat_ab1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dir_ab/dat_ab2.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dat_a1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_a/dat_a2.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_b/dat_b1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_b/dat_b2.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_b/dat_b3.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dir_c/dir_ca/dat_cc1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dat_root1.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dat_root2.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span><span class="co">#&gt; [1] "../data-raw/dat_subdir/dat_root3.csv"</span></span>
+<span><span class="co">#&gt; [1] 3 3</span></span>
+<span></span>
+<span><span class="va">dat_sheet</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $dat_root1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                  FILE__       </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir dat_root1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir dat_root1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir dat_root1.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dat_root2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                  FILE__       </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir dat_root2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir dat_root2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir dat_root2.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dat_root3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                  FILE__       </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir dat_root3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir dat_root3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir dat_root3.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a</span></span>
+<span><span class="co">#&gt; $dir_a$dat_a1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                        FILE__    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a dat_a1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a dat_a1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a dat_a1.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dat_a2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                        FILE__    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a dat_a2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a dat_a2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a dat_a2.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa</span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa$dat_aa1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;   `A 1` `B 1` `C 1` DIR__                               FILE__     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa1.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa$dat_aa2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;   `A 2` `B 2` `C 2` DIR__                               FILE__     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_aa dat_aa2.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa$dir_aaa</span></span>
+<span><span class="co">#&gt; $dir_a$dir_aa$dir_aaa$dat_aaa1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;   `A A A` `B B B` `C C C` DIR__                                       FILE__    </span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1       2       3 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      11      22      33 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     111     222     333 ../data-raw/dat_subdir/dir_a/dir_aa/dir_aaa dat_aaa1.…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_ab</span></span>
+<span><span class="co">#&gt; $dir_a$dir_ab$dat_ab1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                               FILE__     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab1.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_a$dir_ab$dat_ab2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                               FILE__     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_a/dir_ab dat_ab2.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_b</span></span>
+<span><span class="co">#&gt; $dir_b$dat_b1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                        FILE__    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b1.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_b$dat_b2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                        FILE__    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b2.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_b$dat_b3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                        FILE__    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dir_c</span></span>
+<span><span class="co">#&gt; $dir_c$dir_ca</span></span>
+<span><span class="co">#&gt; $dir_c$dir_ca$dat_cc1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                               FILE__     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_c/dir_ca dat_cc1.csv</span></span></code></pre></div>
 <p>Finally, files within a folder with no other subdirectories can
 easily be bind’ed together.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">dat_sheet</span><span class="op">$</span><span class="va">dir_b</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 x 5</span></span>
-<span class="co">#&gt;       A     B     C DIR__                        FILE__    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b1.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b2.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b3.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">8</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b3.csv</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">9</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">dat_sheet</span><span class="op">$</span><span class="va">dir_b</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 5</span></span></span>
+<span><span class="co">#&gt;       A     B     C DIR__                        FILE__    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b1.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b2.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     1     2     3 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>    11    22    33 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span>   111   222   333 ../data-raw/dat_subdir/dir_b dat_b3.csv</span></span></code></pre></div>
 </div>
   </div>
 
@@ -476,8 +473,7 @@ easily be bind’ed together.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

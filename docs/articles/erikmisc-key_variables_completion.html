@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -109,17 +109,14 @@ keys from multiple data sources</h3>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'parameters':</span>
-<span class="co">#&gt;   method                         from      </span>
-<span class="co">#&gt;   format.parameters_distribution datawizard</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Attaching packages</span> --------------------------------------- erikmisc 0.1.11 --</span>
-<span class="co">#&gt; <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">tibble</span> 3.1.6     <span style="color: #00BB00;">v</span> <span style="color: #0000BB;">dplyr </span> 1.0.8</span>
-<span class="co">#&gt; -- <span style="font-weight: bold;">Conflicts</span> ------------------------------------------- erikmisc_conflicts() --</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span>
-<span class="co">#&gt; <span style="color: #BB0000;">x</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span>
-<span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
-<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ─────────────────────────────────────── erikmisc 0.1.15 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble</span> 3.1.7     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr </span> 1.0.9</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ─────────────────────────────────────────── erikmisc_conflicts() ──</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
+<span><span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span></span>
+<span><span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="completing-combinations-of-key-variables">Completing combinations of key variables<a class="anchor" aria-label="anchor" href="#completing-combinations-of-key-variables"></a>
 </h2>
@@ -135,40 +132,40 @@ these three key values should appear together on the first two rows.</p>
 <p><code>x</code> is a key variable but does not appear in this subset.
 The function handles empty keys, too.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># with data for key matching imputation</span>
-<span class="va">dat_data</span> <span class="op">&lt;-</span>
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-    <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">b</span>, <span class="op">~</span><span class="va">c</span>, <span class="op">~</span><span class="va">x</span>, <span class="op">~</span><span class="va">d1</span>, <span class="op">~</span><span class="va">d2</span>
-  ,  <span class="fl">1</span>, <span class="fl">11</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">1</span>,  <span class="fl">20</span>
-  ,  <span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">10</span>, <span class="cn">NA</span>,   <span class="fl">2</span>,  <span class="fl">21</span>
-  ,  <span class="fl">2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">3</span>,  <span class="fl">22</span>
-  , <span class="cn">NA</span>, <span class="fl">22</span>, <span class="fl">20</span>, <span class="cn">NA</span>,   <span class="fl">4</span>,  <span class="fl">23</span>
-  ,  <span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">20</span>, <span class="cn">NA</span>,   <span class="fl">5</span>,  <span class="fl">24</span>
-  ,  <span class="fl">3</span>, <span class="fl">33</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">6</span>,  <span class="fl">25</span>
-  ,  <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">40</span>, <span class="cn">NA</span>,   <span class="fl">7</span>,  <span class="fl">26</span>
-  ,  <span class="fl">5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">8</span>,  <span class="fl">27</span>
-  ,  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="fl">60</span>, <span class="cn">NA</span>,   <span class="fl">9</span>,  <span class="fl">28</span>
-  ,  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="fl">60</span>, <span class="cn">NA</span>,  <span class="fl">10</span>,  <span class="fl">29</span>
-  , <span class="cn">NA</span>, <span class="fl">77</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,  <span class="fl">11</span>,  <span class="fl">30</span>
-  , <span class="cn">NA</span>, <span class="fl">88</span>, <span class="fl">80</span>, <span class="cn">NA</span>,  <span class="fl">12</span>,  <span class="fl">31</span>
-  , <span class="cn">NA</span>, <span class="fl">88</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,  <span class="fl">13</span>,  <span class="fl">32</span>
-  , <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,  <span class="fl">14</span>,  <span class="fl">33</span>
-  <span class="op">)</span>
-
-<span class="co"># pre-determined best key variables completion</span>
-<span class="va">dat_keys_pre</span> <span class="op">&lt;-</span>
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-    <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">b</span>, <span class="op">~</span><span class="va">c</span>, <span class="op">~</span><span class="va">x</span>
-  ,  <span class="fl">1</span>, <span class="fl">11</span>, <span class="fl">10</span>, <span class="cn">NA</span>
-  ,  <span class="fl">2</span>, <span class="fl">22</span>, <span class="fl">20</span>, <span class="cn">NA</span>
-  ,  <span class="fl">3</span>, <span class="fl">33</span>, <span class="cn">NA</span>, <span class="cn">NA</span>
-  ,  <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">40</span>, <span class="cn">NA</span>
-  ,  <span class="fl">5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>
-  ,  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="fl">60</span>, <span class="cn">NA</span>
-  , <span class="cn">NA</span>, <span class="fl">77</span>, <span class="cn">NA</span>, <span class="cn">NA</span>
-  , <span class="cn">NA</span>, <span class="fl">88</span>, <span class="fl">80</span>, <span class="cn">NA</span>
-  , <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># with data for key matching imputation</span></span>
+<span><span class="va">dat_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">b</span>, <span class="op">~</span><span class="va">c</span>, <span class="op">~</span><span class="va">x</span>, <span class="op">~</span><span class="va">d1</span>, <span class="op">~</span><span class="va">d2</span></span>
+<span>  ,  <span class="fl">1</span>, <span class="fl">11</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">1</span>,  <span class="fl">20</span></span>
+<span>  ,  <span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">10</span>, <span class="cn">NA</span>,   <span class="fl">2</span>,  <span class="fl">21</span></span>
+<span>  ,  <span class="fl">2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">3</span>,  <span class="fl">22</span></span>
+<span>  , <span class="cn">NA</span>, <span class="fl">22</span>, <span class="fl">20</span>, <span class="cn">NA</span>,   <span class="fl">4</span>,  <span class="fl">23</span></span>
+<span>  ,  <span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">20</span>, <span class="cn">NA</span>,   <span class="fl">5</span>,  <span class="fl">24</span></span>
+<span>  ,  <span class="fl">3</span>, <span class="fl">33</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">6</span>,  <span class="fl">25</span></span>
+<span>  ,  <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">40</span>, <span class="cn">NA</span>,   <span class="fl">7</span>,  <span class="fl">26</span></span>
+<span>  ,  <span class="fl">5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,   <span class="fl">8</span>,  <span class="fl">27</span></span>
+<span>  ,  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="fl">60</span>, <span class="cn">NA</span>,   <span class="fl">9</span>,  <span class="fl">28</span></span>
+<span>  ,  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="fl">60</span>, <span class="cn">NA</span>,  <span class="fl">10</span>,  <span class="fl">29</span></span>
+<span>  , <span class="cn">NA</span>, <span class="fl">77</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,  <span class="fl">11</span>,  <span class="fl">30</span></span>
+<span>  , <span class="cn">NA</span>, <span class="fl">88</span>, <span class="fl">80</span>, <span class="cn">NA</span>,  <span class="fl">12</span>,  <span class="fl">31</span></span>
+<span>  , <span class="cn">NA</span>, <span class="fl">88</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,  <span class="fl">13</span>,  <span class="fl">32</span></span>
+<span>  , <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,  <span class="fl">14</span>,  <span class="fl">33</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># pre-determined best key variables completion</span></span>
+<span><span class="va">dat_keys_pre</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">b</span>, <span class="op">~</span><span class="va">c</span>, <span class="op">~</span><span class="va">x</span></span>
+<span>  ,  <span class="fl">1</span>, <span class="fl">11</span>, <span class="fl">10</span>, <span class="cn">NA</span></span>
+<span>  ,  <span class="fl">2</span>, <span class="fl">22</span>, <span class="fl">20</span>, <span class="cn">NA</span></span>
+<span>  ,  <span class="fl">3</span>, <span class="fl">33</span>, <span class="cn">NA</span>, <span class="cn">NA</span></span>
+<span>  ,  <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">40</span>, <span class="cn">NA</span></span>
+<span>  ,  <span class="fl">5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span></span>
+<span>  ,  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="fl">60</span>, <span class="cn">NA</span></span>
+<span>  , <span class="cn">NA</span>, <span class="fl">77</span>, <span class="cn">NA</span>, <span class="cn">NA</span></span>
+<span>  , <span class="cn">NA</span>, <span class="fl">88</span>, <span class="fl">80</span>, <span class="cn">NA</span></span>
+<span>  , <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
@@ -178,97 +175,97 @@ The function handles empty keys, too.</p>
 </h3>
 <p>Print data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 x 6</span></span>
-<span class="co">#&gt;        a     b     c x        d1    d2</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1    11    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        1    20</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1    <span style="color: #BB0000;">NA</span>    10 <span style="color: #BB0000;">NA</span>        2    21</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     2    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        3    22</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    <span style="color: #BB0000;">NA</span>    22    20 <span style="color: #BB0000;">NA</span>        4    23</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     2    <span style="color: #BB0000;">NA</span>    20 <span style="color: #BB0000;">NA</span>        5    24</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        6    25</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>        7    26</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        8    27</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>        9    28</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>       10    29</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       11    30</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>       12    31</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span>    <span style="color: #BB0000;">NA</span>    88    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       13    32</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       14    33</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dat_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 6</span></span></span>
+<span><span class="co">#&gt;        a     b     c x        d1    d2</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1    11    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        1    20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1    <span style="color: #BB0000;">NA</span>    10 <span style="color: #BB0000;">NA</span>        2    21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     2    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        3    22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    <span style="color: #BB0000;">NA</span>    22    20 <span style="color: #BB0000;">NA</span>        4    23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     2    <span style="color: #BB0000;">NA</span>    20 <span style="color: #BB0000;">NA</span>        5    24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        6    25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>        7    26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        8    27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>        9    28</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>       10    29</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       11    30</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>       12    31</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>    <span style="color: #BB0000;">NA</span>    88    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       13    32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       14    33</span></span></code></pre></div>
 <p>Computing the best key variables completion.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_keys</span> <span class="op">&lt;-</span>
-  <span class="va">dat_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>
-    <span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span>
-  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/e_coalesce_column_set.html">e_coalesce_column_set</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">dat_keys</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 x 4</span></span>
-<span class="co">#&gt;       a     b     c x    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    11    10 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    22    20 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">7</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">8</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">9</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dat_keys</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">dat_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/e_coalesce_column_set.html">e_coalesce_column_set</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">dat_keys</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 4</span></span></span>
+<span><span class="co">#&gt;       a     b     c x    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    11    10 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    22    20 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
 <p>Pre-determined best key variables completion.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_keys_pre</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 x 4</span></span>
-<span class="co">#&gt;       a     b     c x    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    11    10 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    22    20 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">7</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">8</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">9</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dat_keys_pre</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 4</span></span></span>
+<span><span class="co">#&gt;       a     b     c x    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    11    10 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    22    20 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
 <p>They are equal.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_keys</span>      <span class="op">&lt;-</span> <span class="va">dat_keys</span>     <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span><span class="op">)</span>
-<span class="va">dat_keys_pre</span>  <span class="op">&lt;-</span> <span class="va">dat_keys_pre</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span><span class="op">)</span>
-
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/all_equal.html" class="external-link">all_equal</a></span><span class="op">(</span><span class="va">dat_keys_pre</span>, <span class="va">dat_keys</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dat_keys</span>      <span class="op">&lt;-</span> <span class="va">dat_keys</span>     <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">dat_keys_pre</span>  <span class="op">&lt;-</span> <span class="va">dat_keys_pre</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/all_equal.html" class="external-link">all_equal</a></span><span class="op">(</span><span class="va">dat_keys_pre</span>, <span class="va">dat_keys</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="best-key-variables-completion-with-data">Best key variables completion with data<a class="anchor" aria-label="anchor" href="#best-key-variables-completion-with-data"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_data_updated</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/e_complete_multiple_keys.html">e_complete_multiple_keys</a></span><span class="op">(</span>
-    <span class="va">dat_data</span>
-  , dat_keys <span class="op">=</span> <span class="cn">NULL</span>
-  , col_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"x"</span><span class="op">)</span>
-  <span class="op">)</span>
-
-<span class="va">dat_data_updated</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 x 6</span></span>
-<span class="co">#&gt;        a     b     c x        d1    d2</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1    11    10 <span style="color: #BB0000;">NA</span>        1    20</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1    11    10 <span style="color: #BB0000;">NA</span>        2    21</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     2    22    20 <span style="color: #BB0000;">NA</span>        3    22</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     2    22    20 <span style="color: #BB0000;">NA</span>        4    23</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     2    22    20 <span style="color: #BB0000;">NA</span>        5    24</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        6    25</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>        7    26</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        8    27</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>        9    28</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>       10    29</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       11    30</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>       12    31</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>       13    32</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       14    33</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dat_data_updated</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/e_complete_multiple_keys.html">e_complete_multiple_keys</a></span><span class="op">(</span></span>
+<span>    <span class="va">dat_data</span></span>
+<span>  , dat_keys <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  , col_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat_data_updated</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 6</span></span></span>
+<span><span class="co">#&gt;        a     b     c x        d1    d2</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1    11    10 <span style="color: #BB0000;">NA</span>        1    20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1    11    10 <span style="color: #BB0000;">NA</span>        2    21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     2    22    20 <span style="color: #BB0000;">NA</span>        3    22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     2    22    20 <span style="color: #BB0000;">NA</span>        4    23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     2    22    20 <span style="color: #BB0000;">NA</span>        5    24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     3    33    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        6    25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     4    <span style="color: #BB0000;">NA</span>    40 <span style="color: #BB0000;">NA</span>        7    26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     5    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>        8    27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>        9    28</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     6    <span style="color: #BB0000;">NA</span>    60 <span style="color: #BB0000;">NA</span>       10    29</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>    <span style="color: #BB0000;">NA</span>    77    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       11    30</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>       12    31</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>    <span style="color: #BB0000;">NA</span>    88    80 <span style="color: #BB0000;">NA</span>       13    32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>       14    33</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -290,8 +287,7 @@ The function handles empty keys, too.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

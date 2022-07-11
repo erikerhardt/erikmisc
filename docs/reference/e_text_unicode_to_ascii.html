@@ -19,7 +19,7 @@ Not all unicode has a natural ASCII replacement, so those replacements can be sp
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -85,31 +85,42 @@ Not all unicode has a natural ASCII replacement, so those replacements can be sp
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_text_unicode_to_ascii</span><span class="op">(</span>
-  fn_in <span class="op">=</span> <span class="cn">NULL</span>,
-  fn_out <span class="op">=</span> <span class="cn">NULL</span>,
-  text_in <span class="op">=</span> <span class="cn">NULL</span>,
-  unicode_generic_replacement <span class="op">=</span> <span class="st">"XunicodeX"</span>,
-  sw_print_line_text <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_text_unicode_to_ascii</span><span class="op">(</span></span>
+<span>  fn_in <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fn_out <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text_in <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  unicode_generic_replacement <span class="op">=</span> <span class="st">"XunicodeX"</span>,</span>
+<span>  sw_print_line_text <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>fn_in</dt>
 <dd><p>text filename in.</p></dd>
+
+
 <dt>fn_out</dt>
 <dd><p>text filename out.  If NULL, then this is assigned <code>fn_in</code>.</p></dd>
+
+
 <dt>text_in</dt>
 <dd><p>character list in.</p></dd>
+
+
 <dt>unicode_generic_replacement</dt>
 <dd><p>a string to replace non-matched unicode characters.</p></dd>
+
+
 <dt>sw_print_line_text</dt>
 <dd><p><code>FALSE</code> to print only the line/index number, <code>TRUE</code> to print the line/index number and text on the line.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>NULL, invisibly</p>
+    
+
+<p>NULL, invisibly</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -118,46 +129,46 @@ Not all unicode has a natural ASCII replacement, so those replacements can be sp
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># # file with lots of unicode to replace</span></span>
-<span class="r-in"><span class="co"># e_text_unicode_to_ascii(</span></span>
-<span class="r-in"><span class="co">#     fn_in    = "./data-raw/unicode/text_in_unicode.csv"</span></span>
-<span class="r-in"><span class="co">#   , fn_out   = "./data-raw/unicode/text_out_unicode.csv"</span></span>
-<span class="r-in"><span class="co">#   , text_in  = NULL</span></span>
-<span class="r-in"><span class="co">#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span>
-<span class="r-in"><span class="co">#   , sw_print_line_text          = FALSE</span></span>
-<span class="r-in"><span class="co">#   )</span></span>
-<span class="r-in"><span class="co">#</span></span>
-<span class="r-in"><span class="co"># # list with lots of unicode to replace</span></span>
-<span class="r-in"><span class="co"># text_no_unicode &lt;-</span></span>
-<span class="r-in"><span class="co">#  e_text_unicode_to_ascii(</span></span>
-<span class="r-in"><span class="co">#     fn_in    = NULL</span></span>
-<span class="r-in"><span class="co">#   , fn_out   = NULL</span></span>
-<span class="r-in"><span class="co">#   , text_in  = erikmisc::dat_unicode_tables_sel_byhand_e$Glyph</span></span>
-<span class="r-in"><span class="co">#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span>
-<span class="r-in"><span class="co">#   , sw_print_line_text          = FALSE</span></span>
-<span class="r-in"><span class="co">#   )</span></span>
-<span class="r-in"><span class="co">#</span></span>
-<span class="r-in"><span class="co"># # no unicode in text_in list</span></span>
-<span class="r-in"><span class="co"># text_no_unicode &lt;-</span></span>
-<span class="r-in"><span class="co">#  e_text_unicode_to_ascii(</span></span>
-<span class="r-in"><span class="co">#     fn_in    = NULL</span></span>
-<span class="r-in"><span class="co">#   , fn_out   = NULL</span></span>
-<span class="r-in"><span class="co">#   , text_in  = c("a", "b", "c")</span></span>
-<span class="r-in"><span class="co">#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span>
-<span class="r-in"><span class="co">#   , sw_print_line_text          = FALSE</span></span>
-<span class="r-in"><span class="co">#   )</span></span>
-<span class="r-in"><span class="co">#</span></span>
-<span class="r-in"><span class="co"># # remove all unicode from all variables</span></span>
-<span class="r-in"><span class="co"># dat_all &lt;-</span></span>
-<span class="r-in"><span class="co">#   dat_all %&gt;%</span></span>
-<span class="r-in"><span class="co">#   dplyr::mutate(</span></span>
-<span class="r-in"><span class="co">#     dplyr::across(</span></span>
-<span class="r-in"><span class="co">#       .cols = everything()</span></span>
-<span class="r-in"><span class="co">#     , .fns  = ~ e_text_unicode_to_ascii(text_in = .x)</span></span>
-<span class="r-in"><span class="co">#     )</span></span>
-<span class="r-in"><span class="co">#   )</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># # file with lots of unicode to replace</span></span></span>
+<span class="r-in"><span><span class="co"># e_text_unicode_to_ascii(</span></span></span>
+<span class="r-in"><span><span class="co">#     fn_in    = "./data-raw/unicode/text_in_unicode.csv"</span></span></span>
+<span class="r-in"><span><span class="co">#   , fn_out   = "./data-raw/unicode/text_out_unicode.csv"</span></span></span>
+<span class="r-in"><span><span class="co">#   , text_in  = NULL</span></span></span>
+<span class="r-in"><span><span class="co">#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span></span>
+<span class="r-in"><span><span class="co">#   , sw_print_line_text          = FALSE</span></span></span>
+<span class="r-in"><span><span class="co">#   )</span></span></span>
+<span class="r-in"><span><span class="co">#</span></span></span>
+<span class="r-in"><span><span class="co"># # list with lots of unicode to replace</span></span></span>
+<span class="r-in"><span><span class="co"># text_no_unicode &lt;-</span></span></span>
+<span class="r-in"><span><span class="co">#  e_text_unicode_to_ascii(</span></span></span>
+<span class="r-in"><span><span class="co">#     fn_in    = NULL</span></span></span>
+<span class="r-in"><span><span class="co">#   , fn_out   = NULL</span></span></span>
+<span class="r-in"><span><span class="co">#   , text_in  = erikmisc::dat_unicode_tables_sel_byhand_e$Glyph</span></span></span>
+<span class="r-in"><span><span class="co">#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span></span>
+<span class="r-in"><span><span class="co">#   , sw_print_line_text          = FALSE</span></span></span>
+<span class="r-in"><span><span class="co">#   )</span></span></span>
+<span class="r-in"><span><span class="co">#</span></span></span>
+<span class="r-in"><span><span class="co"># # no unicode in text_in list</span></span></span>
+<span class="r-in"><span><span class="co"># text_no_unicode &lt;-</span></span></span>
+<span class="r-in"><span><span class="co">#  e_text_unicode_to_ascii(</span></span></span>
+<span class="r-in"><span><span class="co">#     fn_in    = NULL</span></span></span>
+<span class="r-in"><span><span class="co">#   , fn_out   = NULL</span></span></span>
+<span class="r-in"><span><span class="co">#   , text_in  = c("a", "b", "c")</span></span></span>
+<span class="r-in"><span><span class="co">#   , unicode_generic_replacement = "XxXunicodeXxX"</span></span></span>
+<span class="r-in"><span><span class="co">#   , sw_print_line_text          = FALSE</span></span></span>
+<span class="r-in"><span><span class="co">#   )</span></span></span>
+<span class="r-in"><span><span class="co">#</span></span></span>
+<span class="r-in"><span><span class="co"># # remove all unicode from all variables</span></span></span>
+<span class="r-in"><span><span class="co"># dat_all &lt;-</span></span></span>
+<span class="r-in"><span><span class="co">#   dat_all %&gt;%</span></span></span>
+<span class="r-in"><span><span class="co">#   dplyr::mutate(</span></span></span>
+<span class="r-in"><span><span class="co">#     dplyr::across(</span></span></span>
+<span class="r-in"><span><span class="co">#       .cols = everything()</span></span></span>
+<span class="r-in"><span><span class="co">#     , .fns  = ~ e_text_unicode_to_ascii(text_in = .x)</span></span></span>
+<span class="r-in"><span><span class="co">#     )</span></span></span>
+<span class="r-in"><span><span class="co">#   )</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -172,8 +183,7 @@ Not all unicode has a natural ASCII replacement, so those replacements can be sp
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

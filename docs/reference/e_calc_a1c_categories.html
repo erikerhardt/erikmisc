@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,32 +81,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_calc_a1c_categories</span><span class="op">(</span>
-  <span class="va">a1c</span>,
-  a1c_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">5.7</span>, <span class="fl">6.4</span>, <span class="cn">Inf</span><span class="op">)</span>,
-  a1c_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Neither"</span>, <span class="st">"Pre-diabetes"</span>, <span class="st">"Diabetes"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_calc_a1c_categories</span><span class="op">(</span></span>
+<span>  <span class="va">a1c</span>,</span>
+<span>  a1c_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">5.7</span>, <span class="fl">6.4</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  a1c_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Neither"</span>, <span class="st">"Pre-diabetes"</span>, <span class="st">"Diabetes"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>a1c</dt>
 <dd><p>A1c values</p></dd>
+
+
 <dt>a1c_breaks</dt>
 <dd><p>Breaks defining labeled ranges, intervals are closed on the left</p></dd>
+
+
 <dt>a1c_labels</dt>
 <dd><p>Labels for values between break values including lower bound</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a1c_cat, categorical levels of A1c</p>
+    
+
+<p>a1c_cat, categorical levels of A1c</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">a1c</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">15</span>, by <span class="op">=</span><span class="fl">1</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">a1c_cat</span>  <span class="op">&lt;-</span> <span class="fu">e_calc_a1c_categories</span><span class="op">(</span><span class="va">a1c</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">a1c</span>, <span class="va">a1c_cat</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">a1c</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">15</span>, by <span class="op">=</span><span class="fl">1</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">a1c_cat</span>  <span class="op">&lt;-</span> <span class="fu">e_calc_a1c_categories</span><span class="op">(</span><span class="va">a1c</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">a1c</span>, <span class="va">a1c_cat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    a1c      a1c_cat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    0      Neither</span>
@@ -140,8 +147,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -19,7 +19,7 @@ then join them into a single file at the end"><!-- mathjax --><script src="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -85,52 +85,77 @@ then join them into a single file at the end</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_table1_summaries</span><span class="op">(</span>
-  dat_tab1 <span class="op">=</span> <span class="va">dat_sub</span>,
-  list_var_col_names <span class="op">=</span> <span class="cn">NULL</span>,
-  list_var_col_labels <span class="op">=</span> <span class="cn">NULL</span>,
-  list_var_row_names <span class="op">=</span> <span class="cn">NULL</span>,
-  list_var_row_labels <span class="op">=</span> <span class="cn">NULL</span>,
-  fn_root <span class="op">=</span> <span class="st">"tab1_vars"</span>,
-  fn_all <span class="op">=</span> <span class="cn">NULL</span>,
-  label_width <span class="op">=</span> <span class="fl">40</span>,
-  sw_verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  moonbook_max_ylev <span class="op">=</span> <span class="fl">2</span>,
-  moonbook_digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>factor <span class="op">=</span> <span class="fl">1</span>, numeric <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,
-  moonbook_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_table1_summaries</span><span class="op">(</span></span>
+<span>  dat_tab1 <span class="op">=</span> <span class="va">dat_sub</span>,</span>
+<span>  list_var_col_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  list_var_col_labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  list_var_row_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  list_var_row_labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fn_root <span class="op">=</span> <span class="st">"tab1_vars"</span>,</span>
+<span>  fn_all <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  label_width <span class="op">=</span> <span class="fl">40</span>,</span>
+<span>  sw_verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  moonbook_max_ylev <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  moonbook_digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>factor <span class="op">=</span> <span class="fl">1</span>, numeric <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  moonbook_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat_tab1</dt>
 <dd><p>Dataset for table.</p></dd>
+
+
 <dt>list_var_col_names</dt>
 <dd><p>Column variable name.</p></dd>
+
+
 <dt>list_var_col_labels</dt>
 <dd><p>Column variable label.</p></dd>
+
+
 <dt>list_var_row_names</dt>
 <dd><p>Variable names to loop over.</p></dd>
+
+
 <dt>list_var_row_labels</dt>
 <dd><p>Variable labels to label table.</p></dd>
+
+
 <dt>fn_root</dt>
 <dd><p>Filename for temporary tables.</p></dd>
+
+
 <dt>fn_all</dt>
 <dd><p>Filename for output table, defaults to <code>paste0(fn_root, "_", "all", ".csv")</code>.</p></dd>
+
+
 <dt>label_width</dt>
 <dd><p>Width to wrap column and row variable labels, does not affect category labels.</p></dd>
+
+
 <dt>sw_verbose</dt>
 <dd><p>Print status to console during execution?</p></dd>
+
+
 <dt>moonbook_max_ylev</dt>
 <dd><p>An integer indicating the maximum number of levels of grouping variable ('y'). If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 2. (<code><a href="https://rdrr.io/pkg/moonBook/man/mytable_sub.html" class="external-link">?moonBook::mytable_sub</a></code>)</p></dd>
+
+
 <dt>moonbook_digits</dt>
 <dd><p>An integer indicating the number of decimal places (round) or significant digits to be used. Default value is 3. (<code><a href="https://rdrr.io/pkg/moonBook/man/mytable_sub.html" class="external-link">?moonBook::mytable_sub</a></code>)</p></dd>
+
+
 <dt>moonbook_method</dt>
 <dd><p>An integer indicating methods for continuous variables. Possible values in methods are: 1 = forces analysis as normal-distributed; 2 = forces analysis as continuous non-normal; 3 = performs a Shapiro-Wilk test to decide between normal or non-normal. (<code><a href="https://rdrr.io/pkg/moonBook/man/mytable_sub.html" class="external-link">?moonBook::mytable_sub</a></code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>NULL, invisibly</p>
+    
+
+<p>NULL, invisibly</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -139,71 +164,71 @@ then join them into a single file at the end</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">## For Rmd code chunk attractive html table, code chunk option ```{r, results='asis'}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify tows to summarize and columns to summarize by</span></span>
-<span class="r-in"><span class="va">list_var_col_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"am"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">list_var_row_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span></span>
-<span class="r-in">                      , <span class="st">"qsec"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span>, <span class="st">"carb"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># assigning to new dataset since you may want to filter or subset in some way,</span></span>
-<span class="r-in"><span class="co">#   for example, only baseline measurements in a longitudinal analysis</span></span>
-<span class="r-in"><span class="va">dat_tab1</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="va">dat_mtcars_e</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="co">#dplyr::filter(EVENT_ID == "BL") %&gt;%</span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">list_var_col_names</span>, <span class="va">list_var_row_names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># label variables</span></span>
-<span class="r-in"><span class="va">list_var_col_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_col_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">list_var_row_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_row_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># This loop creates a table summarized by each variable,</span></span>
-<span class="r-in"><span class="co">#   but can also specify multiple columns to summarize conditional on multiple columns.</span></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i_col</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">list_var_col_names</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># filename root for each separate variable (will write, then read to compile into one)</span></span>
-<span class="r-in">  <span class="va">fn_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tab1_vars_"</span>, <span class="va">list_var_col_names</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span>, <span class="st">"_summary"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># run function (additional options are available)</span></span>
-<span class="r-in">  <span class="fu">e_table1_summaries</span><span class="op">(</span></span>
-<span class="r-in">      dat_tab1           <span class="op">=</span> <span class="va">dat_tab1</span></span>
-<span class="r-in">    , list_var_col_names <span class="op">=</span> <span class="va">list_var_col_names</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span>
-<span class="r-in">    , list_var_col_labels <span class="op">=</span> <span class="va">list_var_col_labels</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span>
-<span class="r-in">    , list_var_row_names <span class="op">=</span> <span class="va">list_var_row_names</span></span>
-<span class="r-in">    , list_var_row_labels <span class="op">=</span> <span class="va">list_var_row_labels</span></span>
-<span class="r-in">    , fn_root            <span class="op">=</span> <span class="va">fn_root</span></span>
-<span class="r-in">    , sw_verbose         <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># read final table</span></span>
-<span class="r-in">  <span class="va">tab1_temp</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">fn_root</span>, <span class="st">"_"</span>, <span class="st">"all"</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co"># display in Rmd file</span></span>
-<span class="r-in">  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">tab1_temp</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## For totals, helpful when missing data because has sample size for each row.</span></span>
-<span class="r-in"><span class="co"># filename root for each separate variable (will write, then read to compile into one)</span></span>
-<span class="r-in"><span class="va">fn_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tab1_vars_"</span>, <span class="st">"total"</span>, <span class="st">"_summary"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># run function (additional options are available)</span></span>
-<span class="r-in"><span class="fu">e_table1_summaries</span><span class="op">(</span></span>
-<span class="r-in">    dat_tab1           <span class="op">=</span> <span class="va">dat_tab1</span></span>
-<span class="r-in">  , list_var_col_names <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , list_var_col_labels <span class="op">=</span> <span class="st">"total"</span></span>
-<span class="r-in">  , list_var_row_names <span class="op">=</span> <span class="va">list_var_row_names</span></span>
-<span class="r-in">  , list_var_row_labels <span class="op">=</span> <span class="va">list_var_row_labels</span></span>
-<span class="r-in">  , fn_root            <span class="op">=</span> <span class="va">fn_root</span></span>
-<span class="r-in">  , sw_verbose         <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># read final table</span></span>
-<span class="r-in"><span class="va">tab1_temp</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">fn_root</span>, <span class="st">"_"</span>, <span class="st">"all"</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># display in Rmd file</span></span>
-<span class="r-in"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">tab1_temp</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## For Rmd code chunk attractive html table, code chunk option ```{r, results='asis'}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify tows to summarize and columns to summarize by</span></span></span>
+<span class="r-in"><span><span class="va">list_var_col_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"am"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">list_var_row_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span></span></span>
+<span class="r-in"><span>                      , <span class="st">"qsec"</span>, <span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"gear"</span>, <span class="st">"carb"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># assigning to new dataset since you may want to filter or subset in some way,</span></span></span>
+<span class="r-in"><span><span class="co">#   for example, only baseline measurements in a longitudinal analysis</span></span></span>
+<span class="r-in"><span><span class="va">dat_tab1</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">dat_mtcars_e</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="co">#dplyr::filter(EVENT_ID == "BL") %&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">list_var_col_names</span>, <span class="va">list_var_row_names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># label variables</span></span></span>
+<span class="r-in"><span><span class="va">list_var_col_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_col_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">list_var_row_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_row_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># This loop creates a table summarized by each variable,</span></span></span>
+<span class="r-in"><span><span class="co">#   but can also specify multiple columns to summarize conditional on multiple columns.</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i_col</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">list_var_col_names</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># filename root for each separate variable (will write, then read to compile into one)</span></span></span>
+<span class="r-in"><span>  <span class="va">fn_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tab1_vars_"</span>, <span class="va">list_var_col_names</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span>, <span class="st">"_summary"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># run function (additional options are available)</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_table1_summaries</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      dat_tab1           <span class="op">=</span> <span class="va">dat_tab1</span></span></span>
+<span class="r-in"><span>    , list_var_col_names <span class="op">=</span> <span class="va">list_var_col_names</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    , list_var_col_labels <span class="op">=</span> <span class="va">list_var_col_labels</span><span class="op">[</span><span class="va">i_col</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    , list_var_row_names <span class="op">=</span> <span class="va">list_var_row_names</span></span></span>
+<span class="r-in"><span>    , list_var_row_labels <span class="op">=</span> <span class="va">list_var_row_labels</span></span></span>
+<span class="r-in"><span>    , fn_root            <span class="op">=</span> <span class="va">fn_root</span></span></span>
+<span class="r-in"><span>    , sw_verbose         <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># read final table</span></span></span>
+<span class="r-in"><span>  <span class="va">tab1_temp</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">fn_root</span>, <span class="st">"_"</span>, <span class="st">"all"</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># display in Rmd file</span></span></span>
+<span class="r-in"><span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">tab1_temp</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## For totals, helpful when missing data because has sample size for each row.</span></span></span>
+<span class="r-in"><span><span class="co"># filename root for each separate variable (will write, then read to compile into one)</span></span></span>
+<span class="r-in"><span><span class="va">fn_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tab1_vars_"</span>, <span class="st">"total"</span>, <span class="st">"_summary"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run function (additional options are available)</span></span></span>
+<span class="r-in"><span><span class="fu">e_table1_summaries</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_tab1           <span class="op">=</span> <span class="va">dat_tab1</span></span></span>
+<span class="r-in"><span>  , list_var_col_names <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , list_var_col_labels <span class="op">=</span> <span class="st">"total"</span></span></span>
+<span class="r-in"><span>  , list_var_row_names <span class="op">=</span> <span class="va">list_var_row_names</span></span></span>
+<span class="r-in"><span>  , list_var_row_labels <span class="op">=</span> <span class="va">list_var_row_labels</span></span></span>
+<span class="r-in"><span>  , fn_root            <span class="op">=</span> <span class="va">fn_root</span></span></span>
+<span class="r-in"><span>  , sw_verbose         <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># read final table</span></span></span>
+<span class="r-in"><span><span class="va">tab1_temp</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">fn_root</span>, <span class="st">"_"</span>, <span class="st">"all"</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># display in Rmd file</span></span></span>
+<span class="r-in"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">tab1_temp</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -218,8 +243,7 @@ then join them into a single file at the end</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -106,6 +106,18 @@
     <loc>/reference/e_calc_bmi_categories.html</loc>
   </url>
   <url>
+    <loc>/reference/e_calc_ECURE_LUDTM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_calc_ECURE_LUDTM2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_calc_ECURE_scale_LUDTM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_calc_ECURE_UDE.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_calc_phq2_categories.html</loc>
   </url>
   <url>
@@ -281,6 +293,9 @@
   </url>
   <url>
     <loc>/reference/e_REDCap_replace_var_label.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_REDCap_use_dotfactor_var.html</loc>
   </url>
   <url>
     <loc>/reference/e_replace_keys_less_with_most_complete.html</loc>

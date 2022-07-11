@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,69 +81,97 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_lm_power</span><span class="op">(</span>
-  dat <span class="op">=</span> <span class="cn">NULL</span>,
-  formula_full <span class="op">=</span> <span class="cn">NULL</span>,
-  formula_red <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">n_total</span>,
-  n_param_full <span class="op">=</span> <span class="cn">NULL</span>,
-  n_param_red <span class="op">=</span> <span class="cn">NULL</span>,
-  sig_level <span class="op">=</span> <span class="fl">0.05</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  sw_print <span class="op">=</span> <span class="cn">TRUE</span>,
-  sw_plots <span class="op">=</span> <span class="cn">TRUE</span>,
-  n_plot_ref <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_lm_power</span><span class="op">(</span></span>
+<span>  dat <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  formula_full <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  formula_red <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fit_model_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lm"</span>, <span class="st">"lmer"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  <span class="va">n_total</span>,</span>
+<span>  n_param_full <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  n_param_red <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sig_level <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sw_print <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sw_plots <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  n_plot_ref <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat</dt>
 <dd><p>observed effect size data set</p></dd>
+
+
 <dt>formula_full</dt>
 <dd><p>observed effect size full model formula, used with dat</p></dd>
+
+
 <dt>formula_red</dt>
 <dd><p>observed effect size reduced model formula, used with dat</p></dd>
+
+
+<dt>fit_model_type</dt>
+<dd><p>"lm" or "lmer", used with dat to specify how formulas should be fit</p></dd>
+
+
 <dt>n_total</dt>
 <dd><p>a total sample size value or list of values, used for power curve</p></dd>
+
+
 <dt>n_param_full</dt>
 <dd><p>number of parameters in full model, only used if dat is not specified</p></dd>
+
+
 <dt>n_param_red</dt>
 <dd><p>number of parameters in reduced model, only used if dat is not specified; must be fewer than n_param_full</p></dd>
+
+
 <dt>sig_level</dt>
 <dd><p>Type-I error rate</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>observed effect size model fit, if it should be weighted regression</p></dd>
+
+
 <dt>sw_print</dt>
 <dd><p>print results</p></dd>
+
+
 <dt>sw_plots</dt>
 <dd><p>create histogram and power curve plots</p></dd>
+
+
 <dt>n_plot_ref</dt>
 <dd><p>a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total.  Histogram is created for first reference value in the list.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list with tables and plots of power analysis results</p>
+    
+
+<p>list with tables and plots of power analysis results</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># without data, single n</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">e_lm_power</span><span class="op">(</span></span>
-<span class="r-in">    dat           <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , formula_full  <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , formula_red   <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , n_total       <span class="op">=</span> <span class="fl">100</span></span>
-<span class="r-in">  , n_param_full  <span class="op">=</span> <span class="fl">10</span></span>
-<span class="r-in">  , n_param_red   <span class="op">=</span> <span class="fl">5</span></span>
-<span class="r-in">  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span>
-<span class="r-in">  , weights       <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , n_plot_ref    <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># without data, single n</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_lm_power</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , formula_full  <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , formula_red   <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , n_total       <span class="op">=</span> <span class="fl">100</span></span></span>
+<span class="r-in"><span>  , n_param_full  <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span>  , n_param_red   <span class="op">=</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span>  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , weights       <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , n_plot_ref    <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting n_plot_ref = n_total for reference</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cohen reference effect size and power =============================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Small ---------------</span>
@@ -180,32 +208,32 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_lm_power, power curve only available when length of n_total &gt; 1</span>
 <span class="r-plt img"><img src="e_lm_power-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># without data, sequence of n for power curve</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">e_lm_power</span><span class="op">(</span></span>
-<span class="r-in">    dat           <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , formula_full  <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , formula_red   <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , n_total       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">300</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in">  , n_param_full  <span class="op">=</span> <span class="fl">10</span></span>
-<span class="r-in">  , n_param_red   <span class="op">=</span> <span class="fl">5</span></span>
-<span class="r-in">  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span>
-<span class="r-in">  , weights       <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , n_plot_ref    <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># without data, sequence of n for power curve</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_lm_power</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , formula_full  <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , formula_red   <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , n_total       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">300</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , n_param_full  <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span>  , n_param_red   <span class="op">=</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span>  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , weights       <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , n_plot_ref    <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting n_plot_ref = median(n_total) for reference</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_lm_power, not printing results when n_total &gt; 1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining, by = "Effect_Size"</span>
 <span class="r-plt img"><img src="e_lm_power-2.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="e_lm_power-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># with data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span>, package<span class="op">=</span><span class="st">"datasets"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># with data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span>, package<span class="op">=</span><span class="st">"datasets"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 'data.frame':	32 obs. of  11 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...</span>
@@ -218,54 +246,54 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">yvar</span>      <span class="op">&lt;-</span> <span class="st">"mpg"</span></span>
-<span class="r-in"><span class="va">xvar_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span>, <span class="st">"qsec"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">xvar_red</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>               <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span>, <span class="st">"qsec"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">formula_full</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="va">yvar</span></span>
-<span class="r-in">    , <span class="st">" ~ "</span></span>
-<span class="r-in">    , <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
-<span class="r-in">        <span class="va">xvar_full</span></span>
-<span class="r-in">      , collapse<span class="op">=</span> <span class="st">"+"</span></span>
-<span class="r-in">      <span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">formula_red</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="va">yvar</span></span>
-<span class="r-in">    , <span class="st">" ~ "</span></span>
-<span class="r-in">    , <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
-<span class="r-in">        <span class="va">xvar_red</span></span>
-<span class="r-in">      , collapse<span class="op">=</span> <span class="st">"+"</span></span>
-<span class="r-in">      <span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># with data, single n</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">e_lm_power</span><span class="op">(</span></span>
-<span class="r-in">    dat           <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span>
-<span class="r-in">  , formula_full  <span class="op">=</span> <span class="va">formula_full</span></span>
-<span class="r-in">  , formula_red   <span class="op">=</span> <span class="va">formula_red</span></span>
-<span class="r-in">  , n_total       <span class="op">=</span> <span class="fl">100</span></span>
-<span class="r-in">  , n_param_full  <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , n_param_red   <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span>
-<span class="r-in">  , weights       <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , n_plot_ref    <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">yvar</span>      <span class="op">&lt;-</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span><span class="va">xvar_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span>, <span class="st">"qsec"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xvar_red</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>               <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span>, <span class="st">"qsec"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">formula_full</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="va">yvar</span></span></span>
+<span class="r-in"><span>    , <span class="st">" ~ "</span></span></span>
+<span class="r-in"><span>    , <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">xvar_full</span></span></span>
+<span class="r-in"><span>      , collapse<span class="op">=</span> <span class="st">"+"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">formula_red</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="va">yvar</span></span></span>
+<span class="r-in"><span>    , <span class="st">" ~ "</span></span></span>
+<span class="r-in"><span>    , <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">xvar_red</span></span></span>
+<span class="r-in"><span>      , collapse<span class="op">=</span> <span class="st">"+"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># with data, single n</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_lm_power</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span></span>
+<span class="r-in"><span>  , formula_full  <span class="op">=</span> <span class="va">formula_full</span></span></span>
+<span class="r-in"><span>  , formula_red   <span class="op">=</span> <span class="va">formula_red</span></span></span>
+<span class="r-in"><span>  , n_total       <span class="op">=</span> <span class="fl">100</span></span></span>
+<span class="r-in"><span>  , n_param_full  <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , n_param_red   <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , weights       <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , n_plot_ref    <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Full Model ========================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ cyl + disp + hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004f4e4cc0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088742b6b0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_full, data = dat)</span>
@@ -292,7 +320,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reduced Model =====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004f4e4cc0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088742b6b0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_red, data = dat)</span>
@@ -321,25 +349,25 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_lm_power, add more values to n_total for a smoother and more accurate curve</span>
 <span class="r-plt img"><img src="e_lm_power-4.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="e_lm_power-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># with data, sequence of n for power curve, multiple reference sample sizes</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">e_lm_power</span><span class="op">(</span></span>
-<span class="r-in">    dat           <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span>
-<span class="r-in">  , formula_full  <span class="op">=</span> <span class="va">formula_full</span></span>
-<span class="r-in">  , formula_red   <span class="op">=</span> <span class="va">formula_red</span></span>
-<span class="r-in">  , n_total       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">300</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in">  , n_param_full  <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , n_param_red   <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span>
-<span class="r-in">  , weights       <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  , n_plot_ref    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">120</span>, <span class="fl">150</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># with data, sequence of n for power curve, multiple reference sample sizes</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_lm_power</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span></span>
+<span class="r-in"><span>  , formula_full  <span class="op">=</span> <span class="va">formula_full</span></span></span>
+<span class="r-in"><span>  , formula_red   <span class="op">=</span> <span class="va">formula_red</span></span></span>
+<span class="r-in"><span>  , n_total       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">300</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , n_param_full  <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , n_param_red   <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sig_level     <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , weights       <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sw_print      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_plots      <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , n_plot_ref    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">120</span>, <span class="fl">150</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Full Model ========================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ cyl + disp + hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004f4e4cc0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088742b6b0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_full, data = dat)</span>
@@ -366,7 +394,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reduced Model =====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000004f4e4cc0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002088742b6b0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_red, data = dat)</span>
@@ -393,8 +421,8 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining, by = "Effect_Size"</span>
 <span class="r-plt img"><img src="e_lm_power-6.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="e_lm_power-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="va">out</span><span class="op">$</span><span class="va">tab_power_ref</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 x 11</span></span>
+<span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">tab_power_ref</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   n_total n_param_full n_param_red Cohen_small_power Cohen_medium_power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     100            6           4             0.214              0.930</span>
@@ -410,24 +438,24 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                    0.35          0.065<span style="text-decoration: underline;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>                    0.35          0.065<span style="text-decoration: underline;">0</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>                    0.35          0.065<span style="text-decoration: underline;">0</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### RMarkdown results reporting</span></span>
-<span class="r-in"><span class="co"># The results above indicate the following.</span></span>
-<span class="r-in"><span class="co">#</span></span>
-<span class="r-in"><span class="co"># 1. With the number of observations</span></span>
-<span class="r-in"><span class="co">#      $n = `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;% dplyr::pull(n_total)`$</span></span>
-<span class="r-in"><span class="co">#    and the number of groups</span></span>
-<span class="r-in"><span class="co">#      $k = `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;% dplyr::pull(n_groups)`$</span></span>
-<span class="r-in"><span class="co"># 2. Observed (preliminary) power:</span></span>
-<span class="r-in"><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span>
-<span class="r-in"><span class="co">#            dplyr::pull(obs_power         ) %&gt;% signif(digits = 2)`.</span></span>
-<span class="r-in"><span class="co"># 3. Cohen small, medium, and large power:</span></span>
-<span class="r-in"><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span>
-<span class="r-in"><span class="co">#            dplyr::pull(Cohen_small_power ) %&gt;% signif(digits = 2)`,</span></span>
-<span class="r-in"><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span>
-<span class="r-in"><span class="co">#            dplyr::pull(Cohen_medium_power) %&gt;% signif(digits = 2)`, and</span></span>
-<span class="r-in"><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span>
-<span class="r-in"><span class="co">#            dplyr::pull(Cohen_large_power ) %&gt;% signif(digits = 2)`.</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### RMarkdown results reporting</span></span></span>
+<span class="r-in"><span><span class="co"># The results above indicate the following.</span></span></span>
+<span class="r-in"><span><span class="co">#</span></span></span>
+<span class="r-in"><span><span class="co"># 1. With the number of observations</span></span></span>
+<span class="r-in"><span><span class="co">#      $n = `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;% dplyr::pull(n_total)`$</span></span></span>
+<span class="r-in"><span><span class="co">#    and the number of groups</span></span></span>
+<span class="r-in"><span><span class="co">#      $k = `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;% dplyr::pull(n_groups)`$</span></span></span>
+<span class="r-in"><span><span class="co"># 2. Observed (preliminary) power:</span></span></span>
+<span class="r-in"><span><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span></span>
+<span class="r-in"><span><span class="co">#            dplyr::pull(obs_power         ) %&gt;% signif(digits = 2)`.</span></span></span>
+<span class="r-in"><span><span class="co"># 3. Cohen small, medium, and large power:</span></span></span>
+<span class="r-in"><span><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span></span>
+<span class="r-in"><span><span class="co">#            dplyr::pull(Cohen_small_power ) %&gt;% signif(digits = 2)`,</span></span></span>
+<span class="r-in"><span><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span></span>
+<span class="r-in"><span><span class="co">#            dplyr::pull(Cohen_medium_power) %&gt;% signif(digits = 2)`, and</span></span></span>
+<span class="r-in"><span><span class="co">#     * `r out[["tab_power"]] %&gt;% dplyr::filter(n_total == 100) %&gt;%</span></span></span>
+<span class="r-in"><span><span class="co">#            dplyr::pull(Cohen_large_power ) %&gt;% signif(digits = 2)`.</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -442,8 +470,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,30 +81,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="va">weight</span>, <span class="va">height</span>, system <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metric"</span>, <span class="st">"English"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="va">weight</span>, <span class="va">height</span>, system <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metric"</span>, <span class="st">"English"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>weight</dt>
 <dd><p>in kg or lb</p></dd>
+
+
 <dt>height</dt>
 <dd><p>in cm or in</p></dd>
+
+
 <dt>system, </dt>
 <dd><p>either "Metric" (kg, cm) or "English" (lb, in)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>bmi value</p>
+    
+
+<p>bmi value</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.66667</span>
-<span class="r-in"><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="fl">132</span>, <span class="fl">59</span>, system <span class="op">=</span> <span class="st">"English"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="fl">132</span>, <span class="fl">59</span>, system <span class="op">=</span> <span class="st">"English"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.65786</span>
-<span class="r-in"><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="fl">150</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_calc_bmi</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="fl">150</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17.77778 20.00000 22.22222 24.44444 26.66667 28.88889 31.11111</span>
 </code></pre></div>
     </div>
@@ -120,8 +127,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

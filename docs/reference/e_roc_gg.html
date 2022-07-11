@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,34 +81,47 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_roc_gg</span><span class="op">(</span>
-  <span class="va">dat</span>,
-  <span class="va">var_class</span>,
-  <span class="va">val_feat</span>,
-  sw_plot <span class="op">=</span> <span class="cn">TRUE</span>,
-  method_name <span class="op">=</span> <span class="st">""</span>,
-  sw_thresh_criteria <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"min_dist"</span>, <span class="st">"spec1_sensmax"</span>, <span class="st">"sens1_specmax"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_roc_gg</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  <span class="va">var_class</span>,</span>
+<span>  <span class="va">val_feat</span>,</span>
+<span>  sw_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  method_name <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  sw_thresh_criteria <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"min_dist"</span>, <span class="st">"spec1_sensmax"</span>, <span class="st">"sens1_specmax"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat</dt>
 <dd><p>dataset name</p></dd>
+
+
 <dt>var_class</dt>
 <dd><p>true classification</p></dd>
+
+
 <dt>val_feat</dt>
 <dd><p>XXX DON'T REMEMBER</p></dd>
+
+
 <dt>sw_plot</dt>
 <dd><p>TRUE/FALSE switch to create plot or not</p></dd>
+
+
 <dt>method_name</dt>
 <dd><p>PREVIOUSLY USED FOR TITLE</p></dd>
+
+
 <dt>sw_thresh_criteria</dt>
 <dd><p>(min distand, max spec, or max sens)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>out is a list including the optimal threshold, val_feat (XXX), good_class (XXX), plot_roc is a plot of the roc curve using ggplot, and roc_dat includes the curve, best value of the curve, and cm.feat (XXX?)</p>
+    
+
+<p>out is a list including the optimal threshold, val_feat (XXX), good_class (XXX), plot_roc is a plot of the roc curve using ggplot, and roc_dat includes the curve, best value of the curve, and cm.feat (XXX?)</p>
     </div>
 
   </div>
@@ -123,8 +136,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

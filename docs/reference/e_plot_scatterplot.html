@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,95 +81,137 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_plot_scatterplot</span><span class="op">(</span>
-  dat_plot <span class="op">=</span> <span class="cn">NULL</span>,
-  var_x <span class="op">=</span> <span class="cn">NULL</span>,
-  var_y <span class="op">=</span> <span class="cn">NULL</span>,
-  var_color <span class="op">=</span> <span class="cn">NULL</span>,
-  var_facet <span class="op">=</span> <span class="cn">NULL</span>,
-  sw_print <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
+<span>  dat_plot <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var_x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var_y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var_facet <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sw_print <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  smooth_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"loess"</span>, <span class="st">"lm"</span>, <span class="st">"glm"</span>, <span class="st">"gam"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  smooth_by_var_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"loess"</span>, <span class="st">"lm"</span>, <span class="st">"glm"</span>, <span class="st">"gam"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat_plot</dt>
 <dd><p>data to plot</p></dd>
+
+
 <dt>var_x</dt>
 <dd><p>a numeric or categorical variable name</p></dd>
+
+
 <dt>var_y</dt>
 <dd><p>a numeric variable name</p></dd>
+
+
 <dt>var_color</dt>
 <dd><p>factor or numeric color variable</p></dd>
+
+
 <dt>var_facet</dt>
 <dd><p>factor varibles (1 or 2) to facet by, (row facets, then column facets),</p></dd>
+
+
 <dt>sw_print</dt>
 <dd><p>T/F whether to print table and display plot</p></dd>
+
+
+<dt>smooth_all</dt>
+<dd><p>Smooth method for all the points together.</p></dd>
+
+
+<dt>smooth_by_var_color</dt>
+<dd><p>Smooth method by the color variable.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <div class="sourceCode"><pre><code>     a ggplot object
-</code></pre></div>
+    
+
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>     a ggplot object</span></code></pre><p></p></div>
+
+
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"disp"</span>           <span class="co"># numeric x</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span>           <span class="co"># numeric x</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_scatterplot-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"am"</span>             <span class="co"># factor x</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"am"</span>             <span class="co"># factor x</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_scatterplot-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  , var_color <span class="op">=</span> <span class="st">"cyl"</span>            <span class="co"># factor color</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"cyl"</span>            <span class="co"># factor color</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_scatterplot-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  , var_color <span class="op">=</span> <span class="st">"wt"</span>             <span class="co"># numeric color</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"cyl"</span>            <span class="co"># factor color</span></span></span>
+<span class="r-in"><span>  , smooth_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"loess"</span>, <span class="st">"lm"</span>, <span class="st">"glm"</span>, <span class="st">"gam"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>  <span class="co"># with all smooth</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-plt img"><img src="e_plot_scatterplot-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  , var_facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span><span class="op">)</span>          <span class="co"># one facet</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"cyl"</span>            <span class="co"># factor color</span></span></span>
+<span class="r-in"><span>  , smooth_by_var_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"loess"</span>, <span class="st">"lm"</span>, <span class="st">"glm"</span>, <span class="st">"gam"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>  <span class="co"># with group smooth</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-plt img"><img src="e_plot_scatterplot-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  , var_color <span class="op">=</span> <span class="st">"cyl"</span></span>
-<span class="r-in">  , var_facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span>, <span class="st">"am"</span><span class="op">)</span>    <span class="co"># two facets</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"wt"</span>             <span class="co"># numeric color</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_scatterplot-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"am"</span>             <span class="co"># factor x</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  , var_color <span class="op">=</span> <span class="st">"wt"</span>             <span class="co"># numeric color</span></span>
-<span class="r-in">  , var_facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span><span class="op">)</span>          <span class="co"># one facet</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_scatterplot-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span>
-<span class="r-in">    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span>
-<span class="r-in">  , var_x     <span class="op">=</span> <span class="st">"am"</span>             <span class="co"># factor x</span></span>
-<span class="r-in">  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span>
-<span class="r-in">  , var_color <span class="op">=</span> <span class="st">"vs"</span>             <span class="co"># factor color</span></span>
-<span class="r-in">  <span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"disp"</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"cyl"</span></span></span>
+<span class="r-in"><span>  , var_facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span>, <span class="st">"am"</span><span class="op">)</span>    <span class="co"># two facets</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_scatterplot-8.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"am"</span>             <span class="co"># factor x</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"wt"</span>             <span class="co"># numeric color</span></span></span>
+<span class="r-in"><span>  , var_facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-plt img"><img src="e_plot_scatterplot-9.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">e_plot_scatterplot</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot  <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span>  , var_x     <span class="op">=</span> <span class="st">"am"</span>             <span class="co"># factor x</span></span></span>
+<span class="r-in"><span>  , var_y     <span class="op">=</span> <span class="st">"mpg"</span></span></span>
+<span class="r-in"><span>  , var_color <span class="op">=</span> <span class="st">"vs"</span>             <span class="co"># factor color</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-plt img"><img src="e_plot_scatterplot-10.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -184,8 +226,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

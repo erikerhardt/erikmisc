@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -81,30 +81,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">e_pval_stars</span><span class="op">(</span>
-  p_values <span class="op">=</span> <span class="cn">NULL</span>,
-  cutpoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1e-04</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>,
-  symbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"****"</span>, <span class="st">"***"</span>, <span class="st">"**"</span>, <span class="st">"*"</span>, <span class="st">"-"</span>, <span class="st">" "</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_pval_stars</span><span class="op">(</span></span>
+<span>  p_values <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cutpoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1e-04</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  symbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"****"</span>, <span class="st">"***"</span>, <span class="st">"**"</span>, <span class="st">"*"</span>, <span class="st">"-"</span>, <span class="st">" "</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>p_values</dt>
 <dd><p>list of p-values</p></dd>
+
+
 <dt>cutpoints</dt>
 <dd><p>list of p-value cutpoints, should include 0 and 1 at extremes</p></dd>
+
+
 <dt>symbols</dt>
 <dd><p>list of symbols with length one fewer than cutpoints to indicate which two cutpoints the p-value was between</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list of symbols of the same length as p_values</p>
+    
+
+<p>a list of symbols of the same length as p_values</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">e_pval_stars</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.049</span>, <span class="fl">0.050</span>, <span class="fl">0.051</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_pval_stars</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.049</span>, <span class="fl">0.050</span>, <span class="fl">0.051</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "*" "*" "-" "" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"legend")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "0 '****' 1e-04 '***' 0.001 '**' 0.01 '*' 0.05 '-' 0.1 ' ' 1"</span>
@@ -122,8 +129,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

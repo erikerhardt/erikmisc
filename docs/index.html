@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Erik Erhardt's miscellaneous functions for solving complex data analysis workflows">
-<meta property="og:description" content="Solving common complex data analysis workflows.">
+<meta property="og:description" content="Solving common complex data analysis workflows">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
       </span>
     </div>
 
@@ -96,8 +96,7 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="erikmisc-">erikmisc
-<a href="https://github.com/erikerhardt/erikmisc" class="external-link"><img src="reference/figures/erikmisc.png" align="right" height="138.5"></a>
+<div class="page-header"><h1 id="erikmisc-">erikmisc <a href="https://github.com/erikerhardt/erikmisc" class="external-link"><img src="reference/figures/erikmisc.png" align="right" height="138.5"></a>
 <a class="anchor" aria-label="anchor" href="#erikmisc-"></a>
 </h1></div>
 <!-- badges: start -->
@@ -105,46 +104,44 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>Erik Erhardt’s miscellaneous functions for solving complex data
-analysis workflows</p>
+<p>Erik Erhardt’s miscellaneous functions for solving complex data analysis workflows</p>
 <ul>
-<li><strong><a href="https://erikerhardt.github.io/erikmisc/" class="external-link">Documentation
-and Vignettes</a></strong></li>
-<li><a href="https://github.com/erikerhardt/erikmisc/issues" class="external-link">Report Bug
-or Request Feature</a></li>
+<li><strong><a href="https://erikerhardt.github.io/erikmisc/" class="external-link">Documentation and Vignettes</a></strong></li>
+<li><a href="https://github.com/erikerhardt/erikmisc/issues" class="external-link">Report Bug or Request Feature</a></li>
 </ul>
+<p>July 2022: Note that current R-CMD-check “failing” is due to secondary dependencies on orphaned package ‘gtools’.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The development version from GitHub</span>
-<span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"erikerhardt/erikmisc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># The development version from GitHub</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"erikerhardt/erikmisc"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span>
-<span class="co">#&gt; -- Attaching packages ---------------------------------------- erikmisc 0.1.7 --</span>
-<span class="co">#&gt; v tibble 3.1.6     v dplyr  1.0.8</span>
-<span class="co">#&gt; -- Conflicts ------------------------------------------- erikmisc_conflicts() --</span>
-<span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
-<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
-<span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span>
-<span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span>
-<span class="fu"><a href="reference/erikmisc_logo.html">erikmisc_logo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  *        . _ _   o          _    *  o   </span>
-<span class="co">#&gt;    ___ _ __(_) | ___ __ ___ (_)___  ___  </span>
-<span class="co">#&gt;   / _ \ '__| | |/ / '_ ` _ \| / __|/ __| </span>
-<span class="co">#&gt;  |  __/ |  | |   &lt;| | | | | | \__ \ (__  </span>
-<span class="co">#&gt;   \___|_|  |_|_|\_\_| |_| |_|_|___/\___| </span>
-<span class="co">#&gt;     . .       *           *   *       .</span>
-<span class="op">?</span><span class="va">`erikmisc-package`</span>
-<span class="co">#&gt; starting httpd help server ...</span>
-<span class="co">#&gt;  done</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.15 ──</span></span>
+<span><span class="co">#&gt; ✔ tibble 3.1.7     ✔ dplyr  1.0.9</span></span>
+<span><span class="co">#&gt; ── Conflicts ─────────────────────────────────────────── erikmisc_conflicts() ──</span></span>
+<span><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></span>
+<span><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></span>
+<span><span class="co">#&gt; erikmisc, solving common complex data analysis workflows</span></span>
+<span><span class="co">#&gt;   by Dr. Erik Barry Erhardt &lt;erik@StatAcumen.com&gt;</span></span>
+<span><span class="fu"><a href="reference/erikmisc_logo.html">erikmisc_logo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ⬢        . _ _   ⬡          _    ⬢  ⬡   </span></span>
+<span><span class="co">#&gt;    ___ _ __(_) | ___ __ ___ (_)___  ___  </span></span>
+<span><span class="co">#&gt;   / _ \ '__| | |/ / '_ ` _ \| / __|/ __| </span></span>
+<span><span class="co">#&gt;  |  __/ |  | |   &lt;| | | | | | \__ \ (__  </span></span>
+<span><span class="co">#&gt;   \___|_|  |_|_|\_\_| |_| |_|_|___/\___| </span></span>
+<span><span class="co">#&gt;     . .       ⬢           ⬢   ⬢       .</span></span>
+<span><span class="op">?</span><span class="va">`erikmisc-package`</span></span>
+<span><span class="co">#&gt; starting httpd help server ...</span></span>
+<span><span class="co">#&gt;  done</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -199,8 +196,7 @@ or Request Feature</a></li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
