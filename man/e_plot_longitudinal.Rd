@@ -89,13 +89,16 @@ e_plot_longitudinal(
   #, sw_group_reverse = TRUE
   , hist_binwidth    = 25
   , hist_align       = c("center", "boundary")[2]
-  , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
-  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
+  , line_type_grand  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[6]
+  , line_type_group  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[4]
   )
 
 # categorical
 e_plot_longitudinal(
-    dat_plot         = lme4::sleepstudy \%>\% dplyr::mutate(Reaction_cat = cut(Reaction, breaks = seq(200, 400, by = 50)))
+    dat_plot         = lme4::sleepstudy \%>\%
+                         dplyr::mutate(Reaction_cat =
+                                         cut(Reaction, breaks = seq(200, 400, by = 50))
+                         )
   , var_x_time       = "Days"
   , var_y_resp       = "Reaction_cat"
   , var_ID           = "Subject"
@@ -111,7 +114,7 @@ e_plot_longitudinal(
   #, sw_group_reverse = TRUE
   , hist_binwidth    = NULL
   , hist_align       = c("center", "boundary")[2]
-  , line_type_grand  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[6]
-  , line_type_group  = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[4]
+  , line_type_grand  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[6]
+  , line_type_group  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[4]
   )
 }
