@@ -44,20 +44,25 @@ for most majors in order to graduate "on time" (within 4 years),
 an undergraduate student is expected to
 \enumerate{
 \item earn 15 credits per semester for 8 semesters culminating in graduation at 120 credits,
-\item begin earning \strong{upper-division (\eqn{UD})} credits starting after their third semester (after 45 credits), and
+\item begin earning \strong{upper-division (\eqn{UD})} credits starting after their
+third semester (after 45 credits), and
 \item complete earning roughly 54 UD credits by graduation (\eqn{C_{UD Grad} = 54}),
-based on 6 credits above the 48 UD credit minimum of the UNM College of Arts and Sciences.
+based on 6 credits above the 48 UD credit minimum of the
+UNM College of Arts and Sciences.
 }
 
 This translates to an average of just under 11 UD credits per semester
 for their fourth through eighth semesters.
 This description can be summarized in the \strong{upper-division expectation (\eqn{C_{UD Exp}})},
-defined as the minimum number of UD credits conditional on the \strong{total number of credits earned (\eqn{C_{Total}})}.
+defined as the minimum number of UD credits conditional on the
+\strong{total number of credits earned (\eqn{C_{Total}})}.
 The piecewise function for the \eqn{C_{UD Exp}} can be derived from these assumptions as:
 \itemize{
 \item For \eqn{C_{Total} \le 45}: \eqn{C_{UD Exp} = 0}.
 \item For \eqn{C_{Total} \ge 120}: \eqn{C_{UD Exp} = C_{UD Grad} = 54}.
-\item For \eqn{45 < C_{Total} < 120}: \eqn{C_{UD Exp} = -45 * 54 / (120 - 45) + 54 / (120 - 45) C_{Total} = -31.68 + 0.72 C_{Total}}.
+\item For \eqn{45 < C_{Total} < 120}:
+\eqn{C_{UD Exp} = -45 * 54 /
+           (120 - 45) + 54 / (120 - 45) C_{Total} = -31.68 + 0.72 C_{Total}}.
 }
 
 A student above the \eqn{C_{UD Exp}} line is meeting expectations,
@@ -67,7 +72,8 @@ transition from lower-division courses to upper-division courses.
 We define the \strong{lower- to upper-division transition metric (\eqn{LUDTM})}
 to represent the degree of fulfillment (0 to 1)
 of the upper division expectation (\eqn{C_{UD Exp}}).
-Qualitatively, the \eqn{LUDTM} is the proportion of the upper division expectation (\eqn{C_{UD Exp}})
+Qualitatively, the \eqn{LUDTM} is the proportion of the
+upper division expectation (\eqn{C_{UD Exp}})
 that as student has achieved relative to their total credits (\eqn{C_{Total}})
 scaled to be more sensitive close to the \eqn{C_{UD Exp}};
 that is, a \eqn{LUDTM} of 0.5 is closer to 1 than 0
@@ -89,15 +95,19 @@ to the logit scale, \eqn{z = logit(p) = log(p / (1 - p))},
 then perform a transformation on \eqn{z}, such as \eqn{f(z)},
 and finally, transform it back to a proportion with the logistic transformation,
 \eqn{p_{new} = logistic(f(z)) = exp(f(z)) / (1 + exp(f(z)))}.
-Next, we rescale \eqn{p} so that the logit transformation will be defined at the extremes of 0 and 1,
-\eqn{p_s = p * 0.98 + 0.01}, which shrinks the interval \eqn{[0,1]} to \eqn{[0.01,0.99]}.
+Next, we rescale \eqn{p} so that the logit transformation will be defined
+at the extremes of 0 and 1,
+\eqn{p_s = p * 0.98 + 0.01}, which shrinks the interval \eqn{[0,1]}
+to \eqn{[0.01,0.99]}.
 Then, on the logit scale, we include a penalty
 \eqn{z = logit(p_s) - ((C_{Total} - C_min)/(C_max - C_min))^2},
 where \eqn{C_min=45} and \eqn{C_max=120} are the expected
 total number of credits for starting and completing the UD course requirements.
 This ratio is used to scale the effect of the total number of credits, \eqn{C_{Total}},
-and this quantity is then squared to impose and increasingly stronger penalty as \eqn{C_{Total}} increases,
-representing the increasing difficulty of making up more UD credits later in the student's career for a timely graduation.
+and this quantity is then squared to impose and increasingly stronger penalty
+as \eqn{C_{Total}} increases,
+representing the increasing difficulty of making up more UD credits later
+in the student's career for a timely graduation.
 Finally, we transform this quantity back to a proportion
 with the logistic transformation, \eqn{LUDTM = logistic(z)}.
 }
@@ -162,7 +172,7 @@ p <- p + geom_point(data = last_chance, mapping = aes(x = T, y = UD), shape = 3
 p <- p + theme_bw()
 p <- p + labs(title = "Lower- to upper-division transition metric (LUDTM)")
 p <- p + labs(subtitle = NULL)
-#p <- p + labs(caption = paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])), "."
+#p <- p + labs(caption=paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])), "."
 p <- p + labs(caption = paste0( "Bold black line is upper-division expectation (C_[UD Exp])."
                               , "\nGray contour lines of LUDTM are at every 0.1."
                               , "\nGreen plus signs indicate last chance to graduate on time."

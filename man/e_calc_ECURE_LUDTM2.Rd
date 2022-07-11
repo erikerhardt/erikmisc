@@ -34,7 +34,8 @@ Courses to Improve STEM Persistence and Graduation Rates" (Award #1953349)
 This metric measures the number of semesters ahead of on-time graduation
 a student is for taking upper-division courses.
 \itemize{
-\item 0 indicates the last chance for on-time graduation; all remaining courses must be upper-division
+\item 0 indicates the last chance for on-time graduation;
+all remaining courses must be upper-division
 \item +1 indicates one semester ahead
 \item -1 indicates one semester behind (the student will graduate at least 1 semester "late")
 }
@@ -51,7 +52,7 @@ e_calc_ECURE_LUDTM2(
 # Constants
 program_Total_cred_grad   = 120 # graduation
 program_UpperDiv_cred_min =  54 # minimum UD credits at graduation
-program_last_chance   =  program_Total_cred_grad - program_UpperDiv_cred_min # start of UD credits
+program_last_chance = program_Total_cred_grad - program_UpperDiv_cred_min # start of UD credits
 
 xlim = c(0, 150)
 ylim = c(0, 60)
@@ -72,7 +73,13 @@ for (i in 1:nrow(dat)) {
       #, program_cred_per_semester =  15
       )
 
-    #e_calc_ECURE_LUDTM2(student_UpperDiv_cred = dat$student_UpperDiv_cred[i], student_Total_cred = dat$student_Total_cred[i], program_last_chance, program_Total_cred_grad, program_UpperDiv_cred_min)
+    # e_calc_ECURE_LUDTM2(
+    #   student_UpperDiv_cred = dat$student_UpperDiv_cred[i]
+    # , student_Total_cred = dat$student_Total_cred[i]
+    # , program_last_chance
+    # , program_Total_cred_grad
+    # , program_UpperDiv_cred_min
+    # )
 }
 
 range_min = -4.1
@@ -90,37 +97,49 @@ dat <-
   )
 
 library(ggplot2)
-p <- ggplot(dat, aes(x = student_Total_cred, y = student_UpperDiv_cred, z = LUDTM, fill = LUDTM))
+p <- ggplot(dat, aes(x = student_Total_cred, y = student_UpperDiv_cred
+               , z = LUDTM, fill = LUDTM))
 p <- p + geom_tile()
-p <- p + scale_x_continuous(breaks = seq(xlim[1], xlim[2], by = program_cred_per_semester))
-p <- p + scale_y_continuous(breaks = c(seq(ylim[1], ylim[2], by = program_cred_per_semester)
-                                                          , program_UpperDiv_cred_min))
+p <- p + scale_x_continuous(breaks = seq(xlim[1], xlim[2]
+                              , by = program_cred_per_semester))
+p <- p + scale_y_continuous(breaks = c(seq(ylim[1], ylim[2]
+                                     , by = program_cred_per_semester)
+                                     , program_UpperDiv_cred_min))
 p <- p + coord_equal(expand = FALSE, xlim = xlim, ylim = ylim)
 p <- p + geom_vline(xintercept = c(45, 120), linetype = 2, colour = "white")
-p <- p + geom_hline(yintercept = c(program_UpperDiv_cred_min), linetype = 2, colour = "white")
-p <- p + scale_fill_distiller(palette = "Spectral", direction = 1, na.value = "white"
-                               , breaks = seq(-10, 10, by = 1), limits = c(range_min, range_max))
+p <- p + geom_hline(yintercept = c(program_UpperDiv_cred_min)
+                       , linetype = 2, colour = "white")
+p <- p + scale_fill_distiller(palette = "Spectral", direction = 1
+                               , na.value = "white"
+                               , breaks = seq(-10, 10, by = 1)
+                               , limits = c(range_min, range_max))
 p <- p + geom_contour(color = "gray50", binwidth = 0.5)
 p <- p + geom_contour(color = "gray25", binwidth = 1.0, size = 0.8)
-p <- p + geom_segment(aes(x = xlim[1], y = ylim[1], xend = program_last_chance  , yend = ylim[1])
-                       , colour = "black", size = 2)
-p <- p + geom_segment(aes(x = program_last_chance  , y = ylim[1], xend = program_Total_cred_grad
-                                                                 , yend = program_UpperDiv_cred_min)
-                       , colour = "black", size = 2)
-p <- p + geom_segment(aes(x = program_Total_cred_grad  , y = program_UpperDiv_cred_min, xend = xlim[2]
-                                                                 , yend = program_UpperDiv_cred_min)
-                       , colour = "black", size = 2)
-p <- p + geom_segment(aes(x = (program_Total_cred_grad - program_UpperDiv_cred_min), y = ylim[1]
-                            , xend = program_Total_cred_grad, yend = program_UpperDiv_cred_min)
-                       , colour = "darkgreen", linetype = 2, size = 0.1)
+p <- p + geom_segment(aes(x = xlim[1], y = ylim[1], xend = program_last_chance
+                               , yend = ylim[1])
+                               , colour = "black", size = 2)
+p <- p + geom_segment(aes(x = program_last_chance  , y = ylim[1]
+                               , xend = program_Total_cred_grad
+                               , yend = program_UpperDiv_cred_min)
+                               , colour = "black", size = 2)
+p <- p + geom_segment(aes(x = program_Total_cred_grad
+                               , y = program_UpperDiv_cred_min, xend = xlim[2]
+                               , yend = program_UpperDiv_cred_min)
+                               , colour = "black", size = 2)
+p <- p + geom_segment(aes(x = (program_Total_cred_grad - program_UpperDiv_cred_min)
+                               , y = ylim[1]
+                               , xend = program_Total_cred_grad
+                               , yend = program_UpperDiv_cred_min)
+                               , colour = "darkgreen", linetype = 2, size = 0.1)
 p <- p + theme_bw()
 p <- p + labs(title = "Lower- to upper-division transition metric (LUDTM), v2")
 p <- p + labs(subtitle = NULL)
-#p <- p + labs(caption = paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])), "."
-#p <- p + labs(caption = paste0( "Bold black line is upper-division expectation (C_[UD Exp])."
-#                              , "\nGray contour lines of LUDTM are at every 0.1."
-#                              , "\nGreen plus signs indicate last chance to graduate on time."
-#                              ))
+#p <- p + labs(caption=paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])),"."
+#p <- p + labs(caption = paste0(
+                 "Bold black line is upper-division expectation (C_[UD Exp])."
+#              , "\nGray contour lines of LUDTM are at every 0.1."
+#              , "\nGreen plus signs indicate last chance to graduate on time."
+#              ))
 p <- p + labs(x = bquote(Total~credits~(C[Total])))
 p <- p + labs(y = bquote(Upper-division~credits~(C[UD~Earn])))
 #p <- p + labs(x = "Total credits (C_Total)")

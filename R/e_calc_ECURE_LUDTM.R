@@ -94,19 +94,24 @@ e_calc_ECURE_scale_LUDTM <-
 #'   an undergraduate student is expected to
 #'
 #' 1. earn 15 credits per semester for 8 semesters culminating in graduation at 120 credits,
-#' 2. begin earning __upper-division (\eqn{UD})__ credits starting after their third semester (after 45 credits), and
+#' 2. begin earning __upper-division (\eqn{UD})__ credits starting after their
+#'    third semester (after 45 credits), and
 #' 3. complete earning roughly 54 UD credits by graduation (\eqn{C_{UD Grad} = 54}),
-#'   based on 6 credits above the 48 UD credit minimum of the UNM College of Arts and Sciences.
+#'   based on 6 credits above the 48 UD credit minimum of the
+#'   UNM College of Arts and Sciences.
 #'
 #' This translates to an average of just under 11 UD credits per semester
 #'   for their fourth through eighth semesters.
 #' This description can be summarized in the __upper-division expectation (\eqn{C_{UD Exp}})__,
-#'   defined as the minimum number of UD credits conditional on the __total number of credits earned (\eqn{C_{Total}})__.
+#'   defined as the minimum number of UD credits conditional on the
+#'   __total number of credits earned (\eqn{C_{Total}})__.
 #' The piecewise function for the \eqn{C_{UD Exp}} can be derived from these assumptions as:
 #'
 #' * For \eqn{C_{Total} \le 45}: \eqn{C_{UD Exp} = 0}.
 #' * For \eqn{C_{Total} \ge 120}: \eqn{C_{UD Exp} = C_{UD Grad} = 54}.
-#' * For \eqn{45 < C_{Total} < 120}: \eqn{C_{UD Exp} = -45 * 54 / (120 - 45) + 54 / (120 - 45) C_{Total} = -31.68 + 0.72 C_{Total}}.
+#' * For \eqn{45 < C_{Total} < 120}:
+#'      \eqn{C_{UD Exp} = -45 * 54 /
+#'            (120 - 45) + 54 / (120 - 45) C_{Total} = -31.68 + 0.72 C_{Total}}.
 #'
 #' A student above the \eqn{C_{UD Exp}} line is meeting expectations,
 #'   while a student's distance below the \eqn{C_{UD Exp}} line quantifies their struggle to
@@ -115,7 +120,8 @@ e_calc_ECURE_scale_LUDTM <-
 #' We define the __lower- to upper-division transition metric (\eqn{LUDTM})__
 #'   to represent the degree of fulfillment (0 to 1)
 #'   of the upper division expectation (\eqn{C_{UD Exp}}).
-#' Qualitatively, the \eqn{LUDTM} is the proportion of the upper division expectation (\eqn{C_{UD Exp}})
+#' Qualitatively, the \eqn{LUDTM} is the proportion of the
+#'   upper division expectation (\eqn{C_{UD Exp}})
 #'   that as student has achieved relative to their total credits (\eqn{C_{Total}})
 #'   scaled to be more sensitive close to the \eqn{C_{UD Exp}};
 #'   that is, a \eqn{LUDTM} of 0.5 is closer to 1 than 0
@@ -137,15 +143,19 @@ e_calc_ECURE_scale_LUDTM <-
 #'   then perform a transformation on \eqn{z}, such as \eqn{f(z)},
 #'   and finally, transform it back to a proportion with the logistic transformation,
 #'   \eqn{p_{new} = logistic(f(z)) = exp(f(z)) / (1 + exp(f(z)))}.
-#' Next, we rescale \eqn{p} so that the logit transformation will be defined at the extremes of 0 and 1,
-#'   \eqn{p_s = p * 0.98 + 0.01}, which shrinks the interval \eqn{[0,1]} to \eqn{[0.01,0.99]}.
+#' Next, we rescale \eqn{p} so that the logit transformation will be defined
+#'   at the extremes of 0 and 1,
+#'   \eqn{p_s = p * 0.98 + 0.01}, which shrinks the interval \eqn{[0,1]}
+#'   to \eqn{[0.01,0.99]}.
 #' Then, on the logit scale, we include a penalty
 #'   \eqn{z = logit(p_s) - ((C_{Total} - C_min)/(C_max - C_min))^2},
 #'   where \eqn{C_min=45} and \eqn{C_max=120} are the expected
 #'   total number of credits for starting and completing the UD course requirements.
 #' This ratio is used to scale the effect of the total number of credits, \eqn{C_{Total}},
-#'   and this quantity is then squared to impose and increasingly stronger penalty as \eqn{C_{Total}} increases,
-#'   representing the increasing difficulty of making up more UD credits later in the student's career for a timely graduation.
+#'   and this quantity is then squared to impose and increasingly stronger penalty
+#'   as \eqn{C_{Total}} increases,
+#'   representing the increasing difficulty of making up more UD credits later
+#'   in the student's career for a timely graduation.
 #' Finally, we transform this quantity back to a proportion
 #'   with the logistic transformation, \eqn{LUDTM = logistic(z)}.
 #'
@@ -220,7 +230,7 @@ e_calc_ECURE_scale_LUDTM <-
 #' p <- p + theme_bw()
 #' p <- p + labs(title = "Lower- to upper-division transition metric (LUDTM)")
 #' p <- p + labs(subtitle = NULL)
-#' #p <- p + labs(caption = paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])), "."
+#' #p <- p + labs(caption=paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])), "."
 #' p <- p + labs(caption = paste0( "Bold black line is upper-division expectation (C_[UD Exp])."
 #'                               , "\nGray contour lines of LUDTM are at every 0.1."
 #'                               , "\nGreen plus signs indicate last chance to graduate on time."
@@ -270,7 +280,8 @@ e_calc_ECURE_LUDTM <-
 #' This metric measures the number of semesters ahead of on-time graduation
 #'    a student is for taking upper-division courses.
 #'
-#' * 0 indicates the last chance for on-time graduation; all remaining courses must be upper-division
+#' * 0 indicates the last chance for on-time graduation;
+#'   all remaining courses must be upper-division
 #' * +1 indicates one semester ahead
 #' * -1 indicates one semester behind (the student will graduate at least 1 semester "late")
 #'
@@ -295,7 +306,7 @@ e_calc_ECURE_LUDTM <-
 #' # Constants
 #' program_Total_cred_grad   = 120 # graduation
 #' program_UpperDiv_cred_min =  54 # minimum UD credits at graduation
-#' program_last_chance   =  program_Total_cred_grad - program_UpperDiv_cred_min # start of UD credits
+#' program_last_chance = program_Total_cred_grad - program_UpperDiv_cred_min # start of UD credits
 #'
 #' xlim = c(0, 150)
 #' ylim = c(0, 60)
@@ -316,7 +327,13 @@ e_calc_ECURE_LUDTM <-
 #'       #, program_cred_per_semester =  15
 #'       )
 #'
-#'     #e_calc_ECURE_LUDTM2(student_UpperDiv_cred = dat$student_UpperDiv_cred[i], student_Total_cred = dat$student_Total_cred[i], program_last_chance, program_Total_cred_grad, program_UpperDiv_cred_min)
+#'     # e_calc_ECURE_LUDTM2(
+#'     #   student_UpperDiv_cred = dat$student_UpperDiv_cred[i]
+#'     # , student_Total_cred = dat$student_Total_cred[i]
+#'     # , program_last_chance
+#'     # , program_Total_cred_grad
+#'     # , program_UpperDiv_cred_min
+#'     # )
 #' }
 #'
 #' range_min = -4.1
@@ -334,37 +351,49 @@ e_calc_ECURE_LUDTM <-
 #'   )
 #'
 #' library(ggplot2)
-#' p <- ggplot(dat, aes(x = student_Total_cred, y = student_UpperDiv_cred, z = LUDTM, fill = LUDTM))
+#' p <- ggplot(dat, aes(x = student_Total_cred, y = student_UpperDiv_cred
+#'                , z = LUDTM, fill = LUDTM))
 #' p <- p + geom_tile()
-#' p <- p + scale_x_continuous(breaks = seq(xlim[1], xlim[2], by = program_cred_per_semester))
-#' p <- p + scale_y_continuous(breaks = c(seq(ylim[1], ylim[2], by = program_cred_per_semester)
-#'                                                           , program_UpperDiv_cred_min))
+#' p <- p + scale_x_continuous(breaks = seq(xlim[1], xlim[2]
+#'                               , by = program_cred_per_semester))
+#' p <- p + scale_y_continuous(breaks = c(seq(ylim[1], ylim[2]
+#'                                      , by = program_cred_per_semester)
+#'                                      , program_UpperDiv_cred_min))
 #' p <- p + coord_equal(expand = FALSE, xlim = xlim, ylim = ylim)
 #' p <- p + geom_vline(xintercept = c(45, 120), linetype = 2, colour = "white")
-#' p <- p + geom_hline(yintercept = c(program_UpperDiv_cred_min), linetype = 2, colour = "white")
-#' p <- p + scale_fill_distiller(palette = "Spectral", direction = 1, na.value = "white"
-#'                                , breaks = seq(-10, 10, by = 1), limits = c(range_min, range_max))
+#' p <- p + geom_hline(yintercept = c(program_UpperDiv_cred_min)
+#'                        , linetype = 2, colour = "white")
+#' p <- p + scale_fill_distiller(palette = "Spectral", direction = 1
+#'                                , na.value = "white"
+#'                                , breaks = seq(-10, 10, by = 1)
+#'                                , limits = c(range_min, range_max))
 #' p <- p + geom_contour(color = "gray50", binwidth = 0.5)
 #' p <- p + geom_contour(color = "gray25", binwidth = 1.0, size = 0.8)
-#' p <- p + geom_segment(aes(x = xlim[1], y = ylim[1], xend = program_last_chance  , yend = ylim[1])
-#'                        , colour = "black", size = 2)
-#' p <- p + geom_segment(aes(x = program_last_chance  , y = ylim[1], xend = program_Total_cred_grad
-#'                                                                  , yend = program_UpperDiv_cred_min)
-#'                        , colour = "black", size = 2)
-#' p <- p + geom_segment(aes(x = program_Total_cred_grad  , y = program_UpperDiv_cred_min, xend = xlim[2]
-#'                                                                  , yend = program_UpperDiv_cred_min)
-#'                        , colour = "black", size = 2)
-#' p <- p + geom_segment(aes(x = (program_Total_cred_grad - program_UpperDiv_cred_min), y = ylim[1]
-#'                             , xend = program_Total_cred_grad, yend = program_UpperDiv_cred_min)
-#'                        , colour = "darkgreen", linetype = 2, size = 0.1)
+#' p <- p + geom_segment(aes(x = xlim[1], y = ylim[1], xend = program_last_chance
+#'                                , yend = ylim[1])
+#'                                , colour = "black", size = 2)
+#' p <- p + geom_segment(aes(x = program_last_chance  , y = ylim[1]
+#'                                , xend = program_Total_cred_grad
+#'                                , yend = program_UpperDiv_cred_min)
+#'                                , colour = "black", size = 2)
+#' p <- p + geom_segment(aes(x = program_Total_cred_grad
+#'                                , y = program_UpperDiv_cred_min, xend = xlim[2]
+#'                                , yend = program_UpperDiv_cred_min)
+#'                                , colour = "black", size = 2)
+#' p <- p + geom_segment(aes(x = (program_Total_cred_grad - program_UpperDiv_cred_min)
+#'                                , y = ylim[1]
+#'                                , xend = program_Total_cred_grad
+#'                                , yend = program_UpperDiv_cred_min)
+#'                                , colour = "darkgreen", linetype = 2, size = 0.1)
 #' p <- p + theme_bw()
 #' p <- p + labs(title = "Lower- to upper-division transition metric (LUDTM), v2")
 #' p <- p + labs(subtitle = NULL)
-#' #p <- p + labs(caption = paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])), "."
-#' #p <- p + labs(caption = paste0( "Bold black line is upper-division expectation (C_[UD Exp])."
-#' #                              , "\nGray contour lines of LUDTM are at every 0.1."
-#' #                              , "\nGreen plus signs indicate last chance to graduate on time."
-#' #                              ))
+#' #p <- p + labs(caption=paste0( bquote(Bold~line~is~upper-division~expectation~(C[UD Exp])),"."
+#' #p <- p + labs(caption = paste0(
+#'                  "Bold black line is upper-division expectation (C_[UD Exp])."
+#' #              , "\nGray contour lines of LUDTM are at every 0.1."
+#' #              , "\nGreen plus signs indicate last chance to graduate on time."
+#' #              ))
 #' p <- p + labs(x = bquote(Total~credits~(C[Total])))
 #' p <- p + labs(y = bquote(Upper-division~credits~(C[UD~Earn])))
 #' #p <- p + labs(x = "Total credits (C_Total)")
