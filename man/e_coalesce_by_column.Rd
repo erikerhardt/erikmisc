@@ -16,9 +16,26 @@ coalesced data.frame
 For matching \code{group_by()} keys, keeps first non-NA value for each column.
 }
 \examples{
-\dontrun{
+dat <-
+  # A = 1, easy
+  # A = 2, easy
+  # A = 3, 3rd row has a dup and NA
+  # A = 4, 3rd row has conflucing info
+  tibble::tribble(
+   ~A, ~B, ~C, ~D, ~E
+  , 1, NA,  3, NA,  5
+  , 1,  2, NA,  2, NA
+  , 2, NA, NA,  3, NA
+  , 2,  4,  5, NA,  4
+  , 3, NA, NA,  3, NA
+  , 3,  4,  5, NA,  4
+  , 3,  4, NA, NA,  4
+  , 4, NA, NA,  3, NA
+  , 4,  4,  5, NA,  4
+  , 4, 99, 99, 99, NA
+  )
+
 dat \%>\%
   dplyr::group_by(A) \%>\%
   dplyr::summarise_all( e_coalesce_by_column )
-}
 }
