@@ -8,8 +8,9 @@ e_model_all_subsets_formula(
   x_var_names = NULL,
   y_var_name = NULL,
   var_formula = NULL,
-  max_scope = c("always", "FO", "TWI", "PQ", "SO", "one_TWI")[3],
-  sw_return = c("formula", "table", "both")[1]
+  max_scope = c("always", "FO", "TWI", "PQ", "SO", "one_TWI", "only_TWI", "only_PQ",
+    "only_SO", "only_one_TWI")[3],
+  sw_return = c("both", "formula", "table")[1]
 )
 }
 \arguments{
@@ -28,7 +29,11 @@ or each can have it's own \code{max_scope}.}
 "TWI" for two-way interactions,
 "PQ" for pure quadratic terms (squares of the "FO"),
 "SO" for all terms in "FO", "TWI", and "PQ", and
-"one_TWI" for two-way interactions with only the first in the list.}
+"one_TWI" for two-way interactions with only the first in the list.
+The options that start with "only_" must be used with
+the same \code{x_var_names} variables as a subset in an "always" list.
+For example, \code{c("a", "b")} specified as both "always" and "only_TWI"
+will always keep the main effects performing selection only on the TWIs.}
 
 \item{sw_return}{return a list of "formula", or a "table" of x-variable combinations, or a list of "both"}
 }
@@ -46,7 +51,7 @@ e_model_all_subsets_formula(
   , y_var_name  = "z"
   , var_formula = NULL
   , max_scope   = "TWI"
-  , sw_return   = c("formula", "table", "both")[1]
+  , sw_return   = c("both", "formula", "table")[2]
   )
 # Two-way interaction model, return table of x-variable combinations
 e_model_all_subsets_formula(
@@ -54,7 +59,7 @@ e_model_all_subsets_formula(
   , y_var_name  = "z"
   , var_formula = NULL
   , max_scope   = "TWI"
-  , sw_return   = c("formula", "table", "both")[2]
+  , sw_return   = c("both", "formula", "table")[3]
   )
 
 # Two variables always in the model with a second-order model of two others
@@ -63,7 +68,7 @@ e_model_all_subsets_formula(
   , y_var_name  = "z"
   , var_formula = NULL
   , max_scope   = list("always", "SO")
-  , sw_return   = c("formula", "table", "both")[2]
+  , sw_return   = c("both", "formula", "table")[3]
   )
 # One variable in two-way interactions with the other variables
 e_model_all_subsets_formula(
@@ -71,7 +76,17 @@ e_model_all_subsets_formula(
   , y_var_name  = "z"
   , var_formula = NULL
   , max_scope   = list("one_TWI")
-  , sw_return   = c("formula", "table", "both")[2]
+  , sw_return   = c("both", "formula", "table")[3]
+  )
+# Four variables always in the model (a, b, c, d)
+#   with selection only on the two second-order variables (c, d),
+#   with TWI on the two variables (e, f)
+e_model_all_subsets_formula(
+    x_var_names = list(c("a", "b", "c", "d"), c("c", "d"), c("e", "f"))
+  , y_var_name  = "z"
+  , var_formula = NULL
+  , max_scope   = list("always", "only_SO", "TWI")
+  , sw_return   = c("both", "formula", "table")[3]
   )
 \dontrun{
 # Large example showing all options
@@ -80,7 +95,7 @@ e_model_all_subsets_formula(
   , y_var_name  = "z"
   , var_formula = NULL
   , max_scope   = list("always", "FO", "TWI", "PQ", "SO")
-  , sw_return   = c("formula", "table", "both")[2]
+  , sw_return   = c("both", "formula", "table")[3]
   )
 }
 

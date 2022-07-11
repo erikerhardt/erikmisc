@@ -15,6 +15,10 @@
 #'                        "PQ" for pure quadratic terms (squares of the "FO"),
 #'                        "SO" for all terms in "FO", "TWI", and "PQ", and
 #'                        "one_TWI" for two-way interactions with only the first in the list.
+#'                        The options that start with "only_" must be used with
+#'                        the same \code{x_var_names} variables as a subset in an "always" list.
+#'                        For example, \code{c("a", "b")} specified as both "always" and "only_TWI"
+#'                        will always keep the main effects performing selection only on the TWIs.
 #' @param sw_return     return a list of "formula", or a "table" of x-variable combinations, or a list of "both"
 #'
 #' @return              a list of functions
@@ -36,7 +40,7 @@
 #'   , y_var_name  = "z"
 #'   , var_formula = NULL
 #'   , max_scope   = "TWI"
-#'   , sw_return   = c("formula", "table", "both")[1]
+#'   , sw_return   = c("both", "formula", "table")[2]
 #'   )
 #' # Two-way interaction model, return table of x-variable combinations
 #' e_model_all_subsets_formula(
@@ -44,7 +48,7 @@
 #'   , y_var_name  = "z"
 #'   , var_formula = NULL
 #'   , max_scope   = "TWI"
-#'   , sw_return   = c("formula", "table", "both")[2]
+#'   , sw_return   = c("both", "formula", "table")[3]
 #'   )
 #'
 #' # Two variables always in the model with a second-order model of two others
@@ -53,7 +57,7 @@
 #'   , y_var_name  = "z"
 #'   , var_formula = NULL
 #'   , max_scope   = list("always", "SO")
-#'   , sw_return   = c("formula", "table", "both")[2]
+#'   , sw_return   = c("both", "formula", "table")[3]
 #'   )
 #' # One variable in two-way interactions with the other variables
 #' e_model_all_subsets_formula(
@@ -61,7 +65,17 @@
 #'   , y_var_name  = "z"
 #'   , var_formula = NULL
 #'   , max_scope   = list("one_TWI")
-#'   , sw_return   = c("formula", "table", "both")[2]
+#'   , sw_return   = c("both", "formula", "table")[3]
+#'   )
+#' # Four variables always in the model (a, b, c, d)
+#' #   with selection only on the two second-order variables (c, d),
+#' #   with TWI on the two variables (e, f)
+#' e_model_all_subsets_formula(
+#'     x_var_names = list(c("a", "b", "c", "d"), c("c", "d"), c("e", "f"))
+#'   , y_var_name  = "z"
+#'   , var_formula = NULL
+#'   , max_scope   = list("always", "only_SO", "TWI")
+#'   , sw_return   = c("both", "formula", "table")[3]
 #'   )
 #' \dontrun{
 #' # Large example showing all options
@@ -70,7 +84,7 @@
 #'   , y_var_name  = "z"
 #'   , var_formula = NULL
 #'   , max_scope   = list("always", "FO", "TWI", "PQ", "SO")
-#'   , sw_return   = c("formula", "table", "both")[2]
+#'   , sw_return   = c("both", "formula", "table")[3]
 #'   )
 #' }
 #'
@@ -79,8 +93,8 @@ e_model_all_subsets_formula <-
     x_var_names = NULL
   , y_var_name  = NULL
   , var_formula = NULL
-  , max_scope   = c("always", "FO", "TWI", "PQ", "SO", "one_TWI")[3]
-  , sw_return   = c("formula", "table", "both")[1]
+  , max_scope   = c("always", "FO", "TWI", "PQ", "SO", "one_TWI", "only_TWI", "only_PQ", "only_SO", "only_one_TWI")[3]
+  , sw_return   = c("both", "formula", "table")[1]
   ) {
   ## var_formula  = NULL
   ## x_var_names  = list(letters[1:2], letters[4:5], letters[7:8], letters[10:11], letters[13:14], letters[15:18])
@@ -91,6 +105,11 @@ e_model_all_subsets_formula <-
   ## x_var_names  = list(letters[1:2], letters[15:18])
   ## y_var_name   = "z"
   ## max_scope    = list("always", "one_TWI")
+  ##
+  ## var_formula  = NULL
+  ## x_var_names  = list(letters[1:2], letters[3:5], letters[1:2])
+  ## y_var_name   = "z"
+  ## max_scope    = list("always", "FO", "only_SO")
 
 
   # if formula, convert to character list
@@ -143,11 +162,15 @@ e_model_all_subsets_formula <-
     this_x_var_names <- x_var_names[[i_list]]
 
     mod_lists <- list()
-    mod_lists[["always" ]] <- list()
-    mod_lists[["FO"     ]] <- list()
-    mod_lists[["TWI"    ]] <- list()
-    mod_lists[["PQ"     ]] <- list()
-    mod_lists[["one_TWI"]] <- list()
+    mod_lists[["always"      ]] <- list()
+    mod_lists[["FO"          ]] <- list()
+    mod_lists[["TWI"         ]] <- list()
+    mod_lists[["PQ"          ]] <- list()
+    mod_lists[["one_TWI"     ]] <- list()
+    mod_lists[["only_TWI"    ]] <- list()
+    mod_lists[["only_PQ"     ]] <- list()
+    mod_lists[["only_SO"     ]] <- list()
+    mod_lists[["only_one_TWI"]] <- list()
 
     # if always, then no binary selection, so keep these variables and move to the next list
     if (max_scope[[i_list]] == "always") {
@@ -169,19 +192,33 @@ e_model_all_subsets_formula <-
       this_x_var_names %>%
       e_model_binary_complete()
 
-    # FO lists, this indexes the TWI, SO, and one_TWI lists
+    # if only_*, this is used with "always", so only keep last "complete" row
+    if (max_scope[[i_list]] %in% c("only_TWI", "only_PQ", "only_SO", "only_one_TWI")) {
+      FO_binary <-
+        FO_binary %>%
+        dplyr::filter(
+          dplyr::row_number() == dplyr::n()
+        )
+    }
+
+
+    # FO lists, this indexes the TWI, SO, and one_TWI , and only_* lists
     for (i_FO in seq_len(nrow(FO_binary))) {
-      mod_lists[["FO"     ]][[i_FO]] <- FO_binary[i_FO, ]
-      mod_lists[["TWI"    ]][[i_FO]] <- tibble::tibble(TWI_NONE__      = "")
-      mod_lists[["PQ"     ]][[i_FO]] <- tibble::tibble(PQ_NONE__       = "")
-      mod_lists[["one_TWI"]][[i_FO]] <- tibble::tibble(one_TWI_NONE__  = "")
+      mod_lists[["FO"          ]][[i_FO]] <- FO_binary[i_FO, ]
+      mod_lists[["TWI"         ]][[i_FO]] <- tibble::tibble(TWI_NONE__      = "")
+      mod_lists[["PQ"          ]][[i_FO]] <- tibble::tibble(PQ_NONE__       = "")
+      mod_lists[["one_TWI"     ]][[i_FO]] <- tibble::tibble(one_TWI_NONE__  = "")
+      mod_lists[["only_TWI"    ]][[i_FO]] <- tibble::tibble(only_TWI_NONE__      = "")
+      mod_lists[["only_PQ"     ]][[i_FO]] <- tibble::tibble(only_PQ_NONE__       = "")
+      mod_lists[["only_SO"     ]][[i_FO]] <- tibble::tibble(only_SO_NONE__       = "")
+      mod_lists[["only_one_TWI"]][[i_FO]] <- tibble::tibble(only_one_TWI_NONE__  = "")
     } # i_FO
 
     for (i_FO in seq_len(nrow(FO_binary))) {
       ## i_FO = 1
 
       # PQ
-      if (max_scope[[i_list]] %in% c("PQ", "SO")) {
+      if (max_scope[[i_list]] %in% c("PQ", "SO", "only_PQ", "only_SO")) {
         ind_PQ <- which(as.character(mod_lists[["FO" ]][[i_FO]]) %in% names(mod_lists[["FO" ]][[i_FO]]))
         # if at least one variable
         if (length(ind_PQ) >= 1) {
@@ -189,12 +226,18 @@ e_model_all_subsets_formula <-
             #paste0(names(mod_lists[["FO" ]][[i_FO]])[ind_PQ], "_2") %>%
             paste0("I(", names(mod_lists[["FO" ]][[i_FO]])[ind_PQ], "^2)") %>%
             e_model_binary_complete()
-          mod_lists[["PQ" ]][[i_FO]] <- PQ_binary
-        }
+
+          if (max_scope[[i_list]] %in% c("PQ", "SO")) {
+            mod_lists[["PQ" ]][[i_FO]] <- PQ_binary
+          }
+          if (max_scope[[i_list]] %in% c("only_PQ", "only_SO")) {
+            mod_lists[["only_PQ" ]][[i_FO]] <- PQ_binary
+          }
+        } # if
       } # PQ
 
       # TWI
-      if (max_scope[[i_list]] %in% c("TWI", "SO")) {
+      if (max_scope[[i_list]] %in% c("TWI", "SO", "only_TWI", "only_SO")) {
         ind_TWI <- which(as.character(mod_lists[["FO" ]][[i_FO]]) %in% names(mod_lists[["FO" ]][[i_FO]]))
         # if at least two variables
         if (length(ind_TWI) >= 2) {
@@ -218,17 +261,24 @@ e_model_all_subsets_formula <-
           TWI_binary <-
             TWI_binary_pairs %>%
             e_model_binary_complete()
-          mod_lists[["TWI"]][[i_FO]] <- TWI_binary
-        }
+
+          if (max_scope[[i_list]] %in% c("TWI", "SO")) {
+            mod_lists[["TWI"]][[i_FO]] <- TWI_binary
+          }
+          if (max_scope[[i_list]] %in% c("only_TWI", "only_SO")) {
+            mod_lists[["only_TWI"]][[i_FO]] <- TWI_binary
+          }
+
+        } # if
       } # TWI
 
       # one_TWI
-      if (max_scope[[i_list]] %in% c("one_TWI")) {
+      if (max_scope[[i_list]] %in% c("one_TWI", "only_one_TWI")) {
         # if the list doesn't include the first variable, then skip
         if (!any(as.character(mod_lists[["FO" ]][[i_FO]]) %in% names(mod_lists[["FO" ]][[i_FO]])[1])) {
           mod_lists[["one_TWI"]][[i_FO]] <- NULL
           next
-        }
+        } # if
 
         ind_one_TWI <- which(as.character(mod_lists[["FO" ]][[i_FO]]) %in% names(mod_lists[["FO" ]][[i_FO]]))
         # if at least two variables
@@ -243,17 +293,35 @@ e_model_all_subsets_formula <-
           one_TWI_binary <-
             one_TWI_binary_pairs %>%
             e_model_binary_complete()
-          mod_lists[["one_TWI"]][[i_FO]] <- one_TWI_binary
-        }
+
+          if (max_scope[[i_list]] %in% c("one_TWI")) {
+            mod_lists[["one_TWI"]][[i_FO]] <- one_TWI_binary
+          }
+          if (max_scope[[i_list]] %in% c("only_one_TWI")) {
+            mod_lists[["one_TWI"]][[i_FO]] <- one_TWI_binary
+          }
+        } # if
       } # one_TWI
 
-      sub_models[[i_list]][[i_FO]] <-
-        e_expand_grid_df(
-          mod_lists[["FO"     ]][[i_FO]]
-        , mod_lists[["TWI"    ]][[i_FO]]
-        , mod_lists[["PQ"     ]][[i_FO]]
-        , mod_lists[["one_TWI"]][[i_FO]]
-        )
+
+      if (max_scope[[i_list]] %in% c("FO", "TWI", "PQ", "SO", "one_TWI")) {
+        sub_models[[i_list]][[i_FO]] <-
+          e_expand_grid_df(
+            mod_lists[["FO"          ]][[i_FO]]
+          , mod_lists[["TWI"         ]][[i_FO]]
+          , mod_lists[["PQ"          ]][[i_FO]]
+          , mod_lists[["one_TWI"     ]][[i_FO]]
+          )
+      }
+      if (max_scope[[i_list]] %in% c("only_TWI", "only_PQ",  "only_SO", "only_one_TWI")) {
+        sub_models[[i_list]][[i_FO]] <-
+          e_expand_grid_df(
+          #  mod_lists[["FO"          ]][[i_FO]]
+            mod_lists[["only_TWI"    ]][[i_FO]]
+          , mod_lists[["only_PQ"     ]][[i_FO]]
+          , mod_lists[["only_one_TWI"]][[i_FO]]
+          )
+      }
 
     } # i_FO
 
@@ -264,13 +332,29 @@ e_model_all_subsets_formula <-
   } # i_list
 
 
+  # "only_*" to be used with the variables in "always"
+  # Need to combine in order: "always", "only_*", then others
+  max_scope_list <-
+    max_scope %>%
+    unlist()
+  max_scope_order <- NULL
+  for (n_max in c("always", "only_TWI", "only_PQ", "only_SO", "only_one_TWI", "FO", "TWI", "PQ", "SO", "one_TWI")) {
+    max_scope_order <-
+      c(
+        max_scope_order
+      , which(max_scope_list == n_max)
+      )
+  }
+
   ## Combine across x_var_names lists
+  # 1
   sub_models_combine <-
-    sub_models[[1]] %>%
+    sub_models[[ max_scope_order[1] ]] %>%
     dplyr::select(
       -tidyselect::ends_with("NONE__")
     )
 
+  # 2:n
   if (n_var_lists > 1) {
     for (i_list in 2:n_var_lists) {
       ## i_list = 2
@@ -278,7 +362,7 @@ e_model_all_subsets_formula <-
       sub_models_combine <-
         e_expand_grid_df(
           sub_models_combine
-        , sub_models[[i_list]] %>%
+        , sub_models[[ max_scope_order[i_list] ]] %>%
             dplyr::select(
               -tidyselect::ends_with("NONE__")
             )
