@@ -125,10 +125,12 @@ e_plot_longitudinal <-
       dat_plot %>%
       dplyr::select(
         tidyselect::any_of(
-          var_ID
-        , var_group
-        , var_x_time
-        , var_y_resp
+          c(
+            var_ID
+          , var_group
+          , var_x_time
+          , var_y_resp
+          )
         )
       ) %>%
       dplyr::rename(
@@ -143,10 +145,12 @@ e_plot_longitudinal <-
       dat_plot %>%
       dplyr::select(
         tidyselect::any_of(
-          var_ID
-        #, var_group
-        , var_x_time
-        , var_y_resp
+          c(
+            var_ID
+          #, var_group
+          , var_x_time
+          , var_y_resp
+          )
         )
       ) %>%
       dplyr::rename(
