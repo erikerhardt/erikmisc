@@ -12,6 +12,7 @@
 #' @import ggplot2
 #' @importFrom tidyr pivot_longer
 #' @importFrom cowplot plot_grid
+#' @importFrom tidyselect any_of
 #' @export
 #'
 #' @examples
@@ -191,7 +192,7 @@ e_plot_missing <-
     , GROUP___      = dat_plot$GROUP___
     ) %>%
     tidyr::pivot_longer(
-      cols = one_of(c(names_col, "NO_MISSING"))
+      cols = tidyselect::any_of(c(names_col, "NO_MISSING"))
     ) %>%
     mutate(
     #  value = value %>% factor(levels = c(1, 0), labels = c("Missing", "Present"))

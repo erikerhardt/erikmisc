@@ -23,6 +23,7 @@
 #' @importFrom labelled var_label
 #' @importFrom gridExtra arrangeGrob
 #' @importFrom ggpubr as_ggplot
+#' @importFrom tidyselect any_of
 #' @import ggplot2
 #' @import dplyr
 #' @export
@@ -123,7 +124,7 @@ e_plot_longitudinal <-
     dat_plot <-
       dat_plot %>%
       dplyr::select(
-        dplyr::one_of(
+        tidyselect::any_of(
           var_ID
         , var_group
         , var_x_time
@@ -141,7 +142,7 @@ e_plot_longitudinal <-
     dat_plot <-
       dat_plot %>%
       dplyr::select(
-        one_of(
+        tidyselect::any_of(
           var_ID
         #, var_group
         , var_x_time
