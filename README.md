@@ -18,6 +18,9 @@ workflows
 -   <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug
     or Request Feature</a>
 
+July 2022: Note that current R-CMD-check “failing” is due to secondary
+dependencies on orphaned package ‘gtools’.
+
 ## Installation
 
 ``` r
@@ -30,21 +33,21 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ``` r
 library(erikmisc)
-#> -- Attaching packages ---------------------------------------- erikmisc 0.1.7 --
-#> v tibble 3.1.6     v dplyr  1.0.8
-#> -- Conflicts ------------------------------------------- erikmisc_conflicts() --
-#> x dplyr::filter() masks stats::filter()
-#> x dplyr::lag()    masks stats::lag()
+#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.15 ──
+#> ✔ tibble 3.1.7     ✔ dplyr  1.0.9
+#> ── Conflicts ─────────────────────────────────────────── erikmisc_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
 #> erikmisc, solving common complex data analysis workflows
 #>   by Dr. Erik Barry Erhardt <erik@StatAcumen.com>
 erikmisc_logo()
 #> 
-#>  *        . _ _   o          _    *  o   
+#>  ⬢        . _ _   ⬡          _    ⬢  ⬡   
 #>    ___ _ __(_) | ___ __ ___ (_)___  ___  
 #>   / _ \ '__| | |/ / '_ ` _ \| / __|/ __| 
 #>  |  __/ |  | |   <| | | | | | \__ \ (__  
 #>   \___|_|  |_|_|\_\_| |_| |_|_|___/\___| 
-#>     . .       *           *   *       .
+#>     . .       ⬢           ⬢   ⬢       .
 ?`erikmisc-package`
 #> starting httpd help server ...
 #>  done
