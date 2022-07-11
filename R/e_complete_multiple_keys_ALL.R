@@ -13,11 +13,28 @@
 #' @import dplyr
 #' @export
 #' @examples
-#' \dontrun{
+#' dat <-
+#'   # A = 1, easy
+#'   # A = 2, easy
+#'   # A = 3, 3rd row has a dup and NA
+#'   # A = 4, 3rd row has conflucing info
+#'   tibble::tribble(
+#'    ~A, ~B, ~C, ~D, ~E
+#'   , 1, NA,  3, NA,  5
+#'   , 1,  2, NA,  2, NA
+#'   , 2, NA, NA,  3, NA
+#'   , 2,  4,  5, NA,  4
+#'   , 3, NA, NA,  3, NA
+#'   , 3,  4,  5, NA,  4
+#'   , 3,  4, NA, NA,  4
+#'   , 4, NA, NA,  3, NA
+#'   , 4,  4,  5, NA,  4
+#'   , 4, 99, 99, 99, NA
+#'   )
+#'
 #' dat %>%
 #'   dplyr::group_by(A) %>%
 #'   dplyr::summarise_all( e_coalesce_by_column )
-#' }
 e_coalesce_by_column <-
   function(
     dat
@@ -26,32 +43,6 @@ e_coalesce_by_column <-
 
   # combine rows in data frame containing NA to make complete row
   # https://stackoverflow.com/questions/45515218/combine-rows-in-data-frame-containing-na-to-make-complete-row
-
-  ## use:
-  ## dat %>%
-  ##   group_by(A) %>%
-  ##   summarise_all(e_coalesce_by_column)
-
-
-  ## TESTING
-  # dat <-
-  #   # A = 1, easy
-  #   # A = 2, easy
-  #   # A = 3, 3rd row has a dup and NA
-  #   # A = 4, 3rd row has conflucing info
-  #   tibble::tribble(
-  #    ~A, ~B, ~C, ~D, ~E
-  #   , 1, NA,  3, NA,  5
-  #   , 1,  2, NA,  2, NA
-  #   , 2, NA, NA,  3, NA
-  #   , 2,  4,  5, NA,  4
-  #   , 3, NA, NA,  3, NA
-  #   , 3,  4,  5, NA,  4
-  #   , 3,  4, NA, NA,  4
-  #   , 4, NA, NA,  3, NA
-  #   , 4,  4,  5, NA,  4
-  #   , 4, 99, 99, 99, NA
-  #   )
 
   dplyr::coalesce(!!! as.list(dat)) %>%
   return()
@@ -71,6 +62,7 @@ e_coalesce_by_column <-
 #'
 #' @return data.frame with most complete key rows
 #' @import dplyr
+#' @importFrom tidyselect any_of
 #' @export
 e_coalesce_column_set <-
   function(
@@ -111,7 +103,7 @@ e_coalesce_column_set <-
       , dat_rows_skip_NA
       ) %>%
       dplyr::select(
-        one_of(names_var)
+        tidyselect::any_of(names_var)
       )
   }
 
@@ -181,7 +173,7 @@ e_replace_keys_less_with_most_complete <-
         ind_all[, i_col_keys] <- is.na(dat_data[[ col_keys[i_col_keys] ]])
       }
 
-    }
+    } # i_col_keys
 
     # identify rows for this combination
     ind_combination <- rowSums(ind_all) == length(col_keys)
@@ -206,9 +198,9 @@ e_replace_keys_less_with_most_complete <-
         dplyr::select(
           -ends_with(".EMPTY")
         )
-    }
+    } # if
 
-  }
+  } # i_combination
 
   # combine all results
   dat_data_updated <-
@@ -233,10 +225,12 @@ e_replace_keys_less_with_most_complete <-
 #'
 #' @return dat_data with updated key columns
 #' @import dplyr
+#' @importFrom tidyselect any_of
 #' @export
 #'
 #' @examples
 #'
+#' ## derive dat_keys from dat_data using columns col_keys
 #' dat_data <-
 #'   tibble::tribble(
 #'     ~a, ~b, ~c, ~x, ~d1, ~d2
@@ -258,9 +252,49 @@ e_replace_keys_less_with_most_complete <-
 #'
 #' dat_data_updated <-
 #'   e_complete_multiple_keys(
-#'     dat_data
+#'     dat_data = dat_data
 #'   , dat_keys = NULL
 #'   , col_keys = c("a", "b", "c", "x")
+#'   )
+#'
+#' dat_data_updated %>% print(n=Inf)
+#'
+#' ## specify dat_keys explicitly
+#' dat_data <-
+#'   tibble::tribble(
+#'     ~a, ~b, ~c, ~x, ~d1, ~d2
+#'   ,  1, 11, NA, NA,   1,  20
+#'   ,  1, NA, 10, NA,   2,  21
+#'   ,  2, NA, NA, NA,   3,  22
+#'   , NA, 22, 20, NA,   4,  23
+#'   ,  2, NA, 20, NA,   5,  24
+#'   ,  3, 33, NA, NA,   6,  25
+#'   ,  4, NA, 40, NA,   7,  26
+#'   ,  5, NA, NA, NA,   8,  27
+#'   ,  6, NA, 60, NA,   9,  28
+#'   ,  6, NA, 60, NA,  10,  29
+#'   , NA, 77, NA, NA,  11,  30
+#'   , NA, 88, 80, NA,  12,  31
+#'   , NA, 88, NA, NA,  13,  32
+#'   , NA, NA, NA, NA,  14,  33
+#'   )
+#' dat_keys <-
+#'   tibble::tribble(
+#'     ~a, ~b, ~c
+#'   ,  1, 11, 10
+#'   ,  2, 22, 20
+#'   ,  3, 33, NA
+#'   ,  4, 99, 40     # over-specified (b)
+#'   ,  5, NA, NA
+#'   ,  6, NA, NA     # underspecified (c)
+#'                    # unspecified when a=NA
+#'   )
+#'
+#' dat_data_updated <-
+#'   e_complete_multiple_keys(
+#'     dat_data = dat_data
+#'   , dat_keys = dat_keys
+#'   , col_keys = c("a", "b", "c")
 #'   )
 #'
 #' dat_data_updated %>% print(n=Inf)
@@ -285,7 +319,7 @@ e_complete_multiple_keys <-
       e_coalesce_column_set(
         dat_data %>%
         dplyr::select(
-          one_of(col_keys)
+          tidyselect::any_of(col_keys)
         )
       )
   }
