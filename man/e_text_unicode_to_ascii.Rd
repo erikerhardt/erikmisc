@@ -70,7 +70,7 @@ Either use \code{fn_in} and \code{fn_out} for files, or use \code{text_in} for a
 #   dat_all \%>\%
 #   dplyr::mutate(
 #     dplyr::across(
-#       .cols = everything()
+#       .cols = tidyselect::everything()
 #     , .fns  = ~ e_text_unicode_to_ascii(text_in = .x)
 #     )
 #   )
