@@ -64,30 +64,49 @@ e_duplicated_all <-
 #' @param vec list of strings
 #'
 #' @return numeric list
+#' @importFrom stringr str_extract_all
 #' @export
 #'
 #' @examples
 #' # note difference in last two items
 #' vec <- c(NA, 1, "a", "a1a", "@%^#@0.23asdf", ")(&*.2&*", ")(&*0.2&*")
 #' e_extract_numbers_from_string(vec)
-e_extract_numbers_from_string <- function (vec) {
+#' vec <- c(NA, "1a2")
+#' e_extract_numbers_from_string(vec)
+e_extract_numbers_from_string <-
+  function (
+    vec
+  ) {
   # https://stackoverflow.com/questions/14543627/extracting-numbers-from-vectors-of-strings
   # pattern is by finding a set of numbers in the start and capturing them
   # This approach makes the decimal point and decimal fraction optional and allows multiple numbers to be extracted:
   # The concern about negative numbers can be address with optional perl style look-ahead:
     # EBE: removed unlist() in order to keep NAs for blank values
+  # out <-
+  #   as.numeric(
+  #     regmatches(
+  #       vec
+  #     , gregexpr(
+  #         "(?>-)*[[:digit:]]+\\.*[[:digit:]]*"
+  #       , vec
+  #       , perl = TRUE
+  #       )
+  #     )
+  #   )
 
-  out <- as.numeric(
-            regmatches(
-              vec
-            , gregexpr(
-                "(?>-)*[[:digit:]]+\\.*[[:digit:]]*"
-              , vec
-              , perl = TRUE
-              )
-            )
-          )
+  out <-
+    stringr::str_extract_all(
+      string    = vec
+    , pattern   = "(?>-)*[[:digit:]]+\\.*[[:digit:]]*"
+    , simplify  = TRUE
+    )
+
+  # if only one column, then return it as a list
+  if (ncol(out) == 1) {
+    out <- out[, 1]
+  }
+  # otherwise, return it as a table and need to later determine what to do with it
 
   return(out)
-}
+} # e_extract_numbers_from_string
 

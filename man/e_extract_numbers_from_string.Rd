@@ -19,4 +19,6 @@ Extract numbers from a string
 # note difference in last two items
 vec <- c(NA, 1, "a", "a1a", "@\%^#@0.23asdf", ")(&*.2&*", ")(&*0.2&*")
 e_extract_numbers_from_string(vec)
+vec <- c(NA, "1a2")
+e_extract_numbers_from_string(vec)
 }
