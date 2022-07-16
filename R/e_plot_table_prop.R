@@ -61,7 +61,6 @@ e_plot_table_prop <-
 
     text_title <- paste0(text_title, " by ", var_names[2], " and ", var_names[3])
   }
-
   p <- p + labs(
                   title     = text_title
                 #, subtitle  = "subtitle"
@@ -77,6 +76,7 @@ e_plot_table_prop <-
                 #, tag = "A"
                 )
   #p <- p + theme(legend.position = "bottom") # "none"
+  p <- p + theme(axis.text.x = element_text(angle = -20, vjust = 1, hjust = 0)) # rotate labels
 
   if (sw_print) {
     print(p)
