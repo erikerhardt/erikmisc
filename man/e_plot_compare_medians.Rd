@@ -19,9 +19,9 @@ e_plot_compare_medians(
   cm_dot = c("mean", "median")[2],
   cm_fun = c("mean", "mean_se", "mean_sd", "mean_ci", "mean_range", "median",
     "median_iqr", "median_hilow", "median_q1q3", "median_mad", "median_range")[7],
-  cm_error.plot = c("pointrange", "linerange", "crossbar", "errorbar",
-    "upper_errorbar", "lower_errorbar", "upper_pointrange", "lower_pointrange",
-    "upper_linerange", "lower_linerange")[4],
+  cm_error.plot = c("pointrange", "linerange", "crossbar", "errorbar", "upper_errorbar",
+    "lower_errorbar", "upper_pointrange", "lower_pointrange", "upper_linerange",
+    "lower_linerange")[4],
   sw_add = c("none", "dotplot", "jitter", "boxplot", "point")[2],
   sw_caption_desc = c(TRUE, FALSE)[1],
   symnum.args = list(cutpoints = c(0, 1e-04, 0.001, 0.01, 0.05, 0.1, 1), symbols =
