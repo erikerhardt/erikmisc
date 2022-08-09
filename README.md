@@ -18,9 +18,6 @@ workflows
 -   <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug
     or Request Feature</a>
 
-July 2022: Note that current R-CMD-check “failing” is due to secondary
-dependencies on orphaned package ‘gtools’.
-
 ## Installation
 
 ``` r
@@ -34,7 +31,7 @@ devtools::install_github("erikerhardt/erikmisc")
 ``` r
 library(erikmisc)
 #> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.15 ──
-#> ✔ tibble 3.1.7     ✔ dplyr  1.0.9
+#> ✔ tibble 3.1.8     ✔ dplyr  1.0.9
 #> ── Conflicts ─────────────────────────────────────────── erikmisc_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
