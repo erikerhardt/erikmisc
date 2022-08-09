@@ -10,7 +10,9 @@ e_read_data_files(
   sw_dat_add_col_path_fn = c(TRUE, FALSE)[1],
   sw_dat_print_fn_read = c(TRUE, FALSE)[1],
   excel_sheets = "all",
-  sw_clean_names = c(TRUE, FALSE)[2]
+  sw_clean_names = c(TRUE, FALSE)[2],
+  excel_range = NULL,
+  excel_col_names = TRUE
 )
 }
 \arguments{
@@ -25,6 +27,10 @@ e_read_data_files(
 \item{excel_sheets}{"all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.}
 
 \item{sw_clean_names}{T/F to clean column names using \code{janitor::clean_names}}
+
+\item{excel_range}{When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.}
+
+\item{excel_col_names}{Specified as in \code{readxl::read_xlsx}.  Applies to all files.}
 }
 \value{
 dat_sheet             A list of tibbles
