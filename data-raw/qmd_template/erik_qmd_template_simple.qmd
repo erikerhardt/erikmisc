@@ -1,0 +1,55 @@
+---
+title:        Title
+subtitle:     Subtitle
+author:       Erik Erhardt
+date:         last-modified # today, now, last-modified
+date-format:  long          # full, long, medium, short, iso,   https://quarto.org/docs/reference/dates.html
+format:
+  html:
+    theme:                  cosmo
+    highlight-style:        tango
+    toc:                    true
+    toc-depth:              4
+    toc-location:           right     # left, body, right
+    number-sections:        true      # true, false
+    number-depth:           3
+    code-fold:              show      # true (initially hidden), false, show (initially shown)
+    code-tools:                       # menu top-right to show/hide all code
+      toggle:               true
+      caption:              "Code"    # none
+      source:               false
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+fig-width:                  6
+fig-height:                 4
+execute: # https://quarto.org/docs/computations/execution-options.html, https://quarto.org/docs/computations/r.html
+  cache:    false   # false, true
+  eval:     true    # true, false  Evaluate the code chunk (if false, just echos the code into the output).
+  echo:     true    # true, false  Include the source code in output
+---
+
+<!---
+# Erik's compile commands in R:
+  rm(list=ls())
+  fn_qmd <- "erik_qmd_template_simple.qmd""
+  setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/qmd_template")
+  quarto::quarto_render(input = fn_qmd)
+-->
+
+```{r chunk-01, echo=FALSE}
+options(width = 80)
+#options(warn  = -1)
+options(str   = strOptions(list.len = 1e3))
+options(knitr.kable.NA = '') # Display NAs as blanks
+my_seed <- 34567
+set.seed(my_seed)
+```
+
+# Section
+
+```{r}
+1:10
+```
+
