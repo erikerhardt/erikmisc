@@ -10,6 +10,9 @@
 #' @param sw_dat_print_fn_read   T/F print file names and dimensions as the files are read
 #' @param excel_sheets           "all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.  Passed to \code{e_read_data_files()}.
 #' @param sw_clean_names         For data, T/F to clean column names using \code{janitor::clean_names}
+#' @param sw_list_or_flat        Hierarical list or a "flat" 1-level list
+#' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
+#' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #'
 #' @return fn_names              Either a structured list of filenames or of tibbles
 #' @import dplyr
@@ -45,14 +48,17 @@
 #' }
 e_read_data_subdir_into_lists <-
   function(
-    fn_path                = "."
-  , fn_detect              = c("csv$", "xls$", "xlsx$")
-  , sw_fn_or_dat           = c("fn", "dat")[1]
-  , sw_exclude_empty_dir   = c(TRUE, FALSE)[1]
-  , sw_dat_add_col_path_fn = c(TRUE, FALSE)[1]
-  , sw_dat_print_fn_read   = c(TRUE, FALSE)[2]
-  , excel_sheets           = "all"
-  , sw_clean_names         = c(TRUE, FALSE)[2]
+    fn_path                 = "."
+  , fn_detect               = c("csv$", "xls$", "xlsx$")
+  , sw_fn_or_dat            = c("fn", "dat")[1]
+  , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
+  , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
+  , sw_dat_print_fn_read    = c(TRUE, FALSE)[2]
+  , excel_sheets            = "all"
+  , sw_clean_names          = c(TRUE, FALSE)[2]
+  , sw_list_or_flat         = c("list", "flat")[2]
+  , excel_range             = NULL
+  , excel_col_names         = TRUE
   ) {
 
   # original idea
@@ -64,6 +70,22 @@ e_read_data_subdir_into_lists <-
   ## fn_detect = NULL #c("csv$", "xls$", "xlsx$")
   ## sw_fn_or_dat  = c("fn", "dat")[1]
   ## sw_exclude_empty_dir = c(TRUE, FALSE)[1]
+
+
+  ## dat_temp <-
+  ##   e_read_data_subdir_into_lists(
+  ##     fn_path                 = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir" # /dir_a/dir_aa
+  ##   , fn_detect               = c("csv$", "xls$", "xlsx$")
+  ##   , sw_fn_or_dat            = c("fn", "dat")[2]
+  ##   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
+  ##   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
+  ##   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+  ##   , sw_clean_names          = c(TRUE, FALSE)[2]
+  ##   , sw_list_or_flat         = c("list", "flat")[2]
+  ##   )
+  ## dat_temp
+  ## lapply(dat_temp, class)
+
 
 
   # All files and directories
@@ -90,13 +112,16 @@ e_read_data_subdir_into_lists <-
         file.path(fn_path, dir_names)
       , e_read_data_subdir_into_lists
           # include function arguments for recursion, otherwise takes function defaults
-      , fn_detect              = fn_detect
-      , sw_fn_or_dat           = sw_fn_or_dat
-      , sw_exclude_empty_dir   = sw_exclude_empty_dir
-      , sw_dat_add_col_path_fn = sw_dat_add_col_path_fn
-      , sw_dat_print_fn_read   = sw_dat_print_fn_read
-      , excel_sheets           = excel_sheets
-      , sw_clean_names         = sw_clean_names
+      , fn_detect               = fn_detect
+      , sw_fn_or_dat            = sw_fn_or_dat
+      , sw_exclude_empty_dir    = sw_exclude_empty_dir
+      , sw_dat_add_col_path_fn  = sw_dat_add_col_path_fn
+      , sw_dat_print_fn_read    = sw_dat_print_fn_read
+      , excel_sheets            = excel_sheets
+      , sw_clean_names          = sw_clean_names
+      , sw_list_or_flat         = sw_list_or_flat
+      , excel_range             = excel_range
+      , excel_col_names         = excel_col_names
       )
     # Set names for the new list
     names(fn_subdir) <-
@@ -118,7 +143,7 @@ e_read_data_subdir_into_lists <-
           fn_subdir[i_dir] <- NULL
         }
       }
-    }
+    } # if sw_exclude_empty_dir
 
 
     # Determine files found, excluding directory names
@@ -140,17 +165,29 @@ e_read_data_subdir_into_lists <-
     if (sw_fn_or_dat == "fn") {
       # Combine appropriate results for current list
       if(length(fn_to_return)) {
-        fn_names <-
-          c(
-            # list() makes this a list of fn's instead of separate lists for each fn
-            list(fn_to_return)
-          , fn_subdir
-          )
+
+        if (sw_list_or_flat == c("list", "flat")[1]) {
+          fn_names <-
+            c(
+              # list() makes this a list of fn's instead of separate lists for each fn
+              list(fn_to_return)
+            , fn_subdir
+            )
+        }
+
+        if (sw_list_or_flat == c("list", "flat")[2]) {
+          fn_names <-
+            c(
+              fn_to_return
+            , unlist(fn_subdir)
+            )
+        }
+
       } else {
         fn_names <-
           fn_subdir
       }
-    }
+    } # if sw_fn_or_dat "fn"
 
     # read data
     if (sw_fn_or_dat == "dat") {
@@ -163,19 +200,39 @@ e_read_data_subdir_into_lists <-
           , sw_dat_print_fn_read    = sw_dat_print_fn_read
           , excel_sheets            = excel_sheets
           , sw_clean_names          = sw_clean_names
+          , excel_range             = excel_range
+          , excel_col_names         = excel_col_names
           )
 
-        fn_names <-
-          c(
-            dat_to_return
-          , fn_subdir
-          )
+        if (sw_list_or_flat == c("list", "flat")[1]) {
+          fn_names <-
+            c(
+              dat_to_return
+            , fn_subdir
+            )
+        }
+
+        if (sw_list_or_flat == c("list", "flat")[2]) {
+          fn_names <-
+            c(
+              dat_to_return
+            , unlist(fn_subdir, recursive = FALSE)
+            )
+        }
 
       } else {
-        fn_names <-
-          fn_subdir
+        if (sw_list_or_flat == c("list", "flat")[1]) {
+          fn_names <-
+            fn_subdir
+        }
+
+        if (sw_list_or_flat == c("list", "flat")[2]) {
+          fn_names <-
+            unlist(fn_subdir, recursive = FALSE)
+        }
+
       }
-    }
+    } # if sw_fn_or_dat "dat"
 
   # end of directories
   } else {
@@ -189,6 +246,8 @@ e_read_data_subdir_into_lists <-
           , sw_dat_print_fn_read    = sw_dat_print_fn_read
           , excel_sheets            = excel_sheets
           , sw_clean_names          = sw_clean_names
+          , excel_range             = excel_range
+          , excel_col_names         = excel_col_names
           )
 
         fn_names <-

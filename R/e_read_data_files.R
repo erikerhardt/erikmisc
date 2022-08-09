@@ -8,6 +8,8 @@
 #' @param sw_dat_print_fn_read   T/F print file names and dimensions as the files are read
 #' @param excel_sheets           "all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.
 #' @param sw_clean_names         T/F to clean column names using \code{janitor::clean_names}
+#' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
+#' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #'
 #' @return dat_sheet             A list of tibbles
 #' @import dplyr
@@ -32,6 +34,8 @@ e_read_data_files <-
   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
   , excel_sheets            = "all"
   , sw_clean_names          = c(TRUE, FALSE)[2]
+  , excel_range             = NULL
+  , excel_col_names         = TRUE
   ) {
 
   ## read_fn_path <- "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa"
@@ -109,8 +113,10 @@ e_read_data_files <-
         for (i_sheet in ind_sheets) {
           dat_sheet[[ read_fn_names[i_fn] ]] <-
             readxl::read_xlsx(
-              path  = fn_full_this
-            , sheet = i_sheet
+              path      = fn_full_this
+            , sheet     = i_sheet
+            , range     = excel_range
+            , col_names = excel_col_names
             )
 
           if (sw_clean_names) {
@@ -131,8 +137,10 @@ e_read_data_files <-
           for (i_sheet in ind_sheets) {
             dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] <-
               readxl::read_xlsx(
-                path  = fn_full_this
-              , sheet = i_sheet
+                path      = fn_full_this
+              , sheet     = i_sheet
+              , range     = excel_range
+              , col_names = excel_col_names
               )
 
             if (sw_clean_names) {
