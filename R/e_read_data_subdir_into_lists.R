@@ -86,6 +86,39 @@ e_read_data_subdir_into_lists <-
   ## dat_temp
   ## lapply(dat_temp, class)
 
+  ## dat_temp <-
+  ##   e_read_data_subdir_into_lists(
+  ##     fn_path                 = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir" # /dir_a/dir_aa
+  ##   , fn_detect               = c("csv$", "xls$", "xlsx$")
+  ##   , sw_fn_or_dat            = c("fn", "dat")[2]
+  ##   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
+  ##   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
+  ##   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+  ##   , sw_clean_names          = c(TRUE, FALSE)[2]
+  ##   , sw_list_or_flat         = c("list", "flat")[2]
+  ##   )
+  ## dat_temp
+  ## lapply(dat_temp, class)
+
+  ##
+  ##
+  ## dat_temp <-
+  ##   e_read_data_subdir_into_lists(
+  ##     fn_path                 = "../MS_Teams/General/Interview notes/Presbyterian Healthcare Services"
+  ##   , fn_detect               = c("csv$", "xls$", "xlsx$")[3]
+  ##   , sw_fn_or_dat            = c("fn", "dat")[2]
+  ##   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
+  ##   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[2]
+  ##   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+  ##   , excel_sheets            = "all"
+  ##   , sw_clean_names          = c(TRUE, FALSE)[2]
+  ##   , sw_list_or_flat         = c("list", "flat")[2]
+  ##   , excel_range             = "A1:B4"
+  ##   , excel_col_names         = c("names", "values")
+  ##   )
+  ## dat_temp
+  ## lapply(dat_temp, class)
+
 
 
   # All files and directories
@@ -235,7 +268,8 @@ e_read_data_subdir_into_lists <-
     } # if sw_fn_or_dat "dat"
 
   # end of directories
-  } else {
+  } else { # if length(dir_names)
+
     if (sw_fn_or_dat == "dat") {
       if(length(fn_names)) {
         dat_to_return <-
@@ -250,10 +284,15 @@ e_read_data_subdir_into_lists <-
           , excel_col_names         = excel_col_names
           )
 
-        fn_names <-
-          c(
+        if (sw_list_or_flat == c("list", "flat")[1]) {
+          fn_names <-
             dat_to_return
-          )
+        }
+
+        if (sw_list_or_flat == c("list", "flat")[2]) {
+          fn_names <-
+            unlist(dat_to_return, recursive = FALSE)
+        }
       }
     }
   } # if length(dir_names)
