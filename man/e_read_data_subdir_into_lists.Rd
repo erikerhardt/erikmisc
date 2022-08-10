@@ -13,7 +13,7 @@ e_read_data_subdir_into_lists(
   sw_dat_print_fn_read = c(TRUE, FALSE)[2],
   excel_sheets = "all",
   sw_clean_names = c(TRUE, FALSE)[2],
-  sw_list_or_flat = c("list", "flat")[2],
+  sw_list_or_flat = c("list", "flat")[1],
   excel_range = NULL,
   excel_col_names = TRUE
 )
@@ -72,6 +72,18 @@ Recurse through subdirectories returning either filenames or tibbles (data.frame
 #   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
 #   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
 #   , sw_clean_names          = c(TRUE, FALSE)[2]
+#   , sw_list_or_flat         = c("list", "flat")[1]
+#   )
+# # selected data, flatten the directory structure
+# e_read_data_subdir_into_lists(
+#     fn_path                 = "./data-raw/dat_subdir"
+#   , fn_detect               = c("csv$", "xls$", "xlsx$")
+#   , sw_fn_or_dat            = c("fn", "dat")[2]
+#   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
+#   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
+#   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+#   , sw_clean_names          = c(TRUE, FALSE)[2]
+#   , sw_list_or_flat         = c("list", "flat")[2]
 #   )
 }
 }
