@@ -232,6 +232,9 @@
     <loc>/reference/e_model_binary_complete.html</loc>
   </url>
   <url>
+    <loc>/reference/e_plot_blank.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_plot_bs_one_samp_dist.html</loc>
   </url>
   <url>
@@ -245,6 +248,9 @@
   </url>
   <url>
     <loc>/reference/e_plot_corr_ellipse.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_plot_extract_legend.html</loc>
   </url>
   <url>
     <loc>/reference/e_plot_grid_corner_label.html</loc>

@@ -19,7 +19,7 @@ Can treat counts of items &amp;gt;1 as 1 to simplify summary tables (for example
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
       </span>
     </div>
 
@@ -237,23 +237,25 @@ Can treat counts of items &gt;1 as 1 to simplify summary tables (for example, mu
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> j         2</span>
 <span class="r-in"><span><span class="va">dat_ex_out</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       ID col1   col2  item_other item_1 item_a `item_a a a` item_b item_c item_d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1  <span style="color: #BB0000;">NA</span>    A              0      0      1            0      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     2 <span style="color: #949494;">""</span>     B              0      0      0            0      1      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     3 <span style="color: #949494;">"</span>a<span style="color: #949494;">"</span>    C              0      0      1            0      0      1      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     4 <span style="color: #949494;">"</span>A, B… D              0      0      1            0      1      1      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     5 <span style="color: #949494;">"</span>b<span style="color: #949494;">"</span>    E              1      0      0            0      1      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     6 <span style="color: #949494;">"</span>D. c… F              1      0      0            0      0      1      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     7 <span style="color: #949494;">"</span>x  ;… G              3      0      0            0      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     8 <span style="color: #949494;">"</span>ab/0… H              3      2      0            0      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     9 <span style="color: #949494;">"</span>2<span style="color: #949494;">"</span>    I              1      0      0            0      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>    10 <span style="color: #949494;">"</span>othe… J              1      0      0            0      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>    11 <span style="color: #949494;">"</span>1<span style="color: #949494;">"</span>    K              1      1      0            0      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>    12 <span style="color: #949494;">"</span>a a … L              1      0      0            1      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>    13 <span style="color: #949494;">"</span>1,a … M              1      1      0            1      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>    14 <span style="color: #949494;">"</span>2,a … N              1      0      0            1      0      0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 2 more variables: item_2 &lt;dbl&gt;, item_j &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ID col1    col2  item_…¹ item_1 item_a item_…² item_b item_c item_d item_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1  <span style="color: #BB0000;">NA</span>     A           0      0      1       0      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     2 <span style="color: #949494;">""</span>      B           0      0      0       0      1      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     3 <span style="color: #949494;">"</span>a<span style="color: #949494;">"</span>     C           0      0      1       0      0      1      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     4 <span style="color: #949494;">"</span>A, B … D           0      0      1       0      1      1      1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     5 <span style="color: #949494;">"</span>b<span style="color: #949494;">"</span>     E           1      0      0       0      1      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     6 <span style="color: #949494;">"</span>D. c … F           1      0      0       0      0      1      2      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     7 <span style="color: #949494;">"</span>x  ;Y<span style="color: #949494;">"</span> G           3      0      0       0      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     8 <span style="color: #949494;">"</span>ab/0|… H           3      2      0       0      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     9 <span style="color: #949494;">"</span>2<span style="color: #949494;">"</span>     I           1      0      0       0      0      0      0      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>    10 <span style="color: #949494;">"</span>other<span style="color: #949494;">"</span> J           1      0      0       0      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>    11 <span style="color: #949494;">"</span>1<span style="color: #949494;">"</span>     K           1      1      0       0      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>    12 <span style="color: #949494;">"</span>a a a<span style="color: #949494;">"</span> L           1      0      0       1      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>    13 <span style="color: #949494;">"</span>1,a a… M           1      1      0       1      0      0      0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>    14 <span style="color: #949494;">"</span>2,a a… N           1      0      0       1      0      0      0      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: item_j &lt;dbl&gt;, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​item_other, ²​`item_a a a`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return summary</span></span></span>
 <span class="r-in"><span><span class="va">dat_ex_sum</span> <span class="op">&lt;-</span></span></span>
@@ -285,6 +287,7 @@ Can treat counts of items &gt;1 as 1 to simplify summary tables (for example, mu
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ab        1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 12 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tab_items_unique_other</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 2</span></span>
@@ -314,7 +317,7 @@ Can treat counts of items &gt;1 as 1 to simplify summary tables (for example, mu
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
