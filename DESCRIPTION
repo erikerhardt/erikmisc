@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.1.15
-Date: 2022-07-10
+Version: 0.1.16
+Date: 2022-08-10
 Authors@R:
     c(person(
       given = "Erik"
@@ -22,7 +22,7 @@ VignetteBuilder: knitr
 NeedsCompilation: no
 LazyData: true
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.2.0),
     stats,
     utils,
     graphics
