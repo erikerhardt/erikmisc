@@ -30,7 +30,7 @@ devtools::install_github("erikerhardt/erikmisc")
 
 ``` r
 library(erikmisc)
-#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.15 ──
+#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.16 ──
 #> ✔ tibble 3.1.8     ✔ dplyr  1.0.9
 #> ── Conflicts ─────────────────────────────────────────── erikmisc_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
