@@ -601,7 +601,8 @@ e_plot_model_contrasts <-
         #CLs#if(!is.null(summary(cont_fit)[["lower.CL"]])) {
         if(!is.null(summary(cont_fit)[[col_name_LCL]])) {
           text_cont <- summary(cont_fit)[[ var_xs[1] ]]
-          text_est  <- summary(cont_fit)[[2]]
+          ind_trend <- which(stringr::str_detect(names(summary(cont_fit)), stringr::fixed(".trend")))
+          text_est  <- summary(cont_fit)[[ind_trend]]  # 2
           text_LCL  <- summary(cont_fit)[[col_name_LCL]]
           text_UCL  <- summary(cont_fit)[[col_name_UCL]]
           text_CI  <-
@@ -1253,7 +1254,7 @@ e_plot_model_contrasts <-
             emmeans::emtrends(
               object  = fit
             , specs   = form_var_fac
-            , var     = var_xs[2]
+            , var     = var_xs[2]      ## 8/18/2022 1:29PM XXX Should this be "3"
             , adjust  = adjust_method
             , level   = CI_level
             ##, transform = "response" # updated in emmeans 1.7.3
@@ -1274,7 +1275,8 @@ e_plot_model_contrasts <-
         #CLs#if(!is.null(summary(cont_fit$emtrends)[["lower.CL"]])) {
         if(!is.null(summary(cont_fit$emtrends)[[col_name_LCL]])) {
           text_cont <- summary(cont_fit$emtrends)[[ var_xs[1] ]]
-          text_est  <- summary(cont_fit$emtrends)[[2]]
+          ind_trend <- which(stringr::str_detect(names(summary(cont_fit$emtrends)), stringr::fixed(".trend")))
+          text_est  <- summary(cont_fit$emtrends)[[ind_trend]]  # 2
           text_LCL  <- summary(cont_fit$emtrends)[[col_name_LCL]]
           text_UCL  <- summary(cont_fit$emtrends)[[col_name_UCL]]
           text_CI  <-
