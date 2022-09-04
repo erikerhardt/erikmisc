@@ -1,0 +1,508 @@
+---
+title:        Tables using `gtsummary`
+subtitle:     Example workflow for Table 1 (demographics), regression, contingency table, etc.
+author:       Erik Erhardt
+date:         last-modified # today, now, last-modified
+date-format:  long          # full, long, medium, short, iso,   https://quarto.org/docs/reference/dates.html
+format:
+  html:
+    theme:                  litera
+    highlight-style:        atom-one
+    toc:                    true
+    toc-depth:              4
+    toc-location:           body      # left, body, right
+    number-sections:        true      # true, false
+    number-depth:           3
+    code-fold:              show      # true (initially hidden), false, show (initially shown)
+    code-tools:                       # menu top-right to show/hide all code
+      toggle:               true
+      caption:              "Code"    # none
+      source:               false
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+    self-contained:         false     # !!! this can cause a render error: "ERROR: The process cannot access the file because it is being used by another process. (os error 32)"
+fig-width:                  6
+fig-height:                 4
+execute: # https://quarto.org/docs/computations/execution-options.html, https://quarto.org/docs/computations/r.html
+  cache:    false   # false, true
+  eval:     true    # true, false  Evaluate the code chunk (if false, just echos the code into the output).
+  echo:     true    # true, false  Include the source code in output
+---
+
+<!---
+# Erik's compile commands in R:
+  fn_qmd <- "Summary_tables_example.qmd"
+  setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/tables")
+  quarto::quarto_render(input = fn_qmd)
+-->
+
+```{r chunk-01, echo=FALSE}
+options(width = 80)
+#options(warn  = -1)
+options(str   = strOptions(list.len = 1e3))
+options(knitr.kable.NA = '') # Display NAs as blanks
+my_seed <- 34567
+set.seed(my_seed)
+```
+
+# Data
+
+```{r}
+library(erikmisc)
+library(tidyverse)
+
+# Other packages: huxtable, gt, smd
+```
+
+```{r}
+dat_mtcars_e <-
+  erikmisc::dat_mtcars_e
+
+## ### Version for Max
+## dat_mtcars_e <-
+##   datasets::mtcars %>%
+##   tibble::as_tibble(
+##     rownames = "model"
+##   ) %>%
+##   dplyr::mutate(
+##     cyl = cyl %>% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
+##   , vs  = vs  %>% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
+##   , am  = am  %>% factor(levels = c(0, 1), labels = c("automatic", "manual"))
+##   )
+##
+## # Label columns
+## dat_labels <-
+##   tibble::tribble(
+##     ~var    , ~label
+##   , "model" , "Model"
+##   , "mpg"   , "Miles/(US) gallon"
+##   , "cyl"   , "Number of cylinders"
+##   , "disp"  , "Displacement (cu.in.)"
+##   , "hp"    , "Gross horsepower"
+##   , "drat"  , "Rear axle ratio"
+##   , "wt"    , "Weight (1000 lbs)"
+##   , "qsec"  , "1/4 mile time"
+##   , "vs"    , "Engine"                     # (0 = V-shaped, 1 = straight)"
+##   , "am"    , "Transmission"               # (0 = automatic, 1 = manual)"
+##   , "gear"  , "Number of forward gears"
+##   , "carb"  , "Number of carburetors"
+##   )
+##
+## for (i_row in 1:nrow(dat_labels)) {
+##   labelled::var_label(dat_mtcars_e[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
+## }
+##
+## str(dat_mtcars_e)
+
+
+dat_mtcars_e %>%
+  str()
+
+# drastically change scale for two numeric variables
+dat_mtcars_e <-
+  dat_mtcars_e %>%
+  dplyr::mutate(
+    drat = drat * 1e3
+  , qsec = qsec / 1e3
+  )
+
+
+## Variable lists
+Var <- list()
+
+Var[["list"]][["var_ID"]] <-
+  c(
+    "model"
+  )
+
+Var[["list"]][["var_demo"]] <-
+  c(
+    "mpg"
+  , "cyl"
+  , "disp"
+  , "hp"
+  , "drat"
+  , "wt"
+  , "qsec"
+  , "vs"
+  , "am"
+  , "gear"
+  , "carb"
+  )
+
+Var[["list"]][["var_groups"]] <-
+  c(
+    "cyl"
+  , "vs"
+  , "am"
+  )
+```
+
+# Summary Tables
+
+## Set theme (basic is best for export to Excel)
+
+```{r}
+library(gtsummary)
+
+# core https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html
+# output https://www.danieldsjoberg.com/gtsummary/articles/rmarkdown.html
+
+# https://www.danieldsjoberg.com/gtsummary/articles/themes.html
+# set themes for compact display
+#gtsummary::theme_gtsummary_journal(journal = "jama") # Setting theme `JAMA`
+#gtsummary::theme_gtsummary_compact()                 # Setting theme `Compact`
+gtsummary::reset_gtsummary_theme()                   # Reset theme
+```
+
+## Basic table
+
+```{r}
+table1_out <-
+  dat_mtcars_e %>%
+  gtsummary::tbl_summary(
+    by           = Var[["list"]][["var_groups"]][1] # use gtsummary::tbl_strata for more than 1
+  # , label        = NULL                          # automatically uses the label attribute
+  # , statistic    = NULL
+  # , digits       = NULL
+  # , type         = NULL
+  # , value        = NULL
+  # , missing      = NULL
+  # , missing_text = NULL
+  # , sort         = NULL
+  # , percent      = NULL
+  , include      = Var[["list"]][["var_demo"]]
+  ) %>%
+  gtsummary::add_p()          %>%  # add p-values to the output comparing values across groups
+  gtsummary::add_q(method = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")[7]) %>%  # add a column of q values to control for multiple comparisons
+  gtsummary::bold_p(t = 0.05, q = FALSE) %>% # Bold significant p-values or q-values
+  #gtsummary::add_difference() %>%  # add column for difference between two group, confidence interval, and p-value
+  #gtsummary::add_ci()         %>%  # add confidence intervals
+  gtsummary::add_overall()    %>%  # add a column with overall summary statistics
+  gtsummary::add_stat_label() %>%  # add label for the summary statistics shown in each row
+  gtsummary::add_n()          %>%  # add a column with N (or N missing) for each variable
+  gtsummary::bold_labels()    %>%  # bold variable name labels
+  gtsummary::italicize_levels() %>% # italicize levels
+  gtsummary::modify_caption("Table title")
+
+# print to Viewer
+table1_out
+
+# export to Excel
+table1_out %>%
+  gtsummary::as_hux_xlsx(file = "Table1_out.xlsx")
+```
+
+
+## Table of differences, exactly two levels
+
+```{r}
+table1_out_diff <-
+  dat_mtcars_e %>%
+  gtsummary::tbl_summary(
+    by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata for more than 1
+  # , label        = NULL                          # automatically uses the label attribute
+  # , statistic    = NULL
+  # , digits       = NULL
+  # , type         = NULL
+  # , value        = NULL
+  # , missing      = NULL
+  # , missing_text = NULL
+  # , sort         = NULL
+  # , percent      = NULL
+  , include      = Var[["list"]][["var_demo"]]
+  ) %>%
+  #gtsummary::add_p()          %>%  # add p-values to the output comparing values across groups
+  #gtsummary::add_q()          %>%  # add a column of q values to control for multiple comparisons
+  #gtsummary::bold_p(t = 0.05, q = FALSE) %>% # Bold significant p-values or q-values
+  gtsummary::add_difference() %>%  # add column for difference between two group, confidence interval, and p-value
+  #gtsummary::add_ci()         %>%  # add confidence intervals
+  gtsummary::add_overall()    %>%  # add a column with overall summary statistics
+  gtsummary::add_stat_label() %>%  # add label for the summary statistics shown in each row
+  gtsummary::add_n()          %>%  # add a column with N (or N missing) for each variable
+  #gtsummary::bold_labels()    %>%  # bold variable name labels
+  #gtsummary::italicize_levels()   # italicize levels
+  gtsummary::modify_caption("Table title")
+
+# print to Viewer
+table1_out_diff
+
+# export to Excel
+table1_out_diff %>%
+  gtsummary::as_hux_xlsx(file = "Table1_out_diff.xlsx")
+```
+
+## Strata: Basic table
+
+```{r}
+# Use one "strata" and one "by", two variables works fine
+
+table1_out_strata <-
+  dat_mtcars_e %>%
+  gtsummary::tbl_strata(
+    strata       = Var[["list"]][["var_groups"]][3] # use gtsummary::tbl_strata for more than 1 (don't use for more than 1 here)
+  , .tbl_fun =
+      ~ .x %>%
+        gtsummary::tbl_summary(
+          by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata for more than 1
+        # , label        = NULL                          # automatically uses the label attribute
+        # , statistic    = NULL
+        # , digits       = NULL
+        # , type         = NULL
+        # , value        = NULL
+        # , missing      = NULL
+        # , missing_text = NULL
+        # , sort         = NULL
+        # , percent      = NULL
+        #, include      = Var[["list"]][["var_demo"]]  # not working here or in the tbl_strata() argument
+        ) %>%
+        gtsummary::add_p()          %>%  # add p-values to the output comparing values across groups
+        #gtsummary::add_q()          %>%  # add a column of q values to control for multiple comparisons
+        gtsummary::bold_p(t = 0.05, q = FALSE) %>% # Bold significant p-values or q-values
+        #gtsummary::add_difference() %>%  # add column for difference between two group, confidence interval, and p-value
+        #gtsummary::add_ci()         %>%  # add confidence intervals
+        gtsummary::add_overall()    %>%  # add a column with overall summary statistics
+        gtsummary::add_stat_label() %>%  # add label for the summary statistics shown in each row
+        gtsummary::add_n()               # add a column with N (or N missing) for each variable
+        #gtsummary::bold_labels()    %>%  # bold variable name labels
+        #gtsummary::italicize_levels()   # italicize levels
+
+  #, .header = "**{strata}**, N = {n}"
+  ) %>%
+  gtsummary::modify_caption("Table title")
+
+# print to Viewer
+table1_out_strata
+
+# export to Excel
+table1_out_strata %>%
+  gtsummary::as_hux_xlsx(file = "Table1_out_strata.xlsx")
+```
+
+
+## Strata: Table of differences, exactly two levels
+
+```{r}
+table1_out_diff_strata <-
+  dat_mtcars_e %>%
+  gtsummary::tbl_strata(
+    strata       = Var[["list"]][["var_groups"]][3] # use gtsummary::tbl_strata for more than 1 (don't use for more than 1 here)
+  , .tbl_fun =
+      ~ .x %>%
+        gtsummary::tbl_summary(
+          by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata for more than 1
+        # , label        = NULL                          # automatically uses the label attribute
+        # , statistic    = NULL
+        # , digits       = NULL
+        # , type         = NULL
+        # , value        = NULL
+        # , missing      = NULL
+        # , missing_text = NULL
+        # , sort         = NULL
+        # , percent      = NULL
+        #, include      = Var[["list"]][["var_demo"]]  # not working here or in the tbl_strata() argument
+        ) %>%
+        #gtsummary::add_p()          %>%  # add p-values to the output comparing values across groups
+        #gtsummary::add_q()          %>%  # add a column of q values to control for multiple comparisons
+        #gtsummary::bold_p(t = 0.05, q = FALSE) %>% # Bold significant p-values or q-values
+        gtsummary::add_difference() %>%  # add column for difference between two group, confidence interval, and p-value
+        #gtsummary::add_ci()         %>%  # add confidence intervals
+        gtsummary::add_overall()    %>%  # add a column with overall summary statistics
+        gtsummary::add_stat_label() %>%  # add label for the summary statistics shown in each row
+        gtsummary::add_n()               # add a column with N (or N missing) for each variable
+        #gtsummary::bold_labels()    %>%  # bold variable name labels
+        #gtsummary::italicize_levels()   # italicize levels
+
+  #, .header = "**{strata}**, N = {n}"
+  ) %>%
+  gtsummary::modify_caption("Table title")
+
+# print to Viewer
+table1_out_diff_strata
+
+# export to Excel
+table1_out_diff_strata %>%
+  gtsummary::as_hux_xlsx(file = "Table1_out_diff_strata.xlsx")
+```
+
+## Other details
+
+```{r}
+##   # gtsummary::add_stat()       %>%  # generic function to add a column with user-defined values
+##
+##
+##   ## Note at bottom of table, converts from tbl_summary to gt, which changes some functionality
+##   #as_gt() %>%                      # Add a note
+##   #gt::tab_source_note(gt::md("*mtcars is from the **datasets** package*")) %>%
+```
+
+```{r}
+## ## strata2 doesn't seem to work very well, especially for numeric variables
+##
+## table1_out_strata2 <-
+##   dat_mtcars_e %>%
+##   gtsummary::tbl_strata2(
+##     strata       = Var[["list"]][["var_groups"]][c(1, 3)] # use gtsummary::tbl_strata2 for more than 1
+##   , .tbl_fun =
+##       ~ .x %>%
+##         gtsummary::tbl_summary(
+##           by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata2 for more than 1
+##         # , label        = NULL                          # automatically uses the label attribute
+##         # , statistic    = NULL
+##         # , digits       = NULL
+##         # , type         = NULL
+##         # , value        = NULL
+##         # , missing      = NULL
+##         # , missing_text = NULL
+##         # , sort         = NULL
+##         # , percent      = NULL
+##         #, include      = Var[["list"]][["var_demo"]]  # not working here or in the tbl_strata() argument
+##         ) %>%
+##         gtsummary::add_p()          %>%  # add p-values to the output comparing values across groups
+##         #gtsummary::add_q()          %>%  # add a column of q values to control for multiple comparisons
+##         gtsummary::bold_p(t = 0.05, q = FALSE) %>% # Bold significant p-values or q-values
+##         #gtsummary::add_difference() %>%  # add column for difference between two group, confidence interval, and p-value
+##         #gtsummary::add_ci()         %>%  # add confidence intervals
+##         gtsummary::add_overall()    %>%  # add a column with overall summary statistics
+##         gtsummary::add_stat_label() %>%  # add label for the summary statistics shown in each row
+##         gtsummary::add_n()               # add a column with N (or N missing) for each variable
+##         #gtsummary::bold_labels()    %>%  # bold variable name labels
+##         #gtsummary::italicize_levels()   # italicize levels
+##
+##   #, .header = "**{strata}**, N = {n}"
+##   ) %>%
+##   gtsummary::modify_caption("Table title")
+##
+## # print to Viewer
+## table1_out_strata2
+##
+## # export to Excel
+## table1_out_strata2 %>%
+##   gtsummary::as_hux_xlsx(file = "Table1_out_strata2.xlsx")
+```
+
+
+
+
+
+# Statistics
+
+## Regression
+
+https://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html
+
+```{r}
+fit_lm <-
+  lm( mpg ~
+          cyl
+        + disp
+        #+ hp
+        #+ drat
+        + wt
+        #+ qsec
+        + vs
+        + am
+        #+ gear
+        #+ carb
+  , data = dat_mtcars_e
+  )
+
+fit_lm %>% car::Anova(type = 3)
+fit_lm %>% summary()
+
+tab_fit_lm <-
+  fit_lm %>%
+  gtsummary::tbl_regression(
+  #  label           = NULL
+  #, exponentiate    = FALSE
+  #, include         = everything()
+  #, show_single_row = NULL
+    conf.level      = 0.95
+  , intercept       = TRUE
+  #, estimate_fun    = NULL
+  #, pvalue_fun      = NULL
+  #, tidy_fun        = NULL
+  #, add_estimate_to_reference_rows = FALSE
+  , conf.int        = TRUE
+  ) %>%
+  #gtsummary::add_q()                  %>%  # add a column of q values to control for multiple comparisons
+  gtsummary::bold_p(t = 0.05, q = FALSE) %>% # Bold significant p-values or q-values
+  gtsummary::add_global_p()           %>%  # adds the global p-value for a categorical variables, instead of difference from intercept
+  gtsummary::add_glance_source_note() %>%  # adds statistics from `broom::glance()` as source note
+  gtsummary::add_vif(statistic = c("VIF", "GVIF", "aGVIF", "df")[c(2, 4)])  %>%  # adds column of the variance inflation factors (VIF)
+  gtsummary::bold_labels()    %>%  # bold variable name labels
+  gtsummary::italicize_levels() %>% # italicize levels
+  gtsummary::modify_caption("Table title")
+
+tab_fit_lm
+
+##   gtsummary::add_significance_stars() %>% # add significance stars to estimates with small p-values (regression table)
+
+
+# export to Excel
+tab_fit_lm %>%
+  gtsummary::as_hux_xlsx(file = "Table_fit_lm.xlsx")
+```
+
+## Chi-square
+
+https://www.danieldsjoberg.com/gtsummary/reference/tbl_cross.html
+
+```{r}
+## Original tables
+# Tabulate by two categorical variables:
+tab_xtabs <-
+  xtabs(
+    ~ cyl + am
+  , data = dat_mtcars_e
+  )
+tab_xtabs
+
+# column proportions
+prop.table(tab_xtabs, margin = 2)
+
+# Chi-square test approximation
+tab_xtabs_chisq <-
+  tab_xtabs %>%
+  chisq.test(correct = FALSE)
+tab_xtabs_chisq
+
+# Fisher's exact test
+tab_xtabs_fisher <-
+  tab_xtabs %>%
+  fisher.test()
+tab_xtabs_fisher
+
+
+
+## gtsummary tables
+
+tab_cross <-
+  dat_mtcars_e %>%
+  gtsummary::tbl_cross(
+    row          = "cyl"
+  , col          = "am"
+  , label        = NULL
+  , statistic    = NULL
+  , digits       = NULL
+  , percent      = c("none", "column", "row", "cell")[2]
+  , margin       = c("column", "row")
+  , missing      = c("ifany", "always", "no")[1]
+  , missing_text = "Unknown"
+  , margin_text  = "Total"
+  ) %>%
+  gtsummary::add_p()          %>%  # add p-values to the output comparing values across groups (tbl_cross options: test = c("chisq.test", "fisher.test")[2])
+  gtsummary::bold_labels()    %>%  # bold variable name labels
+  gtsummary::italicize_levels() %>% # italicize levels
+  gtsummary::modify_caption("Table title")
+
+tab_cross
+
+# export to Excel
+tab_cross %>%
+  gtsummary::as_hux_xlsx(file = "Table_cross.xlsx")
+
+```
+
