@@ -44,8 +44,8 @@ tictoc::toc()
 ```{r}
 # size of the problem
 list_letters <- LETTERS[1:19]
-n_sam <- 1e5
-seconds_sleep <- 1
+n_sam <- 1e3
+seconds_sleep <- 0.1
 
 # function to compute
 f_this_function <-
