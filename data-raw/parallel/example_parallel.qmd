@@ -1,0 +1,349 @@
+---
+title:        Parallel processing examples
+subtitle:     future and foreach
+author:       Erik Erhardt
+date:         last-modified # today, now, last-modified
+date-format:  long          # full, long, medium, short, iso,   https://quarto.org/docs/reference/dates.html
+format:
+  html:
+    theme:                  litera
+    highlight-style:        atom-one
+    page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:                    true
+    toc-depth:              4
+    toc-location:           body      # left, body, right
+    number-sections:        true      # true, false
+    number-depth:           3
+    code-fold:              show      # true (initially hidden), false, show (initially shown)
+    code-tools:                       # menu top-right to show/hide all code
+      toggle:               true
+      caption:              "Code"    # none
+      source:               false
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+fig-width:                  6
+fig-height:                 4
+execute: # https://quarto.org/docs/computations/execution-options.html, https://quarto.org/docs/computations/r.html
+  cache:    false   # false, true
+  eval:     true    # true, false  Evaluate the code chunk (if false, just echos the code into the output).
+  echo:     true    # true, false  Include the source code in output
+---
+
+<!---
+# Erik's compile commands in R:
+  fn_qmd <- "example_parallel.qmd"
+  setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/parallel")
+  quarto::quarto_render(input = fn_qmd)
+-->
+
+```{r chunk-01, echo=FALSE}
+options(width = 80)
+#options(warn  = -1)
+options(str   = strOptions(list.len = 1e3))
+options(knitr.kable.NA = '') # Display NAs as blanks
+my_seed <- 34567
+set.seed(my_seed)
+```
+
+# Examples
+
+## Load standard packages
+
+```{r}
+library(erikmisc)
+library(tidyverse)
+```
+
+## Timing
+
+```{r}
+# install.packages("tictoc")
+tictoc::tic(msg = "Timer")
+tictoc::toc()
+```
+
+
+---
+
+## Standard sequential solution
+
+```{r}
+# size of the problem
+list_letters <- LETTERS[1:19]
+n_sam <- 1e5
+seconds_sleep <- 1
+
+# function to compute
+f_this_function <-
+  function(
+    n_letter  = "A"
+  , n_sam     = 1e1
+  , seconds_sleep = 1
+  ) {
+  dat_this <-
+    tibble::tibble(
+      sam1    = rnorm(n_sam)
+    , sam2    = rnorm(n_sam)
+    , letter  = n_letter
+    )
+
+  library(ggplot2)
+  p <- ggplot(dat_this, aes(x = sam1, y = sam2))
+  p <- p + theme_bw()
+  p <- p + geom_point()
+
+  Sys.sleep(seconds_sleep)
+
+  out <-
+    list(
+      dat   = dat_this
+    , plot  = p
+    , pid   = Sys.getpid()
+    )
+
+  return(out)
+
+} # f_this_function
+
+
+tictoc::tic(msg = "Timer") # start timer
+
+# prespecify the "results" list
+results <- list()
+
+for (i_letter in seq_along(list_letters)) {
+  ## i_letter = 1
+  n_letter <- list_letters[i_letter]
+
+  results[[n_letter]] <-
+    f_this_function(
+      n_letter  = n_letter
+    , n_sam     = n_sam
+    , seconds_sleep = seconds_sleep
+    )
+}
+
+tictoc::toc() # end timer
+```
+
+---
+
+## future
+
+* Works well for calling a function with output into lists
+
+### Example: parallel single loop
+
+```{r}
+library(future)  # for %<-% operator
+
+sw_parallel <- c("sequential", "multisession")[2]
+
+if (sw_parallel == "sequential") {
+  # 1 process
+  future::plan(strategy = future::sequential)
+  message(1, "cores for sequential")
+}
+
+if (sw_parallel == "multisession") {
+  # parallel, separate R sessions, same machine (Windows)
+  num_cores <- parallelly::availableCores(omit = 1)
+
+  future::plan(
+    strategy =
+      future::multisession(
+        workers = num_cores
+      )
+    )
+  message(paste(num_cores, "cores for parallel"))
+}
+
+
+tictoc::tic(msg = "Timer") # start timer
+
+# prespecify the "results" list using listenv::listenv(), not with list()
+results <- listenv::listenv()  # list for parallel
+
+for (i_letter in seq_along(list_letters)) {
+  ## i_letter = 1
+  n_letter <- list_letters[i_letter]
+
+  results[[n_letter]] %<-%   # %<-% runs the process in future parallel
+    f_this_function(
+      n_letter  = n_letter
+    , n_sam     = n_sam
+    , seconds_sleep = seconds_sleep
+    )
+}
+
+# Convert from listenv() to list() for a familiar object class
+# For very big results, this can take a long time
+#   and the indexing works similarly for listenv()
+# results <-
+#   results %>%
+#   as.list()
+
+tictoc::toc() # end timer
+
+# Explicitly close multisession workers by switching plan
+future::plan(strategy = future::sequential)
+
+```
+
+---
+
+## foreach
+
+### Example: parallel single loop
+
+```{r}
+library(doParallel)  # for %dopar% operator
+num_cores <- parallel::detectCores() - 1
+doParallel::registerDoParallel(num_cores)
+
+tictoc::tic(msg = "Timer") # start timer
+
+# don't prespecify the "results" list
+
+results <-
+  foreach::foreach(
+    i_letter = seq_along(list_letters)
+  #, .combine =                             # default is a list
+  , .inorder = TRUE                         # FALSE is faster
+  , .packages = c("erikmisc", "tidyverse")  # character vector of packages that the tasks depend on
+  , .export = NULL                          # character vector of variables to export
+  #) %do% # sequential
+  ) %dopar%  # parallel
+  {
+  ## i_letter = 1
+  n_letter <- list_letters[i_letter]
+
+
+  #results[[n_letter]] <-
+  out <-
+    f_this_function(
+      n_letter  = n_letter
+    , n_sam     = n_sam
+    , seconds_sleep = seconds_sleep
+    )
+
+  # use a return value
+  return( out )
+
+} # foreach
+
+tictoc::toc() # end timer
+
+# explicitly close the implicitly created cluster
+doParallel::stopImplicitCluster()
+```
+
+
+### Example: nested sequential outer loop, parallel inner loop
+
+```{r}
+library(doParallel)  # for %dopar% operator
+num_cores <- parallel::detectCores() - 1
+doParallel::registerDoParallel(num_cores)
+
+tictoc::tic(msg = "Timer") # start timer
+
+# prespecify outer "results" list
+results <- list()
+
+for (i_num in 1:10) {
+
+  # don't prespecify inner results[[ i ]] list
+
+  results[[i_num]] <-
+    foreach::foreach(
+      i_letter = seq_along(list_letters)
+    #, .combine =                             # default is a list
+    , .inorder = TRUE                         # FALSE is faster
+    , .packages = c("erikmisc", "tidyverse")  # character vector of packages that the tasks depend on
+    , .export = NULL                          # character vector of variables to export
+    #) %do% # sequential
+    ) %dopar%  # parallel
+    {
+    ## i_letter = 1
+    n_letter <- list_letters[i_letter]
+
+
+    #results[[n_letter]] <-
+    out <-
+      f_this_function(
+        n_letter  = n_letter
+      , n_sam     = n_sam
+      , seconds_sleep = seconds_sleep
+      )
+
+    # use a return value
+    return( out )
+
+  } # foreach
+
+} # i_num
+
+tictoc::toc() # end timer
+
+# explicitly close the implicitly created cluster
+doParallel::stopImplicitCluster()
+```
+
+
+### Example: nested parallel outer loop, sequential inner loop
+
+
+```{r}
+library(doParallel)  # for %dopar% operator
+num_cores <- parallel::detectCores() - 1
+doParallel::registerDoParallel(num_cores)
+
+tictoc::tic(msg = "Timer") # start timer
+
+# don't prespecify outer "results" list
+
+results <-
+  foreach::foreach(
+    i_letter = seq_along(list_letters)
+  #, .combine =                             # default is a list
+  , .inorder = TRUE                         # FALSE is faster
+  , .packages = c("erikmisc", "tidyverse")  # character vector of packages that the tasks depend on
+  , .export = NULL                          # character vector of variables to export
+  #) %do% # sequential
+  ) %dopar%  # parallel
+  {
+
+  this_result <- list()
+
+  for (i_num in 1:10) {
+
+  # don't prespecify inner list
+
+    ## i_letter = 1
+    n_letter <- list_letters[i_letter]
+
+    #results[[n_letter]] <-
+    this_result[[ i_num ]] <-
+      f_this_function(
+        n_letter  = n_letter
+      , n_sam     = n_sam
+      , seconds_sleep = seconds_sleep
+      )
+
+    this_result[[ i_num ]][[ "i_num" ]] <- i_num
+
+  } # i_num
+
+  return(this_result)
+
+} # foreach
+
+tictoc::toc() # end timer
+
+# explicitly close the implicitly created cluster
+doParallel::stopImplicitCluster()
+```
+
