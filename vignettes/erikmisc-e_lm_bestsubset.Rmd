@@ -1,0 +1,62 @@
+---
+title: "Best subset selection"
+subtitle: "Plotting all linear model effects and contrasts"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Best subset selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+#always_allow_html: yes
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(erikmisc)
+```
+
+
+# Best subset selection
+
+The `e_lm_bestsubset()` function is a wrapper for `leaps::regsubsets()`.
+It takes a "full model" formula and returns the best `nbest` models of each model size (1 predictor, 2 predictors, etc.),
+in a table that's easy to review.
+
+NOTE: This does not assess model fit!  For that, see `e_lm_diag_plots()`.
+
+## Data
+
+Fit the best 3 models of each model size.
+For each column, a 1 or 0 indicates the variable is or is not in the model.
+The model `SIZE` is how many terms are in the model (not counting the intercept).
+Other model statistics are provided and the results are sorted by BIC (lowest BIC is preferred, best on top).
+
+```{r}
+tab_best <-
+  e_lm_bestsubset(
+    form  = formula(mpg ~ cyl + disp + hp + gear)
+  , dat   = datasets::mtcars
+  , nbest = 3
+  )
+
+  ### consider these options if you temporarily need a wider output in your Rmd output
+  # op <- options(); # saving old options
+  # options(width=100) # setting command window output text width wider
+tab_best %>% print(n = Inf, width = Inf)
+  # options(op); # reset (all) initial options
+```
+
+```{r}
+# print into RStudio viewer or a pretty table in Rmd output
+# include "always_allow_html: yes" in Rmd yaml header
+tab_best %>% e_table_print(sw_kable_format  = c("simple", "kbl", "html", "latex", "doc")[1])
+```

@@ -1,0 +1,232 @@
+---
+title: "Multiple regression using erikmisc"
+subtitle: "Plotting all linear model effects and contrasts"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Multiple regression using erikmisc}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+* This is an example of multiple regression using the functions in the `erikmisc` package.
+
+```{r setup}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 6)
+
+library(erikmisc)
+```
+
+# Load data
+
+* Calculating `mpg_log2` and dropping two extremely influential observations.
+* Creating some missing values to illustrate missing values plot.
+
+```{r}
+data(dat_mtcars_e)
+dat_mtcars_e <-
+  dat_mtcars_e %>%
+  dplyr::mutate(
+    mpg_log2 = mpg %>% log2()
+  ) %>%
+  dplyr::slice(
+    -c(29, 31)
+  ) %>%
+  dplyr::select(
+    model, mpg, mpg_log2
+  , tidyselect::everything()
+  )
+
+# create some missing values in variable we won't use in the regression model
+var_missing <- c("qsec", "carb", "am")
+prop_missing = 0.25
+n_missing = sample.int(n = nrow(dat_mtcars_e) * length(var_missing), size = round( prop_missing * nrow(dat_mtcars_e) * length(var_missing)))
+ind_missing = expand.grid(1:dim(dat_mtcars_e)[1], 1:length(var_missing))[n_missing, ]
+for (i_row in seq_len(nrow(ind_missing))) {
+  dat_mtcars_e[ind_missing[i_row,1], var_missing[ind_missing[i_row,2]] ] <- NA
+}
+
+str(dat_mtcars_e)
+#summary(dat_mtcars_e)
+```
+
+## Plot missing values
+
+```{r}
+e_plot_missing(
+    dat_plot       = dat_mtcars_e
+  , var_group      = "cyl"
+  , sw_group_sort  = TRUE
+  , var2_sort      = "disp"
+  )
+```
+
+# Fit full model
+
+* This model is chosen to have numeric and categorical main effects,
+  and at least two of possible types of two-way interaction (cat:cat, cat:num, num:num).
+
+```{r}
+ # Set model with all two-way interactions
+#form_model <-
+#  mpg ~ (cyl + disp + hp + wt + vs + am + gear)^2
+#form_model <-
+#  mpg ~ (cyl + disp + hp + wt + am)^2
+form_model <-
+  mpg_log2 ~ (cyl + disp + hp + wt)^2
+
+# fit model
+lm_fit <-
+  lm(
+    formula = form_model
+  , data    = dat_mtcars_e
+  )
+```
+
+* Anova shows of the many two-way interactions in the model, almost none are significant.
+* We can greatly simplify this model.
+
+```{r}
+car::Anova(lm_fit, type = 3)
+```
+
+* Summary shows that all effects were estimable.
+
+```{r}
+summary(lm_fit)
+```
+
+## Assess model assumptions
+
+* On full dataset:
+  * QQ-plot shows roughly normal (outliers in the direction of high kurtosis, "leptokurtosis").
+  * Cook's distance shows two highly influential observations.
+  * Cook's vs leverage plot shows that these influential observations (y-axis) are because of their high leverage (outlier in the x-direction).
+  * Box-Cox suggests a lambda = 0, log(y) transformation will improve normality.
+* After log2 transform and dropping two extremely influential observations (below)...
+  * Cook's distance shows two or three influential observations.
+
+_Recall, our goal is not to resolve all issues, but to illustrate the functions in the `erikmisc` package._
+
+```{r, fig.width = 8, fig.height = 3}
+e_plot_lm_diagostics(
+    fit = lm_fit
+  , sw_plot_set = "simple"
+  )
+```
+
+# Best subset selection
+
+* The best model by BIC has `hp` and `wt`.
+
+```{r}
+tab_lm_best <-
+  e_lm_bestsubset(
+    form  = form_model
+  , dat   = dat_mtcars_e
+  , nbest = 4
+  )
+
+  ### consider these options if you temporarily need a wider output in your Rmd output
+  op <- options(); # saving old options
+  options(width = 200) # setting command window output text width wider
+tab_lm_best %>% print(n = Inf, width = Inf)
+  options(op); # reset (all) initial options
+```
+
+# Fit reduced model
+
+* For demonstration purposes, I'm choosing Model 9 because it has both `factor:numeric` and `numeric:numeric` interactions.
+
+```{r}
+tab_lm_best[9, ] %>% print(width = Inf)
+
+form_model_red <-
+  mpg_log2 ~ cyl + hp + wt + cyl:wt + hp:wt
+
+# fit reduced model
+lm_fit_red <-
+  lm(
+    formula = form_model_red
+  , data    = dat_mtcars_e
+  )
+car::Anova(lm_fit_red, type = 3)
+summary(lm_fit_red)
+```
+
+## Assess model assumptions
+
+* Cook's distance shows Observation 17 is influential.
+
+```{r, fig.width = 8, fig.height = 3}
+e_plot_lm_diagostics(
+    fit = lm_fit_red
+  , sw_plot_set = "simpleAV"
+  )
+```
+
+# Plot model contrasts
+
+* See the help `?e_plot_model_contrasts` for the method defaults.
+* I'm choosing to not print the output (default) while the function runs so that
+  we can examine the separate lists in the output.
+
+```{r, fig.width = 10, fig.height = 8}
+lm_fit_contrasts <-
+  e_plot_model_contrasts(
+    fit                 = lm_fit_red
+  , dat_cont            = dat_mtcars_e
+  , adjust_method       = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
+  , sw_print            = FALSE
+  , sw_TWI_plots_keep   = c("singles", "both", "all")[2]
+  )
+```
+
+* The output contains lists for tables, plots, and text.
+
+```{r}
+lm_fit_contrasts %>% names()
+```
+
+## tables
+
+* The `tables` are give the estimates (`$est`) and contrasts (`$cont`) for each
+  effect in the model not involved with an interaction (argument
+  `sw_marginal_even_if_interaction` can include all main effects).
+
+```{r}
+# to print tables
+lm_fit_contrasts$tables
+```
+
+## text
+
+* The `text` of the tables are written in a form that can be copy/pasted into a
+  report and worked into sentences.
+
+```{r}
+# to print caption text
+#lm_fit_contrasts$text
+```
+
+## plots
+
+* The `plots` illustrate the effects with labelled plots and the `text` in the
+  caption for a single complete result.
+
+```{r, fig.width = 8, fig.height = 4}
+# These are the two plots
+lm_fit_contrasts$plots$`cyl:wt`$both
+lm_fit_contrasts$plots$`hp:wt`$both
+```
+
