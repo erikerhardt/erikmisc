@@ -8,9 +8,10 @@ format:
   html:
     theme:                  litera
     highlight-style:        atom-one
+    page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
     toc:                    true
     toc-depth:              4
-    toc-location:           right     # left, body, right
+    toc-location:           body      # left, body, right
     number-sections:        true      # true, false
     number-depth:           3
     code-fold:              show      # true (initially hidden), false, show (initially shown)
@@ -32,7 +33,6 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
 
 <!---
 # Erik's compile commands in R:
-  rm(list=ls())
   fn_qmd <- "erik_qmd_template_simple.qmd"
   setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/qmd_template")
   quarto::quarto_render(input = fn_qmd)

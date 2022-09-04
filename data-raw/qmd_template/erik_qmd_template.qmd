@@ -41,10 +41,10 @@ format:
     #  dark: darkly
     theme:                  litera    # default, cerulean, cosmo, cyborg, darkly, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, slate, solar, spacelab, superhero, united, vapor, yeti, zephyr
     highlight-style:        atom-one  # a11y, arrow, atom-one, ayu, breeze, github, gruvbox; pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock; dracula, mokokai, nord, oblivion, printing, radical, solarized, vim-dark
-    page-layout:            article   # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
     toc:                    true
     toc-depth:              4
-    toc-location:           left      # left, body, right
+    toc-location:           body      # left, body, right
     toc-title:              Contents
     number-sections:        true      # true, false
     number-depth:           3
@@ -101,7 +101,6 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
 
 <!---
 # Erik's compile commands in R:
-  rm(list=ls())
   fn_qmd <- "erik_qmd_template.qmd"
   setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/qmd_template")
   quarto::quarto_render(input = fn_qmd)
@@ -167,6 +166,8 @@ The main figure is @fig-charts2, with the subpanels being called
 #|   - "Vapor Pressure of Mercury as a Function of Temperature"
 #|   - "Motor Trend Car Road Tests"
 #| layout: [[45,-10, 45], [100]]
+#| fig-width:   8
+#| fig-height:  6
 
 plot(cars)
 plot(pressure)
