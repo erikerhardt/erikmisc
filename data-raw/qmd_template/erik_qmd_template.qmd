@@ -101,8 +101,8 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
 
 <!---
 # Erik's compile commands in R:
-  fn_qmd <- "erik_qmd_template.qmd"
   setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/qmd_template")
+  fn_qmd <- "erik_qmd_template.qmd"
   quarto::quarto_render(input = fn_qmd)
 -->
 
