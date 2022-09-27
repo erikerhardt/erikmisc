@@ -65,7 +65,7 @@ e_read_data_files <-
     if (fn_ext %notin% c("csv", "xls", "xlsx")) {
       warning(paste0("erikmisc::e_read_data_files() SKIPPING non-csv, -xls, or -xlsx: ", fn_full_this))
       next
-    }
+    } # if fn_ext
 
     # csv file
     if (fn_ext == "csv") {
@@ -89,7 +89,7 @@ e_read_data_files <-
       # remove column attributes
       attr(dat_sheet[[ read_fn_names[i_fn] ]], 'spec') <- NULL
 
-    }
+    } # if fn_ext
 
     # xls file
     if (fn_ext %in% c("xls", "xlsx")) {
@@ -156,7 +156,7 @@ e_read_data_files <-
 
       } # > 1
 
-    }
+    } # if fn_ext
 
     # print file name and dim
     if (sw_dat_print_fn_read) {

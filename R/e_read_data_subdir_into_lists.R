@@ -261,11 +261,15 @@ e_read_data_subdir_into_lists <-
           , excel_col_names         = excel_col_names
           )
 
+        # files, but no data files to read
+        if (length(dat_to_return) == 0) {
+          dat_to_return <- NULL
+        }
 
         if (sw_list_or_flat == c("list", "flat")[1]) {
           fn_names <-
             dat_to_return
-        }
+        } # if list
 
         if (sw_list_or_flat == c("list", "flat")[2]) {
           if ("list" %in% class(dat_to_return[[1]])) {
@@ -275,9 +279,9 @@ e_read_data_subdir_into_lists <-
             fn_names <-
               dat_to_return
           }
-        }
-      }
-    }
+        } # if flat
+      } # if length(fn_names)
+    } # if sw_fn_or_dat
   } # if length(dir_names)
 
   if(length(fn_names)) {
