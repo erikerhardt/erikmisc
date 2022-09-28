@@ -21,9 +21,9 @@ e_plot_longitudinal(
   sw_group_reverse = FALSE,
   hist_binwidth = NULL,
   hist_align = c("center", "boundary")[1],
-  line_type_grand = c("none", "solid", "dashed", "dotted", "dotdash", "longdash",
+  line_type_grand = c("blank", "solid", "dashed", "dotted", "dotdash", "longdash",
     "twodash")[6],
-  line_type_group = c("none", "solid", "dashed", "dotted", "dotdash", "longdash",
+  line_type_group = c("blank", "solid", "dashed", "dotted", "dotdash", "longdash",
     "twodash")[4]
 )
 }
@@ -89,8 +89,8 @@ e_plot_longitudinal(
   #, sw_group_reverse = TRUE
   , hist_binwidth    = 25
   , hist_align       = c("center", "boundary")[2]
-  , line_type_grand  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[6]
-  , line_type_group  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[4]
+  , line_type_grand  = c("blank","solid","dashed","dotted","dotdash","longdash","twodash")[6]
+  , line_type_group  = c("blank","solid","dashed","dotted","dotdash","longdash","twodash")[4]
   )
 
 # categorical
@@ -114,7 +114,7 @@ e_plot_longitudinal(
   #, sw_group_reverse = TRUE
   , hist_binwidth    = NULL
   , hist_align       = c("center", "boundary")[2]
-  , line_type_grand  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[6]
-  , line_type_group  = c("none","solid","dashed","dotted","dotdash","longdash","twodash")[4]
+  , line_type_grand  = c("blank","solid","dashed","dotted","dotdash","longdash","twodash")[6]
+  , line_type_group  = c("blank","solid","dashed","dotted","dotdash","longdash","twodash")[4]
   )
 }
