@@ -21,8 +21,7 @@
 #'
 #' @return plot in ggplot grob format
 #' @importFrom labelled var_label
-#' @importFrom gridExtra arrangeGrob
-#' @importFrom ggpubr as_ggplot
+#' @importFrom cowplot plot_grid
 #' @importFrom tidyselect any_of
 #' @import ggplot2
 #' @import dplyr
@@ -443,26 +442,34 @@ e_plot_longitudinal <-
   }
   #print(p2)
 
-  # plot as a grid
-  #library(gridExtra)
-  #library(grid)
-  lay <-
-    rbind(
-      c(1)
-    , c(1)
-    #, c(1)
-    , c(2)
-    )
+  # # plot as a grid
+  # #library(gridExtra)
+  # #library(grid)
+  # lay <-
+  #   rbind(
+  #     c(1)
+  #   , c(1)
+  #   #, c(1)
+  #   , c(2)
+  #   )
+  # p_arranged <-
+  #   gridExtra::arrangeGrob(
+  #     grobs         = list(p1, p2)
+  #   , layout_matrix = lay
+  #   #, top           = labelled::var_label(dat_pdp_ic[[var_name]]) %>% as.character()
+  #   #, bottom="bottom\nlabel"
+  #   #, left="left label"
+  #   #, right="right label"
+  #   ) %>%
+  #   ggpubr::as_ggplot()
+
   p_arranged <-
-    gridExtra::arrangeGrob(
-      grobs         = list(p1, p2)
-    , layout_matrix = lay
-    #, top           = labelled::var_label(dat_pdp_ic[[var_name]]) %>% as.character()
-    #, bottom="bottom\nlabel"
-    #, left="left label"
-    #, right="right label"
-    ) %>%
-    ggpubr::as_ggplot()
+    cowplot::plot_grid(
+      plotlist = list(p1, p2)
+    , nrow = NULL
+    , ncol = 1
+    , rel_heights = c(2, 1)
+    )
 
   return(p_arranged)
 
