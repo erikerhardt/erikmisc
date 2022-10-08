@@ -1,0 +1,185 @@
+## ---- include = FALSE---------------------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+## ----setup--------------------------------------------------------------------
+knitr::opts_chunk$set(fig.width = 6, fig.height = 6)
+
+library(erikmisc)
+library(dplyr)
+
+## -----------------------------------------------------------------------------
+data(dat_mtcars_e)
+
+dat_mtcars_e <-
+  dat_mtcars_e %>%
+  dplyr::mutate(
+    vs_V = ifelse(vs == "V-shaped", 1, 0) # 0-1 binary for logistic regression
+  )
+#labelled::var_label(dat_mtcars_e[[ "vs_V"  ]]) <- "Engine: 1=V-shaped, 0=straight binary for logistic regression"
+
+str(dat_mtcars_e)
+#summary(dat_mtcars_e)
+
+## -----------------------------------------------------------------------------
+fit_glm_vs <-
+  glm(
+    cbind(vs_V, 1 - vs_V) ~ disp + wt + carb
+  , family = binomial
+  , data = dat_mtcars_e
+  )
+
+cat("Test residual deviance for lack-of-fit (if > 0.10, little-to-no lack-of-fit)\n")
+dev_p_val <- 1 - pchisq(fit_glm_vs$deviance, fit_glm_vs$df.residual)
+dev_p_val %>% print()
+
+car::Anova(fit_glm_vs, type = 3)
+summary(fit_glm_vs)
+
+## ---- fig.width = 5, fig.height = 5-------------------------------------------
+# all contrasts from model, probability scale
+glm_contrasts <-
+  e_plot_model_contrasts(
+    fit                = fit_glm_vs
+  , dat_cont           = dat_mtcars_e
+  , sw_glm_scale       = c("link", "response")[2]
+  , sw_print           = FALSE
+  , sw_marginal_even_if_interaction = TRUE
+  , sw_TWI_plots_keep  = "both"
+  )
+glm_contrasts$plots
+
+## ---- fig.width = 5, fig.height = 5-------------------------------------------
+glm_roc <-
+  e_plot_roc(
+    actual_labels = dat_mtcars_e$vs_V
+  , pred_values   = fit_glm_vs$fitted.values
+  , sw_plot       = TRUE
+  , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
+  )
+
+glm_roc$roc_curve_best %>% print(width = Inf)
+glm_roc$p_roc
+glm_roc$confusion_matrix
+
+## ---- eval = FALSE, echo = FALSE----------------------------------------------
+#  ## Random forests
+#  ### Fit model
+#  ### Classification results
+#  
+#  
+#  #### Before variable selection
+#  dat.class <-
+#    dat_sub %>%
+#    select(DX, one_of(Var$list[[this_var_list]])) %>%
+#    na.omit() %>%
+#    as.data.frame()
+#  dim(dat.class)
+#  table(dat.class$DX)
+#  
+#  set.seed(my.seed)
+#  y.class <- colnames(dat.class)[1] # "DX"
+#  x.class <- colnames(dat.class)[-1] # c()
+#  out.summary <- f_rf_cat2(y.class, x.class, dat.class, sw.plots=FALSE, sw.return=TRUE, sw.seed=-76543)
+#  #out.summary
+#  
+#  v_imp <-
+#    out.summary$importance %>%
+#    as_tibble(rownames = "Var") %>%
+#    arrange(desc(all))
+#  v_imp %>% print(n = Inf)
+#  
+#  #### After variable selection
+#  v_list <- v_imp$Var
+#  v_list_ind <- which(v_list %notin%
+#    c(
+#    #  "SEX"
+#    #, "AGE"
+#    #, "Zemek5P_parent"
+#    #, "PCSI_percentage"
+#    #, "Hippocampus_pct"
+#    #, "ETIV"
+#    #, "rMFG_Thickness"
+#    ))
+#  v_list <-
+#    v_list[v_list_ind]
+#  
+#  dat.class <-
+#    dat_sub %>%
+#    select(DX, one_of(v_list)) %>%  # Var$list$var_demo[c(3,4)],
+#    mutate(DX = factor(DX)) %>%
+#    na.omit() %>%
+#    as.data.frame()
+#  dim(dat.class)
+#  table(dat.class$DX)
+#  
+#  set.seed(my.seed)
+#  y.class <- colnames(dat.class)[1] # "DX"
+#  x.class <- colnames(dat.class)[-1] # c("sex", "age", var_list_comp)
+#  out.summary <- f_rf_cat2(y.class, x.class, dat.class, sw.plots=FALSE, sw.return=TRUE, sw.seed=-76543)
+#  #out.summary
+#  
+#  v_imp <-
+#    out.summary$importance %>%
+#    as_tibble(rownames = "Var") %>%
+#    arrange(desc(all))
+#  v_imp %>% print(n = Inf)
+#  
+#  out_rf <-
+#    f_RF_label_plot_summary(
+#      dat.class
+#    , out.summary
+#    , v_imp
+#    , var_list_label_match %>% filter(var_type %in% c("var_demo", this_var_list))
+#    )
+#  
+#  out_tab_plot$vimp_tab [[this_var_list]]$DX    <- out_rf$out_rf_v_imp
+#  out_tab_plot$vimp_plot[[this_var_list]]$DX    <- out_rf$out_rf_v_imp_plot
+#  out_tab_plot$class_tab[[this_var_list]]$DX    <- out_rf$out_rf_confusion
+#  out_tab_plot$roc_dat  [[this_var_list]]$DX    <- out_rf$roc_dat
+#  
+#  ggsave(paste0("out/", "rf_vimp_roc_", this_var_list, "NoAgeSex.png") , plot=out_rf$out_rf_v_imp_plot2, width=8, height=5, units="in", bg="white", dpi=300)
+#  
+#  
+#  if (sw_marginal_plots) {
+#    # plot.variable(out.summary, xvar.names = x.class, partial = TRUE, smooth.lines = TRUE)
+#  
+#    p.var <- randomForestSRC::plot.variable(out.summary, xvar.names = x.class, partial = TRUE, smooth.lines = TRUE, show.plots = FALSE, npts = 250)
+#  
+#    library(ggRandomForests) # ggplot2 random forest figures
+#    gg_p <- ggRandomForests::gg_partial(p.var)
+#    #plot(gg_p, panel=TRUE, notch=TRUE)
+#    p.all <- plot(gg_p)
+#  
+#    # Add smooth line
+#    p.all.smooth <- NULL
+#    for (i in seq_along(x.class)) {   #length(p.all)) {
+#      p.all.smooth[[i]] <- p.all[[i]]
+#      p.all.smooth[[i]] <- p.all.smooth[[i]] + coord_cartesian(ylim=c(0.1,0.9))
+#      p.all.smooth[[i]] <- p.all.smooth[[i]] + geom_smooth()
+#      # note, we can't add colored values by diag since nonunique x-values.
+#    }
+#  
+#    # Arrange plots
+#    # https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html
+#    library(gridExtra)
+#    library(grid)
+#    #lay <- rbind(c(1,2,3,4,5),
+#    #             c(6,7,8,9,10))
+#    lay <- rbind(c(1,2,NA)
+#                 , c(NA,NA,NA)
+#                 )
+#    p.arranged <- grid.arrange( grobs = p.all.smooth
+#                , layout_matrix = lay
+#                , top="RF Marginal Pr(Patient) for important variables"
+#                #, bottom="bottom\nlabel"
+#                #, left="left label"
+#                #, right="right label"
+#                )
+#    out_tab_plot$marginal [[this_var_list]]$DX    <- p.arranged
+#  
+#    ggsave(paste0("out/", "rf_marginal_", this_var_list, "NoAgeSex.png") , plot=p.arranged, width=8, height=5, units="in", bg="white", dpi=300)
+#  } # sw_marginal_plots
+
