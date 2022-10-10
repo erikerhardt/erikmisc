@@ -95,7 +95,7 @@ e_plot_scatterplot <-
   if (is.null(var_color)) {
     p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y))
   } else {
-    if (class(dat_plot[[ var_color ]]) == "numeric") {
+    if (inherits(dat_plot[[ var_color ]], "numeric")) {
       p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, colour = var_color))
     } else {
       p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, colour = var_color, shape = var_color))
@@ -106,7 +106,7 @@ e_plot_scatterplot <-
   }
   p <- p + theme_bw()
 
-  if (class(dat_plot[[ var_x ]]) == "numeric") {
+  if (inherits(dat_plot[[ var_x ]], "numeric")) {
     p <- p + geom_point()
   } else {
     # plot a reference line for the global mean (assuming no groups)

@@ -138,13 +138,13 @@ e_plot_lm_diagostics <-
   if (length(var_names)) {
     for(i_plot in 1:length(var_names)) {
       m_lab <- paste("Residuals vs.", var_names[i_plot])
-      if(class(fit$model[,var_names[i_plot]]) == "character") {
+      if(inherits(fit$model[,var_names[i_plot]], "character")) {
         message(paste0("e_plot_lm_diagostics: ", var_names[i_plot], " is character and may need to be a factor."))
       }
       plot(x = fit$model[,var_names[i_plot]], y = fit$residuals, main = m_lab, ylab = "Residuals", xlab = var_names[i_plot])
       abline(h = 0, col = "gray75", lty = 3)  # horizontal line at zero
 
-      if((class(fit$model[,var_names[i_plot]]) %in% c("numeric", "integer"))) {
+      if(inherits(fit$model[,var_names[i_plot]], c("numeric", "integer"))) {
         # use simple smoother if less than 4 observations, otherwise use splines
         if (length(unique(fit$model[,var_names[i_plot]])) < 4) {
           # Loess

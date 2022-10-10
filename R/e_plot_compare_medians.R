@@ -132,7 +132,7 @@ e_plot_compare_medians <-
       }
     }
   }
-  if(class(comparisons) == "list") {
+  if(inherits(comparisons, "list")) {
     # Visualize: Specify the comparisons you want
     # my_comparisons <-
     #   list(

@@ -80,7 +80,7 @@ e_lm_model_criteria <-
   }
 
 
-  if (class(lm_fit) == "lm") {
+  if (inherits(lm_fit, "lm")) {
     out <-
       tibble::tibble(
         model_id      = model_id
@@ -104,7 +104,7 @@ e_lm_model_criteria <-
       )
   }
 
-  if (class(lm_fit) == "lmerMod") {
+  if (inherits(lm_fit, "lmerMod")) {
     out <-
       tibble::tibble(
         model_id      = model_id

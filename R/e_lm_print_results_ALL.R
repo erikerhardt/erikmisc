@@ -35,7 +35,7 @@ e_lm_print_html_anova <-
   #library(sjmisc)
   #library(sjlabelled)
 
-  if (class(fit) == "lm") {
+  if (inherits(fit, "lm")) {
     fit_anova <-
       fit %>%
       #stats::anova()
@@ -45,7 +45,7 @@ e_lm_print_html_anova <-
       as_tibble(rownames = "Variables") %>%
       mutate(sig = `Pr(>F)` %>% e_pval_stars())
   }
-  if (class(fit) == "lmerMod") {
+  if (inherits(fit, "lmerMod")) {
     fit_anova <-
       fit %>%
       lmerTest::as_lmerModLmerTest() %>%
@@ -141,11 +141,11 @@ e_lm_print_html_summary <-
   #library(sjmisc)
   #library(sjlabelled)
 
-  if (class(fit) == "lm") {
+  if (inherits(fit, "lm")) {
     fit <-
       fit
   }
-  if (class(fit) == "lmerMod") {
+  if (inherits(fit, "lmerMod")) {
     fit <-
       fit %>%
       lmerTest::as_lmerModLmerTest()

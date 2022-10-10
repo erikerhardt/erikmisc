@@ -272,7 +272,8 @@ e_read_data_subdir_into_lists <-
         } # if list
 
         if (sw_list_or_flat == c("list", "flat")[2]) {
-          if ("list" %in% class(dat_to_return[[1]])) {
+          #if ("list" %in% class(dat_to_return[[1]])) {
+          if (inherits(dat_to_return[[1]], "list")) {
             fn_names <-
               unlist(dat_to_return, recursive = FALSE)
           } else {

@@ -562,7 +562,7 @@ e_plot_model_contrasts <-
       }
 
       ### if numeric
-      if ( class(dat_cont[[var_xs]]) %in% c("numeric", "integer") ) {
+      if ( inherits(dat_cont[[var_xs]], c("numeric", "integer")) ) {
 
         ## Table
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
@@ -724,7 +724,7 @@ e_plot_model_contrasts <-
 
 
       ### if factor
-      if ( class(dat_cont[[var_xs]]) == "factor" ) {
+      if ( inherits(dat_cont[[var_xs]], "factor") ) {
 
         ## Table
         # if a factor, then compute the contrast and statistics and create plot
@@ -906,7 +906,7 @@ e_plot_model_contrasts <-
     if (length(var_xs) == 2) {
 
       ### if factor:factor
-      if (all(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) == "factor")) {
+      if (all(inherits(dat_cont[[ var_xs[1] ]], "factor"), inherits(dat_cont[[ var_xs[2] ]], "factor"))) {
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {
@@ -1224,12 +1224,12 @@ e_plot_model_contrasts <-
 
 
       ### if factor:numeric
-      if (any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) == "factor" ) &
-          any(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) %in% c("numeric", "integer"))
+      if (any(inherits(dat_cont[[ var_xs[1] ]], "factor"), inherits(dat_cont[[ var_xs[2] ]], "factor") ) &
+          any(inherits(dat_cont[[ var_xs[1] ]], c("numeric", "integer")), inherits(dat_cont[[ var_xs[2] ]], c("numeric", "integer")) )
         ) {
 
         # make first variable the factor and second numeric
-        if(class(dat_cont[[ var_xs[2] ]]) == "factor") {
+        if(inherits(dat_cont[[ var_xs[2] ]], "factor")) {
           var_xs <- rev(var_xs)
         }
 
@@ -1514,7 +1514,7 @@ e_plot_model_contrasts <-
 
 
       ### if numeric:numeric
-      if (all(c(class(dat_cont[[ var_xs[1] ]]), class(dat_cont[[ var_xs[2] ]])) %in% c("numeric", "integer"))) {
+      if ( all(inherits(dat_cont[[ var_xs[1] ]], c("numeric", "integer")), inherits(dat_cont[[ var_xs[2] ]], c("numeric", "integer"))) ) {
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {

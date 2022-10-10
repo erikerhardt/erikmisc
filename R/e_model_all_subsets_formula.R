@@ -124,12 +124,12 @@ e_model_all_subsets_formula <-
 
 
 
-  if ( class(x_var_names) == "character" ) {
+  if ( inherits(x_var_names, "character") ) {
     x_var_names <- list(x_var_names)
   }
 
   # at this point, it should be in a list
-  if ( !(class(x_var_names) == "list") ) {
+  if ( !inherits(x_var_names, "list") ) {
     stop("erikmisc::e_model_all_subsets_formula, x_var_names did not become a list.")
   }
 
@@ -139,7 +139,7 @@ e_model_all_subsets_formula <-
     length()
 
   # make max_scope a list as long as the x_var_names
-  if ( class(max_scope) == "character" ) {
+  if ( inherits(max_scope, "character") ) {
     temp_max_scope <- max_scope
     max_scope <- list()
     for (i_list in seq_len(n_var_lists)) {

@@ -31,7 +31,8 @@ e_headtail <-
   if (is.matrix(x) | is.data.frame(x)) {
 
     ## Remove tbl_df class if it exists
-    if ("tbl_df" %in% class(x)) {
+    #if ("tbl_df" %in% class(x)) {
+    if (inherits(x, "tbl_df")) {
       x <- as.data.frame(x)
     }
 
