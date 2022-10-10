@@ -27,23 +27,23 @@ e_plot_missing(
 \item{sw_text_pct_miss}{TRUE/FALSE to include text values of percent missing on bar plot}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{         ggplot grob plot object
+\if{html}{\out{<div class="sourceCode">}}\preformatted{               ggplot grob plot object
 }\if{html}{\out{</div>}}
 }
 \description{
 Plots missing data in a data.frame, possibly grouped by one variable and sorted by a second.
 }
 \examples{
-dat_plot = datasets::mtcars
+dat_miss = dat_mtcars_e
 prop_missing = 0.10
-n_missing = sample.int(n = prod(dim(dat_plot)), size = round( prop_missing * prod(dim(dat_plot))))
-ind_missing = expand.grid(1:dim(dat_plot)[1], 1:dim(dat_plot)[2])[n_missing, ]
+n_missing = sample.int(n = prod(dim(dat_miss)), size = round( prop_missing * prod(dim(dat_miss))))
+ind_missing = expand.grid(1:dim(dat_miss)[1], 1:dim(dat_miss)[2])[n_missing, ]
 for (i_row in seq_along(n_missing)) {
-  dat_plot[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
+  dat_miss[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
 }
 
 e_plot_missing(
-    dat_plot       = dat_plot
+    dat_plot       = dat_miss
   , var_group      = "cyl"
   , sw_group_sort  = TRUE
   , var2_sort      = "disp"
