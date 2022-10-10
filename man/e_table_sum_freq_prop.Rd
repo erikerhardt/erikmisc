@@ -4,7 +4,13 @@
 \alias{e_table_sum_freq_prop}
 \title{Create a frequency/proportion summary table by a set of variables}
 \usage{
-e_table_sum_freq_prop(dat, var_names, sw_sort_prop = TRUE)
+e_table_sum_freq_prop(
+  dat,
+  var_names,
+  sw_sort_prop = TRUE,
+  sw_drop_NA = FALSE,
+  sw_totals = FALSE
+)
 }
 \arguments{
 \item{dat}{data.frame or tibble}
@@ -12,6 +18,10 @@ e_table_sum_freq_prop(dat, var_names, sw_sort_prop = TRUE)
 \item{var_names}{list of variable names}
 
 \item{sw_sort_prop}{TRUE/FALSE to sort the last variable descending by proportion within the other variables}
+
+\item{sw_drop_NA}{TRUE/FALSE to drop NAs in \code{var_names} variables before calculating proportions}
+
+\item{sw_totals}{TRUE/FALSE to include totals}
 }
 \value{
 tab_summary a summary table
@@ -20,10 +30,53 @@ tab_summary a summary table
 Create a frequency/proportion summary table by a set of variables
 }
 \examples{
+# Create data with missing values for examples
+dat_miss = dat_mtcars_e
+prop_missing = 0.10
+n_missing = sample.int(n = prod(dim(dat_miss)), size = round( prop_missing * prod(dim(dat_miss))))
+ind_missing = expand.grid(1:dim(dat_miss)[1], 1:dim(dat_miss)[2])[n_missing, ]
+for (i_row in seq_along(n_missing)) {
+  dat_miss[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
+}
+
+# do not sort, with NAs, no totals
 e_table_sum_freq_prop(
-    dat           = ggplot2::mpg
-  , var_names     = c("drv", "cyl", "class")
-  , sw_sort_prop  = TRUE
+    dat           = dat_miss
+  , var_names     = c("vs", "am", "cyl")
+  , sw_sort_prop  = FALSE
+  , sw_drop_NA    = FALSE
+  , sw_totals     = FALSE
   ) \%>\%
   print(n = Inf)
+
+# sorted by proportion, with NAs, no totals
+e_table_sum_freq_prop(
+    dat           = dat_miss
+  , var_names     = c("vs", "am", "cyl")
+  , sw_sort_prop  = TRUE
+  , sw_drop_NA    = FALSE
+  , sw_totals     = FALSE
+  ) \%>\%
+  print(n = Inf)
+
+# sorted by proportion, no NAs, no totals
+e_table_sum_freq_prop(
+    dat           = dat_miss
+  , var_names     = c("vs", "am", "cyl")
+  , sw_sort_prop  = TRUE
+  , sw_drop_NA    = TRUE
+  , sw_totals     = FALSE
+  ) \%>\%
+  print(n = Inf)
+
+# sorted by proportion, no NAs, with totals
+e_table_sum_freq_prop(
+    dat           = dat_miss
+  , var_names     = c("vs", "am", "cyl")
+  , sw_sort_prop  = TRUE
+  , sw_drop_NA    = TRUE
+  , sw_totals     = TRUE
+  ) \%>\%
+  print(n = Inf)
+
 }
