@@ -64,8 +64,7 @@
 #'
 #'
 #' # with data
-#' data(mtcars, package="datasets")
-#' str(mtcars)
+#' str(dat_mtcars_e)
 #'
 #' yvar      <- "mpg"
 #' xvar_full <- c("cyl", "disp", "hp", "drat", "wt", "qsec")
@@ -99,7 +98,7 @@
 #' # with data, single n
 #' out <-
 #'   e_lm_power(
-#'     dat           = datasets::mtcars
+#'     dat           = dat_mtcars_e
 #'   , formula_full  = formula_full
 #'   , formula_red   = formula_red
 #'   , n_total       = 100
@@ -115,7 +114,7 @@
 #' # with data, sequence of n for power curve, multiple reference sample sizes
 #' out <-
 #'   e_lm_power(
-#'     dat           = datasets::mtcars
+#'     dat           = dat_mtcars_e
 #'   , formula_full  = formula_full
 #'   , formula_red   = formula_red
 #'   , n_total       = seq(10, 300, by = 5)

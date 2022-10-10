@@ -27,7 +27,7 @@
 #' @export
 #'
 #' @examples
-#' datasets::mtcars %>% cor() %>% e_plot_corr_ellipse()
+#' dat_mtcars_e %>% cor() %>% e_plot_corr_ellipse()
 #'
 #' \dontrun{
 #' ## Color version
@@ -43,7 +43,7 @@
 #' # Create scale with 100 points
 #' colors_plot <- color_ramp(100)
 #' # move correlation range from [-1, 1] to [0, 100] for colors
-#' datasets::mtcars %>%
+#' dat_mtcars_e %>%
 #'   cor() %>%
 #'   e_plot_corr_ellipse(
 #'     col  = colors_plot[((. + 1)/2) * 100]

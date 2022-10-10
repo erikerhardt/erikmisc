@@ -13,15 +13,15 @@
 #' @export
 #'
 #' @examples
-#' datasets::mtcars %>%
+#' dat_mtcars_e %>%
 #'   dplyr::filter(cyl == 4) %>%
 #'   dplyr::select(mpg, hp, wt) %>%
 #'   e_plot_mnv_norm_qqplot(name = "cyl = 4")
-#' datasets::mtcars %>%
+#' dat_mtcars_e %>%
 #'   dplyr::filter(cyl == 6) %>%
 #'   dplyr::select(mpg, hp, wt) %>%
 #'   e_plot_mnv_norm_qqplot(name = "cyl = 6")
-#' datasets::mtcars %>%
+#' dat_mtcars_e %>%
 #'   dplyr::filter(cyl == 8) %>%
 #'   dplyr::select(mpg, hp, wt) %>%
 #'   e_plot_mnv_norm_qqplot(name = "cyl = 8")

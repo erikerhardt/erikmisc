@@ -9,9 +9,9 @@
 #' @export
 #'
 #' @examples
-#' t_summary <- t.test(datasets::mtcars$mpg, mu = 20, data = datasets::mtcars)
+#' t_summary <- t.test(dat_mtcars_e$mpg, mu = 20, data = dat_mtcars_e)
 #' e_plot_ttest_pval(t_summary)
-#' t_summary <- t.test(mpg ~ am, mu = 0, data = datasets::mtcars)
+#' t_summary <- t.test(mpg ~ am, mu = 0, data = dat_mtcars_e)
 #' e_plot_ttest_pval(t_summary)
 e_plot_ttest_pval <-
   function(

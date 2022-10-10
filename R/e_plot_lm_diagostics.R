@@ -30,10 +30,10 @@
 #' @export
 #'
 #' @examples
-#' fit <- lm(mpg ~ cyl + disp + hp + gear, data = datasets::mtcars)
+#' fit <- lm(mpg ~ cyl + disp + hp + gear, data = dat_mtcars_e)
 #' e_plot_lm_diagostics(fit)
 #' mod <- stats::formula(mpg ~ cyl + disp + hp + gear)
-#' fit <- lm(mod, data = datasets::mtcars)
+#' fit <- lm(mod, data = dat_mtcars_e)
 #' e_plot_lm_diagostics(fit)
 e_plot_lm_diagostics <-
   function(

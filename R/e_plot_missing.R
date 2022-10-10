@@ -41,8 +41,8 @@ e_plot_missing <-
   ) {
   ## DEBUG
   ## 6/17/2021
-  # #dat_plot = datasets::mtcars %>% as_tibble(rownames = "Model")
-  # dat_plot = datasets::mtcars
+  # #dat_plot = dat_mtcars_e %>% as_tibble(rownames = "Model")
+  # dat_plot = dat_mtcars_e
   # n_missing = sample.int(n = prod(dim(dat_plot)), size = round( 0.10 * prod(dim(dat_plot))))
   # ind_missing = expand.grid(1:dim(dat_plot)[1], 1:dim(dat_plot)[2])[n_missing, ]
   # for (i_row in seq_along(n_missing)) {

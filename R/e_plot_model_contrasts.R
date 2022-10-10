@@ -51,7 +51,7 @@
 #' @examples
 #' # Data for testing
 #' dat_cont <-
-#'   datasets::mtcars %>%
+#'   dat_mtcars_e %>%
 #'   tibble::as_tibble(
 #'     rownames = "model"
 #'   ) %>%
@@ -302,7 +302,7 @@ e_plot_model_contrasts <-
   ##
   ## # Data for testing
   ## dat_cont <-
-  ##   mtcars %>%
+  ##   dat_mtcars_e %>%
   ##   as_tibble(
   ##     rownames = "model"
   ##   ) %>%

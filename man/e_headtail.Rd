@@ -22,5 +22,5 @@ dat_ht     the head and tail of the data.frame
 Print head and tail of a data.frame
 }
 \examples{
-e_headtail(datasets::mtcars)
+e_headtail(dat_mtcars_e)
 }

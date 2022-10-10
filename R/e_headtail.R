@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' e_headtail(datasets::mtcars)
+#' e_headtail(dat_mtcars_e)
 e_headtail <-
   function(
     x

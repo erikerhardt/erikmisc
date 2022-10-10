@@ -39,16 +39,16 @@
 #' @export
 #'
 #' @examples
-#' datasets::mtcars %>% head() %>% e_table_print()
+#' dat_mtcars_e %>% head() %>% e_table_print()
 #' \dontrun{
 #' # html rescaled size
-#' datasets::mtcars %>%
+#' dat_mtcars_e %>%
 #'   head() %>%
 #'   e_table_print(sw_scale = 6)
 #' # outputs into LaTeX document, scaling is automatic to fit page width
 #' # works best before a \clearpage
 #' # use chunk option: results = 'asis', see other options at https://yihui.org/knitr/options/
-#' datasets::mtcars %>%
+#' dat_mtcars_e %>%
 #'   head() %>%
 #'   e_table_print(sw_scale = TRUE, sw_kable_format = "latex")
 #' }

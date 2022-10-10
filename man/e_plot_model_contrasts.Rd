@@ -78,7 +78,7 @@ difference is not significant, based on the adjust setting (which defaults to
 \examples{
 # Data for testing
 dat_cont <-
-  datasets::mtcars \%>\%
+  dat_mtcars_e \%>\%
   tibble::as_tibble(
     rownames = "model"
   ) \%>\%

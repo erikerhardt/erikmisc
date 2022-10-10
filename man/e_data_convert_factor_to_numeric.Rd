@@ -16,12 +16,7 @@ dat with factor variables converted to numeric
 When saving to csv, the default data class/type for factors is the character labels.  This function replaces those with the numeric factor levels.
 }
 \examples{
-dat <-
-  datasets::mtcars \%>\%
-  dplyr::mutate(
-    cyl = cyl \%>\% factor()
-  , vs  = vs  \%>\% factor()
-  )
+dat <- dat_mtcars_e
 str(dat)
 
 dat2 <- dat \%>\% e_data_convert_factor_to_numeric()
