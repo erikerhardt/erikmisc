@@ -17,6 +17,7 @@ e_plot_longitudinal(
   label_group = NULL,
   x_scale_breaks = NULL,
   y_scale_breaks = NULL,
+  sw_which_plots = c("line", "hist"),
   hist_scale_breaks = NULL,
   sw_group_reverse = FALSE,
   hist_binwidth = NULL,
@@ -52,6 +53,8 @@ e_plot_longitudinal(
 
 \item{y_scale_breaks}{breaks for y-axis}
 
+\item{sw_which_plots}{which plots to include, a subset of \code{c("line", "hist")}}
+
 \item{hist_scale_breaks}{breaks for histogram x-axis}
 
 \item{sw_group_reverse}{TRUE/FALSE to reverse the order of groups}
@@ -85,6 +88,30 @@ e_plot_longitudinal(
   #, label_group      = "Program"
   , x_scale_breaks   = seq(0, 9, by = 2)
   , y_scale_breaks   = seq(0, 1000, by = 50)
+  , sw_which_plots  = c("line", "hist")
+  , hist_scale_breaks = NULL
+  #, sw_group_reverse = TRUE
+  , hist_binwidth    = 25
+  , hist_align       = c("center", "boundary")[2]
+  , line_type_grand  = c("blank","solid","dashed","dotted","dotdash","longdash","twodash")[6]
+  , line_type_group  = c("blank","solid","dashed","dotted","dotdash","longdash","twodash")[4]
+  )
+
+# numeric, only line plot
+e_plot_longitudinal(
+    dat_plot         = lme4::sleepstudy
+  , var_x_time       = "Days"
+  , var_y_resp       = "Reaction"
+  , var_ID           = "Subject"
+  , var_group        = NULL
+  , label_title      = NULL
+  , label_subtitle   = "Longitudinal plot"
+  , label_x_time     = "Number of days of sleep deprivation"
+  , label_y_resp     = "Average reaction time (ms)"
+  #, label_group      = "Program"
+  , x_scale_breaks   = seq(0, 9, by = 2)
+  , y_scale_breaks   = seq(0, 1000, by = 50)
+  , sw_which_plots  = c("line", "hist")[1]
   , hist_scale_breaks = NULL
   #, sw_group_reverse = TRUE
   , hist_binwidth    = 25
@@ -110,6 +137,7 @@ e_plot_longitudinal(
   #, label_group      = "Program"
   , x_scale_breaks   = seq(0, 9, by = 2)
   , y_scale_breaks   = NULL
+  , sw_which_plots  = c("line", "hist")
   , hist_scale_breaks = NULL
   #, sw_group_reverse = TRUE
   , hist_binwidth    = NULL
