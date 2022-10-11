@@ -19,15 +19,15 @@ Graphical Assessment (QQ-plot) for assessing Multivariate Normality
 }
 \examples{
 dat_mtcars_e \%>\%
-  dplyr::filter(cyl == 4) \%>\%
+  dplyr::filter(cyl == "four") \%>\%
   dplyr::select(mpg, hp, wt) \%>\%
   e_plot_mnv_norm_qqplot(name = "cyl = 4")
 dat_mtcars_e \%>\%
-  dplyr::filter(cyl == 6) \%>\%
+  dplyr::filter(cyl == "six") \%>\%
   dplyr::select(mpg, hp, wt) \%>\%
   e_plot_mnv_norm_qqplot(name = "cyl = 6")
 dat_mtcars_e \%>\%
-  dplyr::filter(cyl == 8) \%>\%
+  dplyr::filter(cyl == "eight") \%>\%
   dplyr::select(mpg, hp, wt) \%>\%
   e_plot_mnv_norm_qqplot(name = "cyl = 8")
 }
