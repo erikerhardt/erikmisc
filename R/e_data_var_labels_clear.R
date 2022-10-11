@@ -18,7 +18,7 @@ e_data_var_labels_clear <-
   function(
     dat
   ) {
-  if(is.list(dat)) {
+  if(inherits(dat, "list")) {
     for(i_list in 1:length(dat)) {
       class(dat[[ i_list ]]) <- base::setdiff(class(dat[[ i_list ]]), "labelled")
       attr(dat[[ i_list ]], "label") <- NULL
