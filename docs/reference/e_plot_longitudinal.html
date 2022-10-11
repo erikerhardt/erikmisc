@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -100,13 +91,14 @@
 <span>  label_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  x_scale_breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y_scale_breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sw_which_plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"line"</span>, <span class="st">"hist"</span><span class="op">)</span>,</span>
 <span>  hist_scale_breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sw_group_reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  hist_binwidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  hist_align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"boundary"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>  line_type_grand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"solid"</span>, <span class="st">"dashed"</span>, <span class="st">"dotted"</span>, <span class="st">"dotdash"</span>, <span class="st">"longdash"</span>,</span>
+<span>  line_type_grand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>, <span class="st">"solid"</span>, <span class="st">"dashed"</span>, <span class="st">"dotted"</span>, <span class="st">"dotdash"</span>, <span class="st">"longdash"</span>,</span>
 <span>    <span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span>,</span>
-<span>  line_type_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"solid"</span>, <span class="st">"dashed"</span>, <span class="st">"dotted"</span>, <span class="st">"dotdash"</span>, <span class="st">"longdash"</span>,</span>
+<span>  line_type_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>, <span class="st">"solid"</span>, <span class="st">"dashed"</span>, <span class="st">"dotted"</span>, <span class="st">"dotdash"</span>, <span class="st">"longdash"</span>,</span>
 <span>    <span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -161,6 +153,10 @@
 <dd><p>breaks for y-axis</p></dd>
 
 
+<dt>sw_which_plots</dt>
+<dd><p>which plots to include, a subset of <code>c("line", "hist")</code></p></dd>
+
+
 <dt>hist_scale_breaks</dt>
 <dd><p>breaks for histogram x-axis</p></dd>
 
@@ -208,14 +204,39 @@
 <span class="r-in"><span>  <span class="co">#, label_group      = "Program"</span></span></span>
 <span class="r-in"><span>  , x_scale_breaks   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">9</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , y_scale_breaks   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1000</span>, by <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_which_plots  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"line"</span>, <span class="st">"hist"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , hist_scale_breaks <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  <span class="co">#, sw_group_reverse = TRUE</span></span></span>
 <span class="r-in"><span>  , hist_binwidth    <span class="op">=</span> <span class="fl">25</span></span></span>
 <span class="r-in"><span>  , hist_align       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"boundary"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  , line_type_grand  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  , line_type_group  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , line_type_grand  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , line_type_group  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="e_plot_longitudinal-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># numeric, only line plot</span></span></span>
+<span class="r-in"><span><span class="fu">e_plot_longitudinal</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_plot         <span class="op">=</span> <span class="fu">lme4</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lme4/man/sleepstudy.html" class="external-link">sleepstudy</a></span></span></span>
+<span class="r-in"><span>  , var_x_time       <span class="op">=</span> <span class="st">"Days"</span></span></span>
+<span class="r-in"><span>  , var_y_resp       <span class="op">=</span> <span class="st">"Reaction"</span></span></span>
+<span class="r-in"><span>  , var_ID           <span class="op">=</span> <span class="st">"Subject"</span></span></span>
+<span class="r-in"><span>  , var_group        <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , label_title      <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , label_subtitle   <span class="op">=</span> <span class="st">"Longitudinal plot"</span></span></span>
+<span class="r-in"><span>  , label_x_time     <span class="op">=</span> <span class="st">"Number of days of sleep deprivation"</span></span></span>
+<span class="r-in"><span>  , label_y_resp     <span class="op">=</span> <span class="st">"Average reaction time (ms)"</span></span></span>
+<span class="r-in"><span>  <span class="co">#, label_group      = "Program"</span></span></span>
+<span class="r-in"><span>  , x_scale_breaks   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">9</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , y_scale_breaks   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1000</span>, by <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_which_plots  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"line"</span>, <span class="st">"hist"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , hist_scale_breaks <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  <span class="co">#, sw_group_reverse = TRUE</span></span></span>
+<span class="r-in"><span>  , hist_binwidth    <span class="op">=</span> <span class="fl">25</span></span></span>
+<span class="r-in"><span>  , hist_align       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"boundary"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , line_type_grand  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , line_type_group  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-plt img"><img src="e_plot_longitudinal-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># categorical</span></span></span>
 <span class="r-in"><span><span class="fu">e_plot_longitudinal</span><span class="op">(</span></span></span>
@@ -234,14 +255,15 @@
 <span class="r-in"><span>  <span class="co">#, label_group      = "Program"</span></span></span>
 <span class="r-in"><span>  , x_scale_breaks   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">9</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , y_scale_breaks   <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sw_which_plots  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"line"</span>, <span class="st">"hist"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , hist_scale_breaks <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  <span class="co">#, sw_group_reverse = TRUE</span></span></span>
 <span class="r-in"><span>  , hist_binwidth    <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  , hist_align       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"boundary"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  , line_type_grand  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  , line_type_group  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , line_type_grand  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , line_type_group  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blank"</span>,<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"dotted"</span>,<span class="st">"dotdash"</span>,<span class="st">"longdash"</span>,<span class="st">"twodash"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-plt img"><img src="e_plot_longitudinal-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="e_plot_longitudinal-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>

@@ -2,9 +2,6 @@ pandoc: '2.18'
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  erikmisc-example_parallel: erikmisc-example_parallel.html
-  erikmisc-example_tables: erikmisc-example_tables.html
-  erikmisc-e_classification_example: erikmisc-e_classification_example.html
   erikmisc-e_lm_bestsubset: erikmisc-e_lm_bestsubset.html
   erikmisc-e_model_all_subsets_formula: erikmisc-e_model_all_subsets_formula.html
   erikmisc-e_multiple_regression_example: erikmisc-e_multiple_regression_example.html
@@ -12,5 +9,5 @@ articles:
   erikmisc-e_read_data_subdir_into_lists: erikmisc-e_read_data_subdir_into_lists.html
   erikmisc-e_rmd_name_chunks: erikmisc-e_rmd_name_chunks.html
   erikmisc-key_variables_completion: erikmisc-key_variables_completion.html
-last_built: 2022-09-04T04:16Z
+last_built: 2022-10-11T06:59Z
 

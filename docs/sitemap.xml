@@ -4,15 +4,6 @@
     <loc>/404.html</loc>
   </url>
   <url>
-    <loc>/articles/erikmisc-example_parallel.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-example_tables.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-e_classification_example.html</loc>
-  </url>
-  <url>
     <loc>/articles/erikmisc-e_lm_bestsubset.html</loc>
   </url>
   <url>
@@ -34,22 +25,7 @@
     <loc>/articles/erikmisc-key_variables_completion.html</loc>
   </url>
   <url>
-    <loc>/articles/erikmisc_e_plot_model_contrasts.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc_key_variables_completion.html</loc>
-  </url>
-  <url>
     <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/key_variables_completion.html</loc>
-  </url>
-  <url>
-    <loc>/articles/test_in.html</loc>
-  </url>
-  <url>
-    <loc>/articles/test_out.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
@@ -82,9 +58,6 @@
     <loc>/reference/erikmisc-package.html</loc>
   </url>
   <url>
-    <loc>/reference/erikmisc.html</loc>
-  </url>
-  <url>
     <loc>/reference/erikmisc_attach.html</loc>
   </url>
   <url>
@@ -95,12 +68,6 @@
   </url>
   <url>
     <loc>/reference/erikmisc_packages.html</loc>
-  </url>
-  <url>
-    <loc>/reference/e_bs_one_samp_dist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/e_bs_two_samp_diff_dist.html</loc>
   </url>
   <url>
     <loc>/reference/e_calc_a1c_categories.html</loc>
@@ -128,9 +95,6 @@
   </url>
   <url>
     <loc>/reference/e_calc_phq9_categories.html</loc>
-  </url>
-  <url>
-    <loc>/reference/e_categories_a1c.html</loc>
   </url>
   <url>
     <loc>/reference/e_coalesce_by_column.html</loc>
@@ -184,6 +148,9 @@
     <loc>/reference/e_data_convert_factor_to_numeric.html</loc>
   </url>
   <url>
+    <loc>/reference/e_data_var_labels_clear.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_duplicated_all.html</loc>
   </url>
   <url>
@@ -203,9 +170,6 @@
   </url>
   <url>
     <loc>/reference/e_lm_bestsubset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/e_lm_diag_plots.html</loc>
   </url>
   <url>
     <loc>/reference/e_lm_model_criteria.html</loc>
@@ -229,9 +193,6 @@
     <loc>/reference/e_message_capture.html</loc>
   </url>
   <url>
-    <loc>/reference/e_mnv_norm_qqplot.html</loc>
-  </url>
-  <url>
     <loc>/reference/e_model_all_subsets_formula.html</loc>
   </url>
   <url>
@@ -248,6 +209,9 @@
   </url>
   <url>
     <loc>/reference/e_plot_calc_break_interval.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_plot_clean_numeric_nonnum_minmax.html</loc>
   </url>
   <url>
     <loc>/reference/e_plot_compare_medians.html</loc>
@@ -301,6 +265,9 @@
     <loc>/reference/e_read_data_subdir_into_lists.html</loc>
   </url>
   <url>
+    <loc>/reference/e_read_df_header_span_rows.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_REDCap_read_format_data.html</loc>
   </url>
   <url>
@@ -343,12 +310,6 @@
     <loc>/reference/e_ttest_alt_hyp_text.html</loc>
   </url>
   <url>
-    <loc>/reference/e_ttest_plot_pval.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grapes-notin-grapes.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -362,8 +323,5 @@
   </url>
   <url>
     <loc>/reference/print.erikmisc_logo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/text_col.html</loc>
   </url>
 </urlset>

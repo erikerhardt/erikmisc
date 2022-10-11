@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -87,7 +78,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span><span class="va">dat</span>, <span class="va">var_names</span>, sw_sort_prop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  <span class="va">var_names</span>,</span>
+<span>  sw_sort_prop <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sw_drop_NA <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sw_totals <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -103,6 +100,14 @@
 <dt>sw_sort_prop</dt>
 <dd><p>TRUE/FALSE to sort the last variable descending by proportion within the other variables</p></dd>
 
+
+<dt>sw_drop_NA</dt>
+<dd><p>TRUE/FALSE to drop NAs in <code>var_names</code> variables before calculating proportions</p></dd>
+
+
+<dt>sw_totals</dt>
+<dd><p>TRUE/FALSE to include totals</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -113,41 +118,118 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    dat           <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/mpg.html" class="external-link">mpg</a></span></span></span>
-<span class="r-in"><span>  , var_names     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"drv"</span>, <span class="st">"cyl"</span>, <span class="st">"class"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , sw_sort_prop  <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create data with missing values for examples</span></span></span>
+<span class="r-in"><span><span class="va">dat_miss</span> <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
+<span class="r-in"><span><span class="va">prop_missing</span> <span class="op">=</span> <span class="fl">0.10</span></span></span>
+<span class="r-in"><span><span class="va">n_missing</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_miss</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span> <span class="va">prop_missing</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_miss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ind_missing</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_miss</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_miss</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="va">n_missing</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i_row</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">n_missing</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">dat_miss</span><span class="op">[</span><span class="va">ind_missing</span><span class="op">[</span><span class="va">i_row</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">ind_missing</span><span class="op">[</span><span class="va">i_row</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># do not sort, with NAs, no totals</span></span></span>
+<span class="r-in"><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="va">dat_miss</span></span></span>
+<span class="r-in"><span>  , var_names     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"cyl"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_sort_prop  <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  , sw_drop_NA    <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  , sw_totals     <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 26 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    drv     cyl class          n  prop</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 4         4 compact        8 0.348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 4         4 suv            8 0.348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 4         4 subcompact     4 0.174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 4         4 pickup         3 0.13 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 4         6 suv           16 0.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 4         6 pickup        10 0.312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 4         6 compact        4 0.125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 4         6 midsize        2 0.062</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 4         8 suv           27 0.562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 4         8 pickup        20 0.417</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 4         8 midsize        1 0.021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> f         4 compact       24 0.414</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> f         4 subcompact    17 0.293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> f         4 midsize       16 0.276</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> f         4 minivan        1 0.017</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> f         5 compact        2 0.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> f         5 subcompact     2 0.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> f         6 midsize       21 0.488</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> f         6 minivan       10 0.233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> f         6 compact        9 0.209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">21</span> f         6 subcompact     3 0.07 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">22</span> f         8 midsize        1 1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">23</span> r         6 subcompact     4 1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">24</span> r         8 suv           11 0.524</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">25</span> r         8 2seater        5 0.238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">26</span> r         8 subcompact     5 0.238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    vs       am        cyl       n  prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> V-shaped automatic eight     8 0.889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> V-shaped automatic <span style="color: #BB0000;">NA</span>        1 0.111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> V-shaped manual    four      1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> V-shaped manual    six       1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> V-shaped manual    eight     2 0.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> V-shaped <span style="color: #BB0000;">NA</span>        eight     1 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> straight automatic four      2 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> straight automatic six       4 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> straight manual    four      5 0.833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> straight manual    <span style="color: #BB0000;">NA</span>        1 0.167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> <span style="color: #BB0000;">NA</span>       automatic four      1 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> <span style="color: #BB0000;">NA</span>       automatic eight     2 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> <span style="color: #BB0000;">NA</span>       manual    four      1 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> <span style="color: #BB0000;">NA</span>       manual    six       1 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> <span style="color: #BB0000;">NA</span>       manual    <span style="color: #BB0000;">NA</span>        1 0.333</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sorted by proportion, with NAs, no totals</span></span></span>
+<span class="r-in"><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="va">dat_miss</span></span></span>
+<span class="r-in"><span>  , var_names     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"cyl"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_sort_prop  <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_drop_NA    <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  , sw_totals     <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    vs       am        cyl       n  prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> V-shaped automatic eight     8 0.889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> V-shaped automatic <span style="color: #BB0000;">NA</span>        1 0.111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> V-shaped manual    eight     2 0.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> V-shaped manual    four      1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> V-shaped manual    six       1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> V-shaped <span style="color: #BB0000;">NA</span>        eight     1 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> straight automatic six       4 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> straight automatic four      2 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> straight manual    four      5 0.833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> straight manual    <span style="color: #BB0000;">NA</span>        1 0.167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> <span style="color: #BB0000;">NA</span>       automatic eight     2 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> <span style="color: #BB0000;">NA</span>       automatic four      1 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> <span style="color: #BB0000;">NA</span>       manual    four      1 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> <span style="color: #BB0000;">NA</span>       manual    six       1 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> <span style="color: #BB0000;">NA</span>       manual    <span style="color: #BB0000;">NA</span>        1 0.333</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sorted by proportion, no NAs, no totals</span></span></span>
+<span class="r-in"><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="va">dat_miss</span></span></span>
+<span class="r-in"><span>  , var_names     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"cyl"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_sort_prop  <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_drop_NA    <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_totals     <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   vs       am        cyl       n  prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> V-shaped automatic eight     8 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> V-shaped manual    eight     2 0.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> V-shaped manual    four      1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> V-shaped manual    six       1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> straight automatic six       4 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> straight automatic four      2 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> straight manual    four      5 1    </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sorted by proportion, no NAs, with totals</span></span></span>
+<span class="r-in"><span><span class="fu">e_table_sum_freq_prop</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="va">dat_miss</span></span></span>
+<span class="r-in"><span>  , var_names     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vs"</span>, <span class="st">"am"</span>, <span class="st">"cyl"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_sort_prop  <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_drop_NA    <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_totals     <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    vs       am        cyl         n  prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> V-shaped automatic eight       8 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> V-shaped manual    eight       2 0.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> V-shaped manual    four        1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> V-shaped manual    six         1 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> straight automatic six         4 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> straight automatic four        2 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> straight manual    four        5 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> V-shaped automatic _TOTAL_     8 0.667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> V-shaped manual    _TOTAL_     4 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> straight automatic _TOTAL_     6 0.545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> straight manual    _TOTAL_     5 0.455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> V-shaped _TOTAL_   _TOTAL_    12 0.522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> straight _TOTAL_   _TOTAL_    11 0.478</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> _TOTAL_  _TOTAL_   _TOTAL_    23 1    </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

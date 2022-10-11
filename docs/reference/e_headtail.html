@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -117,14 +108,14 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_headtail</span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4     21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino  19.7   6  145 175 3.62 2.770 15.50  0  1    5    6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora 15.0   8  301 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E    21.4   4  121 109 4.11 2.780 18.60  1  1    4    2</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_headtail</span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            model  mpg   cyl disp  hp drat    wt  qsec       vs     am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      Mazda RX4 21.0   six  160 110 3.90 2.620 16.46 V-shaped manual    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Mazda RX4 Wag 21.0   six  160 110 3.90 2.875 17.02 V-shaped manual    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     Datsun 710 22.8  four  108  93 3.85 2.320 18.61 straight manual    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30  Ferrari Dino 19.7   six  145 175 3.62 2.770 15.50 V-shaped manual    5    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 Maserati Bora 15.0 eight  301 335 3.54 3.570 14.60 V-shaped manual    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32    Volvo 142E 21.4  four  121 109 4.11 2.780 18.60 straight manual    4    2</span>
 </code></pre></div>
     </div>
   </div>

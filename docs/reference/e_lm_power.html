@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -238,20 +229,32 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># with data</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span>, package<span class="op">=</span><span class="st">"datasets"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 'data.frame':	32 obs. of  11 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ disp: num  160 160 108 258 360 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ qsec: num  16.5 17 18.6 19.4 17 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tibble [32 × 12] (S3: tbl_df/tbl/data.frame)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ model: chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Model"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ mpg  : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Miles/(US) gallon"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ cyl  : Factor w/ 3 levels "four","six","eight": 2 2 1 2 3 2 3 1 1 2 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Number of cylinders"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ disp : num [1:32] 160 160 108 258 360 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Displacement (cu.in.)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ hp   : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Gross horsepower"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ drat : num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Rear axle ratio"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ wt   : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Weight (1000 lbs)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ qsec : num [1:32] 16.5 17 18.6 19.4 17 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "1/4 mile time"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ vs   : Factor w/ 2 levels "V-shaped","straight": 1 1 2 2 1 2 1 2 2 2 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Engine"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ am   : Factor w/ 2 levels "automatic","manual": 2 2 2 1 1 1 1 1 1 1 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Transmission"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ gear : num [1:32] 4 4 4 3 3 3 3 4 4 4 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Number of forward gears"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ carb : num [1:32] 4 4 1 1 2 1 4 2 2 4 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "label")= chr "Number of carburetors"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">yvar</span>      <span class="op">&lt;-</span> <span class="st">"mpg"</span></span></span>
 <span class="r-in"><span><span class="va">xvar_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>, <span class="st">"drat"</span>, <span class="st">"wt"</span>, <span class="st">"qsec"</span><span class="op">)</span></span></span>
@@ -285,7 +288,7 @@
 <span class="r-in"><span><span class="co"># with data, single n</span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_lm_power</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    dat           <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
 <span class="r-in"><span>  , formula_full  <span class="op">=</span> <span class="va">formula_full</span></span></span>
 <span class="r-in"><span>  , formula_red   <span class="op">=</span> <span class="va">formula_red</span></span></span>
 <span class="r-in"><span>  , n_total       <span class="op">=</span> <span class="fl">100</span></span></span>
@@ -299,34 +302,35 @@
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Full Model ========================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ cyl + disp + hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001c1af17c608&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001a946a902c8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_full, data = dat)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -3.9682 -1.5795 -0.4353  1.1662  5.5272 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -4.0821 -1.3663 -0.3597  1.1147  5.1195 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std. Error t value Pr(&gt;|t|)   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 26.30736   14.62994   1.798  0.08424 . </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cyl         -0.81856    0.81156  -1.009  0.32282   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp         0.01320    0.01204   1.097  0.28307   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hp          -0.01793    0.01551  -1.156  0.25846   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> drat         1.32041    1.47948   0.892  0.38065   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> wt          -4.19083    1.25791  -3.332  0.00269 **</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> qsec         0.40146    0.51658   0.777  0.44436   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error t value Pr(&gt;|t|)  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 26.592514  13.093167   2.031   0.0535 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cylsix      -2.640596   1.865283  -1.416   0.1697  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cyleight    -2.464875   3.320975  -0.742   0.4652  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> disp         0.006309   0.013588   0.464   0.6466  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hp          -0.022587   0.016043  -1.408   0.1720  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> drat         1.144028   1.483543   0.771   0.4481  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> wt          -3.637067   1.354395  -2.685   0.0129 *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> qsec         0.257633   0.531785   0.484   0.6324  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual standard error: 2.557 on 25 degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.8548,	Adjusted R-squared:   0.82 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 24.53 on 6 and 25 DF,  p-value: 2.45e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual standard error: 2.549 on 24 degrees of freedom</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.8616,	Adjusted R-squared:  0.8212 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 21.34 on 7 and 24 DF,  p-value: 7.409e-09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reduced Model =====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001c1af17c608&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001a946a902c8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_red, data = dat)</span>
@@ -359,7 +363,7 @@
 <span class="r-in"><span><span class="co"># with data, sequence of n for power curve, multiple reference sample sizes</span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_lm_power</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    dat           <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span></span></span>
+<span class="r-in"><span>    dat           <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
 <span class="r-in"><span>  , formula_full  <span class="op">=</span> <span class="va">formula_full</span></span></span>
 <span class="r-in"><span>  , formula_red   <span class="op">=</span> <span class="va">formula_red</span></span></span>
 <span class="r-in"><span>  , n_total       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">300</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
@@ -373,34 +377,35 @@
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Full Model ========================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ cyl + disp + hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001c1af17c608&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001a946a902c8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_full, data = dat)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Min      1Q  Median      3Q     Max </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -3.9682 -1.5795 -0.4353  1.1662  5.5272 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -4.0821 -1.3663 -0.3597  1.1147  5.1195 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std. Error t value Pr(&gt;|t|)   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 26.30736   14.62994   1.798  0.08424 . </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cyl         -0.81856    0.81156  -1.009  0.32282   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp         0.01320    0.01204   1.097  0.28307   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hp          -0.01793    0.01551  -1.156  0.25846   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> drat         1.32041    1.47948   0.892  0.38065   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> wt          -4.19083    1.25791  -3.332  0.00269 **</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> qsec         0.40146    0.51658   0.777  0.44436   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error t value Pr(&gt;|t|)  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 26.592514  13.093167   2.031   0.0535 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cylsix      -2.640596   1.865283  -1.416   0.1697  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cyleight    -2.464875   3.320975  -0.742   0.4652  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> disp         0.006309   0.013588   0.464   0.6466  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hp          -0.022587   0.016043  -1.408   0.1720  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> drat         1.144028   1.483543   0.771   0.4481  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> wt          -3.637067   1.354395  -2.685   0.0129 *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> qsec         0.257633   0.531785   0.484   0.6324  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residual standard error: 2.557 on 25 degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.8548,	Adjusted R-squared:   0.82 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 24.53 on 6 and 25 DF,  p-value: 2.45e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual standard error: 2.549 on 24 degrees of freedom</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.8616,	Adjusted R-squared:  0.8212 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 21.34 on 7 and 24 DF,  p-value: 7.409e-09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reduced Model =====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mpg ~ hp + drat + wt + qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001c1af17c608&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001a946a902c8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lm(formula = formula_red, data = dat)</span>
@@ -431,19 +436,19 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   n_total n_param_full n_param_red Cohen_small_power Cohen_medium_power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     100            6           4             0.214              0.930</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     120            6           4             0.252              0.967</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     150            6           4             0.310              0.991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     100            7           4             0.181              0.895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     120            7           4             0.213              0.947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     150            7           4             0.263              0.983</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Cohen_large_power obs_power Cohen_small_effect_size Cohen_medium_effect_size</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>              1.00     0.592                    0.02                     0.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>              1.00     0.682                    0.02                     0.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>              1.00     0.788                    0.02                     0.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>             0.999     0.798                    0.02                     0.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>             1.00      0.876                    0.02                     0.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>             1.00      0.944                    0.02                     0.15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Cohen_large_effect_size obs_effect_size</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                    0.35          0.065<span style="text-decoration: underline;">0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>                    0.35          0.065<span style="text-decoration: underline;">0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>                    0.35          0.065<span style="text-decoration: underline;">0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                    0.35           0.117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>                    0.35           0.117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>                    0.35           0.117</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### RMarkdown results reporting</span></span></span>
 <span class="r-in"><span><span class="co"># The results above indicate the following.</span></span></span>

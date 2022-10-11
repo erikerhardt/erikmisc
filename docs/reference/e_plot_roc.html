@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -196,13 +187,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Sens  Spec thresh  dist   AUC Sensitivity Specificity `Pos Pred Value`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.423 0.625  0.388 0.688 0.463       0.423       0.625             0.55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.654 0.458  0.619 0.643 0.519       0.654       0.458            0.567</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `Neg Pred Value` Precision Recall    F1 Prevalence `Detection Rate`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>              0.5      0.55  0.423 0.478       0.52             0.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>             0.55     0.567  0.654 0.607       0.52             0.34</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `Detection Prevalence` `Balanced Accuracy`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                    0.4               0.524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                    0.6               0.556</span>
 <span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">plot_roc</span></span></span>
 <span class="r-plt img"><img src="e_plot_roc-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">confusion_matrix</span></span></span>
@@ -210,26 +201,26 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Reference</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prediction  a  b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          a 11  9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          b 15 15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          a 17 13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          b  9 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Accuracy : 0.52            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  95% CI : (0.3742, 0.6634)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Accuracy : 0.56            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  95% CI : (0.4125, 0.7001)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     No Information Rate : 0.52            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     P-Value [Acc &gt; NIR] : 0.5569          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     P-Value [Acc &gt; NIR] : 0.3364          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   Kappa : 0.0476          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Kappa : 0.1129          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mcnemar's Test P-Value : 0.3074          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mcnemar's Test P-Value : 0.5224          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Sensitivity : 0.4231          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Specificity : 0.6250          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Pos Pred Value : 0.5500          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Neg Pred Value : 0.5000          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Sensitivity : 0.6538          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Specificity : 0.4583          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Pos Pred Value : 0.5667          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Neg Pred Value : 0.5500          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Prevalence : 0.5200          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Detection Rate : 0.2200          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Detection Prevalence : 0.4000          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Balanced Accuracy : 0.5240          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Detection Rate : 0.3400          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Detection Prevalence : 0.6000          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Balanced Accuracy : 0.5561          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        'Positive' Class : a               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>

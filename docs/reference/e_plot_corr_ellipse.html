@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -201,7 +192,7 @@
 <span class="r-in"><span><span class="co"># Create scale with 100 points</span></span></span>
 <span class="r-in"><span><span class="va">colors_plot</span> <span class="op">&lt;-</span> <span class="fu">color_ramp</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># move correlation range from [-1, 1] to [0, 100] for colors</span></span></span>
-<span class="r-in"><span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="co"># use mtcars since all numeric</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">e_plot_corr_ellipse</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    col  <span class="op">=</span> <span class="va">colors_plot</span><span class="op">[</span><span class="op">(</span><span class="op">(</span><span class="va">.</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">]</span></span></span>

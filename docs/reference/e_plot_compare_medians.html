@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -32,15 +32,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -192,8 +183,8 @@
 <span class="r-in"><span>    dat_plot            <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
 <span class="r-in"><span>  , var_response        <span class="op">=</span> <span class="st">"mpg"</span></span></span>
 <span class="r-in"><span>  , var_groups          <span class="op">=</span> <span class="st">"cyl"</span></span></span>
-<span class="r-in"><span>  , label_response      <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , label_groups        <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">cyl</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , label_response      <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , label_groups        <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">cyl</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , plot_title          <span class="op">=</span> <span class="st">"MPG by cylinders"</span></span></span>
 <span class="r-in"><span>  , plot_subtitle       <span class="op">=</span> <span class="st">"Comparison of medians"</span></span></span>
 <span class="r-in"><span>  , comparisons         <span class="op">=</span> <span class="st">"all"</span></span></span>
@@ -221,8 +212,8 @@
 <span class="r-in"><span>    dat_plot            <span class="op">=</span> <span class="va">dat_mtcars_e</span></span></span>
 <span class="r-in"><span>  , var_response        <span class="op">=</span> <span class="st">"mpg"</span></span></span>
 <span class="r-in"><span>  , var_groups          <span class="op">=</span> <span class="st">"cyl"</span></span></span>
-<span class="r-in"><span>  , label_response      <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , label_groups        <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="http://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">cyl</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , label_response      <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , label_groups        <span class="op">=</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">cyl</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , plot_title          <span class="op">=</span> <span class="st">"MPG by cylinders"</span></span></span>
 <span class="r-in"><span>  , plot_subtitle       <span class="op">=</span> <span class="st">"Comparison of means"</span></span></span>
 <span class="r-in"><span>  , comparisons         <span class="op">=</span> <span class="st">"all"</span></span></span>

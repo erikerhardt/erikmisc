@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.17</span>
       </span>
     </div>
 
@@ -50,15 +50,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/erikmisc-example_parallel.html">Parallel processing examples</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-example_tables.html">Tables using `gtsummary`</a>
-    </li>
-    <li>
-      <a href="../articles/erikmisc-e_classification_example.html">Classification using erikmisc</a>
-    </li>
-    <li>
       <a href="../articles/erikmisc-e_lm_bestsubset.html">Best subset selection</a>
     </li>
     <li>
@@ -116,8 +107,10 @@ effects and contrasts</h3>
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erikerhardt/erikmisc" class="external-link">erikmisc</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ─────────────────────────────────────── erikmisc 0.1.16 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble</span> 3.1.8     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr </span> 1.0.9</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'tidyr::extract' by 'magrittr::extract' when</span></span>
+<span><span class="co">#&gt; loading 'erikmisc'</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ─────────────────────────────────────── erikmisc 0.1.17 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble</span> 3.1.8      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr </span> 1.0.10</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ─────────────────────────────────────────── erikmisc_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
