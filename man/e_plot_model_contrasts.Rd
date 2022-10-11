@@ -58,7 +58,7 @@ e_plot_model_contrasts(
 \item{emmip_rg.limit}{from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be 10000, which exceeds the limit of XXXXX (not including any multivariate responses)."}
 }
 \value{
-out                      a list of two lists: "tables" and "plots", each have results for each contrast that was computed.  "tables" is a list of emmeans tables to print.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.
+out                      a list of three lists: "plots", "tables" , and "text", each have results for each contrast that was computed.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.  "tables" is a list of emmeans tables to print.  "text" is the caption text for the plots.
 }
 \description{
 Variable labels can be provided by labelling your data with the labelled::var_label() command.
@@ -78,37 +78,7 @@ difference is not significant, based on the adjust setting (which defaults to
 \examples{
 # Data for testing
 dat_cont <-
-  dat_mtcars_e \%>\%
-  tibble::as_tibble(
-    rownames = "model"
-  ) \%>\%
-  dplyr::mutate(
-    cyl = cyl \%>\% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
-  , vs  = vs  \%>\% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
-  , am  = am  \%>\% factor(levels = c(0, 1), labels = c("automatic", "manual"))
-  )
-
-# Label columns
-dat_labels <-
-  tibble::tribble(
-    ~var    , ~label
-  , "model" , "Model"
-  , "mpg"   , "Miles/(US) gallon"
-  , "cyl"   , "Number of cylinders"
-  , "disp"  , "Displacement (cu.in.)"
-  , "hp"    , "Gross horsepower"
-  , "drat"  , "Rear axle ratio"
-  , "wt"    , "Weight (1000 lbs)"
-  , "qsec"  , "1/4 mile time"
-  , "vs"    , "Engine"                     # (0 = V-shaped, 1 = straight)"
-  , "am"    , "Transmission"               # (0 = automatic, 1 = manual)"
-  , "gear"  , "Number of forward gears"
-  , "carb"  , "Number of carburetors"
-  )
-
-for (i_row in 1:nrow(dat_labels)) {
-  labelled::var_label(dat_cont[[dat_labels[["var"]][i_row] ]]) <- dat_labels[["label"]][i_row]
-}
+  dat_mtcars_e
 
 # Set specific model with some interactions
 form_model <-
