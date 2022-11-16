@@ -153,12 +153,13 @@ e_plot_roc <-
   # determine best threshold as closest to top-left corner: highest overall classification rate
   roc_curve_best <-
     roc_curve %>%
-    filter(
+    dplyr::filter(
       dist == min(dist)
     ) %>%
-    mutate(
+    dplyr::mutate(
       AUC = unlist(ROCR::performance(rocr_pred, measure = "auc")@y.values)
-    )
+    ) %>%
+    dplyr::slice(1)  # when > 1 have same min dist
 
   # define positive classification using optimal threshold
   pred_positive <- ifelse(as.numeric(pred_values) >= roc_curve_best$thresh, 1, 0)
