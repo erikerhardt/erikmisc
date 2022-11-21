@@ -4,20 +4,33 @@
 \alias{e_plot_bs_one_samp_dist}
 \title{Visual comparison of whether Bootstrap sampling distribution is close to Normal}
 \usage{
-e_plot_bs_one_samp_dist(dat, N = 10000)
+e_plot_bs_one_samp_dist(
+  dat,
+  N = 10000,
+  sw_graphics = c("ggplot", "base")[1],
+  sw_ggplot_print = c(TRUE, FALSE)[1],
+  conf_level = 0.95
+)
 }
 \arguments{
 \item{dat}{a list of values}
 
 \item{N}{number of bootstrap iterations}
+
+\item{sw_graphics}{use either ggplot or R base graphics}
+
+\item{sw_ggplot_print}{if ggplot, print the plot or just return the grob}
+
+\item{conf_level}{0.95 for a 95\% bootstrap CI}
 }
 \value{
-\code{invisible(NULL)}
+\code{invisible(NULL) or ggplot grob}
 }
 \description{
 A function to compare the bootstrap sampling distribution with
 a normal distribution with mean and SEM estimated from the data
 }
 \examples{
-e_plot_bs_one_samp_dist(dat = runif(6))
+e_plot_bs_one_samp_dist(dat = runif(15), sw_graphics = "base")
+e_plot_bs_one_samp_dist(dat = runif(15), sw_graphics = "ggplot")
 }

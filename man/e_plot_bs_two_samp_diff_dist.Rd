@@ -4,7 +4,14 @@
 \alias{e_plot_bs_two_samp_diff_dist}
 \title{Visual comparison of whether Bootstrap sampling distribution is close to Normal}
 \usage{
-e_plot_bs_two_samp_diff_dist(dat1, dat2, N = 10000)
+e_plot_bs_two_samp_diff_dist(
+  dat1,
+  dat2,
+  N = 10000,
+  sw_graphics = c("ggplot", "base")[1],
+  sw_ggplot_print = c(TRUE, FALSE)[1],
+  conf_level = 0.95
+)
 }
 \arguments{
 \item{dat1}{a list of values from Sample 1}
@@ -12,6 +19,12 @@ e_plot_bs_two_samp_diff_dist(dat1, dat2, N = 10000)
 \item{dat2}{a list of values from Sample 2}
 
 \item{N}{number of bootstrap iterations}
+
+\item{sw_graphics}{use either ggplot or R base graphics}
+
+\item{sw_ggplot_print}{if ggplot, print the plot or just return the grob}
+
+\item{conf_level}{0.95 for a 95\% bootstrap CI}
 }
 \value{
 \code{invisible(NULL)}
@@ -22,5 +35,6 @@ of the difference of means from two samples with
 a normal distribution with mean and SEM estimated from the data
 }
 \examples{
-e_plot_bs_two_samp_diff_dist(dat1 = runif(6), dat2 = runif(6) - 2)
+e_plot_bs_two_samp_diff_dist(dat1 = runif(15), dat2 = runif(15) - 2, sw_graphics = "base")
+e_plot_bs_two_samp_diff_dist(dat1 = runif(15), dat2 = runif(15) - 2, sw_graphics = "ggplot")
 }
