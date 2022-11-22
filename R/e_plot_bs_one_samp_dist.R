@@ -1,4 +1,4 @@
-#' Visual comparison of whether Bootstrap sampling distribution is close to Normal
+#' Visual comparison of whether Bootstrap sampling distribution of the mean is close to Normal
 #'
 #' A function to compare the bootstrap sampling distribution with
 #'   a normal distribution with mean and SEM estimated from the data
@@ -53,14 +53,14 @@ e_plot_bs_one_samp_dist <-
 
   if (sw_graphics == c("ggplot", "base")[2]) {
     # save par() settings
-    old_par <- par(no.readonly = TRUE)
+    old_par <- graphics::par(no.readonly = TRUE)
     # make smaller margins
-    par(mfrow=c(2,1), mar=c(3,2,2,1), oma=c(1,1,1,1))
+    graphics::par(mfrow=c(2,1), mar=c(3,2,2,1), oma=c(1,1,1,1))
     # Histogram overlaid with kernel density curve
     graphics::hist(dat, freq = FALSE, breaks = ceiling(log(n, base = 1.2))
         , main = "Data with smoothed density curve")
-    points(density(dat), type = "l")
-    rug(dat)
+    graphics::points(density(dat), type = "l")
+    graphics::rug(dat)
 
     graphics::hist(dat_sam_mean, freq = FALSE, breaks = ceiling(log(N, base = 1.2))
         , main = "Bootstrap sampling distribution of the mean"
@@ -68,15 +68,15 @@ e_plot_bs_one_samp_dist <-
                      , ", mean =", signif(mean(dat), digits = 3)
                      , ", se =", signif(stats::sd(dat)/sqrt(n)), digits = 3))
     # overlay a density curve for the sample means
-    points(density(dat_sam_mean), type = "l")
+    graphics::points(density(dat_sam_mean), type = "l")
     # overlay a normal distribution, bold and red
     x <- seq(min(dat_sam_mean), max(dat_sam_mean), length = 1000)
-    points(x, stats::dnorm(x, mean = mean(dat), sd = stats::sd(dat)/sqrt(n))
+    graphics::points(x, stats::dnorm(x, mean = mean(dat), sd = stats::sd(dat)/sqrt(n))
          , type = "l", lwd = 2, col = "red")
     # place a rug of points under the plot
-    rug(dat_sam_mean)
+    graphics::rug(dat_sam_mean)
     # restore par() settings
-    par(old_par)
+    graphics::par(old_par)
 
     invisible(NULL)
   } # base
@@ -107,8 +107,8 @@ e_plot_bs_one_samp_dist <-
                 , caption =
                     paste0(
                       "Data: n = ", n
-                    , " ,  mean = ", signif(mean(dat), digits = 5)
-                    , " ,  se = ", signif(stats::sd(dat)/sqrt(n), digits = 5)
+                    , " ,  mean = ", signif(mean(dat), digits = 3)
+                    , " ,  se = ", signif(stats::sd(dat)/sqrt(n), digits = 3)
                     )
                 )
 

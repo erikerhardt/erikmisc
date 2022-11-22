@@ -1,4 +1,4 @@
-#' Visual comparison of whether Bootstrap sampling distribution is close to Normal
+#' Visual comparison of whether Bootstrap sampling distribution of the difference in means is close to Normal
 #'
 #' A function to compare the bootstrap sampling distribution
 #'   of the difference of means from two samples with
@@ -59,42 +59,42 @@ e_plot_bs_two_samp_diff_dist <-
 
   if (sw_graphics == c("ggplot", "base")[2]) {
     # save par() settings
-    old_par <- par(no.readonly = TRUE)
+    old_par <- graphics::par(no.readonly = TRUE)
     # make smaller margins
-    par(mfrow=c(3,1), mar=c(3,2,2,1), oma=c(1,1,1,1))
+    graphics::par(mfrow=c(3,1), mar=c(3,2,2,1), oma=c(1,1,1,1))
     # Histogram overlaid with kernel density curve
-    graphics::hist(dat1, freq = FALSE, breaks = ceiling(log(n1, base = 1.2))
+    graphics::hist(dat1, freq = FALSE, breaks = ceiling(log(n1, base = 1.15))
         , main = paste("Data 1 with smoothed density curve", "\n"
                       , "n =", n1
                       , ", mean =", signif(mean(dat1), digits = 3)
                       , ", sd =", signif(stats::sd(dat1), digits = 3))
         , xlim = range(c(dat1, dat2)))
-    points(density(dat1), type = "l")
-    rug(dat1)
+    graphics::points(density(dat1), type = "l")
+    graphics::rug(dat1)
 
-    graphics::hist(dat2, freq = FALSE, breaks = ceiling(log(n2, base = 1.2))
+    graphics::hist(dat2, freq = FALSE, breaks = ceiling(log(n2, base = 1.15))
         , main = paste("Data 2 with smoothed density curve", "\n"
                       , "n =", n2
                       , ", mean =", signif(mean(dat2), digits = 3)
                       , ", sd =", signif(stats::sd(dat2), digits = 3))
         , xlim = range(c(dat1, dat2)))
-    points(density(dat2), type = "l")
-    rug(dat2)
+    graphics::points(density(dat2), type = "l")
+    graphics::rug(dat2)
 
     graphics::hist(dat_diff_mean, freq = FALSE, breaks = ceiling(log(N, base = 1.2))
         , main = paste("Bootstrap sampling distribution of the difference in means", "\n"
                      , "mean =", signif(mean(dat_diff_mean), digits = 5)
                      , ", se =", signif(stats::sd(dat_diff_mean), digits = 5)))
     # overlay a density curve for the sample means
-    points(density(dat_diff_mean), type = "l")
+    graphics::points(density(dat_diff_mean), type = "l")
     # overlay a normal distribution, bold and red
     x <- seq(min(dat_diff_mean), max(dat_diff_mean), length = 1000)
-    points(x, stats::dnorm(x, mean = mean(dat_diff_mean), sd = stats::sd(dat_diff_mean))
+    graphics::points(x, stats::dnorm(x, mean = mean(dat_diff_mean), sd = stats::sd(dat_diff_mean))
          , type = "l", lwd = 2, col = "red")
     # place a rug of points under the plot
-    rug(dat_diff_mean)
+    graphics::rug(dat_diff_mean)
     # restore par() settings
-    par(old_par)
+    graphics::par(old_par)
 
     invisible(NULL)
   } # base
@@ -121,7 +121,7 @@ e_plot_bs_two_samp_diff_dist <-
 
     p1 <- ggplot(dat_all %>% dplyr::filter(group == "Data1"), aes(x = val))
     p1 <- p1 + theme_bw()
-    p1 <- p1 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n, base = 1.2)))
+    p1 <- p1 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n1, base = 1.2)))
     p1 <- p1 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
     p1 <- p1 + xlim(min(c(dat1, dat2), na.rm = TRUE), max(c(dat1, dat2), na.rm = TRUE))
     p1 <- p1 + labs(
@@ -137,7 +137,7 @@ e_plot_bs_two_samp_diff_dist <-
 
     p2 <- ggplot(dat_all %>% dplyr::filter(group == "Data2"), aes(x = val))
     p2 <- p2 + theme_bw()
-    p2 <- p2 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n, base = 1.2)))
+    p2 <- p2 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n2, base = 1.2)))
     p2 <- p2 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
     p2 <- p2 + xlim(min(c(dat1, dat2), na.rm = TRUE), max(c(dat1, dat2), na.rm = TRUE))
     p2 <- p2 + labs(

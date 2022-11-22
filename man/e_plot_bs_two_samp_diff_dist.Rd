@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_plot_bs_two_samp_diff_dist.R
 \name{e_plot_bs_two_samp_diff_dist}
 \alias{e_plot_bs_two_samp_diff_dist}
-\title{Visual comparison of whether Bootstrap sampling distribution is close to Normal}
+\title{Visual comparison of whether Bootstrap sampling distribution of the difference in means is close to Normal}
 \usage{
 e_plot_bs_two_samp_diff_dist(
   dat1,

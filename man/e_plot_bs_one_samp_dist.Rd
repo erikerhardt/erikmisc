@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_plot_bs_one_samp_dist.R
 \name{e_plot_bs_one_samp_dist}
 \alias{e_plot_bs_one_samp_dist}
-\title{Visual comparison of whether Bootstrap sampling distribution is close to Normal}
+\title{Visual comparison of whether Bootstrap sampling distribution of the mean is close to Normal}
 \usage{
 e_plot_bs_one_samp_dist(
   dat,
