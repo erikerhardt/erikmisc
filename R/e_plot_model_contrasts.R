@@ -41,7 +41,7 @@
 #' @importFrom stringr str_split_fixed
 #' @importFrom gridExtra arrangeGrob
 #' @importFrom ggpubr as_ggplot
-#' @importFrom magrittr extract
+#' @importFrom purrr pluck
 #' @importFrom stats as.formula
 #' @importFrom stats quantile
 #' @importFrom stats anova
@@ -446,13 +446,13 @@ e_plot_model_contrasts <-
       , n = 2
       ) %>%
       as.character() %>%
-      magrittr::extract(1) %>%
+      purrr::pluck(1) %>%
       stringr::str_split_fixed(
         pattern = stringr::fixed("cbind(")
       , n = 2
       ) %>%
       as.character() %>%
-      magrittr::extract(2)
+      purrr::pluck(2)
   }
 
 
