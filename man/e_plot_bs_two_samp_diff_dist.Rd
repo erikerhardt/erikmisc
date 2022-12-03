@@ -9,7 +9,7 @@ e_plot_bs_two_samp_diff_dist(
   dat2,
   N = 10000,
   sw_graphics = c("ggplot", "base")[1],
-  sw_ggplot_print = c(TRUE, FALSE)[1],
+  sw_ggplot_print = c(TRUE, FALSE)[2],
   conf_level = 0.95
 )
 }

@@ -8,7 +8,7 @@ e_plot_bs_one_samp_dist(
   dat,
   N = 10000,
   sw_graphics = c("ggplot", "base")[1],
-  sw_ggplot_print = c(TRUE, FALSE)[1],
+  sw_ggplot_print = c(TRUE, FALSE)[2],
   conf_level = 0.95
 )
 }
