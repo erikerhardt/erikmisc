@@ -35,5 +35,5 @@ e_linear_interpolation(y = c(1, NA, 3, NA, 5))
 e_linear_interpolation(y = c(1, NA, NA, NA, 5), x = c(1, 2, 4, 8, 16))
 e_linear_interpolation(y = c(NA, NA, NA, 4, 5), x = c(1, 2, 4, 8, 16), sw_extrapolation = "linear")
 e_linear_interpolation(y = c(NA, NA, 3, 4, NA), x = c(1, 2, 4, 8, 16), sw_which = "head")
-e_linear_interpolation(y = c("a", NA, 3, 4, NA)) # warning for not numeric
+e_linear_interpolation(y = c(NA, "a", NA, 3, 4, NA)) # warning for not numeric
 }

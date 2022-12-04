@@ -21,7 +21,7 @@
 #' e_linear_interpolation(y = c(1, NA, NA, NA, 5), x = c(1, 2, 4, 8, 16))
 #' e_linear_interpolation(y = c(NA, NA, NA, 4, 5), x = c(1, 2, 4, 8, 16), sw_extrapolation = "linear")
 #' e_linear_interpolation(y = c(NA, NA, 3, 4, NA), x = c(1, 2, 4, 8, 16), sw_which = "head")
-#' e_linear_interpolation(y = c("a", NA, 3, 4, NA)) # warning for not numeric
+#' e_linear_interpolation(y = c(NA, "a", NA, 3, 4, NA)) # warning for not numeric
 e_linear_interpolation <-
   function(
     y
@@ -31,24 +31,18 @@ e_linear_interpolation <-
   ) {
 
   # Parameter checking
-  `%notin%` <- Negate(`%in%`)
   if (sw_which %notin% c("all", "internal", "head", "tail")) {
-    warning("sw_which not an admissible option.  Returning y as is.")
+    warning("e_linear_interpolation: sw_which not an admissible option.  Returning y as is.")
     return(y)
   }
   if (sw_extrapolation %notin% c("martingale", "linear")) {
-    warning("sw_extrapolation not an admissible option.  Returning y as is.")
+    warning("e_linear_interpolation: sw_extrapolation not an admissible option.  Returning y as is.")
     return(y)
   }
 
   # if x is NULL, then assume uniform spacing
   if (is.null(x)) {
     x = seq_along(y)
-  }
-
-  if(any(!is.numeric(y), !is.numeric(x))) {
-    warning("Either y or x is not numeric, can not impute.  Returning y as is.")
-    return(y)
   }
 
   ## special cases missing values
@@ -65,8 +59,17 @@ e_linear_interpolation <-
     return(y)
   }
 
+  if(any(!is.numeric(y), !is.numeric(x))) {
+    warning("e_linear_interpolation: Either y or x is not numeric, using martingale for non-numeric.")
+    sw_numeric <- FALSE
+    sw_extrapolation <- "martingale"
+  } else {
+    sw_numeric <- TRUE
+  }
+
+
   # if all non-NAs are equal, then set all NAs to same value
-  if (all(diff(y[ind_nonNA]) == 0)) {
+  if (length(unique(y[ind_nonNA])) == 1) {
     y[ind_NA] <- y[ind_nonNA[1]]
     return(y)
   }
@@ -88,26 +91,35 @@ e_linear_interpolation <-
         ind_first <- ind_nonNA[i_list]
         ind_last  <- ind_nonNA[i_list + 1]
 
-        dat <-
-          data.frame(
-            y = y[ind_first:ind_last]
-          , x = x[ind_first:ind_last]
-          )
+        if(sw_numeric) {
+          dat <-
+            data.frame(
+              y = y[ind_first:ind_last]
+            , x = x[ind_first:ind_last]
+            )
 
-        fit_lm <-
-          lm(
-            formula = y ~ x
-          , data    = dat
-          )
+          fit_lm <-
+            lm(
+              formula = y ~ x
+            , data    = dat
+            )
 
-        pred_lm <-
-          predict(
-            object  = fit_lm
-          , newdata = dat
-          )
+          pred_lm <-
+            predict(
+              object  = fit_lm
+            , newdata = dat
+            )
 
-        y[ind_first:ind_last] <-
-          as.numeric(pred_lm)
+          y[ind_first:ind_last] <-
+            as.numeric(pred_lm)
+        } # sw_numeric
+
+        if(!sw_numeric) {
+          # martingale, last observation carried forward
+          y[(ind_first + 1):(ind_last - 1)] <-
+            y[ind_first]
+        } # !sw_numeric
+
       }
     }
   } # sw_which
@@ -197,6 +209,7 @@ e_linear_interpolation <-
       }
     }
   } # sw_which
+
 
   return(y)
 } # e_linear_interpolation
