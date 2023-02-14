@@ -100,12 +100,66 @@ fit_contrasts <-
   , dat_cont           = dat_cont
   , sw_print           = FALSE
   , sw_table_in_plot   = FALSE
-  , sw_TWI_plots_keep  = "both"
+  , sw_TWI_plots_keep  = "singles"
   , sw_quantile_type   = 1
   )
 fit_contrasts$tables  # to print tables
 fit_contrasts$plots   # to print plots
 fit_contrasts$text    # to print caption text
+
+
+## To plot all contrasts in a plot grid:
+# Since plot interactions have sublists of plots, we want to pull those out
+#   into a one-level plot list.
+# The code here works for sw_TWI_plots_keep = "singles"
+#   which will make each plot the same size in the plot_grid() below.
+# For a publications, you'll want to manually choose which plots to show.
+
+# index for plot list,
+#   needed since interactions add 2 plots to the list, so the number of terms
+#   is not necessarily the same as the number of plots.
+i_list <- 0
+# initialize a list of plots
+p_list <- list()
+
+for (i_term in 1:length(fit_contrasts$plots)) {
+  ## i_term = 1
+
+  # extract the name of the plot
+  n_list <- names(fit_contrasts$plots)[i_term]
+
+  # test whether the name has a colon ":"; if so, it's an interaction
+  if (stringr::str_detect(string = n_list, pattern = stringr::fixed(":"))) {
+    # an two-way interaction has two plots
+
+    # first plot
+    i_list <- i_list + 1
+    p_list[[ i_list ]] <- fit_contrasts$plots[[ i_term ]][[ 1 ]]
+
+    # second plot
+    i_list <- i_list + 1
+    p_list[[ i_list ]] <- fit_contrasts$plots[[ i_term ]][[ 2 ]]
+
+  } else {
+    # not an interaction, only one plot
+
+    i_list <- i_list + 1
+    p_list[[ i_list ]] <- fit_contrasts$plots[[ i_term ]]
+
+  } # if
+} # for
+
+p_arranged <-
+  cowplot::plot_grid(
+    plotlist  = p_list
+  , nrow      = NULL
+  , ncol      = 3
+  , labels    = "AUTO"
+  )
+
+p_arranged \%>\% print()
+
+
 
 
 

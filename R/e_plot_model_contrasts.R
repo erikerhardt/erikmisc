@@ -46,6 +46,7 @@
 #' @importFrom stats quantile
 #' @importFrom stats anova
 #' @importFrom stats terms.formula
+#' @importFrom cowplot plot_grid
 #' @export
 #'
 #' @examples
@@ -73,12 +74,66 @@
 #'   , dat_cont           = dat_cont
 #'   , sw_print           = FALSE
 #'   , sw_table_in_plot   = FALSE
-#'   , sw_TWI_plots_keep  = "both"
+#'   , sw_TWI_plots_keep  = "singles"
 #'   , sw_quantile_type   = 1
 #'   )
 #' fit_contrasts$tables  # to print tables
 #' fit_contrasts$plots   # to print plots
 #' fit_contrasts$text    # to print caption text
+#'
+#'
+#' ## To plot all contrasts in a plot grid:
+#' # Since plot interactions have sublists of plots, we want to pull those out
+#' #   into a one-level plot list.
+#' # The code here works for sw_TWI_plots_keep = "singles"
+#' #   which will make each plot the same size in the plot_grid() below.
+#' # For a publications, you'll want to manually choose which plots to show.
+#'
+#' # index for plot list,
+#' #   needed since interactions add 2 plots to the list, so the number of terms
+#' #   is not necessarily the same as the number of plots.
+#' i_list <- 0
+#' # initialize a list of plots
+#' p_list <- list()
+#'
+#' for (i_term in 1:length(fit_contrasts$plots)) {
+#'   ## i_term = 1
+#'
+#'   # extract the name of the plot
+#'   n_list <- names(fit_contrasts$plots)[i_term]
+#'
+#'   # test whether the name has a colon ":"; if so, it's an interaction
+#'   if (stringr::str_detect(string = n_list, pattern = stringr::fixed(":"))) {
+#'     # an two-way interaction has two plots
+#'
+#'     # first plot
+#'     i_list <- i_list + 1
+#'     p_list[[ i_list ]] <- fit_contrasts$plots[[ i_term ]][[ 1 ]]
+#'
+#'     # second plot
+#'     i_list <- i_list + 1
+#'     p_list[[ i_list ]] <- fit_contrasts$plots[[ i_term ]][[ 2 ]]
+#'
+#'   } else {
+#'     # not an interaction, only one plot
+#'
+#'     i_list <- i_list + 1
+#'     p_list[[ i_list ]] <- fit_contrasts$plots[[ i_term ]]
+#'
+#'   } # if
+#' } # for
+#'
+#' p_arranged <-
+#'   cowplot::plot_grid(
+#'     plotlist  = p_list
+#'   , nrow      = NULL
+#'   , ncol      = 3
+#'   , labels    = "AUTO"
+#'   )
+#'
+#' p_arranged %>% print()
+#'
+#'
 #'
 #'
 #'
@@ -934,6 +989,83 @@ e_plot_model_contrasts <-
 
           ## Plot
           # CI and Contrast text
+          #fix20230214# text_CI   <- NULL
+          #fix20230214# text_diff <- NULL
+          #fix20230214# i_row_cont_fit = 0
+          #fix20230214# for (i_by in seq_along(levels_by)) {
+          #fix20230214#   ## i_by = 1
+          #fix20230214#
+          #fix20230214#   text_CI  <-
+          #fix20230214#     paste0(
+          #fix20230214#       text_CI
+          #fix20230214#     , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
+          #fix20230214#     )
+          #fix20230214#   text_diff  <-
+          #fix20230214#     paste0(
+          #fix20230214#       text_diff
+          #fix20230214#     , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
+          #fix20230214#     )
+          #fix20230214#
+          #fix20230214#   for (i_specs in seq_along(levels_specs)) {
+          #fix20230214#     ## i_spects = 1
+          #fix20230214#
+          #fix20230214#     i_row_cont_fit = i_row_cont_fit + 1
+          #fix20230214#
+          #fix20230214#     # CI text
+          #fix20230214#     text_cont <- summary(cont_fit)[[ var_xs[1] ]] [i_row_cont_fit]
+          #fix20230214#     if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          #fix20230214#       # response scale
+          #fix20230214#       text_est  <- summary(cont_fit)[["prob"]]      [i_row_cont_fit]
+          #fix20230214#     } else {
+          #fix20230214#       # default scale
+          #fix20230214#       text_est  <- summary(cont_fit)[["emmean"]]    [i_row_cont_fit]
+          #fix20230214#     }
+          #fix20230214#     text_LCL  <- summary(cont_fit)[[col_name_LCL]][i_row_cont_fit]
+          #fix20230214#     text_UCL  <- summary(cont_fit)[[col_name_UCL]][i_row_cont_fit]
+          #fix20230214#     text_CI  <-
+          #fix20230214#       paste0(
+          #fix20230214#         text_CI
+          #fix20230214#       , "Estimate: "
+          #fix20230214#       , text_cont
+          #fix20230214#       , " = "
+          #fix20230214#       , signif(text_est, 3)
+          #fix20230214#       , ", "
+          #fix20230214#       , round(CI_level * 100, 1), "% CI: "
+          #fix20230214#       , "("
+          #fix20230214#       , signif(text_LCL, 3)
+          #fix20230214#       , ", "
+          #fix20230214#       , signif(text_UCL, 3)
+          #fix20230214#       , ")"
+          #fix20230214#       , "\n"
+          #fix20230214#       #, collapse = "\n"
+          #fix20230214#       )
+          #fix20230214#
+          #fix20230214#     # Contrast text
+          #fix20230214#     text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
+          #fix20230214#     if (fit_model_type == "glm" & sw_glm_scale == "response") {
+          #fix20230214#       # response scale
+          #fix20230214#       text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
+          #fix20230214#     } else {
+          #fix20230214#       # default scale
+          #fix20230214#       text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
+          #fix20230214#     }
+          #fix20230214#     text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
+          #fix20230214#     text_diff  <-
+          #fix20230214#       paste0(
+          #fix20230214#         text_diff
+          #fix20230214#       , "Contrast: "
+          #fix20230214#       , text_cont
+          #fix20230214#       , " = "
+          #fix20230214#       , signif(text_est, 3)
+          #fix20230214#       , ", p-value = "
+          #fix20230214#       , round(text_pval, 4)
+          #fix20230214#       , "\n"
+          #fix20230214#       #, collapse = "\n"
+          #fix20230214#       )
+          #fix20230214#
+          #fix20230214#   } # i_specs
+          #fix20230214# } # i_by
+
           text_CI   <- NULL
           text_diff <- NULL
           i_row_cont_fit = 0
@@ -951,20 +1083,29 @@ e_plot_model_contrasts <-
               , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
               )
 
-            for (i_specs in seq_along(levels_specs)) {
-              i_row_cont_fit = i_row_cont_fit + 1
+            ## Estimates
+            # CI text
+            summary_cont_fit <-
+              cont_fit %>%
+              summary() %>%
+              as.data.frame()
+            # only rows of this "by" variable
+            summary_cont_fit_by <-
+              summary_cont_fit[summary_cont_fit[[ var_xs[2] ]] == levels_by[i_by], ]
 
-              # CI text
-              text_cont <- summary(cont_fit)[[ var_xs[1] ]] [i_row_cont_fit]
+            for (i_row in seq_len(nrow(summary_cont_fit_by))) {
+              # i_row = 1
+
+              text_cont <- summary_cont_fit_by[[ var_xs[1] ]] [i_row]
               if (fit_model_type == "glm" & sw_glm_scale == "response") {
                 # response scale
-                text_est  <- summary(cont_fit)[["prob"]]      [i_row_cont_fit]
+                text_est  <- summary_cont_fit_by[["prob"]]      [i_row]
               } else {
                 # default scale
-                text_est  <- summary(cont_fit)[["emmean"]]    [i_row_cont_fit]
+                text_est  <- summary_cont_fit_by[["emmean"]]    [i_row]
               }
-              text_LCL  <- summary(cont_fit)[[col_name_LCL]][i_row_cont_fit]
-              text_UCL  <- summary(cont_fit)[[col_name_UCL]][i_row_cont_fit]
+              text_LCL  <- summary_cont_fit_by[[col_name_LCL]][i_row]
+              text_UCL  <- summary_cont_fit_by[[col_name_UCL]][i_row]
               text_CI  <-
                 paste0(
                   text_CI
@@ -982,17 +1123,32 @@ e_plot_model_contrasts <-
                 , "\n"
                 #, collapse = "\n"
                 )
+            } # i_row
+
+
+            ## Contrasts
+            # CI text
+            summary_cont_pairs <-
+              cont_pairs %>%
+              summary() %>%
+              as.data.frame()
+            # only rows of this "by" variable
+            summary_cont_pairs_by <-
+              summary_cont_pairs[summary_cont_pairs[[ var_xs[2] ]] == levels_by[i_by], ]
+
+            for (i_row in seq_len(nrow(summary_cont_pairs_by))) {
+              # i_row = 1
 
               # Contrast text
-              text_cont <- summary(cont_pairs)[["contrast"]][i_row_cont_fit]
+              text_cont <- summary_cont_pairs_by[["contrast"]][i_row]
               if (fit_model_type == "glm" & sw_glm_scale == "response") {
                 # response scale
-                text_est  <- summary(cont_pairs)[["odds.ratio"]][i_row_cont_fit]
+                text_est  <- summary_cont_pairs_by[["odds.ratio"]][i_row]
               } else {
                 # default scale
-                text_est  <- summary(cont_pairs)[["estimate"]][i_row_cont_fit]
+                text_est  <- summary_cont_pairs_by[["estimate"]][i_row]
               }
-              text_pval <- summary(cont_pairs)[["p.value"]] [i_row_cont_fit]
+              text_pval <- summary_cont_pairs_by[["p.value"]] [i_row]
               text_diff  <-
                 paste0(
                   text_diff
@@ -1005,8 +1161,8 @@ e_plot_model_contrasts <-
                 , "\n"
                 #, collapse = "\n"
                 )
+            } # i_row
 
-            } # i_specs
           } # i_by
 
           text_averaged <-
@@ -1113,6 +1269,7 @@ e_plot_model_contrasts <-
           out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long %>% stringr::str_split(pattern = "\n")
 
         } # i_repeat
+
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(2, 3)]) {
           # prepare for group plot
