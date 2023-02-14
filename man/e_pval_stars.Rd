@@ -21,7 +21,7 @@ e_pval_stars(
 a list of symbols of the same length as p_values
 }
 \description{
-Default text for caption: "p-value stars:  (blank): not sig.;   -: p > 0.10;   *: p <= 0.05;   **: p <= 0.01;   *** : p <= 0.001;   **** : p <= 0.0001"
+Default text for caption: "p-value stars:  (blank): not sig.;   -: p > 0.10;   *: p <= 0.05;   **: p <= 0.01;   ***: p <= 0.001;   ****: p <= 0.0001"
 }
 \examples{
 e_pval_stars(c(0.049, 0.050, 0.051, NA))

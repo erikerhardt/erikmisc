@@ -1,6 +1,6 @@
 #' Return star symbols for ranges between a set of p-values, or any set of numbers
 #'
-#' Default text for caption: "p-value stars:  (blank): not sig.;   -: p > 0.10;   *: p <= 0.05;   **: p <= 0.01;   *** : p <= 0.001;   **** : p <= 0.0001"
+#' Default text for caption: "p-value stars:  (blank): not sig.;   -: p > 0.10;   *: p <= 0.05;   **: p <= 0.01;   ***: p <= 0.001;   ****: p <= 0.0001"
 #'
 #' @param p_values  list of p-values
 #' @param cutpoints list of p-value cutpoints, should include 0 and 1 at extremes
