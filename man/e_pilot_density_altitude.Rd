@@ -31,10 +31,9 @@ out                   named list including \code{density_altitude},
 \code{climb_rate_dens_alt}
 }
 \description{
-Variables:
-dens_alt = density altitude, feet
-pres_alt = pressure altitude, inches of Mg
-temp_C   = temperature, degrees celsius
+Approximation for Koch Chart density altitude for
+an increase in takeoff roll and decrease in climb rate
+based on pressure altitude and temperature.
 }
 \details{
 \code{dens_alt} = (145426 * (1 - (((288.16 - \code{pres_alt} * 0.001981) /
@@ -45,7 +44,7 @@ James Embree, Flight Information Publications,
 St. Louis MO, 1984. ISBN 0-9601062-7-8
 }\if{html}{\out{</div>}}
 
-APPROXIMATION (good to 8000 feet density altitude):
+Approximation (good to 8000 feet density altitude):
 \itemize{
 \item Takeoff distance:
 \itemize{

@@ -3,10 +3,9 @@
 
 #' Compute Koch Chart density altitude, takeoff roll, and climb rate
 #'
-#' Variables:
-#'   dens_alt = density altitude, feet
-#'   pres_alt = pressure altitude, inches of Mg
-#'   temp_C   = temperature, degrees celsius
+#' Approximation for Koch Chart density altitude for
+#'   an increase in takeoff roll and decrease in climb rate
+#'   based on pressure altitude and temperature.
 #'
 #' \code{dens_alt} = (145426 * (1 - (((288.16 - \code{pres_alt} * 0.001981) /
 #'                   288.16)^5.2563 / ((273.16 + \code{temp_C}) / 288.16))^0.235))
@@ -15,7 +14,7 @@
 #'     James Embree, Flight Information Publications,
 #'     St. Louis MO, 1984. ISBN 0-9601062-7-8
 #'
-#' APPROXIMATION (good to 8000 feet density altitude):
+#' Approximation (good to 8000 feet density altitude):
 #'
 #' * Takeoff distance:
 #'     * For fixed pitch prop, increase sea level standard day takeoff distance
