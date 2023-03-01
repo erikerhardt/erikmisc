@@ -1,14 +1,15 @@
 #' A function to calculate the ROC curve, determine the optimal threshold, plot the curve, and provide classification statistics
 #'
-#' @param actual_labels   true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model
-#' @param pred_values     either predicted labels or a value (such as a probability) associated with the success label
-#' @param sw_plot         T/F to return a ROC curve ggplot object
-#' @param cm_mode         \code{mode} from \code{caret::confusionMatrix}
+#' @param labels_true       true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model
+#' @param pred_values_pos   either predicted labels or a value (such as a probability) associated with the success label
+#' @param label_neg_pos     labels in order c("negative", "positive")
+#' @param sw_plot           T/F to return a ROC curve ggplot object
+#' @param cm_mode           \code{mode} from \code{caret::confusionMatrix}
 #'
 #' @return                a list including
 #' \itemize{
 #'   \item roc_curve_best   - one-row tibble of classification statistics for best Sensitivity and Specificity (closest to upper-left corner of ROC curve)
-#'   \item pred_positive    - pred_values, returned as numeric 1 or 0
+#'   \item pred_positive    - pred_values_pos, returned as numeric 1 or 0
 #'   \item confusion_matrix - confusion matrix statistics
 #'   \item plot_roc         - ROC curve ggplot object
 #'   \item roc_curve        - ROC curve data
@@ -28,12 +29,13 @@
 #' ex_truth  <- factor(rep(ex_lvs, times = c(86, 258)), levels = rev(ex_lvs))
 #' ex_pred   <- factor(c(rep(ex_lvs, times = c(54,  32))
 #'                     , rep(ex_lvs, times = c(27, 231)))
-#'                   , levels = rev(ex_lvs))
+#'                   , levels = ex_lvs)
 #' out <-
 #'   e_plot_roc(
-#'     actual_labels = ex_truth
-#'   , pred_values   = ex_pred
-#'   , sw_plot       = TRUE
+#'     labels_true     = ex_truth
+#'   , pred_values_pos = ex_pred
+#'   , label_neg_pos   = ex_lvs
+#'   , sw_plot         = TRUE
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
 #' out$plot_roc
@@ -43,9 +45,10 @@
 #' ## Numeric prediction-value example
 #' out <-
 #'   e_plot_roc(
-#'     actual_labels = sample(c("a", "b"), size = 50, replace = TRUE)
-#'   , pred_values   = runif(n = 50)
-#'   , sw_plot       = TRUE
+#'     labels_true     = sample(c("a", "b"), size = 50, replace = TRUE)
+#'   , pred_values_pos = runif(n = 50)
+#'   , label_neg_pos   = c("a", "b")
+#'   , sw_plot         = TRUE
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
 #' out$plot_roc
@@ -76,10 +79,11 @@
 #'
 #' glm_roc <-
 #'   e_plot_roc(
-#'     actual_labels = dat_mtcars_e$vs_V
-#'   , pred_values   = fit_glm_vs$fitted.values
-#'   , sw_plot       = TRUE
-#'   , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
+#'     labels_true     = dat_mtcars_e$vs_V
+#'   , pred_values_pos = fit_glm_vs$fitted.values
+#'   , label_neg_pos   = c(0, 1)
+#'   , sw_plot         = TRUE
+#'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
 #'   )
 #' glm_roc$roc_curve_best %>% print(width = Inf)
 #' glm_roc$plot_roc
@@ -87,14 +91,15 @@
 #'
 e_plot_roc <-
   function(
-    actual_labels = NULL
-  , pred_values   = NULL
-  , sw_plot       = TRUE
-  , cm_mode       = c("sens_spec", "prec_recall", "everything")[1]
+    labels_true     = NULL
+  , pred_values_pos = NULL
+  , label_neg_pos   = NULL
+  , sw_plot         = TRUE
+  , cm_mode         = c("sens_spec", "prec_recall", "everything")[1]
   ) {
 
   # need only 2 levels for ROCR functions
-  if ((actual_labels %>% unique() %>% length()) > 2) {
+  if ((labels_true   %>% unique() %>% length()) > 2) {
     warning("e_plot_roc: Only two classes for ROC at this time")
     out <-
       list(
@@ -107,6 +112,11 @@ e_plot_roc <-
     return(out)
   }
 
+  # format data
+  labels_true     <- labels_true     %>% as.character()
+  pred_values_pos <- pred_values_pos %>% as.numeric()
+  label_neg_pos   <- label_neg_pos   %>% as.character()
+
   #library(ROCR)
   ## Most would assume the first category be the "positive", but not ROCR...
   ## Note: "Ideally, labels should be supplied as ordered factor(s),
@@ -115,19 +125,18 @@ e_plot_roc <-
   ##  Thus, below I swap Sens and Spec for plots and summaries.
   rocr_pred <-
     ROCR::prediction(
-      predictions = pred_values   %>% as.numeric()
-    , labels      = actual_labels %>% factor()
-    #, labels      = factor(actual_labels, levels = rev(levels(factor(actual_labels))))
-    #, label.ordering = levels(factor(actual_labels))
+      predictions    = pred_values_pos
+    , labels         = labels_true
+    , label.ordering = label_neg_pos  # c("negative", "positive")
     )
   #rocr_perf <- ROCR::performance(rocr_pred, measure = "tpr", x.measure = "fpr")
   rocr_perf <-
     ROCR::performance(
       prediction.obj  = rocr_pred
-    #, measure         = "sens"
-    #, x.measure       = "spec"
-    , measure         = "spec"      # x,y swapped, see ROCR note above
-    , x.measure       = "sens"      # x,y swapped, see ROCR note above
+    , measure         = "sens"
+    , x.measure       = "spec"
+    #, measure         = "spec"      # x,y swapped, see ROCR note above
+    #, x.measure       = "sens"      # x,y swapped, see ROCR note above
     )
   #plot(rocr_perf)
 
@@ -162,26 +171,26 @@ e_plot_roc <-
     dplyr::slice(1)  # when > 1 have same min dist
 
   # define positive classification using optimal threshold
-  pred_positive <- ifelse(as.numeric(pred_values) >= roc_curve_best$thresh, 1, 0)
+  pred_positive <- ifelse(as.numeric(pred_values_pos) >= roc_curve_best$thresh, 1, 0)
 
   # assess confusion matrix accuracy
   confusion_matrix <-
     caret::confusionMatrix(
-      data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(actual_labels))))
-    , reference = actual_labels %>% factor()
-    #, positive  = levels(factor(actual_labels))[1]
+      data      = pred_positive %>% factor(levels = c(0, 1), labels = label_neg_pos)
+    , reference = labels_true   %>% as.character() %>% factor(levels = label_neg_pos)
+    , positive  = label_neg_pos[2]
     , mode      = cm_mode
     )
-  # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
-  if (abs(confusion_matrix$byClass["Sensitivity"] + roc_curve_best$Spec - 1) < 1e-4) {
-    message("e_plot_roc: swapping success index")
-    confusion_matrix <-
-      caret::confusionMatrix(
-        data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(actual_labels, decreasing = TRUE))))
-      , reference = actual_labels %>% factor()
-      , mode      = cm_mode
-      )
-  }
+  # # if Sens = 1-Spec and Spec = 1-Sens, then use index [1] instead of [2]
+  # if (abs(confusion_matrix$byClass["Sensitivity"] + roc_curve_best$Spec - 1) < 1e-4) {
+  #   message("e_plot_roc: swapping success index")
+  #   confusion_matrix <-
+  #     caret::confusionMatrix(
+  #       data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(labels_true  , decreasing = TRUE))))
+  #     , reference = labels_true   %>% factor()
+  #     , mode      = cm_mode
+  #     )
+  # }
 
   # add classification statistics
   roc_curve_best <-
@@ -252,8 +261,22 @@ e_plot_roc <-
           , "\n", "Specificity = "      , sprintf("%.3f", confusion_matrix$byClass["Specificity"      ])
           , "\n", "Pos Pred Value = "   , sprintf("%.3f", confusion_matrix$byClass["Pos Pred Value"   ])
           , "\n", "Neg Pred Value = "   , sprintf("%.3f", confusion_matrix$byClass["Neg Pred Value"   ])
+          , "\n", "Pos Threshold >= "   , sprintf("%.3f", roc_curve_best$thresh)
           )
       )
+
+    p <- p +
+      labs(
+        caption =
+          paste0(
+            "Classification labels: \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
+          , "\n"
+          , "Sensitivity: true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."
+          , "\n"
+          , "Specificity: true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."
+          )
+      )
+    p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
 
   } else {
     p <- NULL

@@ -5,16 +5,19 @@
 \title{A function to calculate the ROC curve, determine the optimal threshold, plot the curve, and provide classification statistics}
 \usage{
 e_plot_roc(
-  actual_labels = NULL,
-  pred_values = NULL,
+  labels_true = NULL,
+  pred_values_pos = NULL,
+  label_neg_pos = NULL,
   sw_plot = TRUE,
   cm_mode = c("sens_spec", "prec_recall", "everything")[1]
 )
 }
 \arguments{
-\item{actual_labels}{true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model}
+\item{labels_true}{true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model}
 
-\item{pred_values}{either predicted labels or a value (such as a probability) associated with the success label}
+\item{pred_values_pos}{either predicted labels or a value (such as a probability) associated with the success label}
+
+\item{label_neg_pos}{labels in order c("negative", "positive")}
 
 \item{sw_plot}{T/F to return a ROC curve ggplot object}
 
@@ -26,7 +29,7 @@ e_plot_roc(
 
 \itemize{
 \item roc_curve_best   - one-row tibble of classification statistics for best Sensitivity and Specificity (closest to upper-left corner of ROC curve)
-\item pred_positive    - pred_values, returned as numeric 1 or 0
+\item pred_positive    - pred_values_pos, returned as numeric 1 or 0
 \item confusion_matrix - confusion matrix statistics
 \item plot_roc         - ROC curve ggplot object
 \item roc_curve        - ROC curve data
@@ -41,12 +44,13 @@ ex_lvs    <- c("normal", "abnormal")
 ex_truth  <- factor(rep(ex_lvs, times = c(86, 258)), levels = rev(ex_lvs))
 ex_pred   <- factor(c(rep(ex_lvs, times = c(54,  32))
                     , rep(ex_lvs, times = c(27, 231)))
-                  , levels = rev(ex_lvs))
+                  , levels = ex_lvs)
 out <-
   e_plot_roc(
-    actual_labels = ex_truth
-  , pred_values   = ex_pred
-  , sw_plot       = TRUE
+    labels_true     = ex_truth
+  , pred_values_pos = ex_pred
+  , label_neg_pos   = ex_lvs
+  , sw_plot         = TRUE
   )
 out$roc_curve_best \%>\% print(width = Inf)
 out$plot_roc
@@ -56,9 +60,10 @@ out$confusion_matrix
 ## Numeric prediction-value example
 out <-
   e_plot_roc(
-    actual_labels = sample(c("a", "b"), size = 50, replace = TRUE)
-  , pred_values   = runif(n = 50)
-  , sw_plot       = TRUE
+    labels_true     = sample(c("a", "b"), size = 50, replace = TRUE)
+  , pred_values_pos = runif(n = 50)
+  , label_neg_pos   = c("a", "b")
+  , sw_plot         = TRUE
   )
 out$roc_curve_best \%>\% print(width = Inf)
 out$plot_roc
@@ -89,10 +94,11 @@ car::Anova(fit_glm_vs, type = 3)
 
 glm_roc <-
   e_plot_roc(
-    actual_labels = dat_mtcars_e$vs_V
-  , pred_values   = fit_glm_vs$fitted.values
-  , sw_plot       = TRUE
-  , cm_mode       = c("sens_spec", "prec_recall", "everything")[3]
+    labels_true     = dat_mtcars_e$vs_V
+  , pred_values_pos = fit_glm_vs$fitted.values
+  , label_neg_pos   = c(0, 1)
+  , sw_plot         = TRUE
+  , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
   )
 glm_roc$roc_curve_best \%>\% print(width = Inf)
 glm_roc$plot_roc
