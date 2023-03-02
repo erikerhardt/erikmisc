@@ -471,6 +471,39 @@ e_plot_model_contrasts <-
   col_names_LCL <- c("lower.CL", "asymp.LCL")
   col_names_UCL <- c("upper.CL", "asymp.UCL")
 
+  # subset to include only complete observations for variables used
+  if (fit_model_type %in% c("lm")) {
+    temp_var_list <- names(attr(fit$terms, "dataClasses"))
+    dat_cont <- na.omit(dat_cont[, temp_var_list])
+    rm(temp_var_list)
+  }
+  if (fit_model_type %in% c("glm")) {
+    temp_var_list <- names(attr(fit$terms, "dataClasses"))
+
+    # strip variable name out of cbind() statement
+    if(any(stringr::str_detect(temp_var_list, stringr::fixed("cbind(")))) {
+      temp_ind <- which(stringr::str_detect(temp_var_list, stringr::fixed("cbind(")))
+      temp_var_list[temp_ind] <-
+        stringr::str_split(
+          stringr::str_split(
+            string = temp_var_list[temp_ind]
+          , pattern = stringr::fixed("cbind(")
+          , simplify = TRUE
+          )[2]
+        , pattern = stringr::fixed(",")
+        , simplify = TRUE
+        )[1]
+    }
+    dat_cont <- na.omit(dat_cont[, temp_var_list])
+    rm(temp_var_list, temp_ind)
+  }
+  if (fit_model_type %notin% c("lmerModLmerTest", "lmerMod")) {
+    temp_var_list <- names(fit@frame)
+    dat_cont <- na.omit(dat_cont[, temp_var_list])
+    rm(temp_var_list)
+  }
+
+
 
   # check for label, create label if unlabelled
   for (n_col in names(dat_cont)) {
@@ -632,7 +665,7 @@ e_plot_model_contrasts <-
           text_UCL  <- summary(cont_fit)[[col_name_UCL]]
           text_CI  <-
             paste0(
-              "Estimate: "
+              "Estimate", " (n = ", nrow(dat_cont), ")", ": "
             , "(at mean = ", signif(text_cont, 3), ")"
             , ": "
             , signif(text_est, 3)
@@ -816,9 +849,13 @@ e_plot_model_contrasts <-
         }
         text_LCL  <- summary(cont_fit)[[col_name_LCL]]
         text_UCL  <- summary(cont_fit)[[col_name_UCL]]
+
+        # sample size
+        n_this <- dat_cont[[var_xs]] %>% table()
+
         text_CI  <-
           paste0(
-            "Estimate: "
+            "Estimate", " (n = ", n_this, ")", ": "
           , text_cont
           , " = "
           , signif(text_est, 3)
@@ -1029,10 +1066,19 @@ e_plot_model_contrasts <-
               }
               text_LCL  <- summary_cont_fit_by[[col_name_LCL]][i_row]
               text_UCL  <- summary_cont_fit_by[[col_name_UCL]][i_row]
+
+              # sample size
+              n_this <-
+                dat_cont[
+                  (dat_cont[[ var_xs[1] ]] == levels_specs[i_row]) &
+                  (dat_cont[[ var_xs[2] ]] == levels_by[i_by])
+                  , ] %>% nrow()
+
               text_CI  <-
                 paste0(
                   text_CI
-                , "Estimate: "
+                #, "Estimate: "
+                , "Estimate", " (n = ", n_this, ")", ": "
                 , text_cont
                 , " = "
                 , signif(text_est, 3)
@@ -1329,9 +1375,13 @@ e_plot_model_contrasts <-
           text_est  <- summary(cont_fit$emtrends)[[ind_trend]]  # 2
           text_LCL  <- summary(cont_fit$emtrends)[[col_name_LCL]]
           text_UCL  <- summary(cont_fit$emtrends)[[col_name_UCL]]
+
+          # sample size
+          n_this <- dat_cont[[ var_xs[1] ]] %>% table()
+
           text_CI  <-
             paste0(
-              "Estimate: "
+              "Estimate", " (n = ", n_this, ")", ": "
             , text_cont
             , " = "
             , signif(text_est, 3)
@@ -1568,7 +1618,7 @@ e_plot_model_contrasts <-
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {
-          ## i_repeat = 2
+          ## i_repeat = 1
 
           ## Repeat, but reverse factors
           if (i_repeat == 2) {
