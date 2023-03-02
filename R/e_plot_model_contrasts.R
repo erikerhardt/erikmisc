@@ -497,7 +497,7 @@ e_plot_model_contrasts <-
     dat_cont <- na.omit(dat_cont[, temp_var_list])
     rm(temp_var_list, temp_ind)
   }
-  if (fit_model_type %notin% c("lmerModLmerTest", "lmerMod")) {
+  if (fit_model_type %in% c("lmerModLmerTest", "lmerMod")) {
     temp_var_list <- names(fit@frame)
     dat_cont <- na.omit(dat_cont[, temp_var_list])
     rm(temp_var_list)
