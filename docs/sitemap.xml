@@ -4,30 +4,6 @@
     <loc>/404.html</loc>
   </url>
   <url>
-    <loc>/articles/erikmisc-e_lm_bestsubset.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-e_model_all_subsets_formula.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-e_multiple_regression_example.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-e_plot_model_contrasts.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-e_read_data_subdir_into_lists.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-e_rmd_name_chunks.html</loc>
-  </url>
-  <url>
-    <loc>/articles/erikmisc-key_variables_completion.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -197,6 +173,9 @@
   </url>
   <url>
     <loc>/reference/e_model_binary_complete.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_pilot_density_altitude.html</loc>
   </url>
   <url>
     <loc>/reference/e_plot_blank.html</loc>
