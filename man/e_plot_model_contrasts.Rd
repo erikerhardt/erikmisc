@@ -9,6 +9,8 @@ e_plot_model_contrasts(
   dat_cont = NULL,
   choose_contrasts = NULL,
   sw_table_in_plot = TRUE,
+  sw_points_in_plot = TRUE,
+  sw_ribbon_in_plot = TRUE,
   adjust_method = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx",
     "mvt")[4],
   CI_level = 0.95,
@@ -32,6 +34,10 @@ e_plot_model_contrasts(
 \item{choose_contrasts}{is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.}
 
 \item{sw_table_in_plot}{T/F put table of results in caption of plot}
+
+\item{sw_points_in_plot}{T/F include marginal points in numeric plot}
+
+\item{sw_ribbon_in_plot}{T/F include error bands in numeric plot}
 
 \item{adjust_method}{see         \code{?emmeans::summary.emmGrid}}
 

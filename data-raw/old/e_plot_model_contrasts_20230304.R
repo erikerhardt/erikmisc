@@ -17,8 +17,6 @@
 #' @param dat_cont                  (required) data used for the lm object (only used for variable labels using labelled::var_label()
 #' @param choose_contrasts          is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.
 #' @param sw_table_in_plot          T/F put table of results in caption of plot
-#' @param sw_points_in_plot         T/F include marginal points in numeric plot
-#' @param sw_ribbon_in_plot         T/F include error bands in numeric plot
 #' @param adjust_method see         `?emmeans::summary.emmGrid`
 #' @param CI_level                  level from `?emmeans::emmeans`
 #' @param sw_glm_scale              for glm fit, choose results on the "link" (default) or "response" scale
@@ -298,8 +296,6 @@ e_plot_model_contrasts <-
   , dat_cont                = NULL
   , choose_contrasts        = NULL
   , sw_table_in_plot        = TRUE
-  , sw_points_in_plot       = TRUE
-  , sw_ribbon_in_plot       = TRUE
   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
   , CI_level                = 0.95
   , sw_glm_scale            = c("link", "response")[1]
@@ -507,9 +503,7 @@ e_plot_model_contrasts <-
     rm(temp_var_list)
   }
 
-  n_obs <- dat_cont %>% nrow()
 
-  geom_point_alpha <- 1 / (n_obs^(1/5))  # x=seq(1:1000); plot(x, 1/(x^(1/5)), type = "l")
 
   # check for label, create label if unlabelled
   for (n_col in names(dat_cont)) {
@@ -691,134 +685,35 @@ e_plot_model_contrasts <-
         text_averaged <-
           paste0("Tables: ", attributes(summary(cont_fit))$mesg)
 
-        form_var_num <- stats::as.formula(paste0("~", var_xs))
-
-        # this is the common every-variable situation
-        # values of numeric variables for plotting
-        at_list <- list()
-        at_list[[ var_xs ]] <-
-          #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-          dat_cont[[ var_xs ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
+        form_var <- stats::as.formula(paste0("~", var_xs))
 
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           ## ?emmeans::ref_grid for cov.reduce option
           # response scale
-          fit_emm_at <-
-            emmeans::ref_grid(
-              object  = fit
-            , at      = at_list
-            #, type    = "response"
+          at_list <- list()
+          at_list[[var_xs]] <- unique(quantile(dat_cont[[var_xs]], probs = seq(0, 1, by = 0.01)))
+
+          p <-
+            emmeans::emmip(
+              object     = fit
+            , formula    = form_var
+            #, cov.reduce = range
+            , at         = at_list
+            , rg.limit   = emmip_rg.limit
             #, transform = "response" # updated in emmeans 1.7.3
             , regrid  = "response"
             )
 
         } else {
           # default scale
-          fit_emm_at <-
-            emmeans::ref_grid(
-              object  = fit
-            , at      = at_list
+          p <-
+            emmeans::emmip(
+              object     = fit
+            , formula    = form_var
+            , cov.reduce = range
+            , rg.limit   = emmip_rg.limit
             )
         }
-
-
-        if (fit_model_type == "glm" & sw_glm_scale == "response") {
-          ## ?emmeans::ref_grid for cov.reduce option
-          # response scale
-          #at_list <- list()
-          #at_list[[var_xs]] <- unique(quantile(dat_cont[[var_xs]], probs = seq(0, 1, by = 0.01)))
-
-          # p <-
-          #   emmeans::emmip(
-          #     object     = fit
-          #   , formula    = form_var
-          #   #, cov.reduce = range
-          #   , at         = at_list
-          #   , rg.limit   = emmip_rg.limit
-          #   #, transform = "response" # updated in emmeans 1.7.3
-          #   , regrid  = "response"
-          #   )
-
-          p_dat <- emmeans::emmip(
-              object    = fit_emm_at
-            , formula   = form_var_num
-            , cov.reduce = range  #not originally here, but maybe belongs
-            , at        = at_list
-            , rg.limit  = emmip_rg.limit
-            #   #, transform = "response" # updated in emmeans 1.7.3
-            # , regrid  = "response"
-            , CIs       = TRUE
-            , plotit    = FALSE
-            )
-
-          p_dat <-
-            p_dat %>%
-            dplyr::mutate(
-              LCL = pmax(LCL, 0)
-            , UCL = pmin(UCL, 1)
-            )
-
-          p <-
-            ggplot(
-              data = p_dat
-            , aes(x = xvar, y = yvar)
-            , colour = "black"
-            )
-          p <- p + geom_line()
-          if (sw_ribbon_in_plot) {
-            p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL), fill = "black", alpha = 1/10)
-          }
-          if (sw_points_in_plot) {
-            p <- p +
-              geom_point(
-                data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar)
-              , colour = "black"
-              , alpha = geom_point_alpha
-              )
-          } # sw_points_in_plot
-
-        } else {
-          # default scale
-          # p <-
-          #   emmeans::emmip(
-          #     object     = fit
-          #   , formula    = form_var
-          #   , cov.reduce = range
-          #   , rg.limit   = emmip_rg.limit
-          #   )
-
-          p_dat <- emmeans::emmip(
-              object    = fit_emm_at
-            , formula   = form_var_num
-            #, cov.reduce = range  #not originally here, but maybe belongs
-            , at = at_list
-            , rg.limit  = emmip_rg.limit
-            , CIs       = TRUE
-            , plotit    = FALSE
-            )
-
-          p <-
-            ggplot(
-              data = p_dat
-            , aes(x = xvar, y = yvar)
-            , colour = "black"
-            )
-          p <- p + geom_line()
-          if (sw_ribbon_in_plot) {
-            p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL), fill = "black", alpha = 1/10)
-          }
-          if (sw_points_in_plot & !(fit_model_type == "glm")) {
-            p <- p +
-              geom_point(
-                data = dat_cont %>% dplyr::mutate(xvar = !!rlang::sym(var_xs), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar)
-              , colour = "black"
-              , alpha = geom_point_alpha
-              )
-          } # sw_points_in_plot
-
-        } # if glm
         text_averaged_plot <-
           paste0("Plot: ", attributes(p$data)$mesg)
 
@@ -1581,127 +1476,32 @@ e_plot_model_contrasts <-
         #   text_caption <- text_short
         # }
 
-        # this is the common every-variable situation
-        # values of numeric variables for plotting
-        at_list <- list()
-        at_list[[ var_xs[1] ]] <-
-          dat_cont[[ var_xs[1] ]] %>% levels()
-        at_list[[ var_xs[2] ]] <-
-          #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-          dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
+
 
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           ## ?emmeans::ref_grid for cov.reduce option
           # response scale
-          fit_emm_at <-
-            emmeans::ref_grid(
-              object  = fit
-            , at      = at_list
-            #, type    = "response"
+          at_list <- list()
+          at_list[[var_xs[2]]] <- unique(quantile(dat_cont[[var_xs[2]]], probs = seq(0, 1, by = 0.01)))
+
+          p2 <- emmeans::emmip(
+              object     = fit
+            , formula    = form_var_fac_num
+            #, cov.reduce = range
+            , at = at_list
+            , rg.limit   = emmip_rg.limit
             #, transform = "response" # updated in emmeans 1.7.3
             , regrid  = "response"
             )
 
         } else {
           # default scale
-          fit_emm_at <-
-            emmeans::ref_grid(
-              object  = fit
-            , at      = at_list
+          p2 <- emmeans::emmip(
+              object     = fit
+            , formula    = form_var_fac_num
+            , cov.reduce = range
+            , rg.limit   = emmip_rg.limit
             )
-        }
-
-
-        ## Plot
-
-        if (fit_model_type == "glm" & sw_glm_scale == "response") {
-          ## ?emmeans::ref_grid for cov.reduce option
-          # response scale
-          #at_list <- list()
-          #at_list[[var_xs[2]]] <- unique(quantile(dat_cont[[var_xs[2]]], probs = seq(0, 1, by = 0.01)))
-
-          # p2 <- emmeans::emmip(
-          #     object     = fit
-          #   , formula    = form_var_fac_num
-          #   #, cov.reduce = range
-          #   , at = at_list
-          #   , rg.limit   = emmip_rg.limit
-          #   #, transform = "response" # updated in emmeans 1.7.3
-          #   , regrid  = "response"
-          #   )
-
-          p_dat <- emmeans::emmip(
-              object    = fit_emm_at
-            , formula   = form_var_fac_num
-            , cov.reduce = range  #not originally here, but maybe belongs
-            , at        = at_list
-            , rg.limit  = emmip_rg.limit
-            #   #, transform = "response" # updated in emmeans 1.7.3
-            # , regrid  = "response"
-            , CIs       = TRUE
-            , plotit    = FALSE
-            )
-
-          p_dat <-
-            p_dat %>%
-            dplyr::mutate(
-              LCL = pmax(LCL, 0)
-            , UCL = pmin(UCL, 1)
-            )
-
-          p2 <-
-            ggplot(
-                data = p_dat
-              , aes(x = xvar, y = yvar, colour = tvar)
-            )
-          p2 <- p2 + geom_line()
-          if (sw_ribbon_in_plot) {
-            p2 <- p2 + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/10)
-          }
-          if (sw_points_in_plot) {
-            p2 <- p2 +
-              geom_point(
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar, colour = tvar)
-              , alpha = geom_point_alpha
-              )
-          } # sw_points_in_plot
-
-        } else {
-          # default scale
-          # p2 <- emmeans::emmip(
-          #     object     = fit
-          #   , formula    = form_var_fac_num
-          #   , cov.reduce = range
-          #   , rg.limit   = emmip_rg.limit
-          #   )
-
-          p_dat <- emmeans::emmip(
-              object    = fit_emm_at
-            , formula   = form_var_fac_num
-            #, cov.reduce = range  #not originally here, but maybe belongs
-            , rg.limit  = emmip_rg.limit
-            , CIs       = TRUE
-            , plotit    = FALSE
-            )
-
-          p2 <-
-            ggplot(
-                data = p_dat
-              , aes(x = xvar, y = yvar, colour = tvar)
-            )
-          p2 <- p2 + geom_line()
-          if (sw_ribbon_in_plot) {
-            p2 <- p2 + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/10)
-          }
-          if (sw_points_in_plot & !(fit_model_type == "glm")) {
-            p2 <- p2 +
-              geom_point(
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar, colour = tvar)
-              , alpha = geom_point_alpha
-              )
-          } # sw_points_in_plot
 
         }
 
@@ -1724,8 +1524,6 @@ e_plot_model_contrasts <-
           , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
           , y         = y_label
           , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          , fill      = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          , shape     = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
           , caption   = text_caption
           #, tag       = "B"
           )
@@ -1881,53 +1679,12 @@ e_plot_model_contrasts <-
 
 
           ## Plot
-          # p <- emmeans::emmip(
-          #     object    = fit_emm_at
-          #   , formula   = form_var_num_num
-          #   #, cov.reduce = range  #not originally here, but maybe belongs
-          #   , rg.limit  = emmip_rg.limit
-          #   )
-
-          p_dat <- emmeans::emmip(
+          p <- emmeans::emmip(
               object    = fit_emm_at
             , formula   = form_var_num_num
             #, cov.reduce = range  #not originally here, but maybe belongs
             , rg.limit  = emmip_rg.limit
-            , CIs       = TRUE
-            , plotit    = FALSE
             )
-
-          if (fit_model_type == "glm" & sw_glm_scale == "response") {
-            p_dat <-
-              p_dat %>%
-              dplyr::mutate(
-                LCL = pmax(LCL, 0)
-              , UCL = pmin(UCL, 1)
-              )
-          }
-
-
-          p <-
-            ggplot(
-                data = p_dat
-              , aes(x = xvar, y = yvar, colour = tvar)
-            )
-          p <- p + geom_line()
-          if (sw_ribbon_in_plot) {
-            p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/25)
-          }
-          if (sw_points_in_plot & !(fit_model_type == "glm")) {
-            p <- p +
-              geom_point(
-                #data = dat_cont
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs[1]))
-              , aes(x = xvar, y = yvar)
-              , colour = "black"
-              , alpha = geom_point_alpha
-              )
-          } # sw_points_in_plot
 
           text_averaged_plot <-
             attributes(p$data)$mesg
@@ -1987,7 +1744,6 @@ e_plot_model_contrasts <-
             , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
             , y         = y_label
             , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-            , fill      = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
             , caption   = text_caption
             #, tag       = "A"
             )
