@@ -1557,6 +1557,10 @@ e_plot_model_contrasts <-
           )
         p1 <- p1 + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
 
+        if(sw_print) {
+          print(p1)
+        }
+
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[1]] <- p1
         }
@@ -1731,6 +1735,9 @@ e_plot_model_contrasts <-
           )
         p2 <- p2 + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
 
+        if(sw_print) {
+          print(p2)
+        }
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[2]] <- p2
