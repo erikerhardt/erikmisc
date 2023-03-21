@@ -31,11 +31,11 @@
 #'
 #' @examples
 #' fit <- lm(mpg ~ cyl + disp + hp + gear, data = dat_mtcars_e)
-#' e_plot_lm_diagostics(fit)
+#' e_plot_lm_diagnostics(fit)
 #' mod <- stats::formula(mpg ~ cyl + disp + hp + gear)
 #' fit <- lm(mod, data = dat_mtcars_e)
-#' e_plot_lm_diagostics(fit)
-e_plot_lm_diagostics <-
+#' e_plot_lm_diagnostics(fit)
+e_plot_lm_diagnostics <-
   function(
     fit              = NULL
   , rc_mfrow         = c(1, 3)
@@ -139,7 +139,7 @@ e_plot_lm_diagostics <-
     for(i_plot in 1:length(var_names)) {
       m_lab <- paste("Residuals vs.", var_names[i_plot])
       if(inherits(fit$model[,var_names[i_plot]], "character")) {
-        message(paste0("e_plot_lm_diagostics: ", var_names[i_plot], " is character and may need to be a factor."))
+        message(paste0("e_plot_lm_diagnostics: ", var_names[i_plot], " is character and may need to be a factor."))
       }
       plot(x = fit$model[,var_names[i_plot]], y = fit$residuals, main = m_lab, ylab = "Residuals", xlab = var_names[i_plot])
       abline(h = 0, col = "gray75", lty = 3)  # horizontal line at zero
@@ -251,4 +251,4 @@ e_plot_lm_diagostics <-
   invisible(NULL)
 
   ## Useful list of diags: http://www.statmethods.net/stats/rdiagnostics.html
-} # e_plot_lm_diagostics
+} # e_plot_lm_diagnostics
