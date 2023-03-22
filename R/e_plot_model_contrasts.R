@@ -874,12 +874,15 @@ e_plot_model_contrasts <-
         p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
         #p <- p + theme(axis.text.x = element_text(angle = 15, vjust = 1, hjust = 1))
 
-        if(sw_print) {
-          print(p)
-        }
-
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
         out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long %>% stringr::str_split(pattern = "\n")
+
+        if(sw_print) {
+          paste0("Printing: ", var_name_x[i_var_x], "  --------------------") %>% print()
+          out[["plots" ]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["tables"]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["text"  ]][[ var_name_x[i_var_x] ]] %>% print()
+        }
 
       } # numeric
 
@@ -921,11 +924,6 @@ e_plot_model_contrasts <-
         # confidence limit (CL) column names
         col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
         col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
-
-        if(sw_print) {
-          cont_fit   %>% print()
-          cont_pairs %>% print()
-        }
 
         out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
         out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- cont_pairs
@@ -1055,12 +1053,15 @@ e_plot_model_contrasts <-
         p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
         #p <- p + theme(axis.text.x = element_text(angle = 15, vjust = 1, hjust = 1))
 
-        if(sw_print) {
-          print(p)
-        }
-
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
         out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long %>% stringr::str_split(pattern = "\n")
+
+        if(sw_print) {
+          paste0("Printing: ", var_name_x[i_var_x], "  --------------------") %>% print()
+          out[["plots" ]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["tables"]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["text"  ]][[ var_name_x[i_var_x] ]] %>% print()
+        }
 
       } # factor
 
@@ -1115,11 +1116,6 @@ e_plot_model_contrasts <-
           # confidence limit (CL) column names
           col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
           col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
-
-          if(sw_print) {
-            cont_fit   %>% print()
-            cont_pairs %>% print()
-          }
 
           out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
           out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- cont_pairs
@@ -1327,10 +1323,6 @@ e_plot_model_contrasts <-
           p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
           #p <- p + theme(axis.text.x = element_text(angle = 15, vjust = 1, hjust = 1))
 
-          if(sw_print) {
-            print(p)
-          }
-
           if (i_repeat == 1) {
             p1 <- p
           }
@@ -1412,13 +1404,16 @@ e_plot_model_contrasts <-
             ) %>%
             ggpubr::as_ggplot()
 
-          if(sw_print) {
-            print(p_arranged)
-          }
-
           out[["plots" ]][[ var_name_x[i_var_x] ]][["both"]] <- p_arranged
 
         } # sw_TWI_plots_keep
+
+        if(sw_print) {
+          paste0("Printing: ", var_name_x[i_var_x], "  --------------------") %>% print()
+          out[["plots" ]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["tables"]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["text"  ]][[ var_name_x[i_var_x] ]] %>% print()
+        }
 
       } # factor:factor
 
@@ -1556,10 +1551,6 @@ e_plot_model_contrasts <-
           #, tag       = "A"
           )
         p1 <- p1 + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
-
-        if(sw_print) {
-          print(p1)
-        }
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[1]] <- p1
@@ -1735,10 +1726,6 @@ e_plot_model_contrasts <-
           )
         p2 <- p2 + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
 
-        if(sw_print) {
-          print(p2)
-        }
-
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[2]] <- p2
         }
@@ -1811,12 +1798,16 @@ e_plot_model_contrasts <-
             ) %>%
             ggpubr::as_ggplot()
 
-          if(sw_print) {
-            print(p_arranged)
-          }
-
           out[["plots" ]][[ var_name_x[i_var_x] ]][["both"]] <- p_arranged
         } # sw_TWI_plots_keep
+
+        if(sw_print) {
+          paste0("Printing: ", var_name_x[i_var_x], "  --------------------") %>% print()
+          out[["plots" ]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["tables"]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["text"  ]][[ var_name_x[i_var_x] ]] %>% print()
+        }
+
       } # factor:numeric
 
 
@@ -2002,10 +1993,6 @@ e_plot_model_contrasts <-
           p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
           #p <- p + theme(axis.text.x = element_text(angle = 15, vjust = 1, hjust = 1))
 
-          if(sw_print) {
-            print(p)
-          }
-
           if (i_repeat == 1) {
             p1 <- p
           }
@@ -2086,12 +2073,16 @@ e_plot_model_contrasts <-
             ) %>%
             ggpubr::as_ggplot()
 
-          if(sw_print) {
-            print(p_arranged)
-          }
-
           out[["plots" ]][[ var_name_x[i_var_x] ]][["both"]] <- p_arranged
         } # sw_TWI_plots_keep
+
+        if(sw_print) {
+          paste0("Printing: ", var_name_x[i_var_x], "  --------------------") %>% print()
+          out[["plots" ]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["tables"]][[ var_name_x[i_var_x] ]] %>% print()
+          out[["text"  ]][[ var_name_x[i_var_x] ]] %>% print()
+        }
+
       } # numeric:numeric
 
     } # 2 Two-way interaction
