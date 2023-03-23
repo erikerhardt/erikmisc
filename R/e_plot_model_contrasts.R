@@ -164,7 +164,6 @@
 #' fit_contrasts$plots$`disp:hp`$both
 #'
 #'
-#' \dontrun{
 #' ## GLM on logit and probability scales
 #'
 #' dat_cont <-
@@ -291,7 +290,6 @@
 #'   , sw_table_in_plot   = FALSE
 #'   )
 #' fit_lmer_contrasts
-#' }
 #'
 e_plot_model_contrasts <-
   function(
