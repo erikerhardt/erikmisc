@@ -57,6 +57,7 @@ Imports:
     pwr,
     readr,
     readxl,
+    rlang,
     rstudioapi,
     scales,
     sjPlot,

@@ -36,6 +36,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @import emmeans
+#' @import rlang
 #' @importFrom labelled var_label
 #' @importFrom stringr fixed
 #' @importFrom stringr str_detect
