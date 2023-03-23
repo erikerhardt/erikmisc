@@ -21,7 +21,7 @@
 #' @param sw_ribbon_in_plot         T/F include error bands in numeric plot
 #' @param adjust_method see         `?emmeans::summary.emmGrid`
 #' @param CI_level                  level from `?emmeans::emmeans`
-#' @param sw_glm_scale              for glm fit, choose results on the "link" (default) or "response" scale
+#' @param sw_glm_scale              for glm fit, choose results on the "link" or "response" (default) scale (e.g., for logistic regression, link is logit scale and response is probability scale)
 #' @param sw_print                  T/F whether to print results as this function runs
 #' @param sw_marginal_even_if_interaction T/F whether to also calculate marginal results when involved in interaction(s)
 #' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.
@@ -302,7 +302,7 @@ e_plot_model_contrasts <-
   , sw_ribbon_in_plot       = TRUE
   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
   , CI_level                = 0.95
-  , sw_glm_scale            = c("link", "response")[1]
+  , sw_glm_scale            = c("link", "response")[2]
   , sw_print                = TRUE
   , sw_marginal_even_if_interaction = FALSE
   , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
@@ -482,24 +482,34 @@ e_plot_model_contrasts <-
     rm(temp_var_list)
   }
   if (fit_model_type %in% c("glm")) {
-    temp_var_list <- names(attr(fit$terms, "dataClasses"))
 
-    # strip variable name out of cbind() statement
-    if(any(stringr::str_detect(temp_var_list, stringr::fixed("cbind(")))) {
-      temp_ind <- which(stringr::str_detect(temp_var_list, stringr::fixed("cbind(")))
-      temp_var_list[temp_ind] <-
-        stringr::str_split(
-          stringr::str_split(
-            string = temp_var_list[temp_ind]
-          , pattern = stringr::fixed("cbind(")
-          , simplify = TRUE
-          )[2]
-        , pattern = stringr::fixed(",")
-        , simplify = TRUE
-        )[1]
+    # success and failure columns
+    temp_dat_cont <-
+      fit$model[, 1] %>%
+      as.data.frame()
+    colnames(temp_dat_cont) <- c("Success__", "Failure__")
+    temp_dat_cont <-
+      temp_dat_cont %>%
+      #tibble::as_tibble() %>%
+      dplyr::mutate(
+        p_hat__ = Success__ / (Success__ + Failure__)
+      ) %>%
+      dplyr::bind_cols(
+        fit$model[, 2:ncol(fit$model)]
+      )
+
+    # labels
+    for (i_var in 1:ncol(temp_dat_cont)) {
+      ## i_var = 1
+      ## i_var = 4
+      if (names(temp_dat_cont)[i_var] %in% names(dat_cont)) {
+        labelled::var_label(temp_dat_cont[[ names(temp_dat_cont)[i_var] ]]) <-
+          labelled::var_label(dat_cont[[ names(temp_dat_cont)[i_var] ]])
+      }
     }
-    dat_cont <- na.omit(dat_cont[, temp_var_list])
-    rm(temp_var_list, temp_ind)
+
+    dat_cont <- na.omit(temp_dat_cont)
+    rm(temp_dat_cont, i_var)
   }
   if (fit_model_type %in% c("lmerModLmerTest", "lmerMod")) {
     temp_var_list <- names(fit@frame)
@@ -771,8 +781,10 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot) {
             p <- p +
               geom_point(
-                data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar)
+              #  data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs), yvar = p_hat__) # tvar is colour categorical variable
+              #, aes(x = xvar, y = yvar)
+              , aes(x = xvar, y = p_hat__)
               , colour = "black"
               , alpha = geom_point_alpha
               )
@@ -1656,8 +1668,10 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot) {
             p2 <- p2 +
               geom_point(
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar, colour = tvar)
+              #  data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = p_hat__) # tvar is colour categorical variable
+              #, aes(x = xvar, y = yvar, colour = tvar)
+              , aes(x = xvar, y = p_hat__, colour = tvar)
               , alpha = geom_point_alpha
               )
           } # sw_points_in_plot
@@ -1922,6 +1936,20 @@ e_plot_model_contrasts <-
               #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = tvar)
               #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs[1]))
               , aes(x = xvar, y = yvar)
+              , colour = "black"
+              , alpha = geom_point_alpha
+              )
+          } # sw_points_in_plot
+          if (sw_points_in_plot & (fit_model_type == "glm")) {
+            p <- p +
+              geom_point(
+                #data = dat_cont
+              #  data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = p_hat__) # tvar is colour categorical variable
+              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = tvar)
+              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs[1]))
+              #, aes(x = xvar, y = yvar)
+              , aes(x = xvar, y = p_hat__)
               , colour = "black"
               , alpha = geom_point_alpha
               )

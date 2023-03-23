@@ -14,7 +14,7 @@ e_plot_model_contrasts(
   adjust_method = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx",
     "mvt")[4],
   CI_level = 0.95,
-  sw_glm_scale = c("link", "response")[1],
+  sw_glm_scale = c("link", "response")[2],
   sw_print = TRUE,
   sw_marginal_even_if_interaction = FALSE,
   sw_TWI_plots_keep = c("singles", "both", "all")[3],
@@ -43,7 +43,7 @@ e_plot_model_contrasts(
 
 \item{CI_level}{level from \code{?emmeans::emmeans}}
 
-\item{sw_glm_scale}{for glm fit, choose results on the "link" (default) or "response" scale}
+\item{sw_glm_scale}{for glm fit, choose results on the "link" or "response" (default) scale (e.g., for logistic regression, link is logit scale and response is probability scale)}
 
 \item{sw_print}{T/F whether to print results as this function runs}
 
