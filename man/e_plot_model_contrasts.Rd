@@ -17,7 +17,7 @@ e_plot_model_contrasts(
   sw_glm_scale = c("link", "response")[2],
   sw_print = TRUE,
   sw_marginal_even_if_interaction = FALSE,
-  sw_TWI_plots_keep = c("singles", "both", "all")[3],
+  sw_TWI_plots_keep = c("singles", "both", "all")[1],
   sw_TWI_both_orientation = c("wide", "tall")[1],
   sw_plot_quantiles_values = c("quantiles", "values")[1],
   plot_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
@@ -49,7 +49,7 @@ e_plot_model_contrasts(
 
 \item{sw_marginal_even_if_interaction}{T/F whether to also calculate marginal results when involved in interaction(s)}
 
-\item{sw_TWI_plots_keep}{two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.}
+\item{sw_TWI_plots_keep}{two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles", default) or together in a grid ("both"), and "all" keeps the singles and the grid version.}
 
 \item{sw_TWI_both_orientation}{"tall" or "wide" orientation for when both two-way interaction plots are combined in a grid}
 

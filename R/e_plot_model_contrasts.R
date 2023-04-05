@@ -24,7 +24,7 @@
 #' @param sw_glm_scale              for glm fit, choose results on the "link" or "response" (default) scale (e.g., for logistic regression, link is logit scale and response is probability scale)
 #' @param sw_print                  T/F whether to print results as this function runs
 #' @param sw_marginal_even_if_interaction T/F whether to also calculate marginal results when involved in interaction(s)
-#' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles") or together in a grid ("both"), and "all" keeps the singles and the grid version.
+#' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles", default) or together in a grid ("both"), and "all" keeps the singles and the grid version.
 #' @param sw_TWI_both_orientation   "tall" or "wide" orientation for when both two-way interaction plots are combined in a grid
 #' @param sw_plot_quantiles_values  "quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values
 #' @param plot_quantiles            quantiles plotted for numeric:numeric interaction plots, if \code{sw_plot_quantiles_values} is "quantiles"
@@ -50,6 +50,7 @@
 #' @importFrom stats anova
 #' @importFrom stats terms.formula
 #' @importFrom cowplot plot_grid
+#' @importFrom forcats fct_drop
 #' @export
 #'
 #' @examples
@@ -304,7 +305,7 @@ e_plot_model_contrasts <-
   , sw_glm_scale            = c("link", "response")[2]
   , sw_print                = TRUE
   , sw_marginal_even_if_interaction = FALSE
-  , sw_TWI_plots_keep       = c("singles", "both", "all")[3]
+  , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
   , sw_TWI_both_orientation = c("wide", "tall")[1]
   , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
   , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
@@ -965,7 +966,7 @@ e_plot_model_contrasts <-
         text_UCL  <- summary(cont_fit)[[col_name_UCL]]
 
         # sample size
-        n_this <- dat_cont[[var_xs]] %>% table()
+        n_this <- dat_cont[[var_xs]] %>% forcats::fct_drop() %>% table()
 
         text_CI  <-
           paste0(
@@ -1488,7 +1489,7 @@ e_plot_model_contrasts <-
           text_UCL  <- summary(cont_fit$emtrends)[[col_name_UCL]]
 
           # sample size
-          n_this <- dat_cont[[ var_xs[1] ]] %>% table()
+          n_this <- dat_cont[[ var_xs[1] ]] %>% forcats::fct_drop() %>% table()
 
           text_CI  <-
             paste0(
