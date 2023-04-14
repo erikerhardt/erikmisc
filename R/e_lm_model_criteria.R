@@ -13,7 +13,7 @@
 #' Several criteria from the lm summary:
 #' * `r2` R-squared statistic
 #' * `r2adj` Adjusted R-squared statistic
-#' * `f_stat` F-statistic compared to grand mean model
+#' * `f_stat` F-statistic compared to grand mean model (NA if y ~ 1 intercept-only model)
 #' * `p` F-statistic numerator degrees-of-freedom (number of parameters in the model)
 #' * `df` F-statistic denominator degrees-of-freedom (number of df estimating the variance)
 #' * `f_stat_pval` F-statistic p-value
@@ -66,7 +66,22 @@
 #'   , dat_fit  = dat_mtcars_e
 #'   , model_id = 1
 #'   )
-#' lm_crit
+#' lm_crit %>% print(width = Inf)
+#'
+#' # intercept-only model
+#' lm_form <- formula(mpg ~ 1)
+#' lm_fit <-
+#'   stats::lm(
+#'     formula = lm_form
+#'   , data    = dat_mtcars_e
+#'   )
+#' lm_crit <-
+#'   e_lm_model_criteria(
+#'     lm_fit   = lm_fit
+#'   , dat_fit  = dat_mtcars_e
+#'   , model_id = 1
+#'   )
+#' lm_crit %>% print(width = Inf)
 e_lm_model_criteria <-
   function(
     lm_fit    = NULL
@@ -89,9 +104,9 @@ e_lm_model_criteria <-
       , nobs          = stats::nobs     (object = lm_fit)
       , r2            = summary(object = lm_fit)$r.squared
       , r2adj         = summary(object = lm_fit)$adj.r.squared
-      , f_stat        = summary(object = lm_fit)$fstatistic["value"]
-      , p             = summary(object = lm_fit)$fstatistic["numdf"]
-      , df            = summary(object = lm_fit)$fstatistic["dendf"]
+      , f_stat        = ifelse(is.null(summary(object = lm_fit)$fstatistic["value"]), NA, summary(object = lm_fit)$fstatistic["value"])  # if intercept-only model, then NULL
+      , p             = ifelse(is.null(summary(object = lm_fit)$fstatistic["numdf"]), summary(object = lm_fit)$df[1], summary(object = lm_fit)$fstatistic["numdf"])  # if intercept-only model, then NULL
+      , df            = ifelse(is.null(summary(object = lm_fit)$fstatistic["dendf"]), summary(object = lm_fit)$df[2], summary(object = lm_fit)$fstatistic["dendf"])  # if intercept-only model, then NULL
       , f_stat_pval   = stats::pf(q = f_stat, df1 = p, df2 = df, lower.tail = FALSE)
       , rse           = summary(object = lm_fit)$sigma
       , mse           = modelr::mse     (model = lm_fit, data = dat_fit)

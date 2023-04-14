@@ -32,7 +32,7 @@ Several criteria from the lm summary:
 \itemize{
 \item \code{r2} R-squared statistic
 \item \code{r2adj} Adjusted R-squared statistic
-\item \code{f_stat} F-statistic compared to grand mean model
+\item \code{f_stat} F-statistic compared to grand mean model (NA if y ~ 1 intercept-only model)
 \item \code{p} F-statistic numerator degrees-of-freedom (number of parameters in the model)
 \item \code{df} F-statistic denominator degrees-of-freedom (number of df estimating the variance)
 \item \code{f_stat_pval} F-statistic p-value
@@ -71,5 +71,20 @@ lm_crit <-
   , dat_fit  = dat_mtcars_e
   , model_id = 1
   )
-lm_crit
+lm_crit \%>\% print(width = Inf)
+
+# intercept-only model
+lm_form <- formula(mpg ~ 1)
+lm_fit <-
+  stats::lm(
+    formula = lm_form
+  , data    = dat_mtcars_e
+  )
+lm_crit <-
+  e_lm_model_criteria(
+    lm_fit   = lm_fit
+  , dat_fit  = dat_mtcars_e
+  , model_id = 1
+  )
+lm_crit \%>\% print(width = Inf)
 }
