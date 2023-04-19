@@ -708,7 +708,7 @@ e_plot_model_contrasts <-
         at_list <- list()
         at_list[[ var_xs ]] <-
           #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-          dat_cont[[ var_xs ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
+          dat_cont[[ var_xs ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
 
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           ## ?emmeans::ref_grid for cov.reduce option
@@ -1595,7 +1595,7 @@ e_plot_model_contrasts <-
           dat_cont[[ var_xs[1] ]] %>% levels()
         at_list[[ var_xs[2] ]] <-
           #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-          dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
+          dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
 
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           ## ?emmeans::ref_grid for cov.reduce option
@@ -1846,10 +1846,10 @@ e_plot_model_contrasts <-
             # values of numeric variables for plotting
             at_list <- list()
             at_list[[ var_xs[1] ]] <-
-              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
+              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% signif(digits = 10) %>% unique()
             at_list[[ var_xs[2] ]] <-
               #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
+              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
           }
           # this is for a specific numeric:numeric interaction
           if (sw_plot_quantiles_values == "values") {
