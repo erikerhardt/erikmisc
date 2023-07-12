@@ -101,9 +101,9 @@ e_plot_corr_ellipse <-
   collabs <- as.character(collabs)
   col <- rep(col, length = length(corr))
   dim(col) <- dim(corr)
-  upper.panel <- match.arg(upper.panel)
-  lower.panel <- match.arg(lower.panel)
-  diag <- match.arg(diag)
+  #upper.panel <- match.arg(upper.panel)
+  #lower.panel <- match.arg(lower.panel)
+  #diag <- match.arg(diag)
   cols <- 1:coldim
   rows <- 1:rowdim
   maxdim <- max(length(rows), length(cols))
