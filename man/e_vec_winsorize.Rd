@@ -4,12 +4,14 @@
 \alias{e_vec_winsorize}
 \title{Winsorize a numeric list or vector by replacing extreme values with the less extreme values}
 \usage{
-e_vec_winsorize(x, fraction = 0.05)
+e_vec_winsorize(x, fraction = 0.05, type = 1)
 }
 \arguments{
 \item{x}{numeric list or vector}
 
 \item{fraction}{fraction between 0 and 0.5 from both sides to Winsorize}
+
+\item{type}{type from \code{quantile()}}
 }
 \value{
 same numeric vector with extreme values replaced
