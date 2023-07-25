@@ -168,7 +168,8 @@ e_plot_bs_two_samp_diff_dist <-
                 , caption =
                     paste0(
                       "Black is smoothed density histogram.  Red is normal distribution."
-                    , "\nDiff = ", signif(obs_mean, 4)
+                    , "\nN = ", N, " bootstrap resamples"
+                    , " ,  diff = ", signif(obs_mean, 4)
                     , " ,  95% CI: ("
                     , signif(CI_limits[1], 4)
                     , ", "
