@@ -611,6 +611,17 @@ e_plot_model_contrasts <-
       ) %>%
       unlist()
 
+    # 7/26/2023
+    # remove backticks that surround variable names with invalid characters
+    #   since I refer to names in quotes and the backticks cause variables
+    #   to not be found
+    var_xs_no_backticks <-
+      var_xs %>%
+      stringr::str_replace_all(
+        pattern     = stringr::fixed("`")
+      , replacement = ""
+      )
+
     # Main effect
     if (length(var_xs) == 1) {
 
@@ -621,7 +632,7 @@ e_plot_model_contrasts <-
         e_message_capture(
           emmeans::emmeans(
             object  = fit
-          , specs   = var_xs
+          , specs   = var_xs_no_backticks
           )
         )(1)
       if (check_message$logs[[1]]$message == message_involve_interaction) {
@@ -636,7 +647,7 @@ e_plot_model_contrasts <-
       }
 
       ### if numeric
-      if ( inherits(dat_cont[[var_xs]], c("numeric", "integer")) ) {
+      if ( inherits(dat_cont[[var_xs_no_backticks]], c("numeric", "integer")) ) {
 
         ## Table
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
@@ -644,8 +655,8 @@ e_plot_model_contrasts <-
           cont_fit <-
             emmeans::emtrends(
               object  = fit
-            , specs   = var_xs
-            , var     = var_xs
+            , specs   = var_xs_no_backticks
+            , var     = var_xs_no_backticks
             #, transform = "response" # updated in emmeans 1.7.3
             , regrid  = "response"
             )
@@ -654,8 +665,8 @@ e_plot_model_contrasts <-
           cont_fit <-
             emmeans::emtrends(
               object  = fit
-            , specs   = var_xs
-            , var     = var_xs
+            , specs   = var_xs_no_backticks
+            , var     = var_xs_no_backticks
             ##, transform = "response" # updated in emmeans 1.7.3
             #, regrid  = "response"
             )
@@ -674,7 +685,7 @@ e_plot_model_contrasts <-
             # is.null is for when no values could be estimated
         #CLs#if(!is.null(summary(cont_fit)[["lower.CL"]])) {
         if(!is.null(summary(cont_fit)[[col_name_LCL]])) {
-          text_cont <- summary(cont_fit)[[ var_xs[1] ]]
+          text_cont <- summary(cont_fit)[[ var_xs_no_backticks[1] ]]
           ind_trend <- which(stringr::str_detect(names(summary(cont_fit)), stringr::fixed(".trend")))
           text_est  <- summary(cont_fit)[[ind_trend]]  # 2
           text_LCL  <- summary(cont_fit)[[col_name_LCL]]
@@ -706,9 +717,9 @@ e_plot_model_contrasts <-
         # this is the common every-variable situation
         # values of numeric variables for plotting
         at_list <- list()
-        at_list[[ var_xs ]] <-
+        at_list[[ var_xs_no_backticks ]] <-
           #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-          dat_cont[[ var_xs ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
+          dat_cont[[ var_xs_no_backticks ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
 
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           ## ?emmeans::ref_grid for cov.reduce option
@@ -736,7 +747,7 @@ e_plot_model_contrasts <-
           ## ?emmeans::ref_grid for cov.reduce option
           # response scale
           #at_list <- list()
-          #at_list[[var_xs]] <- unique(quantile(dat_cont[[var_xs]], probs = seq(0, 1, by = 0.01)))
+          #at_list[[var_xs_no_backticks]] <- unique(quantile(dat_cont[[var_xs_no_backticks]], probs = seq(0, 1, by = 0.01)))
 
           # p <-
           #   emmeans::emmip(
@@ -781,8 +792,8 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot) {
             p <- p +
               geom_point(
-              #  data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-                data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs), yvar = p_hat__) # tvar is colour categorical variable
+              #  data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = p_hat__) # tvar is colour categorical variable
               #, aes(x = xvar, y = yvar)
               , aes(x = xvar, y = p_hat__)
               , colour = "black"
@@ -823,7 +834,7 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot & !(fit_model_type == "glm")) {
             p <- p +
               geom_point(
-                data = dat_cont %>% dplyr::mutate(xvar = !!rlang::sym(var_xs), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
               , aes(x = xvar, y = yvar)
               , colour = "black"
               , alpha = geom_point_alpha
@@ -876,9 +887,9 @@ e_plot_model_contrasts <-
         }
 
         p <- p + labs(
-            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) %>% as.character())
+            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs_no_backticks]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
+          , x         = labelled::var_label(dat_cont[[var_xs_no_backticks]]) %>% as.character()
           , y         = y_label
           , caption   = text_caption
           )
@@ -902,7 +913,7 @@ e_plot_model_contrasts <-
 
 
       ### if factor
-      if ( inherits(dat_cont[[var_xs]], "factor") ) {
+      if ( inherits(dat_cont[[var_xs_no_backticks]], "factor") ) {
 
         ## Table
         # if a factor, then compute the contrast and statistics and create plot
@@ -911,7 +922,7 @@ e_plot_model_contrasts <-
           cont_fit <-
             emmeans::emmeans(
               object  = fit
-            , specs   = var_xs
+            , specs   = var_xs_no_backticks
             #, by    =
             #, simple = "each", combine = FALSE
             , adjust  = adjust_method
@@ -923,7 +934,7 @@ e_plot_model_contrasts <-
           cont_fit <-
             emmeans::emmeans(
               object  = fit
-            , specs   = var_xs
+            , specs   = var_xs_no_backticks
             #, by    =
             #, simple = "each", combine = FALSE
             , adjust  = adjust_method
@@ -954,7 +965,7 @@ e_plot_model_contrasts <-
 
         ## Plot
         # CI text
-        text_cont <- summary(cont_fit)[[var_xs]]
+        text_cont <- summary(cont_fit)[[var_xs_no_backticks]]
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           # response scale
           text_est  <- summary(cont_fit)[["prob"]]
@@ -966,7 +977,7 @@ e_plot_model_contrasts <-
         text_UCL  <- summary(cont_fit)[[col_name_UCL]]
 
         # sample size
-        n_this <- dat_cont[[var_xs]] %>% forcats::fct_drop() %>% table()
+        n_this <- dat_cont[[var_xs_no_backticks]] %>% forcats::fct_drop() %>% table()
 
         text_CI  <-
           paste0(
@@ -1055,10 +1066,10 @@ e_plot_model_contrasts <-
         }
 
         p <- p + labs(
-            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) %>% as.character())
+            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs_no_backticks]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
           , x         = x_label
-          , y         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
+          , y         = labelled::var_label(dat_cont[[var_xs_no_backticks]]) %>% as.character()
           , caption   = text_caption
           )
         p <- p + theme_bw()
@@ -1086,7 +1097,7 @@ e_plot_model_contrasts <-
     if (length(var_xs) == 2) {
 
       ### if factor:factor
-      if (all(inherits(dat_cont[[ var_xs[1] ]], "factor"), inherits(dat_cont[[ var_xs[2] ]], "factor"))) {
+      if (all(inherits(dat_cont[[ var_xs_no_backticks[1] ]], "factor"), inherits(dat_cont[[ var_xs_no_backticks[2] ]], "factor"))) {
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {
@@ -1095,6 +1106,7 @@ e_plot_model_contrasts <-
           ## Repeat, but reverse factors
           if (i_repeat == 2) {
             var_xs <- rev(var_xs)
+            var_xs_no_backticks <- rev(var_xs_no_backticks)
           }
 
           ## Table
@@ -1104,8 +1116,8 @@ e_plot_model_contrasts <-
             cont_fit <-
               emmeans::emmeans(
                 object  = fit
-              , specs   = var_xs[1]
-              , by      = var_xs[2]
+              , specs   = var_xs_no_backticks[1]
+              , by      = var_xs_no_backticks[2]
               #, simple = "each", combine = FALSE
               , adjust  = adjust_method
               , level   = CI_level
@@ -1116,8 +1128,8 @@ e_plot_model_contrasts <-
             cont_fit <-
               emmeans::emmeans(
                 object  = fit
-              , specs   = var_xs[1]
-              , by      = var_xs[2]
+              , specs   = var_xs_no_backticks[1]
+              , by      = var_xs_no_backticks[2]
               #, simple = "each", combine = FALSE
               , adjust  = adjust_method
               , level   = CI_level
@@ -1133,8 +1145,8 @@ e_plot_model_contrasts <-
           out[["tables"]][[ var_name_x[i_var_x] ]][["cont" ]] <- cont_pairs
 
           # levels of variables
-          levels_specs <- levels(cont_fit)[[ var_xs[1] ]]
-          levels_by    <- levels(cont_fit)[[ var_xs[2] ]]
+          levels_specs <- levels(cont_fit)[[ var_xs_no_backticks[1] ]]
+          levels_by    <- levels(cont_fit)[[ var_xs_no_backticks[2] ]]
 
 
           ## Plot
@@ -1148,12 +1160,12 @@ e_plot_model_contrasts <-
             text_CI  <-
               paste0(
                 text_CI
-              , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
+              , paste0(var_xs_no_backticks[2], " = ", levels_by[i_by], ":\n")
               )
             text_diff  <-
               paste0(
                 text_diff
-              , paste0(var_xs[2], " = ", levels_by[i_by], ":\n")
+              , paste0(var_xs_no_backticks[2], " = ", levels_by[i_by], ":\n")
               )
 
             ## Estimates
@@ -1164,12 +1176,12 @@ e_plot_model_contrasts <-
               as.data.frame()
             # only rows of this "by" variable
             summary_cont_fit_by <-
-              summary_cont_fit[summary_cont_fit[[ var_xs[2] ]] == levels_by[i_by], ]
+              summary_cont_fit[summary_cont_fit[[ var_xs_no_backticks[2] ]] == levels_by[i_by], ]
 
             for (i_row in seq_len(nrow(summary_cont_fit_by))) {
               # i_row = 1
 
-              text_cont <- summary_cont_fit_by[[ var_xs[1] ]] [i_row]
+              text_cont <- summary_cont_fit_by[[ var_xs_no_backticks[1] ]] [i_row]
               if (fit_model_type == "glm" & sw_glm_scale == "response") {
                 # response scale
                 text_est  <- summary_cont_fit_by[["prob"]]      [i_row]
@@ -1183,8 +1195,8 @@ e_plot_model_contrasts <-
               # sample size
               n_this <-
                 dat_cont[
-                  (dat_cont[[ var_xs[1] ]] == levels_specs[i_row]) &
-                  (dat_cont[[ var_xs[2] ]] == levels_by[i_by])
+                  (dat_cont[[ var_xs_no_backticks[1] ]] == levels_specs[i_row]) &
+                  (dat_cont[[ var_xs_no_backticks[2] ]] == levels_by[i_by])
                   , ] %>% nrow()
 
               text_CI  <-
@@ -1216,7 +1228,7 @@ e_plot_model_contrasts <-
               as.data.frame()
             # only rows of this "by" variable
             summary_cont_pairs_by <-
-              summary_cont_pairs[summary_cont_pairs[[ var_xs[2] ]] == levels_by[i_by], ]
+              summary_cont_pairs[summary_cont_pairs[[ var_xs_no_backticks[2] ]] == levels_by[i_by], ]
 
             for (i_row in seq_len(nrow(summary_cont_pairs_by))) {
               # i_row = 1
@@ -1325,10 +1337,10 @@ e_plot_model_contrasts <-
           }
 
           p <- p + labs(
-              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             , subtitle  = var_name_x[i_var_x]
             , x         = x_label
-            , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+            , y         = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
             , caption   = text_caption
             )
           p <- p + theme_bw()
@@ -1373,7 +1385,7 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
@@ -1396,7 +1408,7 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
@@ -1409,7 +1421,7 @@ e_plot_model_contrasts <-
             gridExtra::arrangeGrob(
               grobs         = list(p1, p2)
             , layout_matrix = lay_grid
-            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #, bottom        = "bottom\ntitle"
             #, left          = "left label"
             #, right         = "right label"
@@ -1432,13 +1444,14 @@ e_plot_model_contrasts <-
 
 
       ### if factor:numeric
-      if (any(inherits(dat_cont[[ var_xs[1] ]], "factor"), inherits(dat_cont[[ var_xs[2] ]], "factor") ) &
-          any(inherits(dat_cont[[ var_xs[1] ]], c("numeric", "integer")), inherits(dat_cont[[ var_xs[2] ]], c("numeric", "integer")) )
+      if (any(inherits(dat_cont[[ var_xs_no_backticks[1] ]], "factor"), inherits(dat_cont[[ var_xs_no_backticks[2] ]], "factor") ) &
+          any(inherits(dat_cont[[ var_xs_no_backticks[1] ]], c("numeric", "integer")), inherits(dat_cont[[ var_xs_no_backticks[2] ]], c("numeric", "integer")) )
         ) {
 
         # make first variable the factor and second numeric
-        if(inherits(dat_cont[[ var_xs[2] ]], "factor")) {
+        if(inherits(dat_cont[[ var_xs_no_backticks[2] ]], "factor")) {
           var_xs <- rev(var_xs)
+          var_xs_no_backticks <- rev(var_xs_no_backticks)
         }
 
         ## Table
@@ -1450,7 +1463,7 @@ e_plot_model_contrasts <-
             emmeans::emtrends(
               object  = fit
             , specs   = form_var_fac
-            , var     = var_xs[2]
+            , var     = var_xs_no_backticks[2]
             , adjust  = adjust_method
             , level   = CI_level
             #, transform = "response" # updated in emmeans 1.7.3
@@ -1462,7 +1475,7 @@ e_plot_model_contrasts <-
             emmeans::emtrends(
               object  = fit
             , specs   = form_var_fac
-            , var     = var_xs[2]      ## 8/18/2022 1:29PM XXX Should this be "3"
+            , var     = var_xs_no_backticks[2]      ## 8/18/2022 1:29PM XXX Should this be "3"
             , adjust  = adjust_method
             , level   = CI_level
             ##, transform = "response" # updated in emmeans 1.7.3
@@ -1482,14 +1495,14 @@ e_plot_model_contrasts <-
             # is.null is for when no values could be estimated
         #CLs#if(!is.null(summary(cont_fit$emtrends)[["lower.CL"]])) {
         if(!is.null(summary(cont_fit$emtrends)[[col_name_LCL]])) {
-          text_cont <- summary(cont_fit$emtrends)[[ var_xs[1] ]]
+          text_cont <- summary(cont_fit$emtrends)[[ var_xs_no_backticks[1] ]]
           ind_trend <- which(stringr::str_detect(names(summary(cont_fit$emtrends)), stringr::fixed(".trend")))
           text_est  <- summary(cont_fit$emtrends)[[ind_trend]]  # 2
           text_LCL  <- summary(cont_fit$emtrends)[[col_name_LCL]]
           text_UCL  <- summary(cont_fit$emtrends)[[col_name_UCL]]
 
           # sample size
-          n_this <- dat_cont[[ var_xs[1] ]] %>% forcats::fct_drop() %>% table()
+          n_this <- dat_cont[[ var_xs_no_backticks[1] ]] %>% forcats::fct_drop() %>% table()
 
           text_CI  <-
             paste0(
@@ -1554,11 +1567,11 @@ e_plot_model_contrasts <-
         p1 <- plot(cont_fit)
         p1 <- p1 + theme_bw()
         p1 <- p1 + labs(
-            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = paste0("Estimated slope for:\n", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character() )
-          , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          #, colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+          , x         = paste0("Estimated slope for:\n", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character() )
+          , y         = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
+          #, colour    = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
           , caption   = text_caption
           #, tag       = "A"
           )
@@ -1591,11 +1604,11 @@ e_plot_model_contrasts <-
         # this is the common every-variable situation
         # values of numeric variables for plotting
         at_list <- list()
-        at_list[[ var_xs[1] ]] <-
-          dat_cont[[ var_xs[1] ]] %>% levels()
-        at_list[[ var_xs[2] ]] <-
-          #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-          dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
+        at_list[[ var_xs_no_backticks[1] ]] <-
+          dat_cont[[ var_xs_no_backticks[1] ]] %>% levels()
+        at_list[[ var_xs_no_backticks[2] ]] <-
+          #dat_cont[[ var_xs_no_backticks[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
+          dat_cont[[ var_xs_no_backticks[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
 
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
           ## ?emmeans::ref_grid for cov.reduce option
@@ -1625,7 +1638,7 @@ e_plot_model_contrasts <-
           ## ?emmeans::ref_grid for cov.reduce option
           # response scale
           #at_list <- list()
-          #at_list[[var_xs[2]]] <- unique(quantile(dat_cont[[var_xs[2]]], probs = seq(0, 1, by = 0.01)))
+          #at_list[[var_xs_no_backticks[2]]] <- unique(quantile(dat_cont[[var_xs_no_backticks[2]]], probs = seq(0, 1, by = 0.01)))
 
           # p2 <- emmeans::emmip(
           #     object     = fit
@@ -1668,8 +1681,8 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot) {
             p2 <- p2 +
               geom_point(
-              #  data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = p_hat__) # tvar is colour categorical variable
+              #  data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
               #, aes(x = xvar, y = yvar, colour = tvar)
               , aes(x = xvar, y = p_hat__, colour = tvar)
               , alpha = geom_point_alpha
@@ -1706,7 +1719,7 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot & !(fit_model_type == "glm")) {
             p2 <- p2 +
               geom_point(
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
               , aes(x = xvar, y = yvar, colour = tvar)
               , alpha = geom_point_alpha
               )
@@ -1728,13 +1741,13 @@ e_plot_model_contrasts <-
 
         p2 <- p2 + theme_bw()
         p2 <- p2 + labs(
-            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
+          , x         = labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character()
           , y         = y_label
-          , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          , fill      = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          , shape     = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+          , colour    = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
+          , fill      = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
+          , shape     = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
           , caption   = text_caption
           #, tag       = "B"
           )
@@ -1769,7 +1782,7 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
@@ -1792,7 +1805,7 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
@@ -1805,7 +1818,7 @@ e_plot_model_contrasts <-
             gridExtra::arrangeGrob(
               grobs         = list(p1, p2)
             , layout_matrix = lay_grid
-            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #, bottom        = "bottom\ntitle"
             #, left          = "left label"
             #, right         = "right label"
@@ -1828,7 +1841,7 @@ e_plot_model_contrasts <-
 
 
       ### if numeric:numeric
-      if ( all(inherits(dat_cont[[ var_xs[1] ]], c("numeric", "integer")), inherits(dat_cont[[ var_xs[2] ]], c("numeric", "integer"))) ) {
+      if ( all(inherits(dat_cont[[ var_xs_no_backticks[1] ]], c("numeric", "integer")), inherits(dat_cont[[ var_xs_no_backticks[2] ]], c("numeric", "integer"))) ) {
 
         # do this twice, reversing the order of the factors
         for (i_repeat in 1:2) {
@@ -1837,6 +1850,7 @@ e_plot_model_contrasts <-
           ## Repeat, but reverse factors
           if (i_repeat == 2) {
             var_xs <- rev(var_xs)
+            var_xs_no_backticks <- rev(var_xs_no_backticks)
           }
 
           form_var_num_num <- stats::as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
@@ -1845,20 +1859,20 @@ e_plot_model_contrasts <-
           if (sw_plot_quantiles_values == "quantiles" | is.null(plot_values)) {
             # values of numeric variables for plotting
             at_list <- list()
-            at_list[[ var_xs[1] ]] <-
-              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% signif(digits = 10) %>% unique()
-            at_list[[ var_xs[2] ]] <-
-              #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
+            at_list[[ var_xs_no_backticks[1] ]] <-
+              dat_cont[[ var_xs_no_backticks[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% signif(digits = 10) %>% unique()
+            at_list[[ var_xs_no_backticks[2] ]] <-
+              #dat_cont[[ var_xs_no_backticks[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
+              dat_cont[[ var_xs_no_backticks[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% signif(digits = 10) %>% unique()
           }
           # this is for a specific numeric:numeric interaction
           if (sw_plot_quantiles_values == "values") {
             # values of numeric variables for plotting
             at_list <- list()
-            at_list[[ var_xs[1] ]] <-
-              plot_values[[ var_xs[1] ]]
-            at_list[[ var_xs[2] ]] <-
-              plot_values[[ var_xs[2] ]]
+            at_list[[ var_xs_no_backticks[1] ]] <-
+              plot_values[[ var_xs_no_backticks[1] ]]
+            at_list[[ var_xs_no_backticks[2] ]] <-
+              plot_values[[ var_xs_no_backticks[2] ]]
           }
 
 
@@ -1932,9 +1946,9 @@ e_plot_model_contrasts <-
             p <- p +
               geom_point(
                 #data = dat_cont
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs[1]))
+                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = tvar)
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs_no_backticks[1]))
               , aes(x = xvar, y = yvar)
               , colour = "black"
               , alpha = geom_point_alpha
@@ -1944,10 +1958,10 @@ e_plot_model_contrasts <-
             p <- p +
               geom_point(
                 #data = dat_cont
-              #  data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs[1]), xvar = !!rlang::sym(var_xs[2]), yvar = p_hat__) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs[1]))
+              #  data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont %>% dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = tvar)
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs_no_backticks[1]))
               #, aes(x = xvar, y = yvar)
               , aes(x = xvar, y = p_hat__)
               , colour = "black"
@@ -2008,12 +2022,12 @@ e_plot_model_contrasts <-
           }
 
           p <- p + labs(
-              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             , subtitle  = var_name_x[i_var_x]
-            , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
+            , x         = labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character()
             , y         = y_label
-            , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-            , fill      = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+            , colour    = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
+            , fill      = labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character()
             , caption   = text_caption
             #, tag       = "A"
             )
@@ -2058,7 +2072,7 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
@@ -2081,7 +2095,7 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
@@ -2094,7 +2108,7 @@ e_plot_model_contrasts <-
             gridExtra::arrangeGrob(
               grobs         = list(p1, p2)
             , layout_matrix = lay_grid
-            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) %>% as.character())
             #, bottom        = "bottom\ntitle"
             #, left          = "left label"
             #, right         = "right label"
