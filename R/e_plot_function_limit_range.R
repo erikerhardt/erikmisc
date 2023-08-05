@@ -12,10 +12,13 @@
 #'
 #' f_dnorm_limit <- e_plot_function_limit_range(dnorm, 0, 2)
 #' f_dnorm_limit(-2:4)
+#'
+#' library(ggplot2)
 #' p <- ggplot(data.frame(x = c(-3, 3)), aes(x = x))
 #' p <- p + stat_function(fun = dnorm)
 #' p <- p + stat_function(fun = e_plot_function_limit_range(dnorm, 0, 2)
 #'                      , geom = "area", fill = "blue", alpha = 0.2)
+#' p
 e_plot_function_limit_range <-
   function(
     fun = dnorm
