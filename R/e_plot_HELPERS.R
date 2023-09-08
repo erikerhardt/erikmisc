@@ -14,9 +14,9 @@ e_plot_extract_legend <-
   function(
     p = NULL
   ) {
-  table_of_grobs <- ggplot_gtable(ggplot_build(p))
-  ind_legend <- which(sapply(table_of_grobs$grobs, function(x) x$name) == "guide-box")
-  p_legend <- table_of_grobs$grobs[[ind_legend]]
+  table_of_grobs  <- ggplot2::ggplot_gtable(ggplot2::ggplot_build(p))
+  ind_legend      <- which(sapply(table_of_grobs$grobs, function(x) x$name) == "guide-box")
+  p_legend        <- table_of_grobs$grobs[[ind_legend]]
   return(p_legend)
 } # e_plot_extract_legend
 
@@ -35,9 +35,9 @@ e_plot_blank <-
   function(
     text_label = c("", "N/A")[1]
   ) {
-  p_blank <- ggplot()
-  p_blank <- p_blank + theme_void()
-  p_blank <- p_blank + geom_text(aes(0, 0, label = text_label))
+  p_blank <- ggplot2::ggplot()
+  p_blank <- p_blank + ggplot2::theme_void()
+  p_blank <- p_blank + ggplot2::geom_text(aes(0, 0, label = text_label))
   return(p_blank)
 }
 
