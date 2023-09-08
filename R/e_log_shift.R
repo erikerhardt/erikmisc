@@ -28,6 +28,11 @@ e_log_shift <-
   # if passed as a column from a tibble, need to make it a list
   x <- as.numeric(unlist(x))
 
+  if(all(is.na(x))) {
+    warning("erikmisc::e_log_shift, all values NA")
+    return(x)
+  }
+
   # if specified min_add, then do it
   if(!is.null(min_add)) {
     x_log <-
