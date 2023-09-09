@@ -1,6 +1,6 @@
 #' A function to plot the "all" column from a Random Forests Variable Importance Plot (VIMP).
 #'
-#' @param v_imp
+#' @param v_imp       \code{$importance} table from \code{randomForestSRC::rfsrc()}
 #'
 #' @return p
 #' @importFrom tibble as_tibble

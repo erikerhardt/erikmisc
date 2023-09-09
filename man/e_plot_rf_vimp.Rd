@@ -7,7 +7,7 @@
 e_plot_rf_vimp(v_imp)
 }
 \arguments{
-\item{v_imp}{}
+\item{v_imp}{\code{$importance} table from \code{randomForestSRC::rfsrc()}}
 }
 \value{
 p
