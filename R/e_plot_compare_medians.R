@@ -186,12 +186,13 @@ e_plot_compare_medians <-
   p_pub <- ggpubr::add_summary(p_pub, cm_dot, size = 0.25, color = "red", shape = 3)
   #p_pub <- ggpubr::add_summary(p_pub, "mean_ci")
   p_pub <- ggpubr::add_summary(p_pub, cm_fun, size = 0.75, width = 0.15, color = "red", error.plot = cm_error.plot)
-  p_pub <- p_pub + ggpubr::stat_compare_means(
-                      comparisons = my_comparisons   #, label = "p.signif") # Add pairwise comparisons p-value
-                    , symnum.args = symnum.args
-                    , hide.ns     = TRUE             # hide "ns" for non-sig comparisons
-                    )
-
+  if (!is.null(comparisons)) {
+    p_pub <- p_pub + ggpubr::stat_compare_means(
+                        comparisons = my_comparisons   #, label = "p.signif") # Add pairwise comparisons p-value
+                      , symnum.args = symnum.args
+                      , hide.ns     = TRUE             # hide "ns" for non-sig comparisons
+                      )
+  }
   # Add global p-value
   if (cm_method == "t.test") {
     cm_method_omnibus = "anova"
@@ -226,8 +227,10 @@ e_plot_compare_medians <-
                 )
   #print(p_pub)
 
-  p_pub$result_compare_means <-
-    result_compare_means
+  if (exists("result_compare_means")) {
+    p_pub$result_compare_means <-
+      result_compare_means
+  }
 
   return(p_pub)
 }
