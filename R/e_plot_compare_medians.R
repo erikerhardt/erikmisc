@@ -23,6 +23,7 @@
 #' @import dplyr
 #' @import ggpubr
 #' @import ggplot2
+#' @importFrom tidyselect all_of
 #' @export
 #'
 #' @examples
@@ -95,8 +96,8 @@ e_plot_compare_medians <-
   dat_plot <-
     dat_plot %>%
     dplyr::select(
-      dplyr::all_of(var_response)
-    , dplyr::all_of(var_groups)
+      tidyselect::all_of(var_response)
+    , tidyselect::all_of(var_groups)
     )
   # rename for convenience
   colnames(dat_plot)[1] <- "response"
@@ -110,46 +111,49 @@ e_plot_compare_medians <-
     , !is.na(groups)
     )
 
-  # Perform pairwise comparisons
-  result_compare_means <-
-    ggpubr::compare_means(
-      formula         = response ~ groups
-    , data            = dat_plot
-    , method          = cm_method
-    , p.adjust.method = cm_p.adjust.method
-    )
-  #print(result_compare_means)
+  if (is.null(comparisons)) {
+    my_comparisons <- comparisons
+  } else {
+    # Perform pairwise comparisons
+    result_compare_means <-
+      ggpubr::compare_means(
+        formula         = response ~ groups
+      , data            = dat_plot
+      , method          = cm_method
+      , p.adjust.method = cm_p.adjust.method
+      )
+    #print(result_compare_means)
 
-  if (comparisons == "all") {
-    # better ordering for plot of all comparisons
-    list_group <- as.character(sort(unique(dat_plot$groups)))
-    my_comparisons <- list()
-    i_list <- 0
-    for (i_gap in 1:(length(list_group) - 1)) {
-      for (i_ind in 1:(length(list_group) - i_gap)) {
-        i_list <- i_list + 1
-        my_comparisons[[i_list]] <- c(list_group[i_ind], list_group[i_ind + i_gap])
+    if (comparisons == "all") {
+      # better ordering for plot of all comparisons
+      list_group <- as.character(sort(unique(dat_plot$groups)))
+      my_comparisons <- list()
+      i_list <- 0
+      for (i_gap in 1:(length(list_group) - 1)) {
+        for (i_ind in 1:(length(list_group) - i_gap)) {
+          i_list <- i_list + 1
+          my_comparisons[[i_list]] <- c(list_group[i_ind], list_group[i_ind + i_gap])
+        }
       }
     }
+    if(inherits(comparisons, "list")) {
+      # Visualize: Specify the comparisons you want
+      # my_comparisons <-
+      #   list(
+      #     c("MX", "SIVD")
+      #   , c("AD", "SIVD")
+      #   , c("AD", "MX")
+      #   , c("SIVD", "LA")
+      #   , c("MX", "LA")
+      #   , c("AD", "LA")
+      #   , c("SIVD", "Control")
+      #   , c("MX", "Control")
+      #   , c("AD", "Control")
+      #   , c("LA", "Control")
+      #   )
+      my_comparisons <- comparisons
+    }
   }
-  if(inherits(comparisons, "list")) {
-    # Visualize: Specify the comparisons you want
-    # my_comparisons <-
-    #   list(
-    #     c("MX", "SIVD")
-    #   , c("AD", "SIVD")
-    #   , c("AD", "MX")
-    #   , c("SIVD", "LA")
-    #   , c("MX", "LA")
-    #   , c("AD", "LA")
-    #   , c("SIVD", "Control")
-    #   , c("MX", "Control")
-    #   , c("AD", "Control")
-    #   , c("LA", "Control")
-    #   )
-    my_comparisons <- comparisons
-  }
-
 
   # we use the following convention for symbols indicating statistical significance:
   #   ns  : p >  0.05
