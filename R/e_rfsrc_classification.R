@@ -263,6 +263,11 @@ e_rfsrc_classification <-
 
   out[[ "rf_x_var_sel" ]] <- rf_x_var_sel
 
+  if (length(rf_x_var_sel) == 0) {
+    warning("erikmisc::e_rfsrc_classification, model selection has 0 x variables")
+    return(out)
+  }
+
   ### Prepare data and formula
 
   rf_formula_sel <-
