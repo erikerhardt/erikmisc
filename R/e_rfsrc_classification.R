@@ -9,7 +9,9 @@
 #' @return list with many RF objects, summaries, and plots
 #' @import parallel
 #' @import dplyr
+#' @import ggplot2
 #' @import randomForestSRC
+#' @import patchwork
 #' @importFrom lubridate duration
 #' @importFrom purrr keep
 #' @importFrom tidyselect all_of
@@ -45,6 +47,17 @@ e_rfsrc_classification <-
   , sw_alpha        = 0.05
   # Add options for creating certain output
   ) {
+
+  # patchwork model selection plot design
+  #   appears: after model selection if no x variables
+  #            at end to summarize ROC with model selection
+  plot_design <-
+    "AAAABB
+     AAAABB
+     CCCCDD
+     CCCCDD
+     EEEEEE
+     EEEEEE"
 
   # Start timer
   time_start <- proc.time()
@@ -94,7 +107,7 @@ e_rfsrc_classification <-
   if (length(all_na_columns)) {
     # check if y var
     if(any(all_na_columns %in% rf_y_var)) {
-      warning(paste0("erikmisc::e_rfsrc_classification, dat_rf_class y-variable is all NA, returning NULL:  ", rf_y_var))
+      warning(paste0("erikmisc::e_rfsrc_classification, returning NULL: dat_rf_class y-variable is all NA:  ", rf_y_var))
       return(NULL)
     }
 
@@ -108,6 +121,12 @@ e_rfsrc_classification <-
       )
     # remove variable from x var list
     rf_x_var <- rf_x_var[rf_x_var %notin% all_na_columns]
+  }
+
+  # check for at least 2 y var levels
+  if (length(unique(dat_rf_data[[ rf_y_var ]])) < 2) {
+    warning(paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs at least two levels:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", ")))
+    return(NULL)
   }
 
 
@@ -127,8 +146,13 @@ e_rfsrc_classification <-
     rf_y_var
   out[[ "rf_x_var"    ]] <-
     rf_x_var
-  out[[ "rf_formula " ]] <-
+  out[[ "rf_formula"  ]] <-
     rf_formula
+
+  text_formula <-
+    paste(as.character(out$rf_formula)[c(2, 1, 3)], collapse = " ") |>
+    stringr::str_wrap(width = 120, exdent = 4)
+
 
   ### Grow forest
   print(paste0("erikmisc::e_rfsrc_classification, "
@@ -198,6 +222,15 @@ e_rfsrc_classification <-
   out[[ "plot_o_class_importance" ]] <-
     e_plot_rf_vimp(o_class$importance)
 
+  # obtains the value of AUC (area under the ROC curve)
+  o_class_AUC <-
+    randomForestSRC::get.auc(
+      y    = dat_rf_data[[ rf_y_var ]]
+    , prob = o_class$predicted.oob
+    )
+  out[[ "o_class_AUC" ]] <-
+    o_class_AUC
+
 
   ### Confidence intervals and standard errors for VIMP (variable importance)
   print(paste0("erikmisc::e_rfsrc_classification, "
@@ -224,7 +257,7 @@ e_rfsrc_classification <-
     o_class_subsample
 
   out[[ "o_class_subsample_extract_subsample" ]] <-
-    randomForestSRC::extract.subsample(o_class_subsample)
+    randomForestSRC::extract.subsample (o_class_subsample, alpha = sw_alpha)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
   out[[ "o_class_subsample_extract_bootsample" ]] <-
@@ -264,6 +297,30 @@ e_rfsrc_classification <-
   out[[ "rf_x_var_sel" ]] <- rf_x_var_sel
 
   if (length(rf_x_var_sel) == 0) {
+
+    # Compile training summary plot (also at very end when x var)
+    # If selected model has NO x variables
+    out[[ "plot_rf_train_all_summary" ]] <-
+      cowplot::plot_grid(out$plot_o_class              ) +
+      cowplot::plot_grid(out$plot_o_class_subsample    ) +
+      #cowplot::plot_grid(out$plot_o_class_sel          ) +
+      #cowplot::plot_grid(out$plot_o_class_sel_subsample) +
+      #cowplot::plot_grid(plotlist = out$plot_o_class_sel_ROC$plot_roc, nrow = 1) +
+      patchwork::plot_spacer() +
+      patchwork::plot_spacer() +
+      patchwork::plot_spacer() +
+      patchwork::plot_layout(design = plot_design) +
+      patchwork::plot_annotation(
+        title       = text_formula
+      , subtitle    = "No x variables selected"
+      , caption     = paste0(
+                        "Full model AUC = "
+                      , round(out$o_class_AUC, 3)
+                      )
+      , tag_levels  = "A"
+      ) +
+      theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
     warning("erikmisc::e_rfsrc_classification, model selection has 0 x variables")
     return(out)
   }
@@ -283,6 +340,11 @@ e_rfsrc_classification <-
 
   out[[ "rf_formula_sel" ]] <-
     rf_formula_sel
+
+  text_formula_sel <-
+    paste(as.character(out$rf_formula_sel)[c(2, 1, 3)], collapse = " ") |>
+    stringr::str_wrap(width = 120, exdent = 4)
+
 
   ### Grow forest
   print(paste0("erikmisc::e_rfsrc_classification, "
@@ -456,9 +518,8 @@ e_rfsrc_classification <-
     o_class_sel_AUC
 
 
-  # ROC via erikmisc
-  #p_list <- list()
-  out[[ "plot_o_class_sel_ROC" ]] <- list()
+  ## ROC via erikmisc
+  out_roc_temp <- list()
   for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
     out_roc <-
       e_plot_roc(
@@ -471,14 +532,39 @@ e_rfsrc_classification <-
     out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
     out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
 
-    out[[ "plot_o_class_sel_ROC" ]][[ n_target ]] <- out_roc
-
-    #p_list[[ n_target ]] <- p
-
-    #out$roc_curve_best %>% print(width = Inf)
-    #out$confusion_matrix
-
+    out_roc_temp[[ n_target ]] <- out_roc
   } # n_target
+
+  # hierarchy: reorder ROC objects by type (rather than target)
+  out[[ "plot_o_class_sel_ROC" ]] <- list()
+  for (n_object in names(out_roc_temp[[ 1 ]])) {
+    ## n_object = names(out_roc_temp[[ 1 ]])[1]
+    out[[ "plot_o_class_sel_ROC" ]][[ n_object ]] <- list()
+
+    for (n_target in names(out_roc_temp)) {
+      ## n_target = names(out_roc_temp)[1]
+      out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+        out_roc_temp[[ n_target ]][[ n_object ]]
+
+      if (n_object == "roc_curve_best") {
+        out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+          out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+          dplyr::mutate(
+            Group = n_target
+          ) |>
+          dplyr::relocate(Group)
+      }
+      if (n_object == "roc_curve") {
+        out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+          out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+          dplyr::mutate(
+            Group = n_target
+          ) |>
+          dplyr::relocate(Group)
+      }
+
+    }
+  }
 
   #out[[ "plot_o_class_sel_ROC" ]] <- p_list
 
@@ -489,6 +575,44 @@ e_rfsrc_classification <-
   #   #, ncol = 2
   #   )
   # p_arranged |> print()
+
+
+  # Compile training summary plot (also after selection if no X var)
+  out[[ "plot_rf_train_all_summary" ]] <-
+    cowplot::plot_grid(out$plot_o_class              ) +
+    cowplot::plot_grid(out$plot_o_class_subsample    ) +
+    cowplot::plot_grid(out$plot_o_class_sel          ) +
+    cowplot::plot_grid(out$plot_o_class_sel_subsample) +
+    cowplot::plot_grid(plotlist = out$plot_o_class_sel_ROC$plot_roc, nrow = 1) +
+    patchwork::plot_layout(design = plot_design) +
+    patchwork::plot_annotation(
+      title       = text_formula
+    , subtitle    = text_formula_sel
+    , caption     = paste0(
+                      "Full model AUC = "
+                    , round(out$o_class_AUC, 3)
+                    , ";  "
+                    , "Selected model AUC = "
+                    , round(out$o_class_sel_AUC, 3)
+                    )
+    , tag_levels  = "A"
+    ) +
+    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+    # ggsave(
+    #     paste0("out/plot_rf_train_all_summary__", n_var_group, "_-_", n_dx_group, ".png")
+    #   , plot   = out[[ "plot_rf_train_all_summary" ]]
+    #   , width  = 16
+    #   , height = 16
+    #   ## png, jpeg
+    #   , dpi    = 300
+    #   , bg     = "white"
+    #   ## pdf
+    #   #, units  = "in"
+    #   #, useDingbats = FALSE
+    #   )
+
+
 
   print(paste0("erikmisc::e_rfsrc_classification, "
     , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
