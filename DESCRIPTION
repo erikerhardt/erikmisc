@@ -54,6 +54,7 @@ Imports:
     modelr,
     moonBook,
     nortest,
+    patchwork,
     purrr,
     pwr,
     randomForestSRC,
