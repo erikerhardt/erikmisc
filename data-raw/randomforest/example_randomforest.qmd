@@ -258,7 +258,7 @@ o_class <-
   randomForestSRC::rfsrc(
     formula     = rf_formula
   , data        = dat_rf_data
-  , ntree       = 10000
+  , ntree       = 2000
   #, mtry        = NULL             # tune()$optimal["mtry"]
   #, ytry        = NULL
   #, nodesize    = NULL             # tune()$optimal["nodesize"]
@@ -763,7 +763,7 @@ https://cran.r-project.org/web/packages/ggRandomForests/vignettes/ggrfRegression
 
 ----------------------------------------
 
-### Classification, automated selection in one code chunk
+### Classification, automated selection in function
 
 ```{r}
 ### Prepare data and formula
