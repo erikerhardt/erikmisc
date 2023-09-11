@@ -10,11 +10,13 @@
 #' @param sw_clean_names         T/F to clean column names using \code{janitor::clean_names}
 #' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
+#' @param sw_delim               F if standard delim, otherwise delim character such as "|"
 #'
 #' @return dat_sheet             A list of tibbles
 #' @import dplyr
 #' @importFrom stringr str_sub
 #' @importFrom readr read_csv
+#' @importFrom readr read_delim
 #' @importFrom readxl read_xlsx
 #' @importFrom readxl excel_sheets
 #' @importFrom dplyr mutate
@@ -36,6 +38,7 @@ e_read_data_files <-
   , sw_clean_names          = c(TRUE, FALSE)[2]
   , excel_range             = NULL
   , excel_col_names         = TRUE
+  , sw_delim                = c(FALSE, "|")[1]
   ) {
 
   ## read_fn_path <- "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa"
@@ -62,13 +65,13 @@ e_read_data_files <-
       # )
 
     # not data, skip
-    if (fn_ext %notin% c("csv", "xls", "xlsx")) {
-      warning(paste0("erikmisc::e_read_data_files() SKIPPING non-csv, -xls, or -xlsx: ", fn_full_this))
+    if (fn_ext %notin% c("csv", "xls", "xlsx", "txt")) {
+      warning(paste0("erikmisc::e_read_data_files() SKIPPING non-csv, -xls, -xlsx, or -txt: ", fn_full_this))
       next
     } # if fn_ext
 
-    # csv file
-    if (fn_ext == "csv") {
+    # csv standard delim file
+    if (fn_ext == "csv" & (sw_delim == FALSE)) {
 
       ind_sheets <- 1 # to match Excel file
 
@@ -76,6 +79,31 @@ e_read_data_files <-
         readr::read_csv(
           file = fn_full_this
         , show_col_types = FALSE
+        )
+
+      if (sw_clean_names) {
+        dat_sheet[[ read_fn_names[i_fn] ]] <-
+          dat_sheet[[ read_fn_names[i_fn] ]] %>%
+          janitor::clean_names(
+            case = "none"
+          )
+      }
+
+      # remove column attributes
+      attr(dat_sheet[[ read_fn_names[i_fn] ]], 'spec') <- NULL
+
+    } # if fn_ext
+
+    # delim file
+    if (!(sw_delim == FALSE)) {
+
+      ind_sheets <- 1 # to match Excel file
+
+      dat_sheet[[ read_fn_names[i_fn] ]] <-
+        readr::read_delim(
+          file            = fn_full_this
+        , show_col_types  = FALSE
+        , delim           = sw_delim
         )
 
       if (sw_clean_names) {

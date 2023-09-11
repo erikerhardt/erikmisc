@@ -12,7 +12,8 @@ e_read_data_files(
   excel_sheets = "all",
   sw_clean_names = c(TRUE, FALSE)[2],
   excel_range = NULL,
-  excel_col_names = TRUE
+  excel_col_names = TRUE,
+  sw_delim = c(FALSE, "|")[1]
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ e_read_data_files(
 \item{excel_range}{When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.}
 
 \item{excel_col_names}{Specified as in \code{readxl::read_xlsx}.  Applies to all files.}
+
+\item{sw_delim}{F if standard delim, otherwise delim character such as "|"}
 }
 \value{
 dat_sheet             A list of tibbles

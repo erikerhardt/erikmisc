@@ -291,8 +291,8 @@ e_rfsrc_classification <-
 
   rf_x_var_sel <-
     rownames(
-      randomForestSRC::extract.bootsample(o_class_subsample)$var.sel.Z
-    )[randomForestSRC::extract.bootsample(o_class_subsample)$var.sel.Z$signif]
+      randomForestSRC::extract.bootsample(o_class_subsample, alpha = sw_alpha)$var.sel.Z
+    )[randomForestSRC::extract.bootsample(o_class_subsample, alpha = sw_alpha)$var.sel.Z$signif]
 
   out[[ "rf_x_var_sel" ]] <- rf_x_var_sel
 
@@ -439,7 +439,7 @@ e_rfsrc_classification <-
     o_class_sel_subsample
 
   out[[ "o_class_sel_subsample_extract_subsample" ]] <-
-    randomForestSRC::extract.subsample(o_class_sel_subsample)
+    randomForestSRC::extract.subsample(o_class_sel_subsample, alpha = sw_alpha)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
   out[[ "o_class_sel_subsample_extract_bootsample" ]] <-

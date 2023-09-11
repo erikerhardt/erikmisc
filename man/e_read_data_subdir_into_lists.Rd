@@ -15,7 +15,8 @@ e_read_data_subdir_into_lists(
   sw_clean_names = c(TRUE, FALSE)[2],
   sw_list_or_flat = c("list", "flat")[1],
   excel_range = NULL,
-  excel_col_names = TRUE
+  excel_col_names = TRUE,
+  sw_delim = c(FALSE, "|")[1]
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ e_read_data_subdir_into_lists(
 \item{excel_range}{When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.}
 
 \item{excel_col_names}{Specified as in \code{readxl::read_xlsx}.  Applies to all files.}
+
+\item{sw_delim}{F if standard delim, otherwise delim character such as "|"}
 }
 \value{
 fn_names              Either a structured list of filenames or of tibbles
@@ -73,6 +76,7 @@ Recurse through subdirectories returning either filenames or tibbles (data.frame
 #   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
 #   , sw_clean_names          = c(TRUE, FALSE)[2]
 #   , sw_list_or_flat         = c("list", "flat")[1]
+#   , sw_delim                = c(FALSE, "|")[1]
 #   )
 # # selected data, flatten the directory structure
 # e_read_data_subdir_into_lists(
@@ -84,6 +88,7 @@ Recurse through subdirectories returning either filenames or tibbles (data.frame
 #   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
 #   , sw_clean_names          = c(TRUE, FALSE)[2]
 #   , sw_list_or_flat         = c("list", "flat")[2]
+#   , sw_delim                = c(FALSE, "|")[1]
 #   )
 }
 }

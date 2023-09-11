@@ -13,6 +13,7 @@
 #' @param sw_list_or_flat        Hierarical list or a "flat" 1-level list
 #' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
+#' @param sw_delim               F if standard delim, otherwise delim character such as "|"
 #'
 #' @return fn_names              Either a structured list of filenames or of tibbles
 #' @import dplyr
@@ -45,6 +46,7 @@
 #' #   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
 #' #   , sw_clean_names          = c(TRUE, FALSE)[2]
 #' #   , sw_list_or_flat         = c("list", "flat")[1]
+#' #   , sw_delim                = c(FALSE, "|")[1]
 #' #   )
 #' # # selected data, flatten the directory structure
 #' # e_read_data_subdir_into_lists(
@@ -56,6 +58,7 @@
 #' #   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
 #' #   , sw_clean_names          = c(TRUE, FALSE)[2]
 #' #   , sw_list_or_flat         = c("list", "flat")[2]
+#' #   , sw_delim                = c(FALSE, "|")[1]
 #' #   )
 #' }
 e_read_data_subdir_into_lists <-
@@ -71,6 +74,7 @@ e_read_data_subdir_into_lists <-
   , sw_list_or_flat         = c("list", "flat")[1]
   , excel_range             = NULL
   , excel_col_names         = TRUE
+  , sw_delim                = c(FALSE, "|")[1]
   ) {
 
   # original idea
@@ -79,20 +83,26 @@ e_read_data_subdir_into_lists <-
   ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir"  #/dir_a/dir_aa/dir_aaa"
   ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa"  #/dir_aaa"
   ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa/dir_aaa"
-  ## fn_detect = NULL #c("csv$", "xls$", "xlsx$")
-  ## sw_fn_or_dat  = c("fn", "dat")[1]
+  ## fn_path   = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_b"  #/dir_aaa"
+  ## fn_detect = "txt$"  # NULL #c("csv$", "xls$", "xlsx$")
+  ## sw_fn_or_dat  = c("fn", "dat")[2]
   ## sw_exclude_empty_dir = c(TRUE, FALSE)[1]
+  ## sw_delim                = c(FALSE, "|")[2]
 
   ## dat_temp <-
   ##   e_read_data_subdir_into_lists(
   ##     fn_path                 = "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir" # /dir_a/dir_aa
-  ##   , fn_detect               = c("csv$", "xls$", "xlsx$")
-  ##   , sw_fn_or_dat            = c("fn", "dat")[2]
+  ##   , fn_detect               = "txt$"  # c("csv$", "xls$", "xlsx$")
+  ##   , sw_fn_or_dat            = c("fn", "dat")[1]
   ##   , sw_exclude_empty_dir    = c(TRUE, FALSE)[1]
   ##   , sw_dat_add_col_path_fn  = c(TRUE, FALSE)[1]
   ##   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
+  ##   , excel_sheets            = "all"
   ##   , sw_clean_names          = c(TRUE, FALSE)[2]
-  ##   , sw_list_or_flat         = c("list", "flat")[2]
+  ##   , sw_list_or_flat         = c("list", "flat")[1]
+  ##   , excel_range             = NULL
+  ##   , excel_col_names         = TRUE
+  ##   , sw_delim                = c(FALSE, "|")[2]
   ##   )
   ## dat_temp
   ## lapply(dat_temp, class)
@@ -113,6 +123,24 @@ e_read_data_subdir_into_lists <-
     , recursive  = FALSE
     )
 
+  # Determine files found, excluding directory names
+  fn_to_return <-
+    fn_names[!fn_names %in% dir_names]
+
+  # keep those matching fn_detect specification
+  if (!is.null(fn_detect)){
+    ind_dat <-
+      stringr::str_detect(
+        string  = fn_to_return
+      , pattern = paste0(fn_detect, collapse = "|")
+      )
+    fn_to_return <-
+      fn_to_return[ind_dat]
+  }
+  fn_names <-
+    fn_to_return
+
+
   # If there are directories
   if(length(dir_names)) {
 
@@ -132,6 +160,7 @@ e_read_data_subdir_into_lists <-
       , sw_list_or_flat         = sw_list_or_flat
       , excel_range             = excel_range
       , excel_col_names         = excel_col_names
+      , sw_delim                = sw_delim
       )
     # Set names for the new list
     names(fn_subdir) <-
@@ -154,22 +183,6 @@ e_read_data_subdir_into_lists <-
         }
       }
     } # if sw_exclude_empty_dir
-
-
-    # Determine files found, excluding directory names
-    fn_to_return <-
-      fn_names[!fn_names %in% dir_names]
-
-    # keep those matching fn_detect specification
-    if (!is.null(fn_detect)){
-      ind_dat <-
-        stringr::str_detect(
-          string  = fn_to_return
-        , pattern = paste0(fn_detect, collapse = "|")
-        )
-      fn_to_return <-
-        fn_to_return[ind_dat]
-    }
 
 
     if (sw_fn_or_dat == "fn") {
@@ -212,6 +225,7 @@ e_read_data_subdir_into_lists <-
           , sw_clean_names          = sw_clean_names
           , excel_range             = excel_range
           , excel_col_names         = excel_col_names
+          , sw_delim                = sw_delim
           )
 
         if (sw_list_or_flat == c("list", "flat")[1]) {
@@ -259,6 +273,7 @@ e_read_data_subdir_into_lists <-
           , sw_clean_names          = sw_clean_names
           , excel_range             = excel_range
           , excel_col_names         = excel_col_names
+          , sw_delim                = sw_delim
           )
 
         # files, but no data files to read
