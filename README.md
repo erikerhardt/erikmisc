@@ -13,25 +13,25 @@
 Erik Erhardt’s miscellaneous functions for solving complex data analysis
 workflows
 
--   <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation
-    and Vignettes</a></strong>
--   <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug
-    or Request Feature</a>
+- <strong><a href="https://erikerhardt.github.io/erikmisc/">Documentation
+  and Vignettes</a></strong>
+- <a href="https://github.com/erikerhardt/erikmisc/issues">Report Bug or
+  Request Feature</a>
 
 ## Installation
 
 ``` r
 # The development version from GitHub
-# install.packages("devtools")
-devtools::install_github("erikerhardt/erikmisc")
+# install.packages("remotes")
+remotes::install_github("erikerhardt/erikmisc")
 ```
 
 ## Usage
 
 ``` r
 library(erikmisc)
-#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.16 ──
-#> ✔ tibble 3.1.8     ✔ dplyr  1.0.9
+#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.24 ──
+#> ✔ tibble 3.2.1     ✔ dplyr  1.1.3
 #> ── Conflicts ─────────────────────────────────────────── erikmisc_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()

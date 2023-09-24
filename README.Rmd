@@ -28,8 +28,8 @@ Erik Erhardt's miscellaneous functions for solving complex data analysis workflo
 
 ```{r, eval = FALSE}
 # The development version from GitHub
-# install.packages("devtools")
-devtools::install_github("erikerhardt/erikmisc")
+# install.packages("remotes")
+remotes::install_github("erikerhardt/erikmisc")
 ```
 
 ## Usage
