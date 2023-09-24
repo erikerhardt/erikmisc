@@ -4,7 +4,7 @@
 #' @param var_group           variable name to group by (colors data)
 #' @param sw_group_sort       TRUE/FALSE to sort by grouped variable
 #' @param var2_sort           second variable name to sort by if data is grouped
-#' @param sw_title_data_name  TRUE/FALSE to include data object name in title
+#' @param sw_title_data_name  TRUE/FALSE to include data object name in title or text string of title to use
 #' @param sw_text_pct_miss    TRUE/FALSE to include text values of percent missing on bar plot
 #'
 #' @return                    ggplot grob plot object
@@ -29,6 +29,14 @@
 #'   , var_group      = "cyl"
 #'   , sw_group_sort  = TRUE
 #'   , var2_sort      = "disp"
+#'   )
+#'
+#' e_plot_missing(
+#'     dat_plot       = dat_miss
+#'   , var_group      = "cyl"
+#'   , sw_group_sort  = TRUE
+#'   , var2_sort      = "disp"
+#'   , sw_title_data_name  = "mtcars with random missing values"
 #'   )
 e_plot_missing <-
   function(
@@ -225,13 +233,19 @@ e_plot_missing <-
   }
   p1 <- p1 + ggplot2::labs(y = "Missing %")
   p1 <- p1 + ggplot2::scale_y_continuous(labels = scales::label_percent(), breaks = seq(0, 1, by = 0.5), minor_breaks = seq(0, 1, by = 0.1), limits = c(0, 1))
-  if (sw_title_data_name) {
-    p1 <- p1 + labs(
-                 title = paste0("Missing values: ", name_dat)
-               )
+  if (is.logical(sw_title_data_name)) {
+    if (sw_title_data_name) {
+      p1 <- p1 + labs(
+                   title = paste0("Missing values: ", name_dat)
+                 )
+    } else {
+      p1 <- p1 + labs(
+                   title = "Missing values"
+                 )
+    }
   } else {
     p1 <- p1 + labs(
-                 title = "Missing values"
+                 title = paste0("Missing values: ", sw_title_data_name)
                )
   }
   if (sw_group) {

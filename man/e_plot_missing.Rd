@@ -22,7 +22,7 @@ e_plot_missing(
 
 \item{var2_sort}{second variable name to sort by if data is grouped}
 
-\item{sw_title_data_name}{TRUE/FALSE to include data object name in title}
+\item{sw_title_data_name}{TRUE/FALSE to include data object name in title or text string of title to use}
 
 \item{sw_text_pct_miss}{TRUE/FALSE to include text values of percent missing on bar plot}
 }
@@ -47,5 +47,13 @@ e_plot_missing(
   , var_group      = "cyl"
   , sw_group_sort  = TRUE
   , var2_sort      = "disp"
+  )
+
+e_plot_missing(
+    dat_plot       = dat_miss
+  , var_group      = "cyl"
+  , sw_group_sort  = TRUE
+  , var2_sort      = "disp"
+  , sw_title_data_name  = "mtcars with random missing values"
   )
 }
