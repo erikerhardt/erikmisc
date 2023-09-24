@@ -245,9 +245,106 @@ plot.tune(o)
 ```
 
 
+----------------------------------------
+
+## Classification, erikmisc function with automated selection
+
+### Classification
+
+```{r}
+### Prepare data and formula
+
+# keep only variables for analysis, y as first variable, as.data.frame()
+dat_rf_class <-
+  erikmisc::dat_mtcars_e |>
+  dplyr::select(
+    -model
+  ) |>
+  dplyr::select(
+    cyl
+  , tidyselect::everything()
+  )
+
+#rf_y_var <- "cyl"
+#rf_x_var <- c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb")
+
+
+out_e_rf <-
+  e_rfsrc_classification(
+    dat_rf_class    = dat_rf_class
+  , rf_y_var        = NULL  # if not specified, assumed to be first column
+  , rf_x_var        = NULL  # if not specified, assumed to be second through last columns
+  , sw_rfsrc_ntree  = 1000
+  , sw_alpha        = 0.05  # for subsample bootsample model selection and VIMP plot
+  )
+
+```
+
+
+### Prediction
+
+```{r}
+
+out_e_rf$o_class_sel
+
+dat_rf_class_to_pred <-
+  dat_rf_class |>
+  dplyr::mutate(
+    cyl_org = cyl
+  , cyl = NA
+  )
+
+out_e_rf_pred <-
+  predict(
+    object        = out_e_rf$o_class_sel
+  , newdata       = dat_rf_class_to_pred # dat_rf_class  #
+  )
+  ### Other prediction arguments
+  # #, m.target      = NULL
+  # , importance  = c("anti", "permute", "random", "none")[1]
+  # #, get.tree = NULL
+  # , block.size  = 1 # 10 #if (any(is.element(as.character(importance), c("none", "FALSE")))) NULL else 10
+  # , na.action   = c("na.omit", "na.impute")[2]
+  # , outcome = c("train", "test")[2]
+  # , perf.type   = c("none", "misclass", "brier", "gmean")[2]  # classification
+  # , proximity   = c("inbag", "oob", "all", TRUE, FALSE)[2]    # TRUE = "inbag"
+  # , distance    = c("inbag", "oob", "all", TRUE, FALSE)[2]    # TRUE = "inbag"
+  # , forest.wt   = c("inbag", "oob", "all", TRUE, FALSE)[1]    # TRUE = "inbag"
+  # #, ptn.count = 0
+  # , var.used    = c(FALSE, "all.trees", "by.tree")[2]
+  # , split.depth = c(FALSE, "all.trees", "by.tree")[2]
+  # #, seed = NULL
+  # , do.trace    = 1
+  # , statistics  = TRUE # FALSE
+  # #, membership = FALSE
+  #)
+
+out_e_rf_pred$predicted
+out_e_rf_pred$class
+
+dat_rf_class_to_pred
+
+dat_rf_class_to_pred <-
+  dat_rf_class_to_pred |>
+  dplyr::bind_cols(
+    out_e_rf_pred$predicted
+  , tibble::tibble(class = out_e_rf_pred$class)
+  ) |>
+  dplyr::select(
+  #  ID
+    class
+  , tidyselect::all_of(colnames(out_e_rf_pred$predicted))
+  , tidyselect::everything()
+  )
+
+
+```
+
 --------------------------------------------------------------------------------
 
 ## Classification
+
+All the individual steps to learn how it all works.
 
 ### Grow forest
 
@@ -760,39 +857,6 @@ https://cran.r-project.org/web/packages/ggRandomForests/vignettes/ggrfRegression
 ```
 
 
-
-----------------------------------------
-
-### Classification, automated selection in function
-
-```{r}
-### Prepare data and formula
-
-# keep only variables for analysis, y as first variable, as.data.frame()
-dat_rf_class <-
-  erikmisc::dat_mtcars_e |>
-  dplyr::select(
-    -model
-  ) |>
-  dplyr::select(
-    cyl
-  , tidyselect::everything()
-  )
-
-#rf_y_var <- "cyl"
-#rf_x_var <- c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb")
-
-
-out_e_rf <-
-  e_rfsrc_classification(
-    dat_rf_class    = dat_rf_class
-  , rf_y_var        = NULL  # if not specified, assumed to be first column
-  , rf_x_var        = NULL  # if not specified, assumed to be second through last columns
-  , sw_rfsrc_ntree  = 10000
-  , sw_alpha        = 0.05  # for subsample bootsample model selection and VIMP plot
-  )
-
-```
 
 
 
