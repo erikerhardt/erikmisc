@@ -11,6 +11,7 @@
 #' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param sw_delim               F if standard delim, otherwise delim character such as "|"
+#' @param sw_read_package_csv_txt "readr" for \code{read_csv} and \code{read_delim}, "utils" for \code{read.csv} and \code{read.delim}
 #'
 #' @return dat_sheet             A list of tibbles
 #' @import dplyr
@@ -39,6 +40,7 @@ e_read_data_files <-
   , excel_range             = NULL
   , excel_col_names         = TRUE
   , sw_delim                = c(FALSE, "|")[1]
+  , sw_read_package_csv_txt = c("readr", "utils")[1]
   ) {
 
   ## read_fn_path <- "D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/dat_subdir/dir_a/dir_aa"
@@ -75,11 +77,19 @@ e_read_data_files <-
 
       ind_sheets <- 1 # to match Excel file
 
-      dat_sheet[[ read_fn_names[i_fn] ]] <-
-        readr::read_csv(
-          file = fn_full_this
-        , show_col_types = FALSE
-        )
+      if (sw_read_package == c("readr", "utils")[1]) {
+        dat_sheet[[ read_fn_names[i_fn] ]] <-
+          readr::read_csv(
+            file = fn_full_this
+          , show_col_types = FALSE
+          )
+      }
+      if (sw_read_package == c("readr", "utils")[2]) {
+        dat_sheet[[ read_fn_names[i_fn] ]] <-
+          utils::read.csv(
+            file = fn_full_this
+          )
+      }
 
       if (sw_clean_names) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
@@ -99,12 +109,21 @@ e_read_data_files <-
 
       ind_sheets <- 1 # to match Excel file
 
-      dat_sheet[[ read_fn_names[i_fn] ]] <-
-        readr::read_delim(
-          file            = fn_full_this
-        , show_col_types  = FALSE
-        , delim           = sw_delim
-        )
+      if (sw_read_package == c("readr", "utils")[1]) {
+        dat_sheet[[ read_fn_names[i_fn] ]] <-
+          readr::read_delim(
+            file            = fn_full_this
+          , show_col_types  = FALSE
+          , delim           = sw_delim
+          )
+      }
+      if (sw_read_package == c("readr", "utils")[2]) {
+        dat_sheet[[ read_fn_names[i_fn] ]] <-
+          utils::read.delim(
+            file            = fn_full_this
+          , sep             = sw_delim
+          )
+      }
 
       if (sw_clean_names) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-

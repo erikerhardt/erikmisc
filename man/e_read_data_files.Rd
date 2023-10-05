@@ -13,7 +13,8 @@ e_read_data_files(
   sw_clean_names = c(TRUE, FALSE)[2],
   excel_range = NULL,
   excel_col_names = TRUE,
-  sw_delim = c(FALSE, "|")[1]
+  sw_delim = c(FALSE, "|")[1],
+  sw_read_package_csv_txt = c("readr", "utils")[1]
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ e_read_data_files(
 \item{excel_col_names}{Specified as in \code{readxl::read_xlsx}.  Applies to all files.}
 
 \item{sw_delim}{F if standard delim, otherwise delim character such as "|"}
+
+\item{sw_read_package_csv_txt}{"readr" for \code{read_csv} and \code{read_delim}, "utils" for \code{read.csv} and \code{read.delim}}
 }
 \value{
 dat_sheet             A list of tibbles

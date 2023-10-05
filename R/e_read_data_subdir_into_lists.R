@@ -14,6 +14,7 @@
 #' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param sw_delim               F if standard delim, otherwise delim character such as "|"
+#' @param sw_read_package_csv_txt "readr" for \code{read_csv} and \code{read_delim}, "utils" for \code{read.csv} and \code{read.delim}
 #'
 #' @return fn_names              Either a structured list of filenames or of tibbles
 #' @import dplyr
@@ -75,6 +76,7 @@ e_read_data_subdir_into_lists <-
   , excel_range             = NULL
   , excel_col_names         = TRUE
   , sw_delim                = c(FALSE, "|")[1]
+  , sw_read_package_csv_txt = c("readr", "utils")[1]
   ) {
 
   # original idea
@@ -161,6 +163,7 @@ e_read_data_subdir_into_lists <-
       , excel_range             = excel_range
       , excel_col_names         = excel_col_names
       , sw_delim                = sw_delim
+      , sw_read_package_csv_txt = sw_read_package_csv_txt
       )
     # Set names for the new list
     names(fn_subdir) <-
@@ -226,6 +229,7 @@ e_read_data_subdir_into_lists <-
           , excel_range             = excel_range
           , excel_col_names         = excel_col_names
           , sw_delim                = sw_delim
+          , sw_read_package_csv_txt = sw_read_package_csv_txt
           )
 
         if (sw_list_or_flat == c("list", "flat")[1]) {
@@ -274,6 +278,7 @@ e_read_data_subdir_into_lists <-
           , excel_range             = excel_range
           , excel_col_names         = excel_col_names
           , sw_delim                = sw_delim
+          , sw_read_package_csv_txt = sw_read_package_csv_txt
           )
 
         # files, but no data files to read
