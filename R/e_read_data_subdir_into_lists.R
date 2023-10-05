@@ -48,6 +48,7 @@
 #' #   , sw_clean_names          = c(TRUE, FALSE)[2]
 #' #   , sw_list_or_flat         = c("list", "flat")[1]
 #' #   , sw_delim                = c(FALSE, "|")[1]
+#' #   , sw_read_package_csv_txt = c("readr", "utils")[1]
 #' #   )
 #' # # selected data, flatten the directory structure
 #' # e_read_data_subdir_into_lists(
@@ -60,6 +61,7 @@
 #' #   , sw_clean_names          = c(TRUE, FALSE)[2]
 #' #   , sw_list_or_flat         = c("list", "flat")[2]
 #' #   , sw_delim                = c(FALSE, "|")[1]
+#' #   , sw_read_package_csv_txt = c("readr", "utils")[1]
 #' #   )
 #' }
 e_read_data_subdir_into_lists <-

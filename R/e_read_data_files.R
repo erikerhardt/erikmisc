@@ -23,6 +23,8 @@
 #' @importFrom dplyr mutate
 #' @importFrom janitor clean_names
 #' @importFrom stats na.omit
+#' @importFrom utils read.csv
+#' @importFrom utils read.delim
 #' @export
 #'
 #' @examples
@@ -77,14 +79,14 @@ e_read_data_files <-
 
       ind_sheets <- 1 # to match Excel file
 
-      if (sw_read_package == c("readr", "utils")[1]) {
+      if (sw_read_package_csv_txt == c("readr", "utils")[1]) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
           readr::read_csv(
             file = fn_full_this
           , show_col_types = FALSE
           )
       }
-      if (sw_read_package == c("readr", "utils")[2]) {
+      if (sw_read_package_csv_txt == c("readr", "utils")[2]) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
           utils::read.csv(
             file = fn_full_this
@@ -109,7 +111,7 @@ e_read_data_files <-
 
       ind_sheets <- 1 # to match Excel file
 
-      if (sw_read_package == c("readr", "utils")[1]) {
+      if (sw_read_package_csv_txt == c("readr", "utils")[1]) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
           readr::read_delim(
             file            = fn_full_this
@@ -117,7 +119,7 @@ e_read_data_files <-
           , delim           = sw_delim
           )
       }
-      if (sw_read_package == c("readr", "utils")[2]) {
+      if (sw_read_package_csv_txt == c("readr", "utils")[2]) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
           utils::read.delim(
             file            = fn_full_this
