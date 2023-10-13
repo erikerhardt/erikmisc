@@ -47,7 +47,7 @@ format:
     toc-location:           body      # left, body, right
     toc-title:              Contents
     number-sections:        true      # true, false
-    number-depth:           3
+    number-depth:           5
     code-fold:              show      # true (initially hidden), false, show (initially shown)
     code-tools:                       # menu top-right to show/hide all code
       toggle:               true
@@ -65,6 +65,40 @@ format:
     link-external-newwindow:  false   # true, false
     link-external-filter:     ^(?:http:|https:)\/\/statacumen\.com
     #html-math-method: katex    # https://quarto.org/docs/output-formats/html-basics.html
+  pdf:                                # Quarto uses KOMA Script document classes by default  https://ctan.org/pkg/koma-script
+    latex-auto-mk: true               # true, false  # run the pdf-engine more than once to generate your PDF
+    #pdf-engine: lualatex
+    #pdf-engine-opt: -outdir=out
+    #include-in-header:
+    #  - text: |
+    #      \usepackage{eplain}
+    #      \usepackage{easy-todo}
+    #  - file: packages.tex
+    #  - macros.tex
+    keep-tex:               true      # keep .tex file that is produced
+    documentclass:          scrartcl  # article, report, book, scrartcl, scrreprt, scrbook
+    papersize:              letter
+    classoption:            [oneside,11pt] # [twocolumn, landscape]
+    geometry:
+      - margin = 1in
+      #- top  = 30mm
+      #- left = 20mm
+      #- heightrounded
+    fontfamily:             libertinus
+    cite-method:            biblatex
+    #biblatexoptions List of options for biblatex
+    #natbiboptions List of options for natbib
+    #biblio-title  Title for bibliography
+    #biblio-style  Style for bibliography
+    toc:                    true
+    toc-depth:              4
+    toc-title:              Contents
+    number-sections:        true
+    number-depth:           5
+    lof:                    true
+    lot:                    true
+    colorlinks:             true
+    highlight-style:        atom-one  # a11y, arrow, atom-one, ayu, breeze, github, gruvbox; pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock; dracula, mokokai, nord, oblivion, printing, radical, solarized, vim-dark
 title-block-style:          default   # plain, none
 title-block-banner:         false     # background color: true, false, "#95b7fc"
 title-block-banner-color:   "#232323" # text color: "#232323"
@@ -94,6 +128,7 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
   eval:     true    # true, false  Evaluate the code chunk (if false, just echos the code into the output).
   echo:     true    # true, false  Include the source code in output
   output:   true    # true, false  Include the results of executing the code in the output (true, false, or asis to indicate that the output is raw markdown and should not have any of Quarto’s standard enclosing markdown).
+  message:  true    # true, false  Include messages in the output.
   warning:  true    # true, false  Include warnings in the output.
   error:    true    # true, false  Include errors in the output (note that this implies that errors executing code will not halt processing of the document).
   include:  true    # true, false  Catch all for preventing any output (code or results) from being included (e.g. include: false suppresses all output from the code block).
@@ -115,18 +150,279 @@ my_seed <- 34567
 set.seed(my_seed)
 ```
 
-\listoffigures
-\listoftables
+{{< pagebreak >}}
 
+# Executive summary {#sec-Executive_summary}
 
 {{< pagebreak >}}
 
-# Section {#sec-introduction}
+# Introduction {#sec-Introduction}
+
+## Background/rationale
+
+* Explain the scientific background and rationale for the investigation being reported
+
+## Objectives
+
+* State specific objectives, including any prespecified hypotheses
+
+## Literature Review:
+
+* Review of relevant prior research and theories.
+* Identification of gaps in existing knowledge.
+
+{{< pagebreak >}}
+
+# Methods {#sec-Methods}
+
+## Study design
+
+* Present key elements of study design early in the paper
+
+## Setting
+
+* Describe the setting, locations, and relevant dates, including periods of recruitment, exposure, follow-up, and data collection
+
+## Participants
+
+* Cohort study --- Give the eligibility criteria, and the sources and methods of selection of participants. Describe methods of follow-up
+* Case-control study --- Give the eligibility criteria, and the sources and methods of case ascertainment and control selection. Give the rationale for the choice of cases and controls
+* Cross-sectional study --- Give the eligibility criteria, and the sources and methods of selection of participants
+* Cohort study --- For matched studies, give matching criteria and number of exposed and unexposed
+* Case-control study --- For matched studies, give matching criteria and the number of controls per case
+
+## Variables
+
+* Clearly define all outcomes, exposures, predictors, potential confounders, and effect modifiers. Give diagnostic criteria, if applicable
+
+## Data sources/measurement
+
+* *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+* For each variable of interest, give sources of data and details of methods of assessment (measurement). Describe comparability of assessment methods if there is more than one group
+
+## Bias
+
+* Describe any efforts to address potential sources of bias
+
+## Study size
+
+* Explain how the study size was arrived at
+
+## Quantitative variables
+
+* Explain how quantitative variables were handled in the analyses. If applicable, describe which groupings were chosen and why
+
+## Statistical methods
+
+* Describe all statistical methods, including those used to control for confounding
+* Describe any methods used to examine subgroups and interactions
+* Explain how missing data were addressed
+* Cohort study --- If applicable, explain how loss to follow-up was addressed
+* Case-control study --- If applicable, explain how matching of cases and controls was addressed
+* Cross-sectional study --- If applicable, describe analytical methods taking account of sampling strategy
+* Describe any sensitivity analyses
+
+{{< pagebreak >}}
+
+# Results {#sec-Results}
+
+## Participants
+
+* *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+* Report numbers of individuals at each stage of study --- eg numbers potentially eligible, examined for eligibility, confirmed eligible, included in the study, completing follow-up, and analysed
+* Give reasons for non-participation at each stage
+* Consider use of a flow diagram
+
+## Descriptive data
+
+* *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+* (a) Give characteristics of study participants (eg demographic, clinical, social) and information on exposures and potential confounders
+* (b) Indicate number of participants with missing data for each variable of interest
+* (c) Cohort study --- Summarise follow-up time (eg, average and total amount)
+
+## Outcome data
+
+* *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+* Cohort study --- Report numbers of outcome events or summary measures over time
+* Case-control study --- Report numbers in each exposure category, or summary measures of exposure
+* Cross-sectional study --- Report numbers of outcome events or summary measures
+
+## Main results
+
+* Give unadjusted estimates and, if applicable, confounder-adjusted estimates and their precision (eg, 95% confidence interval). Make clear which confounders were adjusted for and why they were included
+* Report category boundaries when continuous variables were categorized
+* If relevant, consider translating estimates of relative risk into absolute risk for a meaningful time period
+
+## Other analyses
+
+* Report other analyses done --- eg analyses of subgroups and interactions, and sensitivity analyses
+
+{{< pagebreak >}}
+
+# Discussion {#sec-Discussion}
+
+## Key results
+
+* Summarise key results with reference to study objectives
+
+## Limitations
+
+* Discuss limitations of the study, taking into account sources of potential bias or imprecision. Discuss both direction and magnitude of any potential bias
+
+## Interpretation
+
+* Give a cautious overall interpretation of results considering objectives, limitations, multiplicity of analyses, results from similar studies, and other relevant evidence
+
+## Generalisability
+
+* Discuss the generalisability (external validity) of the study results
+
+{{< pagebreak >}}
+
+# Conclusion {#sec-Conclusion}
+
+## Summary of the main findings.
+
+## Implications of the study.
+
+## Suggestions for future research.
+
+{{< pagebreak >}}
+
+# References {#sec-References}
+
+## List of all sources cited in the report, following a specific citation style (e.g., APA, MLA, Chicago).
+
+{{< pagebreak >}}
+
+# Appendices {#sec-Appendices}
+
+## Supplementary materials such as raw data, additional tables or figures, questionnaires, etc.
+
+{{< pagebreak >}}
+
+# Other information {#sec-Other_information}
+
+## Funding
+
+* Give the source of funding and the role of the funders for the present study and, if applicable, for the original study on which the present article is based
+
+Note: An Explanation and Elaboration article discusses each checklist item and gives methodological background and published examples of transparent reporting. The STROBE checklist is best used in conjunction with this article (freely available on the Web sites of PLoS Medicine at http://www.plosmedicine.org/, Annals of Internal Medicine at http://www.annals.org/, and Epidemiology at http://www.epidem.com/). Information on the STROBE Initiative is available at www.strobe-statement.org.
 
 
-```{r}
-1:100
-```
+
+
+--------------------------------------------------------------------------------
+
+{{< pagebreak >}}
+
+# Report sections
+
+STROBE <https://www.strobe-statement.org/index.php?id=available-checklists>
+
+STROBE Statement --- checklist of items that should be included in reports of observational studies
+
+Added some additional items.
+
+1. Title Page:
+    1. Title of the Report
+    1. Author(s) Name(s)
+    1. Affiliation(s)
+    1. Date
+1. Title and abstract/Executive summary
+    1. Indicate the study's design with a commonly used term in the title or the abstract
+    1. Provide in the abstract an informative and balanced summary of what was done and what was found
+1. Abstract:
+    1. A brief summary of the report, typically around 150-250 words, highlighting the purpose, methods, results, and conclusions.
+1. Table of Contents (optional):
+    1. List of sections and subsections with page numbers for easy navigation.
+1. List of Figures and Tables (optional):
+    1. If your report contains numerous figures and tables, provide a list with their titles and page numbers.
+1. List of Abbreviations (optional):
+    1. Define any acronyms or abbreviations used in the report.
+1. Introduction
+    1. Background/rationale
+    1. Explain the scientific background and rationale for the investigation being reported
+    1. Objectives
+    1. State specific objectives, including any prespecified hypotheses
+    1. Literature Review:
+        1. Review of relevant prior research and theories.
+        1. Identification of gaps in existing knowledge.
+1. Methods
+    1. Study design
+        1. Present key elements of study design early in the paper
+    1. Setting
+        1. Describe the setting, locations, and relevant dates, including periods of recruitment, exposure, follow-up, and data collection
+    1. Participants
+        1. Cohort study --- Give the eligibility criteria, and the sources and methods of selection of participants. Describe methods of follow-up
+        1. Case-control study --- Give the eligibility criteria, and the sources and methods of case ascertainment and control selection. Give the rationale for the choice of cases and controls
+        1. Cross-sectional study --- Give the eligibility criteria, and the sources and methods of selection of participants
+        1. Cohort study --- For matched studies, give matching criteria and number of exposed and unexposed
+        1. Case-control study --- For matched studies, give matching criteria and the number of controls per case
+    1. Variables
+        1. Clearly define all outcomes, exposures, predictors, potential confounders, and effect modifiers. Give diagnostic criteria, if applicable
+    1. Data sources/ measurement
+        1. *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+        1. For each variable of interest, give sources of data and details of methods of assessment (measurement). Describe comparability of assessment methods if there is more than one group
+    1. Bias
+        1. Describe any efforts to address potential sources of bias
+    1. Study size
+        1. Explain how the study size was arrived at
+    1. Quantitative variables
+        1. Explain how quantitative variables were handled in the analyses. If applicable, describe which groupings were chosen and why
+    1. Statistical methods
+        1. Describe all statistical methods, including those used to control for confounding
+        1. Describe any methods used to examine subgroups and interactions
+        1. Explain how missing data were addressed
+        1. Cohort study --- If applicable, explain how loss to follow-up was addressed
+        1. Case-control study --- If applicable, explain how matching of cases and controls was addressed
+        1. Cross-sectional study --- If applicable, describe analytical methods taking account of sampling strategy
+        1. Describe any sensitivity analyses
+1. Results
+    1. Participants
+        1. *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+        1. Report numbers of individuals at each stage of study --- eg numbers potentially eligible, examined for eligibility, confirmed eligible, included in the study, completing follow-up, and analysed
+        1. Give reasons for non-participation at each stage
+        1. Consider use of a flow diagram
+    1. Descriptive data
+        1. *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+        1. (a) Give characteristics of study participants (eg demographic, clinical, social) and information on exposures and potential confounders
+        1. (b) Indicate number of participants with missing data for each variable of interest
+        1. (c) Cohort study --- Summarise follow-up time (eg, average and total amount)
+    1. Outcome data
+        1. *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+        1. Cohort study --- Report numbers of outcome events or summary measures over time
+        1. Case-control study --- Report numbers in each exposure category, or summary measures of exposure
+        1. Cross-sectional study --- Report numbers of outcome events or summary measures
+    1. Main results
+        1. Give unadjusted estimates and, if applicable, confounder-adjusted estimates and their precision (eg, 95% confidence interval). Make clear which confounders were adjusted for and why they were included
+        1. Report category boundaries when continuous variables were categorized
+        1. If relevant, consider translating estimates of relative risk into absolute risk for a meaningful time period
+    1. Other analyses
+        1. Report other analyses done --- eg analyses of subgroups and interactions, and sensitivity analyses
+1. Discussion
+    1. Key results
+        1. Summarise key results with reference to study objectives
+    1. Limitations
+        1. Discuss limitations of the study, taking into account sources of potential bias or imprecision. Discuss both direction and magnitude of any potential bias
+    1. Interpretation
+        1. Give a cautious overall interpretation of results considering objectives, limitations, multiplicity of analyses, results from similar studies, and other relevant evidence
+    1. Generalisability
+        1. Discuss the generalisability (external validity) of the study results
+1. Conclusion:
+    1. Summary of the main findings.
+    1. Implications of the study.
+    1. Suggestions for future research.
+1. References:
+    1. List of all sources cited in the report, following a specific citation style (e.g., APA, MLA, Chicago).
+1. Appendices (if applicable):
+    1. Supplementary materials such as raw data, additional tables or figures, questionnaires, etc.
+1. Other information
+    1. Funding
+        1. Give the source of funding and the role of the funders for the present study and, if applicable, for the original study on which the present article is based
+
+Note: An Explanation and Elaboration article discusses each checklist item and gives methodological background and published examples of transparent reporting. The STROBE checklist is best used in conjunction with this article (freely available on the Web sites of PLoS Medicine at http://www.plosmedicine.org/, Annals of Internal Medicine at http://www.annals.org/, and Epidemiology at http://www.epidem.com/). Information on the STROBE Initiative is available at www.strobe-statement.org.
+
 
 
 --------------------------------------------------------------------------------
@@ -325,6 +621,19 @@ cat("### Dynamic Heading 2\n")
 cat("### Dynamic Heading 3\n")
 ```
 
+<!---
+# part[short version ]{heading }
+## chapter[short version ]{heading }
+-->
+
+# section[short version ]{heading }
+## subsection[short version ]{heading }
+### subsubsection[short version ]{heading }
+#### paragraph[short version ]{heading }
+##### subparagraph[short version ]{heading }
+
+
+\appendix
 # Appendix {.appendix}
 
 ## Acknowledgments {.appendix}
