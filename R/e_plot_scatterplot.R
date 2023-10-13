@@ -7,6 +7,7 @@
 #' @param var_y                     a numeric variable name
 #' @param var_color                 factor or numeric color variable
 #' @param var_facet                 factor varibles (1 or 2) to facet by, (row facets, then column facets),
+#' @param text_title                text for title of plot to override default
 #' @param sw_print                  T/F whether to print table and display plot
 #' @param smooth_all                Smooth method for all the points together.
 #' @param sw_smooth_all_se          T/F, SEs for smooth all the points together?
@@ -242,8 +243,8 @@ e_plot_scatterplot <-
   }
 
 
-  if (sw_corr_in_subtitle) {
-    p$e_correlation <- list()
+  if (sw_corr_in_subtitle & (inherits(dat_plot[[ var_x ]], "numeric"))) {
+    p$e_correlation       <- list()
     p$e_correlation$cor_p <- cor_p
     p$e_correlation$cor_s <- cor_s
   }

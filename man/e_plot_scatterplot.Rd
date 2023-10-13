@@ -30,6 +30,8 @@ e_plot_scatterplot(
 
 \item{var_facet}{factor varibles (1 or 2) to facet by, (row facets, then column facets),}
 
+\item{text_title}{text for title of plot to override default}
+
 \item{sw_print}{T/F whether to print table and display plot}
 
 \item{smooth_all}{Smooth method for all the points together.}
