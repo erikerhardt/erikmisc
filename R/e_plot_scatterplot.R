@@ -1,13 +1,16 @@
 #' Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables
 #'
-#' @param dat_plot  data to plot
-#' @param var_x     a numeric or categorical variable name
-#' @param var_y     a numeric variable name
-#' @param var_color factor or numeric color variable
-#' @param var_facet factor varibles (1 or 2) to facet by, (row facets, then column facets),
-#' @param sw_print  T/F whether to print table and display plot
-#' @param smooth_all  Smooth method for all the points together.
-#' @param smooth_by_var_color Smooth method by the color variable.
+#' @param dat_plot                  data to plot
+#' @param var_x                     a numeric or categorical variable name
+#' @param var_y                     a numeric variable name
+#' @param var_color                 factor or numeric color variable
+#' @param var_facet                 factor varibles (1 or 2) to facet by, (row facets, then column facets),
+#' @param sw_print                  T/F whether to print table and display plot
+#' @param smooth_all                Smooth method for all the points together.
+#' @param sw_smooth_all_se          T/F, SEs for smooth all the points together?
+#' @param smooth_by_var_color       Smooth method by the color variable.
+#' @param sw_smooth_by_var_color_se T/F, SEs for smooth by the color variable?
+#' @param sw_corr_in_subtitle       T/F, calculate correlation and include in subtitle of plot?
 #'
 #' @return          a ggplot object
 #' @import ggplot2
@@ -78,17 +81,77 @@
 #'   )
 e_plot_scatterplot <-
   function(
-    dat_plot  = NULL
-  , var_x     = NULL
-  , var_y     = NULL
-  , var_color = NULL
-  , var_facet = NULL
-  , sw_print  = FALSE
-  , smooth_all = c("none", "loess", "lm", "glm", "gam")[1]
-  , smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[1]
+    dat_plot                  = NULL
+  , var_x                     = NULL
+  , var_y                     = NULL
+  , var_color                 = NULL
+  , var_facet                 = NULL
+  , text_title                = NULL
+  , sw_print                  = FALSE
+  , smooth_all                = c("none", "loess", "lm", "glm", "gam")[1]
+  , sw_smooth_all_se          = c(TRUE, FALSE)[1]
+  , smooth_by_var_color       = c("none", "loess", "lm", "glm", "gam")[1]
+  , sw_smooth_by_var_color_se = c(TRUE, FALSE)[1]
+  , sw_corr_in_subtitle       = c(TRUE, FALSE)[1]
   ) {
 
-  text_title <- paste0("Plot of ", var_y, " vs ", var_x)
+  if (is.null(text_title)) {
+    text_title <- paste0(var_y, " vs ", var_x)
+  }
+
+  if (sw_corr_in_subtitle) {
+    if (var_y == var_x) {
+      text_subtitle <- NULL
+    } else {
+
+      formula_cor <-
+        paste0(
+          " ~ "
+        , var_y
+        , " + "
+        , var_x
+        ) |>
+        as.formula()
+      cor_p <-
+        cor.test(
+          formula     = formula_cor
+        , data        = dat_plot
+        , alternative = "two.sided"
+        , method      = c("pearson", "kendall", "spearman")[1]
+        )
+      cor_s <-
+        suppressWarnings(
+          cor.test(
+            formula     = formula_cor
+          , data        = dat_plot
+          , alternative = "two.sided"
+          , method      = c("pearson", "kendall", "spearman")[3]
+          )
+        )
+
+      text_subtitle <-
+        paste0(
+        #  "Correlation:  "
+          "Pearson r = "
+        , cor_p$estimate |> signif(3)
+        , ", p-val = "
+        , cor_p$p.value  |> signif(3)
+        #, " "
+        #, cor_p$p.value  |> e_pval_stars()
+        #, ";  "
+        , "\n"
+        , "Spearman r = "
+        , cor_s$estimate |> signif(3)
+        , ", p-val = "
+        , cor_s$p.value  |> signif(3)
+        #, " "
+        #, cor_p$p.value  |> e_pval_stars()
+        )
+    }
+
+  } else {
+    text_subtitle <- NULL
+  }
 
   position_dodge_val <- position_dodge(0)
 
@@ -96,22 +159,25 @@ e_plot_scatterplot <-
     p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y))
   } else {
     if (inherits(dat_plot[[ var_color ]], "numeric")) {
-      p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, colour = var_color))
+      p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, color = var_color))
     } else {
-      p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, colour = var_color, shape = var_color))
+      p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, color = var_color, shape = var_color))
       position_dodge_val <- position_dodge(0.6) # move them .05 to the left and right
     }
 
-    text_title <- paste0(text_title, " by ", var_color)
+    if (is.null(text_title)) {
+      text_title <- paste0(text_title, " by ", var_color)
+    }
   }
   p <- p + theme_bw()
 
   if (inherits(dat_plot[[ var_x ]], "numeric")) {
     p <- p + geom_point()
+    p <- p + stat_ellipse(aes(color = NULL, shape = NULL), type = "t", segments = 101, color = "black", linetype = 2, alpha = 0.5)  # , level = 0.80
   } else {
     # plot a reference line for the global mean (assuming no groups)
     p <- p + geom_hline(yintercept = mean(dat_plot[[ var_y ]]),
-                        colour = "black", linetype = "dashed", size = 0.3, alpha = 0.5)
+                        color = "black", linetype = "dashed", size = 0.3, alpha = 0.5)
     # boxplot, size=.75 to stand out behind CI
     p <- p + geom_violin(width = 0.2, alpha = 0.25, position = position_dodge_val)
     p <- p + geom_boxplot(width = 0.2, alpha = 0.25, position = position_dodge_val)
@@ -119,10 +185,10 @@ e_plot_scatterplot <-
     p <- p + geom_point(position = position_jitter(w = 0.1, h = 0), alpha = 1) #, position = position_dodge_val)
     # diamond at mean for each group
     p <- p + stat_summary(fun = mean, geom = "point", shape = 18, size = 5,
-                          alpha = 0.8, position = position_dodge_val) # colour = "red",
+                          alpha = 0.8, position = position_dodge_val) # color = "red",
     # confidence limits based on normal distribution
     p <- p + stat_summary(fun.data = "mean_cl_normal", geom = "errorbar",
-                          width = 0.2, alpha = 0.8, position = position_dodge_val) # colour = "red",
+                          width = 0.2, alpha = 0.8, position = position_dodge_val) # color = "red",
   }
 
 
@@ -130,40 +196,54 @@ e_plot_scatterplot <-
     if (length(var_facet) == 1) {
       p <- p + facet_grid(as.formula(paste0(". ~ ", var_facet[1])), scales = "free_y", drop = TRUE)
 
-      text_title <- paste0(text_title, ", by ", var_facet[1])
+      if (is.null(text_title)) {
+        text_title <- paste0(text_title, ", by ", var_facet[1])
+      }
     }
     if (length(var_facet) == 2) {
       p <- p + facet_grid(as.formula(paste0(var_facet[2], " ~ ", var_facet[1])), scales = "free_y", drop = TRUE)
 
-      text_title <- paste0(text_title, ", by ", var_facet[1], " and ", var_facet[2])
+      if (is.null(text_title)) {
+        text_title <- paste0(text_title, ", by ", var_facet[1], " and ", var_facet[2])
+      }
     }
   }
 
   if (smooth_all %in% c("loess", "lm", "glm", "gam")) {
-    p <- p + stat_smooth(method = smooth_all, aes(group = 1), colour = "black", alpha = 1/6)  # se = FALSE,
+    p <- p + stat_smooth(method = smooth_all, aes(group = 1), color = "black", alpha = 1/6, se = sw_smooth_all_se)
   }
   if (smooth_by_var_color %in% c("loess", "lm", "glm", "gam")) {
-    p <- p + stat_smooth(method = smooth_by_var_color, aes_string(fill = var_color), alpha = 1/8)
+    p <- p + stat_smooth(method = smooth_by_var_color, aes_string(fill = var_color), alpha = 1/8, se = sw_smooth_by_var_color_se)
   }
 
   p <- p + labs(
                   title     = text_title
-                #, subtitle  = "subtitle"
+                , subtitle  = text_subtitle
                 #, x         = "x"
                 #, y         = paste0(var_x, " proportion")
                 #, caption = paste0(  "Caption 1"
                 #                  , "\nCaption 2"
                 #                  )
-                #, colour    = "Class"
+                #, color     = "Class"
                 #, shape     = "Class"
                 #, linetype  = "General Health"  #"Diagnosis"
                 #, fill      = "Diagnosis"
                 #, tag = "A"
                 )
+  if (sw_corr_in_subtitle) {
+    p <- p + theme(plot.subtitle = element_text(hjust = 1))
+  }
   #p <- p + theme(legend.position = "bottom") # "none"
 
   if (sw_print) {
     print(p)
+  }
+
+
+  if (sw_corr_in_subtitle) {
+    p$e_correlation <- list()
+    p$e_correlation$cor_p <- cor_p
+    p$e_correlation$cor_s <- cor_s
   }
 
   return(p)

@@ -10,9 +10,13 @@ e_plot_scatterplot(
   var_y = NULL,
   var_color = NULL,
   var_facet = NULL,
+  text_title = NULL,
   sw_print = FALSE,
   smooth_all = c("none", "loess", "lm", "glm", "gam")[1],
-  smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[1]
+  sw_smooth_all_se = c(TRUE, FALSE)[1],
+  smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[1],
+  sw_smooth_by_var_color_se = c(TRUE, FALSE)[1],
+  sw_corr_in_subtitle = c(TRUE, FALSE)[1]
 )
 }
 \arguments{
@@ -30,7 +34,13 @@ e_plot_scatterplot(
 
 \item{smooth_all}{Smooth method for all the points together.}
 
+\item{sw_smooth_all_se}{T/F, SEs for smooth all the points together?}
+
 \item{smooth_by_var_color}{Smooth method by the color variable.}
+
+\item{sw_smooth_by_var_color_se}{T/F, SEs for smooth by the color variable?}
+
+\item{sw_corr_in_subtitle}{T/F, calculate correlation and include in subtitle of plot?}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{     a ggplot object
