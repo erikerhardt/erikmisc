@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_plot_scatterplot.R
 \name{e_plot_scatterplot}
 \alias{e_plot_scatterplot}
-\title{Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables}
+\title{Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable}
 \usage{
 e_plot_scatterplot(
   dat_plot = NULL,
@@ -47,7 +47,7 @@ e_plot_scatterplot(
 }\if{html}{\out{</div>}}
 }
 \description{
-Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables
+Can add up to one color factor or numeric variable and two facets factor variables, and choose to display correlation.
 }
 \examples{
 e_plot_scatterplot(

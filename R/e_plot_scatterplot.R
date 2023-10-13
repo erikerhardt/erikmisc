@@ -1,4 +1,6 @@
-#' Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable, by up to one color factor or numeric variable and two facets factor variables
+#' Plot scatterplot of a numeric y-variable against a numeric or categorical x-variable
+#'
+#' Can add up to one color factor or numeric variable and two facets factor variables, and choose to display correlation.
 #'
 #' @param dat_plot                  data to plot
 #' @param var_x                     a numeric or categorical variable name
@@ -99,7 +101,7 @@ e_plot_scatterplot <-
     text_title <- paste0(var_y, " vs ", var_x)
   }
 
-  if (sw_corr_in_subtitle) {
+  if (sw_corr_in_subtitle & (inherits(dat_plot[[ var_x ]], "numeric"))) {
     if (var_y == var_x) {
       text_subtitle <- NULL
     } else {
