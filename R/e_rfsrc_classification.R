@@ -68,8 +68,9 @@ e_rfsrc_classification <-
   ))
 
   #library(parallel)
-  options(rf.cores = parallel::detectCores() - 2) # OpenMP Parallel Processing
-  options(mc.cores = parallel::detectCores() - 2) # R-side Parallel Processing
+  n_cores <- max(1, parallel::detectCores() - 2)
+  options(rf.cores = n_cores) # OpenMP Parallel Processing
+  options(mc.cores = n_cores) # R-side Parallel Processing
 
   # list for output objects
   out <- list()
