@@ -102,7 +102,11 @@ e_plot_scatterplot <-
     text_title <- paste0(var_y, " vs ", var_x)
   }
 
-  if (sw_corr_in_subtitle & (inherits(dat_plot[[ var_x ]], "numeric"))) {
+  if (sw_corr_in_subtitle &
+      (inherits(dat_plot[[ var_x ]], "numeric")) &
+      !(var_x == var_y) &
+      !all(is.na(dat_plot[[ var_x ]]))
+      ) {
     if (var_y == var_x) {
       text_subtitle <- NULL
     } else {
@@ -222,17 +226,18 @@ e_plot_scatterplot <-
   p <- p + labs(
                   title     = text_title
                 , subtitle  = text_subtitle
-                #, x         = "x"
-                #, y         = paste0(var_x, " proportion")
-                #, caption = paste0(  "Caption 1"
-                #                  , "\nCaption 2"
-                #                  )
-                #, color     = "Class"
-                #, shape     = "Class"
-                #, linetype  = "General Health"  #"Diagnosis"
-                #, fill      = "Diagnosis"
-                #, tag = "A"
                 )
+  if( !is.null(labelled::var_label(dat_plot[[ var_x ]])) ) {
+    p <- p + labs(
+                    x         = labelled::var_label(dat_plot[[ var_x ]])
+                  )
+  }
+  if( !is.null(labelled::var_label(dat_plot[[ var_y ]])) ) {
+    p <- p + labs(
+                    y         = labelled::var_label(dat_plot[[ var_y ]])
+                  )
+  }
+
   if (sw_corr_in_subtitle) {
     p <- p + theme(plot.subtitle = element_text(hjust = 1))
   }
@@ -243,7 +248,11 @@ e_plot_scatterplot <-
   }
 
 
-  if (sw_corr_in_subtitle & (inherits(dat_plot[[ var_x ]], "numeric"))) {
+  if (sw_corr_in_subtitle &
+      (inherits(dat_plot[[ var_x ]], "numeric")) &
+      !(var_x == var_y) &
+      !all(is.na(dat_plot[[ var_x ]]))
+      ) {
     p$e_correlation       <- list()
     p$e_correlation$cor_p <- cor_p
     p$e_correlation$cor_s <- cor_s
