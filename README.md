@@ -4,8 +4,9 @@
 # erikmisc <a href='https://github.com/erikerhardt/erikmisc'><img src='man/figures/erikmisc.png' align="right" height="138.5" /></a>
 
 <!-- badges: start -->
+<!-- github workflows: https://github.com/r-lib/actions/tree/v2/examples -->
 
-[![R-CMD-check](https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/erikerhardt/erikmisc/actions/workflows/check-standard.yaml)
+[![R-CMD-check](https://github.com/erikerhardt/erikmisc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erikerhardt/erikmisc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Overview
@@ -30,7 +31,7 @@ remotes::install_github("erikerhardt/erikmisc")
 
 ``` r
 library(erikmisc)
-#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.24 ──
+#> ── Attaching packages ─────────────────────────────────────── erikmisc 0.1.25 ──
 #> ✔ tibble 3.2.1     ✔ dplyr  1.1.3
 #> ── Conflicts ─────────────────────────────────────────── erikmisc_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
