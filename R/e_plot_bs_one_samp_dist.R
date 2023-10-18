@@ -44,12 +44,7 @@ e_plot_bs_one_samp_dist <-
   # obs mean
   obs_mean <- mean(dat, na.rm = TRUE)
   # obs CI
-  prob_CI <- c(lower = (1 - conf_level) / 2, upper = 1 - (1 - conf_level) / 2)
-  ind_CI <- prob_CI * N
-  ind_CI[1] <- floor(ind_CI[1])
-    if (ind_CI[1] == 0) { ind_CI[1] <- 1 }
-  ind_CI[2] <- ceiling(ind_CI[2])
-  CI_limits <- sort(dat_sam_mean)[ind_CI]
+  CI_limits <- e_CI_limits(x = dat_sam_mean, conf_level = conf_level)
 
   if (sw_graphics == c("ggplot", "base")[2]) {
     # save par() settings
@@ -119,10 +114,12 @@ e_plot_bs_one_samp_dist <-
                   fun = dnorm
                 , args = list(mean = mean(dat_sam_mean), sd = sd(dat_sam_mean))
                 , col = "red"
-                , size = 2
+                , linewidth = 2
                 , alpha = 3/4
                 )
-    p2 <- p2 + geom_density(fill = NA, colour = "black", adjust = 2, size = 2, alpha = 0.5)
+    p2 <- p2 + geom_density(fill = NA, colour = "black", adjust = 2, linewidth = 2, alpha = 0.5)
+    p2 <- p2 + geom_vline(aes(xintercept = CI_limits[1]), colour = "red", linetype = "dashed", alpha = 0.5)
+    p2 <- p2 + geom_vline(aes(xintercept = CI_limits[2]), colour = "red", linetype = "dashed", alpha = 0.5)
     p2 <- p2 + labs(
                   title = "Bootstrap sampling distribution of the mean"
                 , x     = NULL
@@ -131,7 +128,9 @@ e_plot_bs_one_samp_dist <-
                       "Black is smoothed density histogram.  Red is normal distribution."
                     , "\nN = ", N, " bootstrap resamples"
                     , " ,  mean = ", signif(obs_mean, 4)
-                    , " ,  95% CI: ("
+                    , " ,  "
+                    , 100 * conf_level
+                    , "% CI: ("
                     , signif(CI_limits[1], 4)
                     , ", "
                     , signif(CI_limits[2], 4)
