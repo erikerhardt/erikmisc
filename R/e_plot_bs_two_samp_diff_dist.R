@@ -121,7 +121,7 @@ e_plot_bs_two_samp_diff_dist <-
 
     p1 <- ggplot(dat_all %>% dplyr::filter(group == "Data1"), aes(x = val))
     p1 <- p1 + theme_bw()
-    p1 <- p1 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n1, base = 1.2)))
+    p1 <- p1 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(n1, base = 1.2)))
     p1 <- p1 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
     p1 <- p1 + xlim(min(c(dat1, dat2), na.rm = TRUE), max(c(dat1, dat2), na.rm = TRUE))
     p1 <- p1 + labs(
@@ -137,7 +137,7 @@ e_plot_bs_two_samp_diff_dist <-
 
     p2 <- ggplot(dat_all %>% dplyr::filter(group == "Data2"), aes(x = val))
     p2 <- p2 + theme_bw()
-    p2 <- p2 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n2, base = 1.2)))
+    p2 <- p2 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(n2, base = 1.2)))
     p2 <- p2 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
     p2 <- p2 + xlim(min(c(dat1, dat2), na.rm = TRUE), max(c(dat1, dat2), na.rm = TRUE))
     p2 <- p2 + labs(
@@ -153,15 +153,15 @@ e_plot_bs_two_samp_diff_dist <-
 
     p3 <- ggplot(dat_all %>% dplyr::filter(group == "BS"), aes(x = val))
     p3 <- p3 + theme_bw()
-    p3 <- p3 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(N, base = 1.2)))
-    p3 <- p3 + geom_density(fill = NA, colour = "black", adjust = 2, size = 2, alpha = 0.5)
+    p3 <- p3 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(N, base = 1.2)), alpha = 1/2)
     p3 <- p3 + stat_function(
                   fun = dnorm
                 , args = list(mean = mean(dat_diff_mean), sd = sd(dat_diff_mean))
                 , col = "red"
                 , size = 2
-                , alpha = 0.5
+                , alpha = 3/4
                 )
+    p3 <- p3 + geom_density(fill = NA, colour = "black", adjust = 2, size = 2, alpha = 0.5)
     p3 <- p3 + labs(
                   title = "Bootstrap sampling distribution of the difference in means"
                 , x     = NULL

@@ -99,7 +99,7 @@ e_plot_bs_one_samp_dist <-
 
     p1 <- ggplot(dat_all %>% dplyr::filter(group == "Data"), aes(x = val))
     p1 <- p1 + theme_bw()
-    p1 <- p1 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(n, base = 1.2)))
+    p1 <- p1 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(n, base = 1.2)))
     p1 <- p1 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
     p1 <- p1 + labs(
                   title = "Data with smoothed density curve"
@@ -114,15 +114,15 @@ e_plot_bs_one_samp_dist <-
 
     p2 <- ggplot(dat_all %>% dplyr::filter(group == "BS"), aes(x = val))
     p2 <- p2 + theme_bw()
-    p2 <- p2 + geom_histogram(aes(y = ..density..), boundary = 0, bins = ceiling(log(N, base = 1.2)))
-    p2 <- p2 + geom_density(fill = NA, colour = "black", adjust = 2, size = 2, alpha = 0.5)
+    p2 <- p2 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(N, base = 1.2)), alpha = 1/2)
     p2 <- p2 + stat_function(
                   fun = dnorm
                 , args = list(mean = mean(dat_sam_mean), sd = sd(dat_sam_mean))
                 , col = "red"
                 , size = 2
-                , alpha = 0.5
+                , alpha = 3/4
                 )
+    p2 <- p2 + geom_density(fill = NA, colour = "black", adjust = 2, size = 2, alpha = 0.5)
     p2 <- p2 + labs(
                   title = "Bootstrap sampling distribution of the mean"
                 , x     = NULL
