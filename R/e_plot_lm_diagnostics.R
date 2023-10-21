@@ -117,6 +117,53 @@ e_plot_lm_diagnostics <-
   #library(nortest)
   nortest::ad.test(fit$residuals)
 
+  # histogram of residuals
+  hist(
+    fit$residuals
+  , breaks = 20
+  , freq = FALSE
+  , main = "Residuals"
+  , sub = "black = residuals, red = normal"
+  , xlab = "Residuals"
+  )
+  # density curve
+  lines(
+    density(fit$residuals)
+  , lwd   = 2
+  , col   = "black"
+  , add   = TRUE
+  )
+  # normal distribution
+  f_norm_curve <- function(x) {dnorm(x, mean = 0, sd = sd(fit$residuals))}
+  curve(
+    expr  = f_norm_curve
+  , from  = min(fit$residuals) - 0.10 * diff(range(fit$residuals))
+  , to    = max(fit$residuals) + 0.10 * diff(range(fit$residuals))
+  , lwd   = 2
+  , col   = "red"
+  , add   = TRUE
+  )
+
+
+  # Box-Cox transformation suggestion
+  # only if all values are positive
+  if(sw_boxcox) {
+    if(min(fit$model[,1] > 0)){
+      #library(car)  # car::boxCox relies on family="bcPower", but "bcPower" is a function in the car package
+      bcPower <- car::bcPower   # load the required function into the environment
+      try(  # this may not work if the model function isn't in the environment, or if other objects are not available, too
+        car::boxCox(
+          fit
+        , lambda = seq(-3, 3, length = 101)
+        , main = "Box-Cox power transformation"
+        , xlab = "lambda\nlambda of 1 is none (y^1); 0 is log(y) of any base"
+        )
+      )
+      rm(bcPower)               # remove it
+      abline(v = 1  , col = "orange", lty = 3, lwd = 2)  # horizontal line at zero
+    }
+  }
+
 
   # default: Fitted, Cook's distance (with cutoff), and Leverage (with cutoffs)
   for(i_plot in which_plot) {
@@ -184,25 +231,6 @@ e_plot_lm_diagnostics <-
     # order of data (not always interesting)
     plot(fit$residuals, main = "Residuals vs Order of data", ylab = "Residuals")
     abline(h = 0, col = "gray75", lty = 3)  # horizontal line at zero
-  }
-
-  # Box-Cox transformation suggestion
-  # only if all values are positive
-  if(sw_boxcox) {
-    if(min(fit$model[,1] > 0)){
-      #library(car)  # car::boxCox relies on family="bcPower", but "bcPower" is a function in the car package
-      bcPower <- car::bcPower   # load the required function into the environment
-      try(  # this may not work if the model function isn't in the environment, or if other objects are not available, too
-        car::boxCox(
-          fit
-        , lambda = seq(-3, 3, length = 101)
-        , main = "Box-Cox power transformation"
-        , xlab = "lambda\nlambda of 1 is none (y^1); 0 is log(y) of any base"
-        )
-      )
-      rm(bcPower)               # remove it
-      abline(v = 1  , col = "orange", lty = 3, lwd = 2)  # horizontal line at zero
-    }
   }
 
   # Evaluate homoscedasticity
