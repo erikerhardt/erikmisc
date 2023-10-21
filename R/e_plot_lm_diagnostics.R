@@ -108,15 +108,6 @@ e_plot_lm_diagnostics <-
   par(mfrow = rc_mfrow)
 
 
-  # Normal quantile plot (QQ-plot)
-  #library(car)
-  if(sw_qqplot) {
-    car::qqPlot(as.numeric(fit$residuals), las = 1, id = list(n = n_outliers), main = "QQ Plot", ylab = "Residuals")
-  }
-
-  #library(nortest)
-  nortest::ad.test(fit$residuals)
-
   # histogram of residuals
   hist(
     fit$residuals
@@ -143,6 +134,15 @@ e_plot_lm_diagnostics <-
   , col   = "red"
   , add   = TRUE
   )
+
+  # Normal quantile plot (QQ-plot)
+  #library(car)
+  if(sw_qqplot) {
+    car::qqPlot(as.numeric(fit$residuals), las = 1, id = list(n = n_outliers), main = "QQ Plot", ylab = "Residuals")
+  }
+
+  #library(nortest)
+  nortest::ad.test(fit$residuals)
 
 
   # Box-Cox transformation suggestion
