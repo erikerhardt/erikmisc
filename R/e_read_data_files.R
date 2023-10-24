@@ -82,8 +82,9 @@ e_read_data_files <-
       if (sw_read_package_csv_txt == c("readr", "utils")[1]) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
           readr::read_csv(
-            file = fn_full_this
-          , show_col_types = FALSE
+            file            = fn_full_this
+          , show_col_types  = FALSE
+          , guess_max       = 1e5
           )
       }
       if (sw_read_package_csv_txt == c("readr", "utils")[2]) {
@@ -117,6 +118,7 @@ e_read_data_files <-
             file            = fn_full_this
           , show_col_types  = FALSE
           , delim           = sw_delim
+          , guess_max       = 1e5
           )
       }
       if (sw_read_package_csv_txt == c("readr", "utils")[2]) {
@@ -166,6 +168,7 @@ e_read_data_files <-
             , sheet     = i_sheet
             , range     = excel_range
             , col_names = excel_col_names
+            , guess_max = 1e5
             )
 
           if (sw_clean_names) {
@@ -190,6 +193,7 @@ e_read_data_files <-
               , sheet     = i_sheet
               , range     = excel_range
               , col_names = excel_col_names
+              , guess_max = 1e5
               )
 
             if (sw_clean_names) {
