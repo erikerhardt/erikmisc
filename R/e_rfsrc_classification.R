@@ -191,7 +191,7 @@ e_rfsrc_classification <-
     , perf.type   = c("none", "misclass", "brier", "gmean")[2]  # classification
     , proximity   = c("inbag", "oob", "all", TRUE, FALSE)[2]    # TRUE = "inbag"
     , distance    = c("inbag", "oob", "all", TRUE, FALSE)[2]    # TRUE = "inbag"
-    , forest.wt   = c("inbag", "oob", "all", TRUE, FALSE)[1]    # TRUE = "inbag"
+    , forest.wt   = c("inbag", "oob", "all", TRUE, FALSE)[5]    # TRUE = "inbag", 11/2/2023 changed from [1], crashes sometimes
     #, xvar.wt     = NULL
     #, yvar.wt     = NULL
     #, split.wt    = NULL
@@ -383,7 +383,7 @@ e_rfsrc_classification <-
     , perf.type   = c("none", "misclass", "brier", "gmean")[2]  # classification
     , proximity   = c("inbag", "oob", "all", TRUE, FALSE)[2]    # TRUE = "inbag"
     , distance    = c("inbag", "oob", "all", TRUE, FALSE)[2]    # TRUE = "inbag"
-    , forest.wt   = c("inbag", "oob", "all", TRUE, FALSE)[1]    # TRUE = "inbag"
+    , forest.wt   = c("inbag", "oob", "all", TRUE, FALSE)[5]    # TRUE = "inbag", 11/2/2023 changed from [1], crashes sometimes
     #, xvar.wt     = NULL
     #, yvar.wt     = NULL
     #, split.wt    = NULL
