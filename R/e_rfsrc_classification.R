@@ -472,35 +472,69 @@ e_rfsrc_classification <-
     , ":  Partial effects plots (selected model)"
   ))
 
+  # 11/2/2023 See the lapply() code below which overcomes lazy evaluation in the cowplot ggplot code,
+  #   which was resulting in all plots in the list being the last plot
   out[[ "plot_o_class_sel_marginal_effects" ]] <- list()
-  for (i_level in seq_along(levels(o_class_sel$class))) {
-
-    # Partial effects plots
-    out[[ "plot_o_class_sel_marginal_effects" ]][[ levels(o_class_sel$class)[i_level] ]] <-
-      cowplot::as_grob(
-        ~randomForestSRC::plot.variable(
-          x               = o_class_sel
-        #, xvar.names
-        , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
-        #, m.target        = NULL
-        #, time
-        #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
-        , class.type      = c("prob", "bayes")[1]
-        , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
-        , oob             = TRUE
-        , show.plots      = TRUE
-        , plots.per.page  = 4
-        , granule         = 5
-        , sorted          = FALSE #TRUE
-        #, nvar
-        , npts            = 25
-        , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
-        #, subset
-        , main            = paste0("Partial plot, target: ", levels(o_class_sel$class)[i_level])
-        )
-      )
-  }
+  ## for (i_level in seq_along(levels(o_class_sel$class))) {
+  ##   print(i_level)
+  ##   print(levels(o_class_sel$class)[i_level])
+  ##
+  ##   # Partial effects plots
+  ##   out[[ "plot_o_class_sel_marginal_effects" ]][[ levels(o_class_sel$class)[i_level] ]] <-
+  ##     cowplot::as_grob(
+  ##       ~randomForestSRC::plot.variable(
+  ##         x               = o_class_sel
+  ##       #, xvar.names
+  ##       , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
+  ##       #, m.target        = NULL
+  ##       #, time
+  ##       #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+  ##       , class.type      = c("prob", "bayes")[1]
+  ##       , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
+  ##       , oob             = TRUE
+  ##       , show.plots      = TRUE
+  ##       , plots.per.page  = 4
+  ##       , granule         = 5
+  ##       , sorted          = FALSE #TRUE
+  ##       #, nvar
+  ##       , npts            = 25
+  ##       , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+  ##       #, subset
+  ##       , main            = paste0("Partial plot, target: ", levels(o_class_sel$class)[i_level])
+  ##       )
+  ##     )
+  ## }
   # cowplot::plot_grid(out[[ "plot_o_class_sel_marginal_effects" ]][[ levels(o_class_sel$class)[1] ]])
+  # cowplot::plot_grid(out[[ "plot_o_class_sel_marginal_effects" ]][[ 2 ]])
+
+  out[[ "plot_o_class_sel_marginal_effects" ]] <-
+    lapply(
+      seq_along(levels(o_class_sel$class))
+    , function(i_level) {
+        cowplot::as_grob(
+          ~randomForestSRC::plot.variable(
+            x               = o_class_sel
+          #, xvar.names
+          , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
+          #, m.target        = NULL
+          #, time
+          #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+          , class.type      = c("prob", "bayes")[1]
+          , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
+          , oob             = TRUE
+          , show.plots      = TRUE
+          , plots.per.page  = 4
+          , granule         = 5
+          , sorted          = FALSE #TRUE
+          #, nvar
+          , npts            = 25
+          , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+          #, subset
+          , main            = paste0("Partial plot, target: ", levels(o_class_sel$class)[i_level])
+          )
+        )
+      }
+    )
 
 
   ### ROC Curve
