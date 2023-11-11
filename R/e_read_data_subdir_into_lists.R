@@ -10,7 +10,7 @@
 #' @param sw_dat_print_fn_read   T/F print file names and dimensions as the files are read
 #' @param excel_sheets           "all" for all sheets, or a list of numbers "\code{c(1, 2)}"; applies to all excel sheets.  Passed to \code{e_read_data_files()}.
 #' @param sw_clean_names         For data, T/F to clean column names using \code{janitor::clean_names}
-#' @param sw_list_or_flat        Hierarical list or a "flat" 1-level list
+#' @param sw_list_or_flat        Hierarical list or a "flat" 1-level list (if "fn" with "flat", then will prepend path to fn)
 #' @param excel_range            When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param excel_col_names        Specified as in \code{readxl::read_xlsx}.  Applies to all files.
 #' @param sw_delim               F if standard delim, otherwise delim character such as "|"
@@ -204,6 +204,14 @@ e_read_data_subdir_into_lists <-
         }
 
         if (sw_list_or_flat == c("list", "flat")[2]) {
+
+          # 11/11/2023 prepend path name to file names for flat
+          for (n_dir in dir_names) {
+            ## n_dir = dir_names[1]
+            fn_subdir[[ n_dir ]] <-
+              file.path(n_dir, fn_subdir[[ n_dir ]])
+          } # n_dir
+
           fn_names <-
             c(
               fn_to_return

@@ -37,7 +37,7 @@ e_read_data_subdir_into_lists(
 
 \item{sw_clean_names}{For data, T/F to clean column names using \code{janitor::clean_names}}
 
-\item{sw_list_or_flat}{Hierarical list or a "flat" 1-level list}
+\item{sw_list_or_flat}{Hierarical list or a "flat" 1-level list (if "fn" with "flat", then will prepend path to fn)}
 
 \item{excel_range}{When reading Excel files, NULL reads entire sheet, a range is specified as in \code{readxl::read_xlsx}.  Applies to all files.}
 
