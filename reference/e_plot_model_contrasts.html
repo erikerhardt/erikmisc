@@ -1107,6 +1107,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>    formula <span class="op">=</span> <span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , data    <span class="op">=</span> <span class="fu">lme4</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lme4/man/sleepstudy.html" class="external-link">sleepstudy</a></span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in initializePtr():</span> function 'cholmod_factor_ldetA' not provided by package 'Matrix'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_plot_model_contrasts</span><span class="op">(</span></span></span>
@@ -1115,43 +1116,16 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  , sw_print           <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer' not found</span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Days Days.trend   SE df lower.CL upper.CL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.5       10.5 1.55 17     7.21     13.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Degrees-of-freedom method: kenward-roger </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$Days</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-19.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate (n = 180): (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Degrees-of-freedom method: kenward-roger"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Degrees-of-freedom method: kenward-roger"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate (n = 180): (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Confidence level used: 0.95"                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Confidence level used: 0.95"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer_contrasts' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## lmerTest::as_lmerModLmerTest mixed-effects model</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">lmerTest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/as_lmerModLmerTest.html" class="external-link">as_lmerModLmerTest</a></span><span class="op">(</span><span class="va">fit_lmer</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_plot_model_contrasts</span><span class="op">(</span></span></span>
@@ -1160,37 +1134,9 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  , sw_print           <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer' not found</span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $tables$Days$est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Days Days.trend   SE df lower.CL upper.CL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.5       10.5 1.55 17     7.21     13.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Degrees-of-freedom method: kenward-roger </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $plots$Days</span>
-<span class="r-plt img"><img src="e_plot_model_contrasts-20.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate (n = 180): (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Degrees-of-freedom method: kenward-roger"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Degrees-of-freedom method: kenward-roger"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $text$Days[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Estimate (n = 180): (at mean = 4.5): 10.5, 95% CI: (7.21, 13.7)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Tables: Confidence level used: 0.95"                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Plot: Confidence level used: 0.95"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer_contrasts' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
