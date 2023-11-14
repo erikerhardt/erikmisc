@@ -89,6 +89,45 @@
 #' glm_roc$plot_roc
 #' glm_roc$confusion_matrix
 #'
+#'
+#' \dontrun{
+#'
+#'    ## REWRITE SO THIS WORKS IN GENERAL, developed for e_rfsrc_classification()
+#'
+#'   # hierarchy: reorder ROC objects by type (rather than target)
+#'   out[[ "plot_o_class_sel_ROC" ]] <- list()
+#'   for (n_object in names(out_roc_temp[[ 1 ]])) {
+#'     ## n_object = names(out_roc_temp[[ 1 ]])[1]
+#'     out[[ "plot_o_class_sel_ROC" ]][[ n_object ]] <- list()
+#'
+#'     for (n_target in names(out_roc_temp)) {
+#'       ## n_target = names(out_roc_temp)[1]
+#'       out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+#'         out_roc_temp[[ n_target ]][[ n_object ]]
+#'
+#'       if (n_object == "roc_curve_best") {
+#'         out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+#'           out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+#'           dplyr::mutate(
+#'             Group = n_target
+#'           ) |>
+#'           dplyr::relocate(Group)
+#'       }
+#'       if (n_object == "roc_curve") {
+#'         out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+#'           out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+#'           dplyr::mutate(
+#'             Group = n_target
+#'           ) |>
+#'           dplyr::relocate(Group)
+#'       }
+#'
+#'     }
+#'   }
+#'
+#'
+#' }
+#'
 e_plot_roc <-
   function(
     labels_true     = NULL
