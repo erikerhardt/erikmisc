@@ -49,4 +49,79 @@ out_e_rf <-
   , sw_alpha        = 0.05
   )
 
+\dontrun{
+
+## Overall summaries
+
+# Summary of Full and reduced model fits with ROC curves
+out_e_rf[[ "plot_rf_train_all_summary" ]]
+
+# Reduced model: ROC object from e_plot_roc()
+out_e_rf[[ "plot_o_class_sel_ROC" ]]$plot_roc |>
+  cowplot::plot_grid(plotlist = _, nrow = 1)
+
+# Reduced model: Marginal/Partial effects plots
+  # for each level of the response variable
+for (i_level in seq_along(levels(dat_rf_class[[ out_e_rf[[ "rf_y_var" ]] ]]))) {
+  out_e_rf[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] |>
+    cowplot::plot_grid() |>
+    print()
+}
+
+
+## Full model summaries
+# y response variable
+out_e_rf[[ "rf_y_var" ]]
+# Full model: x predictor variables
+out_e_rf[[ "rf_x_var" ]]
+# Full model: formula
+out_e_rf[[ "rf_formula" ]]
+# Full model: rfsrc classification object
+out_e_rf[[ "o_class" ]]
+# Full model: convergence
+out_e_rf[[ "plot_o_class" ]] |>
+  cowplot::plot_grid()
+# Full model: variable importance (VIMP) table
+out_e_rf[[ "o_class_importance" ]]
+# Full model: variable importance (VIMP) plot
+out_e_rf[[ "plot_o_class_importance" ]]
+# Full model: ROC AUC (area under the curve)
+out_e_rf[[ "o_class_AUC" ]]
+# Full model: subsample iterates for VIMP and model selection
+out_e_rf[[ "o_class_subsample" ]]
+# Full model: subsample VIMP model selection
+out_e_rf[[ "o_class_subsample_extract_subsample" ]]
+# Full model: subsample double bootstrap VIMP model selection
+out_e_rf[[ "o_class_subsample_extract_bootsample" ]]
+# Full model: variable importance (VIMP) plot boxplots
+out_e_rf[[ "plot_o_class_subsample" ]] |>
+  cowplot::plot_grid()
+
+## Reduced model summaries
+# Reduced model: x predictor variables
+out_e_rf[[ "rf_x_var_sel" ]]
+# Reduced model: formula
+out_e_rf[[ "rf_formula_sel" ]]
+# Reduced model: rfsrc classification object
+out_e_rf[[ "o_class_sel" ]]
+# Reduced model: convergence
+out_e_rf[[ "plot_o_class_sel" ]] |>
+  cowplot::plot_grid()
+# Reduced model: variable importance (VIMP) table
+out_e_rf[[ "o_class_sel_importance" ]]
+# Reduced model: variable importance (VIMP) plot
+out_e_rf[[ "plot_o_class_sel_importance" ]]
+# Reduced model: ROC AUC (area under the curve)
+out_e_rf[[ "o_class_sel_AUC" ]]
+# Reduced model: subsample iterates for VIMP and model selection
+out_e_rf[[ "o_class_sel_subsample" ]]
+# Reduced model: subsample VIMP model selection
+out_e_rf[[ "o_class_sel_subsample_extract_subsample" ]]
+# Reduced model: subsample double bootstrap VIMP model selection
+out_e_rf[[ "o_class_sel_subsample_extract_bootsample" ]]
+# Reduced model: variable importance (VIMP) plot boxplots
+out_e_rf[[ "plot_o_class_sel_subsample" ]] |>
+  cowplot::plot_grid()
+
+}
 }
