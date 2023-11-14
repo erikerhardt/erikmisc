@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.27</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.28</span>
       </span>
     </div>
 
@@ -290,6 +290,45 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        'Positive' Class : 1               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co">## REWRITE SO THIS WORKS IN GENERAL, developed for e_rfsrc_classification()</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># hierarchy: reorder ROC objects by type (rather than target)</span></span></span>
+<span class="r-in"><span>  <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">n_object</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out_roc_temp</span><span class="op">[[</span> <span class="fl">1</span> <span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="co">## n_object = names(out_roc_temp[[ 1 ]])[1]</span></span></span>
+<span class="r-in"><span>    <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="kw">for</span> <span class="op">(</span><span class="va">n_target</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out_roc_temp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="co">## n_target = names(out_roc_temp)[1]</span></span></span>
+<span class="r-in"><span>      <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_target</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>        <span class="va">out_roc_temp</span><span class="op">[[</span> <span class="va">n_target</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>      <span class="kw">if</span> <span class="op">(</span><span class="va">n_object</span> <span class="op">==</span> <span class="st">"roc_curve_best"</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>        <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_target</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>          <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_target</span> <span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>            Group <span class="op">=</span> <span class="va">n_target</span></span></span>
+<span class="r-in"><span>          <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">}</span></span></span>
+<span class="r-in"><span>      <span class="kw">if</span> <span class="op">(</span><span class="va">n_object</span> <span class="op">==</span> <span class="st">"roc_curve"</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>        <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_target</span> <span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>          <span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_ROC"</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_object</span> <span class="op">]</span><span class="op">]</span><span class="op">[[</span> <span class="va">n_target</span> <span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>            Group <span class="op">=</span> <span class="va">n_target</span></span></span>
+<span class="r-in"><span>          <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
