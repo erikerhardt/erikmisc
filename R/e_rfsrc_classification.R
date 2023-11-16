@@ -582,14 +582,14 @@ e_rfsrc_classification <-
   # cowplot::plot_grid(out[[ "plot_o_class_sel_marginal_effects" ]][[ levels(o_class_sel$class)[1] ]])
   # cowplot::plot_grid(out[[ "plot_o_class_sel_marginal_effects" ]][[ 2 ]])
 
-  out[[ "plot_o_class_sel_marginal_effects" ]] <-
+  out[[ "plot_o_class_sel_partial_effects" ]] <-
     lapply(
       seq_along(levels(o_class_sel$class))
     , function(i_level) {
         cowplot::as_grob(
           ~randomForestSRC::plot.variable(
             x               = o_class_sel
-          , xvar.names      = o_class_sel$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+          #, xvar.names      = o_class_sel$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
           , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
           #, m.target        = NULL
           #, time
@@ -600,7 +600,7 @@ e_rfsrc_classification <-
           , show.plots      = TRUE
           , plots.per.page  = 4
           , granule         = 5
-          , sorted          = FALSE #TRUE
+          , sorted          = TRUE #FALSE
           #, nvar
           , npts            = 25
           , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
@@ -610,6 +610,48 @@ e_rfsrc_classification <-
         )
       }
     )
+
+    ## for (i_level in seq_along(levels(dat_rf_class[[ out_e_rf[[ "rf_y_var" ]] ]]))) {
+    ##   out[[ "plot_o_class_sel_partial_effects" ]][[ i_level ]] |>
+    ##     cowplot::plot_grid() |>
+    ##     print()
+    ## }
+
+  out[[ "plot_o_class_sel_marginal_effects" ]] <-
+    lapply(
+      seq_along(levels(o_class_sel$class))
+    , function(i_level) {
+        cowplot::as_grob(
+          ~randomForestSRC::plot.variable(
+            x               = o_class_sel
+          #, xvar.names      = o_class_sel$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+          , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
+          #, m.target        = NULL
+          #, time
+          #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+          , class.type      = c("prob", "bayes")[1]
+          , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
+          , oob             = TRUE
+          , show.plots      = TRUE
+          , plots.per.page  = 4
+          , granule         = 5
+          , sorted          = TRUE #FALSE
+          #, nvar
+          , npts            = 25
+          , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+          #, subset
+          , main            = paste0("Marginal plot, target: ", levels(o_class_sel$class)[i_level])
+          )
+        )
+      }
+    )
+
+    ## for (i_level in seq_along(levels(dat_rf_class[[ out_e_rf[[ "rf_y_var" ]] ]]))) {
+    ##   out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] |>
+    ##     cowplot::plot_grid() |>
+    ##     print()
+    ## }
+
 
 
   ### ROC Curve
