@@ -8,8 +8,14 @@ e_rfsrc_classification(
   dat_rf_class = NULL,
   rf_y_var = NULL,
   rf_x_var = NULL,
+  rf_id_var = NULL,
   sw_rfsrc_ntree = 2000,
-  sw_alpha = 0.05
+  sw_alpha = 0.05,
+  sw_save_model = c(TRUE, FALSE)[1],
+  plot_title = "Random Forest Title",
+  out_path = "out",
+  file_prefix = "out_e_rf",
+  plot_format = c("png", "pdf")[1]
 )
 }
 \arguments{
@@ -19,9 +25,21 @@ e_rfsrc_classification(
 
 \item{rf_x_var}{x variables, if NULL then assumed to be all except the first column of \code{dat_rf_class}}
 
+\item{rf_id_var}{ID variable, removed from dataset prior to analysis}
+
 \item{sw_rfsrc_ntree}{\code{ntree} argument for \code{randomForestSRC::rfsrc()}}
 
 \item{sw_alpha}{\code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()}}
+
+\item{sw_save_model}{T/F to save model (XXX, not yet implemented)}
+
+\item{plot_title}{title for plots}
+
+\item{out_path}{path to save output}
+
+\item{file_prefix}{file prefix for saved output}
+
+\item{plot_format}{plot format supported by \code{ggplot2::ggsave()}}
 }
 \value{
 list with many RF objects, summaries, and plots
@@ -35,18 +53,32 @@ dat_rf_class <-
   dplyr::select(
     -model
   ) |>
-  dplyr::select(
-    cyl
-  , tidyselect::everything()
+  #dplyr::select(
+  #  cyl
+  #, tidyselect::everything()
+  #) |>
+  dplyr::mutate(
+    ID    = 1:dplyr::n() # ID number
+  , disp  =              # add missing values
+      dplyr::case_when(
+        disp |> dplyr::between(160, 170) ~ NA
+      , TRUE ~ disp
+      )
   )
 
 out_e_rf <-
   e_rfsrc_classification(
     dat_rf_class    = dat_rf_class
-  , rf_y_var        = NULL
-  , rf_x_var        = NULL
-  , sw_rfsrc_ntree  = 200
+  , rf_y_var        = "cyl"    # NULL
+  , rf_x_var        = c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
+  , rf_id_var       = "ID"
+  , sw_rfsrc_ntree  = 2000
   , sw_alpha        = 0.05
+  , sw_save_model   = c(TRUE, FALSE)[1]
+  , plot_title      = "Random Forest Title"
+  , out_path        = "."
+  , file_prefix     = "out_e_rf"
+  , plot_format     = c("png", "pdf")[1]
   )
 
 \dontrun{
