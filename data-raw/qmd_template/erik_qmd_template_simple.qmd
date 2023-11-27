@@ -63,15 +63,6 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
   quarto::quarto_render(input = fn_qmd)
 -->
 
-```{r chunk-01, echo=FALSE}
-options(width = 80)
-#options(warn  = -1)
-options(str   = strOptions(list.len = 1e3))
-options(knitr.kable.NA = '') # Display NAs as blanks
-my_seed <- 34567
-set.seed(my_seed)
-```
-
 
 {{< pagebreak >}}
 
@@ -120,7 +111,7 @@ set.seed(my_seed)
 
 ## Data sources/ measurement
 
-* *Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
+* Give information separately for cases and controls in case-control studies and, if applicable, for exposed and unexposed groups in cohort and cross-sectional studies.
 * For each variable of interest, give sources of data and details of methods of assessment (measurement). Describe comparability of assessment methods if there is more than one group
 
 ## Bias
@@ -148,6 +139,147 @@ set.seed(my_seed)
 {{< pagebreak >}}
 
 # Results {#sec-Results}
+
+```{r init}
+#| output:  false
+#| warning: false
+#| error:   false
+
+options(
+  dplyr.print_min         = 6
+, dplyr.print_max         = 6
+, pillar.max_footer_lines = 2
+, pillar.min_chars        = 15
+, stringr.view_n          = 6
+, cli.num_colors          = 0       # Temporarily deactivate cli output for quarto
+, cli.hyperlink           = FALSE
+, pillar.bold             = TRUE
+, width                   = 77      # 80 - 3 for #> comment
+, readr.show_col_types    = FALSE   # readr::read_csv(), do not show column types
+, str                     = strOptions(list.len = 1e3)
+, knitr.kable.NA          = ''      # Display NAs as blanks
+)
+
+my_seed <- 76543
+set.seed(my_seed)
+library(erikmisc)
+library(tidyverse)
+
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 12))
+
+# Parallel processing
+library(parallel)
+options(rf.cores = parallel::detectCores() - 2) # OpenMP Parallel Processing
+options(mc.cores = parallel::detectCores() - 2) # R-side Parallel Processing
+```
+
+Read data
+
+```{r}
+dat_sheet <-
+  readr::read_csv(
+    file = ".csv"
+  ) |>
+  dplyr::select(
+  ) |>
+  dplyr::filter(
+  ) |>
+  dplyr::mutate(
+  )
+
+dat_sheet |> str()
+dat_sheet |> summary()
+```
+
+```{r}
+#| fig-width:  8
+#| fig-height: 8
+
+dat_sheet |>
+  erikmisc::e_plot_missing(
+    dat_plot            = dat_sheet
+  , var_group           = NULL
+  , sw_group_sort       = FALSE
+  , var2_sort           = NULL
+  , sw_title_data_name  = TRUE
+  , sw_text_pct_miss    = FALSE
+  )
+```
+
+```{r}
+#| fig-width:  12
+#| fig-height: 12
+
+## Scatterplot matrix
+p <-
+  GGally::ggpairs(
+    dat_sheet %>% select()
+  , title = "Title"
+  #, mapping = ggplot2::aes(colour = , alpha = 0.5)
+  , diag  = list(
+              continuous =
+                wrap(
+                  c("densityDiag", "barDiag", "blankDiag")[1]
+                , alpha = 1/2
+                )
+            , discrete =
+                c("barDiag", "blankDiag")[1]
+            )
+  # scatterplots on top so response as first variable has y on vertical axis
+  , upper = list(
+              continuous =
+                wrap(
+                  c("points", "smooth", "smooth_loess", "density", "cor", "blank")[2]
+                , se = FALSE
+                , alpha = 1/2
+                , size = 1
+                )
+            , discrete =
+                c("ratio", "facetbar", "blank")[2]
+            , combo =
+                wrap(
+                  c("box", "box_no_facet", "dot", "dot_no_facet", "facethist", "facetdensity", "denstrip", "blank")[2]
+                #, bins = 10  # for facethist
+                )
+            )
+  , lower = list(
+              continuous =
+                wrap(
+                  c("points", "smooth", "smooth_loess", "density", "cor", "blank")[5]
+                #, se = FALSE
+                #, alpha = 1/2
+                #, size = 1
+                )
+            , discrete =
+                c("ratio", "facetbar", "blank")[2]
+            , combo =
+                wrap(
+                  c("box", "box_no_facet", "dot", "dot_no_facet", "facethist", "facetdensity", "denstrip", "blank")[5]
+                , bins = 10  # for facethist
+                )
+            )
+  , progress = FALSE
+  , legend = 1        # create legend
+  )
+p <- p + theme_bw()
+p <- p + labs(
+                title     = "title"
+              , subtitle  = "subtitle"
+              , x         = "x"
+              , y         = "y"
+              , caption = paste0(  "Caption 1"
+                                , "\nCaption 2"
+                                )
+              , colour    = "Class"
+              #, shape     = "Class"
+              #, linetype  = "General Health"  #"Diagnosis"
+              #, fill      = "Diagnosis"
+              #, tag = "A"
+              )
+p <- p + theme(legend.position = "bottom")
+print(p)
+```
+
 
 ## Participants
 

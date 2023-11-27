@@ -72,11 +72,11 @@
 #' # Summary of Full and reduced model fits with ROC curves
 #' out_e_rf[[ "plot_rf_train_all_summary" ]]
 #'
-#' # Reduced model: ROC object from e_plot_roc()
+#' # Selected model: ROC object from e_plot_roc()
 #' out_e_rf[[ "plot_o_class_sel_ROC" ]]$plot_roc |>
 #'   cowplot::plot_grid(plotlist = _, nrow = 1)
 #'
-#' # Reduced model: Marginal/Partial effects plots
+#' # Selected model: Marginal/Partial effects plots
 #'   # for each level of the response variable
 #' for (i_level in seq_along(levels(dat_rf_class[[ out_e_rf[[ "rf_y_var" ]] ]]))) {
 #'   out_e_rf[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] |>
@@ -113,29 +113,29 @@
 #' out_e_rf[[ "plot_o_class_subsample" ]] |>
 #'   cowplot::plot_grid()
 #'
-#' ## Reduced model summaries
-#' # Reduced model: x predictor variables
+#' ## Selected model summaries
+#' # Selected model: x predictor variables
 #' out_e_rf[[ "rf_x_var_sel" ]]
-#' # Reduced model: formula
+#' # Selected model: formula
 #' out_e_rf[[ "rf_formula_sel" ]]
-#' # Reduced model: rfsrc classification object
+#' # Selected model: rfsrc classification object
 #' out_e_rf[[ "o_class_sel" ]]
-#' # Reduced model: convergence
+#' # Selected model: convergence
 #' out_e_rf[[ "plot_o_class_sel" ]] |>
 #'   cowplot::plot_grid()
-#' # Reduced model: variable importance (VIMP) table
+#' # Selected model: variable importance (VIMP) table
 #' out_e_rf[[ "o_class_sel_importance" ]]
-#' # Reduced model: variable importance (VIMP) plot
+#' # Selected model: variable importance (VIMP) plot
 #' out_e_rf[[ "plot_o_class_sel_importance" ]]
-#' # Reduced model: ROC AUC (area under the curve)
+#' # Selected model: ROC AUC (area under the curve)
 #' out_e_rf[[ "o_class_sel_AUC" ]]
-#' # Reduced model: subsample iterates for VIMP and model selection
+#' # Selected model: subsample iterates for VIMP and model selection
 #' out_e_rf[[ "o_class_sel_subsample" ]]
-#' # Reduced model: subsample VIMP model selection
+#' # Selected model: subsample VIMP model selection
 #' out_e_rf[[ "o_class_sel_subsample_extract_subsample" ]]
-#' # Reduced model: subsample double bootstrap VIMP model selection
+#' # Selected model: subsample double bootstrap VIMP model selection
 #' out_e_rf[[ "o_class_sel_subsample_extract_bootsample" ]]
-#' # Reduced model: variable importance (VIMP) plot boxplots
+#' # Selected model: variable importance (VIMP) plot boxplots
 #' out_e_rf[[ "plot_o_class_sel_subsample" ]] |>
 #'   cowplot::plot_grid()
 #'
@@ -281,6 +281,9 @@ e_rfsrc_classification <-
     }
   }
 
+  rf_x_var_full <-
+    rf_x_var
+
 
   this_text <-
     paste0("erikmisc::e_rfsrc_classification, "
@@ -317,7 +320,7 @@ e_rfsrc_classification <-
         -tidyselect::all_of(all_na_columns)
       )
     # remove variable from x var list
-    rf_x_var <- rf_x_var[rf_x_var %notin% all_na_columns]
+    rf_x_var_full <- rf_x_var_full[rf_x_var_full %notin% all_na_columns]
   }
 
   # check for at least 2 y var levels
@@ -327,12 +330,12 @@ e_rfsrc_classification <-
   }
 
 
-  rf_formula <-
+  rf_formula_full <-
     paste(
       rf_y_var
     , " ~ "
     , paste(
-        rf_x_var
+        rf_x_var_full
       , collapse= " + "
       )
     ) |>
@@ -341,13 +344,13 @@ e_rfsrc_classification <-
   #out[[ "dat_rf_data" ]] <- dat_rf_data
   out[[ "rf_y_var"    ]] <-
     rf_y_var
-  out[[ "rf_x_var"    ]] <-
-    rf_x_var
-  out[[ "rf_formula"  ]] <-
-    rf_formula
+  out[[ "rf_x_var_full"    ]] <-
+    rf_x_var_full
+  out[[ "rf_formula_full"  ]] <-
+    rf_formula_full
 
   text_formula <-
-    paste(as.character(out$rf_formula)[c(2, 1, 3)], collapse = " ") |>
+    paste(as.character(out$rf_formula_full)[c(2, 1, 3)], collapse = " ") |>
     stringr::str_wrap(width = 120, exdent = 4)
 
   this_text <-
@@ -365,9 +368,9 @@ e_rfsrc_classification <-
   print(this_text)
   f_write_this_text(this_text)
 
-  o_class <-
+  o_class_full <-
     randomForestSRC::rfsrc(
-      formula     = rf_formula
+      formula     = rf_formula_full
     , data        = dat_rf_data
     , ntree       = sw_rfsrc_ntree
     #, mtry        = NULL             # tune()$optimal["mtry"]
@@ -409,20 +412,20 @@ e_rfsrc_classification <-
     , statistics  = TRUE # FALSE
     )
 
-  out[[ "o_class" ]] <-
-    o_class
+  out[[ "o_class_full" ]] <-
+    o_class_full
 
 
   ### Plot convergence
-  out[[ "plot_o_class" ]] <-
+  out[[ "plot_o_class_full" ]] <-
     #cowplot::as_grob(
-    #  ~plot(o_class)
+    #  ~plot(o_class_full)
     #)
     patchwork::wrap_elements(
       full =
         cowplot::as_grob(
           ~ randomForestSRC::plot.rfsrc(
-            x               = o_class
+            x               = o_class_full
           , m.target        = NULL
           , plots.one.page  = TRUE
           , sorted          = TRUE
@@ -448,13 +451,13 @@ e_rfsrc_classification <-
         , paste0(
             file_prefix
           , "__"
-          , "plot_o_class"
+          , "plot_o_class_full"
           , "."
           , plot_format
           )
         )
     , plot   =
-        out[[ "plot_o_class" ]]
+        out[[ "plot_o_class_full" ]]
     , width  = 12
     , height = 8
     ## png, jpeg
@@ -462,34 +465,34 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
 
 
-  # cowplot::plot_grid(out[[ "plot_o_class" ]])
+  # cowplot::plot_grid(out[[ "plot_o_class_full" ]])
 
   ### Variable Importance (also for variable selection)
   # VIMP
-  out[[ "o_class_importance" ]] <-
-    o_class$importance            # Variable importance (VIMP) for each x-variable.
+  out[[ "o_class_full_importance" ]] <-
+    o_class_full$importance            # Variable importance (VIMP) for each x-variable.
 
   readr::write_csv(
-    x = tibble::as_tibble(o_class$importance, rownames = "Var")
+    x = tibble::as_tibble(o_class_full$importance, rownames = "Var")
   , file =
       file.path(
         out_path
       , paste0(
           file_prefix
         , "__"
-        , "o_class_importance"
+        , "o_class_full_importance"
         , ".csv"
         )
       )
   )
 
-  out[[ "plot_o_class_importance" ]] <-
-    e_plot_rf_vimp(o_class$importance) +
+  out[[ "plot_o_class_full_importance" ]] <-
+    e_plot_rf_vimp(o_class_full$importance) +
     labs(
       title     = plot_title
     , subtitle  = "Full model, Variable Importance"
@@ -506,36 +509,84 @@ e_rfsrc_classification <-
         , paste0(
             file_prefix
           , "__"
-          , "plot_o_class_importance"
+          , "plot_o_class_full_importance"
           , "."
           , plot_format
           )
         )
     , plot   =
-        out[[ "plot_o_class_importance" ]]
-    , width  = 8
-    , height = 1 + 0.25 * length(rf_x_var)
+        out[[ "plot_o_class_full_importance" ]]
+    , width  = 4 + 2 * ncol(o_class_full$importance)
+    , height = 1 + 0.25 * length(rf_x_var_full)
     ## png, jpeg
     , dpi    = 300
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
+
+  out_vimp_temp <- list()
+  for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
+    ## i_level = 1
+
+    n_target <- levels(dat_rf_data[[ rf_y_var ]])[i_level]
+
+    out_vimp_temp[[ n_target ]] <-
+      e_plot_rf_vimp(o_class_full$importance, targets = c("all", n_target)) +
+      labs(
+        title     = plot_title
+      , subtitle  = "Full model, Variable Importance"
+      , caption   = paste0(
+                      "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
+                    )
+      ) +
+      theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_full_importance"
+            , "_"
+            , i_level
+            , "-"
+            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          out_vimp_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
+      , width  = 4 + 2 * 2
+      , height = 1 + 0.25 * length(rf_x_var_full)
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      )
+
+  } # i_level
+
 
 
 
   # obtains the value of AUC (area under the ROC curve)
-  o_class_AUC <-
+  o_class_full_AUC <-
     randomForestSRC::get.auc(
       y    = dat_rf_data[[ rf_y_var ]]
-    , prob = o_class$predicted.oob
+    , prob = o_class_full$predicted.oob
     )
-  out[[ "o_class_AUC" ]] <-
-    o_class_AUC
+  out[[ "o_class_full_AUC" ]] <-
+    o_class_full_AUC
 
   this_text <-
-    paste0("o_class_AUC: ", o_class_AUC)
+    paste0("o_class_full_AUC: ", o_class_full_AUC)
   f_write_this_text(this_text)
 
 
@@ -545,7 +596,7 @@ e_rfsrc_classification <-
     out_roc <-
       e_plot_roc(
         labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
-      , pred_values_pos = o_class$predicted.oob[, n_target]
+      , pred_values_pos = o_class_full$predicted.oob[, n_target]
       , label_neg_pos   = c(0, 1)
       , sw_plot         = TRUE
       )
@@ -639,7 +690,7 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
   for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
@@ -677,7 +728,55 @@ e_rfsrc_classification <-
       , bg     = "white"
       ## pdf
       , units  = "in"
-      #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+      #, useDingbats = FALSE
+      )
+  } # i_level
+
+  # VIMP and ROC for each target
+  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+    ## i_level = 1
+
+    plot_temp <-
+      patchwork::wrap_plots(
+        out_vimp_temp[[ i_level ]]
+      , out$o_class_full_ROC$plot_roc[[ i_level ]] +
+        patchwork::plot_annotation(
+        #labs(
+          title     = plot_title
+        , subtitle  = "Full model, ROC Curves"
+        #, caption   = paste0(
+        #                ""
+        #              )
+        , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        )
+      )
+
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_full_VIMP_ROC"
+            , "_"
+            , i_level
+            , "-"
+            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          plot_temp
+      , width  = (4 + 2 * 2) + 5
+      , height = 6
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
       )
   } # i_level
 
@@ -692,9 +791,9 @@ e_rfsrc_classification <-
   print(this_text)
   f_write_this_text(this_text)
 
-  o_class_subsample <-
+  o_class_full_subsample <-
     randomForestSRC::subsample(
-      obj               = o_class
+      obj               = o_class_full
     , B                 = 100           # Number of subsamples (or number of bootstraps).
     , block.size        = 1             # 1 = VIMP is calculated for each tree. "ntree" =  VIMP is calculated for the entire forest, ensemble VIMP.
     , importance        = c("anti", "permute", "random")[1]
@@ -707,23 +806,23 @@ e_rfsrc_classification <-
     , bootstrap         = TRUE #FALSE  # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
     , verbose           = TRUE          # Provide verbose output?
     )
-  out[[ "o_class_subsample" ]] <-
-    o_class_subsample
+  out[[ "o_class_full_subsample" ]] <-
+    o_class_full_subsample
 
-  out[[ "o_class_subsample_extract_subsample" ]] <-
-    randomForestSRC::extract.subsample (o_class_subsample, alpha = sw_alpha)
+  out[[ "o_class_full_subsample_extract_subsample" ]] <-
+    randomForestSRC::extract.subsample (o_class_full_subsample, alpha = sw_alpha)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
-  out[[ "o_class_subsample_extract_bootsample" ]] <-
-    randomForestSRC::extract.bootsample(o_class_subsample, alpha = sw_alpha)
+  out[[ "o_class_full_subsample_extract_bootsample" ]] <-
+    randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha)
 
   ### VIMP plot out to a selected alpha level
-  out[[ "plot_o_class_subsample" ]] <-
+  out[[ "plot_o_class_full_subsample" ]] <-
     patchwork::wrap_elements(
       full =
         cowplot::as_grob(
           ~ randomForestSRC::plot.subsample(
-            x           = o_class_subsample
+            x           = o_class_full_subsample
           , alpha       = sw_alpha
           #, xvar.names
           , standardize = TRUE
@@ -753,28 +852,28 @@ e_rfsrc_classification <-
         , paste0(
             file_prefix
           , "__"
-          , "plot_o_class_subsample"
+          , "plot_o_class_full_subsample"
           , "."
           , plot_format
           )
         )
     , plot   =
-        out[[ "plot_o_class_subsample" ]]
+        out[[ "plot_o_class_full_subsample" ]]
     , width  = 8
-    , height = 1 + 0.25 * length(rf_x_var)
+    , height = 1 + 0.25 * length(rf_x_var_full)
     ## png, jpeg
     , dpi    = 300
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
-  # cowplot::plot_grid(out[[ "plot_o_class_subsample" ]])
+  # cowplot::plot_grid(out[[ "plot_o_class_full_subsample" ]])
 
 
 
-  ## Select variables from randomForestSRC::extract.bootsample(o_class_subsample)
+  ## Select variables from randomForestSRC::extract.bootsample(o_class_full_subsample)
   this_text <-
     paste0("erikmisc::e_rfsrc_classification, "
       , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
@@ -785,8 +884,8 @@ e_rfsrc_classification <-
 
   rf_x_var_sel <-
     rownames(
-      randomForestSRC::extract.bootsample(o_class_subsample, alpha = sw_alpha)$var.sel.Z
-    )[randomForestSRC::extract.bootsample(o_class_subsample, alpha = sw_alpha)$var.sel.Z$signif]
+      randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha)$var.sel.Z
+    )[randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha)$var.sel.Z$signif]
 
   out[[ "rf_x_var_sel" ]] <-
     rf_x_var_sel
@@ -796,8 +895,8 @@ e_rfsrc_classification <-
     # Compile training summary plot (also at very end when x var)
     # If selected model has NO x variables
     ## out[[ "plot_rf_train_all_summary" ]] <-
-    ##   cowplot::plot_grid(out$plot_o_class              ) +
-    ##   cowplot::plot_grid(out$plot_o_class_subsample    ) +
+    ##   cowplot::plot_grid(out$plot_o_class_full              ) +
+    ##   cowplot::plot_grid(out$plot_o_class_full_subsample    ) +
     ##   #cowplot::plot_grid(out$plot_o_class_sel          ) +
     ##   #cowplot::plot_grid(out$plot_o_class_sel_subsample) +
     ##   #cowplot::plot_grid(plotlist = out$plot_o_class_sel_ROC$plot_roc, nrow = 1) +
@@ -810,14 +909,14 @@ e_rfsrc_classification <-
     ##   , subtitle    = "No x variables selected"
     ##   , caption     = paste0(
     ##                     "Full model AUC = "
-    ##                   , round(out$o_class_AUC, 3)
+    ##                   , round(out$o_class_full_AUC, 3)
     ##                   )
     ##   , tag_levels  = "A"
     ##   ) +
     ##   theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
     out[[ "plot_rf_train_all_summary" ]] <-
-      out[[ "plot_o_class" ]]               + labs(title = NULL) +
-      out[[ "plot_o_class_subsample" ]]     + labs(title = NULL) +
+      out[[ "plot_o_class_full" ]]               + labs(title = NULL) +
+      out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
       #cowplot::plot_grid(out$plot_o_class_sel          ) +
       #cowplot::plot_grid(out$plot_o_class_sel_subsample) +
       #cowplot::plot_grid(plotlist = out$plot_o_class_sel_ROC$plot_roc, nrow = 1) +
@@ -830,15 +929,15 @@ e_rfsrc_classification <-
         title       = plot_title
       , subtitle    =
                       paste0(
-                        "Full model (AUC = ", round(out$o_class_AUC, 3), "): "
+                        "Full model (AUC = ", round(out$o_class_full_AUC, 3), "): "
                       , text_formula
                       , "\n"
-                      , "Reduced model: "
+                      , "Selected model: "
                       , "No x variables selected"
                       )
       #, caption     = paste0(
       #                  "Full model AUC = "
-      #                , round(out$o_class_AUC, 3)
+      #                , round(out$o_class_full_AUC, 3)
       #                )
       , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
       , tag_levels  = "A"
@@ -865,12 +964,17 @@ e_rfsrc_classification <-
       , bg     = "white"
       ## pdf
       , units  = "in"
-      #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+      #, useDingbats = FALSE
       )
 
     warning("erikmisc::e_rfsrc_classification, model selection has 0 x variables")
     return(out)
   }
+
+
+
+  ########################################
+  # Selected model
 
   ### Prepare data and formula
 
@@ -893,7 +997,7 @@ e_rfsrc_classification <-
     stringr::str_wrap(width = 120, exdent = 4)
 
   this_text <-
-    paste0("Reduced model: ", text_formula_sel)
+    paste0("Selected model: ", text_formula_sel)
   f_write_this_text(this_text)
 
 
@@ -972,7 +1076,7 @@ e_rfsrc_classification <-
     ) +
     labs(
       title     = plot_title
-    , subtitle  = "Reduced model, Error Rate and Variable Importance"
+    , subtitle  = "Selected model, Error Rate and Variable Importance"
     , caption   = paste0(
                     "Left: Prediction error is calculated using OOB.  Error rates should (roughly) converge, otherwise increase number of trees."
                   , "\n"
@@ -1002,7 +1106,7 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
   # cowplot::plot_grid(out[[ "plot_o_class_sel" ]])
 
@@ -1030,7 +1134,7 @@ e_rfsrc_classification <-
     e_plot_rf_vimp(o_class_sel$importance) +
     labs(
       title     = plot_title
-    , subtitle  = "Reduced model, Variable Importance"
+    , subtitle  = "Selected model, Variable Importance"
     , caption   = paste0(
                     "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
                   )
@@ -1058,10 +1162,267 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
 
+# BEGIN ###############################################################################
+
+  out_vimp_sel_temp <- list()
+  for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
+    ## i_level = 1
+
+    n_target <- levels(dat_rf_data[[ rf_y_var ]])[i_level]
+
+    out_vimp_sel_temp[[ n_target ]] <-
+      e_plot_rf_vimp(o_class_sel$importance, targets = c("all", n_target)) +
+      labs(
+        title     = plot_title
+      , subtitle  = "Selected model, Variable Importance"
+      , caption   = paste0(
+                      "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
+                    )
+      ) +
+      theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_sel_importance"
+            , "_"
+            , i_level
+            , "-"
+            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          out_vimp_sel_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
+      , width  = 4 + 2 * 2
+      , height = 1 + 0.25 * length(rf_x_var)
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      )
+
+  } # i_level
+
+
+
+
+  # obtains the value of AUC (area under the ROC curve)
+  o_class_sel_AUC <-
+    randomForestSRC::get.auc(
+      y    = dat_rf_data[[ rf_y_var ]]
+    , prob = o_class_sel$predicted.oob
+    )
+  out[[ "o_class_sel_AUC" ]] <-
+    o_class_sel_AUC
+
+  this_text <-
+    paste0("o_class_sel_AUC: ", o_class_sel_AUC)
+  f_write_this_text(this_text)
+
+
+  ## ROC via erikmisc
+  out_roc_sel_temp <- list()
+  for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+    out_roc <-
+      e_plot_roc(
+        labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+      , pred_values_pos = o_class_sel$predicted.oob[, n_target]
+      , label_neg_pos   = c(0, 1)
+      , sw_plot         = TRUE
+      )
+    #p <- out$plot_roc
+    out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+    out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+
+    out_roc_sel_temp[[ n_target ]] <- out_roc
+  } # n_target
+
+  # hierarchy: reorder ROC objects by type (rather than target)
+  out[[ "o_class_sel_ROC" ]] <- list()
+  for (n_object in names(out_roc_sel_temp[[ 1 ]])) {
+    ## n_object = names(out_roc_sel_temp[[ 1 ]])[1]
+    out[[ "o_class_sel_ROC" ]][[ n_object ]] <- list()
+
+    for (n_target in names(out_roc_sel_temp)) {
+      ## n_target = names(out_roc_sel_temp)[1]
+      out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+        out_roc_sel_temp[[ n_target ]][[ n_object ]]
+
+      if (n_object == "roc_curve_best") {
+        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+          out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+          dplyr::mutate(
+            Group = n_target
+          ) |>
+          dplyr::relocate(Group)
+      }
+      if (n_object == "roc_curve") {
+        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+          out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+          dplyr::mutate(
+            Group = n_target
+          ) |>
+          dplyr::relocate(Group)
+      }
+
+    }
+  }
+
+  readr::write_csv(
+    x = out[[ "o_class_sel_ROC" ]]$roc_curve_best |> dplyr::bind_rows()
+  , file =
+      file.path(
+        out_path
+      , paste0(
+          file_prefix
+        , "__"
+        , "o_class_sel_ROC"
+        , ".csv"
+        )
+      )
+  )
+
+  out[[ "plot_o_class_sel_ROC" ]] <-
+    patchwork::wrap_elements(
+      full =
+        cowplot::plot_grid(plotlist = out$o_class_sel_ROC$plot_roc, nrow = 1)
+    ) +
+    patchwork::plot_annotation(
+    #labs(
+      title     = plot_title
+    , subtitle  = "Selected model, ROC Curves"
+    #, caption   = paste0(
+    #                ""
+    #              )
+    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+    # +
+    #theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  ggplot2::ggsave(
+      filename =
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "plot_o_class_sel_ROC"
+          , "."
+          , plot_format
+          )
+        )
+    , plot   =
+        out[[ "plot_o_class_sel_ROC" ]]
+    , width  = 5 * length(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))
+    , height = 6
+    ## png, jpeg
+    , dpi    = 300
+    , bg     = "white"
+    ## pdf
+    , units  = "in"
+    #, useDingbats = FALSE
+    )
+
+  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_sel_ROC"
+            , "_"
+            , i_level
+            , "-"
+            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          out$o_class_sel_ROC$plot_roc[[ i_level ]] +
+          patchwork::plot_annotation(
+          #labs(
+            title     = plot_title
+          , subtitle  = "Selected model, ROC Curves"
+          #, caption   = paste0(
+          #                ""
+          #              )
+          , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+          )
+      , width  = 5
+      , height = 6
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      )
+  } # i_level
+
+  # VIMP and ROC for each target
+  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+    ## i_level = 1
+
+    plot_temp <-
+      patchwork::wrap_plots(
+        out_vimp_sel_temp[[ i_level ]]
+      , out$o_class_sel_ROC$plot_roc[[ i_level ]] +
+        patchwork::plot_annotation(
+        #labs(
+          title     = plot_title
+        , subtitle  = "Selected model, ROC Curves"
+        #, caption   = paste0(
+        #                ""
+        #              )
+        , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        )
+      )
+
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_sel_VIMP_ROC"
+            , "_"
+            , i_level
+            , "-"
+            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          plot_temp
+      , width  = (4 + 2 * 2) + 5
+      , height = 6
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      )
+  } # i_level
+
+# END ###############################################################################
 
   ### Confidence intervals and standard errors for VIMP (variable importance)
   this_text <-
@@ -1119,7 +1480,7 @@ e_rfsrc_classification <-
     ) +
     labs(
       title     = plot_title
-    , subtitle  = "Reduced model, Subsampled VIMP Confidence Intervals"
+    , subtitle  = "Selected model, Subsampled VIMP Confidence Intervals"
     , caption   = paste0(
                     "Variable Importance is the prediction error attributable to excluding the variable."
                   )
@@ -1147,7 +1508,7 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
   # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
@@ -1239,7 +1600,7 @@ e_rfsrc_classification <-
       patchwork::plot_annotation(
       #labs(
         title     = plot_title
-      , subtitle  = "Reduced model, Partial plot, predicted marginal value (adjusted) for variable"
+      , subtitle  = "Selected model, Partial plot, predicted marginal value (adjusted) for variable"
       , caption   = paste0(
                       "For continuous variables, red points are used to indicate partial values (adjusted, integrate out other variables) and"
                     #, "\n"
@@ -1279,7 +1640,7 @@ e_rfsrc_classification <-
       , bg     = "white"
       ## pdf
       , units  = "in"
-      #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+      #, useDingbats = FALSE
       )
   } # i_level
 
@@ -1331,7 +1692,7 @@ e_rfsrc_classification <-
       patchwork::plot_annotation(
       #labs(
         title     = plot_title
-      , subtitle  = "Reduced model, Marginal plot, predicted marginal value (unadjusted) for variable"
+      , subtitle  = "Selected model, Marginal plot, predicted marginal value (unadjusted) for variable"
       , caption   = paste0(
                       "For continuous variables, red points are used to indicate marginal values (unadjusted for other variables) and"
                     #, "\n"
@@ -1371,7 +1732,7 @@ e_rfsrc_classification <-
       , bg     = "white"
       ## pdf
       , units  = "in"
-      #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+      #, useDingbats = FALSE
       )
   } # i_level
 
@@ -1507,7 +1868,7 @@ e_rfsrc_classification <-
     patchwork::plot_annotation(
     #labs(
       title     = plot_title
-    , subtitle  = "Reduced model, ROC Curves"
+    , subtitle  = "Selected model, ROC Curves"
     #, caption   = paste0(
     #                ""
     #              )
@@ -1537,7 +1898,7 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
   for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
@@ -1562,7 +1923,7 @@ e_rfsrc_classification <-
           patchwork::plot_annotation(
           #labs(
             title     = plot_title
-          , subtitle  = "Reduced model, ROC Curves"
+          , subtitle  = "Selected model, ROC Curves"
           #, caption   = paste0(
           #                ""
           #              )
@@ -1575,7 +1936,7 @@ e_rfsrc_classification <-
       , bg     = "white"
       ## pdf
       , units  = "in"
-      #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+      #, useDingbats = FALSE
       )
   } # i_level
 
@@ -1642,7 +2003,7 @@ e_rfsrc_classification <-
                       "Full model (AUC = ", round(out$o_class_AUC, 3), "): "
                     , text_formula
                     , "\n"
-                    , "Reduced model (AUC = ", round(out$o_class_sel_AUC, 3), "): "
+                    , "Selected model (AUC = ", round(out$o_class_sel_AUC, 3), "): "
                     , text_formula_sel
                     )
     #, caption     = paste0(
@@ -1674,7 +2035,7 @@ e_rfsrc_classification <-
     , bg     = "white"
     ## pdf
     , units  = "in"
-    #, useDingbats = FALSE  # https://stackoverflow.com/questions/9992275/ggplot2-pdf-import-in-adobe-illustrator-missing-font-adobepistd
+    #, useDingbats = FALSE
     )
 
 

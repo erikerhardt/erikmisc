@@ -4,10 +4,12 @@
 \alias{e_plot_rf_vimp}
 \title{A function to plot the "all" column from a Random Forests Variable Importance Plot (VIMP).}
 \usage{
-e_plot_rf_vimp(v_imp)
+e_plot_rf_vimp(v_imp, targets = NULL)
 }
 \arguments{
 \item{v_imp}{\code{$importance} table from \code{randomForestSRC::rfsrc()}}
+
+\item{targets}{a list of column names of \code{v_imp}, such as \code{c("all", "Yes")}.  If \code{NULL}, does "all" and every target.}
 }
 \value{
 p

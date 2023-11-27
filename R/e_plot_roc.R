@@ -308,11 +308,19 @@ e_plot_roc <-
       labs(
         caption =
           paste0(
-            "Classification labels: \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
+            "Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
           , "\n"
-          , "Sensitivity: true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."
+          , "Balanced Accuracy:  average of sensitivity and specificity, average probability of correctly classifying all targets."
           , "\n"
-          , "Specificity: true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."
+          , "Sensitivity:  true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."
+          , "\n"
+          , "Specificity:  true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."
+          , "\n"
+          , "Pos Pred Value:  positive predictive value (precision), probability that classification of \"", label_neg_pos[2], "\" is correct."
+          , "\n"
+          , "Neg Pred Value:  negative predictive value, probability that classification of \"", label_neg_pos[1], "\" is correct."
+          , "\n"
+          , "Pos Threshold >=:  value of predictive outcome metric that partitions classification of \"", label_neg_pos[2], "\" from \"", label_neg_pos[1], "\"."
           )
       )
     p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
