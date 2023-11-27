@@ -2,13 +2,13 @@ erikmisc::e_rfsrc_classification, 0s:  Create output directory
 erikmisc::e_rfsrc_classification, 0.08s:  Removing rows with NAs (later versions will allow imputations)
 Full model: cyl ~ mpg + disp + hp + drat + wt + qsec + vs + am
 erikmisc::e_rfsrc_classification, 0.12s:  Grow forest
-o_class_AUC: 0.900793650793651
-erikmisc::e_rfsrc_classification, 2.76s:  Subsample for VIMP and model selection
-erikmisc::e_rfsrc_classification, 42.18s:  Model selection
-Reduced model: cyl ~ mpg + disp + hp + drat + wt + qsec + vs
-erikmisc::e_rfsrc_classification, 42.23s:  Grow forest (selected model)
-erikmisc::e_rfsrc_classification, 42.9s:  Subsample for VIMP with CIs and SEs (selected model)
-erikmisc::e_rfsrc_classification, 81.59s (~1.36 minutes):  Partial effects plots (selected model)
-erikmisc::e_rfsrc_classification, 84.85s (~1.41 minutes):  ROC Curve (selected model)
+o_class_full_AUC: 0.900793650793651
+erikmisc::e_rfsrc_classification, 5.69s:  Subsample for VIMP and model selection
+erikmisc::e_rfsrc_classification, 47.01s:  Model selection
+Selected model: cyl ~ mpg + disp + hp + drat + wt + qsec + vs
+erikmisc::e_rfsrc_classification, 47.06s:  Grow forest (selected model)
 o_class_sel_AUC: 0.912698412698413
-erikmisc::e_rfsrc_classification, 88.09s (~1.47 minutes):  Complete
+erikmisc::e_rfsrc_classification, 52.55s:  Subsample for VIMP with CIs and SEs (selected model)
+erikmisc::e_rfsrc_classification, 90.49s (~1.51 minutes):  Partial effects plots (selected model)
+erikmisc::e_rfsrc_classification, 93.74s (~1.56 minutes):  ROC Curve (selected model)
+o_class_sel_AUC: 0.912698412698413

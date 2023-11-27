@@ -50,13 +50,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_plot_rf_vimp</span><span class="op">(</span><span class="va">v_imp</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_plot_rf_vimp</span><span class="op">(</span><span class="va">v_imp</span>, targets <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>v_imp</dt>
 <dd><p><code>$importance</code> table from <code><a href="https://www.randomforestsrc.org//reference/rfsrc.html" class="external-link">randomForestSRC::rfsrc()</a></code></p></dd>
+
+
+<dt>targets</dt>
+<dd><p>a list of column names of <code>v_imp</code>, such as <code>c("all", "Yes")</code>.  If <code>NULL</code>, does "all" and every target.</p></dd>
 
 </dl></div>
     <div id="value">
