@@ -9,7 +9,8 @@ e_plot_roc(
   pred_values_pos = NULL,
   label_neg_pos = NULL,
   sw_plot = TRUE,
-  cm_mode = c("sens_spec", "prec_recall", "everything")[1]
+  cm_mode = c("sens_spec", "prec_recall", "everything")[1],
+  sw_caption_desc = c(TRUE, FALSE)[1]
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ e_plot_roc(
 \item{sw_plot}{T/F to return a ROC curve ggplot object}
 
 \item{cm_mode}{\code{mode} from \code{caret::confusionMatrix}}
+
+\item{sw_caption_desc}{T/F to include verbose caption descriptions of classification statistics}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{           a list including
@@ -51,6 +54,7 @@ out <-
   , pred_values_pos = ex_pred
   , label_neg_pos   = ex_lvs
   , sw_plot         = TRUE
+  , sw_caption_desc = c(TRUE, FALSE)[2]
   )
 out$roc_curve_best \%>\% print(width = Inf)
 out$plot_roc
@@ -64,6 +68,7 @@ out <-
   , pred_values_pos = runif(n = 50)
   , label_neg_pos   = c("a", "b")
   , sw_plot         = TRUE
+  , sw_caption_desc = c(TRUE, FALSE)[1]
   )
 out$roc_curve_best \%>\% print(width = Inf)
 out$plot_roc
@@ -99,6 +104,7 @@ glm_roc <-
   , label_neg_pos   = c(0, 1)
   , sw_plot         = TRUE
   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+  , sw_caption_desc = c(TRUE, FALSE)[1]
   )
 glm_roc$roc_curve_best \%>\% print(width = Inf)
 glm_roc$plot_roc

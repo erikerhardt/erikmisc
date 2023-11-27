@@ -5,6 +5,7 @@
 #' @param label_neg_pos     labels in order c("negative", "positive")
 #' @param sw_plot           T/F to return a ROC curve ggplot object
 #' @param cm_mode           \code{mode} from \code{caret::confusionMatrix}
+#' @param sw_caption_desc   T/F to include verbose caption descriptions of classification statistics
 #'
 #' @return                a list including
 #' \itemize{
@@ -36,6 +37,7 @@
 #'   , pred_values_pos = ex_pred
 #'   , label_neg_pos   = ex_lvs
 #'   , sw_plot         = TRUE
+#'   , sw_caption_desc = c(TRUE, FALSE)[2]
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
 #' out$plot_roc
@@ -49,6 +51,7 @@
 #'   , pred_values_pos = runif(n = 50)
 #'   , label_neg_pos   = c("a", "b")
 #'   , sw_plot         = TRUE
+#'   , sw_caption_desc = c(TRUE, FALSE)[1]
 #'   )
 #' out$roc_curve_best %>% print(width = Inf)
 #' out$plot_roc
@@ -84,6 +87,7 @@
 #'   , label_neg_pos   = c(0, 1)
 #'   , sw_plot         = TRUE
 #'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+#'   , sw_caption_desc = c(TRUE, FALSE)[1]
 #'   )
 #' glm_roc$roc_curve_best %>% print(width = Inf)
 #' glm_roc$plot_roc
@@ -135,6 +139,7 @@ e_plot_roc <-
   , label_neg_pos   = NULL
   , sw_plot         = TRUE
   , cm_mode         = c("sens_spec", "prec_recall", "everything")[1]
+  , sw_caption_desc = c(TRUE, FALSE)[1]
   ) {
 
   # need only 2 levels for ROCR functions
@@ -304,25 +309,35 @@ e_plot_roc <-
           )
       )
 
-    p <- p +
-      labs(
-        caption =
-          paste0(
-            "Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
-          , "\n"
-          , "Balanced Accuracy:  average of sensitivity and specificity, average probability of correctly classifying all targets."
-          , "\n"
-          , "Sensitivity:  true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."
-          , "\n"
-          , "Specificity:  true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."
-          , "\n"
-          , "Pos Pred Value:  positive predictive value (precision), probability that classification of \"", label_neg_pos[2], "\" is correct."
-          , "\n"
-          , "Neg Pred Value:  negative predictive value, probability that classification of \"", label_neg_pos[1], "\" is correct."
-          , "\n"
-          , "Pos Threshold >=:  value of predictive outcome metric that partitions classification of \"", label_neg_pos[2], "\" from \"", label_neg_pos[1], "\"."
-          )
-      )
+    if(sw_caption_desc) {
+      p <- p +
+        labs(
+          caption =
+            paste0(
+              "Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
+            , "\n"
+            , "Balanced Accuracy:  average of sensitivity and specificity, average probability of correctly classifying all targets."
+            , "\n"
+            , "Sensitivity:  true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."
+            , "\n"
+            , "Specificity:  true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."
+            , "\n"
+            , "Pos Pred Value:  positive predictive value (precision), probability that classification of \"", label_neg_pos[2], "\" is correct."
+            , "\n"
+            , "Neg Pred Value:  negative predictive value, probability that classification of \"", label_neg_pos[1], "\" is correct."
+            , "\n"
+            , "Pos Threshold >=:  value of predictive outcome metric that partitions classification of \"", label_neg_pos[2], "\" from \"", label_neg_pos[1], "\"."
+            )
+        )
+    } else {
+      p <- p +
+        labs(
+          caption =
+            paste0(
+              "Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
+            )
+        )
+    }
     p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
 
   } else {
