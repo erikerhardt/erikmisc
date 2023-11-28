@@ -105,28 +105,28 @@ for (i_level in seq_along(levels(dat_rf_class[[ out_e_rf[[ "rf_y_var" ]] ]]))) {
 # y response variable
 out_e_rf[[ "rf_y_var" ]]
 # Full model: x predictor variables
-out_e_rf[[ "rf_x_var" ]]
+out_e_rf[[ "rf_x_var_full" ]]
 # Full model: formula
-out_e_rf[[ "rf_formula" ]]
+out_e_rf[[ "rf_formula_full" ]]
 # Full model: rfsrc classification object
-out_e_rf[[ "o_class" ]]
+out_e_rf[[ "o_class_full" ]]
 # Full model: convergence
-out_e_rf[[ "plot_o_class" ]] |>
+out_e_rf[[ "plot_o_class_full" ]] |>
   cowplot::plot_grid()
 # Full model: variable importance (VIMP) table
-out_e_rf[[ "o_class_importance" ]]
+out_e_rf[[ "o_class_full_importance" ]]
 # Full model: variable importance (VIMP) plot
-out_e_rf[[ "plot_o_class_importance" ]]
+out_e_rf[[ "plot_o_class_full_importance" ]]
 # Full model: ROC AUC (area under the curve)
-out_e_rf[[ "o_class_AUC" ]]
+out_e_rf[[ "o_class_full_AUC" ]]
 # Full model: subsample iterates for VIMP and model selection
-out_e_rf[[ "o_class_subsample" ]]
+out_e_rf[[ "o_class_full_subsample" ]]
 # Full model: subsample VIMP model selection
-out_e_rf[[ "o_class_subsample_extract_subsample" ]]
+out_e_rf[[ "o_class_full_subsample_extract_subsample" ]]
 # Full model: subsample double bootstrap VIMP model selection
-out_e_rf[[ "o_class_subsample_extract_bootsample" ]]
+out_e_rf[[ "o_class_full_subsample_extract_bootsample" ]]
 # Full model: variable importance (VIMP) plot boxplots
-out_e_rf[[ "plot_o_class_subsample" ]] |>
+out_e_rf[[ "plot_o_class_full_subsample" ]] |>
   cowplot::plot_grid()
 
 ## Selected model summaries

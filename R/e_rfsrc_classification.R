@@ -89,28 +89,28 @@
 #' # y response variable
 #' out_e_rf[[ "rf_y_var" ]]
 #' # Full model: x predictor variables
-#' out_e_rf[[ "rf_x_var" ]]
+#' out_e_rf[[ "rf_x_var_full" ]]
 #' # Full model: formula
-#' out_e_rf[[ "rf_formula" ]]
+#' out_e_rf[[ "rf_formula_full" ]]
 #' # Full model: rfsrc classification object
-#' out_e_rf[[ "o_class" ]]
+#' out_e_rf[[ "o_class_full" ]]
 #' # Full model: convergence
-#' out_e_rf[[ "plot_o_class" ]] |>
+#' out_e_rf[[ "plot_o_class_full" ]] |>
 #'   cowplot::plot_grid()
 #' # Full model: variable importance (VIMP) table
-#' out_e_rf[[ "o_class_importance" ]]
+#' out_e_rf[[ "o_class_full_importance" ]]
 #' # Full model: variable importance (VIMP) plot
-#' out_e_rf[[ "plot_o_class_importance" ]]
+#' out_e_rf[[ "plot_o_class_full_importance" ]]
 #' # Full model: ROC AUC (area under the curve)
-#' out_e_rf[[ "o_class_AUC" ]]
+#' out_e_rf[[ "o_class_full_AUC" ]]
 #' # Full model: subsample iterates for VIMP and model selection
-#' out_e_rf[[ "o_class_subsample" ]]
+#' out_e_rf[[ "o_class_full_subsample" ]]
 #' # Full model: subsample VIMP model selection
-#' out_e_rf[[ "o_class_subsample_extract_subsample" ]]
+#' out_e_rf[[ "o_class_full_subsample_extract_subsample" ]]
 #' # Full model: subsample double bootstrap VIMP model selection
-#' out_e_rf[[ "o_class_subsample_extract_bootsample" ]]
+#' out_e_rf[[ "o_class_full_subsample_extract_bootsample" ]]
 #' # Full model: variable importance (VIMP) plot boxplots
-#' out_e_rf[[ "plot_o_class_subsample" ]] |>
+#' out_e_rf[[ "plot_o_class_full_subsample" ]] |>
 #'   cowplot::plot_grid()
 #'
 #' ## Selected model summaries
@@ -442,7 +442,7 @@ e_rfsrc_classification <-
                   , "Right: Variable Importance is the prediction error attributable to excluding the variable."
                   )
     ) +
-    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -500,7 +500,7 @@ e_rfsrc_classification <-
                     "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
                   )
     ) +
-    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -541,7 +541,7 @@ e_rfsrc_classification <-
                       "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
                     )
       ) +
-      theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+      theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
     ggplot2::ggsave(
         filename =
@@ -664,10 +664,10 @@ e_rfsrc_classification <-
     #, caption   = paste0(
     #                ""
     #              )
-    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     )
     # +
-    #theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    #theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -719,7 +719,7 @@ e_rfsrc_classification <-
           #, caption   = paste0(
           #                ""
           #              )
-          , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
           )
       , width  = 5
       , height = 6
@@ -747,7 +747,7 @@ e_rfsrc_classification <-
         #, caption   = paste0(
         #                ""
         #              )
-        , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
         )
       )
 
@@ -843,7 +843,7 @@ e_rfsrc_classification <-
                     "Variable Importance is the prediction error attributable to excluding the variable."
                   )
     ) +
-    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -913,7 +913,7 @@ e_rfsrc_classification <-
     ##                   )
     ##   , tag_levels  = "A"
     ##   ) +
-    ##   theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    ##   theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     out[[ "plot_rf_train_all_summary" ]] <-
       out[[ "plot_o_class_full" ]]               + labs(title = NULL) +
       out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
@@ -939,7 +939,7 @@ e_rfsrc_classification <-
       #                  "Full model AUC = "
       #                , round(out$o_class_full_AUC, 3)
       #                )
-      , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+      , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
       , tag_levels  = "A"
       )
 
@@ -1083,7 +1083,7 @@ e_rfsrc_classification <-
                   , "Right: Variable Importance is the prediction error attributable to excluding the variable."
                   )
     ) +
-    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -1139,7 +1139,7 @@ e_rfsrc_classification <-
                     "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
                   )
     ) +
-    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -1183,7 +1183,7 @@ e_rfsrc_classification <-
                       "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
                     )
       ) +
-      theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+      theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
     ggplot2::ggsave(
         filename =
@@ -1306,10 +1306,10 @@ e_rfsrc_classification <-
     #, caption   = paste0(
     #                ""
     #              )
-    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     )
     # +
-    #theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    #theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -1361,7 +1361,7 @@ e_rfsrc_classification <-
           #, caption   = paste0(
           #                ""
           #              )
-          , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
           )
       , width  = 5
       , height = 6
@@ -1389,7 +1389,7 @@ e_rfsrc_classification <-
         #, caption   = paste0(
         #                ""
         #              )
-        , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
         )
       )
 
@@ -1485,7 +1485,7 @@ e_rfsrc_classification <-
                     "Variable Importance is the prediction error attributable to excluding the variable."
                   )
     ) +
-    theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -1612,7 +1612,7 @@ e_rfsrc_classification <-
                     , "\n"
                     , "Standard errors are meant only to be a guide and should be interpreted with caution."
                    )
-      , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+      , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
       )
 
     ggplot2::ggsave(
@@ -1704,7 +1704,7 @@ e_rfsrc_classification <-
                     , "\n"
                     , "Standard errors are meant only to be a guide and should be interpreted with caution."
                    )
-      , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+      , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
       )
 
     ggplot2::ggsave(
@@ -1872,10 +1872,10 @@ e_rfsrc_classification <-
     #, caption   = paste0(
     #                ""
     #              )
-    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     )
     # +
-    #theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    #theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   ggplot2::ggsave(
       filename =
@@ -1927,7 +1927,7 @@ e_rfsrc_classification <-
           #, caption   = paste0(
           #                ""
           #              )
-          , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
           )
       , width  = 5
       , height = 6
@@ -1972,7 +1972,7 @@ e_rfsrc_classification <-
   ##                   )
   ##   , tag_levels  = "A"
   ##   ) +
-  ##   theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+  ##   theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
     # ggsave(
     #     paste0("out/plot_rf_train_all_summary__", n_var_group, "_-_", n_dx_group, ".png")
@@ -1989,8 +1989,8 @@ e_rfsrc_classification <-
 
 
   out[[ "plot_rf_train_all_summary" ]] <-
-    out[[ "plot_o_class" ]]               + labs(title = NULL) +
-    out[[ "plot_o_class_subsample" ]]     + labs(title = NULL) +
+    out[[ "plot_o_class_full" ]]               + labs(title = NULL) +
+    out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
     out[[ "plot_o_class_sel" ]]           + labs(title = NULL) +
     out[[ "plot_o_class_sel_subsample" ]] + labs(title = NULL) +
     out[[ "plot_o_class_sel_ROC" ]] +
@@ -2000,7 +2000,7 @@ e_rfsrc_classification <-
       title       = plot_title
     , subtitle    =
                     paste0(
-                      "Full model (AUC = ", round(out$o_class_AUC, 3), "): "
+                      "Full model (AUC = ", round(out$o_class_full_AUC, 3), "): "
                     , text_formula
                     , "\n"
                     , "Selected model (AUC = ", round(out$o_class_sel_AUC, 3), "): "
@@ -2008,9 +2008,9 @@ e_rfsrc_classification <-
                     )
     #, caption     = paste0(
     #                  "Full model AUC = "
-    #                , round(out$o_class_AUC, 3)
+    #                , round(out$o_class_full_AUC, 3)
     #                )
-    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     , tag_levels  = "A"
     )
 
