@@ -42,11 +42,11 @@ e_REDCap_use_dotfactor_var <-
   # process all ".factor" variables
   if (sw_all_dotfactor) {
     var_names <-
-      dat %>%
-      names() %>%
+      dat |>
+      names() |>
       stringr::str_subset(
         pattern     = stringr::fixed(".factor")
-      ) %>%
+      ) |>
       stringr::str_replace(
         pattern     = stringr::fixed(".factor")
       , replacement = ""
@@ -83,7 +83,7 @@ e_REDCap_use_dotfactor_var <-
   for (i_var in seq_along(var_names)) {
     # write var label from var_names to var_names.f variable
     labelled::var_label(dat[, var_names.f[i_var]]) <-
-      labelled::var_label(dat[, var_names[i_var]]) %>% as.character()
+      labelled::var_label(dat[, var_names[i_var]]) |> as.character()
     # copy var_names.f to var_names
     dat[, var_names[i_var]] <- dat[, var_names.f[i_var]]
 

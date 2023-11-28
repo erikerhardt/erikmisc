@@ -32,8 +32,8 @@
 #'   , 4, 99, 99, 99, NA
 #'   )
 #'
-#' dat %>%
-#'   dplyr::group_by(A) %>%
+#' dat |>
+#'   dplyr::group_by(A) |>
 #'   dplyr::summarise_all( e_coalesce_by_column )
 e_coalesce_by_column <-
   function(
@@ -44,8 +44,7 @@ e_coalesce_by_column <-
   # combine rows in data frame containing NA to make complete row
   # https://stackoverflow.com/questions/45515218/combine-rows-in-data-frame-containing-na-to-make-complete-row
 
-  dplyr::coalesce(!!! as.list(dat)) %>%
-  return()
+  return( dplyr::coalesce(!!! as.list(dat)) )
 }
 
 
@@ -86,13 +85,13 @@ e_coalesce_column_set <-
     # coalesce for this key column
     if (nrow(dat_rows_process) > 0) {
       dat_rows_process <-
-        dat_rows_process %>%
+        dat_rows_process |>
         dplyr::group_by_at(
           i_key
-        ) %>%
+        ) |>
         dplyr::summarise_all(
           e_coalesce_by_column
-        ) %>%
+        ) |>
         dplyr::ungroup()
     }
 
@@ -101,7 +100,7 @@ e_coalesce_column_set <-
       dplyr::bind_rows(
         dat_rows_process
       , dat_rows_skip_NA
-      ) %>%
+      ) |>
       dplyr::select(
         tidyselect::any_of(names_var)
       )
@@ -137,10 +136,10 @@ e_replace_keys_less_with_most_complete <-
   dat_combination_var$s <-
     rowSums(dat_combination_var)
   dat_combination_var <-
-    dat_combination_var %>%
+    dat_combination_var |>
     dplyr::arrange(
       -s
-    ) %>%
+    ) |>
     dplyr::select(
       -s
     )
@@ -194,7 +193,7 @@ e_replace_keys_less_with_most_complete <-
         , by = col_keys[which(keys_include)]
         , suffix = c("", ".EMPTY")
         , keep = FALSE
-        ) %>%
+        ) |>
         dplyr::select(
           -ends_with(".EMPTY")
         )
@@ -257,7 +256,7 @@ e_replace_keys_less_with_most_complete <-
 #'   , col_keys = c("a", "b", "c", "x")
 #'   )
 #'
-#' dat_data_updated %>% print(n=Inf)
+#' dat_data_updated |> print(n=Inf)
 #'
 #' ## specify dat_keys explicitly
 #' dat_data <-
@@ -297,7 +296,7 @@ e_replace_keys_less_with_most_complete <-
 #'   , col_keys = c("a", "b", "c")
 #'   )
 #'
-#' dat_data_updated %>% print(n=Inf)
+#' dat_data_updated |> print(n=Inf)
 #'
 e_complete_multiple_keys <-
   function(
@@ -308,7 +307,7 @@ e_complete_multiple_keys <-
 
   # create ID to restore original row order at end
   dat_data <-
-    dat_data %>%
+    dat_data |>
     dplyr::mutate(
       ID___ = 1:n()
     )
@@ -317,7 +316,7 @@ e_complete_multiple_keys <-
   if(is.null(dat_keys)) {
     dat_keys <-
       e_coalesce_column_set(
-        dat_data %>%
+        dat_data |>
         dplyr::select(
           tidyselect::any_of(col_keys)
         )
@@ -330,11 +329,11 @@ e_complete_multiple_keys <-
       dat_data          = dat_data
     , dat_most_complete = dat_keys
     , col_keys          = col_keys
-    ) %>%
+    ) |>
     # restore original row order
     dplyr::arrange(
       ID___
-    ) %>%
+    ) |>
     dplyr::select(
       -ID___
     )

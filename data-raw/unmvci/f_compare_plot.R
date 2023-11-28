@@ -18,7 +18,7 @@ f_compare_plot <- function(dat_sub, var_plot, var_name = NULL, var_subname = NUL
   # }
 
   dat_plot <-
-    dat_sub %>%
+    dat_sub |>
     select(dx_current, var_plot)
   colnames(dat_plot)[2] <- "var"
 

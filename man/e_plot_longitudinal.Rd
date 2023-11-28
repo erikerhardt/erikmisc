@@ -122,7 +122,7 @@ e_plot_longitudinal(
 
 # categorical
 e_plot_longitudinal(
-    dat_plot         = lme4::sleepstudy \%>\%
+    dat_plot         = lme4::sleepstudy |>
                          dplyr::mutate(Reaction_cat =
                                          cut(Reaction, breaks = seq(200, 400, by = 50))
                          )

@@ -12,13 +12,13 @@ library(erikmisc)
 ## -----------------------------------------------------------------------------
 data(dat_mtcars_e)
 dat_mtcars_e <-
-  dat_mtcars_e %>%
+  dat_mtcars_e |>
   dplyr::mutate(
-    mpg_log2 = mpg %>% log2()
-  ) %>%
+    mpg_log2 = mpg |> log2()
+  ) |>
   dplyr::slice(
     -c(29, 31)
-  ) %>%
+  ) |>
   dplyr::select(
     model, mpg, mpg_log2
   , tidyselect::everything()
@@ -83,11 +83,11 @@ tab_lm_best <-
   ### consider these options if you temporarily need a wider output in your Rmd output
   op <- options(); # saving old options
   options(width = 200) # setting command window output text width wider
-tab_lm_best %>% print(n = Inf, width = Inf)
+tab_lm_best |> print(n = Inf, width = Inf)
   options(op); # reset (all) initial options
 
 ## -----------------------------------------------------------------------------
-tab_lm_best[9, ] %>% print(width = Inf)
+tab_lm_best[9, ] |> print(width = Inf)
 
 form_model_red <-
   mpg_log2 ~ cyl + hp + wt + cyl:wt + hp:wt
@@ -118,7 +118,7 @@ lm_fit_contrasts <-
   )
 
 ## -----------------------------------------------------------------------------
-lm_fit_contrasts %>% names()
+lm_fit_contrasts |> names()
 
 ## -----------------------------------------------------------------------------
 # to print tables

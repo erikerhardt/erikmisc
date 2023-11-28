@@ -33,29 +33,29 @@ e_plot_rf_vimp <-
   }
 
   dat_vimp <-
-    v_imp %>%
+    v_imp |>
     tibble::as_tibble(
       rownames = "Var"
     ) |>
     dplyr::mutate(
       Var = Var |> factor() |> forcats::fct_reorder(.x = all)
-    ) %>%
+    ) |>
     dplyr::select(
       Var
     , tidyselect::all_of(targets)
-    ) %>%
+    ) |>
     tidyr::pivot_longer(
       cols = -Var
-    ) %>%
+    ) |>
     dplyr::mutate(
       name = name |> factor(levels = targets)
-    ) %>%
+    ) |>
     dplyr::arrange(
       name
     , desc(Var)
-    ) %>%
+    ) |>
     dplyr::mutate(
-      positive = (value > 0) %>% factor(levels = c(FALSE, TRUE), labels = c("FALSE", "TRUE"))
+      positive = (value > 0) |> factor(levels = c(FALSE, TRUE), labels = c("FALSE", "TRUE"))
     )
 
 

@@ -54,7 +54,7 @@ a3,,
 "
   , stringsAsFactors = FALSE
   )
-dat_this \%>\% print()
+dat_this |> print()
 
 # return dataset as it is
 e_read_df_header_span_rows(

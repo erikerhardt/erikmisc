@@ -55,7 +55,7 @@ dat_key <-
   tidyr::expand_grid(
     key1 = c("a", "b", "c")
   , key2 = c("x", "y")
-  ) \%>\%
+  ) |>
   dplyr::mutate(
     value = 1:dplyr::n()
   )
@@ -64,15 +64,15 @@ dat_to_match <-
   tidyr::expand_grid(
     key1_m = c("a", "b")      # no "c"
   , key2_m = c("x", "y", "z") # added "z"
-  ) \%>\%
+  ) |>
   dplyr::slice(
     sample.int(n = 2*3, size = 4 * 2*3, replace = TRUE) # produce multiple per obs
-  ) \%>\%
+  ) |>
   dplyr::mutate(
     value_m = runif(n = dplyr::n(), min = -5, max = 10)
   , other1  = rnorm(dplyr::n())
   , other2  = rnorm(dplyr::n())
-  ) \%>\%
+  ) |>
   dplyr::arrange(
     key1_m, key2_m
   )
@@ -89,9 +89,9 @@ dat_to_match_sub <-
   , diff_upper        = +Inf
   )
 
-dat_key          \%>\% print()
-dat_to_match     \%>\% print(n = Inf)
-dat_to_match_sub \%>\% print()
+dat_key          |> print()
+dat_to_match     |> print(n = Inf)
+dat_to_match_sub |> print()
 
 
 # within specified range

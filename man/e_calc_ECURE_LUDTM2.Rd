@@ -86,7 +86,7 @@ range_min = -4.1
 range_max = +2.1
 
 dat <-
-  dat \%>\%
+  dat |>
   dplyr::mutate(
     LUDTM =
       dplyr::case_when(

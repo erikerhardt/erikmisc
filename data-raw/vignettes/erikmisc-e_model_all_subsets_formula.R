@@ -19,7 +19,7 @@ e_model_all_subsets_formula(
   )
 
 ## -----------------------------------------------------------------------------
-dat_mtcars_e %>% head(3)
+dat_mtcars_e |> head(3)
 
 # table of the candidate models
 form_table <-
@@ -65,8 +65,8 @@ for (i_form in seq_len(length(form_list))) {
 
 # sort the models by a criterion
 lm_fit_criteria <-
-  lm_fit_list_criteria %>%
-  dplyr::bind_rows() %>%
+  lm_fit_list_criteria |>
+  dplyr::bind_rows() |>
   dplyr::arrange(
     # arrange models by this model criterion
     bic               # ascending by bic (best on top)
@@ -74,30 +74,30 @@ lm_fit_criteria <-
   )
 
 # print the head and tail of fit criteria table
-lm_fit_criteria %>% head()
-lm_fit_criteria %>% tail(3)
+lm_fit_criteria |> head()
+lm_fit_criteria |> tail(3)
 
 # best model ID
 lm_fit_criteria$model_id[1]
 
 # summarize "best" model
-lm_fit_list[[ lm_fit_criteria$model_id[1] ]] %>%
+lm_fit_list[[ lm_fit_criteria$model_id[1] ]] |>
   car::Anova(type = 3)
-lm_fit_list[[ lm_fit_criteria$model_id[1] ]] %>%
+lm_fit_list[[ lm_fit_criteria$model_id[1] ]] |>
   summary()
 
 ## -----------------------------------------------------------------------------
 set.seed(76543)
 
 dat_ergoStool_e <-
-  dat_ergoStool_e %>%
+  dat_ergoStool_e |>
   # add a few noise variables just to use for model selection example
   dplyr::mutate(
     x1 = stats::rnorm(n = dplyr::n())
   , x2 = stats::rnorm(n = dplyr::n())
   , x3 = stats::rnorm(n = dplyr::n())
   )
-dat_ergoStool_e %>% head(8)
+dat_ergoStool_e |> head(8)
 
 # table of the candidate models
 form_table <-
@@ -144,8 +144,8 @@ for (i_form in seq_len(length(form_list))) {
 
 # sort the models by a criterion
 lmer_fit_criteria <-
-  lmer_fit_list_criteria %>%
-  dplyr::bind_rows() %>%
+  lmer_fit_list_criteria |>
+  dplyr::bind_rows() |>
   dplyr::arrange(
     # arrange models by this model criterion
     caic              # ascending by caic (best on top)
@@ -153,16 +153,16 @@ lmer_fit_criteria <-
   )
 
 # print the head and tail of fit criteria table
-lmer_fit_criteria %>% head()
-lmer_fit_criteria %>% tail(3)
+lmer_fit_criteria |> head()
+lmer_fit_criteria |> tail(3)
 
 # best model ID
 lmer_fit_criteria$model_id[1]
 
 # summarize "best" model
-lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
+lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] |>
   car::Anova(type = 3)
-lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
+lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] |>
   summary()
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -185,8 +185,8 @@ lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
 #    foreach::getDoParRegistered()
 #    # how many workers are available? (optional)
 #    foreach::getDoParWorkers()
-#  
-#  
+#
+#
 #  # table of the candidate models
 #  form_table <-
 #    e_model_all_subsets_formula(
@@ -197,7 +197,7 @@ lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
 #      , sw_return   = c("formula", "table")[2]
 #      )
 #  print(form_table)
-#  
+#
 #  # generate candidate model formulas
 #  form_list <-
 #    e_model_all_subsets_formula(
@@ -207,7 +207,7 @@ lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
 #      , max_scope   = list("always", "SO")
 #      , sw_return   = c("formula", "table")[1]
 #      )
-#  
+#
 #  # fit models and calculate model selection criteria
 #  lmer_fit_list <-
 #    foreach::foreach(
@@ -221,7 +221,7 @@ lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
 #      , data    = dat_ergoStool_e
 #      )
 #    }
-#  
+#
 #  lmer_fit_list_criteria <-
 #    foreach::foreach(
 #      i_form = seq_len(length(form_list))
@@ -234,33 +234,33 @@ lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
 #      , model_id  = i_form
 #      )
 #    }
-#  
-#  
-#  
+#
+#
+#
 #  # sort the models by a criterion
 #  lmer_fit_criteria <-
-#    lmer_fit_list_criteria %>%
-#    dplyr::bind_rows() %>%
+#    lmer_fit_list_criteria |>
+#    dplyr::bind_rows() |>
 #    dplyr::arrange(
 #      # arrange models by this model criterion
 #      caic              # ascending by caic (best on top)
 #      # dplyr::desc(r2)   # descending by r2 (best on top)
 #    )
-#  
+#
 #  # print the head and tail of fit criteria table
-#  lmer_fit_criteria %>% head()
-#  lmer_fit_criteria %>% tail(3)
-#  
+#  lmer_fit_criteria |> head()
+#  lmer_fit_criteria |> tail(3)
+#
 #  # best model ID
 #  lmer_fit_criteria$model_id[1]
-#  
+#
 #  # summarize "best" model
-#  lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
+#  lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] |>
 #    car::Anova(type = 3)
-#  lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] %>%
+#  lmer_fit_list[[ lmer_fit_criteria$model_id[1] ]] |>
 #    summary()
-#  
-#  
+#
+#
 #  ## stop cluster
 #  parallel::stopCluster(cl = my_cluster)
 

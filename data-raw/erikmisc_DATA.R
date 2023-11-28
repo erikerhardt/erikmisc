@@ -4,14 +4,14 @@ library(tidyverse)
 ## Examples: dat_mtcars_e
 
 dat_mtcars_e <-
-  datasets::mtcars %>%
+  datasets::mtcars |>
   tibble::as_tibble(
     rownames = "model"
-  ) %>%
+  ) |>
   dplyr::mutate(
-    cyl = cyl %>% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
-  , vs  = vs  %>% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
-  , am  = am  %>% factor(levels = c(0, 1), labels = c("automatic", "manual"))
+    cyl = cyl |> factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
+  , vs  = vs  |> factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
+  , am  = am  |> factor(levels = c(0, 1), labels = c("automatic", "manual"))
   )
 
 # Label columns
@@ -54,8 +54,8 @@ usethis::use_data(
 ## Examples: dat_ergoStool_e
 
 dat_ergoStool_e <-
-  nlme::ergoStool %>%
-  tibble::as_tibble() %>%
+  nlme::ergoStool |>
+  tibble::as_tibble() |>
   dplyr::rename(
     Effort = effort
   )

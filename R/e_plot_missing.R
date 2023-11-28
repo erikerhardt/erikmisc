@@ -49,7 +49,7 @@ e_plot_missing <-
   ) {
   ## DEBUG
   ## 6/17/2021
-  # #dat_plot = dat_mtcars_e %>% as_tibble(rownames = "Model")
+  # #dat_plot = dat_mtcars_e |> as_tibble(rownames = "Model")
   # dat_plot = dat_mtcars_e
   # n_missing = sample.int(n = prod(dim(dat_plot)), size = round( 0.10 * prod(dim(dat_plot))))
   # ind_missing = expand.grid(1:dim(dat_plot)[1], 1:dim(dat_plot)[2])[n_missing, ]
@@ -88,7 +88,7 @@ e_plot_missing <-
   }
   if (sw_rowname_column) {
     dat_plot <-
-      dat_plot %>%
+      dat_plot |>
       as_tibble(rownames = "ROWNAME")
   }
 
@@ -96,10 +96,10 @@ e_plot_missing <-
 
 
   dat_plot <-
-    dat_plot %>%
+    dat_plot |>
     mutate(
       ID_MISSING___ = 1:n()
-    ) %>%
+    ) |>
     dplyr::select(
       ID_MISSING___
     , everything()
@@ -113,7 +113,7 @@ e_plot_missing <-
       warning("erikmisc::plot_missing() var_group name not in dataset, plotting without group.")
       sw_group <- FALSE
     }
-    n_levels <- factor(dat_plot[[var_group]]) %>% levels() %>% length()
+    n_levels <- factor(dat_plot[[var_group]]) |> levels() |> length()
     if ((n_levels > nrow(dat_plot)/2) | (n_levels > 20) ) {
       warning("erikmisc::plot_missing() var_group variable has too many levels (>20 or > nrow/2), plotting without group.")
       sw_group <- FALSE
@@ -136,8 +136,8 @@ e_plot_missing <-
   #### XXX
   #### SORT BY COMPLETE PROPORTION
   ##   dat_NA_temp <-
-  ##     dat_all %>%
-  ##     dplyr::select(matches(match = "^Q[0-9]", perl = TRUE)) %>%
+  ##     dat_all |>
+  ##     dplyr::select(matches(match = "^Q[0-9]", perl = TRUE)) |>
   ##     is.na()
   ##
   ##   dat_all$CompleteProp <-
@@ -154,20 +154,20 @@ e_plot_missing <-
     }
     if (!is.null(var2_sort)) {
       dat_plot <-
-        dat_plot %>%
+        dat_plot |>
         arrange(
           GROUP___, !!as.name(var2_sort)
         )
     } else {
       dat_plot <-
-        dat_plot %>%
+        dat_plot |>
         arrange(
           GROUP___
         )
     }
     # update ID number for sorted data
     dat_plot <-
-      dat_plot %>%
+      dat_plot |>
       mutate(
         ID_MISSING___ = 1:n()
       )
@@ -175,7 +175,7 @@ e_plot_missing <-
 
   # Find the NAs
   dat_plot2 <-
-    dat_plot %>%
+    dat_plot |>
     is.na()
 
   n_missing <- sum(dat_plot2)
@@ -185,7 +185,7 @@ e_plot_missing <-
     !(rowSums(!dat_plot2) == ncol(dat_plot2))
 
   dat_plot2 <-
-    cbind(dat_plot2, NO_MISSING) %>%
+    cbind(dat_plot2, NO_MISSING) |>
     as_tibble()
 
   # convert to numeric
@@ -193,34 +193,34 @@ e_plot_missing <-
   #dat_plot2[ ,cols_logical] <- lapply(dat_plot2[ ,cols_logical], as.numeric)
 
   dat_plot2 <-
-    dat_plot2 %>%
-    as_tibble() %>%
+    dat_plot2 |>
+    as_tibble() |>
     mutate(
       ID_MISSING___ = dat_plot$ID_MISSING___
     , GROUP___      = dat_plot$GROUP___
-    ) %>%
+    ) |>
     tidyr::pivot_longer(
       cols = tidyselect::any_of(c(names_col, "NO_MISSING"))
-    ) %>%
+    ) |>
     mutate(
-    #  value = value %>% factor(levels = c(1, 0), labels = c("Missing", "Present"))
-      value = value %>% factor(levels = c(TRUE, FALSE), labels = c("Missing", "Present"))
-    , name  = name %>% factor(levels = c(names_col, "NO_MISSING"))
+    #  value = value |> factor(levels = c(1, 0), labels = c("Missing", "Present"))
+      value = value |> factor(levels = c(TRUE, FALSE), labels = c("Missing", "Present"))
+    , name  = name |> factor(levels = c(names_col, "NO_MISSING"))
     )
 
   dat_barplot_missing <-
-    dat_plot2 %>%
+    dat_plot2 |>
     dplyr::group_by(
       name
-    ) %>%
+    ) |>
     dplyr::summarize(
       prop_missing = sum(value == "Missing") / dplyr::n()
-    ) %>%
+    ) |>
     dplyr::ungroup()
 
   #### OLD
   ## dat_plot2 <-
-  ##   cbind(dat_plot2, NO_MISSING) %>%
+  ##   cbind(dat_plot2, NO_MISSING) |>
   ##   reshape2::melt()
 
   # bar plot of missing

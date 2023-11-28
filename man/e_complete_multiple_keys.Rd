@@ -55,7 +55,7 @@ dat_data_updated <-
   , col_keys = c("a", "b", "c", "x")
   )
 
-dat_data_updated \%>\% print(n=Inf)
+dat_data_updated |> print(n=Inf)
 
 ## specify dat_keys explicitly
 dat_data <-
@@ -95,6 +95,6 @@ dat_data_updated <-
   , col_keys = c("a", "b", "c")
   )
 
-dat_data_updated \%>\% print(n=Inf)
+dat_data_updated |> print(n=Inf)
 
 }

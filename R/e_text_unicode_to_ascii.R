@@ -51,7 +51,7 @@
 #' #
 #' # # remove all unicode from all variables
 #' # dat_all <-
-#' #   dat_all %>%
+#' #   dat_all |>
 #' #   dplyr::mutate(
 #' #     dplyr::across(
 #' #       .cols = tidyselect::everything()
@@ -102,8 +102,8 @@ e_text_unicode_to_ascii <-
   text_out <- text_in
 
   ind_unicode <-
-    text_out %>%
-    stringr::str_detect(pattern = "[^\\x00-\\x7F]") %>%
+    text_out |>
+    stringr::str_detect(pattern = "[^\\x00-\\x7F]") |>
     which()
 
   if (length(ind_unicode) == 0) {
@@ -143,15 +143,15 @@ e_text_unicode_to_ascii <-
     ind_uni_detected <-
       stringr::str_detect(
         text_out[i_row]
-      , pattern = dat_unicode_tables_sel_byhand_e$CodeEscaped %>% stringi::stri_unescape_unicode()
-      ) %>% which()
+      , pattern = dat_unicode_tables_sel_byhand_e$CodeEscaped |> stringi::stri_unescape_unicode()
+      ) |> which()
 
     for (i_uni in ind_uni_detected) {
 
       text_out[i_row] <-
         stringr::str_replace_all(
           text_out[i_row]
-        , dat_unicode_tables_sel_byhand_e$CodeEscaped[i_uni] %>% stringi::stri_unescape_unicode()
+        , dat_unicode_tables_sel_byhand_e$CodeEscaped[i_uni] |> stringi::stri_unescape_unicode()
         , dat_unicode_tables_sel_byhand_e$ASCII[i_uni]
         )
 
@@ -160,8 +160,8 @@ e_text_unicode_to_ascii <-
 
   # check for remaining unicode
   ind_unicode <-
-    text_out %>%
-    stringr::str_detect(pattern = "[^\\x00-\\x7F]") %>%
+    text_out |>
+    stringr::str_detect(pattern = "[^\\x00-\\x7F]") |>
     which()
 
   if (length(ind_unicode) == 0) {
@@ -186,7 +186,7 @@ e_text_unicode_to_ascii <-
       stringr::str_detect(
         text_out[i_row]
       , pattern = "[^\\x00-\\x7F]"
-      ) %>% which()
+      ) |> which()
 
     for (i_uni in ind_uni_detected) {
 
@@ -202,8 +202,8 @@ e_text_unicode_to_ascii <-
 
   # check for remaining unicode
   ind_unicode <-
-    text_out %>%
-    stringr::str_detect(pattern = "[^\\x00-\\x7F]") %>%
+    text_out |>
+    stringr::str_detect(pattern = "[^\\x00-\\x7F]") |>
     which()
 
   if (length(ind_unicode) == 0) {

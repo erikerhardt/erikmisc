@@ -57,13 +57,13 @@ e_read_data_files <-
     fn_full_this <- file.path(read_fn_path, read_fn_names[i_fn])
 
     fn_ext <-
-      read_fn_names[i_fn] %>%
+      read_fn_names[i_fn] |>
         # find the last period . and take the sub string after that
       stringr::str_sub(start = stringi::stri_locate_last_fixed(read_fn_names[i_fn], ".")[, 1] + 1)
 
       ### OLD
-      # stringr::str_split_fixed(pattern = fixed("."), n = 2) %>%
-      # tibble::as_tibble() %>%
+      # stringr::str_split_fixed(pattern = fixed("."), n = 2) |>
+      # tibble::as_tibble() |>
       # dplyr::pull(
       #   V2
       # )
@@ -96,7 +96,7 @@ e_read_data_files <-
 
       if (sw_clean_names) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
-          dat_sheet[[ read_fn_names[i_fn] ]] %>%
+          dat_sheet[[ read_fn_names[i_fn] ]] |>
           janitor::clean_names(
             case = "none"
           )
@@ -131,7 +131,7 @@ e_read_data_files <-
 
       if (sw_clean_names) {
         dat_sheet[[ read_fn_names[i_fn] ]] <-
-          dat_sheet[[ read_fn_names[i_fn] ]] %>%
+          dat_sheet[[ read_fn_names[i_fn] ]] |>
           janitor::clean_names(
             case = "none"
           )
@@ -173,7 +173,7 @@ e_read_data_files <-
 
           if (sw_clean_names) {
             dat_sheet[[ read_fn_names[i_fn] ]] <-
-              dat_sheet[[ read_fn_names[i_fn] ]] %>%
+              dat_sheet[[ read_fn_names[i_fn] ]] |>
               janitor::clean_names(
                 case = "none"
               )
@@ -198,7 +198,7 @@ e_read_data_files <-
 
             if (sw_clean_names) {
               dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] <-
-                dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] %>%
+                dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] |>
                 janitor::clean_names(
                   case = "none"
                 )
@@ -219,17 +219,17 @@ e_read_data_files <-
 
       if (length(ind_sheets) == 1) {
         print(paste0(fn_full_this))
-        dat_sheet[[ read_fn_names[i_fn] ]] %>% dim() %>% print()
+        dat_sheet[[ read_fn_names[i_fn] ]] |> dim() |> print()
       } # = 1
 
       if (length(ind_sheets) > 1) {
         print(paste0(fn_full_this))
         for (i_sheet in ind_sheets) {
-          dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] %>% dim() %>% print()
+          dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] |> dim() |> print()
         }
       } # > 1
 
-      #warnings() %>% print()
+      #warnings() |> print()
     }
 
     # add dir and filename columns
@@ -240,7 +240,7 @@ e_read_data_files <-
       if (length(ind_sheets) == 1) {
         # process each data file
         dat_sheet[[ read_fn_names[i_fn] ]] <-
-          dat_sheet[[ read_fn_names[i_fn] ]] %>%
+          dat_sheet[[ read_fn_names[i_fn] ]] |>
             dplyr::mutate(
               DIR__   = read_fn_path
             , FILE__  = read_fn_names[i_fn]
@@ -251,7 +251,7 @@ e_read_data_files <-
         for (i_sheet in ind_sheets) {
           # process each data file
           dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] <-
-            dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] %>%
+            dat_sheet[[ read_fn_names[i_fn] ]][[ n_sheets[i_sheet] ]] |>
               dplyr::mutate(
                 DIR__   = read_fn_path
               , FILE__  = read_fn_names[i_fn]

@@ -56,7 +56,7 @@ out <-
   , sw_plot         = TRUE
   , sw_caption_desc = c(TRUE, FALSE)[2]
   )
-out$roc_curve_best \%>\% print(width = Inf)
+out$roc_curve_best |> print(width = Inf)
 out$plot_roc
 out$confusion_matrix
 
@@ -70,7 +70,7 @@ out <-
   , sw_plot         = TRUE
   , sw_caption_desc = c(TRUE, FALSE)[1]
   )
-out$roc_curve_best \%>\% print(width = Inf)
+out$roc_curve_best |> print(width = Inf)
 out$plot_roc
 out$confusion_matrix
 
@@ -79,7 +79,7 @@ out$confusion_matrix
 data(dat_mtcars_e)
 
 dat_mtcars_e <-
-  dat_mtcars_e \%>\%
+  dat_mtcars_e |>
   dplyr::mutate(
     vs_V = ifelse(vs == "V-shaped", 1, 0) # 0-1 binary for logistic regression
   )
@@ -93,7 +93,7 @@ fit_glm_vs <-
   )
 cat("Test residual deviance for lack-of-fit (if > 0.10, little-to-no lack-of-fit)\n")
 dev_p_val <- 1 - pchisq(fit_glm_vs$deviance, fit_glm_vs$df.residual)
-dev_p_val \%>\% print()
+dev_p_val |> print()
 car::Anova(fit_glm_vs, type = 3)
 #summary(fit_glm_vs)
 
@@ -106,7 +106,7 @@ glm_roc <-
   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
   , sw_caption_desc = c(TRUE, FALSE)[1]
   )
-glm_roc$roc_curve_best \%>\% print(width = Inf)
+glm_roc$roc_curve_best |> print(width = Inf)
 glm_roc$plot_roc
 glm_roc$confusion_matrix
 

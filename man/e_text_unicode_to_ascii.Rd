@@ -67,7 +67,7 @@ Either use \code{fn_in} and \code{fn_out} for files, or use \code{text_in} for a
 #
 # # remove all unicode from all variables
 # dat_all <-
-#   dat_all \%>\%
+#   dat_all |>
 #   dplyr::mutate(
 #     dplyr::across(
 #       .cols = tidyselect::everything()

@@ -27,7 +27,7 @@ e_model_binary_complete <-
     expand.grid(
       replicate(
         n         = length(var_names)
-      , expr      = 0:1 %>% as.character()
+      , expr      = 0:1 |> as.character()
       , simplify  = FALSE
       )
     , stringsAsFactors = FALSE

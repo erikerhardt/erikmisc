@@ -29,7 +29,7 @@ tab_best <-
 
   op <- options(); # saving old options
   options(width=100) # setting command window output text width wider
-tab_best \%>\% print(n = Inf, width = Inf)
+tab_best |> print(n = Inf, width = Inf)
   options(op); # reset (all) initial options
 }
 }

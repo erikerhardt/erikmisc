@@ -35,19 +35,19 @@ The variables included together are plotted on the same x-axis scale.
 \examples{
 ## requires formatting into two columns: "variables" and "values"
 dat_this <-
-  dat_mtcars_e \%>\%
+  dat_mtcars_e |>
   dplyr::select(
     model
   , tidyselect::starts_with("hp")
   , where(is.numeric)
-  ) \%>\%
+  ) |>
   tidyr::pivot_longer(
     cols      = -model
   , names_to  = "variable"
   , values_to = "value"
-  ) \%>\%
+  ) |>
   dplyr::select(
     -model
   )
-dat_this \%>\% e_plot_clean_numeric_nonnum_minmax()
+dat_this |> e_plot_clean_numeric_nonnum_minmax()
 }

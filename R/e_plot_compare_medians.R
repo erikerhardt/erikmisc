@@ -94,7 +94,7 @@ e_plot_compare_medians <-
 
   # select columns
   dat_plot <-
-    dat_plot %>%
+    dat_plot |>
     dplyr::select(
       tidyselect::all_of(var_response)
     , tidyselect::all_of(var_groups)
@@ -104,7 +104,7 @@ e_plot_compare_medians <-
   colnames(dat_plot)[2] <- "groups"
   # assure finite and not NA
   dat_plot <-
-    dat_plot %>%
+    dat_plot |>
     dplyr::filter(
       is.finite(response)
     , !is.na(response)

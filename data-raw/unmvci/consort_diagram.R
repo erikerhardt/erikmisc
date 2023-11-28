@@ -79,7 +79,7 @@ consort_diagram <- function(dat_vci, report_date = NULL) {
 
     # Baseline are those that appear in the vci data
     n_patients[(n_patients$ID == "Baseline"), "n"] <-
-      dat_vci_0m_sub %>%
+      dat_vci_0m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Baseline"), "n"], "Baseline - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -102,7 +102,7 @@ consort_diagram <- function(dat_vci, report_date = NULL) {
 
     # Followup1 are those that appear in the vci data Followup1
     n_patients[(n_patients$ID == "Followup1"), "n"] <-
-      dat_vci_1m_sub %>%
+      dat_vci_1m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Baseline"), "n"], "Baseline - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -124,7 +124,7 @@ consort_diagram <- function(dat_vci, report_date = NULL) {
 
     # Followup2 are those that appear in the vci data Followup2
     n_patients[(n_patients$ID == "Followup2"), "n"] <-
-      dat_vci_2m_sub %>%
+      dat_vci_2m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Followup1"), "n"], "Followup1 - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -146,7 +146,7 @@ consort_diagram <- function(dat_vci, report_date = NULL) {
 
     # Followup3 are those that appear in the vci data Followup3
     n_patients[(n_patients$ID == "Followup3"), "n"] <-
-      dat_vci_3m_sub %>%
+      dat_vci_3m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Followup2"), "n"], "Followup2 - Patients\n"), file = fn_consort_details, append = TRUE)

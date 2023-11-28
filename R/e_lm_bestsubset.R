@@ -21,7 +21,7 @@
 #'
 #'   op <- options(); # saving old options
 #'   options(width=100) # setting command window output text width wider
-#' tab_best %>% print(n = Inf, width = Inf)
+#' tab_best |> print(n = Inf, width = Inf)
 #'   options(op); # reset (all) initial options
 #' }
 e_lm_bestsubset <-
@@ -51,8 +51,8 @@ e_lm_bestsubset <-
     , adjr2 = summary(bs)$adjr2                 # Adj-R^2
     , cp    = summary(bs)$cp                    # Cp
     , bic   = summary(bs)$bic                   # BIC
-    ) %>%
-    tibble::as_tibble() %>%
+    ) |>
+    tibble::as_tibble() |>
     # sort models ascending by BIC (best model at top)
     dplyr::arrange(
       bic

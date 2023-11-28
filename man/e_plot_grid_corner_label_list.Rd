@@ -72,8 +72,8 @@ p_arranged <-
   gridExtra::arrangeGrob(
     grobs         = p_list
   , layout_matrix = lay_grid
-  ) \%>\%
+  ) |>
   ggpubr::as_ggplot()
 # print the plots
-p_arranged \%>\% print()
+p_arranged |> print()
 }

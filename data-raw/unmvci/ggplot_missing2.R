@@ -16,7 +16,7 @@ ggplot_missing2 <-
   # https://github.com/njtierney/neato/blob/master/R/ggplot_missing.R
 
   ## dat2 <-
-  ##   dat %>%
+  ##   dat |>
   ##   is.na()
   ##
   ## # create a column indicating which rows all have data (no missing)
@@ -24,16 +24,16 @@ ggplot_missing2 <-
   ##   !(rowSums(!dat2) == ncol(dat2))
   ##
   ## dat2_long <-
-  ##   dat2 %>%
-  ##   dplyr::as_tibble() %>%
-  ##   dplyr::bind_cols(NO_MISSING = NO_MISSING) %>%
+  ##   dat2 |>
+  ##   dplyr::as_tibble() |>
+  ##   dplyr::bind_cols(NO_MISSING = NO_MISSING) |>
   ##   dplyr::mutate(
   ##     ID = 1:dplyr::n()
   ##   , group_color = dat[[group_color]]
-  ##   ) %>%
+  ##   ) |>
   ##   dplyr::select(
   ##     ID, group_color, everything()
-  ##   ) %>%
+  ##   ) |>
   ##   tidyr::pivot_longer(
   ##     cols      = -dplyr::one_of(ID, dx_current) # everything()  #-one_of(dx_current)
   ##   , names_to  = "names"

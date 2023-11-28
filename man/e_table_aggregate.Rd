@@ -55,7 +55,7 @@ list_aggregate_var_func <-
 e_table_aggregate(
     dat                 = dat_mtcars_e
   , var_names_by        = c("cyl", "am")
-  , var_names_aggregate = list_aggregate_var_func \%>\% names()
+  , var_names_aggregate = list_aggregate_var_func |> names()
   , func_aggregate      = list_aggregate_var_func
   )
 }

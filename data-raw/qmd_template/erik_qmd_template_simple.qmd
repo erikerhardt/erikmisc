@@ -213,7 +213,7 @@ dat_sheet |>
 ## Scatterplot matrix
 p <-
   GGally::ggpairs(
-    dat_sheet %>% select()
+    dat_sheet |> select()
   , title = "Title"
   #, mapping = ggplot2::aes(colour = , alpha = 0.5)
   , diag  = list(

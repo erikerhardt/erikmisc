@@ -11,7 +11,7 @@
 #' dat <- dat_mtcars_e
 #' str(dat)
 #'
-#' dat2 <- dat %>% e_data_convert_factor_to_numeric()
+#' dat2 <- dat |> e_data_convert_factor_to_numeric()
 #' str(dat2)
 #'
 #' # readr::write_csv(x = dat , file = "dat.csv"    )
@@ -29,13 +29,13 @@ e_data_convert_factor_to_numeric <-
 
   # factor column names
   names_col_factor <-
-    (sapply(dat, class) == "factor") %>%
-    which() %>%
+    (sapply(dat, class) == "factor") |>
+    which() |>
     names()
 
   # apply as.numeric to all factor column names
   dat <-
-    dat %>%
+    dat |>
     dplyr::mutate(
       dplyr::across(
         .cols = tidyselect::all_of(names_col_factor)

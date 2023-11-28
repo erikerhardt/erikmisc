@@ -35,7 +35,7 @@ dat <-
   , 4, 99, 99, 99, NA
   )
 
-dat \%>\%
-  dplyr::group_by(A) \%>\%
+dat |>
+  dplyr::group_by(A) |>
   dplyr::summarise_all( e_coalesce_by_column )
 }

@@ -19,7 +19,7 @@ When saving to csv, the default data class/type for factors is the character lab
 dat <- dat_mtcars_e
 str(dat)
 
-dat2 <- dat \%>\% e_data_convert_factor_to_numeric()
+dat2 <- dat |> e_data_convert_factor_to_numeric()
 str(dat2)
 
 # readr::write_csv(x = dat , file = "dat.csv"    )

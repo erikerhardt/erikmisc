@@ -29,7 +29,7 @@
 #'   , sw_sort_prop  = FALSE
 #'   , sw_drop_NA    = FALSE
 #'   , sw_totals     = FALSE
-#'   ) %>%
+#'   ) |>
 #'   print(n = Inf)
 #'
 #' # sorted by proportion, with NAs, no totals
@@ -39,7 +39,7 @@
 #'   , sw_sort_prop  = TRUE
 #'   , sw_drop_NA    = FALSE
 #'   , sw_totals     = FALSE
-#'   ) %>%
+#'   ) |>
 #'   print(n = Inf)
 #'
 #' # sorted by proportion, no NAs, no totals
@@ -49,7 +49,7 @@
 #'   , sw_sort_prop  = TRUE
 #'   , sw_drop_NA    = TRUE
 #'   , sw_totals     = FALSE
-#'   ) %>%
+#'   ) |>
 #'   print(n = Inf)
 #'
 #' # sorted by proportion, no NAs, with totals
@@ -59,7 +59,7 @@
 #'   , sw_sort_prop  = TRUE
 #'   , sw_drop_NA    = TRUE
 #'   , sw_totals     = TRUE
-#'   ) %>%
+#'   ) |>
 #'   print(n = Inf)
 #'
 e_table_sum_freq_prop <-
@@ -74,7 +74,7 @@ e_table_sum_freq_prop <-
   # drop NAs
   if (sw_drop_NA) {
     dat <-
-      dat %>%
+      dat |>
       tidyr::drop_na(
         tidyselect::all_of(var_names)
       )
@@ -92,27 +92,27 @@ e_table_sum_freq_prop <-
     if (i_var == 0) {
       # summarize by group
       tab_summary[[ i_list ]] <-
-        dat %>%
+        dat |>
         dplyr::summarize(
           n = n()
         , .groups = "drop_last"
-        ) %>%
+        ) |>
         dplyr::mutate(
           prop = round(n / sum(n), 3)
         )
     } else {
       # summarize by group
       tab_summary[[ i_list ]] <-
-        dat %>%
+        dat |>
         dplyr::group_by(
           dplyr::across(
             .cols = var_names[1:i_var]
           )
-        ) %>%
+        ) |>
         dplyr::summarize(
           n = n()
         , .groups = "drop_last"
-        ) %>%
+        ) |>
         dplyr::mutate(
           prop = round(n / sum(n), 3)
         )
@@ -121,7 +121,7 @@ e_table_sum_freq_prop <-
     # sort descending by group
     if (sw_sort_prop) {
       tab_summary[[ i_list ]] <-
-        tab_summary[[ i_list ]] %>%
+        tab_summary[[ i_list ]] |>
         dplyr::arrange(
           dplyr::desc(prop)
         , .by_group = TRUE
@@ -130,7 +130,7 @@ e_table_sum_freq_prop <-
 
     # ungroup before return
     tab_summary[[ i_list ]] <-
-      tab_summary[[ i_list ]] %>%
+      tab_summary[[ i_list ]] |>
       dplyr::ungroup()
 
     # add total labels
@@ -152,7 +152,7 @@ e_table_sum_freq_prop <-
   # add total labels
   if (sw_totals) {
     tab_summary <-
-      tab_summary %>%
+      tab_summary |>
       dplyr::bind_rows()
   }
 

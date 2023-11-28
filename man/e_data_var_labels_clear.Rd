@@ -18,10 +18,10 @@ Clear labels from variables in data frames
 \examples{
 # a single data.frame
 dat <- dat_mtcars_e
-dat \%>\% str()
-dat \%>\% e_data_var_labels_clear() \%>\% str()
+dat |> str()
+dat |> e_data_var_labels_clear() |> str()
 # a list of data.frames
 dat <- list(dat_mtcars_e, dat_mtcars_e)
-dat \%>\% str()
-dat \%>\% e_data_var_labels_clear() \%>\% str()
+dat |> str()
+dat |> e_data_var_labels_clear() |> str()
 }

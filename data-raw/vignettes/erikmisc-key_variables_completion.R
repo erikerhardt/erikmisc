@@ -44,23 +44,23 @@ dat_keys_pre <-
   )
 
 ## -----------------------------------------------------------------------------
-dat_data %>% print(n=Inf)
+dat_data |> print(n=Inf)
 
 ## -----------------------------------------------------------------------------
 dat_keys <-
-  dat_data %>%
+  dat_data |>
   dplyr::select(
     a, b, c, x
-  ) %>%
+  ) |>
   e_coalesce_column_set()
-dat_keys %>% print(n=Inf)
+dat_keys |> print(n=Inf)
 
 ## -----------------------------------------------------------------------------
-dat_keys_pre %>% print(n=Inf)
+dat_keys_pre |> print(n=Inf)
 
 ## -----------------------------------------------------------------------------
-dat_keys      <- dat_keys     %>% dplyr::arrange(a, b, c, x)
-dat_keys_pre  <- dat_keys_pre %>% dplyr::arrange(a, b, c, x)
+dat_keys      <- dat_keys     |> dplyr::arrange(a, b, c, x)
+dat_keys_pre  <- dat_keys_pre |> dplyr::arrange(a, b, c, x)
 
 dplyr::all_equal(dat_keys_pre, dat_keys)
 
@@ -72,5 +72,5 @@ dat_data_updated <-
   , col_keys = c("a", "b", "c", "x")
   )
 
-dat_data_updated %>% print(n=Inf)
+dat_data_updated |> print(n=Inf)
 

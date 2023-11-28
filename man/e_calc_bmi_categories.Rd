@@ -24,6 +24,6 @@ bmi_cat, categorical levels of BMI
 BMI category labels using CDC classification
 }
 \examples{
-e_calc_bmi(60, 150) \%>\% e_calc_bmi_categories()
-e_calc_bmi(seq(40, 70, by = 5), 150) \%>\% e_calc_bmi_categories()
+e_calc_bmi(60, 150) |> e_calc_bmi_categories()
+e_calc_bmi(seq(40, 70, by = 5), 150) |> e_calc_bmi_categories()
 }

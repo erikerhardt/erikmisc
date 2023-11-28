@@ -37,31 +37,31 @@ e_lm_print_html_anova <-
 
   if (inherits(fit, "lm")) {
     fit_anova <-
-      fit %>%
+      fit |>
       #stats::anova()
       car::Anova(type = 3)
     tab <-
-      fit_anova %>%
-      as_tibble(rownames = "Variables") %>%
-      mutate(sig = `Pr(>F)` %>% e_pval_stars())
+      fit_anova |>
+      as_tibble(rownames = "Variables") |>
+      mutate(sig = `Pr(>F)` |> e_pval_stars())
   }
   if (inherits(fit, "lmerMod")) {
     fit_anova <-
-      fit %>%
-      lmerTest::as_lmerModLmerTest() %>%
+      fit |>
+      lmerTest::as_lmerModLmerTest() |>
       #stats::anova()
       car::Anova(type = 3)
     tab <-
-      fit_anova %>%
-      as_tibble(rownames = "Variables") %>%
-      mutate(sig = `Pr(>Chisq)` %>% e_pval_stars())
+      fit_anova |>
+      as_tibble(rownames = "Variables") |>
+      mutate(sig = `Pr(>Chisq)` |> e_pval_stars())
   }
 
   # tab <-
-  #   fit_anova %>%
-  #   as_tibble(rownames = "Variables") %>%
-  #   mutate(sig = `Pr(>F)` %>% e_pval_stars())
-                        #  %>%
+  #   fit_anova |>
+  #   as_tibble(rownames = "Variables") |>
+  #   mutate(sig = `Pr(>F)` |> e_pval_stars())
+                        #  |>
                         # rename(
                         #   `Sum Sq`  = Sum.Sq
                         # , `Mean Sq` = Mean.Sq
@@ -147,7 +147,7 @@ e_lm_print_html_summary <-
   }
   if (inherits(fit, "lmerMod")) {
     fit <-
-      fit %>%
+      fit |>
       lmerTest::as_lmerModLmerTest()
   }
 

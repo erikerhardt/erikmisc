@@ -130,19 +130,19 @@
 #' # The results above indicate the following.
 #' #
 #' # 1. With the number of observations
-#' #      $n = `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>% dplyr::pull(n_total)`$
+#' #      $n = `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |> dplyr::pull(n_total)`$
 #' #    and the number of groups
-#' #      $k = `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>% dplyr::pull(n_groups)`$
+#' #      $k = `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |> dplyr::pull(n_groups)`$
 #' # 2. Observed (preliminary) power:
-#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>%
-#' #            dplyr::pull(obs_power         ) %>% signif(digits = 2)`.
+#' #     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#' #            dplyr::pull(obs_power         ) |> signif(digits = 2)`.
 #' # 3. Cohen small, medium, and large power:
-#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>%
-#' #            dplyr::pull(Cohen_small_power ) %>% signif(digits = 2)`,
-#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>%
-#' #            dplyr::pull(Cohen_medium_power) %>% signif(digits = 2)`, and
-#' #     * `r out[["tab_power"]] %>% dplyr::filter(n_total == 100) %>%
-#' #            dplyr::pull(Cohen_large_power ) %>% signif(digits = 2)`.
+#' #     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#' #            dplyr::pull(Cohen_small_power ) |> signif(digits = 2)`,
+#' #     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#' #            dplyr::pull(Cohen_medium_power) |> signif(digits = 2)`, and
+#' #     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#' #            dplyr::pull(Cohen_large_power ) |> signif(digits = 2)`.
 e_lm_power_ORIGINAL <-
   function(
     dat           = NULL
@@ -200,7 +200,7 @@ e_lm_power_ORIGINAL <-
 
   }
 
-  n_total <- c(n_total, n_plot_ref) %>% unique() %>% sort()
+  n_total <- c(n_total, n_plot_ref) |> unique() |> sort()
 
   if (length(n_total) == 1) {
     message("Setting n_plot_ref = n_total for reference")
@@ -308,7 +308,7 @@ e_lm_power_ORIGINAL <-
 
     if (!is.null(dat)) {
       tab_power[[i_n_total]] <-
-        tab_power[[i_n_total]] %>%
+        tab_power[[i_n_total]] |>
         dplyr::bind_cols(
           tibble::tibble(
             obs_effect_size           = pwr_summary_dat$f2
@@ -319,7 +319,7 @@ e_lm_power_ORIGINAL <-
   } # i_n_total
 
   tab_power <-
-    tab_power %>%
+    tab_power |>
     dplyr::bind_rows()
 
 
@@ -327,7 +327,7 @@ e_lm_power_ORIGINAL <-
 
     if (is.null(dat)) {
       tab_power <-
-        tab_power %>%
+        tab_power |>
         dplyr::bind_cols(
           tibble::tibble(
             obs_effect_size           = NA
@@ -339,7 +339,7 @@ e_lm_power_ORIGINAL <-
 
     # reshape for plotting
     dat_power_curve_long <-
-      tab_power %>%
+      tab_power |>
       dplyr::select(
         n_total
       #, n_groups
@@ -355,13 +355,13 @@ e_lm_power_ORIGINAL <-
       , Cohen_large_power
       #, obs_effect_size
       , obs_power
-      ) %>%
+      ) |>
       dplyr::rename(
         `Observed`     = obs_power
       , `Cohen Small`  = Cohen_small_power
       , `Cohen Medium` = Cohen_medium_power
       , `Cohen Large`  = Cohen_large_power
-      ) %>%
+      ) |>
       tidyr::pivot_longer(
         cols =
           c(
@@ -372,18 +372,18 @@ e_lm_power_ORIGINAL <-
           )
       , names_to = "Effect_Size"
       , values_to = "Power"
-      ) %>%
+      ) |>
       dplyr::rename(
         Sample_Size = n_total
-      ) %>%
+      ) |>
       dplyr::select(
         Sample_Size, everything()
-      ) %>%
+      ) |>
       dplyr::arrange(
         Power, Sample_Size, Effect_Size
-      ) %>%
+      ) |>
       dplyr::mutate(
-        Effect_Size = Effect_Size %>% factor(levels =
+        Effect_Size = Effect_Size |> factor(levels =
                                                 c(
                                                   "Observed"
                                                 , "Cohen Small"
@@ -392,7 +392,7 @@ e_lm_power_ORIGINAL <-
                                                 )
                                               , ordered = TRUE
                                               )
-      ) %>%
+      ) |>
       tidyr::drop_na()
 
 
@@ -404,18 +404,18 @@ e_lm_power_ORIGINAL <-
       text_caption <-
         paste0(
           text_caption
-        , "Observed: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
+        , "Observed: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) |> pull(Power) |> round(3)
         , ";  "
         )
     }
     text_caption <-
       paste0(
         text_caption
-      , "Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+      , "Cohen Small: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) |> pull(Power) |> round(3)
       , ";  "
-      , "Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
+      , "Cohen Medium: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") |> pull(Power) |> round(3)
       , ";  "
-      , "Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
+      , "Cohen Large: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) |> pull(Power) |> round(3)
       )
 
     if (length(n_total) == 1) {
@@ -430,7 +430,7 @@ e_lm_power_ORIGINAL <-
       p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
       p <- p + geom_bar(stat = "identity")
       #if (!is.null(n_plot_ref)) {
-      #  p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size == n_plot_ref)
+      #  p <- p + geom_hline(data = dat_power_curve_long |> filter(Sample_Size == n_plot_ref)
       #                    , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
       #}
 
@@ -438,8 +438,8 @@ e_lm_power_ORIGINAL <-
       #p <- p + scale_x_continuous(breaks = c(seq(0, 1000, by = 50), n_total), minor_breaks = seq(0, 1000, by = 10))
       p <- p + labs(  title = "Power"
                     #, subtitle = "Progress and Starting Current"
-                    #, x = stringr::str_wrap(labelled::var_label(dat_pdp$a1c_baseline) %>% as.character(), width = text_width)
-                    #, y = labelled::var_label(dat_pdp$phq9_all_total_score_log2) %>% as.character()
+                    #, x = stringr::str_wrap(labelled::var_label(dat_pdp$a1c_baseline) |> as.character(), width = text_width)
+                    #, y = labelled::var_label(dat_pdp$phq9_all_total_score_log2) |> as.character()
                     #, colour    = "Effect Size"
                     #, shape     = "General Health"  # "Imputed"
                     , linetype  = "Effect Size"  #"Diagnosis"
@@ -470,15 +470,15 @@ e_lm_power_ORIGINAL <-
       p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
       p <- p + geom_line(alpha = 1, size = 1)
       if (!is.null(n_plot_ref)) {
-        p <- p + geom_hline(data = dat_power_curve_long %>% filter(Sample_Size == n_plot_ref)
+        p <- p + geom_hline(data = dat_power_curve_long |> filter(Sample_Size == n_plot_ref)
                           , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
       }
       p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
       #p <- p + scale_x_continuous(breaks = c(seq(0, 1000, by = 50), n_total), minor_breaks = seq(0, 1000, by = 10))
       p <- p + labs(  title = "Power curves"
                     #, subtitle = "Progress and Starting Current"
-                    #, x = stringr::str_wrap(labelled::var_label(dat_pdp$a1c_baseline) %>% as.character(), width = text_width)
-                    #, y = labelled::var_label(dat_pdp$phq9_all_total_score_log2) %>% as.character()
+                    #, x = stringr::str_wrap(labelled::var_label(dat_pdp$a1c_baseline) |> as.character(), width = text_width)
+                    #, y = labelled::var_label(dat_pdp$phq9_all_total_score_log2) |> as.character()
                     , colour    = "Effect Size"
                     #, shape     = "General Health"  # "Imputed"
                     , linetype  = "Effect Size"  #"Diagnosis"
@@ -488,10 +488,10 @@ e_lm_power_ORIGINAL <-
         p <- p + labs(caption = text_caption)
         # p <- p + labs(
         #               caption = paste0(  "Power at a sample size of n = ", n_plot_ref, ":"
-        #                               , "\nObserved: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Large: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Medium: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-        #                               , ";  Cohen Small: ", dat_power_curve_long %>% filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+        #                               , "\nObserved: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Observed"    ) |> pull(Power) |> round(3)
+        #                               , ";  Cohen Large: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Large" ) |> pull(Power) |> round(3)
+        #                               , ";  Cohen Medium: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Medium") |> pull(Power) |> round(3)
+        #                               , ";  Cohen Small: ", dat_power_curve_long |> filter(Sample_Size == n_plot_ref, Effect_Size == "Cohen Small" ) |> pull(Power) |> round(3)
         #                                )
         #             )
       }

@@ -71,7 +71,7 @@ lm_crit <-
   , dat_fit  = dat_mtcars_e
   , model_id = 1
   )
-lm_crit \%>\% print(width = Inf)
+lm_crit |> print(width = Inf)
 
 # intercept-only model
 lm_form <- formula(mpg ~ 1)
@@ -86,5 +86,5 @@ lm_crit <-
   , dat_fit  = dat_mtcars_e
   , model_id = 1
   )
-lm_crit \%>\% print(width = Inf)
+lm_crit |> print(width = Inf)
 }

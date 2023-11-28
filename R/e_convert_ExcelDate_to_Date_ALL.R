@@ -35,12 +35,13 @@ e_convert_ExcelDate_to_Date <-
   , origin = "1899-12-30"
   ) {
 
-  as.Date(
-    dates
-  , origin = origin     # using 1900 Date system
-  , tz = "UTC"
-  ) %>%
-  return()
+  return(
+    as.Date(
+      dates
+    , origin = origin     # using 1900 Date system
+    , tz = "UTC"
+    )
+  )
 }
 
 #' Convert Date to Excel date
@@ -78,15 +79,16 @@ e_convert_Date_to_ExcelDate <-
   , origin = "1899-12-30"
   ) {
 
-  as.numeric(
-    as.Date(dates) -
-    as.Date(
-      0
-    , origin = origin   # using 1900 Date system
-    , tz = "UTC"
+  return(
+    as.numeric(
+      as.Date(dates) -
+      as.Date(
+        0
+      , origin = origin   # using 1900 Date system
+      , tz = "UTC"
+      )
     )
-  ) %>%
-  return()
+  )
 }
 
 #' Convert Excel datetime to Datetime
@@ -124,12 +126,13 @@ e_convert_ExcelDatetime_to_Datetime <-
   , origin = "1899-12-30"
   ) {
 
-  as.POSIXct(
-    datetimes * (60 * 60 * 24)
-  , origin = origin     # using 1900 Date system
-  , tz = "UTC"
-  ) %>%
-  return()
+  return(
+    as.POSIXct(
+      datetimes * (60 * 60 * 24)
+    , origin = origin     # using 1900 Date system
+    , tz = "UTC"
+    )
+  )
 }
 
 #' Convert Datetime to Excel datetime
@@ -167,15 +170,16 @@ e_convert_Datetime_to_ExcelDatetime <-
   , origin = "1899-12-30 00:00:00 UTC"
   ) {
 
-  as.numeric(
-    as.POSIXct(datetimes, tz = "UTC") -
-    as.POSIXct(
-      0
-    , origin = origin   # using 1900 Date system
-    , tz = "UTC"
+  return(
+    as.numeric(
+      as.POSIXct(datetimes, tz = "UTC") -
+      as.POSIXct(
+        0
+      , origin = origin   # using 1900 Date system
+      , tz = "UTC"
+      )
     )
-  ) %>%
-  return()
+  )
 }
 
 

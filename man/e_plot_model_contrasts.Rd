@@ -163,7 +163,7 @@ p_arranged <-
   , labels    = "AUTO"
   )
 
-p_arranged \%>\% print()
+p_arranged |> print()
 
 
 
@@ -196,7 +196,7 @@ fit_contrasts$plots$`disp:hp`$both
 ## GLM on logit and probability scales
 
 dat_cont <-
-  dat_cont \%>\%
+  dat_cont |>
   dplyr::mutate(
     am_01 =
       dplyr::case_when(

@@ -4,7 +4,7 @@ editrules_vci <- function() {
 
   # Data subset
   dat_vci_subset <-
-    dat_vci %>%
+    dat_vci |>
     filter(redcap_event_name == "baseline_appt__bas_arm_1")
 
   library(editrules)
@@ -36,7 +36,7 @@ editrules_vci <- function() {
 ## library(dplyr)
 ##
 ## dat_vci_baseline <-
-##   dat_vci %>%
+##   dat_vci |>
 ##   filter(redcap_event_name == "baseline_appt__bas_arm_1")
 ##
 ## library(editrules)

@@ -46,7 +46,7 @@ e_table_sum_freq_prop(
   , sw_sort_prop  = FALSE
   , sw_drop_NA    = FALSE
   , sw_totals     = FALSE
-  ) \%>\%
+  ) |>
   print(n = Inf)
 
 # sorted by proportion, with NAs, no totals
@@ -56,7 +56,7 @@ e_table_sum_freq_prop(
   , sw_sort_prop  = TRUE
   , sw_drop_NA    = FALSE
   , sw_totals     = FALSE
-  ) \%>\%
+  ) |>
   print(n = Inf)
 
 # sorted by proportion, no NAs, no totals
@@ -66,7 +66,7 @@ e_table_sum_freq_prop(
   , sw_sort_prop  = TRUE
   , sw_drop_NA    = TRUE
   , sw_totals     = FALSE
-  ) \%>\%
+  ) |>
   print(n = Inf)
 
 # sorted by proportion, no NAs, with totals
@@ -76,7 +76,7 @@ e_table_sum_freq_prop(
   , sw_sort_prop  = TRUE
   , sw_drop_NA    = TRUE
   , sw_totals     = TRUE
-  ) \%>\%
+  ) |>
   print(n = Inf)
 
 }

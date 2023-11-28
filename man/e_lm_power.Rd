@@ -148,23 +148,23 @@ out <-
   , sw_plots      = TRUE
   , n_plot_ref    = c(100, 120, 150)
   )
-out$tab_power_ref \%>\% print(width = Inf)
+out$tab_power_ref |> print(width = Inf)
 
 ### RMarkdown results reporting
 # The results above indicate the following.
 #
 # 1. With the number of observations
-#      $n = `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(n_total)`$
+#      $n = `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |> dplyr::pull(n_total)`$
 #    and the number of groups
-#      $k = `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\% dplyr::pull(n_groups)`$
+#      $k = `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |> dplyr::pull(n_groups)`$
 # 2. Observed (preliminary) power:
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
-#            dplyr::pull(obs_power         ) \%>\% signif(digits = 2)`.
+#     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#            dplyr::pull(obs_power         ) |> signif(digits = 2)`.
 # 3. Cohen small, medium, and large power:
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
-#            dplyr::pull(Cohen_small_power ) \%>\% signif(digits = 2)`,
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
-#            dplyr::pull(Cohen_medium_power) \%>\% signif(digits = 2)`, and
-#     * `r out[["tab_power"]] \%>\% dplyr::filter(n_total == 100) \%>\%
-#            dplyr::pull(Cohen_large_power ) \%>\% signif(digits = 2)`.
+#     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#            dplyr::pull(Cohen_small_power ) |> signif(digits = 2)`,
+#     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#            dplyr::pull(Cohen_medium_power) |> signif(digits = 2)`, and
+#     * `r out[["tab_power"]] |> dplyr::filter(n_total == 100) |>
+#            dplyr::pull(Cohen_large_power ) |> signif(digits = 2)`.
 }

@@ -67,14 +67,14 @@ list_var_row_names <- c("mpg", "cyl", "disp", "hp", "drat", "wt"
 # assigning to new dataset since you may want to filter or subset in some way,
 #   for example, only baseline measurements in a longitudinal analysis
 dat_tab1 <-
-  dat_mtcars_e \%>\%
-  #dplyr::filter(EVENT_ID == "BL") \%>\%
+  dat_mtcars_e |>
+  #dplyr::filter(EVENT_ID == "BL") |>
   dplyr::select(all_of(c(list_var_col_names, list_var_row_names)))
 
 
 # label variables
-list_var_col_labels <- labelled::var_label(dat_tab1[, list_var_col_names]) \%>\% unlist()
-list_var_row_labels <- labelled::var_label(dat_tab1[, list_var_row_names]) \%>\% unlist()
+list_var_col_labels <- labelled::var_label(dat_tab1[, list_var_col_names]) |> unlist()
+list_var_row_labels <- labelled::var_label(dat_tab1[, list_var_row_names]) |> unlist()
 
 # This loop creates a table summarized by each variable,
 #   but can also specify multiple columns to summarize conditional on multiple columns.

@@ -11,7 +11,7 @@ f_tab_text <-
   , var_names
   , text_blank = c(NA, "none", "n/a", "na")
   ) {
-  ## f_tab_sum(dat_all, "Gender") %>% print(n=Inf)
+  ## f_tab_sum(dat_all, "Gender") |> print(n=Inf)
 
   # dat_all_dup
   # , c("Treatment", "Group", var_class_tbl$Var[i_col])
@@ -29,24 +29,24 @@ f_tab_text <-
     )
 
   tab_dat_summary_temp <-
-    dat_sum %>%
+    dat_sum |>
     # dplyr::group_by_(
     #   .dots = var_names
-    # ) %>%
+    # ) |>
     dplyr::group_by(
       across(var_names)
-    ) %>%
-    drop_na(var_names[length(var_names)]) %>%
+    ) |>
+    drop_na(var_names[length(var_names)]) |>
     dplyr::summarize(
       n = n()
     , .groups = "drop_last"
-    ) %>%
+    ) |>
     #mutate(
     #  prop = round(n / sum(n), 3)
-    #) %>%
+    #) |>
     #arrange(
     #  desc(n)
-    #) %>%
+    #) |>
     dplyr::ungroup()
 
   return(tab_dat_summary_temp)
@@ -65,18 +65,18 @@ f_plot_factor_table <-
 
   # Find factor columns with names starting with Q#
   names_col_factor <-
-    colnames(dat_all)[which(rbind(lapply(dat_all, class)) == "factor")] %>%
+    colnames(dat_all)[which(rbind(lapply(dat_all, class)) == "factor")] |>
     stringr::str_subset(pattern = "^Q[0-9]")
 
   var_class_tbl <-
-    bind_rows(lapply(dat_all, class))[1,] %>%
-    t() %>%
+    bind_rows(lapply(dat_all, class))[1,] |>
+    t() |>
     as_tibble(
       rownames = "Var"
-    ) %>%
+    ) |>
     rename(
       class = V1
-    ) %>%
+    ) |>
     mutate(
       I_Survey = stringr::str_detect(Var, pattern = "^Q[0-9]")
     )
@@ -84,20 +84,20 @@ f_plot_factor_table <-
 
   # duplicate dataset and combine all courses into an "ALL" group
   dat_all_dup <-
-    dat_all %>%
+    dat_all |>
     bind_rows(
-      dat_all %>%
+      dat_all |>
       filter(
         Treatment == "ECURE"
-      ) %>%
+      ) |>
       mutate(
         Group = "_ALL-ECURE"
       )
     )
-    #%>%
+    #|>
     #mutate(
-    #  Group = Group %>% str_replace("Control", "_ALL_Control")
-    #, Group = Group %>% factor()
+    #  Group = Group |> str_replace("Control", "_ALL_Control")
+    #, Group = Group |> factor()
     #)
 
   dat_all_dup <-
@@ -133,7 +133,7 @@ f_plot_factor_table <-
       )
     plot_label_caption <-
       paste0(
-        labelled::var_label(dat_all_dup[var_class_tbl$Var[i_col]] ) %>%
+        labelled::var_label(dat_all_dup[var_class_tbl$Var[i_col]] ) |>
         stringr::str_wrap(width = 120)
       )
 
@@ -143,7 +143,7 @@ f_plot_factor_table <-
         var_class_tbl$Var[i_col]
       , ":  "
       , labelled::var_label(dat_all_dup[[ var_class_tbl$Var[i_col] ]])
-        #%>%
+        #|>
         #stringr::str_wrap(width = 40)
       )
     )
@@ -182,7 +182,7 @@ f_plot_factor_table <-
       print(p)
 
       ## library(ggplot2)
-      ## p <- ggplot(dat_all_dup %>% drop_na(var_class_tbl$Var[i_col]), aes_string(x = var_class_tbl$Var[i_col]))
+      ## p <- ggplot(dat_all_dup |> drop_na(var_class_tbl$Var[i_col]), aes_string(x = var_class_tbl$Var[i_col]))
       ## p <- p + theme_bw()
       ## p <- p + geom_hline(yintercept = c(0), alpha = 0.15)
       ## #p <- p + geom_bar()
@@ -216,18 +216,18 @@ f_plot_factor_table <-
             , var_group
             , var_class_tbl$Var[i_col]
             )
-        ) %>%
+        ) |>
         pivot_wider(
           id_cols     = var_class_tbl$Var[i_col]
         , names_from  = all_of(var_group)
         , values_from = n
         )
 
-      tab_sum %>%
-        e_table_print(sw_scale = 12, sw_kable_format = table_output) %>%
+      tab_sum |>
+        e_table_print(sw_scale = 12, sw_kable_format = table_output) |>
         print()
       #print(n=Inf, width=Inf)
-      #%>%
+      #|>
       #print()
 
       readr::write_csv(
@@ -248,9 +248,9 @@ f_plot_factor_table <-
         , text_blank = c(NA, "none", "n/a", "na")
         )
 
-      tab_sum %>%
+      tab_sum |>
         e_table_print(sw_scale = 12, sw_kable_format = table_output)
-        #%>%
+        #|>
         #print()
 
       readr::write_csv(

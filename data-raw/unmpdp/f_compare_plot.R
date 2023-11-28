@@ -18,7 +18,7 @@ f_compare_plot <- function(dat_sub, var_plot, var_name = NULL, comparisons = c(N
   }
 
   dat_plot <-
-    dat_sub %>%
+    dat_sub |>
     select(surv_prog, var_plot)
   colnames(dat_plot)[2] <- "var"
 

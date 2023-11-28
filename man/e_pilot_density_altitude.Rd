@@ -121,20 +121,20 @@ for (i_pres_alt in seq(0, 10000, by = 2000)) {
 }
 
 dat_out <-
-  list_out \%>\%
+  list_out |>
   dplyr::bind_rows()
-dat_out \%>\% print(n = 10)
+dat_out |> print(n = 10)
 
 # Note: pres_alt = pressure altitude at 29.92 inches Mg
 
 # density altitude
 dat_density_altitude <-
-  dat_out \%>\%
+  dat_out |>
   dplyr::select(
     density_altitude
   , pres_alt
   , temp_C
-  ) \%>\%
+  ) |>
   tidyr::pivot_wider(
     id_cols     = temp_C
   , names_from  = pres_alt
@@ -143,12 +143,12 @@ dat_density_altitude <-
 
 # takeoff roll
 dat_takeoff_roll <-
-  dat_out \%>\%
+  dat_out |>
   dplyr::select(
     dist_takeoff_dens_alt
   , pres_alt
   , temp_C
-  ) \%>\%
+  ) |>
   tidyr::pivot_wider(
     id_cols     = temp_C
   , names_from  = pres_alt
@@ -157,12 +157,12 @@ dat_takeoff_roll <-
 
 # climb rate
 dat_climbrate <-
-  dat_out \%>\%
+  dat_out |>
   dplyr::select(
     climb_rate_dens_alt
   , pres_alt
   , temp_C
-  ) \%>\%
+  ) |>
   tidyr::pivot_wider(
     id_cols     = temp_C
   , names_from  = pres_alt

@@ -29,7 +29,7 @@ e_calc_phq9_categories(c(0, 6, 12, 21))
 
 dplyr::tibble(
   phq9 = seq(0, 27, by = 1)
-, phq9_cat = phq9 \%>\% e_calc_phq9_categories()
-) \%>\%
+, phq9_cat = phq9 |> e_calc_phq9_categories()
+) |>
 print(n = Inf)
 }

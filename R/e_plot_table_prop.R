@@ -33,7 +33,7 @@ e_plot_table_prop <-
   # calculate proportions
   tab_plot <-
     e_table_sum_freq_prop(
-      dat       = dat_plot %>% tidyr::drop_na(tidyselect::any_of(var_names))
+      dat       = dat_plot |> tidyr::drop_na(tidyselect::any_of(var_names))
     , var_names = var_names
     )
 

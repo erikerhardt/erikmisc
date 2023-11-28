@@ -53,15 +53,15 @@ dat_ex <-
       , "a a a", "1,a a a", "2,a a a"
       )
   , col2 = LETTERS[1:length(col1)]
-  ) \%>\%
+  ) |>
   dplyr::mutate(
     ID = 1:dplyr::n()
-  ) \%>\%
+  ) |>
   dplyr::select(
     ID
   , tidyselect::everything()
   )
-dat_ex \%>\% print(n = Inf)
+dat_ex |> print(n = Inf)
 
 # return data
 dat_ex_out <-
@@ -76,7 +76,7 @@ dat_ex_out <-
   , sw_replace_GT1_with_1 = FALSE
   , sw_print_unique       = TRUE
   )
-dat_ex_out \%>\% print(n = Inf)
+dat_ex_out |> print(n = Inf)
 
 # return summary
 dat_ex_sum <-
