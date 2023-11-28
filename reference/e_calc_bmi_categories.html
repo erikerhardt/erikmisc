@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.02</span>
       </span>
     </div>
 
@@ -80,10 +80,10 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">150</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Overweight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Underweight Normal or Healthy Weight Overweight Obese</span>
-<span class="r-in"><span><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="fl">150</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="e_calc_bmi.html">e_calc_bmi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">70</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="fl">150</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">e_calc_bmi_categories</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Underweight              Normal or Healthy Weight Normal or Healthy Weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] Normal or Healthy Weight Overweight               Overweight              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] Obese                   </span>

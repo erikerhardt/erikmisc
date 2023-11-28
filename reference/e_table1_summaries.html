@@ -19,7 +19,7 @@ then join them into a single file at the end"><!-- mathjax --><script src="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.02</span>
       </span>
     </div>
 
@@ -144,14 +144,14 @@ then join them into a single file at the end</p>
 <span class="r-in"><span><span class="co"># assigning to new dataset since you may want to filter or subset in some way,</span></span></span>
 <span class="r-in"><span><span class="co">#   for example, only baseline measurements in a longitudinal analysis</span></span></span>
 <span class="r-in"><span><span class="va">dat_tab1</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">dat_mtcars_e</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="co">#dplyr::filter(EVENT_ID == "BL") %&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="va">dat_mtcars_e</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="co">#dplyr::filter(EVENT_ID == "BL") |&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">list_var_col_names</span>, <span class="va">list_var_row_names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># label variables</span></span></span>
-<span class="r-in"><span><span class="va">list_var_col_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_col_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">list_var_row_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_row_names</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">list_var_col_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_col_names</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">list_var_row_labels</span> <span class="op">&lt;-</span> <span class="fu">labelled</span><span class="fu">::</span><span class="fu"><a href="https://larmarange.github.io/labelled/reference/var_label.html" class="external-link">var_label</a></span><span class="op">(</span><span class="va">dat_tab1</span><span class="op">[</span>, <span class="va">list_var_row_names</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># This loop creates a table summarized by each variable,</span></span></span>
 <span class="r-in"><span><span class="co">#   but can also specify multiple columns to summarize conditional on multiple columns.</span></span></span>

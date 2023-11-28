@@ -19,7 +19,7 @@ based on pressure altitude and temperature."><!-- mathjax --><script src="https:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.02</span>
       </span>
     </div>
 
@@ -187,9 +187,9 @@ and all the input parameters.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dat_out</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">list_out</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="va">list_out</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dat_out</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dat_out</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 42 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    density_altitude dist_takeoff_dens_alt climb_rate_dens_alt pres_alt temp_C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
@@ -211,12 +211,12 @@ and all the input parameters.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># density altitude</span></span></span>
 <span class="r-in"><span><span class="va">dat_density_altitude</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">dat_out</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="va">dat_out</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">density_altitude</span></span></span>
 <span class="r-in"><span>  , <span class="va">pres_alt</span></span></span>
 <span class="r-in"><span>  , <span class="va">temp_C</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id_cols     <span class="op">=</span> <span class="va">temp_C</span></span></span>
 <span class="r-in"><span>  , names_from  <span class="op">=</span> <span class="va">pres_alt</span></span></span>
@@ -225,12 +225,12 @@ and all the input parameters.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># takeoff roll</span></span></span>
 <span class="r-in"><span><span class="va">dat_takeoff_roll</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">dat_out</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="va">dat_out</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">dist_takeoff_dens_alt</span></span></span>
 <span class="r-in"><span>  , <span class="va">pres_alt</span></span></span>
 <span class="r-in"><span>  , <span class="va">temp_C</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id_cols     <span class="op">=</span> <span class="va">temp_C</span></span></span>
 <span class="r-in"><span>  , names_from  <span class="op">=</span> <span class="va">pres_alt</span></span></span>
@@ -239,12 +239,12 @@ and all the input parameters.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># climb rate</span></span></span>
 <span class="r-in"><span><span class="va">dat_climbrate</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">dat_out</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="va">dat_out</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">climb_rate_dens_alt</span></span></span>
 <span class="r-in"><span>  , <span class="va">pres_alt</span></span></span>
 <span class="r-in"><span>  , <span class="va">temp_C</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id_cols     <span class="op">=</span> <span class="va">temp_C</span></span></span>
 <span class="r-in"><span>  , names_from  <span class="op">=</span> <span class="va">pres_alt</span></span></span>
