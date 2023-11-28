@@ -338,7 +338,7 @@ e_plot_roc <-
             )
         )
     }
-    p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    p <- p + theme(plot.caption = element_text(hjust = 0, size = 6), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
   } else {
     p <- NULL
