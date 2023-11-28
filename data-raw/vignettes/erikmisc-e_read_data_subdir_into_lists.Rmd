@@ -97,7 +97,7 @@ dat_sheet <-
   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
   )
 
-dat_sheet %>% print()
+dat_sheet |> print()
 ```
 
 Finally, files within a folder with no other subdirectories can easily be bind'ed together.

@@ -55,19 +55,19 @@ cahps_cat_to_val <-
   ## cahps_cat = dat_pdp$cahpscc_pat_06
 
   num_levels <-
-    cahps_cat %>%
-    levels() %>%
+    cahps_cat |>
+    levels() |>
     length()
 
   cahps_num <-
-    cahps_cat %>%
+    cahps_cat |>
     as.numeric()
 
   if (cahps_scale == "neg1pos1") {
     val_unique <-
-      cahps_num %>%
-      unique() %>%
-      na.omit() %>%
+      cahps_num |>
+      unique() |>
+      na.omit() |>
       sort()
 
     #if (cahps_direction == "low_neg") {

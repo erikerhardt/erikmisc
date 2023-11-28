@@ -20,17 +20,17 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
   # pigf to plgf
   ind_this <-
-    stringr::str_detect(tolower(names(dat_vci)), "pigf") %>%
+    stringr::str_detect(tolower(names(dat_vci)), "pigf") |>
     which()
   colnames(dat_vci)[ind_this] <-
-    colnames(dat_vci)[ind_this] %>%
+    colnames(dat_vci)[ind_this] |>
     stringr::str_replace(
       stringr::fixed("pigf")
     , stringr::fixed("plgf")
     )
   for (i_this in ind_this) {
     labelled::var_label(dat_vci[, i_this]) <-
-      labelled::var_label(dat_vci[, i_this]) %>%
+      labelled::var_label(dat_vci[, i_this]) |>
       stringr::str_replace(
         stringr::fixed("PIGF")
       , stringr::fixed("PlGF")
@@ -39,17 +39,17 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
   # ifn_y to ifn_g
   ind_this <-
-    stringr::str_detect(tolower(names(dat_vci)), "ifn_y") %>%
+    stringr::str_detect(tolower(names(dat_vci)), "ifn_y") |>
     which()
   colnames(dat_vci)[ind_this] <-
-    colnames(dat_vci)[ind_this] %>%
+    colnames(dat_vci)[ind_this] |>
     stringr::str_replace(
       stringr::fixed("ifn_y")
     , stringr::fixed("ifn_g")
     )
   for (i_this in ind_this) {
     labelled::var_label(dat_vci[, i_this]) <-
-      labelled::var_label(dat_vci[, i_this]) %>%
+      labelled::var_label(dat_vci[, i_this]) |>
       stringr::str_replace(
         stringr::fixed("IFN-y")
       , stringr::fixed("IFN-g")
@@ -58,17 +58,17 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
   # VEGF (no suffix) add "-A"
   ind_this <-
-    stringr::str_detect(tolower(names(dat_vci)), "vegf$") %>%
+    stringr::str_detect(tolower(names(dat_vci)), "vegf$") |>
     which()
   colnames(dat_vci)[ind_this] <-
-    colnames(dat_vci)[ind_this] %>%
+    colnames(dat_vci)[ind_this] |>
     stringr::str_replace(
       "vegf"
     , stringr::fixed("vegf_a")
     )
   for (i_this in ind_this) {
     labelled::var_label(dat_vci[, i_this]) <-
-      labelled::var_label(dat_vci[, i_this]) %>%
+      labelled::var_label(dat_vci[, i_this]) |>
       stringr::str_replace(
         "VEGF$"
       , stringr::fixed("VEGF-A")
@@ -77,10 +77,10 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
   # csf_flt add "_1"
   ind_this <-
-    stringr::str_detect(tolower(names(dat_vci)), "fl_angio_csf_flt") %>%
+    stringr::str_detect(tolower(names(dat_vci)), "fl_angio_csf_flt") |>
     which()
   colnames(dat_vci)[ind_this] <-
-    colnames(dat_vci)[ind_this] %>%
+    colnames(dat_vci)[ind_this] |>
     stringr::str_replace(
       stringr::fixed("fl_angio_csf_flt")
     , stringr::fixed("fl_angio_csf_flt_1")
@@ -93,7 +93,7 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
     # plamsa to plasma
     labelled::var_label(dat_vci[[i_var]]) <-
-      labelled::var_label(dat_vci[[i_var]]) %>%
+      labelled::var_label(dat_vci[[i_var]]) |>
       stringr::str_replace(
         stringr::fixed("Plamsa")
       , stringr::fixed("Plasma")
@@ -102,13 +102,13 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
     # Move MSD after CSF or Plasma
     labelled::var_label(dat_vci[[i_var]]) <-
-      labelled::var_label(dat_vci[[i_var]]) %>%
+      labelled::var_label(dat_vci[[i_var]]) |>
       stringr::str_replace(
         stringr::fixed("MSD Plasma")
       , stringr::fixed("Plasma MSD")
       )
     labelled::var_label(dat_vci[[i_var]]) <-
-      labelled::var_label(dat_vci[[i_var]]) %>%
+      labelled::var_label(dat_vci[[i_var]]) |>
       stringr::str_replace(
         stringr::fixed("MSD CSF")
       , stringr::fixed("CSF MSD")
@@ -116,19 +116,19 @@ additional_variable_formatting_vci <- function(dat_vci) {
 
     # Add CSF
     labelled::var_label(dat_vci[[i_var]]) <-
-      labelled::var_label(dat_vci[[i_var]]) %>%
+      labelled::var_label(dat_vci[[i_var]]) |>
       stringr::str_replace(
         stringr::fixed("Albumin Index")
       , stringr::fixed("CSF Albumin Index")
       )
     labelled::var_label(dat_vci[[i_var]]) <-
-      labelled::var_label(dat_vci[[i_var]]) %>%
+      labelled::var_label(dat_vci[[i_var]]) |>
       stringr::str_replace(
         stringr::fixed("A Beta")
       , stringr::fixed("CSF A Beta")
       )
     labelled::var_label(dat_vci[[i_var]]) <-
-      labelled::var_label(dat_vci[[i_var]]) %>%
+      labelled::var_label(dat_vci[[i_var]]) |>
       stringr::str_replace(
         stringr::fixed("P-Tau")
       , stringr::fixed("CSF P-Tau")

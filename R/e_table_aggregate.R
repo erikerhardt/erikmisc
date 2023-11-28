@@ -36,7 +36,7 @@
 #' e_table_aggregate(
 #'     dat                 = dat_mtcars_e
 #'   , var_names_by        = c("cyl", "am")
-#'   , var_names_aggregate = list_aggregate_var_func %>% names()
+#'   , var_names_aggregate = list_aggregate_var_func |> names()
 #'   , func_aggregate      = list_aggregate_var_func
 #'   )
 e_table_aggregate <-
@@ -76,7 +76,7 @@ e_table_aggregate <-
 
   # summarize by group
   dat_group <-
-    dat %>%
+    dat |>
     dplyr::group_by(
       dplyr::across(
         .cols = all_of(var_names_by)
@@ -94,14 +94,14 @@ e_table_aggregate <-
     func_this <- func_aggregate[[i_var]]
 
     dat_aggregate_indy <-
-      dat_group %>%
+      dat_group |>
       dplyr::summarize(
         value =
-          .data[[ var_names_aggregate[i_var] ]] %>%
+          .data[[ var_names_aggregate[i_var] ]] |>
           #sum(na.rm = TRUE)
           func_this(na.rm = TRUE)
       , .groups = "keep"
-      ) %>%
+      ) |>
       dplyr::rename(
         !!var_names_aggregate[i_var] := value
       )
@@ -111,7 +111,7 @@ e_table_aggregate <-
         dat_aggregate_indy
     } else {
       dat_aggregate <-
-        dat_aggregate %>%
+        dat_aggregate |>
         dplyr::full_join(
           dat_aggregate_indy
         , by = var_names_by
@@ -121,7 +121,7 @@ e_table_aggregate <-
 
   if (.groups == c("drop", "keep")[1]) {
     dat_aggregate <-
-      dat_aggregate %>%
+      dat_aggregate |>
       dplyr::ungroup()
   }
 

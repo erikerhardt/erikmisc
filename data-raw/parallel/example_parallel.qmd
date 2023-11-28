@@ -182,7 +182,7 @@ for (i_letter in seq_along(list_letters)) {
 # For very big results, this can take a long time
 #   and the indexing works similarly for listenv()
 # results <-
-#   results %>%
+#   results |>
 #   as.list()
 
 tictoc::toc() # end timer

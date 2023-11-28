@@ -44,7 +44,7 @@ dat_sheet <-
   , sw_dat_print_fn_read    = c(TRUE, FALSE)[1]
   )
 
-dat_sheet %>% print()
+dat_sheet |> print()
 
 ## -----------------------------------------------------------------------------
 dplyr::bind_rows(dat_sheet$dir_b)

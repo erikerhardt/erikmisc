@@ -39,7 +39,7 @@ f_split_Spanish_English <-
       , pattern = delim
       #, n = 2
       , simplify = TRUE
-      ) %>%
+      ) |>
       stringr::str_trim()
 
     if(debug) {

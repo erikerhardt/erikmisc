@@ -77,7 +77,7 @@
 #'
 #' # categorical
 #' e_plot_longitudinal(
-#'     dat_plot         = lme4::sleepstudy %>%
+#'     dat_plot         = lme4::sleepstudy |>
 #'                          dplyr::mutate(Reaction_cat =
 #'                                          cut(Reaction, breaks = seq(200, 400, by = 50))
 #'                          )
@@ -152,7 +152,7 @@ e_plot_longitudinal <-
   # subset and rename variables
   if (!is.null(var_group)) {
     dat_plot <-
-      dat_plot %>%
+      dat_plot |>
       dplyr::select(
         tidyselect::any_of(
           c(
@@ -162,17 +162,17 @@ e_plot_longitudinal <-
           , var_y_resp
           )
         )
-      ) %>%
+      ) |>
       dplyr::rename(
         var_ID     = !!var_ID
       , var_group  = !!var_group
       , var_x_time = !!var_x_time
       , var_y_resp = !!var_y_resp
-      ) %>%
+      ) |>
       dplyr::as_tibble()
   } else {
     dat_plot <-
-      dat_plot %>%
+      dat_plot |>
       dplyr::select(
         tidyselect::any_of(
           c(
@@ -182,13 +182,13 @@ e_plot_longitudinal <-
           , var_y_resp
           )
         )
-      ) %>%
+      ) |>
       dplyr::rename(
         var_ID     = !!var_ID
       #, var_group  = !!var_group
       , var_x_time = !!var_x_time
       , var_y_resp = !!var_y_resp
-      ) %>%
+      ) |>
       dplyr::as_tibble()
   }
 
@@ -229,7 +229,7 @@ e_plot_longitudinal <-
 
   # title
   if(is.null(label_title)) {
-    label_title <- labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
+    label_title <- labelled::var_label(dat_plot[["var_y_resp"]]) |> as.character()
   }
   #if(is.null(label_subtitle)) {
   #  label_subtitle <- "Longitudinal plot"
@@ -246,48 +246,48 @@ e_plot_longitudinal <-
   if (!sw_categorical) {
     # grand mean over time
     annotate_y_mean <-
-      dat_plot %>%
-      dplyr::pull(var_y_resp) %>%
+      dat_plot |>
+      dplyr::pull(var_y_resp) |>
       mean(na.rm = TRUE)
 
     # mean for each group over time
     if (!is.null(var_group)) {
       annotate_y_group_means <-
-        dat_plot %>%
+        dat_plot |>
         dplyr::group_by(
           var_group
-        ) %>%
+        ) |>
         dplyr::summarise(
           var_y_resp = mean(var_y_resp, na.rm = TRUE)
         , .groups = "drop"
-        ) %>%
+        ) |>
         dplyr::ungroup()
     }
 
     # mean for each group at each time
     if (!is.null(var_group)) {
       annotate_y_time_group_means <-
-        dat_plot %>%
+        dat_plot |>
         dplyr::group_by(
           var_x_time
         , var_group
-        ) %>%
+        ) |>
         dplyr::summarise(
           var_y_resp = mean(var_y_resp, na.rm = TRUE)
         , .groups = "drop"
-        ) %>%
+        ) |>
         dplyr::ungroup()
     } else {
       annotate_y_time_group_means <-
-        dat_plot %>%
+        dat_plot |>
         dplyr::group_by(
           var_x_time
         #, var_group
-        ) %>%
+        ) |>
         dplyr::summarise(
           var_y_resp = mean(var_y_resp, na.rm = TRUE)
         , .groups = "drop"
-        ) %>%
+        ) |>
         dplyr::ungroup()
     }
   } # if !sw_categorical
@@ -370,14 +370,14 @@ e_plot_longitudinal <-
     p1 <- p1 + labs(
                     title     = label_title
                   , subtitle  = label_subtitle
-                  #, x         = labelled::var_label(dat_pdp[["redcap_event_name.factor"]]) %>% as.character()
-                  , x         = labelled::var_label(dat_plot[["var_x_time"]]) %>% as.character()
-                  , y         = labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
+                  #, x         = labelled::var_label(dat_pdp[["redcap_event_name.factor"]]) |> as.character()
+                  , x         = labelled::var_label(dat_plot[["var_x_time"]]) |> as.character()
+                  , y         = labelled::var_label(dat_plot[["var_y_resp"]]) |> as.character()
                   #, caption = paste0(  "Power at a sample size = ", n_total, ":"
-                  #                  , "\nObserved: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Observed"    ) %>% pull(Power) %>% round(3)
-                  #                  , ";  Cohen Large: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Large" ) %>% pull(Power) %>% round(3)
-                  #                  , ";  Cohen Medium: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Medium") %>% pull(Power) %>% round(3)
-                  #                  , ";  Cohen Small: ", dat_power_curve_long %>% dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Small" ) %>% pull(Power) %>% round(3)
+                  #                  , "\nObserved: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_total, Effect_Size == "Observed"    ) |> pull(Power) |> round(3)
+                  #                  , ";  Cohen Large: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Large" ) |> pull(Power) |> round(3)
+                  #                  , ";  Cohen Medium: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Medium") |> pull(Power) |> round(3)
+                  #                  , ";  Cohen Small: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_total, Effect_Size == "Cohen Small" ) |> pull(Power) |> round(3)
                   #                   )
                   )
 
@@ -466,7 +466,7 @@ e_plot_longitudinal <-
     p2 <- p2 + labs(
                     title     = NULL
                   , subtitle  = NULL
-                  , x         = labelled::var_label(dat_plot[["var_y_resp"]]) %>% as.character()
+                  , x         = labelled::var_label(dat_plot[["var_y_resp"]]) |> as.character()
                   )
 
     if (!is.null(var_group)) {

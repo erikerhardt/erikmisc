@@ -91,7 +91,7 @@ fit_contrasts <-
 The output contains lists for tables, plots, and text.
 
 ```{r}
-fit_contrasts %>% names()
+fit_contrasts |> names()
 ```
 
 #### tables

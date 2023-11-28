@@ -38,14 +38,14 @@
 #' # assigning to new dataset since you may want to filter or subset in some way,
 #' #   for example, only baseline measurements in a longitudinal analysis
 #' dat_tab1 <-
-#'   dat_mtcars_e %>%
-#'   #dplyr::filter(EVENT_ID == "BL") %>%
+#'   dat_mtcars_e |>
+#'   #dplyr::filter(EVENT_ID == "BL") |>
 #'   dplyr::select(all_of(c(list_var_col_names, list_var_row_names)))
 #'
 #'
 #' # label variables
-#' list_var_col_labels <- labelled::var_label(dat_tab1[, list_var_col_names]) %>% unlist()
-#' list_var_row_labels <- labelled::var_label(dat_tab1[, list_var_row_names]) %>% unlist()
+#' list_var_col_labels <- labelled::var_label(dat_tab1[, list_var_col_names]) |> unlist()
+#' list_var_row_labels <- labelled::var_label(dat_tab1[, list_var_row_names]) |> unlist()
 #'
 #' # This loop creates a table summarized by each variable,
 #' #   but can also specify multiple columns to summarize conditional on multiple columns.
@@ -131,7 +131,7 @@ e_table1_summaries <-
 
     # if not a factor, then calculate significant digits to use
     if (is.factor(dat_tab1[,list_var_row_names[i_var]][[1]])) {
-      temp_digits = moonbook_digits[1] %>% as.numeric()
+      temp_digits = moonbook_digits[1] |> as.numeric()
     } else {
 
       # determine digits to use, when < 1.0
@@ -143,7 +143,7 @@ e_table1_summaries <-
       min_abs_val <- min(abs_val)
 
       if (min_abs_val >= 1.0) {
-        temp_digits <- moonbook_digits[2] %>% as.numeric()
+        temp_digits <- moonbook_digits[2] |> as.numeric()
       } else {
         temp_digits <- abs(floor(log10( min_abs_val ))) + (as.numeric(moonbook_digits[2]) - 1)
       }

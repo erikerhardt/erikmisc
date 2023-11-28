@@ -23,7 +23,7 @@ f_scatterplot_segmented_bygroup <- function(dat_sub, y_var_plot, y_var_name = NU
   }
 
   dat_plot <-
-    dat_sub %>%
+    dat_sub |>
     select(dx_current, y_var_plot, x_var_plot)
   colnames(dat_plot)[2] <- "y_var"
   colnames(dat_plot)[3] <- "x_var"
@@ -41,7 +41,7 @@ f_scatterplot_segmented_bygroup <- function(dat_sub, y_var_plot, y_var_name = NU
     ## i_diag = 1
     ## i_diag = 3
     dat_analy_1 <-
-      dat_analy %>%
+      dat_analy |>
       filter(dx_current == !!unique(dat_sub$dx_current)[i_diag])
 
     if(nrow(dat_analy_1) < 2) {

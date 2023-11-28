@@ -42,7 +42,7 @@ e_convert_Grade_to_GPA <-
     , Grade == "D"  ~ 1.00
     , Grade == "D-" ~ 0.67
     , Grade == "F"  ~ 0.00
-    , TRUE          ~ NA %>% as.numeric()
+    , TRUE          ~ NA |> as.numeric()
     )
 
   return(GPA)

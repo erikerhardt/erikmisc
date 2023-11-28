@@ -340,7 +340,7 @@ e_calc_ECURE_LUDTM <-
 #' range_max = +2.1
 #'
 #' dat <-
-#'   dat %>%
+#'   dat |>
 #'   dplyr::mutate(
 #'     LUDTM =
 #'       dplyr::case_when(

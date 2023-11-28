@@ -133,9 +133,9 @@ read_format_data <- function(path = getwd()) {
 
     ## 5/22/2018
     # comment all the "label" lines since we don't use this and it causes issues
-    # fn_format_list_out[i_file] %>%
-    #   readLines() %>%
-    #   stringi::stri_replace_all_fixed("label(", "## label(") %>%
+    # fn_format_list_out[i_file] |>
+    #   readLines() |>
+    #   stringi::stri_replace_all_fixed("label(", "## label(") |>
     #   writeLines(fn_format_list_out[i_file])
 
     # apply R formatting

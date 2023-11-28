@@ -48,12 +48,12 @@ e_calc_a1c_categories <-
   ###, a1c_max_label = "Diabetes"
   # a1c_cat <-
   #   dplyr::case_when(
-  #     is.na(a1c)                      ~ NA %>% as.character()
+  #     is.na(a1c)                      ~ NA |> as.character()
   #   ,                 (a1c < 5.7 )    ~ "Neither"
   #   , (a1c >= 5.7 ) & (a1c < 6.4 )    ~ "Pre-diabetes"
   #   , (a1c >= 6.4 ) & (a1c < a1c_max) ~ "Diabetes"
   #   , (a1c >= a1c_max )               ~ a1c_max_label
-  #   ) %>%
+  #   ) |>
   #   factor(
   #     levels =
   #       c(
@@ -61,7 +61,7 @@ e_calc_a1c_categories <-
   #       , "Pre-diabetes"
   #       , "Diabetes"
   #       , a1c_max_label
-  #       ) %>% unique()
+  #       ) |> unique()
   #   )
 
   return(a1c_cat)
@@ -118,8 +118,8 @@ e_calc_bmi <-
 #' @export
 #'
 #' @examples
-#' e_calc_bmi(60, 150) %>% e_calc_bmi_categories()
-#' e_calc_bmi(seq(40, 70, by = 5), 150) %>% e_calc_bmi_categories()
+#' e_calc_bmi(60, 150) |> e_calc_bmi_categories()
+#' e_calc_bmi(seq(40, 70, by = 5), 150) |> e_calc_bmi_categories()
 e_calc_bmi_categories <-
   function(
     bmi
@@ -174,8 +174,8 @@ e_calc_bmi_categories <-
 #'
 #' dplyr::tibble(
 #'   phq2 = seq(0, 6, by = 1)
-#' , phq2_cat = phq2 %>% e_calc_phq2_categories()
-#' ) %>%
+#' , phq2_cat = phq2 |> e_calc_phq2_categories()
+#' ) |>
 #' print(n = Inf)
 e_calc_phq2_categories <-
   function(
@@ -243,8 +243,8 @@ e_calc_phq2_categories <-
 #'
 #' dplyr::tibble(
 #'   phq9 = seq(0, 27, by = 1)
-#' , phq9_cat = phq9 %>% e_calc_phq9_categories()
-#' ) %>%
+#' , phq9_cat = phq9 |> e_calc_phq9_categories()
+#' ) |>
 #' print(n = Inf)
 e_calc_phq9_categories <-
   function(

@@ -30,7 +30,7 @@ e_roc_gg <-
   ## https://gist.github.com/copsacgist/6d8f4eb096e4f18a0894ca1ce27af834
 
   # need only 2 levels for ROCR functions
-  if ((dat[[var_class]] %>% levels() %>% length()) > 2) {
+  if ((dat[[var_class]] |> levels() |> length()) > 2) {
     out <-
       list(
         opt_t      = NULL
@@ -59,10 +59,10 @@ e_roc_gg <-
 
   if (sw_thresh_criteria == "min_dist") {
     opt_t <-
-      roc.curve %>%
+      roc.curve |>
       mutate(
         dist = sqrt((1 - Sens)^2 + (1 - Spec)^2)
-      ) %>%
+      ) |>
       dplyr::filter(
         dist == min(dist)
       )
@@ -77,10 +77,10 @@ e_roc_gg <-
   }
   if (sw_thresh_criteria == "spec1_sensmax") {
     opt_t <-
-      roc.curve %>%
+      roc.curve |>
       dplyr::filter(
         Spec == max(Spec)
-      ) %>%
+      ) |>
       dplyr::filter(
         Sens == max(Sens)
       )
@@ -98,10 +98,10 @@ e_roc_gg <-
   }
   if (sw_thresh_criteria == "sens1_specmax") {
     opt_t <-
-      roc.curve %>%
+      roc.curve |>
       dplyr::filter(
         Sens == max(Sens)
-      ) %>%
+      ) |>
       dplyr::filter(
         Spec == max(Spec)
       )
@@ -122,11 +122,11 @@ e_roc_gg <-
   opt_t$AUC <- perf.auc
 
   roc.curve.best <-
-    roc.curve %>%
+    roc.curve |>
     dplyr::filter(
     #  dist == min(dist)
       thresh == opt_t$thresh
-    ) %>%
+    ) |>
     mutate(
       AUC = opt_t$AUC
     )

@@ -791,7 +791,7 @@ for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
     , label_neg_pos   = c(0, 1)
     , sw_plot         = TRUE
     )
-  out$roc_curve_best %>% print(width = Inf)
+  out$roc_curve_best |> print(width = Inf)
   p <- out$plot_roc
   p <- p + labs(title = paste0("ROC Curve, Target:  ", n_target))
   p <- p + coord_fixed(ratio = 1) # equal axes

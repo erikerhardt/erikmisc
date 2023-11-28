@@ -170,9 +170,9 @@ read_format_data <- function(path = getwd(), sw_return = FALSE) {
 
     ## 5/22/2018
     # comment all the "label" lines since we don't use this and it causes issues
-    # fn_format_list_out[i_file] %>%
-    #   readLines() %>%
-    #   stringi::stri_replace_all_fixed("label(", "## label(") %>%
+    # fn_format_list_out[i_file] |>
+    #   readLines() |>
+    #   stringi::stri_replace_all_fixed("label(", "## label(") |>
     #   writeLines(fn_format_list_out[i_file])
 
     # apply R formatting
@@ -205,26 +205,26 @@ read_format_data <- function(path = getwd(), sw_return = FALSE) {
           # if choice variable, then need to take apart and put back together
 
           labs_split <-
-            labelled::var_label(data[[i_var]]) %>%
-            as.character() %>%
+            labelled::var_label(data[[i_var]]) |>
+            as.character() |>
             stringr::str_split(
               pattern = "choice="
             #, n = 2
             , simplify = TRUE
-            ) %>%
+            ) |>
             stringr::str_trim()
 
           labelled::var_label(data[[i_var]]) <-
             c(
-              labs_split[1] %>% f_split_Spanish_English(., sw_variable_factor = "variable", language = "English")
-            , labs_split[2] %>% f_split_Spanish_English(., sw_variable_factor = "variable", language = "English")
-            ) %>%
+              labs_split[1] |> f_split_Spanish_English(., sw_variable_factor = "variable", language = "English")
+            , labs_split[2] |> f_split_Spanish_English(., sw_variable_factor = "variable", language = "English")
+            ) |>
             paste(collapse = "choice=")
 
         } else {
           # not choice variable
           labelled::var_label(data[[i_var]]) <-
-            labelled::var_label(data[[i_var]]) %>% as.character() %>%
+            labelled::var_label(data[[i_var]]) |> as.character() |>
             f_split_Spanish_English(., sw_variable_factor = "variable", language = "English")
         } # end "choice="
 
@@ -236,7 +236,7 @@ read_format_data <- function(path = getwd(), sw_return = FALSE) {
           }
 
           levels(data[[i_var]]) <-
-            levels(data[[i_var]]) %>%
+            levels(data[[i_var]]) |>
             f_split_Spanish_English(., sw_variable_factor = "factor", language = "English")
         }
       }
@@ -250,7 +250,7 @@ read_format_data <- function(path = getwd(), sw_return = FALSE) {
       #
       # print("== Variable label English parsing issues ==================================")
       # for (i_var in 1:ncol(data)) {
-      #   labs <- labelled::var_label(data[[i_var]]) %>% as.character()
+      #   labs <- labelled::var_label(data[[i_var]]) |> as.character()
       #   if (length(labs) == 0) { next }
       #
       #   junk <- f_split_Spanish_English(labs, "variable", "English", debug=TRUE)

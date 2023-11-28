@@ -11,14 +11,14 @@ ggplot_missing <- function(dat) {
   # https://github.com/njtierney/neato/blob/master/R/ggplot_missing.R
 
   dat2 <-
-    dat %>%
+    dat |>
     is.na()
 
   # create a column indicating which rows all have data (no missing)
   NO_MISSING <-
     !(rowSums(!dat2) == ncol(dat2))
   dat2 <-
-    cbind(dat2, NO_MISSING) %>%
+    cbind(dat2, NO_MISSING) |>
     reshape2::melt()
 
   ggplot2::ggplot(data = dat2,

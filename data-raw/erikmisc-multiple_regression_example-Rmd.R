@@ -70,17 +70,17 @@ Read and format the data.
 ```{r}
 # Data
 dat_mtcars <-
-  mtcars %>%
+  mtcars |>
   # move rownames to a column
   as_tibble(
     rownames = "model"
-  ) %>%
+  ) |>
   # label factor levels
   mutate(
     id = 1:n()
-  , cyl = cyl %>% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
-  , vs  = vs  %>% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
-  , am  = am  %>% factor(levels = c(0, 1), labels = c("automatic", "manual"))
+  , cyl = cyl |> factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
+  , vs  = vs  |> factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
+  , am  = am  |> factor(levels = c(0, 1), labels = c("automatic", "manual"))
   )
 
 # Use variable description in ?mtcars to label columns
@@ -170,16 +170,16 @@ fit_contrasts$tables
 
 ```{r}
 # print each table
-fit_contrasts$tables$wt$est        %>% knitr::kable()
+fit_contrasts$tables$wt$est        |> knitr::kable()
 
-fit_contrasts$tables$am$est        %>% knitr::kable()
-fit_contrasts$tables$am$cont       %>% knitr::kable()
+fit_contrasts$tables$am$est        |> knitr::kable()
+fit_contrasts$tables$am$cont       |> knitr::kable()
 
-fit_contrasts$tables$`cyl:vs`$est  %>% knitr::kable()
-fit_contrasts$tables$`cyl:vs`$cont %>% knitr::kable()
+fit_contrasts$tables$`cyl:vs`$est  |> knitr::kable()
+fit_contrasts$tables$`cyl:vs`$cont |> knitr::kable()
 
-fit_contrasts$tables$`hp:vs`$est   %>% knitr::kable()
-fit_contrasts$tables$`hp:vs`$cont  %>% knitr::kable()
+fit_contrasts$tables$`hp:vs`$est   |> knitr::kable()
+fit_contrasts$tables$`hp:vs`$cont  |> knitr::kable()
 ```
 
 ## Plots
@@ -291,7 +291,7 @@ p_arranged <-
   #, bottom        = "bottom\ntitle"
   #, left          = "left label"
   #, right         = "right label"
-  ) %>%
+  ) |>
   ggpubr::as_ggplot()
 
 print(p_arranged)
@@ -315,7 +315,7 @@ p_arranged <-
   #, bottom        = "bottom\ntitle"
   #, left          = "left label"
   #, right         = "right label"
-  ) %>%
+  ) |>
   ggpubr::as_ggplot()
 
 print(p_arranged)

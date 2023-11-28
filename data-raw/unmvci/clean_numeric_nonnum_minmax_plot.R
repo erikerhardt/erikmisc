@@ -20,20 +20,20 @@ clean_numeric_nonnum_minmax_plot <- function(dat_temp, binwidth = 7, sw_date = F
   # library(dplyr)
   # library(tidyr)
   # dat_temp <-
-  #   dat_vci %>%
+  #   dat_vci |>
   #   select(study_id
   #          , starts_with("bmi_height")
   #          , starts_with("bmi_weight")
-  #   ) %>%
+  #   ) |>
   #   gather(variable, value, -study_id)
 
 
   # find non-numeric values
   if (is.character(dat_temp$value)) {
     dat_temp_NA <-
-      dat_temp %>%
-      filter(!(value == "")) %>%
-      mutate(value_num = as.numeric(value)) %>%
+      dat_temp |>
+      filter(!(value == "")) |>
+      mutate(value_num = as.numeric(value)) |>
       filter(is.na(value_num))
 
     print(paste(nrow(dat_temp_NA), "non-numeric values"))
@@ -51,21 +51,21 @@ clean_numeric_nonnum_minmax_plot <- function(dat_temp, binwidth = 7, sw_date = F
 
   # remove NAs to report smallest and largest values
   dat_temp <-
-    dat_temp %>%
+    dat_temp |>
     filter(!is.na(value))
 
   # Smallest values for each variable
-  dat_temp %>%
-    group_by(variable) %>%
-    arrange(value) %>%
-    slice(1:2) %>%
+  dat_temp |>
+    group_by(variable) |>
+    arrange(value) |>
+    slice(1:2) |>
     print()
 
   # Largest values for each variable
-  dat_temp %>%
-    group_by(variable) %>%
-    arrange(desc(value)) %>%
-    slice(1:2) %>%
+  dat_temp |>
+    group_by(variable) |>
+    arrange(desc(value)) |>
+    slice(1:2) |>
     print()
 
   if (sw_plot) {

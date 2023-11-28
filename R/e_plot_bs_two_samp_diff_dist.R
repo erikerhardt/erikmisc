@@ -109,12 +109,12 @@ e_plot_bs_two_samp_diff_dist <-
           val   = dat_diff_mean
         , group = "BS"
         )
-      ) %>%
+      ) |>
       dplyr::mutate(
-        group = group %>% factor(levels = c("Data1", "Data2", "BS"))
+        group = group |> factor(levels = c("Data1", "Data2", "BS"))
       )
 
-    p1 <- ggplot(dat_all %>% dplyr::filter(group == "Data1"), aes(x = val))
+    p1 <- ggplot(dat_all |> dplyr::filter(group == "Data1"), aes(x = val))
     p1 <- p1 + theme_bw()
     p1 <- p1 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(n1, base = 1.2)))
     p1 <- p1 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
@@ -130,7 +130,7 @@ e_plot_bs_two_samp_diff_dist <-
                     )
                 )
 
-    p2 <- ggplot(dat_all %>% dplyr::filter(group == "Data2"), aes(x = val))
+    p2 <- ggplot(dat_all |> dplyr::filter(group == "Data2"), aes(x = val))
     p2 <- p2 + theme_bw()
     p2 <- p2 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(n2, base = 1.2)))
     p2 <- p2 + geom_density(alpha = 0.2, fill = "gray50", colour = "black", adjust = 2)
@@ -146,7 +146,7 @@ e_plot_bs_two_samp_diff_dist <-
                     )
                 )
 
-    p3 <- ggplot(dat_all %>% dplyr::filter(group == "BS"), aes(x = val))
+    p3 <- ggplot(dat_all |> dplyr::filter(group == "BS"), aes(x = val))
     p3 <- p3 + theme_bw()
     p3 <- p3 + geom_histogram(aes(y = after_stat(density)), boundary = 0, bins = ceiling(log(N, base = 1.2)), alpha = 1/2)
     p3 <- p3 + stat_function(
@@ -187,7 +187,7 @@ e_plot_bs_two_samp_diff_dist <-
       )
 
     if (sw_ggplot_print) {
-      p_arranged %>% print()
+      p_arranged |> print()
     }
 
     return(p_arranged)

@@ -131,7 +131,7 @@
 #'   , labels    = "AUTO"
 #'   )
 #'
-#' p_arranged %>% print()
+#' p_arranged |> print()
 #'
 #'
 #'
@@ -165,7 +165,7 @@
 #' ## GLM on logit and probability scales
 #'
 #' dat_cont <-
-#'   dat_cont %>%
+#'   dat_cont |>
 #'   dplyr::mutate(
 #'     am_01 =
 #'       dplyr::case_when(
@@ -327,14 +327,14 @@ e_plot_model_contrasts <-
   ##
   ## # Data for testing
   ## dat_cont <-
-  ##   dat_mtcars_e %>%
+  ##   dat_mtcars_e |>
   ##   as_tibble(
   ##     rownames = "model"
-  ##   ) %>%
+  ##   ) |>
   ##   mutate(
-  ##     cyl = cyl %>% factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
-  ##   , vs  = vs  %>% factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
-  ##   , am  = am  %>% factor(levels = c(0, 1), labels = c("automatic", "manual"))
+  ##     cyl = cyl |> factor(levels = c(4, 6, 8), labels = c("four", "six", "eight"))
+  ##   , vs  = vs  |> factor(levels = c(0, 1), labels = c("V-shaped", "straight"))
+  ##   , am  = am  |> factor(levels = c(0, 1), labels = c("automatic", "manual"))
   ##   )
   ##
   ## # Label columns
@@ -522,24 +522,24 @@ e_plot_model_contrasts <-
     stringr::str_split(
       string = attr(terms.formula(formula(fit)), "term.labels")   #as.character(formula(fit))[3]
     , pattern = stringr::fixed(" + ")
-    ) %>%
+    ) |>
     unlist()
 
   if (fit_model_type == "glm" & stringr::str_detect(var_name_y, pattern = stringr::fixed("cbind("))) {
     # the y-variable usually looks like "cbind(y, 1-y)", so strip out the variable name
     var_name_y <-
-      var_name_y %>%
+      var_name_y |>
       stringr::str_split_fixed(
         pattern = stringr::fixed(",")
       , n = 2
-      ) %>%
-      as.character() %>%
-      purrr::pluck(1) %>%
+      ) |>
+      as.character() |>
+      purrr::pluck(1) |>
       stringr::str_split_fixed(
         pattern = stringr::fixed("cbind(")
       , n = 2
-      ) %>%
-      as.character() %>%
+      ) |>
+      as.character() |>
       purrr::pluck(2)
   }
 
@@ -592,7 +592,7 @@ e_plot_model_contrasts <-
       stringr::str_split(
         string = var_name_x[i_var_x]
       , pattern = stringr::fixed(":")
-      ) %>%
+      ) |>
       unlist()
 
     # Main effect
@@ -747,21 +747,21 @@ e_plot_model_contrasts <-
         }
 
         if (!(fit_model_type == "glm")) {
-          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character() )
         } else {
           if (sw_glm_scale == "response") {
             # response scale
-            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           } else {
             # default scale
-            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           }
         }
 
         p <- p + labs(
-            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) %>% as.character())
+            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) |> as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
+          , x         = labelled::var_label(dat_cont[[var_xs]]) |> as.character()
           , y         = y_label
           , caption   = text_caption
           )
@@ -774,7 +774,7 @@ e_plot_model_contrasts <-
         }
 
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
-        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long %>% stringr::str_split(pattern = "\n")
+        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long |> stringr::str_split(pattern = "\n")
 
       } # numeric
 
@@ -811,15 +811,15 @@ e_plot_model_contrasts <-
             #, type = "response"
             )
         }
-        cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
+        cont_pairs <- cont_fit |> pairs(adjust = adjust_method)
 
         # confidence limit (CL) column names
         col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
         col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
 
         if(sw_print) {
-          cont_fit   %>% print()
-          cont_pairs %>% print()
+          cont_fit   |> print()
+          cont_pairs |> print()
         }
 
         out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
@@ -851,7 +851,7 @@ e_plot_model_contrasts <-
         text_UCL  <- summary(cont_fit)[[col_name_UCL]]
 
         # sample size
-        n_this <- dat_cont[[var_xs]] %>% table()
+        n_this <- dat_cont[[var_xs]] |> table()
 
         text_CI  <-
           paste0(
@@ -928,22 +928,22 @@ e_plot_model_contrasts <-
           )
 
         if (!(fit_model_type == "glm")) {
-          x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+          x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
         } else {
           if (sw_glm_scale == "response") {
             # response scale
-            x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           } else {
             # default scale
-            x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           }
         }
 
         p <- p + labs(
-            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) %>% as.character())
+            title     = paste0("Main effect of ", labelled::var_label(dat_cont[[var_xs]]) |> as.character())
           , subtitle  = var_name_x[i_var_x]
           , x         = x_label
-          , y         = labelled::var_label(dat_cont[[var_xs]]) %>% as.character()
+          , y         = labelled::var_label(dat_cont[[var_xs]]) |> as.character()
           , caption   = text_caption
           )
         p <- p + theme_bw()
@@ -955,7 +955,7 @@ e_plot_model_contrasts <-
         }
 
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
-        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long %>% stringr::str_split(pattern = "\n")
+        out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long |> stringr::str_split(pattern = "\n")
 
       } # factor
 
@@ -1005,15 +1005,15 @@ e_plot_model_contrasts <-
               , level   = CI_level
               )
           }
-          cont_pairs <- cont_fit %>% pairs(adjust = adjust_method)
+          cont_pairs <- cont_fit |> pairs(adjust = adjust_method)
 
           # confidence limit (CL) column names
           col_name_LCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_LCL)]
           col_name_UCL <- names(summary(cont_fit))[which(names(summary(cont_fit)) %in% col_names_UCL)]
 
           if(sw_print) {
-            cont_fit   %>% print()
-            cont_pairs %>% print()
+            cont_fit   |> print()
+            cont_pairs |> print()
           }
 
           out[["tables"]][[ var_name_x[i_var_x] ]][["est"  ]] <- cont_fit
@@ -1046,8 +1046,8 @@ e_plot_model_contrasts <-
             ## Estimates
             # CI text
             summary_cont_fit <-
-              cont_fit %>%
-              summary() %>%
+              cont_fit |>
+              summary() |>
               as.data.frame()
             # only rows of this "by" variable
             summary_cont_fit_by <-
@@ -1072,7 +1072,7 @@ e_plot_model_contrasts <-
                 dat_cont[
                   (dat_cont[[ var_xs[1] ]] == levels_specs[i_row]) &
                   (dat_cont[[ var_xs[2] ]] == levels_by[i_by])
-                  , ] %>% nrow()
+                  , ] |> nrow()
 
               text_CI  <-
                 paste0(
@@ -1098,8 +1098,8 @@ e_plot_model_contrasts <-
             ## Contrasts
             # CI text
             summary_cont_pairs <-
-              cont_pairs %>%
-              summary() %>%
+              cont_pairs |>
+              summary() |>
               as.data.frame()
             # only rows of this "by" variable
             summary_cont_pairs_by <-
@@ -1200,22 +1200,22 @@ e_plot_model_contrasts <-
           } # if sw_try_ok
 
           if (!(fit_model_type == "glm")) {
-            x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           } else {
             if (sw_glm_scale == "response") {
               # response scale
-              x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+              x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
             } else {
               # default scale
-              x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+              x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
             }
           }
 
           p <- p + labs(
-              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             , subtitle  = var_name_x[i_var_x]
             , x         = x_label
-            , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+            , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character()
             , caption   = text_caption
             )
           p <- p + theme_bw()
@@ -1235,7 +1235,7 @@ e_plot_model_contrasts <-
           if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
             out[["plots" ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- p
           }
-          out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long %>% stringr::str_split(pattern = "\n")
+          out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long |> stringr::str_split(pattern = "\n")
 
         } # i_repeat
 
@@ -1264,11 +1264,11 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
-            #   ) %>%
+            #   ) |>
             #   ggpubr::as_ggplot()
 
           }
@@ -1287,11 +1287,11 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
-            #   ) %>%
+            #   ) |>
             #   ggpubr::as_ggplot()
           }
 
@@ -1300,11 +1300,11 @@ e_plot_model_contrasts <-
             gridExtra::arrangeGrob(
               grobs         = list(p1, p2)
             , layout_matrix = lay_grid
-            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #, bottom        = "bottom\ntitle"
             #, left          = "left label"
             #, right         = "right label"
-            ) %>%
+            ) |>
             ggpubr::as_ggplot()
 
           if(sw_print) {
@@ -1377,7 +1377,7 @@ e_plot_model_contrasts <-
           text_UCL  <- summary(cont_fit$emtrends)[[col_name_UCL]]
 
           # sample size
-          n_this <- dat_cont[[ var_xs[1] ]] %>% table()
+          n_this <- dat_cont[[ var_xs[1] ]] |> table()
 
           text_CI  <-
             paste0(
@@ -1442,11 +1442,11 @@ e_plot_model_contrasts <-
         p1 <- plot(cont_fit)
         p1 <- p1 + theme_bw()
         p1 <- p1 + labs(
-            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = paste0("Estimated slope for:\n", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character() )
-          , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
-          #, colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+          , x         = paste0("Estimated slope for:\n", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character() )
+          , y         = labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character()
+          #, colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character()
           , caption   = text_caption
           #, tag       = "A"
           )
@@ -1455,7 +1455,7 @@ e_plot_model_contrasts <-
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[1]] <- p1
         }
-        out[["text"  ]][[ var_name_x[i_var_x] ]][[1]] <- text_long %>% stringr::str_split(pattern = "\n")
+        out[["text"  ]][[ var_name_x[i_var_x] ]][[1]] <- text_long |> stringr::str_split(pattern = "\n")
 
 
 
@@ -1506,24 +1506,24 @@ e_plot_model_contrasts <-
         }
 
         if (!(fit_model_type == "glm")) {
-          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character() )
         } else {
           if (sw_glm_scale == "response") {
             # response scale
-            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           } else {
             # default scale
-            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
           }
         }
 
         p2 <- p2 + theme_bw()
         p2 <- p2 + labs(
-            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
           , subtitle  = var_name_x[i_var_x]
-          , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
+          , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character()
           , y         = y_label
-          , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+          , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character()
           , caption   = text_caption
           #, tag       = "B"
           )
@@ -1533,7 +1533,7 @@ e_plot_model_contrasts <-
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
           out[["plots" ]][[ var_name_x[i_var_x] ]][[2]] <- p2
         }
-        out[["text"  ]][[ var_name_x[i_var_x] ]][[2]] <- text_long %>% stringr::str_split(pattern = "\n")
+        out[["text"  ]][[ var_name_x[i_var_x] ]][[2]] <- text_long |> stringr::str_split(pattern = "\n")
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(2, 3)]) {
           # prepare for group plot
@@ -1559,11 +1559,11 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
-            #   ) %>%
+            #   ) |>
             #   ggpubr::as_ggplot()
 
           }
@@ -1582,11 +1582,11 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
-            #   ) %>%
+            #   ) |>
             #   ggpubr::as_ggplot()
           }
 
@@ -1595,11 +1595,11 @@ e_plot_model_contrasts <-
             gridExtra::arrangeGrob(
               grobs         = list(p1, p2)
             , layout_matrix = lay_grid
-            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #, bottom        = "bottom\ntitle"
             #, left          = "left label"
             #, right         = "right label"
-            ) %>%
+            ) |>
             ggpubr::as_ggplot()
 
           if(sw_print) {
@@ -1632,10 +1632,10 @@ e_plot_model_contrasts <-
             # values of numeric variables for plotting
             at_list <- list()
             at_list[[ var_xs[1] ]] <-
-              dat_cont[[ var_xs[1] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
+              dat_cont[[ var_xs[1] ]] |> stats::quantile(probs = plot_quantiles, type = sw_quantile_type) |> unique()
             at_list[[ var_xs[2] ]] <-
-              #dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = plot_quantiles, type = sw_quantile_type) %>% unique()
-              dat_cont[[ var_xs[2] ]] %>% stats::quantile(probs = seq(0, 1, by = 0.01)) %>% unique()
+              #dat_cont[[ var_xs[2] ]] |> stats::quantile(probs = plot_quantiles, type = sw_quantile_type) |> unique()
+              dat_cont[[ var_xs[2] ]] |> stats::quantile(probs = seq(0, 1, by = 0.01)) |> unique()
           }
           # this is for a specific numeric:numeric interaction
           if (sw_plot_quantiles_values == "values") {
@@ -1727,23 +1727,23 @@ e_plot_model_contrasts <-
           }
 
           if (!(fit_model_type == "glm")) {
-            y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character() )
+            y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character() )
           } else {
             if (sw_glm_scale == "response") {
               # response scale
-              y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+              y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
             } else {
               # default scale
-              y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) %>% as.character())
+              y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
             }
           }
 
           p <- p + labs(
-              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+              title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             , subtitle  = var_name_x[i_var_x]
-            , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character()
+            , x         = labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character()
             , y         = y_label
-            , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character()
+            , colour    = labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character()
             , caption   = text_caption
             #, tag       = "A"
             )
@@ -1764,7 +1764,7 @@ e_plot_model_contrasts <-
           if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(1, 3)]) {
             out[["plots" ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- p
           }
-          out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long %>% stringr::str_split(pattern = "\n")
+          out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long |> stringr::str_split(pattern = "\n")
 
         } # i_repeat
 
@@ -1792,11 +1792,11 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   #, top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
-            #   ) %>%
+            #   ) |>
             #   ggpubr::as_ggplot()
 
           }
@@ -1815,11 +1815,11 @@ e_plot_model_contrasts <-
             #   gridExtra::arrangeGrob(
             #     grobs         = list(p1, p2)
             #   , layout_matrix = lay_grid
-            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            #   , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #   #, bottom        = "bottom\ntitle"
             #   #, left          = "left label"
             #   #, right         = "right label"
-            #   ) %>%
+            #   ) |>
             #   ggpubr::as_ggplot()
           }
 
@@ -1828,11 +1828,11 @@ e_plot_model_contrasts <-
             gridExtra::arrangeGrob(
               grobs         = list(p1, p2)
             , layout_matrix = lay_grid
-            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) %>% as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) %>% as.character())
+            , top           = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs[2] ]]) |> as.character())
             #, bottom        = "bottom\ntitle"
             #, left          = "left label"
             #, right         = "right label"
-            ) %>%
+            ) |>
             ggpubr::as_ggplot()
 
           if(sw_print) {

@@ -39,7 +39,7 @@
 #'   , sw_plot         = TRUE
 #'   , sw_caption_desc = c(TRUE, FALSE)[2]
 #'   )
-#' out$roc_curve_best %>% print(width = Inf)
+#' out$roc_curve_best |> print(width = Inf)
 #' out$plot_roc
 #' out$confusion_matrix
 #'
@@ -53,7 +53,7 @@
 #'   , sw_plot         = TRUE
 #'   , sw_caption_desc = c(TRUE, FALSE)[1]
 #'   )
-#' out$roc_curve_best %>% print(width = Inf)
+#' out$roc_curve_best |> print(width = Inf)
 #' out$plot_roc
 #' out$confusion_matrix
 #'
@@ -62,7 +62,7 @@
 #' data(dat_mtcars_e)
 #'
 #' dat_mtcars_e <-
-#'   dat_mtcars_e %>%
+#'   dat_mtcars_e |>
 #'   dplyr::mutate(
 #'     vs_V = ifelse(vs == "V-shaped", 1, 0) # 0-1 binary for logistic regression
 #'   )
@@ -76,7 +76,7 @@
 #'   )
 #' cat("Test residual deviance for lack-of-fit (if > 0.10, little-to-no lack-of-fit)\n")
 #' dev_p_val <- 1 - pchisq(fit_glm_vs$deviance, fit_glm_vs$df.residual)
-#' dev_p_val %>% print()
+#' dev_p_val |> print()
 #' car::Anova(fit_glm_vs, type = 3)
 #' #summary(fit_glm_vs)
 #'
@@ -89,7 +89,7 @@
 #'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
 #'   , sw_caption_desc = c(TRUE, FALSE)[1]
 #'   )
-#' glm_roc$roc_curve_best %>% print(width = Inf)
+#' glm_roc$roc_curve_best |> print(width = Inf)
 #' glm_roc$plot_roc
 #' glm_roc$confusion_matrix
 #'
@@ -143,7 +143,7 @@ e_plot_roc <-
   ) {
 
   # need only 2 levels for ROCR functions
-  if ((labels_true   %>% unique() %>% length()) > 2) {
+  if ((labels_true   |> unique() |> length()) > 2) {
     warning("e_plot_roc: Only two classes for ROC at this time")
     out <-
       list(
@@ -157,9 +157,9 @@ e_plot_roc <-
   }
 
   # format data
-  labels_true     <- labels_true     %>% as.character()
-  pred_values_pos <- pred_values_pos %>% as.numeric()
-  label_neg_pos   <- label_neg_pos   %>% as.character()
+  labels_true     <- labels_true     |> as.character()
+  pred_values_pos <- pred_values_pos |> as.numeric()
+  label_neg_pos   <- label_neg_pos   |> as.character()
 
   #library(ROCR)
   ## Most would assume the first category be the "positive", but not ROCR...
@@ -190,28 +190,28 @@ e_plot_roc <-
       Sens    = unlist(rocr_perf@y.values)
     , Spec    = unlist(rocr_perf@x.values)
     , thresh  = unlist(rocr_perf@alpha.values)
-    ) %>%
+    ) |>
     dplyr::mutate(
       dist = sqrt((1 - Sens)^2 + (1 - Spec)^2)
-    ) %>%
+    ) |>
     dplyr::arrange(
       Sens
     , desc(Spec)
     )
-    #%>%
+    #|>
     #dplyr::filter(
     #  is.finite(thresh)
     #)
 
   # determine best threshold as closest to top-left corner: highest overall classification rate
   roc_curve_best <-
-    roc_curve %>%
+    roc_curve |>
     dplyr::filter(
       dist == min(dist)
-    ) %>%
+    ) |>
     dplyr::mutate(
       AUC = unlist(ROCR::performance(rocr_pred, measure = "auc")@y.values)
-    ) %>%
+    ) |>
     dplyr::slice(1)  # when > 1 have same min dist
 
   # define positive classification using optimal threshold
@@ -220,8 +220,8 @@ e_plot_roc <-
   # assess confusion matrix accuracy
   confusion_matrix <-
     caret::confusionMatrix(
-      data      = pred_positive %>% factor(levels = c(0, 1), labels = label_neg_pos)
-    , reference = labels_true   %>% as.character() %>% factor(levels = label_neg_pos)
+      data      = pred_positive |> factor(levels = c(0, 1), labels = label_neg_pos)
+    , reference = labels_true   |> as.character() |> factor(levels = label_neg_pos)
     , positive  = label_neg_pos[2]
     , mode      = cm_mode
     )
@@ -231,7 +231,7 @@ e_plot_roc <-
   #   confusion_matrix <-
   #     caret::confusionMatrix(
   #       data      = factor(pred_positive, levels = c(0, 1), labels = as.character(unique(sort(labels_true  , decreasing = TRUE))))
-  #     , reference = labels_true   %>% factor()
+  #     , reference = labels_true   |> factor()
   #     , mode      = cm_mode
   #     )
   # }
@@ -240,9 +240,9 @@ e_plot_roc <-
   roc_curve_best <-
     dplyr::bind_cols(
       roc_curve_best
-    , confusion_matrix$byClass %>% t() %>% tibble::as_tibble()
+    , confusion_matrix$byClass |> t() |> tibble::as_tibble()
     )
-  # roc_curve_best %>% print()
+  # roc_curve_best |> print()
 
   # plot results
   if (sw_plot) {

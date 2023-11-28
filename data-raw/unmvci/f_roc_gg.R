@@ -25,7 +25,7 @@ f_roc_gg <-
   ## https://gist.github.com/copsacgist/6d8f4eb096e4f18a0894ca1ce27af834
 
   # need only 2 levels for ROCR functions
-  if ((dat[[var_class]] %>% levels() %>% length()) > 2) {
+  if ((dat[[var_class]] |> levels() |> length()) > 2) {
     out <-
       list(
         opt_t      = NULL
@@ -57,10 +57,10 @@ f_roc_gg <-
   opt_t$AUC <- perf.auc
 
   roc.curve.best <-
-    roc.curve %>%
+    roc.curve |>
     filter(
       dist == min(dist)
-    ) %>%
+    ) |>
     mutate(
       AUC = opt_t$AUC
     )

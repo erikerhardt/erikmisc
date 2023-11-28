@@ -89,7 +89,7 @@ f_rf_cat2 <- function(y.class, x.class, dat.class, sw.return=FALSE, out_rf_class
     #   OOB error convergence along the number of trees in the forest.
     #   The error rate should stabilize as the number of trees grows,
     #     suggesting convergence in prediction error.
-    gg_e <- ggRandomForests::gg_error(rfs.summary) %>% tidyr::drop_na()
+    gg_e <- ggRandomForests::gg_error(rfs.summary) |> tidyr::drop_na()
     p.oob <- plot(gg_e)
     if (sw.binary) {
       p.oob <- p.oob + coord_cartesian(ylim=c(0,1))

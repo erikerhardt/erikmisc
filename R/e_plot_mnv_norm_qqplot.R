@@ -13,17 +13,17 @@
 #' @export
 #'
 #' @examples
-#' dat_mtcars_e %>%
-#'   dplyr::filter(cyl == "four") %>%
-#'   dplyr::select(mpg, hp, wt) %>%
+#' dat_mtcars_e |>
+#'   dplyr::filter(cyl == "four") |>
+#'   dplyr::select(mpg, hp, wt) |>
 #'   e_plot_mnv_norm_qqplot(name = "cyl = 4")
-#' dat_mtcars_e %>%
-#'   dplyr::filter(cyl == "six") %>%
-#'   dplyr::select(mpg, hp, wt) %>%
+#' dat_mtcars_e |>
+#'   dplyr::filter(cyl == "six") |>
+#'   dplyr::select(mpg, hp, wt) |>
 #'   e_plot_mnv_norm_qqplot(name = "cyl = 6")
-#' dat_mtcars_e %>%
-#'   dplyr::filter(cyl == "eight") %>%
-#'   dplyr::select(mpg, hp, wt) %>%
+#' dat_mtcars_e |>
+#'   dplyr::filter(cyl == "eight") |>
+#'   dplyr::select(mpg, hp, wt) |>
 #'   e_plot_mnv_norm_qqplot(name = "cyl = 8")
 e_plot_mnv_norm_qqplot <-
   function(

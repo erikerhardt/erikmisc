@@ -10,16 +10,16 @@
 f_vimp_plot <- function(v_imp) {
 
   dat_vimp <-
-    v_imp %>%
+    v_imp |>
     dplyr::select(
       Var
     , "all"
-    ) %>%
+    ) |>
     dplyr::arrange(
       desc(all)
-    ) %>%
+    ) |>
     dplyr::mutate(
-      positive = (all > 0) %>% factor(levels = c(FALSE, TRUE), labels = c("FALSE", "TRUE"))
+      positive = (all > 0) |> factor(levels = c(FALSE, TRUE), labels = c("FALSE", "TRUE"))
     )
 
 

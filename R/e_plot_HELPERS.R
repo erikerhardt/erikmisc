@@ -109,6 +109,6 @@ e_plot_blank <-
 ##   , rel_heights = c(0.04, 1)
 ##   )
 ##
-## p.arranged2 %>% print()
+## p.arranged2 |> print()
 
 

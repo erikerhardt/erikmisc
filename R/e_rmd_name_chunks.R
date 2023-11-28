@@ -53,9 +53,9 @@ e_rmd_name_chunks <-
   rmd_in_lower <- stringr::str_to_lower(rmd_in)
 
   ind_chunk_headers <-
-    rmd_in_lower %>%
+    rmd_in_lower |>
     # start of code chunk lines
-    stringr::str_detect(pattern = stringr::fixed("```{")) %>%
+    stringr::str_detect(pattern = stringr::fixed("```{")) |>
     which()
 
   rmd_in_sub <-
@@ -68,12 +68,12 @@ e_rmd_name_chunks <-
   # if there's a comma, then delete everything after the comma
   # else, delete the trailing brace "}"
   rmd_in_sub <-
-    rmd_in_sub %>%
+    rmd_in_sub |>
     stringr::str_split_fixed(pattern = stringr::fixed(","), n = 2)
   for (i_row in 1:nrow(rmd_in_sub)) {
     if (rmd_in_sub[i_row, 2] == "") { # no options
       rmd_in_sub[i_row, 1] <-
-        rmd_in_sub[i_row, 1] %>%
+        rmd_in_sub[i_row, 1] |>
         stringr::str_remove(pattern = stringr::fixed("}"))
       rmd_in_sub[i_row, 2] <- "}"
     } else {                          # options
@@ -84,9 +84,9 @@ e_rmd_name_chunks <-
 
   # strip internal whitespace
   rmd_in_sub2 <-
-    rmd_in_sub[, 1] %>%
-    stringr::str_replace_all(pattern = " ", replacement = "") %>%
-    stringr::str_replace_all(pattern = stringr::fixed("```{R"), replacement = "```{r") %>%
+    rmd_in_sub[, 1] |>
+    stringr::str_replace_all(pattern = " ", replacement = "") |>
+    stringr::str_replace_all(pattern = stringr::fixed("```{R"), replacement = "```{r") |>
     stringr::str_replace_all(pattern = stringr::fixed("```{r"), replacement = "")
 
   rmd_in_table <-
@@ -103,8 +103,8 @@ e_rmd_name_chunks <-
   #   previously numbered (have the prefix_chunk_name prefix)
   # Blank any with the prefix_chunk_name then renumber those.
   ind_blank <-
-    rmd_in_table$chunk_name %>%
-    stringr::str_detect(pattern = stringr::fixed(prefix_chunk_name)) %>%
+    rmd_in_table$chunk_name |>
+    stringr::str_detect(pattern = stringr::fixed(prefix_chunk_name)) |>
     which()
   if (length(ind_blank)) {
     rmd_in_table$chunk_name[ind_blank] <- ""
@@ -112,17 +112,17 @@ e_rmd_name_chunks <-
 
   # for all blank chunks, assign them sequentially numbered chunk names with the prefix.
   ind_to_name <-
-    rmd_in_table$chunk_name %>%
-    stringr::str_detect(pattern = "^$") %>%
+    rmd_in_table$chunk_name |>
+    stringr::str_detect(pattern = "^$") |>
     which()
 
   # number sequence
   chunk_number_seq <- 1:length(ind_to_name)
   # number of digits needed for leading 0s
   num_digits_leading_0s <-
-    chunk_number_seq %>%
-    max() %>%
-    log10() %>%
+    chunk_number_seq |>
+    max() |>
+    log10() |>
     ceiling      # including parentheses gives a "clean and rebuild" note of "wrong number of arguments"
   # text numbers with leading 0s
   chunk_numbers <-

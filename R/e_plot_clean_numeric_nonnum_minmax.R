@@ -19,21 +19,21 @@
 #' @examples
 #' ## requires formatting into two columns: "variables" and "values"
 #' dat_this <-
-#'   dat_mtcars_e %>%
+#'   dat_mtcars_e |>
 #'   dplyr::select(
 #'     model
 #'   , tidyselect::starts_with("hp")
 #'   , where(is.numeric)
-#'   ) %>%
+#'   ) |>
 #'   tidyr::pivot_longer(
 #'     cols      = -model
 #'   , names_to  = "variable"
 #'   , values_to = "value"
-#'   ) %>%
+#'   ) |>
 #'   dplyr::select(
 #'     -model
 #'   )
-#' dat_this %>% e_plot_clean_numeric_nonnum_minmax()
+#' dat_this |> e_plot_clean_numeric_nonnum_minmax()
 e_plot_clean_numeric_nonnum_minmax <-
   function(
     dat_this
@@ -47,9 +47,9 @@ e_plot_clean_numeric_nonnum_minmax <-
   # find non-numeric values
   if (is.character(dat_this$value)) {
     dat_this_NA <-
-      dat_this %>%
-      dplyr::filter(!(value == "")) %>%
-      dplyr::mutate(value_num = as.numeric(value)) %>%
+      dat_this |>
+      dplyr::filter(!(value == "")) |>
+      dplyr::mutate(value_num = as.numeric(value)) |>
       dplyr::filter(is.na(value_num))
 
     print(paste(nrow(dat_this_NA), "non-numeric values"))
@@ -67,7 +67,7 @@ e_plot_clean_numeric_nonnum_minmax <-
 
   # remove NAs to report smallest and largest values
   dat_this <-
-    dat_this %>%
+    dat_this |>
     dplyr::filter(!is.na(value))
 
   if(!is.null(lab_title)) {
@@ -75,17 +75,17 @@ e_plot_clean_numeric_nonnum_minmax <-
   }
 
   # Smallest values for each variable
-  dat_this %>%
-    dplyr::group_by(variable) %>%
-    dplyr::arrange(value) %>%
-    dplyr::slice(1:n_table) %>%
+  dat_this |>
+    dplyr::group_by(variable) |>
+    dplyr::arrange(value) |>
+    dplyr::slice(1:n_table) |>
     print(n = Inf)
 
   # Largest values for each variable
-  dat_this %>%
-    dplyr::group_by(variable) %>%
-    dplyr::arrange(desc(value)) %>%
-    dplyr::slice(1:n_table) %>%
+  dat_this |>
+    dplyr::group_by(variable) |>
+    dplyr::arrange(desc(value)) |>
+    dplyr::slice(1:n_table) |>
     print(n = Inf)
 
   if (sw_plot) {

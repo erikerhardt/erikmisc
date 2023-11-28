@@ -43,15 +43,15 @@
 #'       , "a a a", "1,a a a", "2,a a a"
 #'       )
 #'   , col2 = LETTERS[1:length(col1)]
-#'   ) %>%
+#'   ) |>
 #'   dplyr::mutate(
 #'     ID = 1:dplyr::n()
-#'   ) %>%
+#'   ) |>
 #'   dplyr::select(
 #'     ID
 #'   , tidyselect::everything()
 #'   )
-#' dat_ex %>% print(n = Inf)
+#' dat_ex |> print(n = Inf)
 #'
 #' # return data
 #' dat_ex_out <-
@@ -66,7 +66,7 @@
 #'   , sw_replace_GT1_with_1 = FALSE
 #'   , sw_print_unique       = TRUE
 #'   )
-#' dat_ex_out %>% print(n = Inf)
+#' dat_ex_out |> print(n = Inf)
 #'
 #' # return summary
 #' dat_ex_sum <-
@@ -107,61 +107,61 @@ e_split_list_columns_into_indicator_columns <-
   for(i_var in seq_along(var_names_items)) {
     ## i_var = 1
     dat_this[[ var_names_items_internal[i_var] ]] <-
-        dat_this[[ var_names_items[i_var] ]] %>%
+        dat_this[[ var_names_items[i_var] ]] |>
         # make all items lowercase,
-        tolower() %>%
+        tolower() |>
         # trim external whitespace
-        stringr::str_trim(side = "both") %>%
+        stringr::str_trim(side = "both") |>
         # replace selected punctuation with ","
-        stringr::str_replace_all(paste0("[[", item_delimiters, "]]"), ",") %>%
+        stringr::str_replace_all(paste0("[[", item_delimiters, "]]"), ",") |>
         # remove internal white space,
-        stringr::str_replace_all("\\s+,\\s+", ",") %>%
-        stringr::str_replace_all(",\\s+", ",") %>%
+        stringr::str_replace_all("\\s+,\\s+", ",") |>
+        stringr::str_replace_all(",\\s+", ",") |>
         stringr::str_replace_all("\\s+,", ",")
   }
 
   # combine item columns into a single list
   dat_this_items <-
-    dat_this %>%
-    dplyr::select(var_names_items_internal) %>%
-    unlist() %>%
-    as.character() %>%
-    tolower() %>%
+    dat_this |>
+    dplyr::select(var_names_items_internal) |>
+    unlist() |>
+    as.character() |>
+    tolower() |>
     na.omit()
   # remove empty strings
   dat_this_items <-
     dat_this_items[stringr::str_length(dat_this_items) > 0]
   # split by punctuation
   dat_this_items <-
-    dat_this_items %>%
+    dat_this_items |>
     stringr::str_split(
       pattern = ","
-    ) %>%
+    ) |>
     unlist()
 
   tab_items_unique <-
-    dat_this_items %>%
-    table() %>%
-    tibble::as_tibble() %>%
+    dat_this_items |>
+    table() |>
+    tibble::as_tibble() |>
     dplyr::rename(
       "items" = "."
     , "freq"  = "n"
-    ) %>%
+    ) |>
     dplyr::arrange(
       dplyr::desc(freq), items
     )
   if (sw_print_unique) {
     print(paste0("Unique items: ", nrow(tab_items_unique)))
-    tab_items_unique %>% print(n = Inf)
+    tab_items_unique |> print(n = Inf)
     print(paste0("Coding items with frequencies less than ", code_other_below_freq, " to '", label_other, "'"))
   }
 
   # items to code as "other"
   items_other <-
-    tab_items_unique %>%
-    dplyr::filter(freq < code_other_below_freq) %>%
-    dplyr::select(1) %>%
-    unlist() %>%
+    tab_items_unique |>
+    dplyr::filter(freq < code_other_below_freq) |>
+    dplyr::select(1) |>
+    unlist() |>
     as.character()
 
   if(label_other %in% tab_items_unique[["items"]]) {
@@ -173,7 +173,7 @@ e_split_list_columns_into_indicator_columns <-
     ## n_var = var_names_items_internal[1]
 
     this_col_split <-
-      dat_this[[n_var]] %>%
+      dat_this[[n_var]] |>
       stringr::str_split(
         pattern = ","
       )
@@ -184,7 +184,7 @@ e_split_list_columns_into_indicator_columns <-
       for(n_cond in items_other) {
         ## n_cond = items_other[1]
         this_col_split[[i_row]] <-
-          this_col_split[[i_row]] %>%
+          this_col_split[[i_row]] |>
           stringr::str_replace_all(
             paste0("^", n_cond, "$")
           , label_other
@@ -194,7 +194,7 @@ e_split_list_columns_into_indicator_columns <-
     }
 
     dat_this[[n_var]] <-
-      this_col_split %>%
+      this_col_split |>
       sapply(
         stringr::str_flatten
       , collapse = ","
@@ -209,7 +209,7 @@ e_split_list_columns_into_indicator_columns <-
   for(n_cond in items_other) {
     ## n_cond = items_other[1]
     tab_items_unique_other[["items"]] <-
-      tab_items_unique_other[["items"]] %>%
+      tab_items_unique_other[["items"]] |>
       stringr::str_replace_all(
         #stringr::fixed(n_cond)
         paste0("^", n_cond, "$")
@@ -218,29 +218,29 @@ e_split_list_columns_into_indicator_columns <-
   }
 
   tab_items_unique_other <-
-    tab_items_unique_other %>%
+    tab_items_unique_other |>
     tidyr::uncount(
       weights = freq
-    ) %>%
-    dplyr::pull(items) %>%
-    table() %>%
-    tibble::as_tibble() %>%
+    ) |>
+    dplyr::pull(items) |>
+    table() |>
+    tibble::as_tibble() |>
     dplyr::rename(
       "items" = "."
     , "freq"  = "n"
-    ) %>%
+    ) |>
     dplyr::arrange(
       dplyr::desc(freq), items
     )
   if (sw_print_unique) {
     print(paste0("Unique items: ", nrow(tab_items_unique_other), " with other category `", label_other, "`"))
-    tab_items_unique_other %>% print(n = Inf)
+    tab_items_unique_other |> print(n = Inf)
   }
 
   # create seperate columns for each item
   new_var_names_items <-
-    tab_items_unique_other %>%
-    dplyr::pull(items) %>%
+    tab_items_unique_other |>
+    dplyr::pull(items) |>
     as.character()
 
 
@@ -251,23 +251,23 @@ e_split_list_columns_into_indicator_columns <-
     ## i_var = 1
 
     tab_items[[i_var]] <-
-      dat_this %>%
+      dat_this |>
       dplyr::pull(
         tidyselect::all_of(var_names_items_internal[i_var])
-      ) %>%
+      ) |>
       stringr::str_split(pattern = ",", simplify = TRUE)
   }
 
   tab_items <-
-    tab_items %>%
-    #dplyr::bind_cols() %>%
-    do.call(cbind, .) %>%
+    tab_items |>
+    #dplyr::bind_cols() |>
+    do.call(cbind, .) |>
     as.matrix()
 
   for(n_new_var in new_var_names_items) {
     ## n_new_var = new_var_names_items[1]
     dat_this[, paste0(indicator_col_prefix, n_new_var)] <-
-      (tab_items == n_new_var) %>% rowSums(na.rm = TRUE)
+      (tab_items == n_new_var) |> rowSums(na.rm = TRUE)
   }
 
   if(sw_replace_GT1_with_1) {
@@ -278,7 +278,7 @@ e_split_list_columns_into_indicator_columns <-
 
   # remove temporary columns
   dat_this <-
-    dat_this %>%
+    dat_this |>
     dplyr::select(
       -tidyselect::all_of(var_names_items_internal)
     )

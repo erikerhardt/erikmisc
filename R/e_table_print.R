@@ -39,17 +39,17 @@
 #' @export
 #'
 #' @examples
-#' dat_mtcars_e %>% head() %>% e_table_print()
+#' dat_mtcars_e |> head() |> e_table_print()
 #' \dontrun{
 #' # html rescaled size
-#' dat_mtcars_e %>%
-#'   head() %>%
+#' dat_mtcars_e |>
+#'   head() |>
 #'   e_table_print(sw_scale = 6)
 #' # outputs into LaTeX document, scaling is automatic to fit page width
 #' # works best before a \clearpage
 #' # use chunk option: results = 'asis', see other options at https://yihui.org/knitr/options/
-#' dat_mtcars_e %>%
-#'   head() %>%
+#' dat_mtcars_e |>
+#'   head() |>
 #'   e_table_print(sw_scale = TRUE, sw_kable_format = "latex")
 #' }
 e_table_print <-
@@ -72,60 +72,60 @@ e_table_print <-
   # Example with packages: https://stackoverflow.com/questions/59994486/r-markdown-trouble-with-rowcolor-in-kable-styling
 
   if (sw_kable_format == "simple") {
-    dat %>%
-    knitr::kable(format = sw_kable_format, ...) %>%
+    dat |>
+    knitr::kable(format = sw_kable_format, ...) |>
     print()
   }
   if (sw_kable_format == "kbl") {
     if (sw_scale) {
-      dat %>%
-      kableExtra::kbl() %>%
-      kableExtra::kable_paper(lightable_options = "hover", full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) %>%
-      #kableExtra::kable_styling(font_size = sw_scale) %>%
+      dat |>
+      kableExtra::kbl() |>
+      kableExtra::kable_paper(lightable_options = "hover", full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) |>
+      #kableExtra::kable_styling(font_size = sw_scale) |>
       print()
     } else {
-      dat %>%
-      kableExtra::kbl() %>%
-      kableExtra::kable_paper(lightable_options = "hover", full_width = FALSE, bootstrap_options = "striped", position = "center") %>%
-      #kableExtra::kable_styling() %>%
+      dat |>
+      kableExtra::kbl() |>
+      kableExtra::kable_paper(lightable_options = "hover", full_width = FALSE, bootstrap_options = "striped", position = "center") |>
+      #kableExtra::kable_styling() |>
       print()
     }
   }
   if (sw_kable_format == "html") {
     if (sw_scale) {
-      dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
-      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) %>%
+      dat |>
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) |>
+      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center", font_size = sw_scale) |>
       print()
     } else {
-      dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
-      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center") %>%
+      dat |>
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) |>
+      kableExtra::kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "center") |>
       print()
     }
   }
   if (sw_kable_format == "latex") {
     if (sw_scale) {
-      sw_latex_options = c(sw_latex_options, "scale_down") %>% unique()
-      dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%
+      sw_latex_options = c(sw_latex_options, "scale_down") |> unique()
+      dat |>
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) |>
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) |>
       print()
     } else {
-      dat %>%
-      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) %>%
-      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) %>%   # , "scale_down"
+      dat |>
+      knitr::kable(format = sw_kable_format, booktabs = TRUE, linesep = "", ...) |>
+      kableExtra::kable_styling(full_width = FALSE, position = "center", latex_options = sw_latex_options) |>   # , "scale_down"
       print()
     }
   }
   if (sw_kable_format == "doc") {
     if (sw_scale) {
-      dat %>%
-      flextable::regulartable() %>%
+      dat |>
+      flextable::regulartable() |>
       print()
     } else {
-      dat %>%
-      flextable::regulartable() %>%
+      dat |>
+      flextable::regulartable() |>
       print()
     }
   }

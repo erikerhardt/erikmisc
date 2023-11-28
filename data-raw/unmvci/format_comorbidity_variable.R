@@ -16,13 +16,13 @@ format_comorbidity_variable <- function(dat_vci, sw_print_unique = FALSE) {
   #library(stringr)
   # list of unique comorbidities
   comorb_full_list <-
-    dat_vci$pdi_which_disease %>%
-    tolower() %>%
-    str_split(",") %>%
-    unlist() %>%
-    lapply(str_trim) %>%
-    unlist() %>%
-    unique() %>%
+    dat_vci$pdi_which_disease |>
+    tolower() |>
+    str_split(",") |>
+    unlist() |>
+    lapply(str_trim) |>
+    unlist() |>
+    unique() |>
     sort()
 
   # remove blank
@@ -70,8 +70,8 @@ format_comorbidity_variable <- function(dat_vci, sw_print_unique = FALSE) {
   # perform replacement in
   # list of unique comorbidities
   comorb_full_list <-
-    comorb_full_list %>%
-    unique() %>%
+    comorb_full_list |>
+    unique() |>
     sort()
 
   if (sw_print_unique) {
@@ -82,7 +82,7 @@ format_comorbidity_variable <- function(dat_vci, sw_print_unique = FALSE) {
   # ----------------------------------------
   # perform replacement in data
   TEMP_pdi_which_disease <-
-    dat_vci$pdi_which_disease %>%
+    dat_vci$pdi_which_disease |>
     tolower()
 
   for (i.replace in 1:nrow(comorb_list_from_to)) {

@@ -34,7 +34,7 @@
 #' "
 #'   , stringsAsFactors = FALSE
 #'   )
-#' dat_this %>% print()
+#' dat_this |> print()
 #'
 #' # return dataset as it is
 #' e_read_df_header_span_rows(
@@ -98,7 +98,7 @@ e_read_df_header_span_rows <-
 
   # first, restore false header row as first row of data
   dat_this <-
-    colnames(dat_this) %>%
+    colnames(dat_this) |>
     rbind(
       dat_this
     )
@@ -108,7 +108,7 @@ e_read_df_header_span_rows <-
   #   So, remove ".1" suffixes when part of column headers.
   if (skip == 0 & row_header_span > 0) {
     dat_this[1, ] <-
-      dat_this[1, ] %>%
+      dat_this[1, ] |>
       stringr::str_replace(
         pattern     = "\\.[:digit:]$"
       , replacement = ""
@@ -139,12 +139,12 @@ e_read_df_header_span_rows <-
     #paste(header_rows[, i_col], sep = " ")
 
     colnames(header_rows)[i_col] <-
-      header_rows[, i_col] %>%
-      unlist() %>%
-      as.character() %>%
-      tidyr::replace_na("") %>%
-      stringr::str_subset(pattern = ".") %>%
-      paste(collapse = row_header_span_collapse) %>%
+      header_rows[, i_col] |>
+      unlist() |>
+      as.character() |>
+      tidyr::replace_na("") |>
+      stringr::str_subset(pattern = ".") |>
+      paste(collapse = row_header_span_collapse) |>
       trimws()
   }
 
@@ -152,7 +152,7 @@ e_read_df_header_span_rows <-
   # replace empty variable names with "V"
   col_names <- ifelse(col_names == "", "V", col_names)
   # make unique
-  col_names <- col_names %>% make.unique(sep = "..")
+  col_names <- col_names |> make.unique(sep = "..")
 
   colnames(dat_this) <- col_names
 

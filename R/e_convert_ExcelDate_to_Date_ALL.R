@@ -39,7 +39,7 @@ e_convert_ExcelDate_to_Date <-
     dates
   , origin = origin     # using 1900 Date system
   , tz = "UTC"
-  ) %>%
+  ) |>
   return()
 }
 
@@ -85,7 +85,7 @@ e_convert_Date_to_ExcelDate <-
     , origin = origin   # using 1900 Date system
     , tz = "UTC"
     )
-  ) %>%
+  ) |>
   return()
 }
 
@@ -128,7 +128,7 @@ e_convert_ExcelDatetime_to_Datetime <-
     datetimes * (60 * 60 * 24)
   , origin = origin     # using 1900 Date system
   , tz = "UTC"
-  ) %>%
+  ) |>
   return()
 }
 
@@ -174,7 +174,7 @@ e_convert_Datetime_to_ExcelDatetime <-
     , origin = origin   # using 1900 Date system
     , tz = "UTC"
     )
-  ) %>%
+  ) |>
   return()
 }
 

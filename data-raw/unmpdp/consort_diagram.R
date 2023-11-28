@@ -174,22 +174,22 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # RecNotInterested are those that indicate PreScr prescr_agree = "No"
     n_patients[(n_patients$ID == "RecNotInterested"), "n"] <-
-      dat_PreScr_sub %>%
-      subset(prescr_agree.factor == "No") %>%
+      dat_PreScr_sub |>
+      subset(prescr_agree.factor == "No") |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "RecNotInterested"), "n"], "RecNotInterested - Patients\n"), file = fn_consort_details, append = TRUE)
 
   # only keep PreScr Yes to continue
   dat_PreScr_sub <-
-    dat_PreScr_sub %>%
+    dat_PreScr_sub |>
     subset(subset = (prescr_agree.factor == "Yes"))
 
   # for name duplicates, only keep last instance
   if (sw_drop_dups == TRUE) {
     ind_dup <-
-      dat_PreScr_sub %>%
-      subset(select = c(first_name, last_name)) %>%
+      dat_PreScr_sub |>
+      subset(select = c(first_name, last_name)) |>
       duplicated(fromLast = TRUE)
 
     if(sum(ind_dup)) {
@@ -207,7 +207,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # RecInterested are those that indicate PreScr prescr_agree = "Yes" with unique names
     n_patients[(n_patients$ID == "RecInterested"), "n"] <-
-      dat_PreScr_sub %>%
+      dat_PreScr_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "RecInterested"), "n"], "RecInterested - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -230,8 +230,8 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
   # for name duplicates, only keep last instance
     ind_dup <-
-      dat_Elig_sub %>%
-      subset(select = c(first_name, last_name)) %>%
+      dat_Elig_sub |>
+      subset(select = c(first_name, last_name)) |>
       duplicated(fromLast = TRUE)
 
     if(sum(ind_dup)) {
@@ -248,8 +248,8 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Eligible are those that indicate Elig elig_elig_top "Yes"
     n_patients[(n_patients$ID == "Eligible"), "n"] <-
-      dat_Elig_sub %>%
-      subset(elig_elig_top == 1) %>%
+      dat_Elig_sub |>
+      subset(elig_elig_top == 1) |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "RecInterested"), "n"], "RecInterested - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -258,16 +258,16 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # EligNot are those that indicate Elig elig_elig_top "No"
     n_patients[(n_patients$ID == "EligNot"), "n"] <-
-      dat_Elig_sub %>%
-      subset(elig_elig_top == 2) %>%
+      dat_Elig_sub |>
+      subset(elig_elig_top == 2) |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "EligNot"), "n"], "EligNot - Patients\n"), file = fn_consort_details, append = TRUE)
 
     # EligNotParticpate are those that indicate Elig elig_elig_top "Eligible but no baseline"
     n_patients[(n_patients$ID == "EligNotParticpate"), "n"] <-
-      dat_Elig_sub %>%
-      subset(elig_elig_top == 3) %>%
+      dat_Elig_sub |>
+      subset(elig_elig_top == 3) |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "EligNotParticpate"), "n"], "EligNotParticpate - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -292,7 +292,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Baseline are those that appear in the pdp data
     n_patients[(n_patients$ID == "Baseline"), "n"] <-
-      dat_pdp_00m_sub %>%
+      dat_pdp_00m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Eligible"), "n"], "Eligible - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -313,7 +313,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Baseline are those that appear in the pdp data
     n_socialsupport[(n_socialsupport$ID == "Baseline"), "n"] <-
-      dat_pdp_00m_sub_ss %>%
+      dat_pdp_00m_sub_ss |>
       nrow()
 
           cat(paste(n_socialsupport[(n_socialsupport$ID == "Baseline"), "n"], "Baseline - Social Support\n"), file = fn_consort_details, append = TRUE)
@@ -337,8 +337,8 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
               #JUNK#
               #JUNK# subset(dat_all, dat_PreScr == TRUE)
               #JUNK#
-              #JUNK# dat_all %>%
-              #JUNK#   subset(dat_PreScr == TRUE) %>%
+              #JUNK# dat_all |>
+              #JUNK#   subset(dat_PreScr == TRUE) |>
               #JUNK#   nrow()
 
   # ----------------------------------------
@@ -350,7 +350,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Followup03 are those that appear in the pdp data Followup03
     n_patients[(n_patients$ID == "Followup03"), "n"] <-
-      dat_pdp_03m_sub %>%
+      dat_pdp_03m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Baseline"), "n"], "Baseline - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -371,7 +371,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Followup03 are those that appear in the pdp data Followup03
     n_socialsupport[(n_socialsupport$ID == "Followup03"), "n"] <-
-      dat_pdp_03m_sub_ss %>%
+      dat_pdp_03m_sub_ss |>
       nrow()
 
           cat(paste(n_socialsupport[(n_socialsupport$ID == "Baseline"), "n"], "Baseline - Social Support\n"), file = fn_consort_details, append = TRUE)
@@ -393,7 +393,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Followup06 are those that appear in the pdp data Followup06
     n_patients[(n_patients$ID == "Followup06"), "n"] <-
-      dat_pdp_06m_sub %>%
+      dat_pdp_06m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Followup03"), "n"], "Followup03 - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -414,7 +414,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Followup06 are those that appear in the pdp data Followup06
     n_socialsupport[(n_socialsupport$ID == "Followup06"), "n"] <-
-      dat_pdp_06m_sub_ss %>%
+      dat_pdp_06m_sub_ss |>
       nrow()
 
           cat(paste(n_socialsupport[(n_socialsupport$ID == "Followup03"), "n"], "Followup03 - Social Support\n"), file = fn_consort_details, append = TRUE)
@@ -436,7 +436,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Followup12 are those that appear in the pdp data Followup12
     n_patients[(n_patients$ID == "Followup12"), "n"] <-
-      dat_pdp_12m_sub %>%
+      dat_pdp_12m_sub |>
       nrow()
 
           cat(paste(n_patients[(n_patients$ID == "Followup06"), "n"], "Followup06 - Patients\n"), file = fn_consort_details, append = TRUE)
@@ -457,7 +457,7 @@ consort_diagram <- function(dat_PreScr = dat_PreScr, dat_Elig = dat_Elig, dat_pd
 
     # Followup12 are those that appear in the pdp data Followup12
     n_socialsupport[(n_socialsupport$ID == "Followup12"), "n"] <-
-      dat_pdp_12m_sub_ss %>%
+      dat_pdp_12m_sub_ss |>
       nrow()
 
           cat(paste(n_socialsupport[(n_socialsupport$ID == "Followup06"), "n"], "Followup06 - Social Support\n"), file = fn_consort_details, append = TRUE)
