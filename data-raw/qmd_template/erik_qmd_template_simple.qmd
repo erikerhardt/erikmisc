@@ -178,10 +178,10 @@ Read data
 ```{r}
 dat_sheet <-
   readr::read_csv(
-    file = ".csv"
+    file = "../data/.csv"
   ) |>
-  dplyr::select(
-  ) |>
+  #dplyr::select(
+  #) |>
   dplyr::filter(
   ) |>
   dplyr::mutate(
@@ -197,7 +197,6 @@ dat_sheet |> summary()
 
 dat_sheet |>
   erikmisc::e_plot_missing(
-    dat_plot            = dat_sheet
   , var_group           = NULL
   , sw_group_sort       = FALSE
   , var2_sort           = NULL
@@ -213,12 +212,12 @@ dat_sheet |>
 ## Scatterplot matrix
 p <-
   GGally::ggpairs(
-    dat_sheet |> select()
+    dat_sheet %>% select()
   , title = "Title"
   #, mapping = ggplot2::aes(colour = , alpha = 0.5)
   , diag  = list(
               continuous =
-                wrap(
+                GGally::wrap(
                   c("densityDiag", "barDiag", "blankDiag")[1]
                 , alpha = 1/2
                 )
@@ -228,7 +227,7 @@ p <-
   # scatterplots on top so response as first variable has y on vertical axis
   , upper = list(
               continuous =
-                wrap(
+                GGally::wrap(
                   c("points", "smooth", "smooth_loess", "density", "cor", "blank")[2]
                 , se = FALSE
                 , alpha = 1/2
@@ -244,7 +243,7 @@ p <-
             )
   , lower = list(
               continuous =
-                wrap(
+                GGally::wrap(
                   c("points", "smooth", "smooth_loess", "density", "cor", "blank")[5]
                 #, se = FALSE
                 #, alpha = 1/2
