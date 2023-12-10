@@ -6,6 +6,7 @@
 #' @param rf_id_var       ID variable, removed from dataset prior to analysis
 #' @param sw_rfsrc_ntree  \code{ntree} argument for \code{randomForestSRC::rfsrc()}
 #' @param sw_alpha        \code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()}
+#' @param sw_select_full  run with model selection, or only fit full model
 #' @param sw_save_model   T/F to save model (XXX, not yet implemented)
 #' @param plot_title      title for plots
 #' @param out_path        path to save output
@@ -56,11 +57,12 @@
 #'   , rf_y_var        = "cyl"    # NULL
 #'   , rf_x_var        = c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
 #'   , rf_id_var       = "ID"
-#'   , sw_rfsrc_ntree  = 2000
+#'   , sw_rfsrc_ntree  = 200
 #'   , sw_alpha        = 0.05
+#'   , sw_select_full  = c("select", "full")[1]
 #'   , sw_save_model   = c(TRUE, FALSE)[1]
-#'   , plot_title      = "Random Forest Title"
-#'   , out_path        = "."
+#'   , plot_title      = "Random Forest Title SEL"
+#'   , out_path        = "./out_sel"
 #'   , file_prefix     = "out_e_rf"
 #'   , plot_format     = c("png", "pdf")[1]
 #'   )
@@ -148,6 +150,7 @@ e_rfsrc_classification <-
   , rf_id_var       = NULL
   , sw_rfsrc_ntree  = 2000
   , sw_alpha        = 0.05
+  , sw_select_full  = c("select", "full")[1]
   , sw_save_model   = c(TRUE, FALSE)[1]
   , plot_title      = "Random Forest Title"
   , out_path        = "out"
@@ -517,7 +520,7 @@ e_rfsrc_classification <-
     , plot   =
         out[[ "plot_o_class_full_importance" ]]
     , width  = 4 + 2 * ncol(o_class_full$importance)
-    , height = 1 + 0.25 * length(rf_x_var_full)
+    , height = 2 + 0.25 * length(rf_x_var_full)
     ## png, jpeg
     , dpi    = 300
     , bg     = "white"
@@ -562,7 +565,7 @@ e_rfsrc_classification <-
       , plot   =
           out_vimp_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
       , width  = 4 + 2 * 2
-      , height = 1 + 0.25 * length(rf_x_var_full)
+      , height = 2 + 0.25 * length(rf_x_var_full)
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
@@ -860,7 +863,7 @@ e_rfsrc_classification <-
     , plot   =
         out[[ "plot_o_class_full_subsample" ]]
     , width  = 8
-    , height = 1 + 0.25 * length(rf_x_var_full)
+    , height = 2 + 0.25 * length(rf_x_var_full)
     ## png, jpeg
     , dpi    = 300
     , bg     = "white"
@@ -890,7 +893,277 @@ e_rfsrc_classification <-
   out[[ "rf_x_var_sel" ]] <-
     rf_x_var_sel
 
+
+  # ----------------------------------------
+  # Full model, only output
+
   if (length(rf_x_var_sel) == 0) {
+    sw_select_full <- c("select", "full")[2]
+    warning("erikmisc::e_rfsrc_classification, model selection has 0 x variables")
+  }
+
+  if (sw_select_full  == c("select", "full")[2]) {
+
+    ### Marginal/Partial effects plots
+    this_text <-
+      paste0("erikmisc::e_rfsrc_classification, "
+        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
+        , ":  Partial effects plots (full model)"
+      )
+    print(this_text)
+    f_write_this_text(this_text)
+
+    # 11/2/2023 See the lapply() code below which overcomes lazy evaluation in the cowplot ggplot code,
+    #   which was resulting in all plots in the list being the last plot
+    ## out[[ "plot_o_class_full_marginal_effects" ]] <- list()
+    ## for (i_level in seq_along(levels(o_class_full$class))) {
+    ##   print(i_level)
+    ##   print(levels(o_class_full$class)[i_level])
+    ##
+    ##   # Partial effects plots
+    ##   out[[ "plot_o_class_full_marginal_effects" ]][[ levels(o_class_full$class)[i_level] ]] <-
+    ##     cowplot::as_grob(
+    ##       ~randomForestSRC::plot.variable(
+    ##         x               = o_class_full
+    ##       #, xvar.names
+    ##       , target          = levels(o_class_full$class)[i_level]   # classification: first event type
+    ##       #, m.target        = NULL
+    ##       #, time
+    ##       #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+    ##       , class.type      = c("prob", "bayes")[1]
+    ##       , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
+    ##       , oob             = TRUE
+    ##       , show.plots      = TRUE
+    ##       , plots.per.page  = 4
+    ##       , granule         = 5
+    ##       , sorted          = FALSE #TRUE
+    ##       #, nvar
+    ##       , npts            = 25
+    ##       , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+    ##       #, subset
+    ##       , main            = paste0("Partial plot, target: ", levels(o_class_full$class)[i_level])
+    ##       )
+    ##     )
+    ## }
+    # cowplot::plot_grid(out[[ "plot_o_class_full_marginal_effects" ]][[ levels(o_class_full$class)[1] ]])
+    # cowplot::plot_grid(out[[ "plot_o_class_full_marginal_effects" ]][[ 2 ]])
+
+    out[[ "plot_o_class_full_partial_effects" ]] <-
+      lapply(
+        seq_along(levels(o_class_full$class))
+      , function(i_level) {
+          cowplot::as_grob(
+            ~randomForestSRC::plot.variable(
+              x               = o_class_full
+            #, xvar.names      = o_class_full$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+            , target          = levels(o_class_full$class)[i_level]   # classification: first event type
+            #, m.target        = NULL
+            #, time
+            #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+            , class.type      = c("prob", "bayes")[1]
+            , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
+            , oob             = TRUE
+            , show.plots      = TRUE
+            , plots.per.page  = 4
+            , granule         = 5
+            , sorted          = TRUE #FALSE
+            #, nvar
+            , npts            = 25
+            , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+            #, subset
+            , main            = paste0("Partial plot, target: ", levels(o_class_full$class)[i_level])
+            )
+          )
+        }
+      )
+
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      out[[ "plot_o_class_full_partial_effects" ]][[ i_level ]] <-
+        patchwork::wrap_elements(
+          full =
+            #cowplot::as_grob(
+              out[[ "plot_o_class_full_partial_effects" ]][[ i_level ]] |>
+                  cowplot::plot_grid()
+            #)
+        ) +
+        patchwork::plot_annotation(
+        #labs(
+          title     = plot_title
+        , subtitle  = "Full model, Partial plot, predicted marginal value (adjusted) for variable"
+        , caption   = paste0(
+                        "For continuous variables, red points are used to indicate partial values (adjusted, integrate out other variables) and"
+                      #, "\n"
+                      , "  dashed red lines indicate a smoothed error bar of +/- two standard errors. "
+                      #, "\n"
+                      , "Black dashed line are the partial values."
+                      , "\n"
+                      , "For discrete variables, partial values are indicated using boxplots with whiskers extending out approximately two standard errors from the mean."
+                      , "\n"
+                      , "Standard errors are meant only to be a guide and should be interpreted with caution."
+                     )
+        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+        )
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_partial_effects"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            out[[ "plot_o_class_full_partial_effects" ]][[ i_level ]]
+        , width  = 18
+        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / 4)
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        )
+    } # i_level
+
+      ## for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      ##   out[[ "plot_o_class_full_partial_effects" ]][[ i_level ]] |>
+      ##     cowplot::plot_grid() |>
+      ##     print()
+      ## }
+
+
+    out[[ "plot_o_class_full_marginal_effects" ]] <-
+      lapply(
+        seq_along(levels(o_class_full$class))
+      , function(i_level) {
+          cowplot::as_grob(
+            ~randomForestSRC::plot.variable(
+              x               = o_class_full
+            #, xvar.names      = o_class_full$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+            , target          = levels(o_class_full$class)[i_level]   # classification: first event type
+            #, m.target        = NULL
+            #, time
+            #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+            , class.type      = c("prob", "bayes")[1]
+            , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
+            , oob             = TRUE
+            , show.plots      = TRUE
+            , plots.per.page  = 4
+            , granule         = 5
+            , sorted          = TRUE #FALSE
+            #, nvar
+            , npts            = 25
+            , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+            #, subset
+            , main            = paste0("Marginal plot, target: ", levels(o_class_full$class)[i_level])
+            )
+          )
+        }
+      )
+
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] <-
+        patchwork::wrap_elements(
+          full =
+            #cowplot::as_grob(
+              out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] |>
+                  cowplot::plot_grid()
+            #)
+        ) +
+        patchwork::plot_annotation(
+        #labs(
+          title     = plot_title
+        , subtitle  = "Full model, Marginal plot, predicted marginal value (unadjusted) for variable"
+        , caption   = paste0(
+                        "For continuous variables, red points are used to indicate marginal values (unadjusted for other variables) and"
+                      #, "\n"
+                      , "  dashed red lines indicate a smoothed error bar of +/- two standard errors. "
+                      #, "\n"
+                      , "Black dashed line are the marginal values."
+                      , "\n"
+                      , "For discrete variables, marginal values are indicated using boxplots with whiskers extending out approximately two standard errors from the mean."
+                      , "\n"
+                      , "Standard errors are meant only to be a guide and should be interpreted with caution."
+                     )
+        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+        )
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_marginal_effects"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]]
+        , width  = 18
+        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / 4)
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        )
+    } # i_level
+
+
+    ## out[[ "plot_o_class_full_marginal_effects" ]] <-
+    ##   lapply(
+    ##     seq_along(levels(o_class_full$class))
+    ##   , function(i_level) {
+    ##       cowplot::as_grob(
+    ##         ~randomForestSRC::plot.variable(
+    ##           x               = o_class_full
+    ##         #, xvar.names      = o_class_full$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+    ##         , target          = levels(o_class_full$class)[i_level]   # classification: first event type
+    ##         #, m.target        = NULL
+    ##         #, time
+    ##         #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+    ##         , class.type      = c("prob", "bayes")[1]
+    ##         , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
+    ##         , oob             = TRUE
+    ##         , show.plots      = TRUE
+    ##         , plots.per.page  = 4
+    ##         , granule         = 5
+    ##         , sorted          = TRUE #FALSE
+    ##         #, nvar
+    ##         , npts            = 25
+    ##         , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+    ##         #, subset
+    ##         , main            = paste0("Marginal plot, target: ", levels(o_class_full$class)[i_level])
+    ##         )
+    ##       )
+    ##     }
+    ##   )
+
+      ## for (i_level in seq_along(levels(dat_rf_class[[ out_e_rf[[ "rf_y_var" ]] ]]))) {
+      ##   out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] |>
+      ##     cowplot::plot_grid() |>
+      ##     print()
+      ## }
+
+
+
+
 
     # Compile training summary plot (also at very end when x var)
     # If selected model has NO x variables
@@ -967,9 +1240,16 @@ e_rfsrc_classification <-
       #, useDingbats = FALSE
       )
 
-    warning("erikmisc::e_rfsrc_classification, model selection has 0 x variables")
+    this_text <-
+      paste0("erikmisc::e_rfsrc_classification, "
+        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
+        , ":  Complete"
+      )
+    print(this_text)
+    f_write_this_text(this_text)
+
     return(out)
-  }
+  } # full model only, stop here
 
 
 
@@ -1156,7 +1436,7 @@ e_rfsrc_classification <-
     , plot   =
         out[[ "plot_o_class_sel_importance" ]]
     , width  = 8
-    , height = 1 + 0.25 * length(rf_x_var_sel)
+    , height = 2 + 0.25 * length(rf_x_var_sel)
     ## png, jpeg
     , dpi    = 300
     , bg     = "white"
@@ -1204,7 +1484,7 @@ e_rfsrc_classification <-
       , plot   =
           out_vimp_sel_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
       , width  = 4 + 2 * 2
-      , height = 1 + 0.25 * length(rf_x_var)
+      , height = 2 + 0.25 * length(rf_x_var)
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
@@ -1502,7 +1782,7 @@ e_rfsrc_classification <-
     , plot   =
         out[[ "plot_o_class_sel_subsample" ]]
     , width  = 8
-    , height = 1 + 0.25 * length(rf_x_var_sel)
+    , height = 2 + 0.25 * length(rf_x_var_sel)
     ## png, jpeg
     , dpi    = 300
     , bg     = "white"

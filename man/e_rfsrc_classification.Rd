@@ -11,6 +11,7 @@ e_rfsrc_classification(
   rf_id_var = NULL,
   sw_rfsrc_ntree = 2000,
   sw_alpha = 0.05,
+  sw_select_full = c("select", "full")[1],
   sw_save_model = c(TRUE, FALSE)[1],
   plot_title = "Random Forest Title",
   out_path = "out",
@@ -30,6 +31,8 @@ e_rfsrc_classification(
 \item{sw_rfsrc_ntree}{\code{ntree} argument for \code{randomForestSRC::rfsrc()}}
 
 \item{sw_alpha}{\code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()}}
+
+\item{sw_select_full}{run with model selection, or only fit full model}
 
 \item{sw_save_model}{T/F to save model (XXX, not yet implemented)}
 
@@ -72,11 +75,12 @@ out_e_rf <-
   , rf_y_var        = "cyl"    # NULL
   , rf_x_var        = c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
   , rf_id_var       = "ID"
-  , sw_rfsrc_ntree  = 2000
+  , sw_rfsrc_ntree  = 200
   , sw_alpha        = 0.05
+  , sw_select_full  = c("select", "full")[1]
   , sw_save_model   = c(TRUE, FALSE)[1]
-  , plot_title      = "Random Forest Title"
-  , out_path        = "."
+  , plot_title      = "Random Forest Title SEL"
+  , out_path        = "./out_sel"
   , file_prefix     = "out_e_rf"
   , plot_format     = c("png", "pdf")[1]
   )
