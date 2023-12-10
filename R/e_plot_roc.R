@@ -5,7 +5,22 @@
 #' @param label_neg_pos     labels in order c("negative", "positive")
 #' @param sw_plot           T/F to return a ROC curve ggplot object
 #' @param cm_mode           \code{mode} from \code{caret::confusionMatrix}
-#' @param sw_caption_desc   T/F to include verbose caption descriptions of classification statistics
+#' @param sw_caption_desc   T/F define statistics in caption
+#' @param sw_class_labels   T/F classification labels indicated in caption
+#' @param sw_val_AUC        T/F report statistic
+#' @param sw_val_BA         T/F report statistic
+#' @param sw_val_Sens       T/F report statistic
+#' @param sw_val_Spec       T/F report statistic
+#' @param sw_val_PPV        T/F report statistic
+#' @param sw_val_NPV        T/F report statistic
+#' @param sw_val_Thresh     T/F report statistic
+#' @param label_AUC         label for statistic
+#' @param label_BA          label for statistic
+#' @param label_Sens        label for statistic
+#' @param label_Spec        label for statistic
+#' @param label_PPV         label for statistic
+#' @param label_NPV         label for statistic
+#' @param label_Thresh      label for statistic
 #'
 #' @return                a list including
 #' \itemize{
@@ -87,7 +102,36 @@
 #'   , label_neg_pos   = c(0, 1)
 #'   , sw_plot         = TRUE
 #'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
-#'   , sw_caption_desc = c(TRUE, FALSE)[1]
+#'   )
+#' glm_roc$roc_curve_best %>% print(width = Inf)
+#' glm_roc$plot_roc
+#' glm_roc$confusion_matrix
+#'
+#'
+#' # Illustrate labels and caption definitions
+#' glm_roc <-
+#'   e_plot_roc(
+#'     labels_true     = dat_mtcars_e$vs_V
+#'   , pred_values_pos = fit_glm_vs$fitted.values
+#'   , label_neg_pos   = c(0, 1)
+#'   , sw_plot         = TRUE
+#'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+#'   , sw_caption_desc = TRUE
+#'   , sw_class_labels   = TRUE
+#'   , sw_val_AUC        = TRUE
+#'   , sw_val_BA         = TRUE
+#'   , sw_val_Sens       = FALSE
+#'   , sw_val_Spec       = FALSE
+#'   , sw_val_PPV        = TRUE
+#'   , sw_val_NPV        = TRUE
+#'   , sw_val_Thresh     = TRUE
+#'   , label_AUC         = c("AUC"   , "Area Under Curve"  )[1]
+#'   , label_BA          = c("BA"    , "Balanced Accuracy" )[1]
+#'   , label_Sens        = c("Sens"  , "Sensitivity"       )[1]
+#'   , label_Spec        = c("Spec"  , "Specificity"       )[1]
+#'   , label_PPV         = c("PPV"   , "Pos Pred Value"    )[2]
+#'   , label_NPV         = c("NPV"   , "Neg Pred Value"    )[2]
+#'   , label_Thresh      = c("Thresh", "Pos Threshold"     )[1]
 #'   )
 #' glm_roc$roc_curve_best |> print(width = Inf)
 #' glm_roc$plot_roc
@@ -134,12 +178,27 @@
 #'
 e_plot_roc <-
   function(
-    labels_true     = NULL
-  , pred_values_pos = NULL
-  , label_neg_pos   = NULL
-  , sw_plot         = TRUE
-  , cm_mode         = c("sens_spec", "prec_recall", "everything")[1]
-  , sw_caption_desc = c(TRUE, FALSE)[1]
+    labels_true       = NULL
+  , pred_values_pos   = NULL
+  , label_neg_pos     = NULL
+  , sw_plot           = TRUE
+  , cm_mode           = c("sens_spec", "prec_recall", "everything")[1]
+  , sw_caption_desc   = TRUE
+  , sw_class_labels   = TRUE
+  , sw_val_AUC        = TRUE
+  , sw_val_BA         = TRUE
+  , sw_val_Sens       = TRUE
+  , sw_val_Spec       = TRUE
+  , sw_val_PPV        = TRUE
+  , sw_val_NPV        = TRUE
+  , sw_val_Thresh     = TRUE
+  , label_AUC         = c("AUC"   , "Area Under Curve"  )[1]
+  , label_BA          = c("BA"    , "Balanced Accuracy" )[1]
+  , label_Sens        = c("Sens"  , "Sensitivity"       )[1]
+  , label_Spec        = c("Spec"  , "Specificity"       )[1]
+  , label_PPV         = c("PPV"   , "Pos Pred Value"    )[1]
+  , label_NPV         = c("NPV"   , "Neg Pred Value"    )[1]
+  , label_Thresh      = c("Thresh", "Pos Threshold"     )[1]
   ) {
 
   # need only 2 levels for ROCR functions
@@ -244,6 +303,36 @@ e_plot_roc <-
     )
   # roc_curve_best |> print()
 
+  label_annotate <- list()
+  if (sw_val_AUC   ) {label_annotate[[ "AUC"    ]] <- paste0(label_AUC   ,  " = ", sprintf("%.3f", roc_curve_best$AUC)                           ) }
+  if (sw_val_BA    ) {label_annotate[[ "BA"     ]] <- paste0(label_BA    ,  " = ", sprintf("%.3f", confusion_matrix$byClass["Balanced Accuracy"])) }
+  if (sw_val_Sens  ) {label_annotate[[ "Sens"   ]] <- paste0(label_Sens  ,  " = ", sprintf("%.3f", confusion_matrix$byClass["Sensitivity"      ])) }
+  if (sw_val_Spec  ) {label_annotate[[ "Spec"   ]] <- paste0(label_Spec  ,  " = ", sprintf("%.3f", confusion_matrix$byClass["Specificity"      ])) }
+  if (sw_val_PPV   ) {label_annotate[[ "PPV"    ]] <- paste0(label_PPV   ,  " = ", sprintf("%.3f", confusion_matrix$byClass["Pos Pred Value"   ])) }
+  if (sw_val_NPV   ) {label_annotate[[ "NPV"    ]] <- paste0(label_NPV   ,  " = ", sprintf("%.3f", confusion_matrix$byClass["Neg Pred Value"   ])) }
+  if (sw_val_Thresh) {label_annotate[[ "Thresh" ]] <- paste0(label_Thresh, " >= ", sprintf("%.3f", roc_curve_best$thresh)                        ) }
+  label_annotate <-
+    label_annotate |>
+    unlist() |>
+    paste(collapse = "\n")
+
+  label_caption <- list()
+  if (sw_caption_desc) {
+    if (sw_class_labels) {label_caption[[ "Class"  ]] <- paste0("Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative.") }
+    if (sw_val_AUC     ) {label_caption[[ "AUC"    ]] <- paste0(label_AUC   ,    ": ", "overall performance, average value of sensitivity for all possible values of specificity") }
+    if (sw_val_BA      ) {label_caption[[ "BA"     ]] <- paste0(label_BA    ,    ": ", "average of sensitivity and specificity, average probability of correctly classifying all targets."                                ) }
+    if (sw_val_Sens    ) {label_caption[[ "Sens"   ]] <- paste0(label_Sens  ,    ": ", "true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."                                                ) }
+    if (sw_val_Spec    ) {label_caption[[ "Spec"   ]] <- paste0(label_Spec  ,    ": ", "true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."                                                ) }
+    if (sw_val_PPV     ) {label_caption[[ "PPV"    ]] <- paste0(label_PPV   ,    ": ", "positive predictive value (precision), probability that classification of \"", label_neg_pos[2], "\" is correct."                 ) }
+    if (sw_val_NPV     ) {label_caption[[ "NPV"    ]] <- paste0(label_NPV   ,    ": ", "negative predictive value, probability that classification of \"", label_neg_pos[1], "\" is correct."                             ) }
+    if (sw_val_Thresh  ) {label_caption[[ "Thresh" ]] <- paste0(label_Thresh, " >=: ", "value of predictive outcome metric that partitions classification of \"", label_neg_pos[2], "\" from \"", label_neg_pos[1], "\"." ) }
+  } # sw_caption_desc
+  label_caption <-
+    label_caption |>
+    unlist() |>
+    paste(collapse = "\n")
+
+
   # plot results
   if (sw_plot) {
 
@@ -254,7 +343,7 @@ e_plot_roc <-
     p <- ggplot(roc_curve, aes(x = Spec, y = Sens))
     p <- p + theme_bw()
     p <- p + geom_segment(aes(x = 0, y = 1, xend = 1, yend = 0), alpha = 0.25, linetype = 3)
-    p <- p + geom_step(size = 1) # aes(colour = Method, linetype = Method),
+    p <- p + geom_step(linewidth = 1) # aes(colour = Method, linetype = Method),
     p <- p + scale_x_reverse   (name = "Specificity", limits = c(1,0), breaks = breaks, expand = c(0.001, 0.001))
     p <- p + scale_y_continuous(name = "Sensitivity", limits = c(0,1), breaks = breaks, expand = c(0.001, 0.001))
 
@@ -263,28 +352,28 @@ e_plot_roc <-
 
     # optim values
     p <- p + annotate(
-               geom     = "segment"
-             , x        = roc_curve_best$Spec
-             , xend     = roc_curve_best$Spec
-             , y        = roc_curve_best$Sens
-             , yend     = 0
-             #, colour   = "gray25"
-             , size     = 0.5
-             , alpha    = 1/2
-             , linetype = 2
-             #, arrow = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
+               geom       = "segment"
+             , x          = roc_curve_best$Spec
+             , xend       = roc_curve_best$Spec
+             , y          = roc_curve_best$Sens
+             , yend       = 0
+             #, colour     = "gray25"
+             , linewidth  = 0.5
+             , alpha      = 1/2
+             , linetype   = 2
+             #, arrow     = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
              )
     p <- p + annotate(
-               geom     = "segment"
-             , x        = roc_curve_best$Spec
-             , xend     = 1
-             , y        = roc_curve_best$Sens
-             , yend     = roc_curve_best$Sens
-             #, colour   = "gray25"
-             , size     = 0.5
-             , alpha    = 1/2
-             , linetype = 2
-             #, arrow = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
+               geom       = "segment"
+             , x          = roc_curve_best$Spec
+             , xend       = 1
+             , y          = roc_curve_best$Sens
+             , yend       = roc_curve_best$Sens
+             #, colour     = "gray25"
+             , linewidth  = 0.5
+             , alpha      = 1/2
+             , linetype   = 2
+             #, arrow     = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
              )
 
 
@@ -297,48 +386,16 @@ e_plot_roc <-
       , y = 0.05
       , hjust = 1
       , vjust = 0
-      , label =
-          paste0(
-                  "Area Under Curve (AUC) = ", sprintf("%.3f", roc_curve_best$AUC)
-          , "\n", "Balanced Accuracy = ", sprintf("%.3f", confusion_matrix$byClass["Balanced Accuracy"])
-          , "\n", "Sensitivity = "      , sprintf("%.3f", confusion_matrix$byClass["Sensitivity"      ])
-          , "\n", "Specificity = "      , sprintf("%.3f", confusion_matrix$byClass["Specificity"      ])
-          , "\n", "Pos Pred Value = "   , sprintf("%.3f", confusion_matrix$byClass["Pos Pred Value"   ])
-          , "\n", "Neg Pred Value = "   , sprintf("%.3f", confusion_matrix$byClass["Neg Pred Value"   ])
-          , "\n", "Pos Threshold >= "   , sprintf("%.3f", roc_curve_best$thresh)
-          )
+      , label = label_annotate
       )
 
-    if(sw_caption_desc) {
+    if (sw_caption_desc) {
       p <- p +
         labs(
-          caption =
-            paste0(
-              "Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
-            , "\n"
-            , "Balanced Accuracy:  average of sensitivity and specificity, average probability of correctly classifying all targets."
-            , "\n"
-            , "Sensitivity:  true positive rate, probability correctly classifying \"", label_neg_pos[2], "\"."
-            , "\n"
-            , "Specificity:  true negative rate, probability correctly classifying \"", label_neg_pos[1], "\"."
-            , "\n"
-            , "Pos Pred Value:  positive predictive value (precision), probability that classification of \"", label_neg_pos[2], "\" is correct."
-            , "\n"
-            , "Neg Pred Value:  negative predictive value, probability that classification of \"", label_neg_pos[1], "\" is correct."
-            , "\n"
-            , "Pos Threshold >=:  value of predictive outcome metric that partitions classification of \"", label_neg_pos[2], "\" from \"", label_neg_pos[1], "\"."
-            )
+          caption = label_caption
         )
-    } else {
-      p <- p +
-        labs(
-          caption =
-            paste0(
-              "Classification labels:  \"", label_neg_pos[2], "\" is positive, \"", label_neg_pos[1], "\" is negative."
-            )
-        )
-    }
-    p <- p + theme(plot.caption = element_text(hjust = 0, size = 6), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+      p <- p + theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+    } # sw_caption_desc
 
   } else {
     p <- NULL
