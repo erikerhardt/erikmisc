@@ -68,7 +68,9 @@ e_plot_rf_vimp <-
   p <- p + theme_bw()
   p <- p + geom_hline(yintercept = 0, alpha = 1/2, linewidth = 1/4)
   p <- p + geom_bar(stat = "identity", colour = "black", width = 1/2, alpha = 3/4)
-  p <- p + facet_grid(. ~ name, drop = TRUE)
+  if (length(targets) > 1) {
+    p <- p + facet_grid(. ~ name, drop = TRUE)
+  }
   p <- p + scale_fill_manual(values = myColors, drop = FALSE)
   p <- p + coord_flip()
 
