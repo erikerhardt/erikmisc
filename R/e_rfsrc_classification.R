@@ -431,6 +431,23 @@ e_rfsrc_classification <-
   out[[ "o_class_full" ]] <-
     o_class_full
 
+  # save model (to be used for prediction)
+  if(sw_save_model) {
+    save(
+      o_class_full
+    , file =
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "model_o_class_full"
+          , ".RData"
+          )
+        )
+    )
+  }
+
 
   ### Plot convergence
   out[[ "plot_o_class_full" ]] <-
@@ -1349,6 +1366,24 @@ e_rfsrc_classification <-
 
   out[[ "o_class_sel" ]] <-
     o_class_sel
+
+  # save model (to be used for prediction)
+  if(sw_save_model) {
+    save(
+      o_class_sel
+    , file =
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "model_o_class_sel"
+          , ".RData"
+          )
+        )
+    )
+  }
+
 
   ### Plot convergence
   out[[ "plot_o_class_sel" ]] <-
