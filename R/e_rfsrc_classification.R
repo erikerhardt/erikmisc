@@ -12,6 +12,7 @@
 #' @param out_path        path to save output
 #' @param file_prefix     file prefix for saved output
 #' @param plot_format     plot format supported by \code{ggplot2::ggsave()}
+#' @param n_marginal_plot_across for partial and marginal plots, number of plots per row (increase if not all plots are displayed)
 #'
 #' @return list with many RF objects, summaries, and plots
 #' @import parallel
@@ -35,28 +36,37 @@
 #' @examples
 #' dat_rf_class <-
 #'   erikmisc::dat_mtcars_e |>
-#'   dplyr::select(
-#'     -model
-#'   ) |>
+#'   #dplyr::select(
+#'   #  -model
+#'   #) |>
 #'   #dplyr::select(
 #'   #  cyl
 #'   #, tidyselect::everything()
 #'   #) |>
 #'   dplyr::mutate(
-#'     ID    = 1:dplyr::n() # ID number
-#'   , disp  =              # add missing values
+#'   #  ID    = 1:dplyr::n() # ID number
+#'     disp  =              # add missing values
 #'       dplyr::case_when(
 #'         disp |> dplyr::between(160, 170) ~ NA
 #'       , TRUE ~ disp
 #'       )
+#'   , X1 = rnorm(dplyr::n())
+#'   , X2 = rnorm(dplyr::n())
+#'   , X3 = rnorm(dplyr::n())
+#'   , X4 = rnorm(dplyr::n())
+#'   , X5 = rnorm(dplyr::n())
+#'   , X6 = rnorm(dplyr::n())
+#'   , X7 = rnorm(dplyr::n())
+#'   , X8 = rnorm(dplyr::n())
+#'   , X9 = rnorm(dplyr::n())
 #'   )
 #'
 #' out_e_rf <-
 #'   e_rfsrc_classification(
 #'     dat_rf_class    = dat_rf_class
 #'   , rf_y_var        = "cyl"    # NULL
-#'   , rf_x_var        = c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
-#'   , rf_id_var       = "ID"
+#'   , rf_x_var        = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
+#'   , rf_id_var       = "model"
 #'   , sw_rfsrc_ntree  = 200
 #'   , sw_alpha        = 0.05
 #'   , sw_select_full  = c("select", "full")[1]
@@ -65,6 +75,7 @@
 #'   , out_path        = "./out_sel"
 #'   , file_prefix     = "out_e_rf"
 #'   , plot_format     = c("png", "pdf")[1]
+#'   , n_marginal_plot_across = 4
 #'   )
 #'
 #' \dontrun{
@@ -156,6 +167,7 @@ e_rfsrc_classification <-
   , out_path        = "out"
   , file_prefix     = "out_e_rf"
   , plot_format     = c("png", "pdf")[1]
+  , n_marginal_plot_across = 6
   ) {
   ## dat_rf_class <-
   ##   erikmisc::dat_mtcars_e |>
@@ -192,6 +204,7 @@ e_rfsrc_classification <-
   ##   , out_path        = "C:/Users/erike/Desktop/temp"
   ##   , file_prefix     = "out_e_rf"
   ##   , plot_format     = c("png", "pdf")[1]
+  ##   , n_marginal_plot_across = 6
   ##   )
 
   f_write_this_text <-
@@ -964,7 +977,7 @@ e_rfsrc_classification <-
             , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
             , oob             = TRUE
             , show.plots      = TRUE
-            , plots.per.page  = 4
+            , plots.per.page  = n_marginal_plot_across # 4
             , granule         = 5
             , sorted          = TRUE #FALSE
             #, nvar
@@ -1022,8 +1035,8 @@ e_rfsrc_classification <-
             )
         , plot   =
             out[[ "plot_o_class_full_partial_effects" ]][[ i_level ]]
-        , width  = 18
-        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / 4)
+        , width  = 3 * n_marginal_plot_across
+        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / n_marginal_plot_across)
         ## png, jpeg
         , dpi    = 300
         , bg     = "white"
@@ -1056,7 +1069,7 @@ e_rfsrc_classification <-
             , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
             , oob             = TRUE
             , show.plots      = TRUE
-            , plots.per.page  = 4
+            , plots.per.page  = n_marginal_plot_across # 4
             , granule         = 5
             , sorted          = TRUE #FALSE
             #, nvar
@@ -1114,8 +1127,8 @@ e_rfsrc_classification <-
             )
         , plot   =
             out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]]
-        , width  = 18
-        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / 4)
+        , width  = 3 * n_marginal_plot_across
+        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / n_marginal_plot_across)
         ## png, jpeg
         , dpi    = 300
         , bg     = "white"
@@ -1855,7 +1868,7 @@ e_rfsrc_classification <-
           , partial         = TRUE # FALSE = Marginal plots, TRUE = Partial plots
           , oob             = TRUE
           , show.plots      = TRUE
-          , plots.per.page  = 4
+          , plots.per.page  = n_marginal_plot_across
           , granule         = 5
           , sorted          = TRUE #FALSE
           #, nvar
@@ -1913,8 +1926,8 @@ e_rfsrc_classification <-
           )
       , plot   =
           out[[ "plot_o_class_sel_partial_effects" ]][[ i_level ]]
-      , width  = 18
-      , height = 4 * ceiling(length(out[[ "rf_x_var_sel" ]]) / 4)
+      , width  = 3 * n_marginal_plot_across
+      , height = 4 * ceiling(length(out[[ "rf_x_var_sel" ]]) / n_marginal_plot_across)
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
@@ -1947,7 +1960,7 @@ e_rfsrc_classification <-
           , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
           , oob             = TRUE
           , show.plots      = TRUE
-          , plots.per.page  = 4
+          , plots.per.page  = n_marginal_plot_across
           , granule         = 5
           , sorted          = TRUE #FALSE
           #, nvar
@@ -2005,8 +2018,8 @@ e_rfsrc_classification <-
           )
       , plot   =
           out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]]
-      , width  = 18
-      , height = 4 * ceiling(length(out[[ "rf_x_var_sel" ]]) / 4)
+      , width  = 3 * n_marginal_plot_across
+      , height = 4 * ceiling(length(out[[ "rf_x_var_sel" ]]) / n_marginal_plot_across)
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"

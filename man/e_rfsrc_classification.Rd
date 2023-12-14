@@ -16,7 +16,8 @@ e_rfsrc_classification(
   plot_title = "Random Forest Title",
   out_path = "out",
   file_prefix = "out_e_rf",
-  plot_format = c("png", "pdf")[1]
+  plot_format = c("png", "pdf")[1],
+  n_marginal_plot_across = 6
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ e_rfsrc_classification(
 \item{file_prefix}{file prefix for saved output}
 
 \item{plot_format}{plot format supported by \code{ggplot2::ggsave()}}
+
+\item{n_marginal_plot_across}{for partial and marginal plots, number of plots per row (increase if not all plots are displayed)}
 }
 \value{
 list with many RF objects, summaries, and plots
@@ -53,28 +56,37 @@ Random Forests classification workflow using \code{randomForestSRC}
 \examples{
 dat_rf_class <-
   erikmisc::dat_mtcars_e |>
-  dplyr::select(
-    -model
-  ) |>
+  #dplyr::select(
+  #  -model
+  #) |>
   #dplyr::select(
   #  cyl
   #, tidyselect::everything()
   #) |>
   dplyr::mutate(
-    ID    = 1:dplyr::n() # ID number
-  , disp  =              # add missing values
+  #  ID    = 1:dplyr::n() # ID number
+    disp  =              # add missing values
       dplyr::case_when(
         disp |> dplyr::between(160, 170) ~ NA
       , TRUE ~ disp
       )
+  , X1 = rnorm(dplyr::n())
+  , X2 = rnorm(dplyr::n())
+  , X3 = rnorm(dplyr::n())
+  , X4 = rnorm(dplyr::n())
+  , X5 = rnorm(dplyr::n())
+  , X6 = rnorm(dplyr::n())
+  , X7 = rnorm(dplyr::n())
+  , X8 = rnorm(dplyr::n())
+  , X9 = rnorm(dplyr::n())
   )
 
 out_e_rf <-
   e_rfsrc_classification(
     dat_rf_class    = dat_rf_class
   , rf_y_var        = "cyl"    # NULL
-  , rf_x_var        = c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
-  , rf_id_var       = "ID"
+  , rf_x_var        = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
+  , rf_id_var       = "model"
   , sw_rfsrc_ntree  = 200
   , sw_alpha        = 0.05
   , sw_select_full  = c("select", "full")[1]
@@ -83,6 +95,7 @@ out_e_rf <-
   , out_path        = "./out_sel"
   , file_prefix     = "out_e_rf"
   , plot_format     = c("png", "pdf")[1]
+  , n_marginal_plot_across = 4
   )
 
 \dontrun{
