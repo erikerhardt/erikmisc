@@ -431,8 +431,17 @@ e_rfsrc_classification <-
   out[[ "o_class_full" ]] <-
     o_class_full
 
+
   # save model (to be used for prediction)
   if(sw_save_model) {
+    this_text <-
+      paste0("erikmisc::e_rfsrc_classification, "
+        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
+        , ":  Write model object to .RData file"
+      )
+    print(this_text)
+    f_write_this_text(this_text)
+
     save(
       o_class_full
     , file =
@@ -1367,8 +1376,17 @@ e_rfsrc_classification <-
   out[[ "o_class_sel" ]] <-
     o_class_sel
 
+
   # save model (to be used for prediction)
   if(sw_save_model) {
+    this_text <-
+      paste0("erikmisc::e_rfsrc_classification, "
+        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
+        , ":  Write model object to .RData file"
+      )
+    print(this_text)
+    f_write_this_text(this_text)
+
     save(
       o_class_sel
     , file =
