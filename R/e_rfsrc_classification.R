@@ -300,6 +300,41 @@ e_rfsrc_classification <-
   rf_x_var_full <-
     rf_x_var
 
+  # plot missing
+  plot_miss <-
+    e_plot_missing(
+      dat_plot            = dat_rf_data
+    , var_group           = rf_y_var
+    , sw_group_sort       = TRUE
+    , var2_sort           = NULL
+    , sw_title_data_name  = paste0("Training data: ", plot_title)
+    , sw_text_pct_miss    = FALSE
+    )
+  ggplot2::ggsave(
+      filename =
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "plot_missing_full"
+          , "."
+          , plot_format
+          )
+        )
+    , plot   =
+        plot_miss
+    , width  = 12
+    , height = 8
+    ## png, jpeg
+    , dpi    = 300
+    , bg     = "white"
+    ## pdf
+    , units  = "in"
+    #, useDingbats = FALSE
+    )
+
+
 
   this_text <-
     paste0("erikmisc::e_rfsrc_classification, "
