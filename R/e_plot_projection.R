@@ -172,7 +172,7 @@ e_plot_projection <-
   }
   p <- p + labs(
                   title     = text_title
-                , subtitle  = "t-SNE projection"
+                , subtitle  = paste0("Data projection (", sw_projection, ")")
                 #, x         = "x"
                 #, y         = "y"
                 #, caption = paste0(  "Caption 1"
