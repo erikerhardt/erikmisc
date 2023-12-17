@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.05
-Date: 2023-12-14
+Version: 0.2.06
+Date: 2023-12-16
 Authors@R:
     c(person(
       given = "Erik"
@@ -49,6 +49,7 @@ Imports:
     labelled,
     leaps,
     lmerTest,
+    log4r,
     lubridate,
     modelr,
     moonBook,
@@ -68,7 +69,9 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    tidyselect
+    tidyselect,
+    tsne,
+    umap
 Suggests:
     datasets,
     rmarkdown,
