@@ -1101,13 +1101,13 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co">## lme4::lmer mixed-effects model</span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    formula <span class="op">=</span> <span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , data    <span class="op">=</span> <span class="fu">lme4</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lme4/man/sleepstudy.html" class="external-link">sleepstudy</a></span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in initializePtr():</span> function 'cholmod_factor_ldetA' not provided by package 'Matrix'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_plot_model_contrasts</span><span class="op">(</span></span></span>
@@ -1116,16 +1116,13 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  , sw_print           <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer' not found</span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer_contrasts' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## lmerTest::as_lmerModLmerTest mixed-effects model</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">lmerTest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/as_lmerModLmerTest.html" class="external-link">as_lmerModLmerTest</a></span><span class="op">(</span><span class="va">fit_lmer</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_plot_model_contrasts</span><span class="op">(</span></span></span>
@@ -1134,9 +1131,8 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  , sw_print           <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer' not found</span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_lmer_contrasts' not found</span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
