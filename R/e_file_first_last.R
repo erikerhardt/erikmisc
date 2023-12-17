@@ -39,7 +39,10 @@ e_file_first_last <-
   ) {
 
   fn_df <-
-    list.files(path = path, pattern = name, ...) |>
+    file.path(
+      path
+    , list.files(path = path, pattern = name, ...)
+    ) |>
     file.info(full.names = TRUE) |>
     tibble::as_tibble(rownames = "filename") |>
     dplyr::filter(
@@ -75,10 +78,7 @@ e_file_first_last <-
   }
 
   fn_out <-
-    file.path(
-      path
-    , fn_df$filename
-    )
+    fn_df$filename
 
   if ( sw_rev_order ) {
     fn_out <-
