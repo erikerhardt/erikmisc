@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.03</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.06</span>
       </span>
     </div>
 
@@ -93,17 +93,17 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">100001</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">e_CI_limits</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   lower   upper </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.02610 0.97497 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.02501 0.97414 </span>
 <span class="r-in"><span><span class="fu">e_CI_limits</span><span class="op">(</span><span class="va">x</span>, sw_return_exact_CI_coverage <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lower     upper  coverage </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0261000 0.9749700 0.9499905 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0250100 0.9741400 0.9499905 </span>
 <span class="r-in"><span><span class="fu">e_CI_limits</span><span class="op">(</span><span class="va">x</span>, conf_level <span class="op">=</span> <span class="fl">0.80</span>, sw_return_exact_CI_coverage <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    lower    upper coverage </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.100570 0.899840 0.799992 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.098520 0.898720 0.799992 </span>
 <span class="r-in"><span><span class="fu">e_CI_limits</span><span class="op">(</span><span class="va">x</span>, percentile_lower <span class="op">=</span> <span class="fl">0.01</span>, percentile_upper <span class="op">=</span> <span class="fl">0.90</span>, sw_return_exact_CI_coverage <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>e_CI_limits:  using percentile limits for CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lower     upper  coverage </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0104200 0.8998400 0.8899911 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0097900 0.8987200 0.8899911 </span>
 </code></pre></div>
     </div>
   </div>

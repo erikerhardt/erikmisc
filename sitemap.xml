@@ -160,6 +160,9 @@
     <loc>/reference/e_log_shift.html</loc>
   </url>
   <url>
+    <loc>/reference/e_log_write.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_match_closest_in_range.html</loc>
   </url>
   <url>
@@ -221,6 +224,9 @@
   </url>
   <url>
     <loc>/reference/e_plot_model_contrasts.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_plot_projection.html</loc>
   </url>
   <url>
     <loc>/reference/e_plot_rf_vimp.html</loc>
