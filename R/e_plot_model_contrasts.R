@@ -261,6 +261,7 @@
 #' fit_contrasts
 #'
 #'
+#' \dontrun{
 #' ## lme4::lmer mixed-effects model
 #' fit_lmer <-
 #'   lme4::lmer(
@@ -291,6 +292,7 @@
 #'   , sw_table_in_plot   = FALSE
 #'   )
 #' fit_lmer_contrasts
+#' }
 #'
 e_plot_model_contrasts <-
   function(
