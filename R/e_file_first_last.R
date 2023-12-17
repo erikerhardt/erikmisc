@@ -1,12 +1,12 @@
 #' List of filenames as the first or last n by filename or file time matching a regular expression within a path
 #'
-#' @param name            filename regular expression to search for
+#' @param name            filename regular expression for which to search
 #' @param path            path
-#' @param sw_new_old      newest or oldest files
+#' @param sw_first_last   first (oldest) or last (newest) set of files
 #' @param n_file          number of filenames to return
-#' @param sw_sort         sorty by filename, or time to use from \code{file.inf}, file modification, last status change, or last access time.
-#' @param sw_oldest_first sort oldest first or reverse for newest first?
-#' @param ...             additional arguments passed to list.files in addition to \code{path} and \code{pattern}
+#' @param sw_sort         sort by filename, or by time from \code{file.inf}, file modification, last status change, or last access time
+#' @param sw_rev_order    default sort starting with first (oldest) or reverse to start with last (newest)?
+#' @param ...             additional arguments passed to \code{list.files} in addition to \code{path} and \code{pattern}
 #'
 #' @return fn_out         filename list with path
 #' @importFrom dplyr arrange
@@ -22,25 +22,25 @@
 #' \dontrun{
 #'
 #' # last filename by name in getwd()
-#' e_file_newest_oldest()
+#' e_file_first_last()
 #' # newest 3 files in getwd()
-#' e_file_newest_oldest(n_file = 3, sw_sort = "mtime")
+#' e_file_first_last(n_file = 3, sw_sort = "mtime")
 #'
 #' }
-e_file_newest_oldest <-
+e_file_first_last <-
   function(
     name        = NULL
   , path        = "."
-  , sw_new_old  = c("new", "old")[1]
+  , sw_first_last  = c("first", "last")[2]
   , n_file      = 1
   , sw_sort     = c("filename", "mtime", "ctime", "atime")[1]
-  , sw_oldest_first = c(TRUE, FALSE)[1]
+  , sw_rev_order = c(TRUE, FALSE)[1]
   , ...
   ) {
 
   fn_df <-
     list.files(path = path, pattern = name, ...) |>
-    file.info(full.names = T) |>
+    file.info(full.names = TRUE) |>
     tibble::as_tibble(rownames = "filename") |>
     dplyr::filter(
       !isdir
@@ -59,14 +59,14 @@ e_file_newest_oldest <-
     n_file = nrow(fn_df)
   }
 
-  if ( sw_new_old == c("new", "old")[1] ) {
+  if ( sw_first_last == c("first", "last")[2] ) {
     fn_df <-
       fn_df |>
       dplyr::slice_tail(
         n = n_file
       )
   }
-  if ( sw_new_old == c("new", "old")[2] ) {
+  if ( sw_first_last == c("first", "last")[1] ) {
     fn_df <-
       fn_df |>
       dplyr::slice_head(
@@ -80,11 +80,11 @@ e_file_newest_oldest <-
     , fn_df$filename
     )
 
-  if ( sw_oldest_first ) {
+  if ( sw_rev_order ) {
     fn_out <-
       fn_out |>
       rev()
   }
 
   return(fn_out)
-} # e_file_newest_oldest
+} # e_file_first_last
