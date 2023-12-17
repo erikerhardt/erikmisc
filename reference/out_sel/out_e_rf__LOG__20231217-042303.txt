@@ -1,0 +1,20 @@
+INFO  [2023-12-17 04:23:03] 0s:  erikmisc::e_rfsrc_classification Process BEGIN
+INFO  [2023-12-17 04:23:03] 0s:  Create output directory: ./out_sel
+INFO  [2023-12-17 04:23:04] 0.63s:  Removing rows with NAs (later versions will allow imputations)
+INFO  [2023-12-17 04:23:04] 0.69s:  Full model: cyl ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb + X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 + X9
+INFO  [2023-12-17 04:23:04] 0.69s:  Full model, grow forest
+INFO  [2023-12-17 04:23:04] 0.81s:  Full model, Write model object to .RData file
+INFO  [2023-12-17 04:23:06] 3.03s:  Full model, o_class_full_AUC: 0.899891774891775
+INFO  [2023-12-17 04:23:06] 3.03s:  Full model, plot ROC curves
+INFO  [2023-12-17 04:23:10] 6.76s:  Full model, Subsample for VIMP and model selection
+INFO  [2023-12-17 04:23:26] 22.76s:  Full model, Model selection
+INFO  [2023-12-17 04:23:26] 22.81s:  Selected model: cyl ~ disp + hp + drat + wt + qsec + vs + carb + X9
+INFO  [2023-12-17 04:23:26] 22.81s:  Selected model, Grow forest
+INFO  [2023-12-17 04:23:26] 22.89s:  Selected model, Write model object to .RData file
+INFO  [2023-12-17 04:23:28] 25.13s:  Selected model, o_class_sel_AUC: 0.930735930735931
+INFO  [2023-12-17 04:23:32] 28.89s:  Selected model, Subsample for VIMP with CIs and SEs
+INFO  [2023-12-17 04:23:45] 42.16s:  Selected model, Partial effects plots
+INFO  [2023-12-17 04:23:47] 43.38s:  Selected model, Marginal effects plots
+INFO  [2023-12-17 04:23:48] 44.57s:  Selected model, ROC Curve
+INFO  [2023-12-17 04:23:48] 44.57s:  Selected model, o_class_sel_AUC: 0.930735930735931
+INFO  [2023-12-17 04:23:51] 47.84s:  erikmisc::e_rfsrc_classification Process END
