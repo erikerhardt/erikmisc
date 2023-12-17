@@ -207,25 +207,37 @@ e_rfsrc_classification <-
   ##   , n_marginal_plot_across = 6
   ##   )
 
-  f_write_this_text <-
-    function(
-      this_text
-    , sw_append = TRUE
-    ) {
-      readr::write_lines(
-        x    = this_text
-      , file =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "text_summary.txt"
-            )
-          )
-      , append = sw_append
-      )
-  }
+  # create output directory, warning if already exists
+  dir.create(out_path, showWarnings = FALSE, recursive = TRUE)
+
+  # library(log4r)
+  # Initialize logger
+  log_obj <-
+    e_log_write(
+      sw_init     = TRUE
+    , out_path    = out_path
+    , file_prefix = file_prefix
+    )
+
+
+    # Try logging messages with different priorities.
+    # At priority level INFO, a call to debug() won't print anything.
+    #log4r::debug(log_out_to_file, "A Debugging Message")
+    #log4r::info (log_out_to_file, "An Info Message")
+    #log4r::warn (log_out_to_file, "A Warning Message")
+    #log4r::error(log_out_to_file, "An Error Message")
+    #log4r::fatal(log_out_to_file, "A Fatal Error Message")
+
+  e_log_write(
+    "erikmisc::e_rfsrc_classification Process BEGIN"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
+  e_log_write(
+    paste0("Create output directory: ", out_path)
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   # patchwork model selection plot design
   #   appears: after model selection if no x variables
@@ -238,20 +250,6 @@ e_rfsrc_classification <-
      EEEEEE
      EEEEEE"
 
-  # Start timer
-  time_start <- proc.time()
-
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Create output directory"
-    )
-
-  print(this_text)
-
-  # create output directory, warning if already exists
-  dir.create(out_path, showWarnings = FALSE, recursive = TRUE)
-  f_write_this_text(this_text, sw_append = FALSE)
 
   #library(parallel)
   n_cores <- max(1, parallel::detectCores() - 2)
@@ -263,7 +261,11 @@ e_rfsrc_classification <-
 
   # Data
   if (is.null(dat_rf_class)) {
-    warning("erikmisc::e_rfsrc_classification, dat_rf_class is NULL")
+    e_log_write(
+      paste0("dat_rf_class is NULL")
+    , log_obj     = log_obj
+    , i_level     = 3
+    )
   }
   dat_rf_data <-
     dat_rf_class |>
@@ -286,14 +288,22 @@ e_rfsrc_classification <-
     rf_y_var <- names(dat_rf_data)[ 1]
   } else {
     if(!all(rf_y_var %in% names(dat_rf_data))) {
-      warning("erikmisc::e_rfsrc_classification, rf_y_var var not in dat_rf_class")
+      e_log_write(
+        paste0("rf_y_var var not in dat_rf_class")
+      , log_obj     = log_obj
+      , i_level     = 3
+      )
     }
   }
   if (is.null(rf_x_var)) {
     rf_x_var <- names(dat_rf_data)[-1]
   } else {
     if(!all(rf_x_var %in% names(dat_rf_data))) {
-      warning("erikmisc::e_rfsrc_classification, rf_x_var vars not in dat_rf_class")
+      e_log_write(
+        paste0("rf_x_var vars not in dat_rf_class")
+      , log_obj     = log_obj
+      , i_level     = 3
+      )
     }
   }
 
@@ -336,13 +346,11 @@ e_rfsrc_classification <-
 
 
 
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Removing rows with NAs (later versions will allow imputations)"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    paste0("Removing rows with NAs (later versions will allow imputations)")
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   dat_rf_data <-
     dat_rf_data |>
@@ -358,11 +366,19 @@ e_rfsrc_classification <-
   if (length(all_na_columns)) {
     # check if y var
     if(any(all_na_columns %in% rf_y_var)) {
-      warning(paste0("erikmisc::e_rfsrc_classification, returning NULL: dat_rf_class y-variable is all NA:  ", rf_y_var))
+      e_log_write(
+        paste0("erikmisc::e_rfsrc_classification, returning NULL: dat_rf_class y-variable is all NA:  ", rf_y_var)
+      , log_obj     = log_obj
+      , i_level     = 3
+      )
       return(NULL)
     }
 
-    warning(paste0("erikmisc::e_rfsrc_classification, dat_rf_class removing column(s) that are all NA:  ", paste(all_na_columns, collapse = ", ")))
+    e_log_write(
+      paste0("erikmisc::e_rfsrc_classification, dat_rf_class removing column(s) that are all NA:  ", paste(all_na_columns, collapse = ", "))
+    , log_obj     = log_obj
+    , i_level     = 3
+    )
 
     # remove column from data
     dat_rf_data <-
@@ -376,7 +392,11 @@ e_rfsrc_classification <-
 
   # check for at least 2 y var levels
   if (length(unique(dat_rf_data[[ rf_y_var ]])) < 2) {
-    warning(paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs at least two levels:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", ")))
+    e_log_write(
+      paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs at least two levels:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", "))
+    , log_obj     = log_obj
+    , i_level     = 3
+    )
     return(NULL)
   }
 
@@ -404,20 +424,20 @@ e_rfsrc_classification <-
     paste(as.character(out$rf_formula_full)[c(2, 1, 3)], collapse = " ") |>
     stringr::str_wrap(width = 120, exdent = 4)
 
-  this_text <-
+  e_log_write(
     paste0("Full model: ", text_formula)
-  f_write_this_text(this_text)
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
 
 
   ### Grow forest
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Grow forest"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "Full model, grow forest"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   o_class_full <-
     randomForestSRC::rfsrc(
@@ -469,13 +489,11 @@ e_rfsrc_classification <-
 
   # save model (to be used for prediction)
   if(sw_save_model) {
-    this_text <-
-      paste0("erikmisc::e_rfsrc_classification, "
-        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-        , ":  Write model object to .RData file"
-      )
-    print(this_text)
-    f_write_this_text(this_text)
+    e_log_write(
+      "Full model, Write model object to .RData file"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
 
     save(
       o_class_full
@@ -662,10 +680,18 @@ e_rfsrc_classification <-
   out[[ "o_class_full_AUC" ]] <-
     o_class_full_AUC
 
-  this_text <-
-    paste0("o_class_full_AUC: ", o_class_full_AUC)
-  f_write_this_text(this_text)
+  e_log_write(
+    paste0("Full model, o_class_full_AUC: ", o_class_full_AUC)
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
+
+  e_log_write(
+    "Full model, plot ROC curves"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   ## ROC via erikmisc
   out_roc_temp <- list()
@@ -860,13 +886,11 @@ e_rfsrc_classification <-
 
 
   ### Confidence intervals and standard errors for VIMP (variable importance)
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Subsample for VIMP and model selection"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    paste0("Full model, Subsample for VIMP and model selection")
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   o_class_full_subsample <-
     randomForestSRC::subsample(
@@ -951,13 +975,11 @@ e_rfsrc_classification <-
 
 
   ## Select variables from randomForestSRC::extract.bootsample(o_class_full_subsample)
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Model selection"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "Full model, Model selection"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   rf_x_var_sel <-
     rownames(
@@ -979,13 +1001,11 @@ e_rfsrc_classification <-
   if (sw_select_full  == c("select", "full")[2]) {
 
     ### Marginal/Partial effects plots
-    this_text <-
-      paste0("erikmisc::e_rfsrc_classification, "
-        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-        , ":  Partial effects plots (full model)"
-      )
-    print(this_text)
-    f_write_this_text(this_text)
+    e_log_write(
+      "Full model, Partial effects plots"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
 
     # 11/2/2023 See the lapply() code below which overcomes lazy evaluation in the cowplot ggplot code,
     #   which was resulting in all plots in the list being the last plot
@@ -1113,6 +1133,12 @@ e_rfsrc_classification <-
       ##     print()
       ## }
 
+
+    e_log_write(
+      "Full model, Marginal effects plots"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
 
     out[[ "plot_o_class_full_marginal_effects" ]] <-
       lapply(
@@ -1314,13 +1340,16 @@ e_rfsrc_classification <-
       #, useDingbats = FALSE
       )
 
-    this_text <-
-      paste0("erikmisc::e_rfsrc_classification, "
-        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-        , ":  Complete"
-      )
-    print(this_text)
-    f_write_this_text(this_text)
+    e_log_write(
+      "Full model, Complete -- no model selection"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
+    e_log_write(
+      "erikmisc::e_rfsrc_classification Process END"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
 
     return(out)
   } # full model only, stop here
@@ -1350,19 +1379,18 @@ e_rfsrc_classification <-
     paste(as.character(out$rf_formula_sel)[c(2, 1, 3)], collapse = " ") |>
     stringr::str_wrap(width = 120, exdent = 4)
 
-  this_text <-
+  e_log_write(
     paste0("Selected model: ", text_formula_sel)
-  f_write_this_text(this_text)
-
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   ### Grow forest
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Grow forest (selected model)"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "Selected model, Grow forest"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   o_class_sel <-
     randomForestSRC::rfsrc(
@@ -1414,13 +1442,11 @@ e_rfsrc_classification <-
 
   # save model (to be used for prediction)
   if(sw_save_model) {
-    this_text <-
-      paste0("erikmisc::e_rfsrc_classification, "
-        , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-        , ":  Write model object to .RData file"
-      )
-    print(this_text)
-    f_write_this_text(this_text)
+    e_log_write(
+      "Selected model, Write model object to .RData file"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
 
     save(
       o_class_sel
@@ -1608,9 +1634,11 @@ e_rfsrc_classification <-
   out[[ "o_class_sel_AUC" ]] <-
     o_class_sel_AUC
 
-  this_text <-
-    paste0("o_class_sel_AUC: ", o_class_sel_AUC)
-  f_write_this_text(this_text)
+  e_log_write(
+    paste0("Selected model, o_class_sel_AUC: ", o_class_sel_AUC)
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
 
   ## ROC via erikmisc
@@ -1806,13 +1834,11 @@ e_rfsrc_classification <-
 # END ###############################################################################
 
   ### Confidence intervals and standard errors for VIMP (variable importance)
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Subsample for VIMP with CIs and SEs (selected model)"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "Selected model, Subsample for VIMP with CIs and SEs"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   o_class_sel_subsample <-
     randomForestSRC::subsample(
@@ -1897,13 +1923,11 @@ e_rfsrc_classification <-
 
 
   ### Marginal/Partial effects plots
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Partial effects plots (selected model)"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "Selected model, Partial effects plots"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   # 11/2/2023 See the lapply() code below which overcomes lazy evaluation in the cowplot ggplot code,
   #   which was resulting in all plots in the list being the last plot
@@ -2031,6 +2055,11 @@ e_rfsrc_classification <-
     ##     print()
     ## }
 
+  e_log_write(
+    "Selected model, Marginal effects plots"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   out[[ "plot_o_class_sel_marginal_effects" ]] <-
     lapply(
@@ -2156,13 +2185,11 @@ e_rfsrc_classification <-
 
 
   ### ROC Curve
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  ROC Curve (selected model)"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "Selected model, ROC Curve"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   # obtains the value of AUC (area under the ROC curve)
   o_class_sel_AUC <-
@@ -2173,9 +2200,11 @@ e_rfsrc_classification <-
   out[[ "o_class_sel_AUC" ]] <-
     o_class_sel_AUC
 
-  this_text <-
-    paste0("o_class_sel_AUC: ", o_class_sel_AUC)
-  f_write_this_text(this_text)
+  e_log_write(
+    paste0("Selected model, o_class_sel_AUC: ", o_class_sel_AUC)
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
 
   ## ROC via erikmisc
@@ -2419,15 +2448,11 @@ e_rfsrc_classification <-
     #, useDingbats = FALSE
     )
 
-
-
-  this_text <-
-    paste0("erikmisc::e_rfsrc_classification, "
-      , round(lubridate::duration((proc.time() - time_start)["elapsed"], units="seconds"), 2) |> as.character()
-      , ":  Complete"
-    )
-  print(this_text)
-  f_write_this_text(this_text)
+  e_log_write(
+    "erikmisc::e_rfsrc_classification Process END"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
 
   return(out)
 
