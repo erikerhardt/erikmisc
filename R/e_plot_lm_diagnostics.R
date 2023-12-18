@@ -26,6 +26,7 @@
 #' @importFrom stats formula
 #' @importFrom graphics dotchart
 #' @importFrom graphics lines
+#' @importFrom graphics curve
 #' @importFrom nortest ad.test
 #' @export
 #'
@@ -126,7 +127,7 @@ e_plot_lm_diagnostics <-
   )
   # normal distribution
   f_norm_curve <- function(x) {dnorm(x, mean = 0, sd = sd(fit$residuals))}
-  curve(
+  graphics::curve(
     expr  = f_norm_curve
   , from  = min(fit$residuals) - 0.10 * diff(range(fit$residuals))
   , to    = max(fit$residuals) + 0.10 * diff(range(fit$residuals))

@@ -19,6 +19,7 @@
 #'
 #' @return \code{invisible(NULL)}
 #' @importFrom ellipse ellipse
+#' @importFrom graphics plot.new
 #' @importFrom graphics text
 #' @importFrom graphics polygon
 #' @importFrom graphics lines
@@ -87,7 +88,7 @@ e_plot_corr_ellipse <-
     return(invisible())
   if ((!is.matrix(corr)) || (round(min(corr, na.rm = TRUE), 6) < -1) || (round(max(corr, na.rm = TRUE), 6) > 1))
     stop("Need a correlation matrix")
-  plot.new()
+  graphics::plot.new()
   par(new = TRUE)
   rowdim <- dim(corr)[1]
   coldim <- dim(corr)[2]

@@ -54,6 +54,7 @@ list with many RF objects, summaries, and plots
 Random Forests classification workflow using \code{randomForestSRC}
 }
 \examples{
+\dontrun{
 dat_rf_class <-
   erikmisc::dat_mtcars_e |>
   #dplyr::select(
@@ -98,7 +99,6 @@ out_e_rf <-
   , n_marginal_plot_across = 4
   )
 
-\dontrun{
 
 ## Overall summaries
 

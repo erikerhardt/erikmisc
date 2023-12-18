@@ -16,6 +16,7 @@
 #' @param sw_corr_in_subtitle       T/F, calculate correlation and include in subtitle of plot?
 #'
 #' @return          a ggplot object
+#' @importFrom stats cor.test
 #' @import ggplot2
 #' @export
 #'
@@ -120,7 +121,7 @@ e_plot_scatterplot <-
         ) |>
         as.formula()
       cor_p <-
-        cor.test(
+        stats::cor.test(
           formula     = formula_cor
         , data        = dat_plot
         , alternative = "two.sided"
@@ -128,7 +129,7 @@ e_plot_scatterplot <-
         )
       cor_s <-
         suppressWarnings(
-          cor.test(
+          stats::cor.test(
             formula     = formula_cor
           , data        = dat_plot
           , alternative = "two.sided"

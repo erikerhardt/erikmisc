@@ -34,6 +34,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' dat_rf_class <-
 #'   erikmisc::dat_mtcars_e |>
 #'   #dplyr::select(
@@ -78,7 +79,6 @@
 #'   , n_marginal_plot_across = 4
 #'   )
 #'
-#' \dontrun{
 #'
 #' ## Overall summaries
 #'
