@@ -1,0 +1,238 @@
+---
+title:        Title is long to see how it wraps
+subtitle:     Subtitle is long to see how it wraps
+author:       "Prof. Erik B. Erhardt, PhD"
+date:         last-modified # today, now, last-modified
+#date-format:  long          # full, long, medium, short, iso,   https://quarto.org/docs/reference/dates.html
+date-format:  "YYYY-MM-DD"    #"MM/DD/YYYY \\ hh:mm:ss A ZZ"
+google-scholar:     true
+author-title:       Author
+affiliation-title:  Affiliation
+abstract-title:     Abstract
+description-title:  Description
+published-title:    Published
+doi-title:          DOI
+appendix-style:     default     # plain, default, none  # https://quarto.org/docs/authoring/appendices.html
+lang:               en
+format:
+  beamer:                       # Beamer Options https://quarto.org/docs/presentations/beamer.html
+    pdf-engine: xelatex
+                                # https://quarto.org/docs/reference/formats/presentations/beamer.html
+    aspectratio: 169            # slide aspect ratio (43 for 4:3 [default], 169 for 16:9, 1610 for 16:10, 149 for 14:9, 141 for 1.41:1, 54 for 5:4, 32 for 3:2)
+    beamerarticle: false        # produce an article from Beamer slides
+    #beameroption: \setbeameroption{}  # add extra beamer option with \setbeameroption{}
+    institute:  "UNM; StatAcumen.com" # author affiliations: can be a list when there are multiple authors
+    #logo:   # logo image for slides
+    navigation: empty # controls navigation symbols (default is empty for no navigation symbols; other valid values are frame, vertical, and horizontal)
+    section-titles: true # enables "title pages" for new sections (default is true)
+                                # https://deic.uab.cat/~iblanes/beamer_gallery/individual/CambridgeUS-dove-structurebold.html
+    theme:      boxes           # beamer themes, AnnArbor Antibes Bergen Berkeley Berlin Boadilla boxes CambridgeUS Copenhagen Darmstadt default Dresden Frankfurt Goettingen Hannover Ilmenau JuanLesPins Luebeck Madrid Malmoe Marburg Montpellier PaloAlto Pittsburgh Rochester Singapore Szeged Warsaw
+    colortheme: dove            # beamer themes, albatross beaver beetle crane default dolphin dove fly lily orchid rose seagull seahorse sidebartab structure whale wolverine
+    fonttheme:  structurebold   # beamer themes, default professionalfonts serif structurebold structureitalicserif structuresmallcapsserif
+                                # https://tug.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf
+    innertheme: default         # beamer themes, default circles rectangles rounded inmargin
+    outertheme: sidebar         # beamer themes, default infolines miniframes smoothbars sidebar split shadow tree smoothtree
+    themeoptions: # options for LaTeX beamer themes (a list).
+    #  - shadow=false
+    #  - progressbar=foot
+       - hideothersubsections
+    #titlegraphic:   # image for title slide
+    #
+    ## Other options
+    ##page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:                    true
+    toc-depth:              1
+    toc-location:           body      # left, body, right
+    toc-title:              Contents
+    number-sections:        false     # true, false
+    number-offset:          0         # Offset for section headings in output
+    #number-depth:           5
+    shift-heading-level-by: 0        # Shift heading levels by a positive or negative integer. if -1, level 2 headings become level 1 headings, etc.
+    incremental:            false     # if true, then lists: ::: {.incremental} or ::: {.nonincremental}
+    slide-level:            2         # Specifies that headings with the specified level create slides. Headings above this level in the hierarchy are used to divide the slide show into sections; headings below this level create subheads within a slide.
+    ##code-fold:              show      # true (initially hidden), false, show (initially shown)
+    ##code-tools:                       # menu top-right to show/hide all code
+    ##  toggle:               true
+    ##  caption:              "Code"    # none
+    ##  source:               false
+    ##code-summary:           "Code"    #, click to show"
+    ##code-overflow:          scroll    # scroll, wrap
+    ##code-block-bg:          true
+    ##code-block-border-left: "#30B0E0"
+    ##code-copy:              hover     # true, false, hover a copy buttom in top-right of code block
+    #tbl-colwidths:          auto      # Apply explicit table column widths for markdown grid tables and pipe tables that are more than columns characters wide (72 by default).
+    #df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+    #self-contained:         false     # !!! this can cause a render error: "ERROR: The process cannot access the file because it is being used by another process. (os error 32)"
+    #self-contained-math:    true
+    ##html-math-method: katex    # https://quarto.org/docs/output-formats/html-basics.html
+#  pptx:                               # pptx format https://quarto.org/docs/presentations/powerpoint.html
+#                                      # PowerPoint Options https://quarto.org/docs/reference/formats/presentations/pptx.html
+#    theme:                  litera    # default, cerulean, cosmo, cyborg, darkly, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, slate, solar, spacelab, superhero, united, vapor, yeti, zephyr
+#    highlight-style:        atom-one  # a11y, arrow, atom-one, ayu, breeze, github, gruvbox; pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock; dracula, mokokai, nord, oblivion, printing, radical, solarized, vim-dark
+#    #page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+#    toc:                    true
+#    toc-depth:              1
+#    #toc-location:           body      # left, body, right
+#    toc-title:              Contents
+#    number-sections:        true      # true, false
+#    number-offset:          0         # Offset for section headings in output
+#    #number-depth:           5
+#    shift-heading-level-by: 0         # Shift heading levels by a positive or negative integer. if -1, level 2 headings become level 1 headings, etc.
+#    incremental:            false     # if true, then lists: ::: {.incremental} or ::: {.nonincremental}
+#    slide-level:            2         # Specifies that headings with the specified level create slides. Headings above this level in the hierarchy are used to divide the slide show into sections; headings below this level create subheads within a slide.
+#    #code-fold:              show      # true (initially hidden), false, show (initially shown)
+#    #code-tools:                       # menu top-right to show/hide all code
+#    #  toggle:               true
+#    #  caption:              "Code"    # none
+#    #  source:               false
+#    #code-summary:           "Code"    #, click to show"
+#    #code-overflow:          scroll    # scroll, wrap
+#    #code-block-bg:          true
+#    #code-block-border-left: "#30B0E0"
+#    #code-copy:              hover     # true, false, hover a copy buttom in top-right of code block
+#    tbl-colwidths:          auto      # Apply explicit table column widths for markdown grid tables and pipe tables that are more than columns characters wide (72 by default).
+#    df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+#    self-contained:         false     # !!! this can cause a render error: "ERROR: The process cannot access the file because it is being used by another process. (os error 32)"
+#    self-contained-math:    true
+#    #html-math-method: katex    # https://quarto.org/docs/output-formats/html-basics.html
+title-block-style:          default   # plain, none
+title-block-banner:         false     # background color: true, false, "#95b7fc"
+title-block-banner-color:   "#232323" # text color: "#232323"
+fig-width:                  6
+fig-height:                 4
+fig-align:                  center    # default, left, right, or center
+fig-cap-location:           bottom    # bottom, top, margin
+tbl-cap-location:           top       # top, bottom, margin
+fig-format:                 png       # Default format for figures generated by Matplotlib or R graphics (retina, png, jpeg, svg, or pdf)
+fig-dpi:                    300       # Default DPI for figures generated by Matplotlib or R graphics.
+callout-appearance:         default   # default, simple, minimal
+reference-location:         section   # document, section, block, margin
+citation-location:          document  # document, margin
+crossref: # https://quarto.org/docs/authoring/cross-references.html
+  fig-title:        Figure  # (default is "Figure")
+  tbl-title:        Table   # (default is "Table")
+  title-delim:      ":"     # (default is ":")
+  fig-prefix:       Figure  # (default is "Figure")
+  tbl-prefix:       Table   # (default is "Table")
+  ref-hyperlink:    true    # (default is true), false
+  labels:           arabic  # (default is arabic)
+  subref-labels:    alpha a # (default is alpha a)
+  chapters:         true
+  lof-title:        List of Figures
+  lot-title:        List of Tables
+execute: # https://quarto.org/docs/computations/execution-options.html, https://quarto.org/docs/computations/r.html
+  cache:    false   # false, true
+  #freeze:  auto    # auto = re-render only when source changes, true, false
+  eval:     true    # true, false  Evaluate the code chunk (if false, just echos the code into the output).
+  echo:     true    # true, false  Include the source code in output
+  output:   true    # true, false  Include the results of executing the code in the output (true, false, or asis to indicate that the output is raw markdown and should not have any of Quarto’s standard enclosing markdown).
+  message:  true    # true, false  Include messages in the output.
+  warning:  true    # true, false  Include warnings in the output.
+  error:    true    # true, false  Include errors in the output (note that this implies that errors executing code will not halt processing of the document).
+  include:  true    # true, false  Catch all for preventing any output (code or results) from being included (e.g. include: false suppresses all output from the code block).
+---
+
+<!---
+# Erik's compile commands in R:
+  setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/qmd_template")
+  fn_qmd <- "erik_qmd_template_presentation.qmd"
+  quarto::quarto_render(input = fn_qmd)
+-->
+
+```{r chunk-01, echo=FALSE}
+options(width = 80)
+#options(warn  = -1)
+options(str   = strOptions(list.len = 1e3))
+options(knitr.kable.NA = '') # Display NAs as blanks
+my_seed <- 34567
+set.seed(my_seed)
+```
+
+
+# Executive summary
+
+* Model features
+* Accuracy
+* Reduce potential 100% at risk down to XX% at risk
+
+
+# Presentations
+
+Use story structure in the first five slides to set up the scenario and characters in your heroic journey.
+Chapter 4 of Cliff Atkinson's "https://www.beyondbulletpoints.com/ Beyond Bullet Points" tells you how.
+
+1. The Setting Headline Where am I, and when is it?
+2. The Role Headline Who am I in this setting?
+3. The Point A Headline What chal lenge do I face in this setting?
+4. The Point B Headline Where do I want to be?
+  - (The Gap Between A and B) Why am I here?
+5. The Call to Action Headline How do I get from A to B?
+
+Chapter 5 was also helpful for structuring the remaining slides in a hierarchy
+  of key points (sections) with explanations (subsections) and details (slides).
+
+
+# Key Point 1
+
+## Explanation 1
+
+* Detail
+* Detail
+* Detail
+
+## Explanation 2
+
+* Detail
+* Detail
+* Detail
+
+## Explanation 3
+
+* Detail
+* Detail
+* Detail
+
+# Key Point 2
+
+## Explanation 1
+
+* Detail
+* Detail
+* Detail
+
+## Explanation 2
+
+* Detail
+* Detail
+* Detail
+
+## Explanation 3
+
+* Detail
+* Detail
+* Detail
+
+# Key Point 3
+
+## Explanation 1
+
+* Detail
+* Detail
+* Detail
+
+## Explanation 2
+
+* Detail
+* Detail
+* Detail
+
+## Explanation 3
+
+* Detail
+* Detail
+* Detail
+
+# Conclusion
+
+
+
