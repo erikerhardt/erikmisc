@@ -9,15 +9,17 @@ e_rfsrc_classification(
   rf_y_var = NULL,
   rf_x_var = NULL,
   rf_id_var = NULL,
-  sw_rfsrc_ntree = 2000,
+  sw_rfsrc_ntree = 500,
   sw_alpha = 0.05,
   sw_select_full = c("select", "full")[1],
   sw_save_model = c(TRUE, FALSE)[1],
-  plot_title = "Random Forest Title",
-  out_path = "out",
+  plot_title = "Random Forest",
+  out_path = "out_sel",
   file_prefix = "out_e_rf",
   plot_format = c("png", "pdf")[1],
-  n_marginal_plot_across = 6
+  n_marginal_plot_across = 6,
+  sw_imbalanced_binary = c(FALSE, TRUE)[1],
+  sw_quick_full_only = c(FALSE, TRUE)[1]
 )
 }
 \arguments{
@@ -35,7 +37,7 @@ e_rfsrc_classification(
 
 \item{sw_select_full}{run with model selection, or only fit full model}
 
-\item{sw_save_model}{T/F to save model (XXX, not yet implemented)}
+\item{sw_save_model}{T/F to save model to .Rdata file}
 
 \item{plot_title}{title for plots}
 
@@ -46,6 +48,10 @@ e_rfsrc_classification(
 \item{plot_format}{plot format supported by \code{ggplot2::ggsave()}}
 
 \item{n_marginal_plot_across}{for partial and marginal plots, number of plots per row (increase if not all plots are displayed)}
+
+\item{sw_imbalanced_binary}{T/F to use standard or imbalanced binary classification with \code{rfsrc::imbalanced()}.  It is recommended to increase ntree to \code{5 * sw_rfsrc_ntree}.}
+
+\item{sw_quick_full_only}{T/F to only fit full model and return model object}
 }
 \value{
 list with many RF objects, summaries, and plots
@@ -84,19 +90,21 @@ dat_rf_class <-
 
 out_e_rf <-
   e_rfsrc_classification(
-    dat_rf_class    = dat_rf_class
-  , rf_y_var        = "cyl"    # NULL
-  , rf_x_var        = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
-  , rf_id_var       = "model"
-  , sw_rfsrc_ntree  = 200
-  , sw_alpha        = 0.05
-  , sw_select_full  = c("select", "full")[1]
-  , sw_save_model   = c(TRUE, FALSE)[1]
-  , plot_title      = "Random Forest Title SEL"
-  , out_path        = "./out_sel"
-  , file_prefix     = "out_e_rf"
-  , plot_format     = c("png", "pdf")[1]
+    dat_rf_class           = dat_rf_class
+  , rf_y_var               = "cyl"    # NULL
+  , rf_x_var               = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
+  , rf_id_var              = "model"
+  , sw_rfsrc_ntree         = 200
+  , sw_alpha               = 0.05
+  , sw_select_full         = c("select", "full")[1]
+  , sw_save_model          = c(TRUE, FALSE)[1]
+  , plot_title             = "Random Forest Title SEL"
+  , out_path               = "./out_sel"
+  , file_prefix            = "out_e_rf"
+  , plot_format            = c("png", "pdf")[1]
   , n_marginal_plot_across = 4
+  , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
+  , sw_quick_full_only     = c(FALSE, TRUE)[1]
   )
 
 
@@ -171,6 +179,61 @@ out_e_rf[[ "o_class_sel_subsample_extract_bootsample" ]]
 # Selected model: variable importance (VIMP) plot boxplots
 out_e_rf[[ "plot_o_class_sel_subsample" ]] |>
   cowplot::plot_grid()
+
+
+
+## Imbalanced binary classification
+
+# Two mvnorm distributions with overlap
+imbal_n     <- c(50, 1000)
+imbal_mean  <- c(0, 0.75)
+imbal_sigma <- c(1, 1)
+imbal_dim   <- 10
+dat_imbal <-
+  dplyr::bind_rows(
+    mvtnorm::rmvnorm(
+      n     = imbal_n[1]
+    , mean  = imbal_mean[1] |> rep(imbal_dim)
+    , sigma = imbal_sigma[1] * diag(imbal_dim)
+    ) |>
+    tibble::as_tibble(.name_repair = "universal") |>
+    dplyr::rename_with(~ stringr::str_c("V", 1:imbal_dim)) |>
+    dplyr::mutate(Group = "A")
+  ,
+    mvtnorm::rmvnorm(
+      n     = imbal_n[2]
+    , mean  = imbal_mean[2] |> rep(imbal_dim)
+    , sigma = imbal_sigma[2] * diag(imbal_dim)
+    ) |>
+    tibble::as_tibble(.name_repair = "universal") |>
+    dplyr::rename_with(~ stringr::str_c("V", 1:imbal_dim)) |>
+    dplyr::mutate(Group = "B")
+  ) |>
+  dplyr::relocate(
+    Group
+  ) |>
+  dplyr::mutate(
+    Group = Group |> factor()
+  )
+
+out_e_rf <-
+  e_rfsrc_classification(
+    dat_rf_class           = dat_imbal
+  , rf_y_var               = NULL
+  , rf_x_var               = NULL
+  , rf_id_var              = NULL
+  , sw_rfsrc_ntree         = 200
+  , sw_alpha               = 0.05
+  , sw_select_full         = c("select", "full")[1]
+  , sw_save_model          = c(TRUE, FALSE)[1]
+  , plot_title             = "Random Forest Imbalanced"
+  , out_path               = "./out_imbal"
+  , file_prefix            = "out_e_rf"
+  , plot_format            = c("png", "pdf")[1]
+  , n_marginal_plot_across = 4
+  , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
+  , sw_quick_full_only     = c(FALSE, TRUE)[1]
+  )
 
 }
 }
