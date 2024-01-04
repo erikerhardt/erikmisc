@@ -5,6 +5,8 @@
 #' @param label_neg_pos     labels in order c("negative", "positive")
 #' @param sw_plot           T/F to return a ROC curve ggplot object
 #' @param cm_mode           \code{mode} from \code{caret::confusionMatrix}
+#' @param sw_confusion_matrix T/F include confusion matrix table inset in plot
+#' @param pos_conf_mat      \code{c(x, y)} inset position
 #' @param sw_caption_desc   T/F define statistics in caption
 #' @param sw_class_labels   T/F classification labels indicated in caption
 #' @param sw_val_AUC        T/F report statistic
@@ -35,8 +37,10 @@
 #' @importFrom tibble tibble
 #' @importFrom tibble as_tibble
 #' @importFrom caret confusionMatrix
+#' @importFrom ggpp annotate
 #' @import dplyr
 #' @import ggplot2
+#' @import ggpmisc
 #' @export
 #'
 #' @examples
@@ -111,27 +115,29 @@
 #' # Illustrate labels and caption definitions
 #' glm_roc <-
 #'   e_plot_roc(
-#'     labels_true     = dat_mtcars_e$vs_V
-#'   , pred_values_pos = fit_glm_vs$fitted.values
-#'   , label_neg_pos   = c(0, 1)
-#'   , sw_plot         = TRUE
-#'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
-#'   , sw_caption_desc = TRUE
-#'   , sw_class_labels   = TRUE
-#'   , sw_val_AUC        = TRUE
-#'   , sw_val_BA         = TRUE
-#'   , sw_val_Sens       = FALSE
-#'   , sw_val_Spec       = FALSE
-#'   , sw_val_PPV        = TRUE
-#'   , sw_val_NPV        = TRUE
-#'   , sw_val_Thresh     = TRUE
-#'   , label_AUC         = c("AUC"   , "Area Under Curve"  )[1]
-#'   , label_BA          = c("BA"    , "Balanced Accuracy" )[1]
-#'   , label_Sens        = c("Sens"  , "Sensitivity"       )[1]
-#'   , label_Spec        = c("Spec"  , "Specificity"       )[1]
-#'   , label_PPV         = c("PPV"   , "Pos Pred Value"    )[2]
-#'   , label_NPV         = c("NPV"   , "Neg Pred Value"    )[2]
-#'   , label_Thresh      = c("Thresh", "Pos Threshold"     )[1]
+#'     labels_true         = dat_mtcars_e$vs_V
+#'   , pred_values_pos     = fit_glm_vs$fitted.values
+#'   , label_neg_pos       = c(0, 1)
+#'   , sw_plot             = TRUE
+#'   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
+#'   , sw_confusion_matrix = TRUE
+#'   , pos_conf_mat        = c(0, 0.9)
+#'   , sw_caption_desc     = TRUE
+#'   , sw_class_labels     = TRUE
+#'   , sw_val_AUC          = TRUE
+#'   , sw_val_BA           = TRUE
+#'   , sw_val_Sens         = FALSE
+#'   , sw_val_Spec         = FALSE
+#'   , sw_val_PPV          = TRUE
+#'   , sw_val_NPV          = TRUE
+#'   , sw_val_Thresh       = TRUE
+#'   , label_AUC           = c("AUC"   , "Area Under Curve"  )[1]
+#'   , label_BA            = c("BA"    , "Balanced Accuracy" )[1]
+#'   , label_Sens          = c("Sens"  , "Sensitivity"       )[1]
+#'   , label_Spec          = c("Spec"  , "Specificity"       )[1]
+#'   , label_PPV           = c("PPV"   , "Pos Pred Value"    )[2]
+#'   , label_NPV           = c("NPV"   , "Neg Pred Value"    )[2]
+#'   , label_Thresh        = c("Thresh", "Pos Threshold"     )[1]
 #'   )
 #' glm_roc$roc_curve_best |> print(width = Inf)
 #' glm_roc$plot_roc
@@ -178,27 +184,29 @@
 #'
 e_plot_roc <-
   function(
-    labels_true       = NULL
-  , pred_values_pos   = NULL
-  , label_neg_pos     = NULL
-  , sw_plot           = TRUE
-  , cm_mode           = c("sens_spec", "prec_recall", "everything")[1]
-  , sw_caption_desc   = TRUE
-  , sw_class_labels   = TRUE
-  , sw_val_AUC        = TRUE
-  , sw_val_BA         = TRUE
-  , sw_val_Sens       = TRUE
-  , sw_val_Spec       = TRUE
-  , sw_val_PPV        = TRUE
-  , sw_val_NPV        = TRUE
-  , sw_val_Thresh     = TRUE
-  , label_AUC         = c("AUC"   , "Area Under Curve"  )[1]
-  , label_BA          = c("BA"    , "Balanced Accuracy" )[1]
-  , label_Sens        = c("Sens"  , "Sensitivity"       )[1]
-  , label_Spec        = c("Spec"  , "Specificity"       )[1]
-  , label_PPV         = c("PPV"   , "Pos Pred Value"    )[1]
-  , label_NPV         = c("NPV"   , "Neg Pred Value"    )[1]
-  , label_Thresh      = c("Thresh", "Pos Threshold"     )[1]
+    labels_true         = NULL
+  , pred_values_pos     = NULL
+  , label_neg_pos       = NULL
+  , sw_plot             = TRUE
+  , cm_mode             = c("sens_spec", "prec_recall", "everything")[1]
+  , sw_confusion_matrix = TRUE
+  , pos_conf_mat        = c(0, 0.75)
+  , sw_caption_desc     = TRUE
+  , sw_class_labels     = TRUE
+  , sw_val_AUC          = TRUE
+  , sw_val_BA           = TRUE
+  , sw_val_Sens         = TRUE
+  , sw_val_Spec         = TRUE
+  , sw_val_PPV          = TRUE
+  , sw_val_NPV          = TRUE
+  , sw_val_Thresh       = TRUE
+  , label_AUC           = c("AUC"   , "Area Under Curve"  )[1]
+  , label_BA            = c("BA"    , "Balanced Accuracy" )[1]
+  , label_Sens          = c("Sens"  , "Sensitivity"       )[1]
+  , label_Spec          = c("Spec"  , "Specificity"       )[1]
+  , label_PPV           = c("PPV"   , "Pos Pred Value"    )[1]
+  , label_NPV           = c("NPV"   , "Neg Pred Value"    )[1]
+  , label_Thresh        = c("Thresh", "Pos Threshold"     )[1]
   ) {
 
   # need only 2 levels for ROCR functions
@@ -295,11 +303,43 @@ e_plot_roc <-
   #     )
   # }
 
+  if(sw_confusion_matrix) {
+
+    tab_confusion <-
+      dplyr::full_join(
+        confusion_matrix$table |>
+        tibble::as_tibble()
+      , confusion_matrix$table |>
+        prop.table(margin = 2) |>
+        round(3) |>
+        tibble::as_tibble() |>
+        dplyr::rename(prop = n)
+      , by = dplyr::join_by(Prediction, Reference)
+      ) |>
+      dplyr::mutate(
+        percent = sprintf("%5.1f", prop * 100)
+      , n_percent = paste0(n, " (", percent, "%)")
+      ) |>
+      tidyr::pivot_wider(
+        id_cols       = "Reference"
+      , names_from    = "Prediction"
+      , values_from   = "n_percent"
+      #, names_prefix  = "Pred "
+      ) |>
+      dplyr::rename(
+        `Target \\ Pred` = Reference
+      )
+
+  }
+
   # add classification statistics
   roc_curve_best <-
     dplyr::bind_cols(
       roc_curve_best
     , confusion_matrix$byClass |> t() |> tibble::as_tibble()
+    ) |>
+    dplyr::mutate(
+      `Geom Mean` = sqrt(Sensitivity * Specificity)
     )
   # roc_curve_best |> print()
 
@@ -396,6 +436,19 @@ e_plot_roc <-
         )
       p <- p + theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     } # sw_caption_desc
+
+    if(sw_confusion_matrix) {
+      # https://cran.r-project.org/web/packages/ggpmisc/vignettes/model-based-annotations.html
+      #library(ggpmisc)  # for geom="table"
+      #p <- p + annotate(geom = "table", x = 0.9, y = 0, label = list(as.data.frame(tab_confusion)))
+      p <- p + ggpp::annotate(
+                  geom = "table"
+                , x = pos_conf_mat[1]
+                , y = pos_conf_mat[2]
+                , label = list(as.data.frame(tab_confusion))
+                )
+
+    }
 
   } else {
     p <- NULL

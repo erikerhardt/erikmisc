@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.07
-Date: 2023-12-17
+Version: 0.2.09
+Date: 2024-01-04
 Authors@R:
     c(person(
       given = "Erik"
@@ -27,7 +27,6 @@ Depends:
     utils,
     graphics
 Imports:
-    ROCR,
     cAIC4,
     car,
     caret,
@@ -40,6 +39,8 @@ Imports:
     flextable,
     forcats,
     ggplot2,
+    ggpmisc,
+    ggpp,
     ggpubr,
     grid,
     gridExtra,
@@ -62,6 +63,7 @@ Imports:
     readr,
     readxl,
     rlang,
+    ROCR,
     rstudioapi,
     scales,
     sjPlot,

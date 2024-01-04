@@ -10,6 +10,8 @@ e_plot_roc(
   label_neg_pos = NULL,
   sw_plot = TRUE,
   cm_mode = c("sens_spec", "prec_recall", "everything")[1],
+  sw_confusion_matrix = TRUE,
+  pos_conf_mat = c(0, 0.75),
   sw_caption_desc = TRUE,
   sw_class_labels = TRUE,
   sw_val_AUC = TRUE,
@@ -38,6 +40,10 @@ e_plot_roc(
 \item{sw_plot}{T/F to return a ROC curve ggplot object}
 
 \item{cm_mode}{\code{mode} from \code{caret::confusionMatrix}}
+
+\item{sw_confusion_matrix}{T/F include confusion matrix table inset in plot}
+
+\item{pos_conf_mat}{\code{c(x, y)} inset position}
 
 \item{sw_caption_desc}{T/F define statistics in caption}
 
@@ -158,27 +164,29 @@ glm_roc$confusion_matrix
 # Illustrate labels and caption definitions
 glm_roc <-
   e_plot_roc(
-    labels_true     = dat_mtcars_e$vs_V
-  , pred_values_pos = fit_glm_vs$fitted.values
-  , label_neg_pos   = c(0, 1)
-  , sw_plot         = TRUE
-  , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
-  , sw_caption_desc = TRUE
-  , sw_class_labels   = TRUE
-  , sw_val_AUC        = TRUE
-  , sw_val_BA         = TRUE
-  , sw_val_Sens       = FALSE
-  , sw_val_Spec       = FALSE
-  , sw_val_PPV        = TRUE
-  , sw_val_NPV        = TRUE
-  , sw_val_Thresh     = TRUE
-  , label_AUC         = c("AUC"   , "Area Under Curve"  )[1]
-  , label_BA          = c("BA"    , "Balanced Accuracy" )[1]
-  , label_Sens        = c("Sens"  , "Sensitivity"       )[1]
-  , label_Spec        = c("Spec"  , "Specificity"       )[1]
-  , label_PPV         = c("PPV"   , "Pos Pred Value"    )[2]
-  , label_NPV         = c("NPV"   , "Neg Pred Value"    )[2]
-  , label_Thresh      = c("Thresh", "Pos Threshold"     )[1]
+    labels_true         = dat_mtcars_e$vs_V
+  , pred_values_pos     = fit_glm_vs$fitted.values
+  , label_neg_pos       = c(0, 1)
+  , sw_plot             = TRUE
+  , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
+  , sw_confusion_matrix = TRUE
+  , pos_conf_mat        = c(0, 0.9)
+  , sw_caption_desc     = TRUE
+  , sw_class_labels     = TRUE
+  , sw_val_AUC          = TRUE
+  , sw_val_BA           = TRUE
+  , sw_val_Sens         = FALSE
+  , sw_val_Spec         = FALSE
+  , sw_val_PPV          = TRUE
+  , sw_val_NPV          = TRUE
+  , sw_val_Thresh       = TRUE
+  , label_AUC           = c("AUC"   , "Area Under Curve"  )[1]
+  , label_BA            = c("BA"    , "Balanced Accuracy" )[1]
+  , label_Sens          = c("Sens"  , "Sensitivity"       )[1]
+  , label_Spec          = c("Spec"  , "Specificity"       )[1]
+  , label_PPV           = c("PPV"   , "Pos Pred Value"    )[2]
+  , label_NPV           = c("NPV"   , "Neg Pred Value"    )[2]
+  , label_Thresh        = c("Thresh", "Pos Threshold"     )[1]
   )
 glm_roc$roc_curve_best |> print(width = Inf)
 glm_roc$plot_roc
