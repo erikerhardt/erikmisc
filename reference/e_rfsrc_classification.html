@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.07</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.09</span>
       </span>
     </div>
 
@@ -55,15 +55,17 @@
 <span>  rf_y_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rf_x_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rf_id_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sw_rfsrc_ntree <span class="op">=</span> <span class="fl">2000</span>,</span>
+<span>  sw_rfsrc_ntree <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  sw_alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  sw_select_full <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  sw_save_model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>  plot_title <span class="op">=</span> <span class="st">"Random Forest Title"</span>,</span>
-<span>  out_path <span class="op">=</span> <span class="st">"out"</span>,</span>
+<span>  plot_title <span class="op">=</span> <span class="st">"Random Forest"</span>,</span>
+<span>  out_path <span class="op">=</span> <span class="st">"out_sel"</span>,</span>
 <span>  file_prefix <span class="op">=</span> <span class="st">"out_e_rf"</span>,</span>
 <span>  plot_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>  n_marginal_plot_across <span class="op">=</span> <span class="fl">6</span></span>
+<span>  n_marginal_plot_across <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  sw_imbalanced_binary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  sw_quick_full_only <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -98,7 +100,7 @@
 
 
 <dt>sw_save_model</dt>
-<dd><p>T/F to save model (XXX, not yet implemented)</p></dd>
+<dd><p>T/F to save model to .Rdata file</p></dd>
 
 
 <dt>plot_title</dt>
@@ -119,6 +121,14 @@
 
 <dt>n_marginal_plot_across</dt>
 <dd><p>for partial and marginal plots, number of plots per row (increase if not all plots are displayed)</p></dd>
+
+
+<dt>sw_imbalanced_binary</dt>
+<dd><p>T/F to use standard or imbalanced binary classification with <code>rfsrc::imbalanced()</code>.  It is recommended to increase ntree to <code>5 * sw_rfsrc_ntree</code>.</p></dd>
+
+
+<dt>sw_quick_full_only</dt>
+<dd><p>T/F to only fit full model and return model object</p></dd>
 
 </dl></div>
     <div id="value">
@@ -160,19 +170,21 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">out_e_rf</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_rfsrc_classification</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    dat_rf_class    <span class="op">=</span> <span class="va">dat_rf_class</span></span></span>
-<span class="r-in"><span>  , rf_y_var        <span class="op">=</span> <span class="st">"cyl"</span>    <span class="co"># NULL</span></span></span>
-<span class="r-in"><span>  , rf_x_var        <span class="op">=</span> <span class="cn">NULL</span> <span class="co"># c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL</span></span></span>
-<span class="r-in"><span>  , rf_id_var       <span class="op">=</span> <span class="st">"model"</span></span></span>
-<span class="r-in"><span>  , sw_rfsrc_ntree  <span class="op">=</span> <span class="fl">200</span></span></span>
-<span class="r-in"><span>  , sw_alpha        <span class="op">=</span> <span class="fl">0.05</span></span></span>
-<span class="r-in"><span>  , sw_select_full  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  , sw_save_model   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  , plot_title      <span class="op">=</span> <span class="st">"Random Forest Title SEL"</span></span></span>
-<span class="r-in"><span>  , out_path        <span class="op">=</span> <span class="st">"./out_sel"</span></span></span>
-<span class="r-in"><span>  , file_prefix     <span class="op">=</span> <span class="st">"out_e_rf"</span></span></span>
-<span class="r-in"><span>  , plot_format     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    dat_rf_class           <span class="op">=</span> <span class="va">dat_rf_class</span></span></span>
+<span class="r-in"><span>  , rf_y_var               <span class="op">=</span> <span class="st">"cyl"</span>    <span class="co"># NULL</span></span></span>
+<span class="r-in"><span>  , rf_x_var               <span class="op">=</span> <span class="cn">NULL</span> <span class="co"># c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL</span></span></span>
+<span class="r-in"><span>  , rf_id_var              <span class="op">=</span> <span class="st">"model"</span></span></span>
+<span class="r-in"><span>  , sw_rfsrc_ntree         <span class="op">=</span> <span class="fl">200</span></span></span>
+<span class="r-in"><span>  , sw_alpha               <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , sw_select_full         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_save_model          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , plot_title             <span class="op">=</span> <span class="st">"Random Forest Title SEL"</span></span></span>
+<span class="r-in"><span>  , out_path               <span class="op">=</span> <span class="st">"./out_sel"</span></span></span>
+<span class="r-in"><span>  , file_prefix            <span class="op">=</span> <span class="st">"out_e_rf"</span></span></span>
+<span class="r-in"><span>  , plot_format            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , n_marginal_plot_across <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  , sw_imbalanced_binary   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_quick_full_only     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -247,6 +259,61 @@
 <span class="r-in"><span><span class="co"># Selected model: variable importance (VIMP) plot boxplots</span></span></span>
 <span class="r-in"><span><span class="va">out_e_rf</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_subsample"</span> <span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Imbalanced binary classification</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Two mvnorm distributions with overlap</span></span></span>
+<span class="r-in"><span><span class="va">imbal_n</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">imbal_mean</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.75</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">imbal_sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">imbal_dim</span>   <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">dat_imbal</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu">mvtnorm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html" class="external-link">rmvnorm</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      n     <span class="op">=</span> <span class="va">imbal_n</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    , mean  <span class="op">=</span> <span class="va">imbal_mean</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">imbal_dim</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    , sigma <span class="op">=</span> <span class="va">imbal_sigma</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">imbal_dim</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span>.name_repair <span class="op">=</span> <span class="st">"universal"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename_with</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html" class="external-link">str_c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">imbal_dim</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  ,</span></span>
+<span class="r-in"><span>    <span class="fu">mvtnorm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html" class="external-link">rmvnorm</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      n     <span class="op">=</span> <span class="va">imbal_n</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    , mean  <span class="op">=</span> <span class="va">imbal_mean</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">imbal_dim</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    , sigma <span class="op">=</span> <span class="va">imbal_sigma</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">imbal_dim</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span>.name_repair <span class="op">=</span> <span class="st">"universal"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename_with</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html" class="external-link">str_c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">imbal_dim</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">Group</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    Group <span class="op">=</span> <span class="va">Group</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">out_e_rf</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_rfsrc_classification</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_rf_class           <span class="op">=</span> <span class="va">dat_imbal</span></span></span>
+<span class="r-in"><span>  , rf_y_var               <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , rf_x_var               <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , rf_id_var              <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , sw_rfsrc_ntree         <span class="op">=</span> <span class="fl">200</span></span></span>
+<span class="r-in"><span>  , sw_alpha               <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , sw_select_full         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_save_model          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , plot_title             <span class="op">=</span> <span class="st">"Random Forest Imbalanced"</span></span></span>
+<span class="r-in"><span>  , out_path               <span class="op">=</span> <span class="st">"./out_imbal"</span></span></span>
+<span class="r-in"><span>  , file_prefix            <span class="op">=</span> <span class="st">"out_e_rf"</span></span></span>
+<span class="r-in"><span>  , plot_format            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , n_marginal_plot_across <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  , sw_imbalanced_binary   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_quick_full_only     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
