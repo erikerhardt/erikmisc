@@ -5,10 +5,12 @@
 #' @param label_neg_pos     labels in order c("negative", "positive")
 #' @param sw_plot           T/F to return a ROC curve ggplot object
 #' @param cm_mode           \code{mode} from \code{caret::confusionMatrix}
+#' @param threshold_to_use  A threshold value to use for plot and "best" ROC, \code{NULL} to determine.
 #' @param sw_confusion_matrix T/F include confusion matrix table inset in plot
 #' @param pos_conf_mat      \code{c(x, y)} inset position
 #' @param sw_caption_desc   T/F define statistics in caption
 #' @param sw_class_labels   T/F classification labels indicated in caption
+#' @param sw_thresh_bounds  T/F print threshold bounds at ends of ROC Curve
 #' @param sw_val_AUC        T/F report statistic
 #' @param sw_val_BA         T/F report statistic
 #' @param sw_val_Sens       T/F report statistic
@@ -101,11 +103,26 @@
 #'
 #' glm_roc <-
 #'   e_plot_roc(
-#'     labels_true     = dat_mtcars_e$vs_V
-#'   , pred_values_pos = fit_glm_vs$fitted.values
-#'   , label_neg_pos   = c(0, 1)
-#'   , sw_plot         = TRUE
-#'   , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+#'     labels_true         = dat_mtcars_e$vs_V
+#'   , pred_values_pos     = fit_glm_vs$fitted.values
+#'   , label_neg_pos       = c(0, 1)
+#'   , sw_plot             = TRUE
+#'   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
+#'   , threshold_to_use    = NULL
+#'   )
+#' glm_roc$roc_curve_best %>% print(width = Inf)
+#' glm_roc$plot_roc
+#' glm_roc$confusion_matrix
+#'
+#' # specified threshold
+#' glm_roc <-
+#'   e_plot_roc(
+#'     labels_true         = dat_mtcars_e$vs_V
+#'   , pred_values_pos     = fit_glm_vs$fitted.values
+#'   , label_neg_pos       = c(0, 1)
+#'   , sw_plot             = TRUE
+#'   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
+#'   , threshold_to_use    = 0.001
 #'   )
 #' glm_roc$roc_curve_best %>% print(width = Inf)
 #' glm_roc$plot_roc
@@ -121,9 +138,10 @@
 #'   , sw_plot             = TRUE
 #'   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
 #'   , sw_confusion_matrix = TRUE
-#'   , pos_conf_mat        = c(0, 0.9)
+#'   , pos_conf_mat        = c(0.9, 0)
 #'   , sw_caption_desc     = TRUE
 #'   , sw_class_labels     = TRUE
+#'   , sw_thresh_bounds    = TRUE
 #'   , sw_val_AUC          = TRUE
 #'   , sw_val_BA           = TRUE
 #'   , sw_val_Sens         = FALSE
@@ -189,10 +207,12 @@ e_plot_roc <-
   , label_neg_pos       = NULL
   , sw_plot             = TRUE
   , cm_mode             = c("sens_spec", "prec_recall", "everything")[1]
+  , threshold_to_use    = NULL
   , sw_confusion_matrix = TRUE
   , pos_conf_mat        = c(0, 0.75)
   , sw_caption_desc     = TRUE
   , sw_class_labels     = TRUE
+  , sw_thresh_bounds    = TRUE
   , sw_val_AUC          = TRUE
   , sw_val_BA           = TRUE
   , sw_val_Sens         = TRUE
@@ -271,15 +291,38 @@ e_plot_roc <-
     #)
 
   # determine best threshold as closest to top-left corner: highest overall classification rate
-  roc_curve_best <-
-    roc_curve |>
-    dplyr::filter(
-      dist == min(dist)
-    ) |>
-    dplyr::mutate(
-      AUC = unlist(ROCR::performance(rocr_pred, measure = "auc")@y.values)
-    ) |>
-    dplyr::slice(1)  # when > 1 have same min dist
+  if (is.null(threshold_to_use)) {
+    roc_curve_best <-
+      roc_curve |>
+      dplyr::filter(
+        dist == min(dist)
+      ) |>
+      dplyr::mutate(
+        AUC = unlist(ROCR::performance(rocr_pred, measure = "auc")@y.values)
+      ) |>
+      dplyr::slice(1)  # when > 1 have same min dist
+  } else {
+    roc_curve_best <-
+      roc_curve |>
+      dplyr::mutate(
+        row_id        = 1:dplyr::n()
+      , dist_thresh   = thresh - threshold_to_use
+      ) |>
+      dplyr::filter(
+        dist_thresh > 0
+      ) |>
+      dplyr::filter(
+        dist_thresh == min(dist_thresh)
+      ) |>
+      dplyr::select(
+        -row_id
+      , -dist_thresh
+      ) |>
+      dplyr::mutate(
+        AUC = unlist(ROCR::performance(rocr_pred, measure = "auc")@y.values)
+      ) |>
+      dplyr::slice(1)  # when > 1 have same min dist
+  } # if threshold_to_use
 
   # define positive classification using optimal threshold
   pred_positive <- ifelse(as.numeric(pred_values_pos) >= roc_curve_best$thresh, 1, 0)
@@ -327,7 +370,7 @@ e_plot_roc <-
       #, names_prefix  = "Pred "
       ) |>
       dplyr::rename(
-        `Target \\ Pred` = Reference
+        `Target \\ Class` = Reference
       )
 
   }
@@ -371,6 +414,15 @@ e_plot_roc <-
     label_caption |>
     unlist() |>
     paste(collapse = "\n")
+
+  if (!is.null(threshold_to_use)) {
+    label_caption <-
+      paste0(
+        label_caption
+      , "\nThreshold provided, used closest greater than: "
+      , threshold_to_use |> signif(3)
+      )
+  }
 
 
   # plot results
@@ -416,7 +468,6 @@ e_plot_roc <-
              #, arrow     = arrow(angle = 20, length = unit(0.15, "inches"), ends = "last", type = "open")
              )
 
-
     p <- p + coord_equal()
 
     p <- p +
@@ -428,6 +479,43 @@ e_plot_roc <-
       , vjust = 0
       , label = label_annotate
       )
+
+    if (sw_thresh_bounds) {
+      roc_curve_min_max <-
+        roc_curve |>
+        #dplyr::filter(
+        #  !is.infinite(thresh)
+        #) |>
+        dplyr::mutate(
+          thresh = ifelse(thresh ==  Inf, max(thresh[is.finite(thresh)]), thresh)
+        , thresh = ifelse(thresh == -Inf, min(thresh[is.finite(thresh)]), thresh)
+        ) |>
+        dplyr::slice(
+          1
+        , dplyr::n()
+        )
+
+      p <- p + geom_point(aes(x = roc_curve_min_max$Spec[1], y = roc_curve_min_max$Sens[1]), shape = 19, size = 2, alpha = 1)
+      p <- p +
+        annotate(
+          "text"
+        , x = roc_curve_min_max$Spec[1]
+        , y = roc_curve_min_max$Sens[1]
+        , hjust = -0.5
+        , vjust = -1.5
+        , label = paste0("th=", roc_curve_min_max$thresh[1] |> round(2))
+        )
+      p <- p + geom_point(aes(x = roc_curve_min_max$Spec[2], y = roc_curve_min_max$Sens[2]), shape = 19, size = 2, alpha = 1)
+      p <- p +
+        annotate(
+          "text"
+        , x = roc_curve_min_max$Spec[2]
+        , y = roc_curve_min_max$Sens[2]
+        , hjust = 1.5
+        , vjust = 1.5
+        , label = paste0("th=", roc_curve_min_max$thresh[2] |> round(2))
+        )
+    } # sw_thresh_bounds
 
     if (sw_caption_desc) {
       p <- p +

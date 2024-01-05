@@ -10,10 +10,12 @@ e_plot_roc(
   label_neg_pos = NULL,
   sw_plot = TRUE,
   cm_mode = c("sens_spec", "prec_recall", "everything")[1],
+  threshold_to_use = NULL,
   sw_confusion_matrix = TRUE,
   pos_conf_mat = c(0, 0.75),
   sw_caption_desc = TRUE,
   sw_class_labels = TRUE,
+  sw_thresh_bounds = TRUE,
   sw_val_AUC = TRUE,
   sw_val_BA = TRUE,
   sw_val_Sens = TRUE,
@@ -41,6 +43,8 @@ e_plot_roc(
 
 \item{cm_mode}{\code{mode} from \code{caret::confusionMatrix}}
 
+\item{threshold_to_use}{A threshold value to use for plot and "best" ROC, \code{NULL} to determine.}
+
 \item{sw_confusion_matrix}{T/F include confusion matrix table inset in plot}
 
 \item{pos_conf_mat}{\code{c(x, y)} inset position}
@@ -48,6 +52,8 @@ e_plot_roc(
 \item{sw_caption_desc}{T/F define statistics in caption}
 
 \item{sw_class_labels}{T/F classification labels indicated in caption}
+
+\item{sw_thresh_bounds}{T/F print threshold bounds at ends of ROC Curve}
 
 \item{sw_val_AUC}{T/F report statistic}
 
@@ -150,11 +156,26 @@ car::Anova(fit_glm_vs, type = 3)
 
 glm_roc <-
   e_plot_roc(
-    labels_true     = dat_mtcars_e$vs_V
-  , pred_values_pos = fit_glm_vs$fitted.values
-  , label_neg_pos   = c(0, 1)
-  , sw_plot         = TRUE
-  , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+    labels_true         = dat_mtcars_e$vs_V
+  , pred_values_pos     = fit_glm_vs$fitted.values
+  , label_neg_pos       = c(0, 1)
+  , sw_plot             = TRUE
+  , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
+  , threshold_to_use    = NULL
+  )
+glm_roc$roc_curve_best \%>\% print(width = Inf)
+glm_roc$plot_roc
+glm_roc$confusion_matrix
+
+# specified threshold
+glm_roc <-
+  e_plot_roc(
+    labels_true         = dat_mtcars_e$vs_V
+  , pred_values_pos     = fit_glm_vs$fitted.values
+  , label_neg_pos       = c(0, 1)
+  , sw_plot             = TRUE
+  , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
+  , threshold_to_use    = 0.001
   )
 glm_roc$roc_curve_best \%>\% print(width = Inf)
 glm_roc$plot_roc
@@ -170,9 +191,10 @@ glm_roc <-
   , sw_plot             = TRUE
   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
   , sw_confusion_matrix = TRUE
-  , pos_conf_mat        = c(0, 0.9)
+  , pos_conf_mat        = c(0.9, 0)
   , sw_caption_desc     = TRUE
   , sw_class_labels     = TRUE
+  , sw_thresh_bounds    = TRUE
   , sw_val_AUC          = TRUE
   , sw_val_BA           = TRUE
   , sw_val_Sens         = FALSE
