@@ -190,7 +190,7 @@ e_plot_scatterplot <-
     p <- p + geom_violin(width = 0.2, alpha = 0.25, position = position_dodge_val)
     p <- p + geom_boxplot(width = 0.2, alpha = 0.25, position = position_dodge_val)
     # points for observed data
-    p <- p + geom_point(position = position_jitter(w = 0.1, h = 0), alpha = 1) #, position = position_dodge_val)
+    p <- p + geom_point(position = position_jitter(width = 0.1, height = 0), alpha = 1) #, position = position_dodge_val)
     # diamond at mean for each group
     p <- p + stat_summary(fun = mean, geom = "point", shape = 18, size = 5,
                           alpha = 0.8, position = position_dodge_val) # color = "red",
