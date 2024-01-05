@@ -33,6 +33,7 @@
 #' @importFrom readr write_csv
 #' @importFrom tibble as_tibble
 #' @importFrom stringr str_wrap
+#' @importFrom utils capture.output
 #' @export
 #'
 #' @examples
@@ -198,8 +199,8 @@
 #'   , rf_y_var               = NULL
 #'   , rf_x_var               = NULL
 #'   , rf_id_var              = NULL
-#'   , sw_rfsrc_ntree         = 200
-#'   , sw_alpha               = 0.05
+#'   , sw_rfsrc_ntree         = 2000
+#'   , sw_alpha               = 0.25
 #'   , sw_select_full         = c("select", "full")[1]
 #'   , sw_save_model          = c(TRUE, FALSE)[1]
 #'   , plot_title             = "Random Forest Imbalanced"
@@ -625,6 +626,21 @@ e_rfsrc_classification <-
       , do.trace    = 1
       , statistics  = TRUE # FALSE
       )
+
+    ## (1) default threshold (2) directly optimized gmean threshold
+    threshold_default <-
+      randomForestSRC::get.imbalanced.performance(
+        o_class_full
+      )["threshold"]
+
+    threshold_gmean   <-
+      randomForestSRC::get.imbalanced.optimize(
+        o_class_full
+      , measure = "gmean"
+      , plot.it = FALSE
+      )["threshold"] |>
+      as.numeric()
+
   }
 
   out[[ "o_class_full" ]] <-
@@ -636,7 +652,7 @@ e_rfsrc_classification <-
     , "\n\n"
     , o_class_full |>
       print() |>
-      capture.output() |>
+      utils::capture.output() |>
       paste0(collapse = "\n")
     , "\n\n"
     )
@@ -751,22 +767,51 @@ e_rfsrc_classification <-
   , i_level     = 2
   )
 
-  out_roc_temp <- list()
-  for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
-    out_roc <-
-      e_plot_roc(
-        labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
-      , pred_values_pos = o_class_full$predicted.oob[, n_target]
-      , label_neg_pos   = c(0, 1)
-      , sw_plot         = !sw_quick_full_only #TRUE
-      , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
-      )
-    #p <- out$plot_roc
-    out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
-    out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+  if (sw_imbalanced_binary == c(FALSE, TRUE)[1]) {
+    threshold_to_use = NULL
+    out_roc_temp <- list()
+    for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+      out_roc <-
+        e_plot_roc(
+          labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+        , pred_values_pos   = o_class_full$predicted.oob[, n_target]
+        , label_neg_pos     = c(0, 1)
+        , sw_plot           = !sw_quick_full_only #TRUE
+        , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+        , threshold_to_use  = threshold_to_use
+        )
+      #p <- out$plot_roc
+      out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+      out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
 
-    out_roc_temp[[ n_target ]] <- out_roc
-  } # n_target
+      out_roc_temp[[ n_target ]] <- out_roc
+    } # n_target
+  }
+  if (sw_imbalanced_binary == c(FALSE, TRUE)[2]) {
+    out_roc_temp <- list()
+    for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+      if (n_target == levels(dat_rf_data[[ rf_y_var ]])[1]) {
+        threshold_to_use = threshold_gmean
+      } else {
+        threshold_to_use = 1 - threshold_gmean - 1e-10
+      }
+      out_roc <-
+        e_plot_roc(
+          labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+        , pred_values_pos   = o_class_full$predicted.oob[, n_target]
+        , label_neg_pos     = c(0, 1)
+        , sw_plot           = !sw_quick_full_only #TRUE
+        , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+        , threshold_to_use  = threshold_to_use
+        )
+      #p <- out$plot_roc
+      out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+      out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+
+      out_roc_temp[[ n_target ]] <- out_roc
+    } # n_target
+  }
+
 
   # hierarchy: reorder ROC objects by type (rather than target)
   out[[ "o_class_full_ROC" ]] <- list()
@@ -1665,6 +1710,21 @@ e_rfsrc_classification <-
       , do.trace    = 1
       , statistics  = TRUE # FALSE
       )
+
+    ## (1) default threshold (2) directly optimized gmean threshold
+    threshold_default <-
+      randomForestSRC::get.imbalanced.performance(
+        o_class_sel
+      )["threshold"]
+
+    threshold_gmean   <-
+      randomForestSRC::get.imbalanced.optimize(
+        o_class_sel
+      , measure = "gmean"
+      , plot.it = FALSE
+      )["threshold"] |>
+      as.numeric()
+
   }
   out[[ "o_class_sel" ]] <-
     o_class_sel
@@ -1886,22 +1946,67 @@ e_rfsrc_classification <-
 
 
   ## ROC via erikmisc
-  out_roc_sel_temp <- list()
-  for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
-    out_roc <-
-      e_plot_roc(
-        labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
-      , pred_values_pos = o_class_sel$predicted.oob[, n_target]
-      , label_neg_pos   = c(0, 1)
-      , sw_plot         = !sw_quick_full_only #TRUE
-      , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
-      )
-    #p <- out$plot_roc
-    out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
-    out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+  # out_roc_sel_temp <- list()
+  # for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+  #   out_roc <-
+  #     e_plot_roc(
+  #       labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+  #     , pred_values_pos = o_class_sel$predicted.oob[, n_target]
+  #     , label_neg_pos   = c(0, 1)
+  #     , sw_plot         = !sw_quick_full_only #TRUE
+  #     , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+  #     )
+  #   #p <- out$plot_roc
+  #   out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+  #   out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+  #
+  #   out_roc_sel_temp[[ n_target ]] <- out_roc
+  # } # n_target
 
-    out_roc_sel_temp[[ n_target ]] <- out_roc
-  } # n_target
+  if (sw_imbalanced_binary == c(FALSE, TRUE)[1]) {
+    threshold_to_use = NULL
+    out_roc_sel_temp <- list()
+    for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+      out_roc <-
+        e_plot_roc(
+          labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+        , pred_values_pos   = o_class_sel$predicted.oob[, n_target]
+        , label_neg_pos     = c(0, 1)
+        , sw_plot           = !sw_quick_full_only #TRUE
+        , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+        , threshold_to_use  = threshold_to_use
+        )
+      #p <- out$plot_roc
+      out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+      out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+
+      out_roc_sel_temp[[ n_target ]] <- out_roc
+    } # n_target
+  }
+  if (sw_imbalanced_binary == c(FALSE, TRUE)[2]) {
+    out_roc_sel_temp <- list()
+    for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+      if (n_target == levels(dat_rf_data[[ rf_y_var ]])[1]) {
+        threshold_to_use = threshold_gmean
+      } else {
+        threshold_to_use = 1 - threshold_gmean - 1e-10
+      }
+      out_roc <-
+        e_plot_roc(
+          labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+        , pred_values_pos   = o_class_sel$predicted.oob[, n_target]
+        , label_neg_pos     = c(0, 1)
+        , sw_plot           = !sw_quick_full_only #TRUE
+        , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+        , threshold_to_use  = threshold_to_use
+        )
+      #p <- out$plot_roc
+      out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+      out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+
+      out_roc_sel_temp[[ n_target ]] <- out_roc
+    } # n_target
+  }
 
   # hierarchy: reorder ROC objects by type (rather than target)
   out[[ "o_class_sel_ROC" ]] <- list()

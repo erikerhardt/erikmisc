@@ -222,8 +222,8 @@ out_e_rf <-
   , rf_y_var               = NULL
   , rf_x_var               = NULL
   , rf_id_var              = NULL
-  , sw_rfsrc_ntree         = 200
-  , sw_alpha               = 0.05
+  , sw_rfsrc_ntree         = 2000
+  , sw_alpha               = 0.25
   , sw_select_full         = c("select", "full")[1]
   , sw_save_model          = c(TRUE, FALSE)[1]
   , plot_title             = "Random Forest Imbalanced"
