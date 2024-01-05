@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.09</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.10</span>
       </span>
     </div>
 
@@ -56,10 +56,12 @@
 <span>  label_neg_pos <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sw_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cm_mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sens_spec"</span>, <span class="st">"prec_recall"</span>, <span class="st">"everything"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  threshold_to_use <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sw_confusion_matrix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  pos_conf_mat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.75</span><span class="op">)</span>,</span>
 <span>  sw_caption_desc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sw_class_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sw_thresh_bounds <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sw_val_AUC <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sw_val_BA <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sw_val_Sens <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -99,6 +101,10 @@
 <dd><p><code>mode</code> from <code><a href="https://rdrr.io/pkg/caret/man/confusionMatrix.html" class="external-link">caret::confusionMatrix</a></code></p></dd>
 
 
+<dt>threshold_to_use</dt>
+<dd><p>A threshold value to use for plot and "best" ROC, <code>NULL</code> to determine.</p></dd>
+
+
 <dt>sw_confusion_matrix</dt>
 <dd><p>T/F include confusion matrix table inset in plot</p></dd>
 
@@ -113,6 +119,10 @@
 
 <dt>sw_class_labels</dt>
 <dd><p>T/F classification labels indicated in caption</p></dd>
+
+
+<dt>sw_thresh_bounds</dt>
+<dd><p>T/F print threshold bounds at ends of ROC Curve</p></dd>
 
 
 <dt>sw_val_AUC</dt>
@@ -332,11 +342,12 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">glm_roc</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">e_plot_roc</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    labels_true     <span class="op">=</span> <span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">vs_V</span></span></span>
-<span class="r-in"><span>  , pred_values_pos <span class="op">=</span> <span class="va">fit_glm_vs</span><span class="op">$</span><span class="va">fitted.values</span></span></span>
-<span class="r-in"><span>  , label_neg_pos   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , sw_plot         <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span>  , cm_mode         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sens_spec"</span>, <span class="st">"prec_recall"</span>, <span class="st">"everything"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    labels_true         <span class="op">=</span> <span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">vs_V</span></span></span>
+<span class="r-in"><span>  , pred_values_pos     <span class="op">=</span> <span class="va">fit_glm_vs</span><span class="op">$</span><span class="va">fitted.values</span></span></span>
+<span class="r-in"><span>  , label_neg_pos       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_plot             <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , cm_mode             <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sens_spec"</span>, <span class="st">"prec_recall"</span>, <span class="st">"everything"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , threshold_to_use    <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">glm_roc</span><span class="op">$</span><span class="va">roc_curve_best</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 17</span></span>
@@ -383,6 +394,61 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>        'Positive' Class : 1               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specified threshold</span></span></span>
+<span class="r-in"><span><span class="va">glm_roc</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_plot_roc</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    labels_true         <span class="op">=</span> <span class="va">dat_mtcars_e</span><span class="op">$</span><span class="va">vs_V</span></span></span>
+<span class="r-in"><span>  , pred_values_pos     <span class="op">=</span> <span class="va">fit_glm_vs</span><span class="op">$</span><span class="va">fitted.values</span></span></span>
+<span class="r-in"><span>  , label_neg_pos       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , sw_plot             <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , cm_mode             <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sens_spec"</span>, <span class="st">"prec_recall"</span>, <span class="st">"everything"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , threshold_to_use    <span class="op">=</span> <span class="fl">0.001</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">glm_roc</span><span class="op">$</span><span class="va">roc_curve_best</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Sens  Spec  thresh  dist   AUC Sensitivity Specificity `Pos Pred Value`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1   0.5 0.001<span style="text-decoration: underline;">58</span>   0.5 0.984           1         0.5             0.72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Neg Pred Value` Precision Recall    F1 Prevalence `Detection Rate`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                1      0.72      1 0.837      0.562            0.562</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Detection Prevalence` `Balanced Accuracy` `Geom Mean`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                  0.781                0.75       0.707</span>
+<span class="r-in"><span><span class="va">glm_roc</span><span class="op">$</span><span class="va">plot_roc</span></span></span>
+<span class="r-plt img"><img src="e_plot_roc-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="va">glm_roc</span><span class="op">$</span><span class="va">confusion_matrix</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Confusion Matrix and Statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Prediction  0  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0  7  0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          1  7 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Accuracy : 0.7812          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  95% CI : (0.6003, 0.9072)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     No Information Rate : 0.5625          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     P-Value [Acc &gt; NIR] : 0.00861         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Kappa : 0.5294          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mcnemar's Test P-Value : 0.02334         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Sensitivity : 1.0000          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Specificity : 0.5000          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Pos Pred Value : 0.7200          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Neg Pred Value : 1.0000          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Precision : 0.7200          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  Recall : 1.0000          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      F1 : 0.8372          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Prevalence : 0.5625          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Detection Rate : 0.5625          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Detection Prevalence : 0.7812          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Balanced Accuracy : 0.7500          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        'Positive' Class : 1               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Illustrate labels and caption definitions</span></span></span>
 <span class="r-in"><span><span class="va">glm_roc</span> <span class="op">&lt;-</span></span></span>
@@ -393,9 +459,10 @@
 <span class="r-in"><span>  , sw_plot             <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  , cm_mode             <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sens_spec"</span>, <span class="st">"prec_recall"</span>, <span class="st">"everything"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , sw_confusion_matrix <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span>  , pos_conf_mat        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.9</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , pos_conf_mat        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  , sw_caption_desc     <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  , sw_class_labels     <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  , sw_thresh_bounds    <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  , sw_val_AUC          <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  , sw_val_BA           <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  , sw_val_Sens         <span class="op">=</span> <span class="cn">FALSE</span></span></span>
@@ -423,7 +490,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>                  0.531               0.972       0.972</span>
 <span class="r-in"><span><span class="va">glm_roc</span><span class="op">$</span><span class="va">plot_roc</span></span></span>
-<span class="r-plt img"><img src="e_plot_roc-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="e_plot_roc-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">glm_roc</span><span class="op">$</span><span class="va">confusion_matrix</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confusion Matrix and Statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
