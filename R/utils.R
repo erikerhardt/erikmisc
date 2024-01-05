@@ -61,7 +61,7 @@ style_grey <- function(level, ...) {
 }
 
 
-## This header still exported this function, even without @explort
+## This header still exported this function, even without @export
 ## so I moved it down here to disconnect it from the function.
 
 #' text_col
@@ -75,3 +75,4 @@ style_grey <- function(level, ...) {
 #' @importFrom rstudioapi getThemeInfo
 #' @importFrom crayon white
 #' @importFrom crayon black
+
