@@ -217,39 +217,39 @@ glm_roc$confusion_matrix
 
 \dontrun{
 
-   ## REWRITE SO THIS WORKS IN GENERAL, developed for e_rfsrc_classification()
+## Categorical prediction-value example (from ?caret::confusionMatrix)
+ex_lvs    <- c("normal", "abnormal")
+ex_truth  <- factor(rep(ex_lvs, times = c(86, 258)), levels = rev(ex_lvs))
+ex_pred   <- factor(c(rep(ex_lvs, times = c(54,  32))
+                    , rep(ex_lvs, times = c(27, 231)))
+                  , levels = ex_lvs)
+# List of ROC curves for each target
+out_roc_temp <- list()
+for (n_target in levels(ex_truth)) {  # replace "unique()" by "levels()" if categorical
+  out_roc <-
+    e_plot_roc(
+      labels_true     = ex_truth |> relevel(ref = n_target)
+    , pred_values_pos = ex_pred
+    , label_neg_pos   = ex_lvs
+    , sw_plot         = TRUE
+    , sw_caption_desc = c(TRUE, FALSE)[2]
+    )
 
-  # hierarchy: reorder ROC objects by type (rather than target)
-  out[[ "plot_o_class_sel_ROC" ]] <- list()
-  for (n_object in names(out_roc_temp[[ 1 ]])) {
-    ## n_object = names(out_roc_temp[[ 1 ]])[1]
-    out[[ "plot_o_class_sel_ROC" ]][[ n_object ]] <- list()
+  out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+  out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
 
-    for (n_target in names(out_roc_temp)) {
-      ## n_target = names(out_roc_temp)[1]
-      out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-        out_roc_temp[[ n_target ]][[ n_object ]]
+  out_roc_temp[[ n_target ]] <- out_roc
+} # n_target
 
-      if (n_object == "roc_curve_best") {
-        out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
-      if (n_object == "roc_curve") {
-        out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "plot_o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
+# to display list tree hierarchy
+out_roc_temp |> e_print_list_tree_hierarchy()
 
-    }
-  }
+# Reorder ROC objects by type (rather than target)
+out_roc_reordered <-
+  out_roc_temp |>
+  e_plot_roc_reorder_hierarchy()
 
+out_roc_reordered |> e_print_list_tree_hierarchy()
 
 }
 
