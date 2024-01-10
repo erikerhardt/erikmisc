@@ -231,13 +231,26 @@ e_plot_roc <-
 
   # need only 2 levels for ROCR functions
   if ((labels_true   |> unique() |> length()) > 2) {
-    warning("e_plot_roc: Only two classes for ROC at this time")
+    warning("erikmisc::e_plot_roc: Only two classes for ROC at this time")
     out <-
       list(
         roc_curve_best    = NULL
       , pred_positive     = NULL
       , confusion_matrix  = NULL
-      , plot_roc          = ggplot() + theme_void() + geom_text(aes(0,0,label="ROC N/A for >2 groups")) + xlab(NULL)
+      , plot_roc          = ggplot() + theme_void() + geom_text(aes(0,0,label="ROC N/A for > 2 groups")) + xlab(NULL)
+      , roc_curve         = NULL
+      )
+    return(out)
+  }
+
+  if ((labels_true   |> unique() |> length()) < 2) {
+    warning("erikmisc::e_plot_roc: Has only one class, requires two classes for ROC at this time")
+    out <-
+      list(
+        roc_curve_best    = NULL
+      , pred_positive     = NULL
+      , confusion_matrix  = NULL
+      , plot_roc          = ggplot() + theme_void() + geom_text(aes(0,0,label="ROC N/A for < 2 groups")) + xlab(NULL)
       , roc_curve         = NULL
       )
     return(out)
