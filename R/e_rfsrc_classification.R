@@ -11,6 +11,7 @@
 #' @param plot_title              title for plots
 #' @param out_path                path to save output
 #' @param file_prefix             file prefix for saved output
+#' @param var_subgroup_analysis   variable(s) list (in \code{c(var1, var2)}) for subgroup analysis (group-specific ROC curves and confusion matrices) using ROC threshold from non-subgroup ROC curve, or \code{NULL} for none
 #' @param plot_format             plot format supported by \code{ggplot2::ggsave()}
 #' @param n_marginal_plot_across  for partial and marginal plots, number of plots per row (increase if not all plots are displayed)
 #' @param sw_imbalanced_binary    T/F to use standard or imbalanced binary classification with \code{rfsrc::imbalanced()}.  It is recommended to increase ntree to \code{5 * sw_rfsrc_ntree}.
@@ -226,9 +227,11 @@ e_rfsrc_classification <-
   , plot_title              = "Random Forest"
   , out_path                = "out_sel"
   , file_prefix             = "out_e_rf"
+  , var_subgroup_analysis   = NULL
   , plot_format             = c("png", "pdf")[1]
   , n_marginal_plot_across  = 6
   , sw_imbalanced_binary    = c(FALSE, TRUE)[1]
+  , sw_threshold_to_use     = c(FALSE, TRUE)[1]
   , sw_quick_full_only      = c(FALSE, TRUE)[1]
   ) {
   ## dat_rf_class <-
@@ -636,7 +639,7 @@ e_rfsrc_classification <-
     threshold_gmean   <-
       randomForestSRC::get.imbalanced.optimize(
         o_class_full
-      , measure = "gmean"
+      , measure = c("gmean", "F1", "F1mod", "F1modgmean")[1]
       , plot.it = FALSE
       )["threshold"] |>
       as.numeric()
@@ -768,7 +771,7 @@ e_rfsrc_classification <-
   )
 
   if (sw_imbalanced_binary == c(FALSE, TRUE)[1]) {
-    threshold_to_use = NULL
+    threshold_to_use <- NULL
     out_roc_temp <- list()
     for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
       out_roc <-
@@ -786,14 +789,16 @@ e_rfsrc_classification <-
 
       out_roc_temp[[ n_target ]] <- out_roc
     } # n_target
-  }
+  } # sw_imbalanced_binary FALSE
   if (sw_imbalanced_binary == c(FALSE, TRUE)[2]) {
     out_roc_temp <- list()
     for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
       if (n_target == levels(dat_rf_data[[ rf_y_var ]])[1]) {
-        threshold_to_use = threshold_gmean
+        threshold_to_use <- threshold_gmean
+        #threshold_to_use <- threshold_default
       } else {
-        threshold_to_use = 1 - threshold_gmean - 1e-10
+        threshold_to_use <- 1 - threshold_gmean - 1e-10
+        #threshold_to_use <- 1 - threshold_default - 1e-10
       }
       out_roc <-
         e_plot_roc(
@@ -810,39 +815,141 @@ e_rfsrc_classification <-
 
       out_roc_temp[[ n_target ]] <- out_roc
     } # n_target
-  }
-
+  } # sw_imbalanced_binary TRUE
 
   # hierarchy: reorder ROC objects by type (rather than target)
-  out[[ "o_class_full_ROC" ]] <- list()
-  for (n_object in names(out_roc_temp[[ 1 ]])) {
-    ## n_object = names(out_roc_temp[[ 1 ]])[1]
-    out[[ "o_class_full_ROC" ]][[ n_object ]] <- list()
+  out[[ "o_class_full_ROC" ]] <-
+    out_roc_temp |>
+    e_plot_roc_reorder_hierarchy()
 
-    for (n_target in names(out_roc_temp)) {
-      ## n_target = names(out_roc_temp)[1]
-      out[[ "o_class_full_ROC" ]][[ n_object ]][[ n_target ]] <-
-        out_roc_temp[[ n_target ]][[ n_object ]]
 
-      if (n_object == "roc_curve_best") {
-        out[[ "o_class_full_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "o_class_full_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
-      if (n_object == "roc_curve") {
-        out[[ "o_class_full_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "o_class_full_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
-
-    }
+  if (!all(var_subgroup_analysis %in% names(dat_rf_data))) {
+    e_log_write(
+      paste0(
+        "Full model, plot ROC curves (subgroups: "
+      , paste0(var_subgroup_analysis, collapse = ", ")
+      , ") -- variables not in dataset"
+      )
+    , log_obj     = log_obj
+    , i_level     = 3
+    )
+    var_subgroup_analysis <- NULL
   }
+
+  # Subgroup analysis
+  if (!is.null(var_subgroup_analysis)) {
+
+    e_log_write(
+      paste0(
+        "Full model, plot ROC curves (subgroups: "
+      , paste0(var_subgroup_analysis, collapse = ", ")
+      , ")"
+      )
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
+
+    if(length(var_subgroup_analysis) == 1) {
+      tab_list_subgroup_analysis_levels <-
+        dat_rf_class |>
+        tidyr::expand(
+          tidyr::nesting(
+            !!rlang::sym(var_subgroup_analysis[1])
+          )
+        )
+    }
+    if(length(var_subgroup_analysis) == 2) {
+      tab_list_subgroup_analysis_levels <-
+        dat_rf_class |>
+        tidyr::expand(
+          tidyr::nesting(
+            !!rlang::sym(var_subgroup_analysis[1])
+          , !!rlang::sym(var_subgroup_analysis[2])
+          )
+        )
+    }
+    if(length(var_subgroup_analysis) == 3) {
+      tab_list_subgroup_analysis_levels <-
+        dat_rf_class |>
+        tidyr::expand(
+          tidyr::nesting(
+            !!rlang::sym(var_subgroup_analysis[1])
+          , !!rlang::sym(var_subgroup_analysis[2])
+          , !!rlang::sym(var_subgroup_analysis[3])
+          )
+        )
+    }
+    if(length(var_subgroup_analysis) > 3) {
+      warning("erikmisc::e_rfsrc_classification: No more than 3 subgroup analysis variables implemented")
+    }
+
+    tab_list_subgroup_analysis_levels <-
+      tab_list_subgroup_analysis_levels |>
+      dplyr::mutate(
+        dplyr::across(dplyr::where(is.factor), as.character)
+      )
+
+
+    out[[ "o_class_full_ROC_subgroup" ]] <- list()
+
+    for (i_row in seq_len(nrow(tab_list_subgroup_analysis_levels))) {
+      ## i_row = 1
+      ind_subgroup <-
+        tibble::tibble(
+          all = rep(TRUE, nrow(dat_rf_data))
+        )
+      for (n_col in colnames(tab_list_subgroup_analysis_levels)) {
+        ## n_col = colnames(tab_list_subgroup_analysis_levels)[1]
+        ind_subgroup <-
+          ind_subgroup |>
+          dplyr::bind_cols(
+            {{n_col}} :=
+              dat_rf_data[[ n_col ]] ==
+              dplyr::pull(tab_list_subgroup_analysis_levels[i_row, n_col])
+          )
+
+      } # for i_col
+
+      # which indices for subgroup
+      ind_subgroup <- which(apply(ind_subgroup, 1, all))
+
+      out_roc_temp <- list()
+      for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+        threshold_to_use <- out[[ "o_class_full_ROC" ]][[ "roc_curve_best" ]][[ n_target ]]$thresh
+        out_roc <-
+          e_plot_roc(
+            labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)[ind_subgroup]
+          , pred_values_pos   = o_class_full$predicted.oob[ind_subgroup, n_target]
+          , label_neg_pos     = c(0, 1)
+          , sw_plot           = !sw_quick_full_only #TRUE
+          , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+          , sw_caption_desc   = FALSE
+          , threshold_to_use  = threshold_to_use
+          )
+        #p <- out$plot_roc
+        out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+
+        label_subgroup <-
+          paste0(
+            colnames(tab_list_subgroup_analysis_levels[i_row,])
+          , " = "
+          , tab_list_subgroup_analysis_levels[i_row,] |> as.character()
+          , collapse = ", "
+          )
+        out_roc$plot_roc <- out_roc$plot_roc + labs(subtitle = paste0("Subgroup:  ", label_subgroup))
+        out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+
+        out_roc_temp[[ n_target ]] <- out_roc
+      } # n_target
+
+      # hierarchy: reorder ROC objects by type (rather than target)
+      out[[ "o_class_full_ROC_subgroup" ]][[ label_subgroup ]] <-
+        out_roc_temp |>
+        e_plot_roc_reorder_hierarchy()
+
+    } # for i_row
+
+  } # var_subgroup_analysis
 
   # sw_quick_full_only ends here
   if(sw_quick_full_only) {
@@ -950,6 +1057,144 @@ e_rfsrc_classification <-
       )
   } # i_level
 
+
+  # Subgroup analysis
+  if (!is.null(var_subgroup_analysis)) {
+    for (n_subgroup in names(out[[ "o_class_full_ROC_subgroup" ]])) {
+      ## n_subgroup = names(out[[ "o_class_full_ROC_subgroup" ]])[1]
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_ROC"
+              , "__"
+              , "subgroup"
+              , "__"
+              , n_subgroup
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            cowplot::plot_grid(
+              plotlist = out[[ "o_class_full_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc
+            ,  nrow = 1
+            ) +
+            patchwork::plot_annotation(
+            #labs(
+              title     = plot_title
+            , subtitle  = "Full model, ROC Curves, Subgroups"
+            #, caption   = paste0(
+            #                ""
+            #              )
+            , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+            )
+        , width  = 5 * length(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        )
+    } # n_subgroup
+  } # var_subgroup_analysis
+
+  # Subgroup analysis
+  if (!is.null(var_subgroup_analysis)) {
+    for (n_subgroup in names(out[[ "o_class_full_ROC_subgroup" ]])) {
+      for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+        ggplot2::ggsave(
+            filename =
+              file.path(
+                out_path
+              , paste0(
+                  file_prefix
+                , "__"
+                , "plot_o_class_full_ROC"
+                , "__"
+                , "subgroup"
+                , "__"
+                , n_subgroup
+                , "_"
+                , i_level
+                , "-"
+                , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+                , "."
+                , plot_format
+                )
+              )
+          , plot   =
+              out[[ "o_class_full_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc[[ i_level ]] +
+              patchwork::plot_annotation(
+              #labs(
+              #  title     = plot_title
+              #, subtitle  = "Full model, ROC Curves"
+              #, caption   = paste0(
+              #                ""
+              #              )
+              , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+              )
+          , width  = 4
+          , height = 4.5
+          ## png, jpeg
+          , dpi    = 300
+          , bg     = "white"
+          ## pdf
+          , units  = "in"
+          #, useDingbats = FALSE
+          )
+      } # i_level
+
+      ## n_subgroup = names(out[[ "o_class_full_ROC_subgroup" ]])[1]
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_ROC"
+              , "__"
+              , "subgroup"
+              , "__"
+              , n_subgroup
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            cowplot::plot_grid(
+              plotlist = out[[ "o_class_full_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc
+            ,  nrow = 1
+            ) +
+            patchwork::plot_annotation(
+            #labs(
+              title     = plot_title
+            , subtitle  = "Full model, ROC Curves, Subgroups"
+            #, caption   = paste0(
+            #                ""
+            #              )
+            , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+            )
+        , width  = 5 * length(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        )
+    } # n_subgroup
+  } # var_subgroup_analysis
+
+
+
   # cowplot::plot_grid(out[[ "plot_o_class_full" ]])
 
   ### Variable Importance (also for variable selection)
@@ -1052,8 +1297,6 @@ e_rfsrc_classification <-
       )
 
   } # i_level
-
-
 
 
 
@@ -1584,6 +1827,7 @@ e_rfsrc_classification <-
 
 
 
+  ##############################################################################
   ########################################
   # Selected model
 
@@ -1877,7 +2121,6 @@ e_rfsrc_classification <-
     )
 
 
-# BEGIN ###############################################################################
 
   out_vimp_sel_temp <- list()
   for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
@@ -1929,6 +2172,13 @@ e_rfsrc_classification <-
 
 
 
+  ## ROC via erikmisc
+  e_log_write(
+    "Selected model, ROC curves"
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
+
   # obtains the value of AUC (area under the ROC curve)
   o_class_sel_AUC <-
     randomForestSRC::get.auc(
@@ -1963,9 +2213,85 @@ e_rfsrc_classification <-
   #   out_roc_sel_temp[[ n_target ]] <- out_roc
   # } # n_target
 
+  ##if (sw_imbalanced_binary == c(FALSE, TRUE)[1]) {
+  ##  threshold_to_use <- NULL
+  ##  out_roc_sel_temp <- list()
+  ##  for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+  ##    out_roc <-
+  ##      e_plot_roc(
+  ##        labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+  ##      , pred_values_pos   = o_class_sel$predicted.oob[, n_target]
+  ##      , label_neg_pos     = c(0, 1)
+  ##      , sw_plot           = !sw_quick_full_only #TRUE
+  ##      , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+  ##      , threshold_to_use  = threshold_to_use
+  ##      )
+  ##    #p <- out$plot_roc
+  ##    out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+  ##    out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+  ##
+  ##    out_roc_sel_temp[[ n_target ]] <- out_roc
+  ##  } # n_target
+  ##}
+  ##if (sw_imbalanced_binary == c(FALSE, TRUE)[2]) {
+  ##  out_roc_sel_temp <- list()
+  ##  for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+  ##    if (n_target == levels(dat_rf_data[[ rf_y_var ]])[1]) {
+  ##      threshold_to_use <- threshold_gmean
+  ##    } else {
+  ##      threshold_to_use <- 1 - threshold_gmean - 1e-10
+  ##    }
+  ##    out_roc <-
+  ##      e_plot_roc(
+  ##        labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+  ##      , pred_values_pos   = o_class_sel$predicted.oob[, n_target]
+  ##      , label_neg_pos     = c(0, 1)
+  ##      , sw_plot           = !sw_quick_full_only #TRUE
+  ##      , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+  ##      , threshold_to_use  = threshold_to_use
+  ##      )
+  ##    #p <- out$plot_roc
+  ##    out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+  ##    out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+  ##
+  ##    out_roc_sel_temp[[ n_target ]] <- out_roc
+  ##  } # n_target
+  ##}
+  ##
+  ### hierarchy: reorder ROC objects by type (rather than target)
+  ##out[[ "o_class_sel_ROC" ]] <- list()
+  ##for (n_object in names(out_roc_sel_temp[[ 1 ]])) {
+  ##  ## n_object = names(out_roc_sel_temp[[ 1 ]])[1]
+  ##  out[[ "o_class_sel_ROC" ]][[ n_object ]] <- list()
+  ##
+  ##  for (n_target in names(out_roc_sel_temp)) {
+  ##    ## n_target = names(out_roc_sel_temp)[1]
+  ##    out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+  ##      out_roc_sel_temp[[ n_target ]][[ n_object ]]
+  ##
+  ##    if (n_object == "roc_curve_best") {
+  ##      out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+  ##        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+  ##        dplyr::mutate(
+  ##          Group = n_target
+  ##        ) |>
+  ##        dplyr::relocate(Group)
+  ##    }
+  ##    if (n_object == "roc_curve") {
+  ##      out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
+  ##        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
+  ##        dplyr::mutate(
+  ##          Group = n_target
+  ##        ) |>
+  ##        dplyr::relocate(Group)
+  ##    }
+  ##
+  ##  }
+  ##}
+
   if (sw_imbalanced_binary == c(FALSE, TRUE)[1]) {
-    threshold_to_use = NULL
-    out_roc_sel_temp <- list()
+    threshold_to_use <- NULL
+    out_roc_temp <- list()
     for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
       out_roc <-
         e_plot_roc(
@@ -1980,16 +2306,18 @@ e_rfsrc_classification <-
       out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
       out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
 
-      out_roc_sel_temp[[ n_target ]] <- out_roc
+      out_roc_temp[[ n_target ]] <- out_roc
     } # n_target
-  }
+  } # sw_imbalanced_binary FALSE
   if (sw_imbalanced_binary == c(FALSE, TRUE)[2]) {
-    out_roc_sel_temp <- list()
+    out_roc_temp <- list()
     for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
       if (n_target == levels(dat_rf_data[[ rf_y_var ]])[1]) {
-        threshold_to_use = threshold_gmean
+        threshold_to_use <- threshold_gmean
+        #threshold_to_use <- threshold_default
       } else {
-        threshold_to_use = 1 - threshold_gmean - 1e-10
+        threshold_to_use <- 1 - threshold_gmean - 1e-10
+        #threshold_to_use <- 1 - threshold_default - 1e-10
       }
       out_roc <-
         e_plot_roc(
@@ -2004,40 +2332,130 @@ e_rfsrc_classification <-
       out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
       out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
 
-      out_roc_sel_temp[[ n_target ]] <- out_roc
+      out_roc_temp[[ n_target ]] <- out_roc
     } # n_target
-  }
+  } # sw_imbalanced_binary TRUE
 
   # hierarchy: reorder ROC objects by type (rather than target)
-  out[[ "o_class_sel_ROC" ]] <- list()
-  for (n_object in names(out_roc_sel_temp[[ 1 ]])) {
-    ## n_object = names(out_roc_sel_temp[[ 1 ]])[1]
-    out[[ "o_class_sel_ROC" ]][[ n_object ]] <- list()
+  out[[ "o_class_sel_ROC" ]] <-
+    out_roc_temp |>
+    e_plot_roc_reorder_hierarchy()
 
-    for (n_target in names(out_roc_sel_temp)) {
-      ## n_target = names(out_roc_sel_temp)[1]
-      out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-        out_roc_sel_temp[[ n_target ]][[ n_object ]]
 
-      if (n_object == "roc_curve_best") {
-        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
-      if (n_object == "roc_curve") {
-        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
+  # Subgroup analysis
+  if (!is.null(var_subgroup_analysis)) {
 
+    e_log_write(
+      paste0(
+        "Full model, plot ROC curves (subgroups: "
+      , paste0(var_subgroup_analysis, collapse = ", ")
+      , ")"
+      )
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
+
+    if(length(var_subgroup_analysis) == 1) {
+      tab_list_subgroup_analysis_levels <-
+        dat_rf_class |>
+        tidyr::expand(
+          tidyr::nesting(
+            !!rlang::sym(var_subgroup_analysis[1])
+          )
+        )
     }
-  }
+    if(length(var_subgroup_analysis) == 2) {
+      tab_list_subgroup_analysis_levels <-
+        dat_rf_class |>
+        tidyr::expand(
+          tidyr::nesting(
+            !!rlang::sym(var_subgroup_analysis[1])
+          , !!rlang::sym(var_subgroup_analysis[2])
+          )
+        )
+    }
+    if(length(var_subgroup_analysis) == 3) {
+      tab_list_subgroup_analysis_levels <-
+        dat_rf_class |>
+        tidyr::expand(
+          tidyr::nesting(
+            !!rlang::sym(var_subgroup_analysis[1])
+          , !!rlang::sym(var_subgroup_analysis[2])
+          , !!rlang::sym(var_subgroup_analysis[3])
+          )
+        )
+    }
+    if(length(var_subgroup_analysis) > 3) {
+      warning("erikmisc::e_rfsrc_classification: No more than 3 subgroup analysis variables implemented")
+    }
+
+    tab_list_subgroup_analysis_levels <-
+      tab_list_subgroup_analysis_levels |>
+      dplyr::mutate(
+        dplyr::across(dplyr::where(is.factor), as.character)
+      )
+
+
+    out[[ "o_class_sel_ROC_subgroup" ]] <- list()
+
+    for (i_row in seq_len(nrow(tab_list_subgroup_analysis_levels))) {
+      ## i_row = 1
+      ind_subgroup <-
+        tibble::tibble(
+          all = rep(TRUE, nrow(dat_rf_data))
+        )
+      for (n_col in colnames(tab_list_subgroup_analysis_levels)) {
+        ## n_col = colnames(tab_list_subgroup_analysis_levels)[1]
+        ind_subgroup <-
+          ind_subgroup |>
+          dplyr::bind_cols(
+            {{n_col}} :=
+              dat_rf_data[[ n_col ]] ==
+              dplyr::pull(tab_list_subgroup_analysis_levels[i_row, n_col])
+          )
+
+      } # for i_col
+
+      # which indices for subgroup
+      ind_subgroup <- which(apply(ind_subgroup, 1, all))
+
+      out_roc_temp <- list()
+      for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+        threshold_to_use <- out[[ "o_class_sel_ROC" ]][[ "roc_curve_best" ]][[ n_target ]]$thresh
+        out_roc <-
+          e_plot_roc(
+            labels_true       = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)[ind_subgroup]
+          , pred_values_pos   = o_class_sel$predicted.oob[ind_subgroup, n_target]
+          , label_neg_pos     = c(0, 1)
+          , sw_plot           = !sw_quick_full_only #TRUE
+          , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
+          , sw_caption_desc   = FALSE
+          , threshold_to_use  = threshold_to_use
+          )
+        #p <- out$plot_roc
+        out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+
+        label_subgroup <-
+          paste0(
+            colnames(tab_list_subgroup_analysis_levels[i_row,])
+          , " = "
+          , tab_list_subgroup_analysis_levels[i_row,] |> as.character()
+          , collapse = ", "
+          )
+        out_roc$plot_roc <- out_roc$plot_roc + labs(subtitle = paste0("Subgroup:  ", label_subgroup))
+        out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+
+        out_roc_temp[[ n_target ]] <- out_roc
+      } # n_target
+
+      # hierarchy: reorder ROC objects by type (rather than target)
+      out[[ "o_class_sel_ROC_subgroup" ]][[ label_subgroup ]] <-
+        out_roc_temp |>
+        e_plot_roc_reorder_hierarchy()
+
+    } # for i_row
+
+  } # var_subgroup_analysis
 
   readr::write_csv(
     x = out[[ "o_class_sel_ROC" ]]$roc_curve_best |> dplyr::bind_rows()
@@ -2133,6 +2551,97 @@ e_rfsrc_classification <-
       )
   } # i_level
 
+
+  # Subgroup analysis
+  if (!is.null(var_subgroup_analysis)) {
+    for (n_subgroup in names(out[[ "o_class_sel_ROC_subgroup" ]])) {
+      ## n_subgroup = names(out[[ "o_class_sel_ROC_subgroup" ]])[1]
+      for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+        ggplot2::ggsave(
+            filename =
+              file.path(
+                out_path
+              , paste0(
+                  file_prefix
+                , "__"
+                , "plot_o_class_sel_ROC"
+                , "__"
+                , "subgroup"
+                , "__"
+                , n_subgroup
+                , "_"
+                , i_level
+                , "-"
+                , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+                , "."
+                , plot_format
+                )
+              )
+          , plot   =
+              out[[ "o_class_sel_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc[[ i_level ]] +
+              patchwork::plot_annotation(
+              #labs(
+              #  title     = plot_title
+              #, subtitle  = "Selected model, ROC Curves"
+              #, caption   = paste0(
+              #                ""
+              #              )
+              , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+              )
+          , width  = 4
+          , height = 4.5
+          ## png, jpeg
+          , dpi    = 300
+          , bg     = "white"
+          ## pdf
+          , units  = "in"
+          #, useDingbats = FALSE
+          )
+      } # i_level
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_sel_ROC"
+              , "__"
+              , "subgroup"
+              , "__"
+              , n_subgroup
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            cowplot::plot_grid(
+              plotlist = out[[ "o_class_sel_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc
+            ,  nrow = 1
+            ) +
+            patchwork::plot_annotation(
+            #labs(
+              title     = plot_title
+            , subtitle  = "Selected model, ROC Curves, Subgroups"
+            #, caption   = paste0(
+            #                ""
+            #              )
+            , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+            )
+        , width  = 5 * length(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        )
+    } # n_subgroup
+  } # var_subgroup_analysis
+
+
   # VIMP and ROC for each target
   for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
     ## i_level = 1
@@ -2181,7 +2690,6 @@ e_rfsrc_classification <-
       )
   } # i_level
 
-# END ###############################################################################
 
   ### Confidence intervals and standard errors for VIMP (variable importance)
   e_log_write(
@@ -2533,173 +3041,148 @@ e_rfsrc_classification <-
     ## }
 
 
-
-  ### ROC Curve
-  e_log_write(
-    "Selected model, ROC Curve"
-  , log_obj     = log_obj
-  , i_level     = 2
-  )
-
-  # obtains the value of AUC (area under the ROC curve)
-  o_class_sel_AUC <-
-    randomForestSRC::get.auc(
-      y    = dat_rf_data[[ rf_y_var ]]
-    , prob = o_class_sel$predicted.oob
-    )
-  out[[ "o_class_sel_AUC" ]] <-
-    o_class_sel_AUC
-
-  e_log_write(
-    paste0("Selected model, o_class_sel_AUC: ", o_class_sel_AUC)
-  , log_obj     = log_obj
-  , i_level     = 2
-  )
-
-
-  ## ROC via erikmisc
-  out_roc_temp <- list()
-  for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
-    out_roc <-
-      e_plot_roc(
-        labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
-      , pred_values_pos = o_class_sel$predicted.oob[, n_target]
-      , label_neg_pos   = c(0, 1)
-      , sw_plot         = !sw_quick_full_only #TRUE
-      , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
-      )
-    #p <- out$plot_roc
-    out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
-    out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
-
-    out_roc_temp[[ n_target ]] <- out_roc
-  } # n_target
-
-  # hierarchy: reorder ROC objects by type (rather than target)
-  out[[ "o_class_sel_ROC" ]] <- list()
-  for (n_object in names(out_roc_temp[[ 1 ]])) {
-    ## n_object = names(out_roc_temp[[ 1 ]])[1]
-    out[[ "o_class_sel_ROC" ]][[ n_object ]] <- list()
-
-    for (n_target in names(out_roc_temp)) {
-      ## n_target = names(out_roc_temp)[1]
-      out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-        out_roc_temp[[ n_target ]][[ n_object ]]
-
-      if (n_object == "roc_curve_best") {
-        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
-      if (n_object == "roc_curve") {
-        out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] <-
-          out[[ "o_class_sel_ROC" ]][[ n_object ]][[ n_target ]] |>
-          dplyr::mutate(
-            Group = n_target
-          ) |>
-          dplyr::relocate(Group)
-      }
-
-    }
-  }
-
-  readr::write_csv(
-    x = out[[ "o_class_sel_ROC" ]]$roc_curve_best |> dplyr::bind_rows()
-  , file =
-      file.path(
-        out_path
-      , paste0(
-          file_prefix
-        , "__"
-        , "o_class_sel_ROC"
-        , ".csv"
-        )
-      )
-  )
-
-
-  out[[ "plot_o_class_sel_ROC" ]] <-
-    patchwork::wrap_elements(
-      full =
-        cowplot::plot_grid(plotlist = out$o_class_sel_ROC$plot_roc, nrow = 1)
-    ) +
-    patchwork::plot_annotation(
-    #labs(
-      title     = plot_title
-    , subtitle  = "Selected model, ROC Curves"
-    #, caption   = paste0(
-    #                ""
-    #              )
-    , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-    )
-    # +
-    #theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-
-  ggplot2::ggsave(
-      filename =
-        file.path(
-          out_path
-        , paste0(
-            file_prefix
-          , "__"
-          , "plot_o_class_sel_ROC"
-          , "."
-          , plot_format
-          )
-        )
-    , plot   =
-        out[[ "plot_o_class_sel_ROC" ]]
-    , width  = 5 * length(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))
-    , height = 6
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    )
-
-  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_sel_ROC"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-            , "."
-            , plot_format
-            )
-          )
-      , plot   =
-          out$o_class_sel_ROC$plot_roc[[ i_level ]] +
-          patchwork::plot_annotation(
-          #labs(
-            title     = plot_title
-          , subtitle  = "Selected model, ROC Curves"
-          #, caption   = paste0(
-          #                ""
-          #              )
-          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-          )
-      , width  = 5
-      , height = 6
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      )
-  } # i_level
+  #### duplicate to code above
+  ## # XXX 1/8/2024 8:27PM
+  ## ### ROC Curve
+  ## e_log_write(
+  ##   "Selected model, ROC Curve"
+  ## , log_obj     = log_obj
+  ## , i_level     = 2
+  ## )
+  ##
+  ## # obtains the value of AUC (area under the ROC curve)
+  ## o_class_sel_AUC <-
+  ##   randomForestSRC::get.auc(
+  ##     y    = dat_rf_data[[ rf_y_var ]]
+  ##   , prob = o_class_sel$predicted.oob
+  ##   )
+  ## out[[ "o_class_sel_AUC" ]] <-
+  ##   o_class_sel_AUC
+  ##
+  ## e_log_write(
+  ##   paste0("Selected model, o_class_sel_AUC: ", o_class_sel_AUC)
+  ## , log_obj     = log_obj
+  ## , i_level     = 2
+  ## )
+  ##
+  ##
+  ## ## ROC via erikmisc
+  ## out_roc_temp <- list()
+  ## for (n_target in levels(dat_rf_data[[ rf_y_var ]])) {
+  ##   out_roc <-
+  ##     e_plot_roc(
+  ##       labels_true     = ifelse(dat_rf_data[[ rf_y_var ]] == n_target, 1, 0)
+  ##     , pred_values_pos = o_class_sel$predicted.oob[, n_target]
+  ##     , label_neg_pos   = c(0, 1)
+  ##     , sw_plot         = !sw_quick_full_only #TRUE
+  ##     , cm_mode         = c("sens_spec", "prec_recall", "everything")[3]
+  ##     )
+  ##   #p <- out$plot_roc
+  ##   out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+  ##   out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+  ##
+  ##   out_roc_temp[[ n_target ]] <- out_roc
+  ## } # n_target
+  ##
+  ## # hierarchy: reorder ROC objects by type (rather than target)
+  ## out[[ "o_class_sel_ROC" ]] <-
+  ##   out_roc_temp |>
+  ##   e_plot_roc_reorder_hierarchy()
+  ##
+  ## readr::write_csv(
+  ##   x = out[[ "o_class_sel_ROC" ]]$roc_curve_best |> dplyr::bind_rows()
+  ## , file =
+  ##     file.path(
+  ##       out_path
+  ##     , paste0(
+  ##         file_prefix
+  ##       , "__"
+  ##       , "o_class_sel_ROC"
+  ##       , ".csv"
+  ##       )
+  ##     )
+  ## )
+  ##
+  ##
+  ## out[[ "plot_o_class_sel_ROC" ]] <-
+  ##   patchwork::wrap_elements(
+  ##     full =
+  ##       cowplot::plot_grid(plotlist = out$o_class_sel_ROC$plot_roc, nrow = 1)
+  ##   ) +
+  ##   patchwork::plot_annotation(
+  ##   #labs(
+  ##     title     = plot_title
+  ##   , subtitle  = "Selected model, ROC Curves"
+  ##   #, caption   = paste0(
+  ##   #                ""
+  ##   #              )
+  ##   , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+  ##   )
+  ##   # +
+  ##   #theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+  ##
+  ## ggplot2::ggsave(
+  ##     filename =
+  ##       file.path(
+  ##         out_path
+  ##       , paste0(
+  ##           file_prefix
+  ##         , "__"
+  ##         , "plot_o_class_sel_ROC"
+  ##         , "."
+  ##         , plot_format
+  ##         )
+  ##       )
+  ##   , plot   =
+  ##       out[[ "plot_o_class_sel_ROC" ]]
+  ##   , width  = 5 * length(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))
+  ##   , height = 6
+  ##   ## png, jpeg
+  ##   , dpi    = 300
+  ##   , bg     = "white"
+  ##   ## pdf
+  ##   , units  = "in"
+  ##   #, useDingbats = FALSE
+  ##   )
+  ##
+  ## for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+  ##   ggplot2::ggsave(
+  ##       filename =
+  ##         file.path(
+  ##           out_path
+  ##         , paste0(
+  ##             file_prefix
+  ##           , "__"
+  ##           , "plot_o_class_sel_ROC"
+  ##           , "_"
+  ##           , i_level
+  ##           , "-"
+  ##           , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+  ##           , "."
+  ##           , plot_format
+  ##           )
+  ##         )
+  ##     , plot   =
+  ##         out$o_class_sel_ROC$plot_roc[[ i_level ]] +
+  ##         patchwork::plot_annotation(
+  ##         #labs(
+  ##           title     = plot_title
+  ##         , subtitle  = "Selected model, ROC Curves"
+  ##         #, caption   = paste0(
+  ##         #                ""
+  ##         #              )
+  ##         , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+  ##         )
+  ##     , width  = 5
+  ##     , height = 6
+  ##     ## png, jpeg
+  ##     , dpi    = 300
+  ##     , bg     = "white"
+  ##     ## pdf
+  ##     , units  = "in"
+  ##     #, useDingbats = FALSE
+  ##     )
+  ## } # i_level
 
 
   #out[[ "plot_o_class_sel_ROC" ]] <- p_list

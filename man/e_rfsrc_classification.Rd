@@ -16,9 +16,11 @@ e_rfsrc_classification(
   plot_title = "Random Forest",
   out_path = "out_sel",
   file_prefix = "out_e_rf",
+  var_subgroup_analysis = NULL,
   plot_format = c("png", "pdf")[1],
   n_marginal_plot_across = 6,
   sw_imbalanced_binary = c(FALSE, TRUE)[1],
+  sw_threshold_to_use = c(FALSE, TRUE)[1],
   sw_quick_full_only = c(FALSE, TRUE)[1]
 )
 }
@@ -44,6 +46,8 @@ e_rfsrc_classification(
 \item{out_path}{path to save output}
 
 \item{file_prefix}{file prefix for saved output}
+
+\item{var_subgroup_analysis}{variable(s) list (in \code{c(var1, var2)}) for subgroup analysis (group-specific ROC curves and confusion matrices) using ROC threshold from non-subgroup ROC curve, or \code{NULL} for none}
 
 \item{plot_format}{plot format supported by \code{ggplot2::ggsave()}}
 
