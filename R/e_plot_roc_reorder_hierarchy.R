@@ -25,6 +25,10 @@ e_plot_roc_reorder_hierarchy <-
       list_roc_reorder[[ n_object ]][[ n_target ]] <-
         list_roc[[ n_target ]][[ n_object ]]
 
+      if(is.null(list_roc_reorder[[ n_object ]][[ n_target ]])) {
+        next
+      }
+
       if (n_object == "roc_curve_best") {
         list_roc_reorder[[ n_object ]][[ n_target ]] <-
           list_roc_reorder[[ n_object ]][[ n_target ]] |>
