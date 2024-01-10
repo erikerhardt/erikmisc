@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.12</span>
       </span>
     </div>
 
@@ -62,9 +62,11 @@
 <span>  plot_title <span class="op">=</span> <span class="st">"Random Forest"</span>,</span>
 <span>  out_path <span class="op">=</span> <span class="st">"out_sel"</span>,</span>
 <span>  file_prefix <span class="op">=</span> <span class="st">"out_e_rf"</span>,</span>
+<span>  var_subgroup_analysis <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  plot_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  n_marginal_plot_across <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  sw_imbalanced_binary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  sw_threshold_to_use <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  sw_quick_full_only <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -113,6 +115,10 @@
 
 <dt>file_prefix</dt>
 <dd><p>file prefix for saved output</p></dd>
+
+
+<dt>var_subgroup_analysis</dt>
+<dd><p>variable(s) list (in <code>c(var1, var2)</code>) for subgroup analysis (group-specific ROC curves and confusion matrices) using ROC threshold from non-subgroup ROC curve, or <code>NULL</code> for none</p></dd>
 
 
 <dt>plot_format</dt>

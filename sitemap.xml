@@ -238,6 +238,9 @@
     <loc>/reference/e_plot_roc.html</loc>
   </url>
   <url>
+    <loc>/reference/e_plot_roc_reorder_hierarchy.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_plot_scatterplot.html</loc>
   </url>
   <url>
@@ -245,6 +248,9 @@
   </url>
   <url>
     <loc>/reference/e_plot_ttest_pval.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_print_list_tree_hierarchy.html</loc>
   </url>
   <url>
     <loc>/reference/e_pval_stars.html</loc>
