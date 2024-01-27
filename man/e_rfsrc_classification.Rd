@@ -55,6 +55,8 @@ e_rfsrc_classification(
 
 \item{sw_imbalanced_binary}{T/F to use standard or imbalanced binary classification with \code{rfsrc::imbalanced()}.  It is recommended to increase ntree to \code{5 * sw_rfsrc_ntree}.}
 
+\item{sw_threshold_to_use}{T/F NOT YET USED XXX}
+
 \item{sw_quick_full_only}{T/F to only fit full model and return model object}
 }
 \value{

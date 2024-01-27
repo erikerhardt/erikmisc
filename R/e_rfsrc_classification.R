@@ -15,6 +15,7 @@
 #' @param plot_format             plot format supported by \code{ggplot2::ggsave()}
 #' @param n_marginal_plot_across  for partial and marginal plots, number of plots per row (increase if not all plots are displayed)
 #' @param sw_imbalanced_binary    T/F to use standard or imbalanced binary classification with \code{rfsrc::imbalanced()}.  It is recommended to increase ntree to \code{5 * sw_rfsrc_ntree}.
+#' @param sw_threshold_to_use     T/F NOT YET USED XXX
 #' @param sw_quick_full_only      T/F to only fit full model and return model object
 #'
 #' @return list with many RF objects, summaries, and plots
@@ -783,9 +784,11 @@ e_rfsrc_classification <-
         , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
         , threshold_to_use  = threshold_to_use
         )
-      #p <- out$plot_roc
-      out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
-      out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+      if(!sw_quick_full_only) {
+        #p <- out$plot_roc
+        out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+        out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+      }
 
       out_roc_temp[[ n_target ]] <- out_roc
     } # n_target
@@ -809,9 +812,11 @@ e_rfsrc_classification <-
         , cm_mode           = c("sens_spec", "prec_recall", "everything")[3]
         , threshold_to_use  = threshold_to_use
         )
-      #p <- out$plot_roc
-      out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
-      out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+      if(!sw_quick_full_only) {
+        #p <- out$plot_roc
+        out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+        out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+      }
 
       out_roc_temp[[ n_target ]] <- out_roc
     } # n_target
@@ -926,9 +931,6 @@ e_rfsrc_classification <-
           , sw_caption_desc   = FALSE
           , threshold_to_use  = threshold_to_use
           )
-        #p <- out$plot_roc
-        out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
-
         label_subgroup <-
           paste0(
             colnames(tab_list_subgroup_analysis_levels[i_row,])
@@ -936,8 +938,13 @@ e_rfsrc_classification <-
           , tab_list_subgroup_analysis_levels[i_row,] |> as.character()
           , collapse = ", "
           )
-        out_roc$plot_roc <- out_roc$plot_roc + labs(subtitle = paste0("Subgroup:  ", label_subgroup))
-        out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+        if(!sw_quick_full_only) {
+          #p <- out$plot_roc
+          out_roc$plot_roc <- out_roc$plot_roc + labs(title = paste0("ROC Curve, Target:  ", n_target))
+
+          out_roc$plot_roc <- out_roc$plot_roc + labs(subtitle = paste0("Subgroup:  ", label_subgroup))
+          out_roc$plot_roc <- out_roc$plot_roc + coord_fixed(ratio = 1) # equal axes
+        }
 
         out_roc_temp[[ n_target ]] <- out_roc
       } # n_target
@@ -2347,7 +2354,7 @@ e_rfsrc_classification <-
 
     e_log_write(
       paste0(
-        "Full model, plot ROC curves (subgroups: "
+        "Selected model, plot ROC curves (subgroups: "
       , paste0(var_subgroup_analysis, collapse = ", ")
       , ")"
       )
