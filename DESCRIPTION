@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.12
-Date: 2024-01-08
+Version: 0.2.13
+Date: 2024-02-20
 Authors@R:
     c(person(
       given = "Erik"
@@ -16,7 +16,7 @@ License: MIT + file LICENSE
 URL: https://github.com/erikerhardt/erikmisc
 BugReports: https://github.com/erikerhardt/erikmisc/issues
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 NeedsCompilation: no

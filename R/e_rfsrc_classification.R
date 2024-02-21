@@ -273,6 +273,9 @@ e_rfsrc_classification <-
   ##   , n_marginal_plot_across = 6
   ##   )
 
+  # for large x, plot_o_class_full_partial_effects may fail
+  options(ragg.max_dim=1e6)
+
   # create output directory, warning if already exists
   dir.create(out_path, showWarnings = FALSE, recursive = TRUE)
 
@@ -434,6 +437,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # !sw_quick_full_only
 
@@ -743,6 +747,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
 
   } # !sw_quick_full_only
@@ -1061,6 +1066,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # i_level
 
@@ -1107,6 +1113,7 @@ e_rfsrc_classification <-
         ## pdf
         , units  = "in"
         #, useDingbats = FALSE
+        , limitsize = FALSE
         )
     } # n_subgroup
   } # var_subgroup_analysis
@@ -1154,6 +1161,7 @@ e_rfsrc_classification <-
           ## pdf
           , units  = "in"
           #, useDingbats = FALSE
+          , limitsize = FALSE
           )
       } # i_level
 
@@ -1196,6 +1204,7 @@ e_rfsrc_classification <-
         ## pdf
         , units  = "in"
         #, useDingbats = FALSE
+        , limitsize = FALSE
         )
     } # n_subgroup
   } # var_subgroup_analysis
@@ -1256,6 +1265,7 @@ e_rfsrc_classification <-
     ## pdf
     , units  = "in"
     #, useDingbats = FALSE
+    , limitsize = FALSE
     )
 
   out_vimp_temp <- list()
@@ -1301,6 +1311,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
 
   } # i_level
@@ -1352,6 +1363,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # i_level
 
@@ -1446,6 +1458,7 @@ e_rfsrc_classification <-
     ## pdf
     , units  = "in"
     #, useDingbats = FALSE
+    , limitsize = FALSE
     )
 
   # cowplot::plot_grid(out[[ "plot_o_class_full_subsample" ]])
@@ -1602,6 +1615,7 @@ e_rfsrc_classification <-
         ## pdf
         , units  = "in"
         #, useDingbats = FALSE
+        , limitsize = FALSE
         )
     } # i_level
 
@@ -1700,6 +1714,7 @@ e_rfsrc_classification <-
         ## pdf
         , units  = "in"
         #, useDingbats = FALSE
+        , limitsize = FALSE
         )
     } # i_level
 
@@ -1816,6 +1831,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
 
     e_log_write(
@@ -2069,6 +2085,7 @@ e_rfsrc_classification <-
     ## pdf
     , units  = "in"
     #, useDingbats = FALSE
+    , limitsize = FALSE
     )
   # cowplot::plot_grid(out[[ "plot_o_class_sel" ]])
 
@@ -2125,6 +2142,7 @@ e_rfsrc_classification <-
     ## pdf
     , units  = "in"
     #, useDingbats = FALSE
+    , limitsize = FALSE
     )
 
 
@@ -2172,6 +2190,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
 
   } # i_level
@@ -2555,6 +2574,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # i_level
 
@@ -2603,6 +2623,7 @@ e_rfsrc_classification <-
           ## pdf
           , units  = "in"
           #, useDingbats = FALSE
+          , limitsize = FALSE
           )
       } # i_level
 
@@ -2644,6 +2665,7 @@ e_rfsrc_classification <-
         ## pdf
         , units  = "in"
         #, useDingbats = FALSE
+        , limitsize = FALSE
         )
     } # n_subgroup
   } # var_subgroup_analysis
@@ -2694,6 +2716,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # i_level
 
@@ -2781,6 +2804,7 @@ e_rfsrc_classification <-
     ## pdf
     , units  = "in"
     #, useDingbats = FALSE
+    , limitsize = FALSE
     )
 
   # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
@@ -2911,6 +2935,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # i_level
 
@@ -3008,6 +3033,7 @@ e_rfsrc_classification <-
       ## pdf
       , units  = "in"
       #, useDingbats = FALSE
+      , limitsize = FALSE
       )
   } # i_level
 
@@ -3287,6 +3313,7 @@ e_rfsrc_classification <-
     ## pdf
     , units  = "in"
     #, useDingbats = FALSE
+    , limitsize = FALSE
     )
 
   e_log_write(

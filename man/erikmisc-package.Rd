@@ -2,7 +2,6 @@
 % Please edit documentation in R/erikmisc-package.R, R/erikmisc.R
 \docType{package}
 \name{erikmisc-package}
-\alias{erikmisc}
 \alias{erikmisc-package}
 \title{erikmisc: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows}
 \description{
