@@ -283,7 +283,7 @@ dat_sheet |> summary()
 
 dat_sheet |>
   erikmisc::e_plot_missing(
-  , var_group           = NULL
+    var_group           = NULL
   , sw_group_sort       = FALSE
   , var2_sort           = NULL
   , sw_title_data_name  = TRUE
