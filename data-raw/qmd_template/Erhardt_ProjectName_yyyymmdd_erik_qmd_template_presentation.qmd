@@ -135,7 +135,7 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
 <!---
 # Erik's compile commands in R:
   setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/qmd_template")
-  fn_qmd <- "erik_qmd_template_presentation.qmd"
+  fn_qmd <- "Erhardt_ProjectName_yyyymmdd_erik_qmd_template_presentation.qmd"
   quarto::quarto_render(input = fn_qmd)
 -->
 
