@@ -7,7 +7,7 @@
 e_ccf_max(
   x1 = NULL,
   x2 = NULL,
-  lag.max = 10,
+  lag_max = c(-10, 5),
   cor_goal = c("max", "min", "abs")[1]
 )
 }
@@ -16,7 +16,7 @@ e_ccf_max(
 
 \item{x2}{time series object}
 
-\item{lag.max}{range of lags, passed to \code{stats::ccf}}
+\item{lag_max}{range of lags, passed to \code{stats::ccf}; can also be two limits \code{c(-10, 5)} for range of lags for x2 to align with x1 (if x2 lags behind, then lag will be negative)}
 
 \item{cor_goal}{\code{"max"} for maximum (typically positive) correlation, \code{"min"} for minimum (typically negative) correlation, \code{"abs"} for maximum absolute correlation (largest positive or negative)}
 }
@@ -43,7 +43,14 @@ dat_ex <-
 e_ccf_max(
     x1        = dat_ex$x1
   , x2        = dat_ex$x2
-  , lag.max   = 10
+  , lag_max   = 10
+  , cor_goal  = c("max", "min", "abs")[3]
+  )
+
+e_ccf_max(
+    x1        = dat_ex$x1
+  , x2        = dat_ex$x2
+  , lag_max   = c(-10, 5)
   , cor_goal  = c("max", "min", "abs")[1]
   )
 

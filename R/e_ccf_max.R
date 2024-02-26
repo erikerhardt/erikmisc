@@ -2,7 +2,7 @@
 #'
 #' @param x1        time series object
 #' @param x2        time series object
-#' @param lag.max   range of lags, passed to \code{stats::ccf}
+#' @param lag_max   range of lags, passed to \code{stats::ccf}; can also be two limits \code{c(-10, 5)} for range of lags for x2 to align with x1 (if x2 lags behind, then lag will be negative)
 #' @param cor_goal  \code{"max"} for maximum (typically positive) correlation, \code{"min"} for minimum (typically negative) correlation, \code{"abs"} for maximum absolute correlation (largest positive or negative)
 #'
 #' @return list cor = maximum correlation, lag = lag to shift x2 to align with x1 for maximum correlation
@@ -25,7 +25,14 @@
 #' e_ccf_max(
 #'     x1        = dat_ex$x1
 #'   , x2        = dat_ex$x2
-#'   , lag.max   = 10
+#'   , lag_max   = 10
+#'   , cor_goal  = c("max", "min", "abs")[3]
+#'   )
+#'
+#' e_ccf_max(
+#'     x1        = dat_ex$x1
+#'   , x2        = dat_ex$x2
+#'   , lag_max   = c(-10, 5)
 #'   , cor_goal  = c("max", "min", "abs")[1]
 #'   )
 #'
@@ -33,11 +40,21 @@ e_ccf_max <-
   function(
     x1        = NULL
   , x2        = NULL
-  , lag.max   = 10
+  , lag_max   = c(-10, 5)
   , cor_goal  = c("max", "min", "abs")[1]
   ) {
   ## x1 = dat_ex$x1
   ## x2 = dat_ex$x2
+
+  if (length(lag_max) == 2) {
+    lag.max <-
+      lag_max |>
+      abs() |>
+      max()
+  } else {
+    lag.max <-
+      lag_max
+  }
 
   out_ccf <-
     stats::ccf(
@@ -48,6 +65,12 @@ e_ccf_max <-
     , plot      = FALSE
     , na.action = na.pass
     )
+
+  if (length(lag_max) == 2) {
+    ind_lags <- out_ccf$lag %in% lag_max[1]:lag_max[2]
+    out_ccf$lag <- out_ccf$lag[ind_lags] |> array(dim = c(length(lag_max[1]:lag_max[2]), 1, 1))
+    out_ccf$acf <- out_ccf$acf[ind_lags] |> array(dim = c(length(lag_max[1]:lag_max[2]), 1, 1))
+  }
 
   if (cor_goal  == c("max", "min", "abs")[1]) {
     ind_max <- which.max(out_ccf$acf)
