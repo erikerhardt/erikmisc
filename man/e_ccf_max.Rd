@@ -24,7 +24,7 @@ e_ccf_max(
 list cor = maximum correlation, lag = lag to shift x2 to align with x1 for maximum correlation
 }
 \description{
-Cross-correlation function, maximum over lags
+\code{x1} is reference, cross-correlation for \code{x2} is calculated and the maximum (see \code{cor_goal}) correlation is returned along with the lag (see \code{lag_max}) at which it is attained.
 }
 \examples{
 n_shift = 4
