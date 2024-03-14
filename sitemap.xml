@@ -301,10 +301,13 @@
     <loc>/reference/e_table_sum_freq_prop.html</loc>
   </url>
   <url>
-    <loc>/reference/e_tc_bootstrap_phase.html</loc>
+    <loc>/reference/e_text_unicode_to_ascii.html</loc>
   </url>
   <url>
-    <loc>/reference/e_text_unicode_to_ascii.html</loc>
+    <loc>/reference/e_ts_bootstrap_phase.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_ts_lowpass_filter_ifft_harmonics.html</loc>
   </url>
   <url>
     <loc>/reference/e_ttest_alt_hyp_text.html</loc>
