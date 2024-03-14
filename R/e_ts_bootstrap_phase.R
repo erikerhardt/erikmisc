@@ -3,14 +3,15 @@
 #' @param x         time series object
 #'
 #' @return x        time series, bootstrapped
+#' @import stats
 #' @export
 #'
 #' @examples
-#' e_tc_bootstrap_phase(
+#' e_ts_bootstrap_phase(
 #'    x = datasets::AirPassengers
 #'  )
 #'
-e_tc_bootstrap_phase <-
+e_ts_bootstrap_phase <-
   function(
     x = NULL
   ) {
@@ -27,5 +28,5 @@ e_tc_bootstrap_phase <-
   ## XXX Scale is very different in result
 
   return(x_boot)
-} # e_tc_bootstrap_phase
+} # e_ts_bootstrap_phase
 
