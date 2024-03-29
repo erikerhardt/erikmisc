@@ -24,7 +24,7 @@ e_scale_align(
 \item{sw_plot}{T/F to plot Reference, Original, and Scaled variables.}
 }
 \value{
-val_scaled        Scaled vector (NAs have been removed)
+var_scaled        Scaled vector (NAs have been removed)
 }
 \description{
 Align the distribution of one empirical distribution to an empirical reference distribution
@@ -32,7 +32,7 @@ Align the distribution of one empirical distribution to an empirical reference d
 \examples{
 set.seed(76543)
 e_scale_align(
-  var_to_scale        = rgamma( 40, shape = 3, rate = 2) + 4
+  var_to_scale        = c(NA, rgamma( 40, shape = 3, rate = 2) + 4, NA)
 , var_ref             = rgamma(100, shape = 3, rate = 1)
 , scale_method        = c("quantile", "zscore")[1]
 , quantiles_to_match  = c(0.1, 0.9)
@@ -40,7 +40,7 @@ e_scale_align(
 )
 set.seed(76543)
 e_scale_align(
-  var_to_scale        = rgamma( 40, shape = 3, rate = 2) + 4
+  var_to_scale        = c(NA, rgamma( 40, shape = 3, rate = 2) + 4, NA)
 , var_ref             = rgamma(100, shape = 3, rate = 1)
 , scale_method        = c("quantile", "zscore")[2]
 , sw_plot             = c(TRUE, FALSE)[1]

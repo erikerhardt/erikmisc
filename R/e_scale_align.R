@@ -6,7 +6,7 @@
 #' @param quantiles_to_match For \code{"quantile"}, which quantiles to match.
 #' @param sw_plot            T/F to plot Reference, Original, and Scaled variables.
 #'
-#' @return val_scaled        Scaled vector (NAs have been removed)
+#' @return var_scaled        Scaled vector (NAs have been removed)
 #' @import ggplot2
 #' @import stats
 #' @importFrom tibble tibble
@@ -16,7 +16,7 @@
 #' @examples
 #' set.seed(76543)
 #' e_scale_align(
-#'   var_to_scale        = rgamma( 40, shape = 3, rate = 2) + 4
+#'   var_to_scale        = c(NA, rgamma( 40, shape = 3, rate = 2) + 4, NA)
 #' , var_ref             = rgamma(100, shape = 3, rate = 1)
 #' , scale_method        = c("quantile", "zscore")[1]
 #' , quantiles_to_match  = c(0.1, 0.9)
@@ -24,7 +24,7 @@
 #' )
 #' set.seed(76543)
 #' e_scale_align(
-#'   var_to_scale        = rgamma( 40, shape = 3, rate = 2) + 4
+#'   var_to_scale        = c(NA, rgamma( 40, shape = 3, rate = 2) + 4, NA)
 #' , var_ref             = rgamma(100, shape = 3, rate = 1)
 #' , scale_method        = c("quantile", "zscore")[2]
 #' , sw_plot             = c(TRUE, FALSE)[1]
@@ -40,12 +40,9 @@ e_scale_align <-
   ### @param sw_mfrow
   ### sw_mfrow            = c(1, 1)
 
-  sw_sim = TRUE
-  # Simulated data
-  if (sw_sim) {
-    var_to_scale  = rgamma(100, shape = 3, rate = 1)
-    var_ref       = rgamma( 40, shape = 3, rate = 2) + 4
-  }
+  # length and indexes of non-NA values
+  n_var_to_scale  <- length(var_to_scale)
+  ind_non_NA      <- which(!is.na(var_to_scale))
 
   # remove NAs
   var_to_scale  = var_to_scale |> na.omit() |> as.numeric()
@@ -61,11 +58,11 @@ e_scale_align <-
     quantile_range_scale <- diff(quantile_scale)
 
     # Scale the difference by the ratio of the quantile ranges
-    val_scaled <-
+    var_scaled <-
       (var_to_scale - quantile_scale[1]) *
       (quantile_range_ref / quantile_range_scale) + quantile_ref[1]
 
-    #var_scaled <- as.numeric(unlist(val_scaled))
+    #var_scaled <- as.numeric(unlist(var_scaled))
   }
 
   if (scale_method == "zscore") {
@@ -73,7 +70,7 @@ e_scale_align <-
     m_sd_scale <- c(mean = mean(var_to_scale, na.rm = TRUE), sd = sd(var_to_scale, na.rm = TRUE))
     m_sd_ref   <- c(mean = mean(var_ref     , na.rm = TRUE), sd = sd(var_ref     , na.rm = TRUE))
 
-    val_scaled <- ((var_to_scale - m_sd_scale["mean"]) / m_sd_scale["sd"]) * m_sd_ref["sd"] + m_sd_ref["mean"]
+    var_scaled <- ((var_to_scale - m_sd_scale["mean"]) / m_sd_scale["sd"]) * m_sd_ref["sd"] + m_sd_ref["mean"]
 
     #var_scaled <- as.numeric(val_scale_z)
   }
@@ -124,6 +121,10 @@ e_scale_align <-
     # par(op)
   } # sw_plot
 
-  return(val_scaled)
+  # place scaled values into list of original length in non-NA positions
+  var_return <- rep(NA, n_var_to_scale)
+  var_return[ind_non_NA] <- var_scaled
+
+  return(var_return)
 
 } # e_scale_align
