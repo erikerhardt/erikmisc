@@ -25,6 +25,10 @@ e_log_shift <-
   , min_add   = NULL
   , base_log  = 2
   ) {
+
+  # keep attributes
+  x_attr <- attributes(x)
+
   # if passed as a column from a tibble, need to make it a list
   x <- as.numeric(unlist(x))
 
@@ -40,6 +44,8 @@ e_log_shift <-
         x + min_add
       , base = base_log
       )
+    # keep attributes
+    attributes(x_log) <- x_attr
     attr(x_log, "e_log_shift") <- c(min_add = min_add, base_log = base_log)
 
     return(x_log)
@@ -75,6 +81,8 @@ e_log_shift <-
       x + min_add
     , base = base_log
     )
+  # keep attributes
+  attributes(x_log) <- x_attr
   attr(x_log, "e_log_shift") <- c(min_add = min_add, base_log = base_log)
 
   return(x_log)
