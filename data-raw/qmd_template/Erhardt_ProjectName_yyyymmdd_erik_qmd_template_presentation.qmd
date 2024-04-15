@@ -1,6 +1,6 @@
 ---
-title:        Title is long to see how it wraps
-subtitle:     Subtitle is long to see how it wraps
+title:        "Erik's Quarto revealjs/beamer/pptx presentation template"
+subtitle:     "Subtitle is long to see how it wraps"
 author:       "Prof. Erik B. Erhardt, PhD"
 date:         last-modified # today, now, last-modified
 #date-format:  long          # full, long, medium, short, iso,   https://quarto.org/docs/reference/dates.html
@@ -15,56 +15,115 @@ doi-title:          DOI
 appendix-style:     default     # plain, default, none  # https://quarto.org/docs/authoring/appendices.html
 lang:               en
 format:
-  beamer:                       # Beamer Options https://quarto.org/docs/presentations/beamer.html
-    pdf-engine: xelatex
-                                # https://quarto.org/docs/reference/formats/presentations/beamer.html
-    aspectratio: 169            # slide aspect ratio (43 for 4:3 [default], 169 for 16:9, 1610 for 16:10, 149 for 14:9, 141 for 1.41:1, 54 for 5:4, 32 for 3:2)
-    beamerarticle: false        # produce an article from Beamer slides
-    #beameroption: \setbeameroption{}  # add extra beamer option with \setbeameroption{}
-    institute:  "UNM; StatAcumen.com" # author affiliations: can be a list when there are multiple authors
-    #logo:   # logo image for slides
-    navigation: empty # controls navigation symbols (default is empty for no navigation symbols; other valid values are frame, vertical, and horizontal)
-    section-titles: true # enables "title pages" for new sections (default is true)
-                                # https://deic.uab.cat/~iblanes/beamer_gallery/individual/CambridgeUS-dove-structurebold.html
-    theme:      boxes           # beamer themes, AnnArbor Antibes Bergen Berkeley Berlin Boadilla boxes CambridgeUS Copenhagen Darmstadt default Dresden Frankfurt Goettingen Hannover Ilmenau JuanLesPins Luebeck Madrid Malmoe Marburg Montpellier PaloAlto Pittsburgh Rochester Singapore Szeged Warsaw
-    colortheme: dove            # beamer themes, albatross beaver beetle crane default dolphin dove fly lily orchid rose seagull seahorse sidebartab structure whale wolverine
-    fonttheme:  structurebold   # beamer themes, default professionalfonts serif structurebold structureitalicserif structuresmallcapsserif
-                                # https://tug.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf
-    innertheme: default         # beamer themes, default circles rectangles rounded inmargin
-    outertheme: sidebar         # beamer themes, default infolines miniframes smoothbars sidebar split shadow tree smoothtree
-    themeoptions: # options for LaTeX beamer themes (a list).
-    #  - shadow=false
-    #  - progressbar=foot
-       - hideothersubsections
-    #titlegraphic:   # image for title slide
+  revealjs:                     # https://quarto.org/docs/presentations/revealjs/
+    template-partials:
+      - title-slide.html        # https://quarto.org/docs/presentations/revealjs/advanced.html
+    theme:                  dark      # beige, blood, dark, default, league, moon, night, serif, simple, sky, solarized
+    transition:             fade      # none, fade, slide, convex, concave, zoom
+    background-transition:  fade      # none, fade, slide, convex, concave, zoom
+    transition-speed:       fast      # default, fast, slow
+    # Presentation Size
+    width:                  1050      # Normal width (defaults to 1050)
+    height:                 700       # Normal height (defaults to 700)
+    margin:                 0.1       # Factor of the display size that should remain empty around the content (defaults to 0.1)
+    min-scale:              0.2       # Smallest possible scale to apply to content (defaults to 0.2)
+    max-scale:              2.0       # Largest possible scale to apply to content (defaults to 2.0)
+    auto-stretch:           true      # true, false  # r-stretch layout helper lets you resize an element
+    # Animation Settings
+    auto-animate:           true
+    auto-animate-easing:    ease    # A CSS easing function., ease-in-out
+    auto-animate-unmatched: true    # Determines whether elements with no matching auto-animate target should fade in. Set to false to make them appear instantly.
+    auto-animate-duration:  1.0     # Animation duration in seconds.
+    auto-animate-delay:     0       # Animation delay in seconds (can only be set for specific elements, not at the slide level).
+    auto-animate-id:        absent  # An id tying auto-animate slides together.
+    auto-animate-restart:   absent  # Breaks apart two adjacent auto-animate slides (even with the same id).
+    # Vertical Slides
+    navigation-mode:        linear  # linear, vertical, grid
+    slide-number:           true
+    chalkboard:
+      buttons:              false
+    preview-links:          auto
     #
-    ## Other options
-    ##page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    highlight-style:        atom-one  # a11y, arrow, atom-one, ayu, breeze, github, gruvbox; pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock; dracula, mokokai, nord, oblivion, printing, radical, solarized, vim-dark
+    #page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
     toc:                    true
     toc-depth:              1
-    toc-location:           body      # left, body, right
+    #toc-location:           body      # left, body, right
     toc-title:              Contents
-    number-sections:        false     # true, false
+    number-sections:        true      # true, false
     number-offset:          0         # Offset for section headings in output
     #number-depth:           5
-    shift-heading-level-by: 0        # Shift heading levels by a positive or negative integer. if -1, level 2 headings become level 1 headings, etc.
+    shift-heading-level-by: 0         # Shift heading levels by a positive or negative integer. if -1, level 2 headings become level 1 headings, etc.
     incremental:            false     # if true, then lists: ::: {.incremental} or ::: {.nonincremental}
     slide-level:            2         # Specifies that headings with the specified level create slides. Headings above this level in the hierarchy are used to divide the slide show into sections; headings below this level create subheads within a slide.
-    ##code-fold:              show      # true (initially hidden), false, show (initially shown)
-    ##code-tools:                       # menu top-right to show/hide all code
-    ##  toggle:               true
-    ##  caption:              "Code"    # none
-    ##  source:               false
-    ##code-summary:           "Code"    #, click to show"
-    ##code-overflow:          scroll    # scroll, wrap
-    ##code-block-bg:          true
-    ##code-block-border-left: "#30B0E0"
-    ##code-copy:              hover     # true, false, hover a copy buttom in top-right of code block
-    #tbl-colwidths:          auto      # Apply explicit table column widths for markdown grid tables and pipe tables that are more than columns characters wide (72 by default).
-    #df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
-    #self-contained:         false     # !!! this can cause a render error: "ERROR: The process cannot access the file because it is being used by another process. (os error 32)"
-    #self-contained-math:    true
-    ##html-math-method: katex    # https://quarto.org/docs/output-formats/html-basics.html
+    #code-fold:              show      # true (initially hidden), false, show (initially shown)
+    #code-tools:                       # menu top-right to show/hide all code
+    #  toggle:               true
+    #  caption:              "Code"    # none
+    #  source:               false
+    #code-summary:           "Code"    #, click to show"
+    #code-overflow:          scroll    # scroll, wrap
+    #code-block-bg:          true
+    #code-block-border-left: "#30B0E0"
+    #code-copy:              hover     # true, false, hover a copy buttom in top-right of code block
+    tbl-colwidths:          auto      # Apply explicit table column widths for markdown grid tables and pipe tables that are more than columns characters wide (72 by default).
+    df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+    self-contained:         false     # !!! this can cause a render error: "ERROR: The process cannot access the file because it is being used by another process. (os error 32)"
+    self-contained-math:    true
+    #html-math-method: katex    # https://quarto.org/docs/output-formats/html-basics.html
+    logo:                   StatAcument_Logo_Hexigon_100px.png  # StatAcument_Logo_HexName_100px.png
+    footer:                 "Prof. Erik B. Erhardt, <https:://StatAcumen.com>"
+#
+#  beamer:                       # Beamer Options https://quarto.org/docs/presentations/beamer.html
+#    pdf-engine: xelatex
+#                                # https://quarto.org/docs/reference/formats/presentations/beamer.html
+#    aspectratio: 169            # slide aspect ratio (43 for 4:3 [default], 169 for 16:9, 1610 for 16:10, 149 for 14:9, 141 for 1.41:1, 54 for 5:4, 32 for 3:2)
+#    beamerarticle: false        # produce an article from Beamer slides
+#    #beameroption: \setbeameroption{}  # add extra beamer option with \setbeameroption{}
+#    institute:  "UNM; StatAcumen.com" # authppor affiliations: can be a list when there are multiple authors
+#    #logo:   # logo image for slides
+#    navigation: empty # controls navigation symbols (default is empty for no navigation symbols; other valid values are frame, vertical, and horizontal)
+#    section-titles: true # enables "title pages" for new sections (default is true)
+#                                # https://deic.uab.cat/~iblanes/beamer_gallery/individual/CambridgeUS-dove-structurebold.html
+#    theme:      boxes           # beamer themes, AnnArbor Antibes Bergen Berkeley Berlin Boadilla boxes CambridgeUS Copenhagen Darmstadt default Dresden Frankfurt Goettingen Hannover Ilmenau JuanLesPins Luebeck Madrid Malmoe Marburg Montpellier PaloAlto Pittsburgh Rochester Singapore Szeged Warsaw
+#    colortheme: dove            # beamer themes, albatross beaver beetle crane default dolphin dove fly lily orchid rose seagull seahorse sidebartab structure whale wolverine
+#    fonttheme:  structurebold   # beamer themes, default professionalfonts serif structurebold structureitalicserif structuresmallcapsserif
+#                                # https://tug.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf
+#    innertheme: default         # beamer themes, default circles rectangles rounded inmargin
+#    outertheme: sidebar         # beamer themes, default infolines miniframes smoothbars sidebar split shadow tree smoothtree
+#    themeoptions: # options for LaTeX beamer themes (a list).
+#    #  - shadow=false
+#    #  - progressbar=foot
+#       - hideothersubsections
+#    #titlegraphic:   # image for title slide
+#    #
+#    ## Other options
+#    ##page-layout:            full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+#    toc:                    true
+#    toc-depth:              1
+#    toc-location:           body      # left, body, right
+#    toc-title:              Contents
+#    number-sections:        false     # true, false
+#    number-offset:          0         # Offset for section headings in output
+#    #number-depth:           5
+#    shift-heading-level-by: 0        # Shift heading levels by a positive or negative integer. if -1, level 2 headings become level 1 headings, etc.
+#    incremental:            false     # if true, then lists: ::: {.incremental} or ::: {.nonincremental}
+#    slide-level:            2         # Specifies that headings with the specified level create slides. Headings above this level in the hierarchy are used to divide the slide show into sections; headings below this level create subheads within a slide.
+#    ##code-fold:              show      # true (initially hidden), false, show (initially shown)
+#    ##code-tools:                       # menu top-right to show/hide all code
+#    ##  toggle:               true
+#    ##  caption:              "Code"    # none
+#    ##  source:               false
+#    ##code-summary:           "Code"    #, click to show"
+#    ##code-overflow:          scroll    # scroll, wrap
+#    ##code-block-bg:          true
+#    ##code-block-border-left: "#30B0E0"
+#    ##code-copy:              hover     # true, false, hover a copy buttom in top-right of code block
+#    #tbl-colwidths:          auto      # Apply explicit table column widths for markdown grid tables and pipe tables that are more than columns characters wide (72 by default).
+#    #df-print:               paged     # default, kable, tibble, paged   # https://quarto.org/docs/computations/r.html
+#    #self-contained:         false     # !!! this can cause a render error: "ERROR: The process cannot access the file because it is being used by another process. (os error 32)"
+#    #self-contained-math:    true
+#    ##html-math-method: katex    # https://quarto.org/docs/output-formats/html-basics.html
 #  pptx:                               # pptx format https://quarto.org/docs/presentations/powerpoint.html
 #                                      # PowerPoint Options https://quarto.org/docs/reference/formats/presentations/pptx.html
 #    theme:                  litera    # default, cerulean, cosmo, cyborg, darkly, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, slate, solar, spacelab, superhero, united, vapor, yeti, zephyr
@@ -139,13 +198,19 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
   quarto::quarto_render(input = fn_qmd)
 -->
 
-```{r chunk-01, echo=FALSE}
+```{r init}
+#| echo: false
+#| output: false
+#| warning: false
+#| error: false
+set.seed(76543)
+library(erikmisc)
+library(tidyverse)
+
 options(width = 80)
 #options(warn  = -1)
 options(str   = strOptions(list.len = 1e3))
 options(knitr.kable.NA = '') # Display NAs as blanks
-my_seed <- 34567
-set.seed(my_seed)
 ```
 
 
@@ -179,6 +244,27 @@ Chapter 5 was also helpful for structuring the remaining slides in a hierarchy
 * Detail
 * Detail
 * Detail
+
+```{r}
+erikmisc::erikmisc_logo()
+```
+
+## Plot
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x = displ, y = hwy, colour = class))
+p <- p + theme_bw()
+p <- p + geom_hline(aes(yintercept = mean(hwy)), colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+p <- p + geom_smooth(method = lm, formula = "y ~ x", se = FALSE, aes(group = class, colour = class), linewidth = 1)
+p <- p + geom_point(aes(colour = class), alpha = 0.5)
+```
+##
+
+```{r}
+#| echo: false
+print(p)
+```
 
 ## Explanation 2
 
@@ -236,3 +322,499 @@ Chapter 5 was also helpful for structuring the remaining slides in a hierarchy
 
 
 
+# Demo
+
+<https://quarto.org/docs/presentations/revealjs/>
+<https://github.com/quarto-dev/quarto-web/blob/main/docs/presentations/revealjs/demo/index.qmd>
+
+## Hello, There
+
+This presentation will show you examples of what you can do with Quarto and [Reveal.js](https://revealjs.com), including:
+
+-   Presenting code and LaTeX equations
+-   Including computations in slide output
+-   Image, video, and iframe backgrounds
+-   Fancy transitions and animations
+-   Printing to PDF
+
+...and much more
+
+## Pretty Code {auto-animate="true"}
+
+-   Over 20 syntax highlighting themes available
+-   Default theme optimized for accessibility
+
+```
+r
+# Define a server for the Shiny app
+function(input, output) {
+
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    # Render a barplot
+  })
+}
+```
+
+::: footer
+Learn more: [Syntax Highlighting](https://quarto.org/docs/output-formats/html-code.html#highlighting)
+:::
+
+## Code Animations {auto-animate="true"}
+
+-   Over 20 syntax highlighting themes available
+-   Default theme optimized for accessibility
+
+```
+r
+# Define a server for the Shiny app
+function(input, output) {
+
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    # Render a barplot
+    barplot(WorldPhones[,input$region]*1000,
+            main=input$region,
+            ylab="Number of Telephones",
+            xlab="Year")
+  })
+}
+```
+
+::: footer
+Learn more: [Code Animations](https://quarto.org/docs/presentations/revealjs/advanced.html#code-animations)
+:::
+
+## Line Highlighting
+
+-   Highlight specific lines for emphasis
+-   Incrementally highlight additional lines
+
+``` {.python code-line-numbers="4-5|7|10"}
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+::: footer
+Learn more: [Line Highlighting](https://quarto.org/docs/presentations/revealjs/#line-highlighting)
+:::
+
+## Executable Code
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+library(ggplot2)
+ggplot(mtcars, aes(hp, mpg, color = am)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "loess")
+```
+
+::: footer
+Learn more: [Executable Code](https://quarto.org/docs/presentations/revealjs/#executable-code)
+:::
+
+## LaTeX Equations
+
+[MathJax](https://www.mathjax.org/) rendering of equations to HTML
+
+::: columns
+::: {.column width="40%"}
+``` tex
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
+
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+
+::: {.column width="60%"}
+```{=tex}
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
+```
+```{=tex}
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+:::
+
+::: footer
+Learn more: [LaTeX Equations](https://quarto.org/docs/authoring/markdown-basics.html#equations)
+:::
+
+## Column Layout {.smaller}
+
+Arrange content into columns of varying widths:
+
+::: columns
+::: {.column width="35%"}
+#### Motor Trend Car Road Tests
+
+The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles.
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="62%"}
+```{r}
+knitr::kable(head(mtcars)[,c("mpg", "cyl", "disp", "hp", "wt")])
+```
+:::
+:::
+
+::: footer
+Learn more: [Multiple Columns](https://quarto.org/docs/presentations/revealjs/#multiple-columns)
+:::
+
+## Incremental Lists
+
+Lists can optionally be displayed incrementally:
+
+::: incremental
+-   First item
+-   Second item
+-   Third item
+:::
+
+. . .
+
+<br/> Insert pauses to make other types of content display incrementally.
+
+::: footer
+Learn more: [Incremental Lists](https://quarto.org/docs/presentations/revealjs/#incremental-lists)
+:::
+
+## Fragments
+
+Incremental text display and animation with fragments:
+
+<br/>
+
+::: {.fragment .fade-in}
+Fade in
+:::
+
+::: {.fragment .fade-up}
+Slide up while fading in
+:::
+
+::: {.fragment .fade-left}
+Slide left while fading in
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Fade in then semi out
+:::
+
+. . .
+
+::: {.fragment .strike}
+Strike
+:::
+
+::: {.fragment .highlight-red}
+Highlight red
+:::
+
+::: footer
+Learn more: [Fragments](https://quarto.org/docs/presentations/revealjs/advanced.html#fragments)
+:::
+
+## Slide Backgrounds {background="#43464B"}
+
+Set the `background` attribute on a slide to change the background color (all CSS color formats are supported).
+
+Different background transitions are available via the `background-transition` option.
+
+::: footer
+Learn more: [Slide Backgrounds](https://quarto.org/docs/presentations/revealjs/#color-backgrounds)
+:::
+
+## Media Backgrounds {background="#43464B" background-image="images/milky-way.jpeg"}
+
+You can also use the following as a slide background:
+
+-   An image: `background-image`
+
+-   A video: `background-video`
+
+-   An iframe: `background-iframe`
+
+::: footer
+Learn more: [Media Backgrounds](https://quarto.org/docs/presentations/revealjs/#image-backgrounds)
+:::
+
+## Absolute Position
+
+Position images or other elements at precise locations
+
+![](mini/images/kitten-400-350.jpeg){.absolute top="170" left="30" width="400" height="400"}
+
+![](mini/images/kitten-450-250.jpeg){.absolute .fragment top="150" right="80" width="450"}
+
+![](mini/images/kitten-300-200.jpeg){.absolute .fragment bottom="110" right="130" width="300"}
+
+::: footer
+Learn more: [Absolute Position](https://quarto.org/docs/presentations/revealjs/advanced.html#absolute-position)
+:::
+
+## Auto-Animate {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+Automatically animate matching elements across slides with Auto-Animate.
+
+::: r-hstack
+::: {data-id="box1" auto-animate-delay="0" style="background: #2780e3; width: 200px; height: 150px; margin: 10px;"}
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #3fb618; width: 200px; height: 150px; margin: 10px;"}
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 200px; height: 150px; margin: 10px;"}
+:::
+:::
+
+::: footer
+Learn more: [Auto-Animate](https://quarto.org/docs/presentations/revealjs/advanced.html#auto-animate)
+:::
+
+## Auto-Animate {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+Automatically animate matching elements across slides with Auto-Animate.
+
+::: r-stack
+::: {data-id="box1" style="background: #2780e3; width: 350px; height: 350px; border-radius: 200px;"}
+:::
+
+::: {data-id="box2" style="background: #3fb618; width: 250px; height: 250px; border-radius: 200px;"}
+:::
+
+::: {data-id="box3" style="background: #e83e8c; width: 150px; height: 150px; border-radius: 200px;"}
+:::
+:::
+
+::: footer
+Learn more: [Auto-Animate](https://quarto.org/docs/presentations/revealjs/advanced.html#auto-animate)
+:::
+
+## Slide Transitions {.smaller}
+
+The next few slides will transition using the `slide` transition
+
+| Transition | Description                                                            |
+|------------|------------------------------------------------------------------------|
+| `none`     | No transition (default, switch instantly)                              |
+| `fade`     | Cross fade                                                             |
+| `slide`    | Slide horizontally                                                     |
+| `convex`   | Slide at a convex angle                                                |
+| `concave`  | Slide at a concave angle                                               |
+| `zoom`     | Scale the incoming slide so it grows in from the center of the screen. |
+
+::: footer
+Learn more: [Slide Transitions](https://quarto.org/docs/presentations/revealjs/advanced.html#slide-transitions)
+:::
+
+## Tabsets {.smaller .scrollable transition="slide"}
+
+::: panel-tabset
+### Plot
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(hp, mpg, color = am)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "loess")
+```
+
+### Data
+
+```{r}
+knitr::kable(mtcars)
+```
+:::
+
+::: footer
+Learn more: [Tabsets](https://quarto.org/docs/presentations/revealjs/#tabsets)
+:::
+
+## Interactive Slides {.smaller transition="slide"}
+
+Include Jupyter widgets and htmlwidgets in your presentations
+
+```{r}
+#| echo: false
+#| fig-height: 5
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+```
+
+::: footer
+Learn more: [Jupyter widgets](https://quarto.org/docs/interactive/widgets/jupyter.html), [htmlwidgets](https://quarto.org/docs/interactive/widgets/htmlwidgets.html)
+:::
+
+## Interactive Slides {.smaller transition="slide"}
+
+Turn presentations into applications with Observable and Shiny. Use component layout to position inputs and outputs.
+
+Erik: CODE REMOVED
+
+::: footer
+Learn more: [Observable](https://quarto.org/docs/interactive/ojs/), [Shiny](https://quarto.org/docs/interactive/shiny/), [Component Layout](https://quarto.org/docs/interactive/layout.html)
+:::
+
+## Preview Links
+
+Navigate to hyperlinks without disrupting the flow of your presentation.
+
+Use the `preview-links` option to open links in an iframe on top of your slides. Try clicking the link below for a demonstration:
+
+::: {style="text-align: center; margin-top: 1em"}
+[Matplotlib: Visualization with Python](https://matplotlib.org/){preview-link="true" style="text-align: center"}
+:::
+
+::: footer
+Learn more: [Preview Links](https://quarto.org/docs/presentations/revealjs/presenting.html#preview-links)
+:::
+
+## Themes
+
+10 Built-in Themes (or [create your own](https://quarto.org/docs/presentations/revealjs/themes.html#creating-themes))
+
+::: {layout-ncol="2"}
+![](images/moon.png)
+
+![](images/sky.png)
+:::
+
+::: footer
+Learn more: [Themes](https://quarto.org/docs/presentations/revealjs/themes.html)
+:::
+
+## Easy Navigation
+
+::: {style="margin-bottom: 0.9em;"}
+Quickly jump to other parts of your presentation
+:::
+
+::: {layout="[1, 20]"}
+![](images/presentation-menu.png){width="41"}
+
+Toggle the slide menu with the menu button (bottom left of slide) to go to other slides and access presentation tools.
+:::
+
+You can also press `m` to toggle the menu open and closed.
+
+::: footer
+Learn more: [Navigation](https://quarto.org/docs/presentations/revealjs/presenting.html#navigation-menu)
+:::
+
+## Chalkboard {chalkboard-buttons="true"}
+
+::: {style="margin-bottom: 0.9em;"}
+Free form drawing and slide annotations
+:::
+
+::: {layout="[1, 20]"}
+![](images/presentation-chalkboard.png){width="41"}
+
+Use the chalkboard button at the bottom left of the slide to toggle the chalkboard.
+:::
+
+::: {layout="[1, 20]"}
+![](images/presentation-notes-canvas.png){width="41"}
+
+Use the notes canvas button at the bottom left of the slide to toggle drawing on top of the current slide.
+:::
+
+You can also press `b` to toggle the chalkboard or `c` to toggle the notes canvas.
+
+::: footer
+Learn more: [Chalkboard](https://quarto.org/docs/presentations/revealjs/presenting.html#chalkboard)
+:::
+
+## Point of View
+
+Press `o` to toggle overview mode:
+
+![](images/overview-mode.png){.border}
+
+Hold down the `Alt` key (or `Ctrl` in Linux) and click on any element to zoom towards it---try it now on this slide.
+
+::: footer
+Learn more: [Overview Mode](https://quarto.org/docs/presentations/revealjs/presenting.html#overview-mode), [Slide Zoom](https://quarto.org/docs/presentations/revealjs/presenting.html#slide-zoom)
+:::
+
+## Speaker View
+
+Press `s` (or use the presentation menu) to open speaker view
+
+![](images/speaker-view.png){fig-align="center" style="border: 3px solid #dee2e6;" width="780"}
+
+::: footer
+Learn more: [Speaker View](https://quarto.org/docs/presentations/revealjs/presenting.html#speaker-view)
+:::
+
+## Authoring Tools {.smaller}
+
+Live side-by-side preview for any notebook or text editor including Jupyter and VS Code
+
+::: columns
+::: {.column width="50%"}
+![](images/jupyter-edit.png){.border .border-thick}
+:::
+
+::: {.column width="50%"}
+![](images/jupyter-preview.png){.border .border-thick}
+:::
+:::
+
+::: footer
+Learn more: [Jupyter](https://quarto.org/docs/tools/jupyter-lab.html), [VS Code](https://quarto.org/docs/tools/vscode.html), [Text Editors](https://quarto.org/docs/tools/text-editors.html)
+:::
+
+## Authoring Tools {.smaller}
+
+RStudio includes an integrated presentation preview pane
+
+![](images/rstudio.png){.border width="900"}
+
+::: footer
+Learn more: [RStudio](https://quarto.org/docs/tools/rstudio.html)
+:::
+
+## And More...
+
+-   [Touch](https://quarto.org/docs/presentations/revealjs/advanced.html#touch-navigation) optimized (presentations look great on mobile, swipe to navigate slides)
+-   [Footer & Logo](https://quarto.org/docs/presentations/revealjs/#footer-logo) (optionally specify custom footer per-slide)
+-   [Auto-Slide](https://quarto.org/docs/presentations/revealjs/presenting.html#auto-slide) (step through slides automatically, without any user input)
+-   [Multiplex](https://quarto.org/docs/presentations/revealjs/presenting.html#multiplex) (allows your audience to follow the slides of the presentation you are controlling on their own phone, tablet or laptop).
+
+::: footer
+Learn more: [Quarto Presentations](https://quarto.org/docs/presentations/revealjs/)
+:::
