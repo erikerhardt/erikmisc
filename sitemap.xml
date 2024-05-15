@@ -127,6 +127,9 @@
     <loc>/reference/e_data_var_labels_clear.html</loc>
   </url>
   <url>
+    <loc>/reference/e_derivative_finite_difference.html</loc>
+  </url>
+  <url>
     <loc>/reference/e_duplicated_all.html</loc>
   </url>
   <url>
@@ -278,6 +281,9 @@
   </url>
   <url>
     <loc>/reference/e_roc_gg.html</loc>
+  </url>
+  <url>
+    <loc>/reference/e_scale_align.html</loc>
   </url>
   <url>
     <loc>/reference/e_source_all_R_in_folder.html</loc>
