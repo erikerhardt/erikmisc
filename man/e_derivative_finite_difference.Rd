@@ -37,9 +37,11 @@ dat_long <-
   dplyr::mutate(
     name = name |> factor(levels = c("x", "dx"))
   )
+library(ggplot2)
 p <- ggplot(dat_long, aes(x = i, y = value))
 p <- p + theme_bw()
-p <- p + geom_hline(aes(yintercept = 0), colour = "black", linetype = "solid", linewidth = 0.2, alpha = 0.3)
+p <- p + geom_hline(aes(yintercept = 0), colour = "black"
+                   , linetype = "solid", linewidth = 0.2, alpha = 0.3)
 p <- p + geom_line()
 p <- p + facet_grid(name ~ ., scales = "free_y", drop = TRUE)
 p <- p + scale_x_continuous(breaks = seq(0, max(dat$i), by = 2))
