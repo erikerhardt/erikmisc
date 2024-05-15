@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_derivative_finite_difference.R
 \name{e_derivative_finite_difference}
 \alias{e_derivative_finite_difference}
-\title{Finite difference coefficient}
+\title{Derivatives of time series using finite difference coefficients}
 \usage{
 e_derivative_finite_difference(x, sw_derivative = 1)
 }
@@ -18,7 +18,8 @@ dx           derivative
 To approximate a derivative to an arbitrary order of accuracy, it is
 possible to use the finite difference. A finite difference can be central,
 forward or backward. \url{https://en.wikipedia.org/wiki/Finite_difference_coefficient}
-Applies highest possible accuracy given the location in the vector -- end effects have lower accuracy.
+Applies highest possible accuracy given the location in the vector;
+end points have lower accuracy and use the 1-width forward/backward method.
 }
 \examples{
 dat <-
