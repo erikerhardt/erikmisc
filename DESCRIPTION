@@ -39,6 +39,7 @@ Imports:
     emmeans,
     flextable,
     forcats,
+    ggbeeswarm,
     ggplot2,
     ggpmisc,
     ggpp,
