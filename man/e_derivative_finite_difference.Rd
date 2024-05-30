@@ -22,6 +22,7 @@ Applies highest possible accuracy given the location in the vector;
 end points have lower accuracy and use the 1-width forward/backward method.
 }
 \examples{
+# ragged empirical time series
 dat <-
   tibble::tibble(
     x  = datasets::lh |> as.numeric()
@@ -46,5 +47,34 @@ p <- p + geom_hline(aes(yintercept = 0), colour = "black"
 p <- p + geom_line()
 p <- p + facet_grid(name ~ ., scales = "free_y", drop = TRUE)
 p <- p + scale_x_continuous(breaks = seq(0, max(dat$i), by = 2))
+print(p)
+
+# smooth sin function
+dat <-
+  tibble::tibble(
+    x   = seq(0, 4 * pi, by = pi / 180)
+  , x_sin = sin(x)
+  , x_cos = cos(x)
+  , dx_sin = e_derivative_finite_difference(x_sin) / (pi / 180)
+  , i  = 1:length(x)
+  )
+dat |> print(n = 10)
+# reshape to plot
+dat_long <-
+  dat |>
+  tidyr::pivot_longer(
+    cols = c(x_sin, x_cos, dx_sin)
+  ) |>
+  dplyr::mutate(
+    name = name |> factor(levels = c("x_sin", "x_cos", "dx_sin"))
+  )
+library(ggplot2)
+p <- ggplot(dat_long, aes(x = x, y = value, color = name, linetype = name))
+p <- p + theme_bw()
+p <- p + geom_hline(aes(yintercept = 0), colour = "black"
+                   , linetype = "solid", linewidth = 0.2, alpha = 0.3)
+p <- p + geom_line(size = 2, alpha = 1/2)
+#p <- p + facet_grid(name ~ ., scales = "free_y", drop = TRUE)
+p <- p + scale_x_continuous(breaks = seq(0, 4 * pi, by = pi/2))
 print(p)
 }
