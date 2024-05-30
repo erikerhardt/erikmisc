@@ -497,7 +497,7 @@ e_plot_model_contrasts <-
         p_hat__ = Success__ / (Success__ + Failure__)
       ) |>
       dplyr::bind_cols(
-        fit$model[, 2:ncol(fit$model)]
+        tibble::as_tibble(fit$model)[, 2:ncol(fit$model)]
       )
 
     # labels
