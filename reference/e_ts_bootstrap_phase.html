@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.21</span>
       </span>
     </div>
 
@@ -71,45 +71,32 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">e_ts_bootstrap_phase</span><span class="op">(</span></span></span>
 <span class="r-in"><span>   x <span class="op">=</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/AirPassengers.html" class="external-link">AirPassengers</a></span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Jan          Feb          Mar          Apr          May</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1949 -91304.25799 -74765.40416 -64538.93091 -57855.16007 -51399.15122</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1950 -50905.25608 -44366.60561 -34718.06551 -30097.61457 -23938.63871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1951 -23953.96869 -23178.22629 -19570.94245 -14659.96720  -8963.84157</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1952 -24939.20696 -27064.42603 -27687.18403 -25506.55619 -14729.89801</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1953 -10629.71459  -9570.69862  -9153.24301  -6611.68197  -4700.79689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1954 -23516.72241 -22550.17030 -24713.33442 -26807.98116 -21133.67238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1955 -31086.09016 -33477.72934 -31268.50805 -32111.62088 -23227.88394</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1956 -32679.89520 -32833.00960 -35605.60485 -36752.89054 -35287.19241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1957 -48660.47121 -47323.99569 -47716.61916 -50091.46095 -45750.90345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1958 -41354.83253 -41419.54423 -40975.44871 -41119.02570 -34446.98658</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1959 -37951.76644 -36116.66265 -35977.49702 -38450.20724 -32927.77970</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1960 -44645.62324 -44718.02560 -41277.97474 -38228.09364 -33528.70615</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Jun          Jul          Aug          Sep          Oct</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1949 -48996.11091 -46589.27442 -39836.76495 -43495.70508 -37638.57612</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1950 -18826.45752 -17174.42253  -5977.87030 -13128.25591 -13699.73469</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1951  -2449.90627   3109.32816   7060.87084    599.31803  -3491.45337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1952 -12355.94788  -7456.37842    -91.47715  -3469.40836  -4901.84653</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1953  -3513.90512  -4371.91405    943.55384  -6441.90042  -9587.82832</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1954 -20504.77101 -19380.50537 -16812.88258 -22608.20685 -24273.38824</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1955 -22055.19896 -15351.99837 -17032.64204 -17591.16070 -17204.82387</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1956 -33867.37491 -33405.75265 -33837.37335 -38747.27876 -38637.43162</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1957 -45891.91758 -44409.86077 -37896.75626 -40160.11775 -38815.33717</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1958 -34143.57505 -30910.26655 -30769.98901 -30925.44072 -32584.64238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1959 -38263.65231 -39459.34776 -38618.84898 -41263.00982 -39339.94342</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1960 -38308.73516 -39814.80011 -44288.44417 -49636.71685 -54791.74875</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Nov          Dec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1949 -40505.16005 -48341.22678</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1950 -23389.22511 -24417.79740</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1951  -8294.39203 -15059.37790</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1952  -6699.34407  -6516.71270</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1953 -17874.49449 -20118.53219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1954 -26276.15145 -27638.22578</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1955 -21867.66686 -26840.13843</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1956 -41491.12790 -43821.70008</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1957 -36755.55180 -39828.20598</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1958 -32760.46619 -36015.76345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1959 -39170.49846 -45055.70241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1960 -61103.73321 -66217.85424</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Jan        Feb        Mar        Apr        May        Jun</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1949 -102181.42  -84114.87  -79601.79  -72300.46  -66448.14  -63348.57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1950  -59184.16  -54951.87  -47388.45  -40507.61  -36214.47  -29664.71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1951  -48672.06  -47761.15  -44829.21  -41026.21  -37889.40  -27594.68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1952  -31834.33  -33710.87  -34682.29  -32400.13  -23237.36  -22703.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1953  -35848.50  -35749.07  -35512.28  -31997.37  -30096.76  -29185.62</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1954  -32776.77  -34613.15  -35466.92  -29703.01  -27257.29  -23954.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1955  -33290.62  -35244.25  -33422.79  -27594.06  -25191.18  -21690.52</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1956  -29460.44  -29995.32  -28504.59  -22842.05  -19585.09  -16817.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1957  -38407.54  -41289.81  -41634.85  -36345.36  -31908.98  -31562.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1958  -55446.61  -55537.99  -49705.16  -46315.85  -42962.18  -44882.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1959  -51780.17  -45474.71  -40734.92  -35144.28  -37939.83  -36497.87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1960  -68346.64  -66585.55  -57579.07  -48856.56  -46654.31  -44469.23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Jul        Aug        Sep        Oct        Nov        Dec</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1949  -61551.73  -57861.17  -55776.33  -56188.76  -59091.90  -55690.37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1950  -30573.82  -26803.71  -25942.05  -37102.24  -37644.29  -40303.47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1951  -24001.06  -23754.30  -22840.66  -25834.95  -25785.45  -26572.03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1952  -25742.53  -28009.03  -21464.05  -25406.26  -22902.60  -29723.31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1953  -32242.13  -31105.88  -22496.69  -26701.32  -24404.70  -30790.65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1954  -29341.21  -26820.47  -23437.99  -25397.57  -28126.80  -31989.54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1955  -27144.01  -28448.48  -23479.23  -21946.39  -22162.97  -23663.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1956  -20666.68  -21968.86  -23805.85  -26158.36  -27989.91  -31487.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1957  -36856.82  -40485.31  -40389.89  -39006.39  -41480.16  -46599.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1958  -50974.42  -49395.47  -42531.03  -43003.75  -45452.95  -45407.79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1959  -45082.94  -47301.21  -49375.31  -56305.36  -62503.59  -64269.64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1960  -45405.36  -50297.50  -51856.38  -59947.77  -68558.67  -77544.58</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
