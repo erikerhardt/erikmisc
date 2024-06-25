@@ -45,4 +45,12 @@ e_scale_align(
 , scale_method        = c("quantile", "zscore")[2]
 , sw_plot             = c(TRUE, FALSE)[1]
 )
+# Scale to c(0, 1) bounded
+e_scale_align(
+  var_to_scale        = rnorm(100) |> sort()
+, var_ref             = c(0, 1)
+, scale_method        = c("quantile", "zscore")[1]
+, quantiles_to_match  = c(0, 1)
+, sw_plot             = c(TRUE, FALSE)[2]
+)
 }
