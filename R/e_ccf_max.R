@@ -52,7 +52,9 @@
 #' p <- ggplot(dat_ex_long, aes(x = id, y = value, colour = name))
 #' p <- p + theme_bw()
 #' p <- p + geom_line(linewidth = 1)
-#' p <- p + labs(title = "Original data and lag-corrected x2", subtitle = "x2_lag aligned with x1")
+#' p <- p + labs( title = "Original data and lag-corrected x2"
+#'              , subtitle = paste0("x2_lag aligned with x1, lag = ", out_ccf$lag, "; cor = ", out_ccf$cor |> signif(3))
+#'              )
 #' print(p)
 #'
 #'
