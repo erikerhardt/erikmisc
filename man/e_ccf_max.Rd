@@ -40,18 +40,43 @@ dat_ex <-
     x2 = x2 + rnorm(n = length(x2), mean = 0, sd = sd(x2, na.rm = TRUE) / 3)
   )
 
-e_ccf_max(
+# largest absolute correlation
+out_ccf <-
+  e_ccf_max(
     x1        = dat_ex$x1
   , x2        = dat_ex$x2
   , lag_max   = 10
   , cor_goal  = c("max", "min", "abs")[3]
   )
+out_ccf
 
+dat_ex <-
+  dat_ex |>
+  dplyr::mutate(
+    x2_lag =
+      dplyr::case_when(
+        out_ccf$lag == 0 ~ x2
+      , out_ccf$lag >  0 ~ x2 |> dplyr::lag (n = abs(out_ccf$lag))
+      , out_ccf$lag <  0 ~ x2 |> dplyr::lead(n = abs(out_ccf$lag))
+      , .default         = x2
+      )
+  )
+
+dat_ex_long <- dat_ex |> tidyr::pivot_longer(cols = -id) #c("x1", "x2", "x2_lag"))
+library(ggplot2)
+p <- ggplot(dat_ex_long, aes(x = id, y = value, colour = name))
+p <- p + theme_bw()
+p <- p + geom_line(linewidth = 1)
+p <- p + labs(title = "Original data and lag-corrected x2", subtitle = "x2_lag aligned with x1")
+print(p)
+
+
+# minimum correlation
 e_ccf_max(
     x1        = dat_ex$x1
   , x2        = dat_ex$x2
-  , lag_max   = c(-10, 5)
-  , cor_goal  = c("max", "min", "abs")[1]
+  , lag_max   = c(0, 20)
+  , cor_goal  = c("max", "min", "abs")[2]
   )
 
 }
