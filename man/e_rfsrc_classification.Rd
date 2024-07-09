@@ -10,8 +10,9 @@ e_rfsrc_classification(
   rf_x_var = NULL,
   rf_id_var = NULL,
   sw_rfsrc_ntree = 500,
-  sw_alpha = 0.05,
+  sw_alpha_sel = 0.05,
   sw_select_full = c("select", "full")[1],
+  sw_na_action = c("na.omit", "na.impute")[1],
   sw_save_model = c(TRUE, FALSE)[1],
   plot_title = "Random Forest",
   out_path = "out_sel",
@@ -35,9 +36,11 @@ e_rfsrc_classification(
 
 \item{sw_rfsrc_ntree}{\code{ntree} argument for \code{randomForestSRC::rfsrc()}}
 
-\item{sw_alpha}{\code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()}}
+\item{sw_alpha_sel}{\code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()} for model selection}
 
 \item{sw_select_full}{run with model selection, or only fit full model}
+
+\item{sw_na_action}{missing values, omit or impute (only x var, never impute y var, always drop rows with missing y var)}
 
 \item{sw_save_model}{T/F to save model to .Rdata file}
 
@@ -83,15 +86,15 @@ dat_rf_class <-
         disp |> dplyr::between(160, 170) ~ NA
       , TRUE ~ disp
       )
-  , X1 = rnorm(dplyr::n())
-  , X2 = rnorm(dplyr::n())
-  , X3 = rnorm(dplyr::n())
-  , X4 = rnorm(dplyr::n())
-  , X5 = rnorm(dplyr::n())
-  , X6 = rnorm(dplyr::n())
-  , X7 = rnorm(dplyr::n())
-  , X8 = rnorm(dplyr::n())
-  , X9 = rnorm(dplyr::n())
+  , X1 = rnorm(n = dplyr::n(), mean = 10)
+  , X2 = rnorm(n = dplyr::n(), mean = 20)
+  , X3 = rnorm(n = dplyr::n(), mean = 30)
+  , X4 = rnorm(n = dplyr::n(), mean = 40)
+  , X5 = rnorm(n = dplyr::n(), mean = 50)
+  , X6 = rnorm(n = dplyr::n(), mean = 60)
+  , X7 = rnorm(n = dplyr::n(), mean = 70)
+  , X8 = rnorm(n = dplyr::n(), mean = 80)
+  , X9 = rnorm(n = dplyr::n(), mean = 90)
   )
 
 out_e_rf <-
@@ -101,15 +104,18 @@ out_e_rf <-
   , rf_x_var               = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
   , rf_id_var              = "model"
   , sw_rfsrc_ntree         = 200
-  , sw_alpha               = 0.05
+  , sw_alpha_sel           = 0.05
   , sw_select_full         = c("select", "full")[1]
+  , sw_na_action           = c("na.omit", "na.impute")[1]
   , sw_save_model          = c(TRUE, FALSE)[1]
   , plot_title             = "Random Forest Title SEL"
   , out_path               = "./out_sel"
   , file_prefix            = "out_e_rf"
+  , var_subgroup_analysis  = NULL
   , plot_format            = c("png", "pdf")[1]
   , n_marginal_plot_across = 4
   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
+  , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
   )
 
@@ -159,6 +165,8 @@ out_e_rf[[ "o_class_full_subsample_extract_bootsample" ]]
 # Full model: variable importance (VIMP) plot boxplots
 out_e_rf[[ "plot_o_class_full_subsample" ]] |>
   cowplot::plot_grid()
+# Full model: subsample double bootstrap VIMP CIs
+out[[ "plot_o_class_full_vimp_CI" ]]
 
 ## Selected model summaries
 # Selected model: x predictor variables
@@ -185,7 +193,48 @@ out_e_rf[[ "o_class_sel_subsample_extract_bootsample" ]]
 # Selected model: variable importance (VIMP) plot boxplots
 out_e_rf[[ "plot_o_class_sel_subsample" ]] |>
   cowplot::plot_grid()
+# Selected model: subsample double bootstrap VIMP CIs
+out[[ "plot_o_class_sel_vimp_CI" ]]
 
+
+
+
+## With missing values and imputation
+# create missing-at-random values
+dat_rf_class_miss <- dat_rf_class
+prop_missing <- 0.10
+n_missing <-
+  sample.int(
+    n    = prod(dim(dat_rf_class_miss))
+  , size = round( prop_missing * prod(dim(dat_rf_class_miss)))
+  )
+ind_missing <- expand.grid(1:dim(dat_rf_class_miss)[1], 1:dim(dat_rf_class_miss)[2])[n_missing, ]
+for (i_row in seq_along(n_missing)) {
+  dat_rf_class_miss[ind_missing[i_row, 1], ind_missing[i_row, 2] ] <- NA
+}
+dat_rf_class[[ "model" ]] = dat_rf_class[[ "model" ]]
+
+out_e_rf <-
+  e_rfsrc_classification(
+    dat_rf_class           = dat_rf_class_miss
+  , rf_y_var               = "cyl"    # NULL
+  , rf_x_var               = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
+  , rf_id_var              = "model"
+  , sw_rfsrc_ntree         = 200
+  , sw_alpha_sel           = 0.05
+  , sw_select_full         = c("select", "full")[1]
+  , sw_na_action            = c("na.omit", "na.impute")[2]
+  , sw_save_model          = c(TRUE, FALSE)[1]
+  , plot_title             = "Random Forest, imputing missing values"
+  , out_path               = "./out_sel_miss"
+  , file_prefix            = "out_e_rf_miss"
+  , var_subgroup_analysis  = NULL
+  , plot_format            = c("png", "pdf")[1]
+  , n_marginal_plot_across = 4
+  , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
+  , sw_threshold_to_use    = c(FALSE, TRUE)[1]
+  , sw_quick_full_only     = c(FALSE, TRUE)[1]
+  )
 
 
 ## Imbalanced binary classification
@@ -229,15 +278,18 @@ out_e_rf <-
   , rf_x_var               = NULL
   , rf_id_var              = NULL
   , sw_rfsrc_ntree         = 2000
-  , sw_alpha               = 0.25
+  , sw_alpha_sel           = 0.25
   , sw_select_full         = c("select", "full")[1]
+  , sw_na_action            = c("na.omit", "na.impute")[1]
   , sw_save_model          = c(TRUE, FALSE)[1]
   , plot_title             = "Random Forest Imbalanced"
   , out_path               = "./out_imbal"
   , file_prefix            = "out_e_rf"
+  , var_subgroup_analysis  = NULL
   , plot_format            = c("png", "pdf")[1]
   , n_marginal_plot_across = 4
   , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
+  , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
   )
 

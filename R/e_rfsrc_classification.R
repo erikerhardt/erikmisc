@@ -5,8 +5,9 @@
 #' @param rf_x_var                x variables, if NULL then assumed to be all except the first column of \code{dat_rf_class}
 #' @param rf_id_var               ID variable, removed from dataset prior to analysis
 #' @param sw_rfsrc_ntree          \code{ntree} argument for \code{randomForestSRC::rfsrc()}
-#' @param sw_alpha                \code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()}
+#' @param sw_alpha_sel            \code{alpha} argument for \code{randomForestSRC::plot.subsample()} and \code{randomForestSRC::extract.bootsample()} for model selection
 #' @param sw_select_full          run with model selection, or only fit full model
+#' @param sw_na_action            missing values, omit or impute (only x var, never impute y var, always drop rows with missing y var)
 #' @param sw_save_model           T/F to save model to .Rdata file
 #' @param plot_title              title for plots
 #' @param out_path                path to save output
@@ -56,15 +57,15 @@
 #'         disp |> dplyr::between(160, 170) ~ NA
 #'       , TRUE ~ disp
 #'       )
-#'   , X1 = rnorm(dplyr::n())
-#'   , X2 = rnorm(dplyr::n())
-#'   , X3 = rnorm(dplyr::n())
-#'   , X4 = rnorm(dplyr::n())
-#'   , X5 = rnorm(dplyr::n())
-#'   , X6 = rnorm(dplyr::n())
-#'   , X7 = rnorm(dplyr::n())
-#'   , X8 = rnorm(dplyr::n())
-#'   , X9 = rnorm(dplyr::n())
+#'   , X1 = rnorm(n = dplyr::n(), mean = 10)
+#'   , X2 = rnorm(n = dplyr::n(), mean = 20)
+#'   , X3 = rnorm(n = dplyr::n(), mean = 30)
+#'   , X4 = rnorm(n = dplyr::n(), mean = 40)
+#'   , X5 = rnorm(n = dplyr::n(), mean = 50)
+#'   , X6 = rnorm(n = dplyr::n(), mean = 60)
+#'   , X7 = rnorm(n = dplyr::n(), mean = 70)
+#'   , X8 = rnorm(n = dplyr::n(), mean = 80)
+#'   , X9 = rnorm(n = dplyr::n(), mean = 90)
 #'   )
 #'
 #' out_e_rf <-
@@ -74,15 +75,18 @@
 #'   , rf_x_var               = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
 #'   , rf_id_var              = "model"
 #'   , sw_rfsrc_ntree         = 200
-#'   , sw_alpha               = 0.05
+#'   , sw_alpha_sel           = 0.05
 #'   , sw_select_full         = c("select", "full")[1]
+#'   , sw_na_action           = c("na.omit", "na.impute")[1]
 #'   , sw_save_model          = c(TRUE, FALSE)[1]
 #'   , plot_title             = "Random Forest Title SEL"
 #'   , out_path               = "./out_sel"
 #'   , file_prefix            = "out_e_rf"
+#'   , var_subgroup_analysis  = NULL
 #'   , plot_format            = c("png", "pdf")[1]
 #'   , n_marginal_plot_across = 4
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
+#'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
 #'   )
 #'
@@ -132,6 +136,8 @@
 #' # Full model: variable importance (VIMP) plot boxplots
 #' out_e_rf[[ "plot_o_class_full_subsample" ]] |>
 #'   cowplot::plot_grid()
+#' # Full model: subsample double bootstrap VIMP CIs
+#' out[[ "plot_o_class_full_vimp_CI" ]]
 #'
 #' ## Selected model summaries
 #' # Selected model: x predictor variables
@@ -158,7 +164,48 @@
 #' # Selected model: variable importance (VIMP) plot boxplots
 #' out_e_rf[[ "plot_o_class_sel_subsample" ]] |>
 #'   cowplot::plot_grid()
+#' # Selected model: subsample double bootstrap VIMP CIs
+#' out[[ "plot_o_class_sel_vimp_CI" ]]
 #'
+#'
+#'
+#'
+#' ## With missing values and imputation
+#' # create missing-at-random values
+#' dat_rf_class_miss <- dat_rf_class
+#' prop_missing <- 0.10
+#' n_missing <-
+#'   sample.int(
+#'     n    = prod(dim(dat_rf_class_miss))
+#'   , size = round( prop_missing * prod(dim(dat_rf_class_miss)))
+#'   )
+#' ind_missing <- expand.grid(1:dim(dat_rf_class_miss)[1], 1:dim(dat_rf_class_miss)[2])[n_missing, ]
+#' for (i_row in seq_along(n_missing)) {
+#'   dat_rf_class_miss[ind_missing[i_row, 1], ind_missing[i_row, 2] ] <- NA
+#' }
+#' dat_rf_class[[ "model" ]] = dat_rf_class[[ "model" ]]
+#'
+#' out_e_rf <-
+#'   e_rfsrc_classification(
+#'     dat_rf_class           = dat_rf_class_miss
+#'   , rf_y_var               = "cyl"    # NULL
+#'   , rf_x_var               = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
+#'   , rf_id_var              = "model"
+#'   , sw_rfsrc_ntree         = 200
+#'   , sw_alpha_sel           = 0.05
+#'   , sw_select_full         = c("select", "full")[1]
+#'   , sw_na_action            = c("na.omit", "na.impute")[2]
+#'   , sw_save_model          = c(TRUE, FALSE)[1]
+#'   , plot_title             = "Random Forest, imputing missing values"
+#'   , out_path               = "./out_sel_miss"
+#'   , file_prefix            = "out_e_rf_miss"
+#'   , var_subgroup_analysis  = NULL
+#'   , plot_format            = c("png", "pdf")[1]
+#'   , n_marginal_plot_across = 4
+#'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
+#'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
+#'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   )
 #'
 #'
 #' ## Imbalanced binary classification
@@ -202,15 +249,18 @@
 #'   , rf_x_var               = NULL
 #'   , rf_id_var              = NULL
 #'   , sw_rfsrc_ntree         = 2000
-#'   , sw_alpha               = 0.25
+#'   , sw_alpha_sel           = 0.25
 #'   , sw_select_full         = c("select", "full")[1]
+#'   , sw_na_action            = c("na.omit", "na.impute")[1]
 #'   , sw_save_model          = c(TRUE, FALSE)[1]
 #'   , plot_title             = "Random Forest Imbalanced"
 #'   , out_path               = "./out_imbal"
 #'   , file_prefix            = "out_e_rf"
+#'   , var_subgroup_analysis  = NULL
 #'   , plot_format            = c("png", "pdf")[1]
 #'   , n_marginal_plot_across = 4
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
+#'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
 #'   )
 #'
@@ -222,8 +272,9 @@ e_rfsrc_classification <-
   , rf_x_var                = NULL
   , rf_id_var               = NULL
   , sw_rfsrc_ntree          = 500
-  , sw_alpha                = 0.05
+  , sw_alpha_sel            = 0.05
   , sw_select_full          = c("select", "full")[1]
+  , sw_na_action            = c("na.omit", "na.impute")[1]
   , sw_save_model           = c(TRUE, FALSE)[1]
   , plot_title              = "Random Forest"
   , out_path                = "out_sel"
@@ -264,7 +315,7 @@ e_rfsrc_classification <-
   ##   , rf_x_var        = NULL # c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL
   ##   , rf_id_var       = "ID"
   ##   , sw_rfsrc_ntree  = 100
-  ##   , sw_alpha        = 0.05
+  ##   , sw_alpha_sel    = 0.05
   ##   , sw_save_model   = c(TRUE, FALSE)[1]
   ##   , plot_title      = "Random Forest Title"
   ##   , out_path        = "C:/Users/erike/Desktop/temp"
@@ -272,6 +323,64 @@ e_rfsrc_classification <-
   ##   , plot_format     = c("png", "pdf")[1]
   ##   , n_marginal_plot_across = 6
   ##   )
+
+  f_plot_VIMP_bs <-
+    function(
+      out_bs        = out[[ "o_class_full_subsample_extract_bootsample" ]]
+    , sw_alpha_sel  = sw_alpha_sel
+    , sw_model_name = c("Full", "Selected")[1]
+    ) {
+
+    dat_bs <-
+      out_bs$var.sel.Z |>
+      tibble::as_tibble(rownames = "Var") |>
+      dplyr::bind_cols(
+        tibble::tibble(se = out_bs$se)
+      ) |>
+      dplyr::mutate(
+        mean_se_upper = mean + se
+      , mean_se_lower = mean - se
+      , signif = signif |> factor(levels = c(FALSE, TRUE), labels = c("FALSE", "TRUE"))
+      )
+
+
+    # Create a custom color scale
+    myColors <- RColorBrewer::brewer.pal(4, "Set1")
+    names(myColors) <- levels(dat_bs$signif)
+
+
+    p <- ggplot(dat_bs, aes(x = mean, y = reorder(Var, mean), color = signif))
+    p <- p + theme_bw()
+    p <- p + geom_vline(aes(xintercept = 0), colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.25)
+    p <- p + geom_errorbarh(aes(xmin = mean_se_lower, xmax = mean_se_upper), height = 0.25, color = "gray50")
+    p <- p + geom_errorbarh(aes(xmin = lower, xmax = upper), height = 0.5)
+    p <- p + geom_point(shape = 18, size = 4)
+    #p <- p + facet_grid(signif ~ ., scales = "free_y", drop = TRUE)
+    p <- p + theme(legend.position = "right") # "none"
+    p <- p + scale_color_manual(values = myColors, drop = FALSE)
+    p <- p + guides(colour = guide_legend(reverse = TRUE))
+
+    p <- p + labs(
+                    title     = plot_title
+                  , subtitle  = paste0(sw_model_name, " model, Variable Importance SE and CI using BS subsampling")
+                  , x         = "VIMP"
+                  , y         = "Variables"
+                  , caption = paste0(  "Symbols: Diamond is esimated VIMP;  "
+                                    , "Gray endpoints at 1 SE;  Colored bars at ", 100 * (1 - sw_alpha_sel), "% CI"
+                                    )
+                  , colour    = "VIMP\nSignificant"
+                  #, shape     = "Class"
+                  #, linetype  = "General Health"  #"Diagnosis"
+                  #, fill      = "Diagnosis"
+                  #, tag = "A"
+                  )
+    p <- p + theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+    #print(p)
+
+    return(p)
+
+  } # f_plot_VIMP_bs
+
 
   # for large x, plot_o_class_full_partial_effects may fail
   options(ragg.max_dim=1e6)
@@ -311,7 +420,7 @@ e_rfsrc_classification <-
     , "\n    rf_x_var                = ", ifelse(is.null(rf_x_var   ), "NULL", rf_x_var   )
     , "\n    rf_id_var               = ", ifelse(is.null(rf_id_var  ), "NULL", rf_id_var  )
     , "\n    sw_rfsrc_ntree          = ", sw_rfsrc_ntree
-    , "\n    sw_alpha                = ", sw_alpha
+    , "\n    sw_alpha_sel            = ", sw_alpha_sel
     , "\n    sw_select_full          = ", sw_select_full
     , "\n    sw_save_model           = ", sw_save_model
     , "\n    plot_title              = ", plot_title
@@ -368,13 +477,28 @@ e_rfsrc_classification <-
   # ID label
   if (is.null(rf_id_var)) {
     rownames(dat_rf_data) <- 1:nrow(dat_rf_data)
-  } else {
-    rownames(dat_rf_data) <- dat_rf_data[[ rf_id_var ]]
-    dat_rf_data <-
-      dat_rf_data |>
-      dplyr::select(
-        -tidyselect::all_of(rf_id_var)
+  }
+  if (!is.null(rf_id_var)) {
+    if (!(length(unique(dat_rf_data[[ rf_id_var ]])) == nrow(dat_rf_data))) {
+      e_log_write(
+        paste0("ID label has duplicate values, replacing with sequential index numbers")
+      , log_obj     = log_obj
+      , i_level     = 2
       )
+      rownames(dat_rf_data) <- 1:nrow(dat_rf_data)
+      dat_rf_data <-
+        dat_rf_data |>
+        dplyr::select(
+          -tidyselect::all_of(rf_id_var)
+        )
+    } else {
+      rownames(dat_rf_data) <- dat_rf_data[[ rf_id_var ]]
+      dat_rf_data <-
+        dat_rf_data |>
+        dplyr::select(
+          -tidyselect::all_of(rf_id_var)
+        )
+    }
   }
 
   # Variables
@@ -442,16 +566,7 @@ e_rfsrc_classification <-
   } # !sw_quick_full_only
 
 
-  e_log_write(
-    paste0("Removing rows with NAs (later versions will allow imputations)")
-  , log_obj     = log_obj
-  , i_level     = 2
-  )
-
-  dat_rf_data <-
-    dat_rf_data |>
-    tidyr::drop_na()
-
+  ## Missing values
 
   # check for all NA columns
   all_na_columns <-
@@ -486,26 +601,7 @@ e_rfsrc_classification <-
     rf_x_var_full <- rf_x_var_full[rf_x_var_full %notin% all_na_columns]
   }
 
-  # check for at least 2 y var levels
-  if (length(unique(dat_rf_data[[ rf_y_var ]])) < 2) {
-    e_log_write(
-      paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs at least two levels:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", "))
-    , log_obj     = log_obj
-    , i_level     = 3
-    )
-    return(NULL)
-  }
-  # check for exactly 2 y var levels if binary
-  if (sw_imbalanced_binary & !(length(unique(dat_rf_data[[ rf_y_var ]])) == 2)) {
-    e_log_write(
-      paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs exactly two levels when sw_imbalanced_binary=TRUE:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", "))
-    , log_obj     = log_obj
-    , i_level     = 3
-    )
-    return(NULL)
-  }
-
-
+  # Formula
   rf_formula_full <-
     paste(
       rf_y_var
@@ -534,6 +630,115 @@ e_rfsrc_classification <-
   , log_obj     = log_obj
   , i_level     = 2
   )
+
+
+  ## Missing values
+  out[[ "rf_data_input"  ]] <-
+    dat_rf_data
+
+  # Impute NAs, rf_x_var_full, only (not y variable)
+  if (sw_na_action == c("na.omit", "na.impute")[2]) {
+    e_log_write(
+      paste0("Imputing missing x variables")
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
+    dat_rf_data_impute <-
+      randomForestSRC::impute.rfsrc(
+        formula  = text_formula |> as.formula()
+      , data     = dat_rf_data
+      , ntree    = 500
+      , nodesize = 1
+      , nsplit   = 10
+      , nimpute  = 10
+      , fast     = c(FALSE, TRUE)[1]
+      )
+
+    # keep original y variable
+    dat_rf_data_impute[[ rf_y_var ]] <-
+      dat_rf_data[[ rf_y_var ]]
+
+    # replace data with imputed data
+    dat_rf_data <-
+      dat_rf_data_impute
+
+
+    # plot missing
+    plot_miss <-
+      e_plot_missing(
+        dat_plot            = dat_rf_data
+      , var_group           = rf_y_var
+      , sw_group_sort       = TRUE
+      , var2_sort           = NULL
+      , sw_title_data_name  = paste0("Training data: ", plot_title, ", after imputation")
+      , sw_text_pct_miss    = FALSE
+      )
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_missing_full_imputed"
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          plot_miss
+      , width  = 12
+      , height = 8
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      , limitsize = FALSE
+      )
+
+
+  } else {
+    e_log_write(
+      paste0("Not imputing missing x variables")
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
+  }
+  # Drop NAs, y variable (and x if not impute)
+  e_log_write(
+    paste0("Removing rows with NAs")
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
+
+  dat_rf_data <-
+    dat_rf_data |>
+    tidyr::drop_na()
+
+
+  out[[ "rf_data_used"  ]] <-
+    dat_rf_data
+
+  # check for at least 2 y var levels
+  if (length(unique(dat_rf_data[[ rf_y_var ]])) < 2) {
+    e_log_write(
+      paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs at least two levels:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", "))
+    , log_obj     = log_obj
+    , i_level     = 3
+    )
+    return(NULL)
+  }
+  # check for exactly 2 y var levels if binary
+  if (sw_imbalanced_binary & !(length(unique(dat_rf_data[[ rf_y_var ]])) == 2)) {
+    e_log_write(
+      paste0("erikmisc::e_rfsrc_classification, returning NULL: rf_y_var (", rf_y_var, ") needs exactly two levels when sw_imbalanced_binary=TRUE:  ", paste(unique(dat_rf_data[[ rf_y_var ]]), collapse = ", "))
+    , log_obj     = log_obj
+    , i_level     = 3
+    )
+    return(NULL)
+  }
 
 
 
@@ -973,7 +1178,7 @@ e_rfsrc_classification <-
     )
 
     return(out)
-  }
+  } # sw_quick_full_only
 
   readr::write_csv(
     x = out[[ "o_class_full_ROC" ]]$roc_curve_best |> dplyr::bind_rows()
@@ -1401,11 +1606,12 @@ e_rfsrc_classification <-
     o_class_full_subsample
 
   out[[ "o_class_full_subsample_extract_subsample" ]] <-
-    randomForestSRC::extract.subsample (o_class_full_subsample, alpha = sw_alpha)
+    randomForestSRC::extract.subsample (o_class_full_subsample, alpha = sw_alpha_sel)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
   out[[ "o_class_full_subsample_extract_bootsample" ]] <-
-    randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha)
+    randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)
+
 
   ### VIMP plot out to a selected alpha level
   out[[ "plot_o_class_full_subsample" ]] <-
@@ -1414,7 +1620,7 @@ e_rfsrc_classification <-
         cowplot::as_grob(
           ~ randomForestSRC::plot.subsample(
             x           = o_class_full_subsample
-          , alpha       = sw_alpha
+          , alpha       = sw_alpha_sel
           #, xvar.names
           , standardize = TRUE
           , normal      = TRUE
@@ -1464,6 +1670,38 @@ e_rfsrc_classification <-
   # cowplot::plot_grid(out[[ "plot_o_class_full_subsample" ]])
 
 
+  out[[ "plot_o_class_full_vimp_CI" ]] <-
+    f_plot_VIMP_bs(
+      out_bs        = out[[ "o_class_full_subsample_extract_bootsample" ]]
+    , sw_alpha_sel  = sw_alpha_sel
+    , sw_model_name = c("Full", "Selected")[1]
+    )
+
+  ggplot2::ggsave(
+      filename =
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "plot_o_class_full_VIMP_CI"
+          , "."
+          , plot_format
+          )
+        )
+    , plot   =
+        out[[ "plot_o_class_full_vimp_CI" ]]
+    , width  = 8
+    , height = 2 + 0.15 * length(rf_x_var_full)
+    ## png, jpeg
+    , dpi    = 300
+    , bg     = "white"
+    ## pdf
+    , units  = "in"
+    #, useDingbats = FALSE
+    , limitsize = FALSE
+    )
+
 
   ## Select variables from randomForestSRC::extract.bootsample(o_class_full_subsample)
   e_log_write(
@@ -1474,8 +1712,8 @@ e_rfsrc_classification <-
 
   rf_x_var_sel <-
     rownames(
-      randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha)$var.sel.Z
-    )[randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha)$var.sel.Z$signif]
+      randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)$var.sel.Z
+    )[randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)$var.sel.Z$signif]
 
   out[[ "rf_x_var_sel" ]] <-
     rf_x_var_sel
@@ -1782,7 +2020,8 @@ e_rfsrc_classification <-
     ##   theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     out[[ "plot_rf_train_all_summary" ]] <-
       out[[ "plot_o_class_full" ]]               + labs(title = NULL) +
-      out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
+      out[[ "plot_o_class_full_vimp_CI" ]]       + labs(title = NULL) +
+      #out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
       #cowplot::plot_grid(out$plot_o_class_sel          ) +
       #cowplot::plot_grid(out$plot_o_class_sel_subsample) +
       #cowplot::plot_grid(plotlist = out$plot_o_class_sel_ROC$plot_roc, nrow = 1) +
@@ -2747,11 +2986,11 @@ e_rfsrc_classification <-
     o_class_sel_subsample
 
   out[[ "o_class_sel_subsample_extract_subsample" ]] <-
-    randomForestSRC::extract.subsample(o_class_sel_subsample, alpha = sw_alpha)
+    randomForestSRC::extract.subsample(o_class_sel_subsample, alpha = sw_alpha_sel)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
   out[[ "o_class_sel_subsample_extract_bootsample" ]] <-
-    randomForestSRC::extract.bootsample(o_class_sel_subsample, alpha = sw_alpha)
+    randomForestSRC::extract.bootsample(o_class_sel_subsample, alpha = sw_alpha_sel)
 
   ### VIMP plot out to a selected alpha level
   out[[ "plot_o_class_sel_subsample" ]] <-
@@ -2760,7 +2999,7 @@ e_rfsrc_classification <-
         cowplot::as_grob(
           ~ randomForestSRC::plot.subsample(
             x           = o_class_sel_subsample
-          , alpha       = sw_alpha
+          , alpha       = sw_alpha_sel
           #, xvar.names
           , standardize = TRUE
           , normal      = TRUE
@@ -2809,6 +3048,38 @@ e_rfsrc_classification <-
 
   # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
 
+
+  out[[ "plot_o_class_sel_vimp_CI" ]] <-
+    f_plot_VIMP_bs(
+      out_bs        = out[[ "o_class_sel_subsample_extract_bootsample" ]]
+    , sw_alpha_sel  = sw_alpha_sel
+    , sw_model_name = c("Full", "Selected")[2]
+    )
+
+  ggplot2::ggsave(
+      filename =
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "plot_o_class_sel_VIMP_CI"
+          , "."
+          , plot_format
+          )
+        )
+    , plot   =
+        out[[ "plot_o_class_sel_vimp_CI" ]]
+    , width  = 8
+    , height = 2 + 0.15 * length(rf_x_var_sel)
+    ## png, jpeg
+    , dpi    = 300
+    , bg     = "white"
+    ## pdf
+    , units  = "in"
+    #, useDingbats = FALSE
+    , limitsize = FALSE
+    )
 
 
   ### Marginal/Partial effects plots
@@ -3267,9 +3538,11 @@ e_rfsrc_classification <-
 
   out[[ "plot_rf_train_all_summary" ]] <-
     out[[ "plot_o_class_full" ]]               + labs(title = NULL) +
-    out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
+    out[[ "plot_o_class_full_vimp_CI" ]]       + labs(title = NULL) +
+    #out[[ "plot_o_class_full_subsample" ]]     + labs(title = NULL) +
     out[[ "plot_o_class_sel" ]]           + labs(title = NULL) +
-    out[[ "plot_o_class_sel_subsample" ]] + labs(title = NULL) +
+    out[[ "plot_o_class_sel_vimp_CI" ]]       + labs(title = NULL) +
+    #out[[ "plot_o_class_sel_subsample" ]] + labs(title = NULL) +
     out[[ "plot_o_class_sel_ROC" ]] +
     #cowplot::plot_grid(plotlist = out$plot_o_class_sel_ROC$plot_roc, nrow = 1) +
     patchwork::plot_layout(design = plot_design) +
