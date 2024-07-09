@@ -18,6 +18,7 @@
 #' @param sw_imbalanced_binary    T/F to use standard or imbalanced binary classification with \code{rfsrc::imbalanced()}.  It is recommended to increase ntree to \code{5 * sw_rfsrc_ntree}.
 #' @param sw_threshold_to_use     T/F NOT YET USED XXX
 #' @param sw_quick_full_only      T/F to only fit full model and return model object
+#' @param n_single_decision_tree_plots number of example decision trees to plot (recommend not too many)
 #'
 #' @return list with many RF objects, summaries, and plots
 #' @import parallel
@@ -88,6 +89,7 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   , n_single_decision_tree_plots = 0
 #'   )
 #'
 #'
@@ -205,6 +207,7 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   , n_single_decision_tree_plots = 0
 #'   )
 #'
 #'
@@ -262,6 +265,7 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   , n_single_decision_tree_plots = 0
 #'   )
 #'
 #' }
@@ -285,6 +289,7 @@ e_rfsrc_classification <-
   , sw_imbalanced_binary    = c(FALSE, TRUE)[1]
   , sw_threshold_to_use     = c(FALSE, TRUE)[1]
   , sw_quick_full_only      = c(FALSE, TRUE)[1]
+  , n_single_decision_tree_plots = 0
   ) {
   ## dat_rf_class <-
   ##   erikmisc::dat_mtcars_e |>
@@ -397,6 +402,10 @@ e_rfsrc_classification <-
     , file_prefix = file_prefix
     )
 
+  if (n_single_decision_tree_plots > sw_rfsrc_ntree) {
+    n_single_decision_tree_plots <-
+      sw_rfsrc_ntree
+  }
 
     # Try logging messages with different priorities.
     # At priority level INFO, a call to debug() won't print anything.
@@ -1701,6 +1710,75 @@ e_rfsrc_classification <-
     #, useDingbats = FALSE
     , limitsize = FALSE
     )
+
+  ## One decision tree
+  e_log_write(
+    paste0("Full model, plot ", n_single_decision_tree_plots, " decision tree(s)")
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
+
+  if (n_single_decision_tree_plots > 0) {
+    for (i_tree in 1:n_single_decision_tree_plots) {
+
+      fn_tree_root <-
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "plot_o_class_full_one_tree_"
+          , i_tree
+          )
+        )
+      fn_tree_html <-
+        paste0(
+          fn_tree_root
+        , "."
+        , "html"
+        )
+      fn_tree_html_dir <-
+        paste0(
+          fn_tree_root
+        , "_files"
+        )
+      fn_tree_plot <-
+        paste0(
+          fn_tree_root
+        , "."
+        , plot_format
+        )
+
+
+      # https://rdrr.io/cran/randomForestSRC/man/get.tree.rfsrc.html
+      out[[ "plot_o_class_full_one_tree" ]] <-
+        randomForestSRC::get.tree(
+          object      = o_class_full
+        , tree.id     = i_tree
+        , class.type  = c("bayes", "rfq", "prob")[2]
+        , ensemble    = FALSE
+        , show.plots  = TRUE
+        )
+
+      # https://forum.posit.co/t/save-viewer-object-rendered-in-rstudio-as-image/32796/4
+      htmlwidgets::saveWidget(
+        out[[ "plot_o_class_full_one_tree" ]] |> plot()
+      , file    = fn_tree_html
+
+      )
+
+      webshot::webshot(
+        url     = fn_tree_html
+      , file    = fn_tree_plot
+      , vwidth  = 72 * (4 + 0.25 * length(rf_x_var_full))
+      , vheight = 72 * (4 + 0.10 * length(rf_x_var_full))
+      )
+
+      unlink(fn_tree_html)
+      unlink(fn_tree_html_dir, recursive = TRUE, force = TRUE)
+
+    } # i_tree
+  } # n_single_decision_tree_plots
 
 
   ## Select variables from randomForestSRC::extract.bootsample(o_class_full_subsample)
@@ -3080,6 +3158,76 @@ e_rfsrc_classification <-
     #, useDingbats = FALSE
     , limitsize = FALSE
     )
+
+
+  ## One decision tree
+  e_log_write(
+    paste0("Selected model, plot ", n_single_decision_tree_plots, " decision tree(s)")
+  , log_obj     = log_obj
+  , i_level     = 2
+  )
+
+  if (n_single_decision_tree_plots > 0) {
+    for (i_tree in 1:n_single_decision_tree_plots) {
+
+      fn_tree_root <-
+        file.path(
+          out_path
+        , paste0(
+            file_prefix
+          , "__"
+          , "plot_o_class_sel_one_tree_"
+          , i_tree
+          )
+        )
+      fn_tree_html <-
+        paste0(
+          fn_tree_root
+        , "."
+        , "html"
+        )
+      fn_tree_html_dir <-
+        paste0(
+          fn_tree_root
+        , "_files"
+        )
+      fn_tree_plot <-
+        paste0(
+          fn_tree_root
+        , "."
+        , plot_format
+        )
+
+
+      # https://rdrr.io/cran/randomForestSRC/man/get.tree.rfsrc.html
+      out[[ "plot_o_class_sel_one_tree" ]] <-
+        randomForestSRC::get.tree(
+          object      = o_class_sel
+        , tree.id     = i_tree
+        , class.type  = c("bayes", "rfq", "prob")[2]
+        , ensemble    = FALSE
+        , show.plots  = TRUE
+        )
+
+      # https://forum.posit.co/t/save-viewer-object-rendered-in-rstudio-as-image/32796/4
+      htmlwidgets::saveWidget(
+        out[[ "plot_o_class_sel_one_tree" ]] |> plot()
+      , file    = fn_tree_html
+
+      )
+
+      webshot::webshot(
+        url     = fn_tree_html
+      , file    = fn_tree_plot
+      , vwidth  = 72 * (4 + 0.25 * length(rf_x_var_sel))
+      , vheight = 72 * (4 + 0.10 * length(rf_x_var_sel))
+      )
+
+      unlink(fn_tree_html)
+      unlink(fn_tree_html_dir, recursive = TRUE, force = TRUE)
+
+    } # i_tree
+  } # n_single_decision_tree_plots
 
 
   ### Marginal/Partial effects plots
