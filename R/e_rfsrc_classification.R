@@ -2112,7 +2112,7 @@ e_rfsrc_classification <-
         title       = plot_title
       , subtitle    =
                       paste0(
-                        "Full model (AUC = ", round(out$o_class_full_AUC, 3), "): "
+                        "Full model (k var = ", length(out$rf_x_var_full), ", AUC = ", round(out$o_class_full_AUC, 3), "): "
                       , text_formula
                       , "\n"
                       , "Selected model: "
@@ -3698,10 +3698,10 @@ e_rfsrc_classification <-
       title       = plot_title
     , subtitle    =
                     paste0(
-                      "Full model (AUC = ", round(out$o_class_full_AUC, 3), "): "
+                      "Full model (k var = ", length(out$rf_x_var_full), ", AUC = ", round(out$o_class_full_AUC, 3), "): "
                     , text_formula
                     , "\n"
-                    , "Selected model (AUC = ", round(out$o_class_sel_AUC, 3), "): "
+                    , "Selected model (k var = ", length(out$rf_x_var_sel), ", AUC = ", round(out$o_class_sel_AUC, 3), "): "
                     , text_formula_sel
                     )
     #, caption     = paste0(
