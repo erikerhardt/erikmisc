@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>ANOVA-style dot-plot comparing means</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_plot_compare_medians.R" class="external-link"><code>R/e_plot_compare_medians.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_plot_compare_medians.R" class="external-link"><code>R/e_plot_compare_medians.R</code></a></small>
     <div class="hidden name"><code>e_plot_compare_medians.Rd</code></div>
     </div>
 
@@ -77,75 +77,75 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dat_plot</dt>
+
+
+<dl><dt id="arg-dat-plot">dat_plot<a class="anchor" aria-label="anchor" href="#arg-dat-plot"></a></dt>
 <dd><p>Data.frame</p></dd>
 
 
-<dt>var_response</dt>
+<dt id="arg-var-response">var_response<a class="anchor" aria-label="anchor" href="#arg-var-response"></a></dt>
 <dd><p>Variable name of response (y) (as string, "var_name")</p></dd>
 
 
-<dt>var_groups</dt>
+<dt id="arg-var-groups">var_groups<a class="anchor" aria-label="anchor" href="#arg-var-groups"></a></dt>
 <dd><p>Variable name of groups (x) (as string, "var_name")</p></dd>
 
 
-<dt>label_response</dt>
+<dt id="arg-label-response">label_response<a class="anchor" aria-label="anchor" href="#arg-label-response"></a></dt>
 <dd><p>Label for y-axis</p></dd>
 
 
-<dt>label_groups</dt>
+<dt id="arg-label-groups">label_groups<a class="anchor" aria-label="anchor" href="#arg-label-groups"></a></dt>
 <dd><p>Label for x-axis</p></dd>
 
 
-<dt>plot_title</dt>
+<dt id="arg-plot-title">plot_title<a class="anchor" aria-label="anchor" href="#arg-plot-title"></a></dt>
 <dd><p>Plot title</p></dd>
 
 
-<dt>plot_subtitle</dt>
+<dt id="arg-plot-subtitle">plot_subtitle<a class="anchor" aria-label="anchor" href="#arg-plot-subtitle"></a></dt>
 <dd><p>Plot subtitle</p></dd>
 
 
-<dt>comparisons</dt>
+<dt id="arg-comparisons">comparisons<a class="anchor" aria-label="anchor" href="#arg-comparisons"></a></dt>
 <dd><p>NULL=no comparisons, "all"=all pairwise comparisons, or a list of comparisons to make, such as <code>list(c("A", "B"), c("A", "C"))</code>.</p></dd>
 
 
-<dt>cm_method</dt>
+<dt id="arg-cm-method">cm_method<a class="anchor" aria-label="anchor" href="#arg-cm-method"></a></dt>
 <dd><p>Compare method: "wilcox.test" for nonparametric, "t.test" for parametric</p></dd>
 
 
-<dt>cm_p.adjust.method</dt>
+<dt id="arg-cm-p-adjust-method">cm_p.adjust.method<a class="anchor" aria-label="anchor" href="#arg-cm-p-adjust-method"></a></dt>
 <dd><p>Compare method: p-value adjust method "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"</p></dd>
 
 
-<dt>cm_dot</dt>
+<dt id="arg-cm-dot">cm_dot<a class="anchor" aria-label="anchor" href="#arg-cm-dot"></a></dt>
 <dd><p>Compare method: red center estimate "mean", "median"</p></dd>
 
 
-<dt>cm_fun</dt>
+<dt id="arg-cm-fun">cm_fun<a class="anchor" aria-label="anchor" href="#arg-cm-fun"></a></dt>
 <dd><p>Compare method: red error bar range "mean", "mean_se", "mean_sd", "mean_ci", "mean_range", "median", "median_iqr", "median_hilow", "median_q1q3", "median_mad", "median_range"</p></dd>
 
 
-<dt>cm_error.plot</dt>
+<dt id="arg-cm-error-plot">cm_error.plot<a class="anchor" aria-label="anchor" href="#arg-cm-error-plot"></a></dt>
 <dd><p>Compare method: red error bar style "pointrange", "linerange", "crossbar", "errorbar", "upper_errorbar", "lower_errorbar", "upper_pointrange", "lower_pointrange", "upper_linerange", "lower_linerange"</p></dd>
 
 
-<dt>sw_add</dt>
+<dt id="arg-sw-add">sw_add<a class="anchor" aria-label="anchor" href="#arg-sw-add"></a></dt>
 <dd><p>Add a second plot to the violin plot: "none", "dotplot", "jitter", "boxplot", "point"</p></dd>
 
 
-<dt>sw_caption_desc</dt>
+<dt id="arg-sw-caption-desc">sw_caption_desc<a class="anchor" aria-label="anchor" href="#arg-sw-caption-desc"></a></dt>
 <dd><p>T/F for caption describing red summary center and spread</p></dd>
 
 
-<dt>symnum.args</dt>
+<dt id="arg-symnum-args">symnum.args<a class="anchor" aria-label="anchor" href="#arg-symnum-args"></a></dt>
 <dd><p>List of cutpoints and symbols for significance</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>p_pub              <code>p_pub$result_compare_means</code> has pairwise comparison table.  <code>p_pub</code> is a ggplot plot grob.</p>
+    <p>p_pub              <code>p_pub$result_compare_means</code> has pairwise comparison table.  <code>p_pub</code> is a ggplot plot grob.</p>
     </div>
 
     <div id="ref-examples">
@@ -230,15 +230,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

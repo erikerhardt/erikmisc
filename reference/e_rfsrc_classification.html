@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Random Forests classification workflow using <code>randomForestSRC</code></h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_rfsrc_classification.R" class="external-link"><code>R/e_rfsrc_classification.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_rfsrc_classification.R" class="external-link"><code>R/e_rfsrc_classification.R</code></a></small>
     <div class="hidden name"><code>e_rfsrc_classification.Rd</code></div>
     </div>
 
@@ -56,8 +56,9 @@
 <span>  rf_x_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rf_id_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sw_rfsrc_ntree <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>  sw_alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  sw_alpha_sel <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  sw_select_full <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  sw_na_action <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"na.omit"</span>, <span class="st">"na.impute"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  sw_save_model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  plot_title <span class="op">=</span> <span class="st">"Random Forest"</span>,</span>
 <span>  out_path <span class="op">=</span> <span class="st">"out_sel"</span>,</span>
@@ -73,84 +74,88 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dat_rf_class</dt>
+
+
+<dl><dt id="arg-dat-rf-class">dat_rf_class<a class="anchor" aria-label="anchor" href="#arg-dat-rf-class"></a></dt>
 <dd><p>data.frame with data</p></dd>
 
 
-<dt>rf_y_var</dt>
+<dt id="arg-rf-y-var">rf_y_var<a class="anchor" aria-label="anchor" href="#arg-rf-y-var"></a></dt>
 <dd><p>y factor variable, if NULL then assumed to be the first column of <code>dat_rf_class</code></p></dd>
 
 
-<dt>rf_x_var</dt>
+<dt id="arg-rf-x-var">rf_x_var<a class="anchor" aria-label="anchor" href="#arg-rf-x-var"></a></dt>
 <dd><p>x variables, if NULL then assumed to be all except the first column of <code>dat_rf_class</code></p></dd>
 
 
-<dt>rf_id_var</dt>
+<dt id="arg-rf-id-var">rf_id_var<a class="anchor" aria-label="anchor" href="#arg-rf-id-var"></a></dt>
 <dd><p>ID variable, removed from dataset prior to analysis</p></dd>
 
 
-<dt>sw_rfsrc_ntree</dt>
+<dt id="arg-sw-rfsrc-ntree">sw_rfsrc_ntree<a class="anchor" aria-label="anchor" href="#arg-sw-rfsrc-ntree"></a></dt>
 <dd><p><code>ntree</code> argument for <code><a href="https://www.randomforestsrc.org//reference/rfsrc.html" class="external-link">randomForestSRC::rfsrc()</a></code></p></dd>
 
 
-<dt>sw_alpha</dt>
-<dd><p><code>alpha</code> argument for <code><a href="https://www.randomforestsrc.org//reference/plot.subsample.rfsrc.html" class="external-link">randomForestSRC::plot.subsample()</a></code> and <code><a href="https://www.randomforestsrc.org//reference/subsample.rfsrc.html" class="external-link">randomForestSRC::extract.bootsample()</a></code></p></dd>
+<dt id="arg-sw-alpha-sel">sw_alpha_sel<a class="anchor" aria-label="anchor" href="#arg-sw-alpha-sel"></a></dt>
+<dd><p><code>alpha</code> argument for <code><a href="https://www.randomforestsrc.org//reference/plot.subsample.rfsrc.html" class="external-link">randomForestSRC::plot.subsample()</a></code> and <code><a href="https://www.randomforestsrc.org//reference/subsample.rfsrc.html" class="external-link">randomForestSRC::extract.bootsample()</a></code> for model selection</p></dd>
 
 
-<dt>sw_select_full</dt>
+<dt id="arg-sw-select-full">sw_select_full<a class="anchor" aria-label="anchor" href="#arg-sw-select-full"></a></dt>
 <dd><p>run with model selection, or only fit full model</p></dd>
 
 
-<dt>sw_save_model</dt>
+<dt id="arg-sw-na-action">sw_na_action<a class="anchor" aria-label="anchor" href="#arg-sw-na-action"></a></dt>
+<dd><p>missing values, omit or impute (only x var, never impute y var, always drop rows with missing y var)</p></dd>
+
+
+<dt id="arg-sw-save-model">sw_save_model<a class="anchor" aria-label="anchor" href="#arg-sw-save-model"></a></dt>
 <dd><p>T/F to save model to .Rdata file</p></dd>
 
 
-<dt>plot_title</dt>
+<dt id="arg-plot-title">plot_title<a class="anchor" aria-label="anchor" href="#arg-plot-title"></a></dt>
 <dd><p>title for plots</p></dd>
 
 
-<dt>out_path</dt>
+<dt id="arg-out-path">out_path<a class="anchor" aria-label="anchor" href="#arg-out-path"></a></dt>
 <dd><p>path to save output</p></dd>
 
 
-<dt>file_prefix</dt>
+<dt id="arg-file-prefix">file_prefix<a class="anchor" aria-label="anchor" href="#arg-file-prefix"></a></dt>
 <dd><p>file prefix for saved output</p></dd>
 
 
-<dt>var_subgroup_analysis</dt>
+<dt id="arg-var-subgroup-analysis">var_subgroup_analysis<a class="anchor" aria-label="anchor" href="#arg-var-subgroup-analysis"></a></dt>
 <dd><p>variable(s) list (in <code>c(var1, var2)</code>) for subgroup analysis (group-specific ROC curves and confusion matrices) using ROC threshold from non-subgroup ROC curve, or <code>NULL</code> for none</p></dd>
 
 
-<dt>plot_format</dt>
+<dt id="arg-plot-format">plot_format<a class="anchor" aria-label="anchor" href="#arg-plot-format"></a></dt>
 <dd><p>plot format supported by <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggplot2::ggsave()</a></code></p></dd>
 
 
-<dt>n_marginal_plot_across</dt>
+<dt id="arg-n-marginal-plot-across">n_marginal_plot_across<a class="anchor" aria-label="anchor" href="#arg-n-marginal-plot-across"></a></dt>
 <dd><p>for partial and marginal plots, number of plots per row (increase if not all plots are displayed)</p></dd>
 
 
-<dt>sw_imbalanced_binary</dt>
+<dt id="arg-sw-imbalanced-binary">sw_imbalanced_binary<a class="anchor" aria-label="anchor" href="#arg-sw-imbalanced-binary"></a></dt>
 <dd><p>T/F to use standard or imbalanced binary classification with <code>rfsrc::imbalanced()</code>.  It is recommended to increase ntree to <code>5 * sw_rfsrc_ntree</code>.</p></dd>
 
 
-<dt>sw_threshold_to_use</dt>
+<dt id="arg-sw-threshold-to-use">sw_threshold_to_use<a class="anchor" aria-label="anchor" href="#arg-sw-threshold-to-use"></a></dt>
 <dd><p>T/F NOT YET USED XXX</p></dd>
 
 
-<dt>sw_quick_full_only</dt>
+<dt id="arg-sw-quick-full-only">sw_quick_full_only<a class="anchor" aria-label="anchor" href="#arg-sw-quick-full-only"></a></dt>
 <dd><p>T/F to only fit full model and return model object</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>list with many RF objects, summaries, and plots</p>
+    <p>list with many RF objects, summaries, and plots</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">dat_rf_class</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">erikmisc</span><span class="fu">::</span><span class="va"><a href="dat_mtcars_e.html">dat_mtcars_e</a></span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="co">#dplyr::select(</span></span></span>
@@ -167,15 +172,15 @@
 <span class="r-in"><span>        <span class="va">disp</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/between.html" class="external-link">between</a></span><span class="op">(</span><span class="fl">160</span>, <span class="fl">170</span><span class="op">)</span> <span class="op">~</span> <span class="cn">NA</span></span></span>
 <span class="r-in"><span>      , <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">disp</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span></span></span>
-<span class="r-in"><span>  , X1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X7 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X8 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  , X9 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X7 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X8 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">80</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , X9 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">out_e_rf</span> <span class="op">&lt;-</span></span></span>
@@ -185,15 +190,18 @@
 <span class="r-in"><span>  , rf_x_var               <span class="op">=</span> <span class="cn">NULL</span> <span class="co"># c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL</span></span></span>
 <span class="r-in"><span>  , rf_id_var              <span class="op">=</span> <span class="st">"model"</span></span></span>
 <span class="r-in"><span>  , sw_rfsrc_ntree         <span class="op">=</span> <span class="fl">200</span></span></span>
-<span class="r-in"><span>  , sw_alpha               <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , sw_alpha_sel           <span class="op">=</span> <span class="fl">0.05</span></span></span>
 <span class="r-in"><span>  , sw_select_full         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_na_action           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"na.omit"</span>, <span class="st">"na.impute"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , sw_save_model          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , plot_title             <span class="op">=</span> <span class="st">"Random Forest Title SEL"</span></span></span>
 <span class="r-in"><span>  , out_path               <span class="op">=</span> <span class="st">"./out_sel"</span></span></span>
 <span class="r-in"><span>  , file_prefix            <span class="op">=</span> <span class="st">"out_e_rf"</span></span></span>
+<span class="r-in"><span>  , var_subgroup_analysis  <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  , plot_format            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , n_marginal_plot_across <span class="op">=</span> <span class="fl">4</span></span></span>
 <span class="r-in"><span>  , sw_imbalanced_binary   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_threshold_to_use    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , sw_quick_full_only     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -243,6 +251,8 @@
 <span class="r-in"><span><span class="co"># Full model: variable importance (VIMP) plot boxplots</span></span></span>
 <span class="r-in"><span><span class="va">out_e_rf</span><span class="op">[[</span> <span class="st">"plot_o_class_full_subsample"</span> <span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Full model: subsample double bootstrap VIMP CIs</span></span></span>
+<span class="r-in"><span><span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_full_vimp_CI"</span> <span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Selected model summaries</span></span></span>
 <span class="r-in"><span><span class="co"># Selected model: x predictor variables</span></span></span>
@@ -269,7 +279,48 @@
 <span class="r-in"><span><span class="co"># Selected model: variable importance (VIMP) plot boxplots</span></span></span>
 <span class="r-in"><span><span class="va">out_e_rf</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_subsample"</span> <span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Selected model: subsample double bootstrap VIMP CIs</span></span></span>
+<span class="r-in"><span><span class="va">out</span><span class="op">[[</span> <span class="st">"plot_o_class_sel_vimp_CI"</span> <span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## With missing values and imputation</span></span></span>
+<span class="r-in"><span><span class="co"># create missing-at-random values</span></span></span>
+<span class="r-in"><span><span class="va">dat_rf_class_miss</span> <span class="op">&lt;-</span> <span class="va">dat_rf_class</span></span></span>
+<span class="r-in"><span><span class="va">prop_missing</span> <span class="op">&lt;-</span> <span class="fl">0.10</span></span></span>
+<span class="r-in"><span><span class="va">n_missing</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_rf_class_miss</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  , size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span> <span class="va">prop_missing</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_rf_class_miss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ind_missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_rf_class_miss</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dat_rf_class_miss</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="va">n_missing</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i_row</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">n_missing</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">dat_rf_class_miss</span><span class="op">[</span><span class="va">ind_missing</span><span class="op">[</span><span class="va">i_row</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">ind_missing</span><span class="op">[</span><span class="va">i_row</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">dat_rf_class</span><span class="op">[[</span> <span class="st">"model"</span> <span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="va">dat_rf_class</span><span class="op">[[</span> <span class="st">"model"</span> <span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">out_e_rf</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">e_rfsrc_classification</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    dat_rf_class           <span class="op">=</span> <span class="va">dat_rf_class_miss</span></span></span>
+<span class="r-in"><span>  , rf_y_var               <span class="op">=</span> <span class="st">"cyl"</span>    <span class="co"># NULL</span></span></span>
+<span class="r-in"><span>  , rf_x_var               <span class="op">=</span> <span class="cn">NULL</span> <span class="co"># c("mpg", "disp", "hp", "drat", "wt", "qsec", "vs", "am") # NULL</span></span></span>
+<span class="r-in"><span>  , rf_id_var              <span class="op">=</span> <span class="st">"model"</span></span></span>
+<span class="r-in"><span>  , sw_rfsrc_ntree         <span class="op">=</span> <span class="fl">200</span></span></span>
+<span class="r-in"><span>  , sw_alpha_sel           <span class="op">=</span> <span class="fl">0.05</span></span></span>
+<span class="r-in"><span>  , sw_select_full         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_na_action            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"na.omit"</span>, <span class="st">"na.impute"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_save_model          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , plot_title             <span class="op">=</span> <span class="st">"Random Forest, imputing missing values"</span></span></span>
+<span class="r-in"><span>  , out_path               <span class="op">=</span> <span class="st">"./out_sel_miss"</span></span></span>
+<span class="r-in"><span>  , file_prefix            <span class="op">=</span> <span class="st">"out_e_rf_miss"</span></span></span>
+<span class="r-in"><span>  , var_subgroup_analysis  <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  , plot_format            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , n_marginal_plot_across <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  , sw_imbalanced_binary   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_threshold_to_use    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_quick_full_only     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Imbalanced binary classification</span></span></span>
@@ -313,19 +364,22 @@
 <span class="r-in"><span>  , rf_x_var               <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  , rf_id_var              <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  , sw_rfsrc_ntree         <span class="op">=</span> <span class="fl">2000</span></span></span>
-<span class="r-in"><span>  , sw_alpha               <span class="op">=</span> <span class="fl">0.25</span></span></span>
+<span class="r-in"><span>  , sw_alpha_sel           <span class="op">=</span> <span class="fl">0.25</span></span></span>
 <span class="r-in"><span>  , sw_select_full         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"select"</span>, <span class="st">"full"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_na_action            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"na.omit"</span>, <span class="st">"na.impute"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , sw_save_model          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , plot_title             <span class="op">=</span> <span class="st">"Random Forest Imbalanced"</span></span></span>
 <span class="r-in"><span>  , out_path               <span class="op">=</span> <span class="st">"./out_imbal"</span></span></span>
 <span class="r-in"><span>  , file_prefix            <span class="op">=</span> <span class="st">"out_e_rf"</span></span></span>
+<span class="r-in"><span>  , var_subgroup_analysis  <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span>  , plot_format            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , n_marginal_plot_across <span class="op">=</span> <span class="fl">4</span></span></span>
 <span class="r-in"><span>  , sw_imbalanced_binary   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  , sw_threshold_to_use    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , sw_quick_full_only     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -340,15 +394,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

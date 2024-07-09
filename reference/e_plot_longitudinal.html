@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Longitudinal interaction plots</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_plot_longitudinal.R" class="external-link"><code>R/e_plot_longitudinal.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_plot_longitudinal.R" class="external-link"><code>R/e_plot_longitudinal.R</code></a></small>
     <div class="hidden name"><code>e_plot_longitudinal.Rd</code></div>
     </div>
 
@@ -77,87 +77,87 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dat_plot</dt>
+
+
+<dl><dt id="arg-dat-plot">dat_plot<a class="anchor" aria-label="anchor" href="#arg-dat-plot"></a></dt>
 <dd><p>data.frame for plotting</p></dd>
 
 
-<dt>var_x_time</dt>
+<dt id="arg-var-x-time">var_x_time<a class="anchor" aria-label="anchor" href="#arg-var-x-time"></a></dt>
 <dd><p>x variable, usually a "time" variable</p></dd>
 
 
-<dt>var_y_resp</dt>
+<dt id="arg-var-y-resp">var_y_resp<a class="anchor" aria-label="anchor" href="#arg-var-y-resp"></a></dt>
 <dd><p>y response variable</p></dd>
 
 
-<dt>var_ID</dt>
+<dt id="arg-var-id">var_ID<a class="anchor" aria-label="anchor" href="#arg-var-id"></a></dt>
 <dd><p>ID variable for each repeated measures subject</p></dd>
 
 
-<dt>var_group</dt>
+<dt id="arg-var-group">var_group<a class="anchor" aria-label="anchor" href="#arg-var-group"></a></dt>
 <dd><p>If there are groups, this is the group variable.</p></dd>
 
 
-<dt>label_title</dt>
+<dt id="arg-label-title">label_title<a class="anchor" aria-label="anchor" href="#arg-label-title"></a></dt>
 <dd><p>plot title, defaults to y-variable</p></dd>
 
 
-<dt>label_subtitle</dt>
+<dt id="arg-label-subtitle">label_subtitle<a class="anchor" aria-label="anchor" href="#arg-label-subtitle"></a></dt>
 <dd><p>plot subtitle</p></dd>
 
 
-<dt>label_x_time</dt>
+<dt id="arg-label-x-time">label_x_time<a class="anchor" aria-label="anchor" href="#arg-label-x-time"></a></dt>
 <dd><p>x-axis label</p></dd>
 
 
-<dt>label_y_resp</dt>
+<dt id="arg-label-y-resp">label_y_resp<a class="anchor" aria-label="anchor" href="#arg-label-y-resp"></a></dt>
 <dd><p>y-axis label</p></dd>
 
 
-<dt>label_group</dt>
+<dt id="arg-label-group">label_group<a class="anchor" aria-label="anchor" href="#arg-label-group"></a></dt>
 <dd><p>group label</p></dd>
 
 
-<dt>x_scale_breaks</dt>
+<dt id="arg-x-scale-breaks">x_scale_breaks<a class="anchor" aria-label="anchor" href="#arg-x-scale-breaks"></a></dt>
 <dd><p>breaks for x-axis</p></dd>
 
 
-<dt>y_scale_breaks</dt>
+<dt id="arg-y-scale-breaks">y_scale_breaks<a class="anchor" aria-label="anchor" href="#arg-y-scale-breaks"></a></dt>
 <dd><p>breaks for y-axis</p></dd>
 
 
-<dt>sw_which_plots</dt>
+<dt id="arg-sw-which-plots">sw_which_plots<a class="anchor" aria-label="anchor" href="#arg-sw-which-plots"></a></dt>
 <dd><p>which plots to include, a subset of <code>c("line", "hist")</code></p></dd>
 
 
-<dt>hist_scale_breaks</dt>
+<dt id="arg-hist-scale-breaks">hist_scale_breaks<a class="anchor" aria-label="anchor" href="#arg-hist-scale-breaks"></a></dt>
 <dd><p>breaks for histogram x-axis</p></dd>
 
 
-<dt>sw_group_reverse</dt>
+<dt id="arg-sw-group-reverse">sw_group_reverse<a class="anchor" aria-label="anchor" href="#arg-sw-group-reverse"></a></dt>
 <dd><p>TRUE/FALSE to reverse the order of groups</p></dd>
 
 
-<dt>hist_binwidth</dt>
+<dt id="arg-hist-binwidth">hist_binwidth<a class="anchor" aria-label="anchor" href="#arg-hist-binwidth"></a></dt>
 <dd><p>histogram binwidth</p></dd>
 
 
-<dt>hist_align</dt>
+<dt id="arg-hist-align">hist_align<a class="anchor" aria-label="anchor" href="#arg-hist-align"></a></dt>
 <dd><p>align "center" or "boundary"?  If numeric non-negative responses, usually "boundary" is preferred.</p></dd>
 
 
-<dt>line_type_grand</dt>
+<dt id="arg-line-type-grand">line_type_grand<a class="anchor" aria-label="anchor" href="#arg-line-type-grand"></a></dt>
 <dd><p>Grand mean line type</p></dd>
 
 
-<dt>line_type_group</dt>
+<dt id="arg-line-type-group">line_type_group<a class="anchor" aria-label="anchor" href="#arg-line-type-group"></a></dt>
 <dd><p>Group mean line type</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>plot in ggplot grob format</p>
+    <p>plot in ggplot grob format</p>
     </div>
 
     <div id="ref-examples">
@@ -250,15 +250,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>A function to calculate the ROC curve, determine the optimal threshold, plot the curve, and provide classification statistics</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_plot_roc.R" class="external-link"><code>R/e_plot_roc.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_plot_roc.R" class="external-link"><code>R/e_plot_roc.R</code></a></small>
     <div class="hidden name"><code>e_plot_roc.Rd</code></div>
     </div>
 
@@ -81,114 +81,111 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>labels_true</dt>
+
+
+<dl><dt id="arg-labels-true">labels_true<a class="anchor" aria-label="anchor" href="#arg-labels-true"></a></dt>
 <dd><p>true labels of binary observations, should be the same (and not a proxy) as what was used to build the prediction model</p></dd>
 
 
-<dt>pred_values_pos</dt>
+<dt id="arg-pred-values-pos">pred_values_pos<a class="anchor" aria-label="anchor" href="#arg-pred-values-pos"></a></dt>
 <dd><p>either predicted labels or a value (such as a probability) associated with the success label</p></dd>
 
 
-<dt>label_neg_pos</dt>
+<dt id="arg-label-neg-pos">label_neg_pos<a class="anchor" aria-label="anchor" href="#arg-label-neg-pos"></a></dt>
 <dd><p>labels in order c("negative", "positive")</p></dd>
 
 
-<dt>sw_plot</dt>
+<dt id="arg-sw-plot">sw_plot<a class="anchor" aria-label="anchor" href="#arg-sw-plot"></a></dt>
 <dd><p>T/F to return a ROC curve ggplot object</p></dd>
 
 
-<dt>cm_mode</dt>
+<dt id="arg-cm-mode">cm_mode<a class="anchor" aria-label="anchor" href="#arg-cm-mode"></a></dt>
 <dd><p><code>mode</code> from <code><a href="https://rdrr.io/pkg/caret/man/confusionMatrix.html" class="external-link">caret::confusionMatrix</a></code></p></dd>
 
 
-<dt>threshold_to_use</dt>
+<dt id="arg-threshold-to-use">threshold_to_use<a class="anchor" aria-label="anchor" href="#arg-threshold-to-use"></a></dt>
 <dd><p>A threshold value to use for plot and "best" ROC, <code>NULL</code> to determine.</p></dd>
 
 
-<dt>sw_confusion_matrix</dt>
+<dt id="arg-sw-confusion-matrix">sw_confusion_matrix<a class="anchor" aria-label="anchor" href="#arg-sw-confusion-matrix"></a></dt>
 <dd><p>T/F include confusion matrix table inset in plot</p></dd>
 
 
-<dt>pos_conf_mat</dt>
+<dt id="arg-pos-conf-mat">pos_conf_mat<a class="anchor" aria-label="anchor" href="#arg-pos-conf-mat"></a></dt>
 <dd><p><code>c(x, y)</code> inset position</p></dd>
 
 
-<dt>sw_caption_desc</dt>
+<dt id="arg-sw-caption-desc">sw_caption_desc<a class="anchor" aria-label="anchor" href="#arg-sw-caption-desc"></a></dt>
 <dd><p>T/F define statistics in caption</p></dd>
 
 
-<dt>sw_class_labels</dt>
+<dt id="arg-sw-class-labels">sw_class_labels<a class="anchor" aria-label="anchor" href="#arg-sw-class-labels"></a></dt>
 <dd><p>T/F classification labels indicated in caption</p></dd>
 
 
-<dt>sw_thresh_bounds</dt>
+<dt id="arg-sw-thresh-bounds">sw_thresh_bounds<a class="anchor" aria-label="anchor" href="#arg-sw-thresh-bounds"></a></dt>
 <dd><p>T/F print threshold bounds at ends of ROC Curve</p></dd>
 
 
-<dt>sw_val_AUC</dt>
+<dt id="arg-sw-val-auc">sw_val_AUC<a class="anchor" aria-label="anchor" href="#arg-sw-val-auc"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>sw_val_BA</dt>
+<dt id="arg-sw-val-ba">sw_val_BA<a class="anchor" aria-label="anchor" href="#arg-sw-val-ba"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>sw_val_Sens</dt>
+<dt id="arg-sw-val-sens">sw_val_Sens<a class="anchor" aria-label="anchor" href="#arg-sw-val-sens"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>sw_val_Spec</dt>
+<dt id="arg-sw-val-spec">sw_val_Spec<a class="anchor" aria-label="anchor" href="#arg-sw-val-spec"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>sw_val_PPV</dt>
+<dt id="arg-sw-val-ppv">sw_val_PPV<a class="anchor" aria-label="anchor" href="#arg-sw-val-ppv"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>sw_val_NPV</dt>
+<dt id="arg-sw-val-npv">sw_val_NPV<a class="anchor" aria-label="anchor" href="#arg-sw-val-npv"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>sw_val_Thresh</dt>
+<dt id="arg-sw-val-thresh">sw_val_Thresh<a class="anchor" aria-label="anchor" href="#arg-sw-val-thresh"></a></dt>
 <dd><p>T/F report statistic</p></dd>
 
 
-<dt>label_AUC</dt>
+<dt id="arg-label-auc">label_AUC<a class="anchor" aria-label="anchor" href="#arg-label-auc"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 
-<dt>label_BA</dt>
+<dt id="arg-label-ba">label_BA<a class="anchor" aria-label="anchor" href="#arg-label-ba"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 
-<dt>label_Sens</dt>
+<dt id="arg-label-sens">label_Sens<a class="anchor" aria-label="anchor" href="#arg-label-sens"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 
-<dt>label_Spec</dt>
+<dt id="arg-label-spec">label_Spec<a class="anchor" aria-label="anchor" href="#arg-label-spec"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 
-<dt>label_PPV</dt>
+<dt id="arg-label-ppv">label_PPV<a class="anchor" aria-label="anchor" href="#arg-label-ppv"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 
-<dt>label_NPV</dt>
+<dt id="arg-label-npv">label_NPV<a class="anchor" aria-label="anchor" href="#arg-label-npv"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 
-<dt>label_Thresh</dt>
+<dt id="arg-label-thresh">label_Thresh<a class="anchor" aria-label="anchor" href="#arg-label-thresh"></a></dt>
 <dd><p>label for statistic</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>           a list including</span></code></pre><p></p></div>
-
-
-
+    <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>           a list including</span></code></pre><p></p></div>
 <ul><li><p>roc_curve_best   - one-row tibble of classification statistics for best Sensitivity and Specificity (closest to upper-left corner of ROC curve)</p></li>
 <li><p>pred_positive    - pred_values_pos, returned as numeric 1 or 0</p></li>
 <li><p>confusion_matrix - confusion matrix statistics</p></li>
@@ -584,7 +581,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Categorical prediction-value example (from ?caret::confusionMatrix)</span></span></span>
 <span class="r-in"><span><span class="va">ex_lvs</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="st">"abnormal"</span><span class="op">)</span></span></span>
@@ -620,7 +617,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">out_roc_reordered</span> <span class="op">|&gt;</span> <span class="fu"><a href="e_print_list_tree_hierarchy.html">e_print_list_tree_hierarchy</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -636,15 +633,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

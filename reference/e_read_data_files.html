@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read a list of csv, xls, or xlsx data into a list of tibbles</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_read_data_files.R" class="external-link"><code>R/e_read_data_files.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_read_data_files.R" class="external-link"><code>R/e_read_data_files.R</code></a></small>
     <div class="hidden name"><code>e_read_data_files.Rd</code></div>
     </div>
 
@@ -66,58 +66,58 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>read_fn_path</dt>
+
+
+<dl><dt id="arg-read-fn-path">read_fn_path<a class="anchor" aria-label="anchor" href="#arg-read-fn-path"></a></dt>
 <dd><p>Directory path</p></dd>
 
 
-<dt>read_fn_names</dt>
+<dt id="arg-read-fn-names">read_fn_names<a class="anchor" aria-label="anchor" href="#arg-read-fn-names"></a></dt>
 <dd><p>Character list of file names</p></dd>
 
 
-<dt>sw_dat_add_col_path_fn</dt>
+<dt id="arg-sw-dat-add-col-path-fn">sw_dat_add_col_path_fn<a class="anchor" aria-label="anchor" href="#arg-sw-dat-add-col-path-fn"></a></dt>
 <dd><p>T/F for data, add two columns specifying the directory (<code>DIR__</code>) and filename (<code>FILE__</code>)</p></dd>
 
 
-<dt>sw_dat_print_fn_read</dt>
+<dt id="arg-sw-dat-print-fn-read">sw_dat_print_fn_read<a class="anchor" aria-label="anchor" href="#arg-sw-dat-print-fn-read"></a></dt>
 <dd><p>T/F print file names and dimensions as the files are read</p></dd>
 
 
-<dt>excel_sheets</dt>
+<dt id="arg-excel-sheets">excel_sheets<a class="anchor" aria-label="anchor" href="#arg-excel-sheets"></a></dt>
 <dd><p>"all" for all sheets, or a list of numbers "<code>c(1, 2)</code>"; applies to all excel sheets.</p></dd>
 
 
-<dt>sw_clean_names</dt>
+<dt id="arg-sw-clean-names">sw_clean_names<a class="anchor" aria-label="anchor" href="#arg-sw-clean-names"></a></dt>
 <dd><p>T/F to clean column names using <code><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">janitor::clean_names</a></code></p></dd>
 
 
-<dt>excel_range</dt>
+<dt id="arg-excel-range">excel_range<a class="anchor" aria-label="anchor" href="#arg-excel-range"></a></dt>
 <dd><p>When reading Excel files, NULL reads entire sheet, a range is specified as in <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_xlsx</a></code>.  Applies to all files.</p></dd>
 
 
-<dt>excel_col_names</dt>
+<dt id="arg-excel-col-names">excel_col_names<a class="anchor" aria-label="anchor" href="#arg-excel-col-names"></a></dt>
 <dd><p>Specified as in <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_xlsx</a></code>.  Applies to all files.</p></dd>
 
 
-<dt>sw_delim</dt>
+<dt id="arg-sw-delim">sw_delim<a class="anchor" aria-label="anchor" href="#arg-sw-delim"></a></dt>
 <dd><p>F if standard delim, otherwise delim character such as "|"</p></dd>
 
 
-<dt>sw_read_package_csv_txt</dt>
+<dt id="arg-sw-read-package-csv-txt">sw_read_package_csv_txt<a class="anchor" aria-label="anchor" href="#arg-sw-read-package-csv-txt"></a></dt>
 <dd><p>"readr" for <code>read_csv</code> and <code>read_delim</code>, "utils" for <code>read.csv</code> and <code>read.delim</code></p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>dat_sheet             A list of tibbles</p>
+    <p>dat_sheet             A list of tibbles</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># See e_read_data_subdir_into_lists()</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -132,15 +132,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

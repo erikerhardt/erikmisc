@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_plot_model_contrasts.R" class="external-link"><code>R/e_plot_model_contrasts.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_plot_model_contrasts.R" class="external-link"><code>R/e_plot_model_contrasts.R</code></a></small>
     <div class="hidden name"><code>e_plot_model_contrasts.Rd</code></div>
     </div>
 
@@ -75,83 +75,83 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>fit</dt>
+
+
+<dl><dt id="arg-fit">fit<a class="anchor" aria-label="anchor" href="#arg-fit"></a></dt>
 <dd><p>(required) model object: lm, glm, lmerModLmerTest (from <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lme4::lmer</a></code>, or lmerMod (from <code><a href="https://rdrr.io/pkg/lmerTest/man/as_lmerModLmerTest.html" class="external-link">lmerTest::as_lmerModLmerTest</a></code>)</p></dd>
 
 
-<dt>dat_cont</dt>
+<dt id="arg-dat-cont">dat_cont<a class="anchor" aria-label="anchor" href="#arg-dat-cont"></a></dt>
 <dd><p>(required) data used for the lm object (only used for variable labels using labelled::var_label()</p></dd>
 
 
-<dt>choose_contrasts</dt>
+<dt id="arg-choose-contrasts">choose_contrasts<a class="anchor" aria-label="anchor" href="#arg-choose-contrasts"></a></dt>
 <dd><p>is a list of effects to plot, such as c("hp", "vs:wt"); NULL does all in model.</p></dd>
 
 
-<dt>sw_table_in_plot</dt>
+<dt id="arg-sw-table-in-plot">sw_table_in_plot<a class="anchor" aria-label="anchor" href="#arg-sw-table-in-plot"></a></dt>
 <dd><p>T/F put table of results in caption of plot</p></dd>
 
 
-<dt>sw_points_in_plot</dt>
+<dt id="arg-sw-points-in-plot">sw_points_in_plot<a class="anchor" aria-label="anchor" href="#arg-sw-points-in-plot"></a></dt>
 <dd><p>T/F include marginal points in numeric plot</p></dd>
 
 
-<dt>sw_ribbon_in_plot</dt>
+<dt id="arg-sw-ribbon-in-plot">sw_ribbon_in_plot<a class="anchor" aria-label="anchor" href="#arg-sw-ribbon-in-plot"></a></dt>
 <dd><p>T/F include error bands in numeric plot</p></dd>
 
 
-<dt>adjust_method</dt>
+<dt id="arg-adjust-method">adjust_method<a class="anchor" aria-label="anchor" href="#arg-adjust-method"></a></dt>
 <dd><p>see         <code><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html" class="external-link">?emmeans::summary.emmGrid</a></code></p></dd>
 
 
-<dt>CI_level</dt>
+<dt id="arg-ci-level">CI_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
 <dd><p>level from <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">?emmeans::emmeans</a></code></p></dd>
 
 
-<dt>sw_glm_scale</dt>
+<dt id="arg-sw-glm-scale">sw_glm_scale<a class="anchor" aria-label="anchor" href="#arg-sw-glm-scale"></a></dt>
 <dd><p>for glm fit, choose results on the "link" or "response" (default) scale (e.g., for logistic regression, link is logit scale and response is probability scale)</p></dd>
 
 
-<dt>sw_print</dt>
+<dt id="arg-sw-print">sw_print<a class="anchor" aria-label="anchor" href="#arg-sw-print"></a></dt>
 <dd><p>T/F whether to print results as this function runs</p></dd>
 
 
-<dt>sw_marginal_even_if_interaction</dt>
+<dt id="arg-sw-marginal-even-if-interaction">sw_marginal_even_if_interaction<a class="anchor" aria-label="anchor" href="#arg-sw-marginal-even-if-interaction"></a></dt>
 <dd><p>T/F whether to also calculate marginal results when involved in interaction(s)</p></dd>
 
 
-<dt>sw_TWI_plots_keep</dt>
+<dt id="arg-sw-twi-plots-keep">sw_TWI_plots_keep<a class="anchor" aria-label="anchor" href="#arg-sw-twi-plots-keep"></a></dt>
 <dd><p>two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles", default) or together in a grid ("both"), and "all" keeps the singles and the grid version.</p></dd>
 
 
-<dt>sw_TWI_both_orientation</dt>
+<dt id="arg-sw-twi-both-orientation">sw_TWI_both_orientation<a class="anchor" aria-label="anchor" href="#arg-sw-twi-both-orientation"></a></dt>
 <dd><p>"tall" or "wide" orientation for when both two-way interaction plots are combined in a grid</p></dd>
 
 
-<dt>sw_plot_quantiles_values</dt>
+<dt id="arg-sw-plot-quantiles-values">sw_plot_quantiles_values<a class="anchor" aria-label="anchor" href="#arg-sw-plot-quantiles-values"></a></dt>
 <dd><p>"quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values</p></dd>
 
 
-<dt>plot_quantiles</dt>
+<dt id="arg-plot-quantiles">plot_quantiles<a class="anchor" aria-label="anchor" href="#arg-plot-quantiles"></a></dt>
 <dd><p>quantiles plotted for numeric:numeric interaction plots, if <code>sw_plot_quantiles_values</code> is "quantiles"</p></dd>
 
 
-<dt>sw_quantile_type</dt>
+<dt id="arg-sw-quantile-type">sw_quantile_type<a class="anchor" aria-label="anchor" href="#arg-sw-quantile-type"></a></dt>
 <dd><p>quantile type as specified in <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">?stats::quantile</a></code>.</p></dd>
 
 
-<dt>plot_values</dt>
+<dt id="arg-plot-values">plot_values<a class="anchor" aria-label="anchor" href="#arg-plot-values"></a></dt>
 <dd><p>a named list for values plotted for a single specified numeric:numeric interaction plot, if <code>sw_plot_quantiles_values</code> is "values".  Specify a specific contrast, for example: <code>choose_contrasts = "disp:hp"</code>.  Then specify the values for each variable, for example: <code>plot_values = list(hp = c(75, 100, 150, 200, 250), disp = c(80, 120, 200, 350, 450))</code></p></dd>
 
 
-<dt>emmip_rg.limit</dt>
+<dt id="arg-emmip-rg-limit">emmip_rg.limit<a class="anchor" aria-label="anchor" href="#arg-emmip-rg-limit"></a></dt>
 <dd><p>from emmeans package, increase from 10000 if "Error: The rows of your requested reference grid would be 10000, which exceeds the limit of XXXXX (not including any multivariate responses)."</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>out                      a list of three lists: "plots", "tables" , and "text", each have results for each contrast that was computed.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.  "tables" is a list of emmeans tables to print.  "text" is the caption text for the plots.</p>
+    <p>out                      a list of three lists: "plots", "tables" , and "text", each have results for each contrast that was computed.  "plots" is a list of ggplot objects to plot separately or arrange in a grid.  "tables" is a list of emmeans tables to print.  "text" is the caption text for the plots.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -159,7 +159,7 @@
 This EMM plot (Estimated Marginal Means, aka Least-Squares Means) is only
 available when conditioning on one variable. The blue bars are confidence
 intervals for the EMMs; don't ever use confidence intervals for EMMs to perform
-comparisons --- they can be very misleading. The red arrows are for the
+comparisons — they can be very misleading. The red arrows are for the
 comparisons between means; the degree to which the "comparison arrows" overlap
 reflects as much as possible the significance of the comparison of the two
 estimates. If an arrow from one mean overlaps an arrow from another group, the
@@ -1107,7 +1107,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co">## lme4::lmer mixed-effects model</span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span></span></span>
@@ -1138,7 +1138,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  , sw_table_in_plot   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit_lmer_contrasts</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -1154,15 +1154,15 @@ difference is not significant, based on the adjust setting (which defaults to
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

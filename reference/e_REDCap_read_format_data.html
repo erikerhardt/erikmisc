@@ -5,7 +5,7 @@ _yyyy-mm-dd_hhmm.) and read and format that given the R formatting file."><!-- m
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -30,20 +30,20 @@ _yyyy-mm-dd_hhmm.) and read and format that given the R formatting file."><!-- m
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>REDCap data, reading and formatting data</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_REDCap_read_format_data.R" class="external-link"><code>R/e_REDCap_read_format_data.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_REDCap_read_format_data.R" class="external-link"><code>R/e_REDCap_read_format_data.R</code></a></small>
     <div class="hidden name"><code>e_REDCap_read_format_data.Rd</code></div>
     </div>
 
@@ -69,49 +69,47 @@ alphabetically, which is by date based on REDCap file name convention of
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>fn_path</dt>
+
+
+<dl><dt id="arg-fn-path">fn_path<a class="anchor" aria-label="anchor" href="#arg-fn-path"></a></dt>
 <dd><p>is the location of the data, assumed to be the current path.</p></dd>
 
 
-<dt>fn_root</dt>
+<dt id="arg-fn-root">fn_root<a class="anchor" aria-label="anchor" href="#arg-fn-root"></a></dt>
 <dd><p>the root name(s) of the file(s), typically the project name(s) (the part before <em>DATA</em><em>.</em>)</p></dd>
 
 
-<dt>fn_suffix_data</dt>
+<dt id="arg-fn-suffix-data">fn_suffix_data<a class="anchor" aria-label="anchor" href="#arg-fn-suffix-data"></a></dt>
 <dd><p>typically "<em>DATA</em>" to indicate this is the data</p></dd>
 
 
-<dt>fn_suffix_R</dt>
+<dt id="arg-fn-suffix-r">fn_suffix_R<a class="anchor" aria-label="anchor" href="#arg-fn-suffix-r"></a></dt>
 <dd><p>typically "<em>R</em>" to indicate this is the R formatting file</p></dd>
 
 
-<dt>fn_suffix_out</dt>
+<dt id="arg-fn-suffix-out">fn_suffix_out<a class="anchor" aria-label="anchor" href="#arg-fn-suffix-out"></a></dt>
 <dd><p>an added name to the outputted saved and formatted data files, maybe you want to add a date, a version number, or a another label</p></dd>
 
 
-<dt>fn_ext_data</dt>
+<dt id="arg-fn-ext-data">fn_ext_data<a class="anchor" aria-label="anchor" href="#arg-fn-ext-data"></a></dt>
 <dd><p>"*.csv" to specify the data filename extension, only csv is supported ("csv" is differnt from "CSV")</p></dd>
 
 
-<dt>fn_ext_R</dt>
+<dt id="arg-fn-ext-r">fn_ext_R<a class="anchor" aria-label="anchor" href="#arg-fn-ext-r"></a></dt>
 <dd><p>"*.r" to specify the R filename extension, ("r" is differnt from "R")</p></dd>
 
 
-<dt>sw_return_dat</dt>
+<dt id="arg-sw-return-dat">sw_return_dat<a class="anchor" aria-label="anchor" href="#arg-sw-return-dat"></a></dt>
 <dd><p>TRUE/FALSE to return the data object from the function</p></dd>
 
 
-<dt>sw_save_RData</dt>
+<dt id="arg-sw-save-rdata">sw_save_RData<a class="anchor" aria-label="anchor" href="#arg-sw-save-rdata"></a></dt>
 <dd><p>TRUE/FALSE to save an ".RData" file</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>out_dat formatted data or <code>invisible(NULL)</code>, depending on <code>sw_return_dat</code></p>
-
-
+    <p>out_dat formatted data or <code>invisible(NULL)</code>, depending on <code>sw_return_dat</code></p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -125,13 +123,13 @@ alphabetically, which is by date based on REDCap file name convention of
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># dat_temp &lt;-</span></span></span>
 <span class="r-in"><span><span class="co">#   e_REDCap_read_format_data(</span></span></span>
 <span class="r-in"><span><span class="co">#     fn_path   = "C:/Data/Project"</span></span></span>
 <span class="r-in"><span><span class="co">#   , fn_root   = "ProjectName"</span></span></span>
 <span class="r-in"><span><span class="co">#   )</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -146,15 +144,15 @@ alphabetically, which is by date based on REDCap file name convention of
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

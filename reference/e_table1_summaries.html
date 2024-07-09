@@ -5,7 +5,7 @@ then join them into a single file at the end"><!-- mathjax --><script src="https
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -30,20 +30,20 @@ then join them into a single file at the end"><!-- mathjax --><script src="https
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Table 1 demographics summaries</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_table1_summaries.R" class="external-link"><code>R/e_table1_summaries.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_table1_summaries.R" class="external-link"><code>R/e_table1_summaries.R</code></a></small>
     <div class="hidden name"><code>e_table1_summaries.Rd</code></div>
     </div>
 
@@ -72,59 +72,59 @@ then join them into a single file at the end</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dat_tab1</dt>
+
+
+<dl><dt id="arg-dat-tab-">dat_tab1<a class="anchor" aria-label="anchor" href="#arg-dat-tab-"></a></dt>
 <dd><p>Dataset for table.</p></dd>
 
 
-<dt>list_var_col_names</dt>
+<dt id="arg-list-var-col-names">list_var_col_names<a class="anchor" aria-label="anchor" href="#arg-list-var-col-names"></a></dt>
 <dd><p>Column variable name.</p></dd>
 
 
-<dt>list_var_col_labels</dt>
+<dt id="arg-list-var-col-labels">list_var_col_labels<a class="anchor" aria-label="anchor" href="#arg-list-var-col-labels"></a></dt>
 <dd><p>Column variable label.</p></dd>
 
 
-<dt>list_var_row_names</dt>
+<dt id="arg-list-var-row-names">list_var_row_names<a class="anchor" aria-label="anchor" href="#arg-list-var-row-names"></a></dt>
 <dd><p>Variable names to loop over.</p></dd>
 
 
-<dt>list_var_row_labels</dt>
+<dt id="arg-list-var-row-labels">list_var_row_labels<a class="anchor" aria-label="anchor" href="#arg-list-var-row-labels"></a></dt>
 <dd><p>Variable labels to label table.</p></dd>
 
 
-<dt>fn_root</dt>
+<dt id="arg-fn-root">fn_root<a class="anchor" aria-label="anchor" href="#arg-fn-root"></a></dt>
 <dd><p>Filename for temporary tables.</p></dd>
 
 
-<dt>fn_all</dt>
+<dt id="arg-fn-all">fn_all<a class="anchor" aria-label="anchor" href="#arg-fn-all"></a></dt>
 <dd><p>Filename for output table, defaults to <code>paste0(fn_root, "_", "all", ".csv")</code>.</p></dd>
 
 
-<dt>label_width</dt>
+<dt id="arg-label-width">label_width<a class="anchor" aria-label="anchor" href="#arg-label-width"></a></dt>
 <dd><p>Width to wrap column and row variable labels, does not affect category labels.</p></dd>
 
 
-<dt>sw_verbose</dt>
+<dt id="arg-sw-verbose">sw_verbose<a class="anchor" aria-label="anchor" href="#arg-sw-verbose"></a></dt>
 <dd><p>Print status to console during execution?</p></dd>
 
 
-<dt>moonbook_max_ylev</dt>
+<dt id="arg-moonbook-max-ylev">moonbook_max_ylev<a class="anchor" aria-label="anchor" href="#arg-moonbook-max-ylev"></a></dt>
 <dd><p>An integer indicating the maximum number of levels of grouping variable ('y'). If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 2. (<code><a href="https://rdrr.io/pkg/moonBook/man/mytable_sub.html" class="external-link">?moonBook::mytable_sub</a></code>)</p></dd>
 
 
-<dt>moonbook_digits</dt>
+<dt id="arg-moonbook-digits">moonbook_digits<a class="anchor" aria-label="anchor" href="#arg-moonbook-digits"></a></dt>
 <dd><p>An integer indicating the number of decimal places (round) or significant digits to be used. Default value is 3. (<code><a href="https://rdrr.io/pkg/moonBook/man/mytable_sub.html" class="external-link">?moonBook::mytable_sub</a></code>)</p></dd>
 
 
-<dt>moonbook_method</dt>
+<dt id="arg-moonbook-method">moonbook_method<a class="anchor" aria-label="anchor" href="#arg-moonbook-method"></a></dt>
 <dd><p>An integer indicating methods for continuous variables. Possible values in methods are: 1 = forces analysis as normal-distributed; 2 = forces analysis as continuous non-normal; 3 = performs a Shapiro-Wilk test to decide between normal or non-normal. (<code><a href="https://rdrr.io/pkg/moonBook/man/mytable_sub.html" class="external-link">?moonBook::mytable_sub</a></code>)</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>NULL, invisibly</p>
+    <p>NULL, invisibly</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -133,7 +133,7 @@ then join them into a single file at the end</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co">## For Rmd code chunk attractive html table, code chunk option ```{r, results='asis'}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># specify tows to summarize and columns to summarize by</span></span></span>
@@ -197,7 +197,7 @@ then join them into a single file at the end</p>
 <span class="r-in"><span><span class="co"># display in Rmd file</span></span></span>
 <span class="r-in"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">tab1_temp</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -212,15 +212,15 @@ then join them into a single file at the end</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

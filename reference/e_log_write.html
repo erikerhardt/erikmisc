@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -28,20 +28,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/erikerhardt/erikmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Initialize and print into a log file and to the console</h1>
-    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/HEAD/R/e_log_write.R" class="external-link"><code>R/e_log_write.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/erikerhardt/erikmisc/blob/main/R/e_log_write.R" class="external-link"><code>R/e_log_write.R</code></a></small>
     <div class="hidden name"><code>e_log_write.Rd</code></div>
     </div>
 
@@ -62,40 +62,40 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>log_text</dt>
+
+
+<dl><dt id="arg-log-text">log_text<a class="anchor" aria-label="anchor" href="#arg-log-text"></a></dt>
 <dd><p>text string to print</p></dd>
 
 
-<dt>log_obj</dt>
+<dt id="arg-log-obj">log_obj<a class="anchor" aria-label="anchor" href="#arg-log-obj"></a></dt>
 <dd><p>log_obj object that includes filename, console function, and <code>time_start</code></p></dd>
 
 
-<dt>i_level</dt>
+<dt id="arg-i-level">i_level<a class="anchor" aria-label="anchor" href="#arg-i-level"></a></dt>
 <dd><p>Numbers 1 to 5 corresponding to "DEBUG", "INFO", "WARN", "ERROR", "FATAL" from <code><a href="https://rdrr.io/pkg/log4r/man/loglevel.html" class="external-link">log4r::loglevel()</a></code>s</p></dd>
 
 
-<dt>sw_init</dt>
+<dt id="arg-sw-init">sw_init<a class="anchor" aria-label="anchor" href="#arg-sw-init"></a></dt>
 <dd><p>TRUE to initilize log file and console logging, FALSE to print text</p></dd>
 
 
-<dt>out_path</dt>
+<dt id="arg-out-path">out_path<a class="anchor" aria-label="anchor" href="#arg-out-path"></a></dt>
 <dd><p>out path for log file</p></dd>
 
 
-<dt>file_prefix</dt>
+<dt id="arg-file-prefix">file_prefix<a class="anchor" aria-label="anchor" href="#arg-file-prefix"></a></dt>
 <dd><p>filename prefix for log file</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>log_obj or NULL</p>
+    <p>log_obj or NULL</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># initialize log file</span></span></span>
 <span class="r-in"><span><span class="va">log_obj</span> <span class="op">&lt;-</span></span></span>
@@ -111,7 +111,7 @@
 <span class="r-in"><span>  , i_level     <span class="op">=</span> <span class="fl">2</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -126,15 +126,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
