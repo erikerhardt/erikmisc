@@ -16,23 +16,28 @@
 #' @export
 #'
 #' @examples
-#' dat_miss = dat_mtcars_e
-#' prop_missing = 0.10
-#' n_missing = sample.int(n = prod(dim(dat_miss)), size = round( prop_missing * prod(dim(dat_miss))))
-#' ind_missing = expand.grid(1:dim(dat_miss)[1], 1:dim(dat_miss)[2])[n_missing, ]
+#' # Generate missing values
+#' dat_mtcars_miss_e <- dat_mtcars_e
+#' prop_missing <- 0.10
+#' n_missing <-
+#'   sample.int(
+#'     n    = prod(dim(dat_mtcars_miss_e))
+#'   , size = round( prop_missing * prod(dim(dat_mtcars_miss_e)))
+#'   )
+#' ind_missing <- expand.grid(1:dim(dat_mtcars_miss_e)[1], 1:dim(dat_mtcars_miss_e)[2])[n_missing, ]
 #' for (i_row in seq_along(n_missing)) {
-#'   dat_miss[ind_missing[i_row,1], ind_missing[i_row,2] ] <- NA
+#'   dat_mtcars_miss_e[ind_missing[i_row, 1], ind_missing[i_row, 2] ] <- NA
 #' }
 #'
 #' e_plot_missing(
-#'     dat_plot       = dat_miss
+#'     dat_plot       = dat_mtcars_miss_e
 #'   , var_group      = "cyl"
 #'   , sw_group_sort  = TRUE
 #'   , var2_sort      = "disp"
 #'   )
 #'
 #' e_plot_missing(
-#'     dat_plot       = dat_miss
+#'     dat_plot       = dat_mtcars_miss_e
 #'   , var_group      = "cyl"
 #'   , sw_group_sort  = TRUE
 #'   , var2_sort      = "disp"
