@@ -19,6 +19,7 @@
 #' @param sw_threshold_to_use     T/F NOT YET USED XXX
 #' @param sw_quick_full_only      T/F to only fit full model and return model object
 #' @param n_single_decision_tree_plots number of example decision trees to plot (recommend not too many)
+#' @param k_partial_coplot_var    number of top variables by VIMP to create bivariate partial (conditioning) plots
 #'
 #' @return list with many RF objects, summaries, and plots
 #' @import parallel
@@ -90,6 +91,7 @@
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
 #'   , n_single_decision_tree_plots = 0
+#'   , k_partial_coplot_var   = 3
 #'   )
 #'
 #'
@@ -208,6 +210,7 @@
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
 #'   , n_single_decision_tree_plots = 0
+#'   , k_partial_coplot_var   = 0
 #'   )
 #'
 #'
@@ -266,6 +269,7 @@
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
 #'   , n_single_decision_tree_plots = 0
+#'   , k_partial_coplot_var   = 0
 #'   )
 #'
 #' }
@@ -290,6 +294,7 @@ e_rfsrc_classification <-
   , sw_threshold_to_use     = c(FALSE, TRUE)[1]
   , sw_quick_full_only      = c(FALSE, TRUE)[1]
   , n_single_decision_tree_plots = 0
+  , k_partial_coplot_var    = 3
   ) {
   ## dat_rf_class <-
   ##   erikmisc::dat_mtcars_e |>
@@ -382,7 +387,7 @@ e_rfsrc_classification <-
     p <- p + theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     #print(p)
 
-    return(p)
+    return(list(dat_bs = dat_bs, p = p))
 
   } # f_plot_VIMP_bs
 
@@ -1699,7 +1704,7 @@ e_rfsrc_classification <-
           )
         )
     , plot   =
-        out[[ "plot_o_class_full_vimp_CI" ]]
+        out[[ "plot_o_class_full_vimp_CI" ]]$p
     , width  = 8
     , height = 2 + 0.15 * length(rf_x_var_full)
     ## png, jpeg
@@ -3147,7 +3152,7 @@ e_rfsrc_classification <-
           )
         )
     , plot   =
-        out[[ "plot_o_class_sel_vimp_CI" ]]
+        out[[ "plot_o_class_sel_vimp_CI" ]]$p
     , width  = 8
     , height = 2 + 0.15 * length(rf_x_var_sel)
     ## png, jpeg
@@ -3456,6 +3461,163 @@ e_rfsrc_classification <-
       )
   } # i_level
 
+
+  ## bivariate partial plots for top k features by VIMP
+  if ((k_partial_coplot_var >= 2) & length(out$rf_x_var_sel) >= 2) {
+    if (k_partial_coplot_var > length(out$rf_x_var_sel)) {
+      k_partial_coplot_var <- length(out$rf_x_var_sel)
+    }
+
+    x_var_sort_vimp <-
+      out[[ "plot_o_class_sel_vimp_CI" ]]$dat_bs |>
+      dplyr::arrange(dplyr::desc(mean)) |>
+      dplyr::pull(Var)
+
+    out[[ "plot_o_class_sel_partial_coplot" ]] <- list()
+    i_plot <- 0
+
+    for (i_var_1 in 1:(k_partial_coplot_var - 1)) {
+      for (i_var_2 in (i_var_1 + 1):k_partial_coplot_var) {
+        ## i_var_1 = 1
+        ## i_var_2 = 2
+
+        ## partial effect for x1|x2 then x2|x1
+
+        ## specify x1 and x2 values of interest
+        x1_sort <- sort(unique(o_class_sel$xvar[[ x_var_sort_vimp[i_var_1] ]]))
+        x2_sort <- sort(unique(o_class_sel$xvar[[ x_var_sort_vimp[i_var_2] ]]))
+
+        # x1|x2
+        dat_partial_coplot <-
+          do.call(
+            rbind
+          , lapply(
+              x2_sort
+            , function(x2) {
+                o_partial <-
+                  randomForestSRC::partial(
+                    object          = o_class_sel
+                  , partial.xvar    = x_var_sort_vimp[i_var_1]
+                  , partial.xvar2   = x_var_sort_vimp[i_var_2]
+                  , partial.values  = x1_sort
+                  , partial.values2 = x2
+                  )
+                out <-
+                  cbind(
+                    x1_sort
+                  , x2
+                  , randomForestSRC::get.partial.plot.data(o_partial)$yhat
+                  )
+                return(out)
+              }
+            )
+          )
+        dat_partial_coplot <- data.frame(dat_partial_coplot)
+        colnames(dat_partial_coplot) <- c("x1_sort", "x2_sort", "effectSize")
+
+        ## coplot of partial effect of wind and temp
+        coplot_1 <-
+          ggplotify::as.ggplot(
+            ~graphics::coplot(
+              formula = effectSize ~ x1_sort|x2_sort
+            , dat_partial_coplot
+            , pch     = 16
+            , overlap = 0
+            , xlab    = c(x_var_sort_vimp[i_var_1], paste("Given :", x_var_sort_vimp[i_var_2]))
+            )
+          ) +
+          labs(title = paste0("Bivariate partial plot: (", i_var_1, ") ", x_var_sort_vimp[i_var_1], " given (", i_var_2, ") ", x_var_sort_vimp[i_var_2]))
+
+        # x2|x1
+        dat_partial_coplot <-
+          do.call(
+            rbind
+          , lapply(
+              x1_sort
+            , function(x1) {
+                o_partial <-
+                  randomForestSRC::partial(
+                    object          = o_class_sel
+                  , partial.xvar    = x_var_sort_vimp[i_var_2]
+                  , partial.xvar2   = x_var_sort_vimp[i_var_1]
+                  , partial.values  = x2_sort
+                  , partial.values2 = x1
+                  )
+                out <-
+                  cbind(
+                    x2_sort
+                  , x1
+                  , randomForestSRC::get.partial.plot.data(o_partial)$yhat
+                  )
+                return(out)
+              }
+            )
+          )
+        dat_partial_coplot <- data.frame(dat_partial_coplot)
+        colnames(dat_partial_coplot) <- c("x2_sort", "x1_sort", "effectSize")
+
+        ## coplot of partial effect of wind and temp
+        coplot_2 <-
+          ggplotify::as.ggplot(
+            ~graphics::coplot(
+              formula = effectSize ~ x2_sort|x1_sort
+            , dat_partial_coplot
+            , pch     = 16
+            , overlap = 0
+            , xlab    = c(x_var_sort_vimp[i_var_2], paste("Given :", x_var_sort_vimp[i_var_1]))
+            )
+          ) +
+          labs(title = paste0("Bivariate partial plot: (", i_var_2, ") ", x_var_sort_vimp[i_var_2], " given (", i_var_1, ") ", x_var_sort_vimp[i_var_1]))
+
+
+        i_plot <- i_plot + 1
+        out[[ "plot_o_class_sel_partial_coplot" ]][[ i_plot ]] <-
+          coplot_1 + coplot_2 +
+          patchwork::plot_layout(nrow = 1) +
+          patchwork::plot_annotation(
+            title       = plot_title
+          , subtitle    = paste0("Selected model, Bivariate partial plot, VIMP variables ", i_var_1, " and ", i_var_2)
+          #, caption     = paste0(
+          #                  "Full model AUC = "
+          #                , round(out$o_class_full_AUC, 3)
+          #                )
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+          , tag_levels  = "A"
+          )
+
+        ggplot2::ggsave(
+            filename =
+              file.path(
+                out_path
+              , paste0(
+                  file_prefix
+                , "__"
+                , "plot_o_class_sel_partial_coplot"
+                , "_"
+                , i_var_1
+                , "_"
+                , i_var_2
+                , "."
+                , plot_format
+                )
+              )
+          , plot   =
+              out[[ "plot_o_class_sel_partial_coplot" ]][[ i_plot ]]
+          , width  = 16
+          , height = 8
+          ## png, jpeg
+          , dpi    = 300
+          , bg     = "white"
+          ## pdf
+          , units  = "in"
+          #, useDingbats = FALSE
+          , limitsize = FALSE
+          )
+
+      } # i_var_2
+    } # i_var_1
+
+  } # if >=2
 
   ## out[[ "plot_o_class_sel_marginal_effects" ]] <-
   ##   lapply(

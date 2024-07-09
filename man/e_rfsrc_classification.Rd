@@ -23,7 +23,8 @@ e_rfsrc_classification(
   sw_imbalanced_binary = c(FALSE, TRUE)[1],
   sw_threshold_to_use = c(FALSE, TRUE)[1],
   sw_quick_full_only = c(FALSE, TRUE)[1],
-  n_single_decision_tree_plots = 0
+  n_single_decision_tree_plots = 0,
+  k_partial_coplot_var = 3
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ e_rfsrc_classification(
 \item{sw_quick_full_only}{T/F to only fit full model and return model object}
 
 \item{n_single_decision_tree_plots}{number of example decision trees to plot (recommend not too many)}
+
+\item{k_partial_coplot_var}{number of top variables by VIMP to create bivariate partial (conditioning) plots}
 }
 \value{
 list with many RF objects, summaries, and plots
@@ -121,6 +124,7 @@ out_e_rf <-
   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
   , n_single_decision_tree_plots = 0
+  , k_partial_coplot_var   = 3
   )
 
 
@@ -239,6 +243,7 @@ out_e_rf <-
   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
   , n_single_decision_tree_plots = 0
+  , k_partial_coplot_var   = 0
   )
 
 
@@ -297,6 +302,7 @@ out_e_rf <-
   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
   , n_single_decision_tree_plots = 0
+  , k_partial_coplot_var   = 0
   )
 
 }
