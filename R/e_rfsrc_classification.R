@@ -18,6 +18,7 @@
 #' @param sw_imbalanced_binary    T/F to use standard or imbalanced binary classification with \code{rfsrc::imbalanced()}.  It is recommended to increase ntree to \code{5 * sw_rfsrc_ntree}.
 #' @param sw_threshold_to_use     T/F NOT YET USED XXX
 #' @param sw_quick_full_only      T/F to only fit full model and return model object
+#' @param sw_reduce_output        T/F exclude individual ROC and VIMP plots, and marginal plots
 #' @param n_single_decision_tree_plots number of example decision trees to plot (recommend not too many)
 #' @param k_partial_coplot_var    number of top variables by VIMP to create bivariate partial (conditioning) plots
 #'
@@ -39,6 +40,8 @@
 #' @importFrom tibble as_tibble
 #' @importFrom stringr str_wrap
 #' @importFrom utils capture.output
+#' @importFrom ggplotify as.ggplot
+#' @importFrom graphics coplot
 #' @export
 #'
 #' @examples
@@ -90,6 +93,7 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   , sw_reduce_output       = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 3
 #'   )
@@ -209,6 +213,7 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   , sw_reduce_output        = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 0
 #'   )
@@ -268,6 +273,7 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+#'   , sw_reduce_output        = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 0
 #'   )
@@ -293,6 +299,7 @@ e_rfsrc_classification <-
   , sw_imbalanced_binary    = c(FALSE, TRUE)[1]
   , sw_threshold_to_use     = c(FALSE, TRUE)[1]
   , sw_quick_full_only      = c(FALSE, TRUE)[1]
+  , sw_reduce_output        = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var    = 3
   ) {
@@ -436,14 +443,20 @@ e_rfsrc_classification <-
     , "\n    sw_rfsrc_ntree          = ", sw_rfsrc_ntree
     , "\n    sw_alpha_sel            = ", sw_alpha_sel
     , "\n    sw_select_full          = ", sw_select_full
+    , "\n    sw_na_action            = ", sw_na_action
     , "\n    sw_save_model           = ", sw_save_model
     , "\n    plot_title              = ", plot_title
     , "\n    out_path                = ", out_path
     , "\n    file_prefix             = ", file_prefix
+    , "\n    var_subgroup_analysis   = ", var_subgroup_analysis
     , "\n    plot_format             = ", plot_format
     , "\n    n_marginal_plot_across  = ", n_marginal_plot_across
     , "\n    sw_imbalanced_binary    = ", sw_imbalanced_binary
+    , "\n    sw_threshold_to_use     = ", sw_threshold_to_use
     , "\n    sw_quick_full_only      = ", sw_quick_full_only
+    , "\n    sw_reduce_output        = ", sw_reduce_output
+    , "\n    n_single_decision_tree_plots = ", n_single_decision_tree_plots
+    , "\n    k_partial_coplot_var    = ", k_partial_coplot_var
     , "\n\n"
     )
   , log_obj     = log_obj
@@ -944,30 +957,32 @@ e_rfsrc_classification <-
       ) +
       theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_full"
-            , "."
-            , plot_format
+    if (!sw_reduce_output) {
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full"
+              , "."
+              , plot_format
+              )
             )
-          )
-      , plot   =
-          out[[ "plot_o_class_full" ]]
-      , width  = 12
-      , height = 8
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      , limitsize = FALSE
-      )
+        , plot   =
+            out[[ "plot_o_class_full" ]]
+        , width  = 12
+        , height = 8
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+    } # sw_reduce_output
 
   } # !sw_quick_full_only
 
@@ -1249,45 +1264,47 @@ e_rfsrc_classification <-
     #, useDingbats = FALSE
     )
 
-  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_full_ROC"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-            , "."
-            , plot_format
+  if (!sw_reduce_output) {
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_ROC"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
             )
-          )
-      , plot   =
-          out$o_class_full_ROC$plot_roc[[ i_level ]] +
-          patchwork::plot_annotation(
-          #labs(
-            title     = plot_title
-          , subtitle  = "Full model, ROC Curves"
-          #, caption   = paste0(
-          #                ""
-          #              )
-          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-          )
-      , width  = 5
-      , height = 6
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      , limitsize = FALSE
-      )
-  } # i_level
+        , plot   =
+            out$o_class_full_ROC$plot_roc[[ i_level ]] +
+            patchwork::plot_annotation(
+            #labs(
+              title     = plot_title
+            , subtitle  = "Full model, ROC Curves"
+            #, caption   = paste0(
+            #                ""
+            #              )
+            , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+            )
+        , width  = 5
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+    } # i_level
+  } # sw_reduce_output
 
 
   # Subgroup analysis
@@ -1340,49 +1357,51 @@ e_rfsrc_classification <-
   # Subgroup analysis
   if (!is.null(var_subgroup_analysis)) {
     for (n_subgroup in names(out[[ "o_class_full_ROC_subgroup" ]])) {
-      for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-        ggplot2::ggsave(
-            filename =
-              file.path(
-                out_path
-              , paste0(
-                  file_prefix
-                , "__"
-                , "plot_o_class_full_ROC"
-                , "__"
-                , "subgroup"
-                , "__"
-                , n_subgroup
-                , "_"
-                , i_level
-                , "-"
-                , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-                , "."
-                , plot_format
+      if (!sw_reduce_output) {
+        for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+          ggplot2::ggsave(
+              filename =
+                file.path(
+                  out_path
+                , paste0(
+                    file_prefix
+                  , "__"
+                  , "plot_o_class_full_ROC"
+                  , "__"
+                  , "subgroup"
+                  , "__"
+                  , n_subgroup
+                  , "_"
+                  , i_level
+                  , "-"
+                  , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+                  , "."
+                  , plot_format
+                  )
                 )
-              )
-          , plot   =
-              out[[ "o_class_full_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc[[ i_level ]] +
-              patchwork::plot_annotation(
-              #labs(
-              #  title     = plot_title
-              #, subtitle  = "Full model, ROC Curves"
-              #, caption   = paste0(
-              #                ""
-              #              )
-              , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-              )
-          , width  = 4
-          , height = 4.5
-          ## png, jpeg
-          , dpi    = 300
-          , bg     = "white"
-          ## pdf
-          , units  = "in"
-          #, useDingbats = FALSE
-          , limitsize = FALSE
-          )
-      } # i_level
+            , plot   =
+                out[[ "o_class_full_ROC_subgroup" ]][[ n_subgroup ]]$plot_roc[[ i_level ]] +
+                patchwork::plot_annotation(
+                #labs(
+                #  title     = plot_title
+                #, subtitle  = "Full model, ROC Curves"
+                #, caption   = paste0(
+                #                ""
+                #              )
+                , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+                )
+            , width  = 4
+            , height = 4.5
+            ## png, jpeg
+            , dpi    = 300
+            , bg     = "white"
+            ## pdf
+            , units  = "in"
+            #, useDingbats = FALSE
+            , limitsize = FALSE
+            )
+        } # i_level
+      } # sw_reduce_output
 
       ## n_subgroup = names(out[[ "o_class_full_ROC_subgroup" ]])[1]
       ggplot2::ggsave(
@@ -1462,48 +1481,7 @@ e_rfsrc_classification <-
     ) +
     theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
-  ggplot2::ggsave(
-      filename =
-        file.path(
-          out_path
-        , paste0(
-            file_prefix
-          , "__"
-          , "plot_o_class_full_importance"
-          , "."
-          , plot_format
-          )
-        )
-    , plot   =
-        out[[ "plot_o_class_full_importance" ]]
-    , width  = 4 + 2 * ncol(o_class_full$importance)
-    , height = 2 + 0.25 * length(rf_x_var_full)
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    , limitsize = FALSE
-    )
-
-  out_vimp_temp <- list()
-  for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
-    ## i_level = 1
-
-    n_target <- levels(dat_rf_data[[ rf_y_var ]])[i_level]
-
-    out_vimp_temp[[ n_target ]] <-
-      e_plot_rf_vimp(o_class_full$importance, targets = c("all", n_target)) +
-      labs(
-        title     = plot_title
-      , subtitle  = "Full model, Variable Importance"
-      , caption   = paste0(
-                      "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
-                    )
-      ) +
-      theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-
+  if (!sw_reduce_output) {
     ggplot2::ggsave(
         filename =
           file.path(
@@ -1512,17 +1490,13 @@ e_rfsrc_classification <-
               file_prefix
             , "__"
             , "plot_o_class_full_importance"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
             , "."
             , plot_format
             )
           )
       , plot   =
-          out_vimp_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
-      , width  = 4 + 2 * 2
+          out[[ "plot_o_class_full_importance" ]]
+      , width  = 4 + 2 * ncol(o_class_full$importance)
       , height = 2 + 0.25 * length(rf_x_var_full)
       ## png, jpeg
       , dpi    = 300
@@ -1532,59 +1506,110 @@ e_rfsrc_classification <-
       #, useDingbats = FALSE
       , limitsize = FALSE
       )
+  } # sw_reduce_output
 
-  } # i_level
+  if (!sw_reduce_output) {
+    out_vimp_temp <- list()
+    for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
+      ## i_level = 1
+
+      n_target <- levels(dat_rf_data[[ rf_y_var ]])[i_level]
+
+      out_vimp_temp[[ n_target ]] <-
+        e_plot_rf_vimp(o_class_full$importance, targets = c("all", n_target)) +
+        labs(
+          title     = plot_title
+        , subtitle  = "Full model, Variable Importance"
+        , caption   = paste0(
+                        "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
+                      )
+        ) +
+        theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_importance"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            out_vimp_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
+        , width  = 4 + 2 * 2
+        , height = 2 + 0.25 * length(rf_x_var_full)
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+
+    } # i_level
+  } # sw_reduce_output
 
 
 
   # VIMP and ROC for each target
-  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-    ## i_level = 1
+  if (!sw_reduce_output) {
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      ## i_level = 1
 
-    plot_temp <-
-      patchwork::wrap_plots(
-        out_vimp_temp[[ i_level ]]
-      , out$o_class_full_ROC$plot_roc[[ i_level ]] +
-        patchwork::plot_annotation(
-        #labs(
-          title     = plot_title
-        , subtitle  = "Full model, ROC Curves"
-        #, caption   = paste0(
-        #                ""
-        #              )
-        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-        )
-      )
-
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_full_VIMP_ROC"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-            , "."
-            , plot_format
-            )
+      plot_temp <-
+        patchwork::wrap_plots(
+          out_vimp_temp[[ i_level ]]
+        , out$o_class_full_ROC$plot_roc[[ i_level ]] +
+          patchwork::plot_annotation(
+          #labs(
+            title     = plot_title
+          , subtitle  = "Full model, ROC Curves"
+          #, caption   = paste0(
+          #                ""
+          #              )
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
           )
-      , plot   =
-          plot_temp
-      , width  = (4 + 2 * 2) + 5
-      , height = 6
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      , limitsize = FALSE
-      )
-  } # i_level
+        )
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_full_VIMP_ROC"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            plot_temp
+        , width  = (4 + 2 * 2) + 5
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+    } # i_level
+  } # sw_reduce_output
 
 
 
@@ -1947,97 +1972,99 @@ e_rfsrc_classification <-
       ## }
 
 
-    e_log_write(
-      "Full model, Marginal effects plots"
-    , log_obj     = log_obj
-    , i_level     = 2
-    )
-
-    out[[ "plot_o_class_full_marginal_effects" ]] <-
-      lapply(
-        seq_along(levels(o_class_full$class))
-      , function(i_level) {
-          cowplot::as_grob(
-            ~randomForestSRC::plot.variable(
-              x               = o_class_full
-            #, xvar.names      = o_class_full$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
-            , target          = levels(o_class_full$class)[i_level]   # classification: first event type
-            #, m.target        = NULL
-            #, time
-            #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
-            , class.type      = c("prob", "bayes")[1]
-            , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
-            , oob             = TRUE
-            , show.plots      = TRUE
-            , plots.per.page  = n_marginal_plot_across # 4
-            , granule         = 5
-            , sorted          = TRUE #FALSE
-            #, nvar
-            , npts            = 25
-            , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
-            #, subset
-            , main            = paste0("Marginal plot, target: ", levels(o_class_full$class)[i_level])
-            )
-          )
-        }
+    if (!sw_reduce_output) {
+      e_log_write(
+        "Full model, Marginal effects plots"
+      , log_obj     = log_obj
+      , i_level     = 2
       )
 
-    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-      out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] <-
-        patchwork::wrap_elements(
-          full =
-            #cowplot::as_grob(
-              out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] |>
-                  cowplot::plot_grid()
-            #)
-        ) +
-        patchwork::plot_annotation(
-        #labs(
-          title     = plot_title
-        , subtitle  = "Full model, Marginal plot, predicted marginal value (unadjusted) for variable"
-        , caption   = paste0(
-                        "For continuous variables, red points are used to indicate marginal values (unadjusted for other variables) and"
-                      #, "\n"
-                      , "  dashed red lines indicate a smoothed error bar of +/- two standard errors. "
-                      #, "\n"
-                      , "Black dashed line are the marginal values."
-                      , "\n"
-                      , "For discrete variables, marginal values are indicated using boxplots with whiskers extending out approximately two standard errors from the mean."
-                      , "\n"
-                      , "Standard errors are meant only to be a guide and should be interpreted with caution."
-                     )
-        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-        )
-
-      ggplot2::ggsave(
-          filename =
-            file.path(
-              out_path
-            , paste0(
-                file_prefix
-              , "__"
-              , "plot_o_class_full_marginal_effects"
-              , "_"
-              , i_level
-              , "-"
-              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-              , "."
-              , plot_format
+      out[[ "plot_o_class_full_marginal_effects" ]] <-
+        lapply(
+          seq_along(levels(o_class_full$class))
+        , function(i_level) {
+            cowplot::as_grob(
+              ~randomForestSRC::plot.variable(
+                x               = o_class_full
+              #, xvar.names      = o_class_full$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+              , target          = levels(o_class_full$class)[i_level]   # classification: first event type
+              #, m.target        = NULL
+              #, time
+              #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+              , class.type      = c("prob", "bayes")[1]
+              , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
+              , oob             = TRUE
+              , show.plots      = TRUE
+              , plots.per.page  = n_marginal_plot_across # 4
+              , granule         = 5
+              , sorted          = TRUE #FALSE
+              #, nvar
+              , npts            = 25
+              , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+              #, subset
+              , main            = paste0("Marginal plot, target: ", levels(o_class_full$class)[i_level])
               )
             )
-        , plot   =
-            out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]]
-        , width  = 3 * n_marginal_plot_across
-        , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / n_marginal_plot_across)
-        ## png, jpeg
-        , dpi    = 300
-        , bg     = "white"
-        ## pdf
-        , units  = "in"
-        #, useDingbats = FALSE
-        , limitsize = FALSE
+          }
         )
-    } # i_level
+
+      for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+        out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] <-
+          patchwork::wrap_elements(
+            full =
+              #cowplot::as_grob(
+                out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]] |>
+                    cowplot::plot_grid()
+              #)
+          ) +
+          patchwork::plot_annotation(
+          #labs(
+            title     = plot_title
+          , subtitle  = "Full model, Marginal plot, predicted marginal value (unadjusted) for variable"
+          , caption   = paste0(
+                          "For continuous variables, red points are used to indicate marginal values (unadjusted for other variables) and"
+                        #, "\n"
+                        , "  dashed red lines indicate a smoothed error bar of +/- two standard errors. "
+                        #, "\n"
+                        , "Black dashed line are the marginal values."
+                        , "\n"
+                        , "For discrete variables, marginal values are indicated using boxplots with whiskers extending out approximately two standard errors from the mean."
+                        , "\n"
+                        , "Standard errors are meant only to be a guide and should be interpreted with caution."
+                       )
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+          )
+
+        ggplot2::ggsave(
+            filename =
+              file.path(
+                out_path
+              , paste0(
+                  file_prefix
+                , "__"
+                , "plot_o_class_full_marginal_effects"
+                , "_"
+                , i_level
+                , "-"
+                , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+                , "."
+                , plot_format
+                )
+              )
+          , plot   =
+              out[[ "plot_o_class_full_marginal_effects" ]][[ i_level ]]
+          , width  = 3 * n_marginal_plot_across
+          , height = 4 * ceiling(length(out[[ "rf_x_var_full" ]]) / n_marginal_plot_across)
+          ## png, jpeg
+          , dpi    = 300
+          , bg     = "white"
+          ## pdf
+          , units  = "in"
+          #, useDingbats = FALSE
+          , limitsize = FALSE
+          )
+      } # i_level
+    } # sw_reduce_output
 
 
     ## out[[ "plot_o_class_full_marginal_effects" ]] <-
@@ -2385,31 +2412,33 @@ e_rfsrc_classification <-
     ) +
     theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
-  ggplot2::ggsave(
-      filename =
-        file.path(
-          out_path
-        , paste0(
-            file_prefix
-          , "__"
-          , "plot_o_class_sel"
-          , "."
-          , plot_format
+  if (!sw_reduce_output) {
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_sel"
+            , "."
+            , plot_format
+            )
           )
-        )
-    , plot   =
-        out[[ "plot_o_class_sel" ]]
-    , width  = 12
-    , height = 8
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    , limitsize = FALSE
-    )
-  # cowplot::plot_grid(out[[ "plot_o_class_sel" ]])
+      , plot   =
+          out[[ "plot_o_class_sel" ]]
+      , width  = 12
+      , height = 8
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      , limitsize = FALSE
+      )
+    # cowplot::plot_grid(out[[ "plot_o_class_sel" ]])
+  } # sw_reduce_output
 
 
   ### Variable Importance (also for variable selection)
@@ -2442,50 +2471,7 @@ e_rfsrc_classification <-
     ) +
     theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
-  ggplot2::ggsave(
-      filename =
-        file.path(
-          out_path
-        , paste0(
-            file_prefix
-          , "__"
-          , "plot_o_class_sel_importance"
-          , "."
-          , plot_format
-          )
-        )
-    , plot   =
-        out[[ "plot_o_class_sel_importance" ]]
-    , width  = 8
-    , height = 2 + 0.25 * length(rf_x_var_sel)
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    , limitsize = FALSE
-    )
-
-
-
-  out_vimp_sel_temp <- list()
-  for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
-    ## i_level = 1
-
-    n_target <- levels(dat_rf_data[[ rf_y_var ]])[i_level]
-
-    out_vimp_sel_temp[[ n_target ]] <-
-      e_plot_rf_vimp(o_class_sel$importance, targets = c("all", n_target)) +
-      labs(
-        title     = plot_title
-      , subtitle  = "Selected model, Variable Importance"
-      , caption   = paste0(
-                      "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
-                    )
-      ) +
-      theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-
+  if (!sw_reduce_output) {
     ggplot2::ggsave(
         filename =
           file.path(
@@ -2494,18 +2480,14 @@ e_rfsrc_classification <-
               file_prefix
             , "__"
             , "plot_o_class_sel_importance"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
             , "."
             , plot_format
             )
           )
       , plot   =
-          out_vimp_sel_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
-      , width  = 4 + 2 * 2
-      , height = 2 + 0.25 * length(rf_x_var)
+          out[[ "plot_o_class_sel_importance" ]]
+      , width  = 8
+      , height = 2 + 0.25 * length(rf_x_var_sel)
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
@@ -2515,7 +2497,56 @@ e_rfsrc_classification <-
       , limitsize = FALSE
       )
 
-  } # i_level
+
+
+    out_vimp_sel_temp <- list()
+    for (i_level in seq_along(levels(dat_rf_data[[ rf_y_var ]]))) {
+      ## i_level = 1
+
+      n_target <- levels(dat_rf_data[[ rf_y_var ]])[i_level]
+
+      out_vimp_sel_temp[[ n_target ]] <-
+        e_plot_rf_vimp(o_class_sel$importance, targets = c("all", n_target)) +
+        labs(
+          title     = plot_title
+        , subtitle  = "Selected model, Variable Importance"
+        , caption   = paste0(
+                        "Variable Importance is the prediction error attributable to excluding the variable.\nA large positive value indicates a variable with predictive importance."
+                      )
+        ) +
+        theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_sel_importance"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            out_vimp_sel_temp[[ levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level] ]]
+        , width  = 4 + 2 * 2
+        , height = 2 + 0.25 * length(rf_x_var)
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+
+    } # i_level
+  } # sw_reduce_output
 
 
 
@@ -2860,45 +2891,47 @@ e_rfsrc_classification <-
     #, useDingbats = FALSE
     )
 
-  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_sel_ROC"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-            , "."
-            , plot_format
+  if (!sw_reduce_output) {
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_sel_ROC"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
             )
-          )
-      , plot   =
-          out$o_class_sel_ROC$plot_roc[[ i_level ]] +
-          patchwork::plot_annotation(
-          #labs(
-            title     = plot_title
-          , subtitle  = "Selected model, ROC Curves"
-          #, caption   = paste0(
-          #                ""
-          #              )
-          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-          )
-      , width  = 5
-      , height = 6
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      , limitsize = FALSE
-      )
-  } # i_level
+        , plot   =
+            out$o_class_sel_ROC$plot_roc[[ i_level ]] +
+            patchwork::plot_annotation(
+            #labs(
+              title     = plot_title
+            , subtitle  = "Selected model, ROC Curves"
+            #, caption   = paste0(
+            #                ""
+            #              )
+            , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+            )
+        , width  = 5
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+    } # i_level
+  } # sw_reduce_output
 
 
   # Subgroup analysis
@@ -2994,53 +3027,55 @@ e_rfsrc_classification <-
 
 
   # VIMP and ROC for each target
-  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-    ## i_level = 1
+  if (!sw_reduce_output) {
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      ## i_level = 1
 
-    plot_temp <-
-      patchwork::wrap_plots(
-        out_vimp_sel_temp[[ i_level ]]
-      , out$o_class_sel_ROC$plot_roc[[ i_level ]] +
-        patchwork::plot_annotation(
-        #labs(
-          title     = plot_title
-        , subtitle  = "Selected model, ROC Curves"
-        #, caption   = paste0(
-        #                ""
-        #              )
-        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-        )
-      )
-
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_sel_VIMP_ROC"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-            , "."
-            , plot_format
-            )
+      plot_temp <-
+        patchwork::wrap_plots(
+          out_vimp_sel_temp[[ i_level ]]
+        , out$o_class_sel_ROC$plot_roc[[ i_level ]] +
+          patchwork::plot_annotation(
+          #labs(
+            title     = plot_title
+          , subtitle  = "Selected model, ROC Curves"
+          #, caption   = paste0(
+          #                ""
+          #              )
+          , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
           )
-      , plot   =
-          plot_temp
-      , width  = (4 + 2 * 2) + 5
-      , height = 6
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      , limitsize = FALSE
-      )
-  } # i_level
+        )
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_sel_VIMP_ROC"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            plot_temp
+        , width  = (4 + 2 * 2) + 5
+        , height = 6
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+    } # i_level
+  } # sw_reduce_output
 
 
   ### Confidence intervals and standard errors for VIMP (variable importance)
@@ -3104,32 +3139,33 @@ e_rfsrc_classification <-
     ) +
     theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
 
-  ggplot2::ggsave(
-      filename =
-        file.path(
-          out_path
-        , paste0(
-            file_prefix
-          , "__"
-          , "plot_o_class_sel_subsample"
-          , "."
-          , plot_format
+  if (!sw_reduce_output) {
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_sel_subsample"
+            , "."
+            , plot_format
+            )
           )
-        )
-    , plot   =
-        out[[ "plot_o_class_sel_subsample" ]]
-    , width  = 8
-    , height = 2 + 0.25 * length(rf_x_var_sel)
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    , limitsize = FALSE
-    )
-
-  # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
+      , plot   =
+          out[[ "plot_o_class_sel_subsample" ]]
+      , width  = 8
+      , height = 2 + 0.25 * length(rf_x_var_sel)
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      , limitsize = FALSE
+      )
+    # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
+  } # sw_reduce_output
 
 
   out[[ "plot_o_class_sel_vimp_CI" ]] <-
@@ -3369,101 +3405,110 @@ e_rfsrc_classification <-
     ##     print()
     ## }
 
-  e_log_write(
-    "Selected model, Marginal effects plots"
-  , log_obj     = log_obj
-  , i_level     = 2
-  )
-
-  out[[ "plot_o_class_sel_marginal_effects" ]] <-
-    lapply(
-      seq_along(levels(o_class_sel$class))
-    , function(i_level) {
-        cowplot::as_grob(
-          ~randomForestSRC::plot.variable(
-            x               = o_class_sel
-          #, xvar.names      = o_class_sel$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
-          , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
-          #, m.target        = NULL
-          #, time
-          #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
-          , class.type      = c("prob", "bayes")[1]
-          , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
-          , oob             = TRUE
-          , show.plots      = TRUE
-          , plots.per.page  = n_marginal_plot_across
-          , granule         = 5
-          , sorted          = TRUE #FALSE
-          #, nvar
-          , npts            = 25
-          , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
-          #, subset
-          , main            = paste0("Marginal plot, target: ", levels(o_class_sel$class)[i_level])
-          )
-        )
-      }
+  if (!sw_reduce_output) {
+    e_log_write(
+      "Selected model, Marginal effects plots"
+    , log_obj     = log_obj
+    , i_level     = 2
     )
 
-  for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
-    out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] <-
-      patchwork::wrap_elements(
-        full =
-          #cowplot::as_grob(
-            out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] |>
-                cowplot::plot_grid()
-          #)
-      ) +
-      patchwork::plot_annotation(
-      #labs(
-        title     = plot_title
-      , subtitle  = "Selected model, Marginal plot, predicted marginal value (unadjusted) for variable"
-      , caption   = paste0(
-                      "For continuous variables, red points are used to indicate marginal values (unadjusted for other variables) and"
-                    #, "\n"
-                    , "  dashed red lines indicate a smoothed error bar of +/- two standard errors. "
-                    #, "\n"
-                    , "Black dashed line are the marginal values."
-                    , "\n"
-                    , "For discrete variables, marginal values are indicated using boxplots with whiskers extending out approximately two standard errors from the mean."
-                    , "\n"
-                    , "Standard errors are meant only to be a guide and should be interpreted with caution."
-                   )
-      , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
-      )
-
-    ggplot2::ggsave(
-        filename =
-          file.path(
-            out_path
-          , paste0(
-              file_prefix
-            , "__"
-            , "plot_o_class_sel_marginal_effects"
-            , "_"
-            , i_level
-            , "-"
-            , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
-            , "."
-            , plot_format
+    out[[ "plot_o_class_sel_marginal_effects" ]] <-
+      lapply(
+        seq_along(levels(o_class_sel$class))
+      , function(i_level) {
+          cowplot::as_grob(
+            ~randomForestSRC::plot.variable(
+              x               = o_class_sel
+            #, xvar.names      = o_class_sel$importance |> tibble::as_tibble(rownames = "rf_x_var") |> dplyr::arrange(dplyr::desc(all)) |> dplyr::pull(rf_x_var)
+            , target          = levels(o_class_sel$class)[i_level]   # classification: first event type
+            #, m.target        = NULL
+            #, time
+            #, surv.type       = c("mort", "rel.freq", "surv", "years.lost", "cif", "chf")
+            , class.type      = c("prob", "bayes")[1]
+            , partial         = FALSE # FALSE = Marginal plots, TRUE = Partial plots
+            , oob             = TRUE
+            , show.plots      = TRUE
+            , plots.per.page  = n_marginal_plot_across
+            , granule         = 5
+            , sorted          = TRUE #FALSE
+            #, nvar
+            , npts            = 25
+            , smooth.lines    = FALSE  # when partial = TRUE, use lowess smoothed lines (too smooth)
+            #, subset
+            , main            = paste0("Marginal plot, target: ", levels(o_class_sel$class)[i_level])
             )
           )
-      , plot   =
-          out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]]
-      , width  = 3 * n_marginal_plot_across
-      , height = 4 * ceiling(length(out[[ "rf_x_var_sel" ]]) / n_marginal_plot_across)
-      ## png, jpeg
-      , dpi    = 300
-      , bg     = "white"
-      ## pdf
-      , units  = "in"
-      #, useDingbats = FALSE
-      , limitsize = FALSE
+        }
       )
-  } # i_level
+
+    for (i_level in seq_along(levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]]))) {
+      out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] <-
+        patchwork::wrap_elements(
+          full =
+            #cowplot::as_grob(
+              out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]] |>
+                  cowplot::plot_grid()
+            #)
+        ) +
+        patchwork::plot_annotation(
+        #labs(
+          title     = plot_title
+        , subtitle  = "Selected model, Marginal plot, predicted marginal value (unadjusted) for variable"
+        , caption   = paste0(
+                        "For continuous variables, red points are used to indicate marginal values (unadjusted for other variables) and"
+                      #, "\n"
+                      , "  dashed red lines indicate a smoothed error bar of +/- two standard errors. "
+                      #, "\n"
+                      , "Black dashed line are the marginal values."
+                      , "\n"
+                      , "For discrete variables, marginal values are indicated using boxplots with whiskers extending out approximately two standard errors from the mean."
+                      , "\n"
+                      , "Standard errors are meant only to be a guide and should be interpreted with caution."
+                     )
+        , theme = theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+        )
+
+      ggplot2::ggsave(
+          filename =
+            file.path(
+              out_path
+            , paste0(
+                file_prefix
+              , "__"
+              , "plot_o_class_sel_marginal_effects"
+              , "_"
+              , i_level
+              , "-"
+              , levels(dat_rf_class[[ out[[ "rf_y_var" ]] ]])[i_level]
+              , "."
+              , plot_format
+              )
+            )
+        , plot   =
+            out[[ "plot_o_class_sel_marginal_effects" ]][[ i_level ]]
+        , width  = 3 * n_marginal_plot_across
+        , height = 4 * ceiling(length(out[[ "rf_x_var_sel" ]]) / n_marginal_plot_across)
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        , units  = "in"
+        #, useDingbats = FALSE
+        , limitsize = FALSE
+        )
+    } # i_level
+  } # sw_reduce_output
 
 
   ## bivariate partial plots for top k features by VIMP
   if ((k_partial_coplot_var >= 2) & length(out$rf_x_var_sel) >= 2) {
+
+    e_log_write(
+      "Selected model, Bivariate partial plots"
+    , log_obj     = log_obj
+    , i_level     = 2
+    )
+
     if (k_partial_coplot_var > length(out$rf_x_var_sel)) {
       k_partial_coplot_var <- length(out$rf_x_var_sel)
     }
@@ -3511,20 +3556,22 @@ e_rfsrc_classification <-
                 return(out)
               }
             )
-          )
-        dat_partial_coplot <- data.frame(dat_partial_coplot)
+          ) |>
+          data.frame()
         colnames(dat_partial_coplot) <- c("x1_sort", "x2_sort", "effectSize")
 
         ## coplot of partial effect of wind and temp
         coplot_1 <-
           ggplotify::as.ggplot(
-            ~graphics::coplot(
-              formula = effectSize ~ x1_sort|x2_sort
-            , dat_partial_coplot
-            , pch     = 16
-            , overlap = 0
-            , xlab    = c(x_var_sort_vimp[i_var_1], paste("Given :", x_var_sort_vimp[i_var_2]))
-            )
+            function() {
+              graphics::coplot(
+                formula = effectSize ~ x1_sort|x2_sort
+              , data    = dat_partial_coplot
+              , pch     = 16
+              , overlap = 0
+              , xlab    = c(x_var_sort_vimp[i_var_1], paste("Given :", x_var_sort_vimp[i_var_2]))
+              )
+            }
           ) +
           labs(title = paste0("Bivariate partial plot: (", i_var_1, ") ", x_var_sort_vimp[i_var_1], " given (", i_var_2, ") ", x_var_sort_vimp[i_var_2]))
 
@@ -3552,20 +3599,22 @@ e_rfsrc_classification <-
                 return(out)
               }
             )
-          )
-        dat_partial_coplot <- data.frame(dat_partial_coplot)
+          ) |>
+          data.frame()
         colnames(dat_partial_coplot) <- c("x2_sort", "x1_sort", "effectSize")
 
         ## coplot of partial effect of wind and temp
         coplot_2 <-
           ggplotify::as.ggplot(
-            ~graphics::coplot(
-              formula = effectSize ~ x2_sort|x1_sort
-            , dat_partial_coplot
-            , pch     = 16
-            , overlap = 0
-            , xlab    = c(x_var_sort_vimp[i_var_2], paste("Given :", x_var_sort_vimp[i_var_1]))
-            )
+            function() {
+              graphics::coplot(
+                formula = effectSize ~ x2_sort|x1_sort
+              , data    = dat_partial_coplot
+              , pch     = 16
+              , overlap = 0
+              , xlab    = c(x_var_sort_vimp[i_var_2], paste("Given :", x_var_sort_vimp[i_var_1]))
+              )
+            }
           ) +
           labs(title = paste0("Bivariate partial plot: (", i_var_2, ") ", x_var_sort_vimp[i_var_2], " given (", i_var_1, ") ", x_var_sort_vimp[i_var_1]))
 

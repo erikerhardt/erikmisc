@@ -23,6 +23,7 @@ e_rfsrc_classification(
   sw_imbalanced_binary = c(FALSE, TRUE)[1],
   sw_threshold_to_use = c(FALSE, TRUE)[1],
   sw_quick_full_only = c(FALSE, TRUE)[1],
+  sw_reduce_output = c(TRUE, FALSE)[1],
   n_single_decision_tree_plots = 0,
   k_partial_coplot_var = 3
 )
@@ -63,6 +64,8 @@ e_rfsrc_classification(
 \item{sw_threshold_to_use}{T/F NOT YET USED XXX}
 
 \item{sw_quick_full_only}{T/F to only fit full model and return model object}
+
+\item{sw_reduce_output}{T/F exclude individual ROC and VIMP plots, and marginal plots}
 
 \item{n_single_decision_tree_plots}{number of example decision trees to plot (recommend not too many)}
 
@@ -123,6 +126,7 @@ out_e_rf <-
   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+  , sw_reduce_output       = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var   = 3
   )
@@ -242,6 +246,7 @@ out_e_rf <-
   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+  , sw_reduce_output        = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var   = 0
   )
@@ -301,6 +306,7 @@ out_e_rf <-
   , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
   , sw_quick_full_only     = c(FALSE, TRUE)[1]
+  , sw_reduce_output        = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var   = 0
   )
