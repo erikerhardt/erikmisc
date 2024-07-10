@@ -47,6 +47,7 @@ Imports:
     ggpubr,
     grid,
     gridExtra,
+    htmlwidgets,
     janitor,
     kableExtra,
     knitr,
@@ -76,7 +77,8 @@ Imports:
     tidyr,
     tidyselect,
     tsne,
-    umap
+    umap,
+    webshot
 Suggests:
     datasets,
     rmarkdown,
