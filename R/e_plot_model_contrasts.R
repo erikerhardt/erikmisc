@@ -623,6 +623,12 @@ e_plot_model_contrasts <-
         pattern     = stringr::fixed("`")
       , replacement = ""
       )
+    var_y_no_backticks <-
+      var_name_y |>
+      stringr::str_replace_all(
+        pattern     = stringr::fixed("`")
+      , replacement = ""
+      )
 
     # Main effect
     if (length(var_xs) == 1) {
@@ -794,7 +800,7 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot) {
             p <- p +
               geom_point(
-              #  data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+              #  data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
                 data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = p_hat__) # tvar is colour categorical variable
               #, aes(x = xvar, y = yvar)
               , aes(x = xvar, y = p_hat__)
@@ -836,7 +842,7 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot & !(fit_model_type == "glm")) {
             p <- p +
               geom_point(
-                data = dat_cont |> dplyr::mutate(xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont |> dplyr::mutate(xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
               , aes(x = xvar, y = yvar)
               , colour = "black"
               , alpha = geom_point_alpha
@@ -877,14 +883,14 @@ e_plot_model_contrasts <-
         }
 
         if (!(fit_model_type == "glm")) {
-          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character() )
+          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character() )
         } else {
           if (sw_glm_scale == "response") {
             # response scale
-            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           } else {
             # default scale
-            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           }
         }
 
@@ -1056,14 +1062,14 @@ e_plot_model_contrasts <-
           )
 
         if (!(fit_model_type == "glm")) {
-          x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+          x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
         } else {
           if (sw_glm_scale == "response") {
             # response scale
-            x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           } else {
             # default scale
-            x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           }
         }
 
@@ -1327,14 +1333,14 @@ e_plot_model_contrasts <-
           } # if sw_try_ok
 
           if (!(fit_model_type == "glm")) {
-            x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           } else {
             if (sw_glm_scale == "response") {
               # response scale
-              x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+              x_label <- paste0("(Response-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
             } else {
               # default scale
-              x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+              x_label <- paste0("(Link-scale) Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
             }
           }
 
@@ -1683,7 +1689,7 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot) {
             p2 <- p2 +
               geom_point(
-              #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+              #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
                 data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
               #, aes(x = xvar, y = yvar, colour = tvar)
               , aes(x = xvar, y = p_hat__, colour = tvar)
@@ -1721,7 +1727,7 @@ e_plot_model_contrasts <-
           if (sw_points_in_plot & !(fit_model_type == "glm")) {
             p2 <- p2 +
               geom_point(
-                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
               , aes(x = xvar, y = yvar, colour = tvar)
               , alpha = geom_point_alpha
               )
@@ -1730,14 +1736,14 @@ e_plot_model_contrasts <-
         }
 
         if (!(fit_model_type == "glm")) {
-          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character() )
+          y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character() )
         } else {
           if (sw_glm_scale == "response") {
             # response scale
-            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           } else {
             # default scale
-            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+            y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
           }
         }
 
@@ -1948,9 +1954,9 @@ e_plot_model_contrasts <-
             p <- p +
               geom_point(
                 #data = dat_cont
-                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs_no_backticks[1]))
+                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = tvar)
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = !!rlang::sym(var_xs_no_backticks[1]))
               , aes(x = xvar, y = yvar)
               , colour = "black"
               , alpha = geom_point_alpha
@@ -1960,10 +1966,10 @@ e_plot_model_contrasts <-
             p <- p +
               geom_point(
                 #data = dat_cont
-              #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_name_y)) # tvar is colour categorical variable
+              #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
                 data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_name_y), colour = !!rlang::sym(var_xs_no_backticks[1]))
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = tvar)
+              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = !!rlang::sym(var_xs_no_backticks[1]))
               #, aes(x = xvar, y = yvar)
               , aes(x = xvar, y = p_hat__)
               , colour = "black"
@@ -2012,14 +2018,14 @@ e_plot_model_contrasts <-
           }
 
           if (!(fit_model_type == "glm")) {
-            y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character() )
+            y_label <- paste0("Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character() )
           } else {
             if (sw_glm_scale == "response") {
               # response scale
-              y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+              y_label <- paste0("(Response-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
             } else {
               # default scale
-              y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_name_y]]) |> as.character())
+              y_label <- paste0("(Link-scale) Linear prediction of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
             }
           }
 
