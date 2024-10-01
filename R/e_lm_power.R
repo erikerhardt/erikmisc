@@ -208,6 +208,9 @@ e_lm_power <-
       # f2
       df_full  <- summary(lm_summary_AB)$fstatistic[c("numdf", "dendf")]
       df_red   <- summary(lm_summary_A )$fstatistic[c("numdf", "dendf")]
+      if (is.null(df_red)) {
+        df_red = c(numdf = 0, dendf = sum(df_full))
+      }
 
       n_param_full <- df_full[1]
       n_param_red  <- df_red [1]
@@ -218,6 +221,9 @@ e_lm_power <-
       # f2
       df_full  <- summary(lm_summary_AB)$devcomp$dims[c("p", "q")]
       df_red   <- summary(lm_summary_A )$devcomp$dims[c("p", "q")]
+      if (is.null(df_red)) {
+        df_red = c(numdf = 0, dendf = sum(df_full))
+      }
 
       n_param_full <- df_full[1]
       n_param_red  <- df_red [1]
