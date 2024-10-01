@@ -212,7 +212,7 @@ dat_sheet |>
 ## Scatterplot matrix
 p <-
   GGally::ggpairs(
-    dat_sheet %>% select()
+    dat_sheet |> select()
   , title = "Title"
   #, mapping = ggplot2::aes(colour = , alpha = 0.5)
   , diag  = list(
@@ -236,7 +236,7 @@ p <-
             , discrete =
                 c("ratio", "facetbar", "blank")[2]
             , combo =
-                wrap(
+                GGally::wrap(
                   c("box", "box_no_facet", "dot", "dot_no_facet", "facethist", "facetdensity", "denstrip", "blank")[2]
                 #, bins = 10  # for facethist
                 )
@@ -252,7 +252,7 @@ p <-
             , discrete =
                 c("ratio", "facetbar", "blank")[2]
             , combo =
-                wrap(
+                GGally::wrap(
                   c("box", "box_no_facet", "dot", "dot_no_facet", "facethist", "facetdensity", "denstrip", "blank")[5]
                 , bins = 10  # for facethist
                 )
