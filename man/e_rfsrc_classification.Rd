@@ -25,7 +25,8 @@ e_rfsrc_classification(
   sw_quick_full_only = c(FALSE, TRUE)[1],
   sw_reduce_output = c(TRUE, FALSE)[1],
   n_single_decision_tree_plots = 0,
-  k_partial_coplot_var = 3
+  k_partial_coplot_var = 3,
+  n_boot_resamples = 100
 )
 }
 \arguments{
@@ -70,6 +71,8 @@ e_rfsrc_classification(
 \item{n_single_decision_tree_plots}{number of example decision trees to plot (recommend not too many)}
 
 \item{k_partial_coplot_var}{number of top variables by VIMP to create bivariate partial (conditioning) plots}
+
+\item{n_boot_resamples}{number of subsamples (or number of bootstraps) for VIMP CIs}
 }
 \value{
 list with many RF objects, summaries, and plots
@@ -129,6 +132,7 @@ out_e_rf <-
   , sw_reduce_output       = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var   = 3
+  , n_boot_resamples        = 100
   )
 
 
@@ -249,6 +253,7 @@ out_e_rf <-
   , sw_reduce_output        = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var   = 0
+  , n_boot_resamples        = 100
   )
 
 
@@ -309,6 +314,7 @@ out_e_rf <-
   , sw_reduce_output        = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var   = 0
+  , n_boot_resamples        = 100
   )
 
 }

@@ -21,6 +21,7 @@
 #' @param sw_reduce_output        T/F exclude individual ROC and VIMP plots, and marginal plots
 #' @param n_single_decision_tree_plots number of example decision trees to plot (recommend not too many)
 #' @param k_partial_coplot_var    number of top variables by VIMP to create bivariate partial (conditioning) plots
+#' @param n_boot_resamples        number of subsamples (or number of bootstraps) for VIMP CIs
 #'
 #' @return list with many RF objects, summaries, and plots
 #' @import parallel
@@ -96,6 +97,7 @@
 #'   , sw_reduce_output       = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 3
+#'   , n_boot_resamples        = 100
 #'   )
 #'
 #'
@@ -216,6 +218,7 @@
 #'   , sw_reduce_output        = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 0
+#'   , n_boot_resamples        = 100
 #'   )
 #'
 #'
@@ -276,6 +279,7 @@
 #'   , sw_reduce_output        = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 0
+#'   , n_boot_resamples        = 100
 #'   )
 #'
 #' }
@@ -302,6 +306,7 @@ e_rfsrc_classification <-
   , sw_reduce_output        = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var    = 3
+  , n_boot_resamples        = 100
   ) {
   ## dat_rf_class <-
   ##   erikmisc::dat_mtcars_e |>
@@ -1629,7 +1634,7 @@ e_rfsrc_classification <-
   o_class_full_subsample <-
     randomForestSRC::subsample(
       obj               = o_class_full
-    , B                 = 100           # Number of subsamples (or number of bootstraps).
+    , B                 = n_boot_resamples  # Number of subsamples (or number of bootstraps).
     , block.size        = 1             # 1 = VIMP is calculated for each tree. "ntree" =  VIMP is calculated for the entire forest, ensemble VIMP.
     , importance        = c("anti", "permute", "random")[this_subsample_importance]
     , subratio          = NULL
@@ -1708,6 +1713,21 @@ e_rfsrc_classification <-
 
   # cowplot::plot_grid(out[[ "plot_o_class_full_subsample" ]])
 
+  readr::write_csv(
+    x =
+      out[[ "o_class_full_subsample_extract_bootsample" ]]$var.sel.Z |>
+      tibble::as_tibble(rownames = "Var")
+  , file =
+      file.path(
+        out_path
+      , paste0(
+          file_prefix
+        , "__"
+        , "o_class_full_VIMP_CI"
+        , ".csv"
+        )
+      )
+  )
 
   out[[ "plot_o_class_full_vimp_CI" ]] <-
     f_plot_VIMP_bs(
@@ -3088,7 +3108,7 @@ e_rfsrc_classification <-
   o_class_sel_subsample <-
     randomForestSRC::subsample(
       obj               = o_class_sel
-    , B                 = 100           # Number of subsamples (or number of bootstraps).
+    , B                 = n_boot_resamples  # Number of subsamples (or number of bootstraps).
     , block.size        = 1             # 1 = VIMP is calculated for each tree. "ntree" =  VIMP is calculated for the entire forest, ensemble VIMP.
     , importance        = c("anti", "permute", "random")[this_subsample_importance]
     , subratio          = NULL
@@ -3167,6 +3187,21 @@ e_rfsrc_classification <-
     # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
   } # sw_reduce_output
 
+  readr::write_csv(
+    x =
+      out[[ "o_class_sel_subsample_extract_bootsample" ]]$var.sel.Z |>
+      tibble::as_tibble(rownames = "Var")
+  , file =
+      file.path(
+        out_path
+      , paste0(
+          file_prefix
+        , "__"
+        , "o_class_sel_VIMP_CI"
+        , ".csv"
+        )
+      )
+  )
 
   out[[ "plot_o_class_sel_vimp_CI" ]] <-
     f_plot_VIMP_bs(
