@@ -71,7 +71,8 @@
 <span>  sw_quick_full_only <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  sw_reduce_output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  n_single_decision_tree_plots <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  k_partial_coplot_var <span class="op">=</span> <span class="fl">3</span></span>
+<span>  k_partial_coplot_var <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  n_boot_resamples <span class="op">=</span> <span class="fl">100</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -162,6 +163,10 @@
 <dt id="arg-k-partial-coplot-var">k_partial_coplot_var<a class="anchor" aria-label="anchor" href="#arg-k-partial-coplot-var"></a></dt>
 <dd><p>number of top variables by VIMP to create bivariate partial (conditioning) plots</p></dd>
 
+
+<dt id="arg-n-boot-resamples">n_boot_resamples<a class="anchor" aria-label="anchor" href="#arg-n-boot-resamples"></a></dt>
+<dd><p>number of subsamples (or number of bootstraps) for VIMP CIs</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -221,6 +226,7 @@
 <span class="r-in"><span>  , sw_reduce_output       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , n_single_decision_tree_plots <span class="op">=</span> <span class="fl">0</span></span></span>
 <span class="r-in"><span>  , k_partial_coplot_var   <span class="op">=</span> <span class="fl">3</span></span></span>
+<span class="r-in"><span>  , n_boot_resamples        <span class="op">=</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -341,6 +347,7 @@
 <span class="r-in"><span>  , sw_reduce_output        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , n_single_decision_tree_plots <span class="op">=</span> <span class="fl">0</span></span></span>
 <span class="r-in"><span>  , k_partial_coplot_var   <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span>  , n_boot_resamples        <span class="op">=</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -401,6 +408,7 @@
 <span class="r-in"><span>  , sw_reduce_output        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  , n_single_decision_tree_plots <span class="op">=</span> <span class="fl">0</span></span></span>
 <span class="r-in"><span>  , k_partial_coplot_var   <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span>  , n_boot_resamples        <span class="op">=</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>

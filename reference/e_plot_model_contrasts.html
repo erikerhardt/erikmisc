@@ -631,7 +631,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tables$vs$est</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  vs       emmean    SE  df asymp.LCL asymp.UCL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  V-shaped   0.53 0.607 Inf    -0.827      1.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  straight   2.43 1.607 Inf    -1.161      6.03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  straight   2.43 1.610 Inf    -1.161      6.03</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Results are given on the logit (not the response) scale. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
@@ -657,7 +657,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:hp`$est</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  vs       hp.trend      SE  df asymp.LCL asymp.UCL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  V-shaped  0.00401 0.00886 Inf  -0.01336    0.0214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  straight  0.04440 0.02774 Inf  -0.00997    0.0988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  straight  0.04440 0.02770 Inf  -0.00997    0.0988</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1015,16 +1015,16 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:cyl`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:cyl`$est</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> vs = V-shaped:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  cyl      prob         SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four  0.00000 0.00005640 Inf  0.000000    1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  six   0.00000 0.00003256 Inf  0.000000    1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  eight 0.85714 0.09352195 Inf  0.492024    0.9738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  cyl      prob       SE  df asymp.LCL asymp.UCL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  four  0.00000 5.64e-05 Inf  0.000000    1.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  six   0.00000 3.26e-05 Inf  0.000000    1.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  eight 0.85714 9.35e-02 Inf  0.492024    0.9738</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> vs = straight:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  cyl      prob         SE  df asymp.LCL asymp.UCL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four  0.30000 0.14491377 Inf  0.083891    0.6673</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  six   1.00000 0.00002820 Inf  0.000000    1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  eight  nonEst         NA  NA        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  cyl      prob       SE  df asymp.LCL asymp.UCL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  four  0.30000 1.45e-01 Inf  0.083891    0.6673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  six   1.00000 2.82e-05 Inf  0.000000    1.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  eight  nonEst       NA  NA        NA        NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Confidence level used: 0.95 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Conf-level adjustment: sidak method for varying numbers of estimates </span>
@@ -1033,7 +1033,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tables$`vs:cyl`$cont</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> vs = V-shaped:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  contrast     odds.ratio   SE  df null z.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  four / six            1 7532 Inf    1   0.000  1.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  four / six            1 7530 Inf    1   0.000  1.0000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  four / eight          0    0 Inf    1  -0.003  1.0000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  six / eight           0    0 Inf    1  -0.005  1.0000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
