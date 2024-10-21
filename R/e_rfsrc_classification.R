@@ -462,6 +462,7 @@ e_rfsrc_classification <-
     , "\n    sw_reduce_output        = ", sw_reduce_output
     , "\n    n_single_decision_tree_plots = ", n_single_decision_tree_plots
     , "\n    k_partial_coplot_var    = ", k_partial_coplot_var
+    , "\n    n_boot_resamples        = ", n_boot_resamples
     , "\n\n"
     )
   , log_obj     = log_obj
