@@ -104,7 +104,7 @@ e_plot_scatterplot <-
   }
 
   if (sw_corr_in_subtitle &
-      (inherits(dat_plot[[ var_x ]], "numeric")) &
+      (inherits(dat_plot[[ var_x ]], "numeric") | inherits(dat_plot[[ var_x ]], "integer")) &
       !(var_x == var_y) &
       !all(is.na(dat_plot[[ var_x ]]))
       ) {
@@ -166,7 +166,7 @@ e_plot_scatterplot <-
   if (is.null(var_color)) {
     p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y))
   } else {
-    if (inherits(dat_plot[[ var_color ]], "numeric")) {
+    if (inherits(dat_plot[[ var_color ]], "numeric") | inherits(dat_plot[[ var_color ]], "integer")) {
       p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, color = var_color))
     } else {
       p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, color = var_color, shape = var_color))
@@ -179,7 +179,7 @@ e_plot_scatterplot <-
   }
   p <- p + theme_bw()
 
-  if (inherits(dat_plot[[ var_x ]], "numeric")) {
+  if (inherits(dat_plot[[ var_x ]], "numeric") | inherits(dat_plot[[ var_x ]], "integer")) {
     p <- p + geom_point()
     p <- p + stat_ellipse(aes(color = NULL, shape = NULL), type = "t", segments = 101, color = "black", linetype = 2, alpha = 0.5)  # , level = 0.80
   } else {
@@ -250,7 +250,7 @@ e_plot_scatterplot <-
 
 
   if (sw_corr_in_subtitle &
-      (inherits(dat_plot[[ var_x ]], "numeric")) &
+      (inherits(dat_plot[[ var_x ]], "numeric") | inherits(dat_plot[[ var_x ]], "integer")) &
       !(var_x == var_y) &
       !all(is.na(dat_plot[[ var_x ]]))
       ) {
