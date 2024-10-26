@@ -2,9 +2,9 @@
 #'
 #' \code{x1} is reference, cross-correlation for \code{x2} is calculated and the maximum (see \code{cor_goal}) correlation is returned along with the lag (see \code{lag_max}) at which it is attained.
 #'
-#' @param x1        time series object
-#' @param x2        time series object
-#' @param lag_max   range of lags, passed to \code{stats::ccf}; can also be two limits \code{c(-10, 5)} for range of lags for x2 to align with x1 (if x2 lags behind, then lag will be negative)
+#' @param x1        time series object (reference)
+#' @param x2        time series object (to align with reference)
+#' @param lag_max   range of lags, passed to \code{stats::ccf}; can also be two limits \code{c(-10, 5)} for range of lags for x2 to align with x1 (NB, if x2 lags behind by t units, then lag will be negative because shifting x2 by -t units will align x2 with x1)
 #' @param cor_goal  \code{"max"} for maximum (typically positive) correlation, \code{"min"} for minimum (typically negative) correlation, \code{"abs"} for maximum absolute correlation (largest positive or negative)
 #'
 #' @return list cor = maximum correlation, lag = lag to shift x2 to align with x1 for maximum correlation

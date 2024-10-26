@@ -12,11 +12,11 @@ e_ccf_max(
 )
 }
 \arguments{
-\item{x1}{time series object}
+\item{x1}{time series object (reference)}
 
-\item{x2}{time series object}
+\item{x2}{time series object (to align with reference)}
 
-\item{lag_max}{range of lags, passed to \code{stats::ccf}; can also be two limits \code{c(-10, 5)} for range of lags for x2 to align with x1 (if x2 lags behind, then lag will be negative)}
+\item{lag_max}{range of lags, passed to \code{stats::ccf}; can also be two limits \code{c(-10, 5)} for range of lags for x2 to align with x1 (NB, if x2 lags behind by t units, then lag will be negative because shifting x2 by -t units will align x2 with x1)}
 
 \item{cor_goal}{\code{"max"} for maximum (typically positive) correlation, \code{"min"} for minimum (typically negative) correlation, \code{"abs"} for maximum absolute correlation (largest positive or negative)}
 }
