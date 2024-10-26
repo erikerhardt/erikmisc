@@ -5,7 +5,7 @@
 #' @param prefix_pval prefix for p-value named list
 #' @param suffix_tail suffixes for p-value named list
 #'
-#' @return out        a named vector of 3 (pval_lower, pval_upper, pval_twoside)
+#' @return out        a named vector of 4 (pval_lower, pval_upper, pval_twoside, pval_min_uplo)
 #' @export
 #'
 #' @examples
@@ -16,20 +16,22 @@ e_pval_empirical <-
     x           = NULL
   , obs         = 0
   , prefix_pval = "pval_"
-  , suffix_tail = c("lower", "upper", "twoside")
+  , suffix_tail = c("lower", "upper", "twoside", "min_uplo")
   ) {
   # x = rnorm(1000)
   # obs = 2
 
   pval_lower    <- sum(obs <= x) / length(x)
   pval_upper    <- sum(obs >= x) / length(x)
-  pval_twoside  <- min(2 * min(c(pval_lower, pval_upper)), 1)
+  pval_min_uplo <- min(c(pval_lower, pval_upper))
+  pval_twoside  <- min(2 * pval_min_uplo, 1)
 
   out <-
     c(
       pval_lower
     , pval_upper
     , pval_twoside
+    , pval_min_uplo
     )
 
   names(out) <- paste0(prefix_pval, suffix_tail)

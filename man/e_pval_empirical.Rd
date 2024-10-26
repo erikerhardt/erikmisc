@@ -8,7 +8,7 @@ e_pval_empirical(
   x = NULL,
   obs = 0,
   prefix_pval = "pval_",
-  suffix_tail = c("lower", "upper", "twoside")
+  suffix_tail = c("lower", "upper", "twoside", "min_uplo")
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ e_pval_empirical(
 \item{suffix_tail}{suffixes for p-value named list}
 }
 \value{
-out        a named vector of 3 (pval_lower, pval_upper, pval_twoside)
+out        a named vector of 4 (pval_lower, pval_upper, pval_twoside, pval_min_uplo)
 }
 \description{
 Calculate empirical tail probabilities (p-values), typically of bootstrap resamples
