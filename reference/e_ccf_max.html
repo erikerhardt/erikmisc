@@ -63,15 +63,15 @@
 
 
 <dl><dt id="arg-x-">x1<a class="anchor" aria-label="anchor" href="#arg-x-"></a></dt>
-<dd><p>time series object</p></dd>
+<dd><p>time series object (reference)</p></dd>
 
 
 <dt id="arg-x-">x2<a class="anchor" aria-label="anchor" href="#arg-x-"></a></dt>
-<dd><p>time series object</p></dd>
+<dd><p>time series object (to align with reference)</p></dd>
 
 
 <dt id="arg-lag-max">lag_max<a class="anchor" aria-label="anchor" href="#arg-lag-max"></a></dt>
-<dd><p>range of lags, passed to <code><a href="https://rdrr.io/r/stats/acf.html" class="external-link">stats::ccf</a></code>; can also be two limits <code>c(-10, 5)</code> for range of lags for x2 to align with x1 (if x2 lags behind, then lag will be negative)</p></dd>
+<dd><p>range of lags, passed to <code><a href="https://rdrr.io/r/stats/acf.html" class="external-link">stats::ccf</a></code>; can also be two limits <code>c(-10, 5)</code> for range of lags for x2 to align with x1 (NB, if x2 lags behind by t units, then lag will be negative because shifting x2 by -t units will align x2 with x1)</p></dd>
 
 
 <dt id="arg-cor-goal">cor_goal<a class="anchor" aria-label="anchor" href="#arg-cor-goal"></a></dt>
