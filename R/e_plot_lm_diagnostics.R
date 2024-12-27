@@ -123,7 +123,7 @@ e_plot_lm_diagnostics <-
     density(fit$residuals)
   , lwd   = 2
   , col   = "black"
-  , add   = TRUE
+  #, add   = TRUE
   )
   # normal distribution
   f_norm_curve <- function(x) {dnorm(x, mean = 0, sd = sd(fit$residuals))}
