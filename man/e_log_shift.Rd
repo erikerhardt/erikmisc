@@ -42,6 +42,7 @@ f_print_example <- function(x, x2 = e_log_shift(x)) {
 e_log_shift(x = c(0, 1, 2, 3))
 e_log_shift(x = c(0, 10, 100, 1000), base = 10)
 e_log_shift(x = c(-4, -2, 0, 2, 4))
+
 # Symmetric, positive with right skew
 x <- rgamma(100, 1, 1) |> sort()
 x_log <- e_log_shift(x, sw_symmetric = TRUE)
@@ -50,7 +51,7 @@ x_log <- e_log_shift(x, sw_symmetric = TRUE)
   par(mfrow = c(1, 3))
   hist(x)
   hist(x_log)
-  dat_skew <- tibble::tibble(min_add = seq(0, 10, by = 0.01), skewness = NA)
+  dat_skew <- tibble::tibble(min_add = seq(0, 1, by = 0.01), skewness = NA)
   for (i_row in seq_len(nrow(dat_skew))) {
     ## i_row = 1
     dat_skew$skewness[i_row] <-
@@ -58,9 +59,11 @@ x_log <- e_log_shift(x, sw_symmetric = TRUE)
       moments::skewness()
   } # i_row
   plot(dat_skew$min_add, dat_skew$skewness, type = "l")
-  abline(dat_skew$min_add, dat_skew$skewness, type = "l")
+  abline(h = 0, col = "gray50")
+  abline(v = attr(x_log, "e_log_shift")["min_add"], col = "gray50")
   par(mfrow = c(1, 1))
   print(c(skew_x = moments::skewness(x), skew_x_log = moments::skewness(x_log)))
+
 # Symmetric, positive with right skew, less than 1
 x <- rgamma(100, 1, 1) |> sort()
 x <- x / max(x + 1)
@@ -72,6 +75,7 @@ x_log <- e_log_shift(x, sw_symmetric = TRUE)
   hist(x_log)
   par(mfrow = c(1, 1))
   print(c(skew_x = moments::skewness(x), skew_x_log = moments::skewness(x_log)))
+
 # Symmetric, negative with left skew
 x <- -rgamma(100, 1, 1) |> sort()
 x_log <- e_log_shift(x, sw_symmetric = TRUE)
@@ -82,6 +86,7 @@ x_log <- e_log_shift(x, sw_symmetric = TRUE)
   hist(x_log)
   par(mfrow = c(1, 1))
   print(c(skew_x = moments::skewness(x), skew_x_log = moments::skewness(x_log)))
+
 # Symmetric, positive with left skew
 x <- -rgamma(100, 1, 1) |> sort()
 x <- x + min(x)
