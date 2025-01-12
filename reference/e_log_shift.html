@@ -22,7 +22,7 @@ Max is negative, add the minimum value plus 1 so log2(x)=0 is the minimum value.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.26</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.27</span>
       </span>
     </div>
 
@@ -60,7 +60,7 @@ Max is negative, add the minimum value plus 1 so <code>log2(x)=0</code> is the m
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, min_add <span class="op">=</span> <span class="cn">NULL</span>, base_log <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, min_add <span class="op">=</span> <span class="cn">NULL</span>, base_log <span class="op">=</span> <span class="fl">2</span>, sw_symmetric <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,6 +78,10 @@ Max is negative, add the minimum value plus 1 so <code>log2(x)=0</code> is the m
 <dt id="arg-base-log">base_log<a class="anchor" aria-label="anchor" href="#arg-base-log"></a></dt>
 <dd><p>base for log</p></dd>
 
+
+<dt id="arg-sw-symmetric">sw_symmetric<a class="anchor" aria-label="anchor" href="#arg-sw-symmetric"></a></dt>
+<dd><p>overrides <code>min_add</code> and chooses constant to give most symmetric distribution after <code>log(x+c)</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -87,7 +91,18 @@ Max is negative, add the minimum value plus 1 so <code>log2(x)=0</code> is the m
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">e_log_shift</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, min_add <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">f_print_example</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">x2</span> <span class="op">=</span> <span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">e_log_shift</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000000 1.000000 1.584963 2.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"e_log_shift")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  min_add base_log </span>
@@ -102,6 +117,152 @@ Max is negative, add the minimum value plus 1 so <code>log2(x)=0</code> is the m
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"e_log_shift")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  min_add base_log </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        6        2 </span>
+<span class="r-in"><span><span class="co"># Symmetric, positive with right skew</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x_log</span> <span class="op">&lt;-</span> <span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, sw_symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.005144624 0.017154388 0.046582671 0.084679427 0.127975762 0.134282613</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 0.134526535 0.146031686 0.146612850 0.152866370 0.168724556 0.171330648</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 0.174731530 0.183147855 0.192402628 0.213507238 0.216226909 0.295983740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 0.305675400 0.306740757 0.314088160 0.320226780 0.360097505 0.361761665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 0.363752156 0.364435520 0.365737417 0.371486698 0.398331247 0.421137508</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 0.428496150 0.429207001 0.451102287 0.451411578 0.473964182 0.487140713</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 0.501417263 0.536486211 0.539787378 0.546535844 0.555630463 0.564518587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 0.565634272 0.587486992 0.589747506 0.613069575 0.628358759 0.702450668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 0.708823537 0.773338537 0.779395800 0.780812906 0.814105180 0.826275642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 0.840669678 0.853924969 0.887875799 0.889886658 0.915851705 0.948181304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 0.971624088 1.029251432 1.045625319 1.061004589 1.062713114 1.067466169</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] 1.101619033 1.119188189 1.119936300 1.166282490 1.263585453 1.272437900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 1.296433794 1.328995097 1.332974661 1.429152089 1.459873669 1.472231357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] 1.486987273 1.493828115 1.650902496 1.751169405 1.760477725 1.789433755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 1.944199298 2.040328510 2.051848218 2.070488809 2.148104476 2.200527783</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 2.256835426 2.303152328 2.388620236 2.422814781 2.542835460 2.570422542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 2.935497119 3.307549177 3.925215671 4.550388420</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="va">dat_skew</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>min_add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, skewness <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i_row</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat_skew</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="co">## i_row = 1</span></span></span>
+<span class="r-in"><span>    <span class="va">dat_skew</span><span class="op">$</span><span class="va">skewness</span><span class="op">[</span><span class="va">i_row</span><span class="op">]</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>      <span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, min_add <span class="op">=</span> <span class="va">dat_skew</span><span class="op">$</span><span class="va">min_add</span><span class="op">[</span><span class="va">i_row</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>      <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span> <span class="co"># i_row</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dat_skew</span><span class="op">$</span><span class="va">min_add</span>, <span class="va">dat_skew</span><span class="op">$</span><span class="va">skewness</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plot.window(...):</span> need finite 'ylim' values</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="va">dat_skew</span><span class="op">$</span><span class="va">min_add</span>, <span class="va">dat_skew</span><span class="op">$</span><span class="va">skewness</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>graphical parameter "type" is obsolete</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...):</span> 'a' and 'b' must be finite</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="e_log_shift-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>skew_x <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, skew_x_log <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span><span class="co"># Symmetric, positive with right skew, less than 1</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x_log</span> <span class="op">&lt;-</span> <span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, sw_symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.0005155074 0.0021505802 0.0039391015 0.0071274279 0.0109909644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [6] 0.0139956764 0.0141901467 0.0142364028 0.0142444228 0.0175808035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [11] 0.0254935903 0.0258877053 0.0300096584 0.0314324866 0.0315654841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] 0.0325018777 0.0330996933 0.0383054053 0.0398464255 0.0425565979</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [21] 0.0432678667 0.0433468655 0.0447233069 0.0552463688 0.0581983994</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [26] 0.0585950768 0.0615195672 0.0621370539 0.0627938275 0.0638451701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 0.0639980707 0.0642589534 0.0674493799 0.0676907141 0.0683052793</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] 0.0710551279 0.0822905450 0.0865385441 0.0909239513 0.0909716104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [41] 0.0942453144 0.0946821500 0.0997617231 0.0999460665 0.1043632870</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] 0.1071012892 0.1189532236 0.1198362403 0.1215974870 0.1226539240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [51] 0.1260075659 0.1277485091 0.1336164787 0.1336701396 0.1429797300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [56] 0.1505928084 0.1521205725 0.1552363983 0.1595573397 0.1596334372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 0.1604674451 0.1667777270 0.1686750806 0.1782244497 0.1831886999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [66] 0.1863042099 0.1891185815 0.2028584029 0.2033936345 0.2274922683</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] 0.2350919343 0.2409737796 0.2478983915 0.2481554948 0.2551855939</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] 0.2566961702 0.2725392375 0.2762956784 0.2765288512 0.2848594283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [81] 0.2903722007 0.2925253629 0.3013148516 0.3174931996 0.3185082255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [86] 0.3212583247 0.3221971728 0.3274608352 0.3439175321 0.3536108694</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 0.3605948093 0.4273980119 0.4276130769 0.4386200302 0.5509807129</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [96] 0.5587753272 0.5989752288 0.6754756127 0.6947482752 0.8590898092</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>skew_x <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, skew_x_log <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span><span class="co"># Symmetric, negative with left skew</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x_log</span> <span class="op">&lt;-</span> <span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, sw_symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] -3.527065007 -3.031083461 -2.919115535 -2.617036194 -2.351362700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [6] -2.312477340 -2.124438729 -2.078309530 -1.893670853 -1.854567967</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [11] -1.830482165 -1.791098003 -1.755532279 -1.689095686 -1.601395039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] -1.528249018 -1.461904881 -1.421650484 -1.369670205 -1.329473636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [21] -1.260106789 -1.198996975 -1.177885214 -1.165064099 -1.115099558</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [26] -1.088907278 -1.057944968 -1.050872531 -1.022594842 -1.006639629</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] -0.971729102 -0.956863073 -0.935810313 -0.913626645 -0.874213102</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] -0.833402591 -0.832168980 -0.827972869 -0.818945123 -0.754344450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [41] -0.749739261 -0.746362574 -0.733298657 -0.723244551 -0.718045383</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] -0.713948849 -0.713857690 -0.699425543 -0.698764322 -0.693732364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [51] -0.687146129 -0.650736456 -0.634774596 -0.624325165 -0.608120451</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [56] -0.590101309 -0.573977198 -0.537829345 -0.458704310 -0.443824628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] -0.431075407 -0.422356625 -0.418097586 -0.414355526 -0.374247090</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [66] -0.371606603 -0.371137317 -0.368969431 -0.367945457 -0.352860001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] -0.339381302 -0.330208892 -0.328084346 -0.327769064 -0.323133878</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] -0.305037031 -0.296689854 -0.281772478 -0.265905850 -0.261649412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [81] -0.254532126 -0.254207472 -0.241700474 -0.237635910 -0.234182734</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [86] -0.206245869 -0.192470820 -0.187452211 -0.137957589 -0.123886516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] -0.107928848 -0.102930428 -0.097838874 -0.094709759 -0.065420002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [96] -0.037646817 -0.035918646 -0.035474486 -0.027876803 -0.008932192</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>skew_x <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, skew_x_log <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span><span class="co"># Symmetric, positive with left skew</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x_log</span> <span class="op">&lt;-</span> <span class="fu">e_log_shift</span><span class="op">(</span><span class="va">x</span>, sw_symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] -8.514782 -8.366744 -8.262149 -7.830768 -7.760085 -7.442092 -7.294557</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [8] -7.101531 -6.613036 -6.490582 -6.427352 -6.224468 -6.212632 -5.908080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [15] -5.874928 -5.798993 -5.749455 -5.735689 -5.734274 -5.717962 -5.606433</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] -5.568467 -5.559583 -5.517342 -5.501368 -5.485247 -5.464571 -5.443900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [29] -5.407816 -5.361135 -5.313580 -5.312654 -5.297730 -5.294376 -5.281363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] -5.279879 -5.205981 -5.184559 -5.156703 -5.079485 -5.049565 -5.031703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] -4.969384 -4.968074 -4.967780 -4.959680 -4.946649 -4.927833 -4.920168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [50] -4.917010 -4.913595 -4.905912 -4.899999 -4.856586 -4.836272 -4.741463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] -4.725567 -4.702172 -4.690740 -4.649270 -4.643066 -4.628254 -4.625441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] -4.623487 -4.601116 -4.597000 -4.579078 -4.575156 -4.568003 -4.524532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] -4.497080 -4.487453 -4.480643 -4.475185 -4.469544 -4.467031 -4.464594</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [78] -4.456140 -4.445544 -4.430717 -4.430021 -4.404050 -4.390296 -4.389333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] -4.371549 -4.368182 -4.359321 -4.357541 -4.357138 -4.348014 -4.340483</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [92] -4.338032 -4.335030 -4.333850 -4.324831 -4.283598 -4.279990 -4.265223</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [99] -4.265205 -4.259129</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'x_log' not found</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>skew_x <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, skew_x_log <span class="op">=</span> <span class="fu">moments</span><span class="fu">::</span><span class="fu">skewness</span><span class="op">(</span><span class="va">x_log</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘moments’</span>
 </code></pre></div>
     </div>
   </div>
