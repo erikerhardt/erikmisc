@@ -39,6 +39,7 @@
 <url><loc>/reference/e_convert_logit.html</loc></url>
 <url><loc>/reference/e_convert_oddsratio_to_probability.html</loc></url>
 <url><loc>/reference/e_convert_probability_to_oddsratio.html</loc></url>
+<url><loc>/reference/e_data_complete_by_variable_subset.html</loc></url>
 <url><loc>/reference/e_data_convert_factor_to_numeric.html</loc></url>
 <url><loc>/reference/e_data_var_labels_apply_from_table.html</loc></url>
 <url><loc>/reference/e_data_var_labels_clear.html</loc></url>
