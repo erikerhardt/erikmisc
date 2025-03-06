@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.29
-Date: 2025-03-04
+Version: 0.2.30
+Date: 2025-03-06
 Authors@R:
     c(person(
       given = "Erik"
@@ -37,6 +37,7 @@ Imports:
     dplyr,
     ellipse,
     emmeans,
+    finalfit,
     flextable,
     forcats,
     ggbeeswarm,
