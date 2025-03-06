@@ -10,7 +10,8 @@ e_plot_missing(
   sw_group_sort = FALSE,
   var2_sort = NULL,
   sw_title_data_name = TRUE,
-  sw_text_pct_miss = FALSE
+  sw_text_pct_miss = FALSE,
+  sw_complete_by_variable = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ e_plot_missing(
 \item{sw_title_data_name}{TRUE/FALSE to include data object name in title or text string of title to use}
 
 \item{sw_text_pct_miss}{TRUE/FALSE to include text values of percent missing on bar plot}
+
+\item{sw_complete_by_variable}{TRUE/FALSE to run \code{e_data_complete_by_variable_subset()} to determine which sets of variables result in the most number of complete observations}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{               ggplot grob plot object
