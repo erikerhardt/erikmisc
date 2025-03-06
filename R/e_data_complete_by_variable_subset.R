@@ -26,9 +26,14 @@
 #' for (i_row in seq_along(n_missing)) {
 #'   dat_mtcars_miss_e[ind_missing[i_row, 1], ind_missing[i_row, 2] ] <- NA
 #' }
+#'
+#' # Plot missing data
 #' dat_mtcars_miss_e |> e_plot_missing()
+#'
 #' out <- dat_mtcars_miss_e |> e_data_complete_by_variable_subset()
+#' # Print table
 #' out |> print(n = Inf)
+#' # Print variable names from first row
 #' out$var_names[1] |> unlist()
 e_data_complete_by_variable_subset <-
   function(
@@ -57,7 +62,7 @@ e_data_complete_by_variable_subset <-
     )
 
   dat_miss <-
-    dat_mtcars_miss_e |>
+    dat |>
     dplyr::select(
       tidyselect::all_of(var_list)
     )
