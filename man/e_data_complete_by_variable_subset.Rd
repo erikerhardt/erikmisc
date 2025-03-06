@@ -38,7 +38,7 @@ dat_mtcars_miss_e |> e_plot_missing()
 
 out <- dat_mtcars_miss_e |> e_data_complete_by_variable_subset()
 # Print table
-out |> print(n = Inf)
+out |> print(n = Inf, width = Inf)
 # Print variable names from first row
 out$var_names[1] |> unlist()
 }
