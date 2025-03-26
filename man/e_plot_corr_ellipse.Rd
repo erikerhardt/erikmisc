@@ -67,6 +67,15 @@ datasets::mtcars |> cor() |> e_plot_corr_ellipse()
 
 \dontrun{
 ## Color version
+# use mtcars since all numeric
+tab_cor <-
+  datasets::mtcars |>
+  as.matrix() |>
+  Hmisc::rcorr(
+    type = c("pearson", "spearman")[1]
+  )
+tab_cor$r
+
 # red neg, white 0, blue pos
 color_scale <-
   c(
@@ -76,14 +85,18 @@ color_scale <-
   )
 # color ramp in "Lab" space
 color_ramp <- colorRampPalette(color_scale, space = "Lab")
-# Create scale with 100 points
+# Create scale with 200 points
 colors_plot <- color_ramp(100)
+
 # move correlation range from [-1, 1] to [0, 100] for colors
-datasets::mtcars |>  # use mtcars since all numeric
-  cor() |>
-  e_plot_corr_ellipse(
-    col  = colors_plot[((. + 1)/2) * 100]
-  , main = "Colored ellipses"
-  )
+tab_cor$r |>
+e_plot_corr_ellipse(
+  col  = colors_plot[round(((tab_cor$r + 1)/2) * 100)]
+, main = "Colored ellipses"
+, upper.panel = c("ellipse", "number", "none")[1]
+, lower.panel = c("ellipse", "number", "none")[2]
+, diag = c("none", "ellipse", "number")[3]
+, digits = 3
+)
 }
 }
