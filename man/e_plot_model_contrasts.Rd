@@ -112,6 +112,7 @@ fit_contrasts <-
 fit_contrasts$tables  # to print tables
 fit_contrasts$plots   # to print plots
 fit_contrasts$text    # to print caption text
+fit_contrasts$interp  # to print interpretation text
 
 
 ## To plot all contrasts in a plot grid:

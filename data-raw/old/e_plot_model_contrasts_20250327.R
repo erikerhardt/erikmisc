@@ -84,7 +84,6 @@
 #' fit_contrasts$tables  # to print tables
 #' fit_contrasts$plots   # to print plots
 #' fit_contrasts$text    # to print caption text
-#' fit_contrasts$interp  # to print interpretation text
 #'
 #'
 #' ## To plot all contrasts in a plot grid:
@@ -591,7 +590,6 @@ e_plot_model_contrasts <-
   out[["tables"]] <- list()
   out[["plots" ]] <- list()
   out[["text"  ]] <- list()
-  out[["interp"]] <- list()
 
   ## For each covariate, compute contrasts
   for (i_var_x in seq_along(var_name_x)) {
@@ -635,7 +633,6 @@ e_plot_model_contrasts <-
     # Main effect
     if (length(var_xs) == 1) {
 
-      this_main_has_interaction <- FALSE
       text_marginal_even_if_interaction <- NULL
 
       # First check if effect is involved in interactions
@@ -651,7 +648,6 @@ e_plot_model_contrasts <-
         if(sw_marginal_even_if_interaction) {
           text_marginal_even_if_interaction <- paste0(check_message$logs[[1]]$message, "\n")
           message(paste0("e_plot_model_contrasts: Continuing with \"", var_xs, "\" even though involved in interactions."))
-          this_main_has_interaction <- TRUE
         } else {
           message(paste0("e_plot_model_contrasts: Skipping \"", var_xs, "\" since involved in interactions."))
           next
@@ -702,7 +698,7 @@ e_plot_model_contrasts <-
           text_est  <- summary(cont_fit)[[ind_trend]]  # 2
           text_LCL  <- summary(cont_fit)[[col_name_LCL]]
           text_UCL  <- summary(cont_fit)[[col_name_UCL]]
-          text_CI   <-
+          text_CI  <-
             paste0(
               "Estimate", " (n = ", nrow(dat_cont), ")", ": "
             , "(at mean = ", signif(text_cont, 3), ")"
@@ -912,65 +908,11 @@ e_plot_model_contrasts <-
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
         out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long |> stringr::str_split(pattern = "\n")
 
-
-        this_pval <-
-          car::Anova(fit, type = 3, singular.ok = TRUE) |>
-          broom::tidy() |>
-          dplyr::filter(term == var_name_x[i_var_x]) |>
-          dplyr::pull(p.value) |>
-          round(4)
-        this_pval <-
-          ifelse(
-            this_pval < 0.0001
-          , " < 0.0001"
-          , paste0(" = ", this_pval |> as.character())
-          )
-
-        text_interp <-
-          paste0(
-            "For a one-unit increase in "
-          , labelled::var_label(dat_cont[[var_xs_no_backticks]]) |> as.character()
-          , ", the response, "
-          , labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character()
-          , ", is expected to "
-          , ifelse(text_est > 0, "increase", ifelse(text_est < 0, "decrease", "stay constant"))
-          , " by "
-          , abs(signif(text_est, 3))
-          , ", "
-          , "holding all other predictors constant"
-          , " "
-          , "["
-          , "p-value"
-          , this_pval
-          , ", est = "
-          , signif(text_est, 3)
-          , ", "
-          , round(CI_level * 100, 1), "% CI: "
-          , "("
-          , signif(text_LCL, 3)
-          , ", "
-          , signif(text_UCL, 3)
-          , ")"
-          , "]"
-          , ifelse(
-              this_main_has_interaction
-            , paste0(
-                "; this effect is involved in an interaction, "
-              , "so this marginal effect will change conditional "
-              , "on the value of another predictor"
-              )
-            , ""
-            )
-          , "."
-          )
-        out[["interp"]][[ var_name_x[i_var_x] ]] <- text_interp
-
         if(sw_print) {
           paste0("Printing: ", var_name_x[i_var_x], "  --------------------") |> print()
           out[["plots" ]][[ var_name_x[i_var_x] ]] |> print()
           out[["tables"]][[ var_name_x[i_var_x] ]] |> print()
           out[["text"  ]][[ var_name_x[i_var_x] ]] |> print()
-          out[["interp"]][[ var_name_x[i_var_x] ]] |> print()
         }
 
       } # numeric
@@ -1045,7 +987,7 @@ e_plot_model_contrasts <-
         # sample size
         n_this <- dat_cont[[var_xs_no_backticks]] |> forcats::fct_drop() |> table()
 
-        text_CI   <-
+        text_CI  <-
           paste0(
             "Estimate", " (n = ", n_this, ")", ": "
           , text_cont
@@ -1061,37 +1003,6 @@ e_plot_model_contrasts <-
           , collapse = "\n"
           )
 
-
-        # Est interp text
-        # order of means
-        #ind_rank_est <- sort(rank(text_est, ties.method = "first"), index.return = TRUE)$ix
-        #ind_rank_est <- seq_along(text_est)
-
-        text_interp_est_CI <-
-          paste0(
-            #"estimates (increasing by mean): "
-            "estimates are "
-          , paste0(
-              c(rep("", length(text_cont) - 1), "and ")
-            , text_cont
-            #, " mean"
-            , " = "
-            , signif(text_est, 3)
-            , " [n = "
-            , n_this
-            , ", "
-            , round(CI_level * 100, 1), "% CI: "
-            , "("
-            , signif(text_LCL, 3)
-            , ", "
-            , signif(text_UCL, 3)
-            , ")"
-            , "]"
-            , collapse = ", "
-            )
-          )
-
-
         # Contrast text
         text_cont <- summary(cont_pairs)[["contrast"]]
         if (fit_model_type == "glm" & sw_glm_scale == "response") {
@@ -1102,7 +1013,7 @@ e_plot_model_contrasts <-
           text_est  <- summary(cont_pairs)[["estimate"]]
         }
         text_pval <- summary(cont_pairs)[["p.value"]]
-        text_diff <-
+        text_diff  <-
           paste0(
             "Contrast: "
           , text_cont
@@ -1134,24 +1045,6 @@ e_plot_model_contrasts <-
           #, "\n"
           , text_averaged
           )
-
-        # Diff interp text
-        text_interp_diff <-
-          paste0(
-            "pairwise differences are "
-          , paste0(
-              ifelse(length(text_cont) < 2, "", c(rep("", length(text_cont) - 1), "and "))
-            , text_cont
-            #, " mean"
-            , " = "
-            , signif(text_est, 3)
-            , " (p-value = "
-            , round(text_pval, 4)
-            , ")"
-            , collapse = ", "
-            )
-          )
-
         if (sw_table_in_plot) {
           text_caption <- text_long
         } else {
@@ -1194,54 +1087,11 @@ e_plot_model_contrasts <-
         out[["plots" ]][[ var_name_x[i_var_x] ]] <- p
         out[["text"  ]][[ var_name_x[i_var_x] ]] <- text_long |> stringr::str_split(pattern = "\n")
 
-
-        this_pval <-
-          car::Anova(fit, type = 3, singular.ok = TRUE) |>
-          broom::tidy() |>
-          dplyr::filter(term == var_name_x[i_var_x]) |>
-          dplyr::pull(p.value) |>
-          round(4)
-        this_pval <-
-          ifelse(
-            this_pval < 0.0001
-          , " < 0.0001"
-          , paste0(" = ", this_pval |> as.character())
-          )
-
-        text_interp <-
-          paste0(
-            "Mean (or intercept) for "
-          , labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character()
-          , " differs between factor levels for "
-          , labelled::var_label(dat_cont[[var_xs_no_backticks]]) |> as.character()
-          , " ("
-          , "p-value"
-          , this_pval
-          , "); "
-          , text_interp_est_CI
-          , "; "
-          , text_interp_diff
-          , ifelse(
-              this_main_has_interaction
-            , paste0(
-                "; this effect is involved in an interaction, "
-              , "so this marginal effect will change conditional "
-              , "on the value of another predictor"
-              )
-            , ""
-            )
-          , "."
-          )
-
-        out[["interp"]][[ var_name_x[i_var_x] ]] <- text_interp
-
-
         if(sw_print) {
           paste0("Printing: ", var_name_x[i_var_x], "  --------------------") |> print()
           out[["plots" ]][[ var_name_x[i_var_x] ]] |> print()
           out[["tables"]][[ var_name_x[i_var_x] ]] |> print()
           out[["text"  ]][[ var_name_x[i_var_x] ]] |> print()
-          out[["interp"]][[ var_name_x[i_var_x] ]] |> print()
         }
 
       } # factor
@@ -1311,37 +1161,6 @@ e_plot_model_contrasts <-
           # CI and Contrast text
           text_CI   <- NULL
           text_diff <- NULL
-          text_interp <- NULL
-
-          if (i_repeat == 1) {
-            this_pval <-
-              car::Anova(fit, type = 3, singular.ok = TRUE) |>
-              broom::tidy() |>
-              dplyr::filter(term == var_name_x[i_var_x] ) |>
-              dplyr::pull(p.value) |>
-              round(4)
-            this_pval <-
-              ifelse(
-                this_pval < 0.0001
-              , " < 0.0001"
-              , paste0(" = ", this_pval |> as.character())
-              )
-
-            text_interp <-
-              paste0(
-                "Mean (or intercept) for "
-              , labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character()
-              , " differs between factor level combinations for "
-              , labelled::var_label(dat_cont[[ var_xs_no_backticks [1] ]]) |> as.character()
-              , " and "
-              , labelled::var_label(dat_cont[[ var_xs_no_backticks [2] ]]) |> as.character()
-              , " ("
-              , "p-value"
-              , this_pval
-              , ")."
-              )
-          }
-
           i_row_cont_fit = 0
           for (i_by in seq_along(levels_by)) {
             ## i_by = 1
@@ -1355,23 +1174,6 @@ e_plot_model_contrasts <-
               paste0(
                 text_diff
               , paste0(var_xs_no_backticks[2], " = ", levels_by[i_by], ":\n")
-              )
-
-            text_interp <-
-              paste0(
-                text_interp
-              , "  "
-              , "Conditional on "
-              , labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) |> as.character()
-              , " being "
-              , levels_by[i_by]
-              , ", "
-              , "mean"
-              #, "mean (or intercept) for "
-              #, labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character()
-              , " for factor levels of "
-              , labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) |> as.character()
-              , " are "
               )
 
             ## Estimates
@@ -1423,30 +1225,6 @@ e_plot_model_contrasts <-
                 , "\n"
                 #, collapse = "\n"
                 )
-
-
-              # Est interp text
-              text_interp <-
-                paste0(
-                  text_interp
-                , ifelse(i_row > 1 & nrow(summary_cont_fit_by) > 2, ", ", "")
-                , ifelse(i_row == nrow(summary_cont_fit_by) & nrow(summary_cont_fit_by) == 2, " ", "")
-                , ifelse(i_row > 1 & i_row == nrow(summary_cont_fit_by), "and ", "")
-                , text_cont
-                , " = "
-                , signif(text_est, 3)
-                , " [n = "
-                , n_this
-                , ", "
-                , round(CI_level * 100, 1), "% CI: "
-                , "("
-                , signif(text_LCL, 3)
-                , ", "
-                , signif(text_UCL, 3)
-                , ")"
-                , "]"
-                )
-
             } # i_row
 
 
@@ -1459,14 +1237,6 @@ e_plot_model_contrasts <-
             # only rows of this "by" variable
             summary_cont_pairs_by <-
               summary_cont_pairs[summary_cont_pairs[[ var_xs_no_backticks[2] ]] == levels_by[i_by], ]
-
-            text_interp <-
-              paste0(
-                text_interp
-              , "; "
-              , "pairwise differences are "
-              )
-
 
             for (i_row in seq_len(nrow(summary_cont_pairs_by))) {
               # i_row = 1
@@ -1481,7 +1251,7 @@ e_plot_model_contrasts <-
                 text_est  <- summary_cont_pairs_by[["estimate"]][i_row]
               }
               text_pval <- summary_cont_pairs_by[["p.value"]] [i_row]
-              text_diff <-
+              text_diff  <-
                 paste0(
                   text_diff
                 , "Contrast: "
@@ -1493,24 +1263,6 @@ e_plot_model_contrasts <-
                 , "\n"
                 #, collapse = "\n"
                 )
-
-
-              # Diff interp text
-              text_interp <-
-                paste0(
-                  text_interp
-                , ifelse(i_row > 1 & nrow(summary_cont_pairs_by) > 2, ", ", "")
-                , ifelse(i_row == nrow(summary_cont_fit_by) & nrow(summary_cont_fit_by) == 2, " ", "")
-                , ifelse(i_row > 1 & i_row == nrow(summary_cont_fit_by), "and ", "")
-                , text_cont
-                , " = "
-                , signif(text_est, 3)
-                , " (p-value = "
-                , round(text_pval, 4)
-                , ")"
-                , ifelse(i_row == nrow(summary_cont_pairs_by), ".", "")
-                )
-
             } # i_row
 
           } # i_by
@@ -1614,8 +1366,6 @@ e_plot_model_contrasts <-
           }
           out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long |> stringr::str_split(pattern = "\n")
 
-          out[["interp"]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_interp
-
         } # i_repeat
 
 
@@ -1695,7 +1445,6 @@ e_plot_model_contrasts <-
           out[["plots" ]][[ var_name_x[i_var_x] ]] |> print()
           out[["tables"]][[ var_name_x[i_var_x] ]] |> print()
           out[["text"  ]][[ var_name_x[i_var_x] ]] |> print()
-          out[["interp"]][[ var_name_x[i_var_x] ]] |> print()
         }
 
       } # factor:factor
@@ -1779,54 +1528,6 @@ e_plot_model_contrasts <-
             , collapse = "\n"
             )
 
-          this_pval <-
-            car::Anova(fit, type = 3, singular.ok = TRUE) |>
-            broom::tidy() |>
-            dplyr::filter(term == var_name_x[i_var_x]) |>
-            dplyr::pull(p.value) |>
-            round(4)
-          this_pval <-
-            ifelse(
-              this_pval < 0.0001
-            , " < 0.0001"
-            , paste0(" = ", this_pval |> as.character())
-            )
-
-          text_interp <-
-            paste0(
-              "The slope for "
-            , labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character()
-            , " on "
-            , labelled::var_label(dat_cont[[ var_xs_no_backticks [2] ]]) |> as.character()
-            , " differs by factor levels for "
-            , labelled::var_label(dat_cont[[ var_xs_no_backticks [1] ]]) |> as.character()
-            , " ("
-            , "p-value"
-            , this_pval
-            , ");"
-            )
-
-          text_interp_est_CI <-
-            paste0(
-              "conditional on "
-            , labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) |> as.character()
-            , " being "
-            , text_cont
-            , ", "
-            , "the slope is "
-            , signif(text_est, 3)
-            , " [n = "
-            , n_this
-            , ", "
-            , round(CI_level * 100, 1), "% CI: "
-            , "("
-            , signif(text_LCL, 3)
-            , ", "
-            , signif(text_UCL, 3)
-            , ")"
-            , "];"
-            )
-
           # Contrast text
           text_cont <- summary(cont_fit$contrasts)[["contrast"]]
           text_est  <- summary(cont_fit$contrasts)[["estimate"]]
@@ -1840,34 +1541,6 @@ e_plot_model_contrasts <-
             , ", p-value = "
             , round(text_pval, 4)
             , collapse = "\n"
-            )
-
-          # Diff interp text
-          text_interp_diff <-
-            paste0(
-              " pairwise differences of slopes are "
-            , paste0(
-                ifelse(length(text_cont) < 2, "", c(rep("", length(text_cont) - 1), "and "))
-              , text_cont
-              #, " mean"
-              , " = "
-              , signif(text_est, 3)
-              , " (p-value = "
-              , round(text_pval, 4)
-              , ")"
-              , collapse = ", "
-              )
-            , "."
-            )
-
-          text_interp <-
-            paste0(
-              text_interp
-            , " "
-            , paste0(text_interp_est_CI, collapse = " ")
-            #, "; "
-            , text_interp_diff
-            #, "."
             )
 
         } else {
@@ -1917,7 +1590,6 @@ e_plot_model_contrasts <-
         }
         out[["text"  ]][[ var_name_x[i_var_x] ]][[1]] <- text_long |> stringr::str_split(pattern = "\n")
 
-        out[["interp"]][[ var_name_x[i_var_x] ]] <- text_interp
 
 
         form_var_fac_num <- stats::as.formula(paste0(var_xs[1], " ~ ", var_xs[2]))
@@ -2169,7 +1841,6 @@ e_plot_model_contrasts <-
           out[["plots" ]][[ var_name_x[i_var_x] ]] |> print()
           out[["tables"]][[ var_name_x[i_var_x] ]] |> print()
           out[["text"  ]][[ var_name_x[i_var_x] ]] |> print()
-          out[["interp"]][[ var_name_x[i_var_x] ]] |> print()
         }
 
       } # factor:numeric
@@ -2268,36 +1939,6 @@ e_plot_model_contrasts <-
               , UCL = pmin(UCL, 1)
               )
           }
-
-          #if (i_repeat == 1) {
-          this_pval <-
-            car::Anova(fit, type = 3, singular.ok = TRUE) |>
-            broom::tidy() |>
-            dplyr::filter(term == var_name_x[i_var_x] ) |>
-            dplyr::pull(p.value) |>
-            round(4)
-          this_pval <-
-            ifelse(
-              this_pval < 0.0001
-            , " < 0.0001"
-            , paste0(" = ", this_pval |> as.character())
-            )
-
-          text_interp <-
-            paste0(
-              "The slope for "
-            , labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character()
-            , " on "
-            , labelled::var_label(dat_cont[[ var_xs_no_backticks [2] ]]) |> as.character()
-            , " is conditional on the value of "
-            , labelled::var_label(dat_cont[[ var_xs_no_backticks [1] ]]) |> as.character()
-            , " and vice versa"
-            , " ("
-            , "p-value"
-            , this_pval
-            , ")."
-            )
-          #}
 
 
           p <-
@@ -2413,9 +2054,6 @@ e_plot_model_contrasts <-
           }
           out[["text"  ]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_long |> stringr::str_split(pattern = "\n")
 
-          #text_interp <- "(Interpretation not yet implemented for numeric:numeric interactions.)"
-          out[["interp"]][[ var_name_x[i_var_x] ]][[i_repeat]] <- text_interp
-
         } # i_repeat
 
         if(sw_TWI_plots_keep %in% c("singles", "both", "all")[c(2, 3)]) {
@@ -2493,7 +2131,6 @@ e_plot_model_contrasts <-
           out[["plots" ]][[ var_name_x[i_var_x] ]] |> print()
           out[["tables"]][[ var_name_x[i_var_x] ]] |> print()
           out[["text"  ]][[ var_name_x[i_var_x] ]] |> print()
-          out[["interp"]][[ var_name_x[i_var_x] ]] |> print()
         }
 
       } # numeric:numeric
