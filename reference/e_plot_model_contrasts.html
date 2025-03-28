@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">erikmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.31</span>
       </span>
     </div>
 
@@ -246,11 +246,29 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "disp" since involved in interactions.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "hp" since involved in interactions.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "vs" since involved in interactions.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>     Target overlap = 0.9993, overlap on graph = -83.3432</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>     Target overlap = 0.9993, overlap on graph = -83.3432</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
 <span class="r-in"><span><span class="va">fit_contrasts</span><span class="op">$</span><span class="va">tables</span>  <span class="co"># to print tables</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $wt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $wt$est</span>
@@ -475,6 +493,32 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="va">fit_contrasts</span><span class="op">$</span><span class="va">interp</span>  <span class="co"># to print interpretation text</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $wt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "For a one-unit increase in Weight (1000 lbs), the response, Miles/(US) gallon, is expected to decrease by 2.82, holding all other predictors constant [p-value = 0.0301, est = -2.82, 95% CI: (-5.34, -0.299)]."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $am</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean (or intercept) for Miles/(US) gallon differs between factor levels for Transmission (p-value = 0.4416); estimates are automatic = 17.5 [n = 19, 95% CI: (14.5, 20.5)], and manual = 19 [n = 13, 95% CI: (14.7, 23.3)]; pairwise differences are automatic - manual = -1.52 (p-value = 0.4416)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`cyl:vs`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`cyl:vs`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean (or intercept) for Miles/(US) gallon differs between factor level combinations for Number of cylinders and Engine (p-value = 0.5903).  Conditional on Engine being V-shaped, mean for factor levels of Number of cylinders are four = 19.9 [n = 1, 95% CI: (10.7, 29)], six = 17.9 [n = 3, 95% CI: (13.2, 22.6)], and eight = 19 [n = 14, 95% CI: (14.7, 23.3)]; pairwise differences are four - six = 1.97 (p-value = 0.9142), four - eight = 0.89 (p-value = 0.9959), and six - eight = -1.08 (p-value = 0.9789).  Conditional on Engine being straight, mean for factor levels of Number of cylinders are four = 17.8 [n = 10, 95% CI: (10.7, 24.9)], six = 17.8 [n = 4, 95% CI: (12.9, 22.8)], and eight = 16.9 [n = 0, 95% CI: (5.17, 28.7)]; pairwise differences are four - six = -0.00314 (p-value = 0.9989), four - eight = NA (p-value = NA), and six - eight = NA (p-value = NA)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`cyl:vs`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "  Conditional on Number of cylinders being four, mean for factor levels of Engine are V-shaped = 19.9 [n = 1, 95% CI: (11.4, 28.4)] and straight = 17.8 [n = 10, 95% CI: (11.2, 24.4)]; pairwise differences are (V-shaped) - straight = 2.06 (p-value = 0.6095).  Conditional on Number of cylinders being six, mean for factor levels of Engine are V-shaped = 17.9 [n = 3, 95% CI: (13.5, 22.3)] and straight = 17.8 [n = 4, 95% CI: (13.2, 22.4)]; pairwise differences are (V-shaped) - straight = 0.0901 (p-value = 0.9748).  Conditional on Number of cylinders being eight, mean for factor levels of Engine are V-shaped = 19 [n = 14, 95% CI: (15, 23)] and straight = 16.9 [n = 0, 95% CI: (6.01, 27.9)]; pairwise differences are (V-shaped) - straight = NA (p-value = NA)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`disp:hp`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`disp:hp`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for Miles/(US) gallon on Gross horsepower is conditional on the value of Displacement (cu.in.) and vice versa (p-value = 0.5715)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`disp:hp`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for Miles/(US) gallon on Displacement (cu.in.) is conditional on the value of Gross horsepower and vice versa (p-value = 0.5715)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`hp:vs`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for Miles/(US) gallon on Gross horsepower differs by factor levels for Engine (p-value = 0.3652); conditional on Engine being V-shaped, the slope is -0.0294 [n = 18, 95% CI: (-0.0662, 0.00732)]; conditional on Engine being straight, the slope is -0.0786 [n = 14, 95% CI: (-0.172, 0.0149)]; pairwise differences of slopes are (V-shaped) - straight = 0.0491 (p-value = 0.3652)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## To plot all contrasts in a plot grid:</span></span></span>
@@ -554,6 +598,12 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  , plot_values             <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">75</span>, <span class="fl">100</span>, <span class="fl">150</span>, <span class="fl">200</span>, <span class="fl">250</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                                 , disp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80</span>, <span class="fl">120</span>, <span class="fl">200</span>, <span class="fl">350</span>, <span class="fl">450</span><span class="op">)</span><span class="op">)</span> <span class="co"># for numeric:numeric plots</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: model has aliased coefficients</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       sums of squares computed by model comparison</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following column names in ANOVA output were not recognized or transformed: F.values</span>
 <span class="r-in"><span><span class="va">fit_contrasts</span><span class="op">$</span><span class="va">plots</span><span class="op">$</span><span class="va">`disp:hp`</span><span class="op">$</span><span class="va">both</span></span></span>
 <span class="r-plt img"><img src="e_plot_model_contrasts-10.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -734,6 +784,17 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$vs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean (or intercept) for  differs between factor levels for vs (p-value = 0.1812); estimates are V-shaped = 0.53 [n = 18, 95% CI: (-0.827, 1.89)], and straight = 2.43 [n = 14, 95% CI: (-1.16, 6.03)]; pairwise differences are (V-shaped) - straight = -1.9 (p-value = 0.2681); this effect is involved in an interaction, so this marginal effect will change conditional on the value of another predictor."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$hp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "For a one-unit increase in hp, the response, , is expected to increase by 0.0242, holding all other predictors constant [p-value = 0.6459, est = 0.0242, 95% CI: (-0.00433, 0.0527)]; this effect is involved in an interaction, so this marginal effect will change conditional on the value of another predictor."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`vs:hp`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for  on hp differs by factor levels for vs (p-value = 0.1353); conditional on vs being V-shaped, the slope is 0.00401 [n = 18, 95% CI: (-0.0134, 0.0214)]; conditional on vs being straight, the slope is 0.0444 [n = 14, 95% CI: (-0.00997, 0.0988)]; pairwise differences of slopes are (V-shaped) - straight = -0.0404 (p-value = 0.1655)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># all contrasts from model, probability scale</span></span></span>
 <span class="r-in"><span><span class="va">fit_contrasts</span> <span class="op">&lt;-</span></span></span>
@@ -852,6 +913,17 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$vs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean (or intercept) for  differs between factor levels for vs (p-value = 0.1812); estimates are V-shaped = 0.629 [n = 18, 95% CI: (0.304, 0.868)], and straight = 0.919 [n = 14, 95% CI: (0.238, 0.998)]; pairwise differences are (V-shaped) / straight = 0.149 (p-value = 0.2681); this effect is involved in an interaction, so this marginal effect will change conditional on the value of another predictor."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$hp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "For a one-unit increase in hp, the response, , is expected to increase by 0.00211, holding all other predictors constant [p-value = 0.6459, est = 0.00211, 95% CI: (-0.00123, 0.00545)]; this effect is involved in an interaction, so this marginal effect will change conditional on the value of another predictor."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`vs:hp`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for  on hp differs by factor levels for vs (p-value = 0.1353); conditional on vs being V-shaped, the slope is 0.000935 [n = 18, 95% CI: (-0.00328, 0.00515)]; conditional on vs being straight, the slope is 0.00328 [n = 14, 95% CI: (-0.00191, 0.00846)]; pairwise differences of slopes are (V-shaped) - straight = -0.00234 (p-value = 0.4918)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># numeric:numeric interaction</span></span></span>
@@ -936,6 +1008,16 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`disp:hp`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`disp:hp`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for  on hp is conditional on the value of disp and vice versa (p-value = 0.12)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`disp:hp`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slope for  on disp is conditional on the value of hp and vice versa (p-value = 0.12)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># factor:factor interaction</span></span></span>
@@ -994,6 +1076,7 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "vs" since involved in interactions.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> e_plot_model_contrasts: Skipping "cyl" since involved in interactions.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>glm.fit: fitted probabilities numerically 0 or 1 occurred</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>     Target overlap = 0.997, overlap on graph = -17.2953</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Comparison discrepancy in group "straight", four - six:</span>
@@ -1102,6 +1185,16 @@ difference is not significant, based on the adjust setting (which defaults to
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19] "P value adjustment: sidak method for varying numbers of tests"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "Tests are performed on the log odds ratio scale"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`vs:cyl`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`vs:cyl`[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean (or intercept) for  differs between factor level combinations for vs and cyl (p-value = 1).  Conditional on cyl being four, mean for factor levels of vs are V-shaped = 8.65e-09 [n = 1, 95% CI: (2.22e-16, 1)] and straight = 0.3 [n = 10, 95% CI: (0.0839, 0.667)]; pairwise differences are (V-shaped) / straight = 2.02e-08 (p-value = 0.9978).  Conditional on cyl being six, mean for factor levels of vs are V-shaped = 8.65e-09 [n = 3, 95% CI: (2.22e-16, 1)] and straight = 1 [n = 4, 95% CI: (2.22e-16, 1)]; pairwise differences are (V-shaped) / straight = 2.22e-16 (p-value = 0.9941).  Conditional on cyl being eight, mean for factor levels of vs are V-shaped = 0.857 [n = 14, 95% CI: (0.573, 0.964)] and straight = NA [n = 0, 95% CI: (NA, NA)]; pairwise differences are (V-shaped) / straight = NA (p-value = NA)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $interp$`vs:cyl`[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "  Conditional on vs being V-shaped, mean for factor levels of cyl are four = 8.65e-09 [n = 1, 95% CI: (2.22e-16, 1)], six = 8.65e-09 [n = 3, 95% CI: (2.22e-16, 1)], and eight = 0.857 [n = 14, 95% CI: (0.492, 0.974)]; pairwise differences are four / six = 1 (p-value = 1), four / eight = 1.44e-09 (p-value = 1), and six / eight = 1.44e-09 (p-value = 1).  Conditional on vs being straight, mean for factor levels of cyl are four = 0.3 [n = 10, 95% CI: (0.0839, 0.667)], six = 1 [n = 4, 95% CI: (2.22e-16, 1)], and eight = NA [n = 0, 95% CI: (NA, NA)]; pairwise differences are four / six = 3.71e-09 (p-value = 0.9953), four / eight = NA (p-value = NA), and six / eight = NA (p-value = NA)."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
