@@ -50,7 +50,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_data_complete_by_variable_subset</span><span class="op">(</span><span class="va">dat</span>, var_list <span class="op">=</span> <span class="cn">NULL</span>, var_resp <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">e_data_complete_by_variable_subset</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  var_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var_resp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sw_plot_complete <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -67,6 +72,10 @@
 
 <dt id="arg-var-resp">var_resp<a class="anchor" aria-label="anchor" href="#arg-var-resp"></a></dt>
 <dd><p><code>NULL</code> or one variable name to always be included (filters to keep only observations with this variable)</p></dd>
+
+
+<dt id="arg-sw-plot-complete">sw_plot_complete<a class="anchor" aria-label="anchor" href="#arg-sw-plot-complete"></a></dt>
+<dd><p><code>TRUE</code> for all, or an integer for the subsets with largest <code>n_complete</code></p></dd>
 
 </dl></div>
     <div id="value">
@@ -96,6 +105,7 @@
 <span class="r-plt img"><img src="e_data_complete_by_variable_subset-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">dat_mtcars_miss_e</span> <span class="op">|&gt;</span> <span class="fu">e_data_complete_by_variable_subset</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="e_data_complete_by_variable_subset-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># Print table</span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 4</span></span>
@@ -138,6 +148,29 @@
 <span class="r-in"><span><span class="co"># Print variable names from first row</span></span></span>
 <span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="va">var_names</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "model" "hp"    "drat"  "wt"    "qsec"  "vs"    "am"    "gear" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Print top 5 subsets</span></span></span>
+<span class="r-in"><span><span class="va">dat_mtcars_miss_e</span> <span class="op">|&gt;</span> <span class="fu">e_data_complete_by_variable_subset</span><span class="op">(</span>sw_plot_complete <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="e_data_complete_by_variable_subset-3.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    n_complete n_var var_names_print                                    var_names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>         22     8 <span style="color: #949494;">"</span>model              hp drat wt qsec vs am gear   … <span style="color: #949494;">&lt;chr [8]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>         15    10 <span style="color: #949494;">"</span>model     cyl disp hp drat wt qsec vs am gear   … <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>         15     9 <span style="color: #949494;">"</span>model     cyl disp hp drat wt      vs am      ca… <span style="color: #949494;">&lt;chr [9]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>         13    11 <span style="color: #949494;">"</span>model mpg cyl      hp drat wt qsec vs am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>         13    10 <span style="color: #949494;">"</span>model     cyl disp hp drat wt qsec vs am      ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>         13     9 <span style="color: #949494;">"</span>model mpg cyl disp    drat wt      vs am gear   … <span style="color: #949494;">&lt;chr [9]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>         12    11 <span style="color: #949494;">"</span>model     cyl disp hp drat wt qsec vs am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>         11    11 <span style="color: #949494;">"</span>model mpg cyl disp hp drat wt qsec vs am gear   … <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>         11    11 <span style="color: #949494;">"</span>model mpg     disp hp drat wt qsec vs am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>         11    10 <span style="color: #949494;">"</span>model mpg cyl disp    drat wt qsec    am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>         11     9 <span style="color: #949494;">"</span>      mpg cyl disp hp drat         vs am gear ca… <span style="color: #949494;">&lt;chr [9]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>         10    11 <span style="color: #949494;">"</span>model mpg cyl disp hp drat wt      vs am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>         10    11 <span style="color: #949494;">"</span>model mpg cyl disp hp drat wt qsec vs    gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>         10    10 <span style="color: #949494;">"</span>model mpg cyl disp hp      wt qsec    am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>         10    10 <span style="color: #949494;">"</span>      mpg cyl disp hp      wt qsec vs am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span>          9    12 <span style="color: #949494;">"</span>model mpg cyl disp hp drat wt qsec vs am gear ca… <span style="color: #949494;">&lt;chr&gt;</span>    </span>
 </code></pre></div>
     </div>
   </div>
@@ -152,7 +185,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>
