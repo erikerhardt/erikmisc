@@ -4,7 +4,12 @@
 \alias{e_data_complete_by_variable_subset}
 \title{For missing data, determine which sets of variables result in the most number of complete observations}
 \usage{
-e_data_complete_by_variable_subset(dat, var_list = NULL, var_resp = NULL)
+e_data_complete_by_variable_subset(
+  dat,
+  var_list = NULL,
+  var_resp = NULL,
+  sw_plot_complete = TRUE
+)
 }
 \arguments{
 \item{dat}{data data.frame or tibble}
@@ -12,6 +17,8 @@ e_data_complete_by_variable_subset(dat, var_list = NULL, var_resp = NULL)
 \item{var_list}{list of variables, \code{NULL} for all}
 
 \item{var_resp}{\code{NULL} or one variable name to always be included (filters to keep only observations with this variable)}
+
+\item{sw_plot_complete}{\code{TRUE} for all, or an integer for the subsets with largest \code{n_complete}}
 }
 \value{
 out      a tibble with the \code{n_complete}, \code{n_var}, \code{var_names_print}, and a list of variable names in \code{var_names}
@@ -41,4 +48,7 @@ out <- dat_mtcars_miss_e |> e_data_complete_by_variable_subset()
 out |> print(n = Inf, width = Inf)
 # Print variable names from first row
 out$var_names[1] |> unlist()
+
+# Print top 5 subsets
+dat_mtcars_miss_e |> e_data_complete_by_variable_subset(sw_plot_complete = 5)
 }

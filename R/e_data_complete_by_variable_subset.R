@@ -3,6 +3,7 @@
 #' @param dat       data data.frame or tibble
 #' @param var_list  list of variables, \code{NULL} for all
 #' @param var_resp  \code{NULL} or one variable name to always be included (filters to keep only observations with this variable)
+#' @param sw_plot_complete  \code{TRUE} for all, or an integer for the subsets with largest \code{n_complete}
 #'
 #' @return out      a tibble with the \code{n_complete}, \code{n_var}, \code{var_names_print}, and a list of variable names in \code{var_names}
 #' @importFrom stringr str_replace_all
@@ -35,15 +36,20 @@
 #' out |> print(n = Inf, width = Inf)
 #' # Print variable names from first row
 #' out$var_names[1] |> unlist()
+#'
+#' # Print top 5 subsets
+#' dat_mtcars_miss_e |> e_data_complete_by_variable_subset(sw_plot_complete = 5)
 e_data_complete_by_variable_subset <-
   function(
     dat
-  , var_list  = NULL
-  , var_resp  = NULL
+  , var_list          = NULL
+  , var_resp          = NULL
+  , sw_plot_complete  = TRUE
   ) {
   ## dat = dat_mtcars_miss_e
   ## var_list  = NULL
   ## var_resp = "mpg"
+  ## sw_plot_complete  = TRUE
 
   if (is.null(var_list)) {
     var_list <- dat |> names()
@@ -100,11 +106,12 @@ e_data_complete_by_variable_subset <-
 
   dat_var_complete <-
     tibble::tibble(
-      n_complete  = rep(NA, dim_dat_miss_pattern[1]) |> as.numeric()
-    , n_var       = rep(NA, dim_dat_miss_pattern[1]) |> as.numeric()
-    , var_names_print   = rep(NA, dim_dat_miss_pattern[1]) |> as.character()
-    , var_names   = rep(list(NA |> as.character()), dim_dat_miss_pattern[1])
+      n_complete      = rep(NA, dim_dat_miss_pattern[1]) |> as.numeric()
+    , n_var           = rep(NA, dim_dat_miss_pattern[1]) |> as.numeric()
+    , var_names_print = rep(NA, dim_dat_miss_pattern[1]) |> as.character()
+    , var_names       = rep(list(NA |> as.character()), dim_dat_miss_pattern[1])
     )
+
   for (i_row in seq_len(dim_dat_miss_pattern[1])) {
     ## i_row = 7
 
@@ -152,7 +159,7 @@ e_data_complete_by_variable_subset <-
       paste(
         collapse = " "
       )
-  }
+  } # i_row
 
   dat_var_complete <-
     dat_var_complete |>
@@ -160,6 +167,79 @@ e_data_complete_by_variable_subset <-
       dplyr::desc(n_complete)
     , dplyr::desc(n_var)
     )
+
+  if (sw_plot_complete) {
+    dat_var_complete_plot <-
+      dat_var_complete |>
+      dplyr::mutate(
+        Subset__  = 1:dplyr::n()
+      , Include__ = 1
+      ) |>
+      dplyr::select(
+        -var_names_print
+      ) |>
+      tidyr::unnest(
+        cols = "var_names"
+      ) |>
+      dplyr::mutate(
+        var_names = var_names |> factor(levels = var_list)
+      , Include__ = Include__ |> factor(levels = c(0, 1))
+      , Subset__  = Subset__  |> factor(ordered = TRUE)
+      ) |>
+      dplyr::arrange(
+        Subset__
+      , var_names
+      )
+
+    # restrict to top n Subset__
+    if (is.numeric(sw_plot_complete)) {
+      dat_var_complete_plot <-
+        dat_var_complete_plot |>
+        dplyr::filter(
+          Subset__ <= sw_plot_complete
+        )
+    } # if
+
+    p1 <- ggplot(data = dat_var_complete_plot, aes(x = var_names, y = Subset__, fill = Include__))
+    p1 <- p1 + theme_bw()
+    p1 <- p1 + geom_tile(color = "grey50", fill = "gray20", na.rm = TRUE)
+    p1 <- p1 + scale_y_discrete(limits = rev)
+    p1 <- p1 + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) # rotate labels
+
+    p1 <- p1 + labs(
+                    title = "Missing data patterns sorted by number of complete observations"
+                    )
+    if (is.numeric(sw_plot_complete)) {
+      p1 <- p1 + labs(
+                      subtitle = paste0("Top ", sw_plot_complete, " subsets with largest n_complete")
+                      )
+    } # if
+
+
+    p2 <- ggplot(data = dat_var_complete_plot |> dplyr::select(Subset__, n_complete) |> dplyr::distinct(), aes(x = Subset__, y = n_complete))
+    p2 <- p2 + theme_bw()
+    p2 <- p2 + geom_bar(stat = "identity", fill = "gray20")
+    p2 <- p2 + scale_x_discrete(limits = rev)
+    p2 <- p2 + coord_flip()
+
+    p_arranged <-
+      patchwork::wrap_plots(
+        list(p1, p2)
+      , ncol        = NULL
+      , nrow        = 1
+      , byrow       = c(TRUE, FALSE)[1]
+      , widths      = c(2, 1)
+      , heights     = NULL
+      , guides      = c("collect", "keep", "auto")[1]
+      , tag_level   = c("keep", "new")[1]
+      , design      = NULL
+      , axes        = NULL
+      , axis_titles = c("keep", "collect", "collect_x", "collect_y")[4]
+      )
+
+    print(p_arranged)
+
+  } # sw_plot_complete
 
   return(dat_var_complete)
 } # e_data_complete_by_variable_subset
