@@ -84,7 +84,7 @@ difference is not significant, based on the adjust setting (which defaults to
 \examples{
 # Data for testing
 dat_cont <-
-  dat_mtcars_e
+  erikmisc::dat_mtcars_e
 
 # Set specific model with some interactions
 form_model <-
