@@ -4,12 +4,21 @@
 \alias{e_plot_lm_y_covar}
 \title{Plot the response vs each predictor in a model formula}
 \usage{
-e_plot_lm_y_covar(form = form, dat = dat)
+e_plot_lm_y_covar(
+  form = form,
+  dat = dat,
+  sw_facet_rows = 1,
+  sw_facet_cols = NULL
+)
 }
 \arguments{
 \item{form}{lm formula for a model}
 
 \item{dat}{data to use}
+
+\item{sw_facet_rows}{in \code{ggplot::facet_grid}, number of rows}
+
+\item{sw_facet_cols}{in \code{ggplot::facet_grid}, number of columns; \code{NULL} to use as many as necessary}
 }
 \value{
 p ggplot facet scatterplot
