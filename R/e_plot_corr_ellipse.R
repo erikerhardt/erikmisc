@@ -30,7 +30,6 @@
 #' @examples
 #' datasets::mtcars |> cor() |> e_plot_corr_ellipse()
 #'
-#' \dontrun{
 #' ## Color version
 #' # use mtcars since all numeric
 #' tab_cor <-
@@ -63,7 +62,6 @@
 #' , diag = c("none", "ellipse", "number")[3]
 #' , digits = 3
 #' )
-#' }
 e_plot_corr_ellipse <-
   function(
     corr

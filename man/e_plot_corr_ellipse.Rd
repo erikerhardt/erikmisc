@@ -65,7 +65,6 @@ Correlation plot with ellipses
 \examples{
 datasets::mtcars |> cor() |> e_plot_corr_ellipse()
 
-\dontrun{
 ## Color version
 # use mtcars since all numeric
 tab_cor <-
@@ -98,5 +97,4 @@ e_plot_corr_ellipse(
 , diag = c("none", "ellipse", "number")[3]
 , digits = 3
 )
-}
 }
