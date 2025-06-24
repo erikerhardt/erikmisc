@@ -161,7 +161,7 @@ e_model_selection <-
 
   } # form
 
-  dat_this <-
+  dat_sel__ <-
     dat |>
     # subset to these columns
     dplyr::select(
@@ -184,13 +184,13 @@ e_model_selection <-
   # remove factors with only one level
   for (i_covar in seq_along(x_var_names)) {
     ## i_covar = 5
-    if (is.factor (dat_this[[ x_var_names[i_covar] ]]) |
-        is.ordered(dat_this[[ x_var_names[i_covar] ]])) {
+    if (is.factor (dat_sel__[[ x_var_names[i_covar] ]]) |
+        is.ordered(dat_sel__[[ x_var_names[i_covar] ]])) {
 
-      if (length(levels(dat_this[[ x_var_names[i_covar] ]])) <= 1) {
+      if (length(levels(dat_sel__[[ x_var_names[i_covar] ]])) <= 1) {
         warning(paste0("erikmisc::e_model_selection, removing x-var with only 1 level: ", x_var_names[i_covar]))
 
-        dat_this[[ x_var_names[i_covar] ]] <- NULL
+        dat_sel__[[ x_var_names[i_covar] ]] <- NULL
         x_var_names[i_covar] <- NA
       }
     }
@@ -202,18 +202,18 @@ e_model_selection <-
   if (sw_plot_missing) {
     out[["plot_missing"]] <-
       e_plot_missing(
-        dat_this
+        dat_sel__
       )
   } # sw_plot_missing
 
 
   # Drop missing values
-  dat_this <-
-    dat_this |>
+  dat_sel__ <-
+    dat_sel__ |>
     tidyr::drop_na()
 
   out[["data"]] <-
-    dat_this
+    dat_sel__
 
   if (length(x_var_names) == 0) {
     warning(paste0("erikmisc::e_model_selection, No predictors (x) with more than 1 level -- skip analysis."))
@@ -225,7 +225,7 @@ e_model_selection <-
     out[["plot_covar"]] <-
       e_plot_lm_y_covar(
         form  = form
-      , dat   = dat_this
+      , dat   = dat_sel__
       )
   } # sw_plot_y_covar
 
@@ -238,7 +238,7 @@ e_model_selection <-
       ## i_covar = 5
       p_list_scatterplot[[ i_covar ]] <-
         e_plot_scatterplot(
-          dat_plot    = dat_this
+          dat_plot    = dat_sel__
         , var_x       = x_var_names[i_covar]
         , var_y       = y_var_name
         , var_color   = NULL
@@ -279,8 +279,8 @@ e_model_selection <-
 
 
     ## Plot correlation matrix
-    dat_this_mat <-
-      dat_this |>
+    dat_sel___mat <-
+      dat_sel__ |>
       dplyr::select(
         tidyselect::all_of(x_var_names)
       ) |>
@@ -297,7 +297,7 @@ e_model_selection <-
 
     # Correlation matrix
     tab_cor <-
-      dat_this_mat |>
+      dat_sel___mat |>
       Hmisc::rcorr(
         type = c("pearson", "spearman")[1]
       )
@@ -306,7 +306,7 @@ e_model_selection <-
     # Correlation p-values and CIs
     cor_mtest_out <-
       corrplot::cor.mtest(
-        mat         = dat_this_mat
+        mat         = dat_sel___mat
       , conf.level  = 0.95
       )
 
@@ -372,7 +372,7 @@ e_model_selection <-
 
 
   # Full models
-  form_init <-
+  form_init__ <-
     form
     ## this code is main-effects model
     # paste0(
@@ -385,20 +385,23 @@ e_model_selection <-
     # ) |>
     # stats::formula()
 
+  # Needs to be in global environment
+  assign(x = "form_init__", value = form_init__, envir = .GlobalEnv)
+
 
   # Fit initial model
   if (sw_model == c("lm", "glm")[1]) {
     out[["init"]][["fit"]] <-
       stats::lm(
-        formula = form_init
-      , data    = dat_this
+        formula = form_init__
+      , data    = dat_sel__
       )
   } # sw_model "lm"
   if (sw_model == c("lm", "glm")[2]) {
     out[["init"]][["fit"]] <-
       stats::glm(
-        formula = form_init
-      , data    = dat_this
+        formula = form_init__
+      , data    = dat_sel__
       , family  = binomial(link = logit)
       )
   } # sw_model "glm"
@@ -417,7 +420,7 @@ e_model_selection <-
     out[["init"]][["criteria"]] <-
       e_lm_model_criteria(
         lm_fit  = out[["init"]][["fit"]]
-      , dat_fit = dat_this
+      , dat_fit = dat_sel__
       )
     out[["init"]][["plot_diagnostics"]] <-
       cowplot::as_grob(
@@ -447,7 +450,7 @@ e_model_selection <-
   out[["init"]][["contrasts"]] <-
     e_plot_model_contrasts(
       fit                     = out[["init"]][["fit"]]
-    , dat_cont                = dat_this
+    , dat_cont                = dat_sel__
     , choose_contrasts        = NULL
     , sw_table_in_plot        = TRUE #FALSE
     , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]  # see ?emmeans::summary.emmGrid
@@ -526,51 +529,55 @@ e_model_selection <-
       )
 
 
-    ### XXX error here, dat_this can't be found when stats::step is called.
+    ### XXX error here, dat_sel__ can't be found when stats::step is called.
 
     ## AIC/BIC
     # option: test="F" includes additional information
     #           for parameter estimate tests that we're familiar with
     # option: for BIC, include k=log(nrow( [data.frame name] ))
 
-    # assign is required for stats::step to find "dat_this" in .GlobalEnv
-    assign(x = "dat_this", value = dat_this, envir = .GlobalEnv)
-    # XXX # exists_dat_this <- FALSE
-    # XXX # if (exists(x = "dat_this", envir = .GlobalEnv)) {
-    # XXX #   exists_dat_this <- TRUE
-    # XXX #   dat_this_TEMP__ <-
-    # XXX #     get(x = dat_this, envir = .GlobalEnv)
-    # XXX #   assign(x = "dat_this", value = dat_this, envir = .GlobalEnv)
+    # assign is required for stats::step to find "dat_sel__" in .GlobalEnv
+    # Needs to be in global environment
+    assign(x = "dat_sel__", value = dat_sel__, envir = .GlobalEnv)
+    # XXX # exists_dat_sel__ <- FALSE
+    # XXX # if (exists(x = "dat_sel__", envir = .GlobalEnv)) {
+    # XXX #   exists_dat_sel__ <- TRUE
+    # XXX #   dat_sel___TEMP__ <-
+    # XXX #     get(x = dat_sel__, envir = .GlobalEnv)
+    # XXX #   assign(x = "dat_sel__", value = dat_sel__, envir = .GlobalEnv)
     # XXX # }
 
-    form_sel <-
+    form_sel__ <-
       stats::step(
         object    = out[["init"]][["fit"]]
       , scope     = list(upper = form_init_upper, lower = form_init_lower)
       , direction = sw_step_direction
       , test      = "F"
       , trace     = 0
-      , k         = sw_step_k  # 2 #log(nrow( dat_this ))
+      , k         = sw_step_k  # 2 #log(nrow( dat_sel__ ))
       ) |>
       stats::formula()
 
-    # XXX # if (exists_dat_this) {
-    # XXX #   assign(x = "dat_this", value = dat_this_TEMP__, envir = .GlobalEnv)
+    # Needs to be in global environment
+    assign(x = "form_sel__", value = form_sel__, envir = .GlobalEnv)
+
+    # XXX # if (exists_dat_sel__) {
+    # XXX #   assign(x = "dat_sel__", value = dat_sel___TEMP__, envir = .GlobalEnv)
     # XXX # }
 
 
     if (sw_model == c("lm", "glm")[1]) {
       out[["sel"]][["fit"]] <-
         stats::lm(
-          formula = form_sel
-        , data    = dat_this
+          formula = form_sel__
+        , data    = dat_sel__
         )
     } # sw_model "lm"
     if (sw_model == c("lm", "glm")[2]) {
       out[["sel"]][["fit"]] <-
         stats::glm(
-          formula = form_sel
-        , data    = dat_this
+          formula = form_sel__
+        , data    = dat_sel__
         , family  = binomial(link = logit)
         )
     } # sw_model "glm"
@@ -589,7 +596,7 @@ e_model_selection <-
       out[["sel"]][["criteria"]] <-
         e_lm_model_criteria(
           lm_fit  = out[["sel"]][["fit"]]
-        , dat_fit = dat_this
+        , dat_fit = dat_sel__
         )
       out[["sel"]][["plot_diagnostics"]] <-
         cowplot::as_grob(
@@ -619,7 +626,7 @@ e_model_selection <-
     out[["sel"]][["contrasts"]] <-
       e_plot_model_contrasts(
         fit                     = out[["sel"]][["fit"]]
-      , dat_cont                = dat_this
+      , dat_cont                = dat_sel__
       , choose_contrasts        = NULL
       , sw_table_in_plot        = TRUE #FALSE
       , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]  # see ?emmeans::summary.emmGrid
@@ -644,7 +651,7 @@ e_model_selection <-
     print("=================================================")
 
     print(paste("=====", "data dim"))
-    dim(dat_this) |> print()
+    dim(dat_sel__) |> print()
 
     print(paste("=====", "missing data plots"))
     out[["plot_missing"]] |> print()
@@ -661,9 +668,9 @@ e_model_selection <-
 
     print(paste(y_var_name))
     print("____init____")
-    print(form_init)
+    print(form_init__)
     print("____sel____")
-    print(form_sel)
+    print(form_sel__)
 
     if (sw_model == c("lm", "glm")[1]) {
       print("")
@@ -717,7 +724,7 @@ e_model_selection <-
     print("____sel____")
     #out[["sel"]][["contrasts"]]  |> print()
     out[["sel"]][["contrasts"]]$plots  |> print()
-    #out[["sel"]][["contrasts"]]$tables |> print()
+    out[["sel"]][["contrasts"]]$tables |> print()
     #out[["sel"]][["contrasts"]]$text   |> print()
     out[["sel"]][["contrasts"]]$interp |> print()
 
@@ -726,6 +733,12 @@ e_model_selection <-
     print("=================================================")
 
   } # sw_print_results
+
+  # Clean up global environment
+  rm("dat_sel__", envir = .GlobalEnv)
+  rm("form_init__", envir = .GlobalEnv)
+  rm("form_sel__", envir = .GlobalEnv)
+
 
   return(out)
 } # e_model_selection

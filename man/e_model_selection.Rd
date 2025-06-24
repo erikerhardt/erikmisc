@@ -77,7 +77,7 @@ dat_sel <-
       )
   )
 labelled::var_label(dat_sel[["am_01"]]) <- labelled::var_label(dat_sel[["am"]])
-form_model <-              1
+form_model <-
   cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
 
 out <-
