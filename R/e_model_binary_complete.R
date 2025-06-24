@@ -1,5 +1,7 @@
 #' All variable subsets
 #'
+#' Used in \code{e_model_all_subsets_formula()} to complete all subsets of variables.
+#'
 #' Return data.frame of all binary subsets of a list of variable names
 #'
 #' @param var_names a character list of variable names

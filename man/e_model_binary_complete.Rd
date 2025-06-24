@@ -14,6 +14,9 @@ e_model_binary_complete(var_names)
 }\if{html}{\out{</div>}}
 }
 \description{
+Used in \code{e_model_all_subsets_formula()} to complete all subsets of variables.
+}
+\details{
 Return data.frame of all binary subsets of a list of variable names
 }
 \examples{
