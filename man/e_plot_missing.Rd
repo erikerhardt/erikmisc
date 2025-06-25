@@ -27,7 +27,7 @@ e_plot_missing(
 
 \item{sw_text_pct_miss}{TRUE/FALSE to include text values of percent missing on bar plot}
 
-\item{sw_complete_by_variable}{TRUE/FALSE to run \code{e_data_complete_by_variable_subset()} to determine which sets of variables result in the most number of complete observations}
+\item{sw_complete_by_variable}{TRUE/FALSE to run \code{e_plot_complete_by_variable_subset()} to determine which sets of variables result in the most number of complete observations}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{               ggplot grob plot object

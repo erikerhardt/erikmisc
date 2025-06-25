@@ -31,15 +31,15 @@
 #' # Plot missing data
 #' dat_mtcars_miss_e |> e_plot_missing()
 #'
-#' out <- dat_mtcars_miss_e |> e_data_complete_by_variable_subset()
+#' out <- dat_mtcars_miss_e |> e_plot_complete_by_variable_subset()
 #' # Print table
 #' out |> print(n = Inf, width = Inf)
 #' # Print variable names from first row
 #' out$var_names[1] |> unlist()
 #'
 #' # Print top 5 subsets
-#' dat_mtcars_miss_e |> e_data_complete_by_variable_subset(sw_plot_complete = 5)
-e_data_complete_by_variable_subset <-
+#' dat_mtcars_miss_e |> e_plot_complete_by_variable_subset(sw_plot_complete = 5)
+e_plot_complete_by_variable_subset <-
   function(
     dat
   , var_list          = NULL
@@ -242,4 +242,4 @@ e_data_complete_by_variable_subset <-
   } # sw_plot_complete
 
   return(dat_var_complete)
-} # e_data_complete_by_variable_subset
+} # e_plot_complete_by_variable_subset

@@ -6,7 +6,7 @@
 #' @param var2_sort               second variable name to sort by if data is grouped
 #' @param sw_title_data_name      TRUE/FALSE to include data object name in title or text string of title to use
 #' @param sw_text_pct_miss        TRUE/FALSE to include text values of percent missing on bar plot
-#' @param sw_complete_by_variable TRUE/FALSE to run \code{e_data_complete_by_variable_subset()} to determine which sets of variables result in the most number of complete observations
+#' @param sw_complete_by_variable TRUE/FALSE to run \code{e_plot_complete_by_variable_subset()} to determine which sets of variables result in the most number of complete observations
 #'
 #' @return                    ggplot grob plot object
 #' @import dplyr
@@ -362,10 +362,10 @@ e_plot_missing <-
       -ID_MISSING___
     , -GROUP___
     ) |>
-    e_data_complete_by_variable_subset() |>
+    e_plot_complete_by_variable_subset() |>
     print(n = Inf, width = Inf)
   } else {
-    message("erikmisc::plot_missing(), Note: use e_data_complete_by_variable_subset() to select variable combination with most complete observations.")
+    message("erikmisc::plot_missing(), Note: use e_plot_complete_by_variable_subset() to select variable combination with most complete observations.")
   }
 
   return(p_arranged)
