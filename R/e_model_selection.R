@@ -1,5 +1,7 @@
 #' Model selection function for lm and glm, using \code{step} via AIC/BIC or best subset.
 #'
+#' (Best subset not yet implemented.)
+#'
 #' @param form                formula for a model
 #' @param dat                 data to use
 #' @param sw_model            type of regression model, \code{"lm"} or \code{"glm"}
@@ -278,95 +280,9 @@ e_model_selection <-
       )
 
 
-    ## Plot correlation matrix
-    dat_sel___mat <-
-      dat_sel__ |>
-      dplyr::select(
-        tidyselect::all_of(x_var_names)
-      ) |>
-      dplyr::select(
-        tidyselect::where(is.numeric)
-      ) |>
-      # dplyr::mutate(
-      #   dplyr::across(
-      #     tidyselect::where(is.factor)
-      #   , as.numeric
-      #   )
-      # ) |>
-      as.matrix()
-
-    # Correlation matrix
-    tab_cor <-
-      dat_sel___mat |>
-      Hmisc::rcorr(
-        type = c("pearson", "spearman")[1]
-      )
-    #tab_cor$r
-
-    # Correlation p-values and CIs
-    cor_mtest_out <-
-      corrplot::cor.mtest(
-        mat         = dat_sel___mat
-      , conf.level  = 0.95
-      )
-
     out[["plot_corrplot"]] <-
-      cowplot::as_grob(
-        ~corrplot::corrplot(
-          corr    = tab_cor$r
-        , is.corr = TRUE
-        , type = c("full", "upper", "lower")[1]
-        , p.mat   = cor_mtest_out$p
-        , method  = c("circle", "square", "ellipse", "number", "shade", "color", "pie")[3]
-        #, upper   = c("circle", "square", "ellipse", "number", "shade", "color", "pie")[3]
-        , tl.pos  = c("d", "lt", "n")[1]
-        , tl.col  = "black"
-        #, diag = c("n", "l", "u")[1]
-        , bg = "white"
-        , addgrid.col = "grey"
-        , addCoef.col = "black"
-        , number.cex = 1
-        #, lower.col = "black"
-        #, upper.col = NULL
-        #, plotCI = c("n", "square", "circle", "rect")[1]
-        , mar = c(0, 0, 0, 0)
-        , title   = "Correlation of numeric predictor variables"
-        #, sig.level = rev(c(1e-04, 0.001, 0.01, 0.05))
-        , insig = c("pch", "p-value", "blank", "n", "label_sig")[1]
-        , order = c("original", "AOE", "FPC", "hclust", "alphabet")[2]
-        #, hclust.method = c("ward", "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")[1]
-        #, addrect = 3
-        )
-      ) |>
-      cowplot::plot_grid()
-
-    # out[["plot_corrplot"]] <-
-    #   corrplot::corrplot.mixed(
-    #     corr    = tab_cor$r
-    #   , is.corr = TRUE
-    #   , p.mat   = cor_mtest_out$p
-    #   , lower   = c("circle", "square", "ellipse", "number", "shade", "color", "pie")[4]
-    #   , upper   = c("circle", "square", "ellipse", "number", "shade", "color", "pie")[3]
-    #   , tl.pos  = c("d", "lt", "n")[1]
-    #   , tl.col  = "black"
-    #   , diag = c("n", "l", "u")[1]
-    #   , bg = "white"
-    #   , addgrid.col = "grey"
-    #   , addCoef.col = "black"
-    #   #, sig.level = rev(c(1e-04, 0.001, 0.01, 0.05))
-    #   #, insig = c("pch", "p-value", "blank", "n", "label_sig")[5]
-    #   , number.cex = 1
-    #   , lower.col = "black"
-    #   , upper.col = NULL
-    #   #, plotCI = c("n", "square", "circle", "rect")[1]
-    #   , mar = c(0, 0, 0, 0)
-    #   , title   = "Correlation of predictor variables"
-    #   , order = c("original", "AOE", "FPC", "hclust", "alphabet")[2]
-    #   #, addrect =
-    #   #, sig.level = 0.05
-    #   #, insig = "label_sig"
-    #   #, addrect = 2
-    #   )
+      dat_sel__ |>
+      e_plot_corr_matrix(sw_plot_type = "mixed")
 
   } # sw_plot_x_corr
 

@@ -48,7 +48,7 @@ e_model_selection(
 out                list object with all results organized by \code{init} and \code{sel} for initial and selected models
 }
 \description{
-Model selection function for lm and glm, using \code{step} via AIC/BIC or best subset.
+(Best subset not yet implemented.)
 }
 \examples{
 \dontrun{
