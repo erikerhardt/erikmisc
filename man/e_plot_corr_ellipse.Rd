@@ -60,7 +60,7 @@ e_plot_corr_ellipse(
 \code{invisible(NULL)}
 }
 \description{
-Correlation plot with ellipses
+OLD version, see \code{e_plot_corr_matrix()}
 }
 \examples{
 datasets::mtcars |> cor() |> e_plot_corr_ellipse()

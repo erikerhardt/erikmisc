@@ -1,5 +1,7 @@
 #' Correlation plot with ellipses
 #'
+#' OLD version, see \code{e_plot_corr_matrix()}
+#'
 #' @param corr        correlation matrix
 #' @param outline     option
 #' @param col         option
