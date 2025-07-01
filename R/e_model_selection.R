@@ -224,61 +224,26 @@ e_model_selection <-
 
   # Plot y vs each x
   if (sw_plot_y_covar) {
+    # Simple method
     out[["plot_covar"]] <-
       e_plot_lm_y_covar(
         form  = form
       , dat   = dat_sel__
+      , sw_version    = c("simple", "detail")[1]
       )
+
+    # Detailed method
+    out[["plot_scatterplots"]] <-
+      e_plot_lm_y_covar(
+        form  = form
+      , dat   = dat_sel__
+      , sw_version    = c("simple", "detail")[2]
+      )
+
   } # sw_plot_y_covar
 
   # Plot correlations of xs
   if (sw_plot_x_corr) {
-
-    ## Plot scatterplots of y vs each x
-    p_list_scatterplot <- list()
-    for (i_covar in seq_along(x_var_names)) {
-      ## i_covar = 5
-      p_list_scatterplot[[ i_covar ]] <-
-        e_plot_scatterplot(
-          dat_plot    = dat_sel__
-        , var_x       = x_var_names[i_covar]
-        , var_y       = y_var_name
-        , var_color   = NULL
-        , var_facet   = NULL
-        , text_title  = NULL
-        , sw_print    = FALSE
-        , smooth_all  = c("none", "loess", "lm", "glm", "gam")[2]
-        , sw_smooth_all_se          = c(TRUE, FALSE)[1]
-        , smooth_by_var_color       = c("none", "loess", "lm", "glm", "gam")[1]
-        , sw_smooth_by_var_color_se = c(TRUE, FALSE)[2]
-        , sw_corr_in_subtitle       = c(TRUE, FALSE)[1]
-        )
-     } # i_covar
-
-    out[["plot_scatterplots"]] <-
-      patchwork::wrap_plots(
-        p_list_scatterplot
-      , ncol        = NULL
-      , nrow        = NULL
-      , byrow       = c(TRUE, FALSE)[1]
-      , widths      = NULL
-      , heights     = NULL
-      , guides      = c("collect", "keep", "auto")[1]
-      , tag_level   = c("keep", "new")[1]
-      , design      = NULL
-      , axes        = NULL
-      , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-      ) +
-      patchwork::plot_annotation(
-        title       = paste0("Bivariate plots of ", y_var_name, " with each predictor")
-      #, subtitle    = text_formula_sel
-      , caption     = paste0(
-                        "Observations with missing values have been removed."
-                      )
-      , tag_levels  = "A"
-      , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-      )
-
 
     out[["plot_corrplot"]] <-
       dat_sel__ |>

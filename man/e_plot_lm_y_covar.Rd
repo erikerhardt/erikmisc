@@ -8,7 +8,8 @@ e_plot_lm_y_covar(
   form = form,
   dat = dat,
   sw_facet_rows = 1,
-  sw_facet_cols = NULL
+  sw_facet_cols = NULL,
+  sw_version = c("simple", "detail")[2]
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ e_plot_lm_y_covar(
 \item{sw_facet_rows}{in \code{ggplot::facet_grid}, number of rows}
 
 \item{sw_facet_cols}{in \code{ggplot::facet_grid}, number of columns; \code{NULL} to use as many as necessary}
+
+\item{sw_version}{"simple" for a single row of plots, "detail" for a grid of scatterplots with additional details}
 }
 \value{
 p ggplot facet scatterplot
@@ -35,6 +38,15 @@ p <-
   e_plot_lm_y_covar(
     form = form_model
   , dat  = erikmisc::dat_mtcars_e
+  , sw_version    = c("simple", "detail")[1]
+  )
+p |> print()
+
+p <-
+  e_plot_lm_y_covar(
+    form = form_model
+  , dat  = erikmisc::dat_mtcars_e
+  , sw_version    = c("simple", "detail")[2]
   )
 p |> print()
 }
