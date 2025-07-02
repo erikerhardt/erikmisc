@@ -35,8 +35,10 @@ See \code{corrplot::corrplot()} for creating custom versions of this
 }
 \examples{
 erikmisc::dat_mtcars_e |> e_plot_corr_matrix()
+
 out <- erikmisc::dat_mtcars_e |> e_plot_corr_matrix(sw_cluster_rect = 3)
 out$plot |> print()
+
 out <- erikmisc::dat_mtcars_e |> e_plot_corr_matrix(sw_plot_type = "mixed")
 out$plot |> print()
 }
