@@ -48,7 +48,7 @@ NULL, invisibly
 Plotting residual diagnostics for an lm() object.
 }
 \examples{
-fit <- lm(mpg ~ cyl + disp + hp + gear, data = dat_mtcars_e)
+fit <- lm(mpg ~ cyl + disp + hp + gear, data = erikmisc::dat_mtcars_e)
 e_plot_lm_diagnostics(fit)
 mod <- stats::formula(mpg ~ cyl + disp + hp + gear)
 fit <- lm(mod, data = dat_mtcars_e)
