@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.34
-Date: 2025-06-25
+Version: 0.2.35
+Date: 2025-07-01
 Authors@R:
     c(person(
       given = "Erik"
@@ -47,8 +47,10 @@ Imports:
     ggpmisc,
     ggpp,
     ggpubr,
+    grDevices,
     grid,
     gridExtra,
+    gvlma,
     htmlwidgets,
     janitor,
     kableExtra,
