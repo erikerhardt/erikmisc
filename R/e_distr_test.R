@@ -1,7 +1,7 @@
 #' Distribution tests
 #'
 #' @param x       single list of numeric values
-#' @param dist    distribution
+#' @param distr   distribution
 #'
 #' @return out      list of tests and results
 #' @import nortest
@@ -11,18 +11,18 @@
 #' @export
 #'
 #' @examples
-#' rnorm(30) |> e_dist_test()
-#' rexp(30) |> e_dist_test()
+#' rnorm(30) |> e_distr_test()
+#' rexp(30) |> e_distr_test()
 #'
-e_dist_test <-
+e_distr_test <-
   function(
     x     = NULL
-  , dist  = c("normal")[1]
+  , distr  = c("normal")[1]
   ) {
 
   out <- list()
 
-  if (dist == "normal") {
+  if (distr == "normal") {
 
     # Anderson-Darling test for normality
     out[[ "nortest__ad_test" ]] <-
@@ -39,19 +39,12 @@ e_dist_test <-
         statistic = statistic.A
       ) |>
       dplyr::mutate(
-        statistic = statistic |> as.numeric()
-      , p.value   = p.value   |> as.numeric()
-      , sig       = p.value   |> e_pval_stars()
-      , dist      = "normal"
-      , method_short = "AD norm test"
-      ) |>
-      dplyr::select(
-        dist
-      , method
-      , method_short
-      , statistic
-      , p.value
-      , sig
+        statistic     = statistic |> as.numeric()
+      , p.value       = p.value   |> as.numeric()
+      , sig           = p.value   |> e_pval_stars()
+      , distr          = "normal"
+      , stat_label    = "A"
+      , method_short  = "AD"
       )
 
     # Cramer-von Mises test for normality
@@ -69,19 +62,12 @@ e_dist_test <-
         statistic = statistic.W
       ) |>
       dplyr::mutate(
-        statistic = statistic |> as.numeric()
-      , p.value   = p.value   |> as.numeric()
-      , sig       = p.value   |> e_pval_stars()
-      , dist      = "normal"
-      , method_short = "CvM norm test"
-      ) |>
-      dplyr::select(
-        dist
-      , method
-      , method_short
-      , statistic
-      , p.value
-      , sig
+        statistic     = statistic |> as.numeric()
+      , p.value       = p.value   |> as.numeric()
+      , sig           = p.value   |> e_pval_stars()
+      , distr          = "normal"
+      , stat_label    = "W"
+      , method_short  = "CvM"
       )
 
     # Lilliefors (Kolmogorov-Smirnov) test for normality
@@ -99,19 +85,12 @@ e_dist_test <-
         statistic = statistic.D
       ) |>
       dplyr::mutate(
-        statistic = statistic |> as.numeric()
-      , p.value   = p.value   |> as.numeric()
-      , sig       = p.value   |> e_pval_stars()
-      , dist      = "normal"
-      , method_short = "KS norm test"
-      ) |>
-      dplyr::select(
-        dist
-      , method
-      , method_short
-      , statistic
-      , p.value
-      , sig
+        statistic     = statistic |> as.numeric()
+      , p.value       = p.value   |> as.numeric()
+      , sig           = p.value   |> e_pval_stars()
+      , distr          = "normal"
+      , stat_label    = "D"
+      , method_short  = "KS"
       )
 
     # Pearson chi-square test for normality
@@ -129,21 +108,13 @@ e_dist_test <-
         statistic = statistic.P
       ) |>
       dplyr::mutate(
-        statistic = statistic |> as.numeric()
-      , p.value   = p.value   |> as.numeric()
-      , sig       = p.value   |> e_pval_stars()
-      , dist      = "normal"
-      , method_short = "PX2 norm test"
-      ) |>
-      dplyr::select(
-        dist
-      , method
-      , method_short
-      , statistic
-      , p.value
-      , sig
+        statistic     = statistic |> as.numeric()
+      , p.value       = p.value   |> as.numeric()
+      , sig           = p.value   |> e_pval_stars()
+      , distr          = "normal"
+      , stat_label    = "P"
+      , method_short  = "PX2"
       )
-
 
     # Shapiro-Francia test for normality
     out[[ "nortest__SF_test" ]] <-
@@ -160,27 +131,41 @@ e_dist_test <-
         statistic = statistic.W
       ) |>
       dplyr::mutate(
-        statistic = statistic |> as.numeric()
-      , p.value   = p.value   |> as.numeric()
-      , sig       = p.value   |> e_pval_stars()
-      , dist      = "normal"
-      , method_short = "SF norm test"
-      ) |>
-      dplyr::select(
-        dist
-      , method
-      , method_short
-      , statistic
-      , p.value
-      , sig
+        statistic     = statistic |> as.numeric()
+      , p.value       = p.value   |> as.numeric()
+      , sig           = p.value   |> e_pval_stars()
+      , distr          = "normal"
+      , stat_label    = "W"
+      , method_short  = "SF"
       )
 
     out <-
       out |>
       dplyr::bind_rows()
 
+    out <-
+      out |>
+      dplyr::mutate(
+        #text = paste0(method_short, ": ", stat_label, " = ", signif(statistic, 3), ", p-val = ", round(p.value, 4), " ", sig)
+        text = paste0(method_short, " (p = ", sprintf("%04.4f", p.value), ") ", sig)
+      )
+
+    out <-
+      out |>
+      dplyr::bind_rows() |>
+      dplyr::select(
+        distr
+      , text
+      , method_short
+      , p.value
+      , sig
+      , stat_label
+      , statistic
+      , method
+      )
+
     return(out)
 
-  }
+  } # normal
 
-} # e_dist_test
+} # e_distr_test
