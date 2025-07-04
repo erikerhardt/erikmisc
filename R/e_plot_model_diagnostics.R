@@ -209,23 +209,23 @@ e_plot_model_diagnostics <-
 
 
 
-  # qqplot, Quantile-Comparison Plot
-  if (fit_class == "lm") {
-
-    # base graphics version
-    out_diagn[[ "car__qqPlot" ]] <-
-      e_plot_model_diagnostics_car__qqPlot(
-        fit                 = fit
-      , dat                 = dat
-      )
-
-    out_diagn[[ "car__qqPlot" ]][[ "car__qqPlot_plot"  ]] |> print()
-
-  } # lm
-  if (fit_class == "glm") {
-    out_diagn[[ "car__qqPlot" ]] <-
-      NULL
-  } # glm
+  # # qqplot, Quantile-Comparison Plot
+  # if (fit_class == "lm") {
+  #
+  #   # base graphics version
+  #   out_diagn[[ "car__qqPlot" ]] <-
+  #     e_plot_model_diagnostics_car__qqPlot(
+  #       fit                 = fit
+  #     , dat                 = dat
+  #     )
+  #
+  #   out_diagn[[ "car__qqPlot" ]][[ "car__qqPlot_plot"  ]] |> print()
+  #
+  # } # lm
+  # if (fit_class == "glm") {
+  #   out_diagn[[ "car__qqPlot" ]] <-
+  #     NULL
+  # } # glm
 
 
   # qqplot
@@ -243,7 +243,7 @@ e_plot_model_diagnostics <-
     #out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_diagonal_plot"  ]] |> print()
     #out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_detrended_plot" ]] |> print()
 
-    out_diagn[[ "qqplotr" ]][[ "qqplotr_grid_diagonal_plot"    ]] |> print()
+    #out_diagn[[ "qqplotr" ]][[ "qqplotr_grid_diagonal_plot"    ]] |> print()
     out_diagn[[ "qqplotr" ]][[ "qqplotr_grid_detrended_plot"   ]] |> print()
 
     out_diagn[[ "qqplotr" ]][[ "normality_test_table" ]]          |> print()
@@ -397,6 +397,28 @@ e_plot_model_diagnostics <-
   } # lm
   if (fit_class == "glm") {
     out_diagn[[ "car__invTranPlot" ]] <-
+      NULL
+  } # glm
+
+
+
+
+  # Homoscedacticity, Equal variance
+  if (fit_class == "lm") {
+
+    # base graphics version
+    out_diagn[[ "car__spreadLevelPlot" ]] <-
+      e_plot_model_diagnostics_car__spreadLevelPlot(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_plot"  ]] |> print()
+    out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_table" ]] |> print()
+
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "car__spreadLevelPlot" ]] <-
       NULL
   } # glm
 

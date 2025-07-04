@@ -992,7 +992,7 @@ e_plot_model_diagnostics_car__boxCox <-
 
   out <- list()
 
-
+  # Box-Cox results and tests
   fit_boxcox <-
     fit |>
     car::powerTransform() |>
@@ -1105,6 +1105,93 @@ e_plot_model_diagnostics_car__boxCox <-
   return(out)
 
 } # e_plot_model_diagnostics_car__boxCox
+
+
+
+#' Model diagnostics, car::spreadLevelPlot and car::ncvTest
+#'
+#'
+#' @param fit     fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__spreadLevelPlot <-
+  function(
+    fit                 = NULL
+  ) {
+
+  out <- list()
+
+  # Breusch-Pagan (Score) test for non-constant error variance
+  fit_ncvTest <-
+    fit |>
+    car::ncvTest()
+
+  text_caption <-
+    paste0(
+      #fit_ncvTest$label
+      "Breusch-Pagan (Score) test for non-constant error variance"
+    , "\n"
+    , "X2 = "   , sprintf("%03.2f", fit_ncvTest$ChiSquare)
+    , ", df = " , sprintf("%d"    , fit_ncvTest$Df)
+    , " (p = "  , sprintf("%04.4f", fit_ncvTest$p), ") "
+    , fit_ncvTest$p |> e_pval_stars()
+    )
+
+  p <-
+    patchwork::wrap_elements(
+      full =
+      ~
+      {
+      car::spreadLevelPlot(
+        x           = fit
+      , robust.line = TRUE
+      , xlab        = "Fitted Values (log-scale)"
+      , ylab        = "Absolute Studentized Residuals (log-scale)"
+      , las         = par("las")
+      , main        = "Spread-Level Plot" #paste0("Breusch-Pagan (Score) test for \nnon-constant error variance") #NULL #paste("Spread-Level Plot for\n", deparse(substitute(x)))
+      , pch         = 1
+      , col         = carPalette()[1]
+      , col.lines   = carPalette()[2:3]
+      , lwd         = 2
+      , grid        = TRUE
+      , id          = list(method=list("x", "y"), n=2, cex=1, col=carPalette()[1], location="lr")
+      , smooth      = TRUE
+      )
+      }
+    )
+
+  out[[ "car__spreadLevelPlot_table" ]] <-
+    text_caption
+
+  out[[ "car__spreadLevelPlot_plot" ]] <-
+    patchwork::wrap_plots(
+      p
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = "Breusch-Pagan (Score) test"
+    #, subtitle    = "for non-constant error variance"
+    , caption     = text_caption
+    #, tag_levels  = "A"
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__spreadLevelPlot
 
 
 
