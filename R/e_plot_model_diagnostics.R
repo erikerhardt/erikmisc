@@ -37,6 +37,7 @@
 #'
 #' @param fit                model object
 #' @param dat                data used for model fit
+#' @param resid_type         Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
 #' ## @param sw_plot_set        NULL to accept other plot options, or "simple" to exclude boxcox, constant var, collinearity, order of data, and added-variable plots. "simpleAV" to add back in the added-variable plots.  "all" includes all possible plots in this function.
 #' ## @param rp_type            option passed to \code{ggResidpanel::resid_panel}
 #' ## @param rp_bins            option passed to \code{ggResidpanel::resid_panel}
@@ -72,7 +73,7 @@
 #' form_model_lm <-
 #'   mpg ~ cyl + disp + hp + wt + vs + am + disp:hp + hp:vs
 #' fit_lm <- lm(formula = form_model_lm, data = dat)
-#' out_diagn <- e_plot_model_diagnostics(fit = fit_lm, dat = dat)
+#' out_diagn <- e_plot_model_diagnostics(fit = fit_lm, dat = dat, resid_type = "studentized")
 #'
 #' ## glm example
 #' dat <-
@@ -94,6 +95,8 @@ e_plot_model_diagnostics <-
   function(
     fit                 = NULL
   , dat                 = NULL
+  , resid_type          = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson", "studentized", "partial")[1]
+
   # , sw_plot_set         = c("simple", "simpleAV", "all", "boxplot", "cookd", "hist", "index", "ls", "qq", "lev", "resid", "yvp")[3]
   # , rp_type             = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson")[1]
   # , rp_bins             = 30
@@ -157,6 +160,148 @@ e_plot_model_diagnostics <-
     print("e_plot_model_diagnostics: glm model")
   } # glm
 
+
+  # Calculate residuals for later
+  fit_resid <-
+    e_model_calc_resid(
+      fit         = fit
+    , resid_type  = resid_type
+    )
+
+  # Convert name of residuals to car's type
+  resid_type <- attr(fit_resid, "resid_type") # may have changed if not available
+  resid_type_car <-
+    dplyr::case_when(
+      is.na(resid_type)              ~ "pearson"
+    , resid_type == "response"       ~ "response"
+    , resid_type == "deviance"       ~ "deviance"
+    , resid_type == "pearson"        ~ "pearson"
+    , resid_type == "partial"        ~ "partial"
+    , resid_type == "studentized"    ~ "rstudent"
+    , resid_type == "standardized"   ~ "rstandard"
+    , resid_type == "stand.deviance" ~    "deviance"
+    , resid_type == "stand.pearson"  ~    "pearson"
+    #, .default                       ~ "pearson"
+    )
+
+
+
+  # ggResidpanel::resid_panel(
+  #   model = fit
+  # , plots = "all"
+  # , type = NA
+  # , bins = 30
+  # , smoother = TRUE
+  # , qqline = TRUE
+  # , qqbands = TRUE
+  # , scale = 1
+  # , theme = "bw"
+  # , axis.text.size = 10
+  # , title.text.size = 12
+  # , title.opt = TRUE
+  # , nrow = NULL
+  # )
+
+
+
+  # qqplot, Quantile-Comparison Plot
+  if (fit_class == "lm") {
+
+    # base graphics version
+    out_diagn[[ "car__qqPlot" ]] <-
+      e_plot_model_diagnostics_car__qqPlot(
+        fit                 = fit
+      , dat                 = dat
+      )
+
+    out_diagn[[ "car__qqPlot" ]][[ "car__qqPlot_plot"  ]] |> print()
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "car__qqPlot" ]] <-
+      NULL
+  } # glm
+
+
+  # qqplot
+  if (fit_class == "lm") {
+
+    # ggplot version
+    out_diagn[[ "qqplotr" ]] <-
+      e_plot_model_diagnostics_qqplotr(
+        fit_resid           = fit_resid
+      )
+
+    out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_normal_plot"    ]] |> print()
+    out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_detrended_plot" ]] |> print()
+    out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_normal_plot"    ]] |> print()
+    out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_detrended_plot" ]] |> print()
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "qqplotr" ]] <-
+      NULL
+  } # glm
+
+
+
+
+  # Influence index plots
+  if (fit_class %in% c("lm", "glm")) {
+
+    # base graphics version
+    out_diagn[[ "car__infIndexPlot" ]] <-
+      e_plot_model_diagnostics_car__infIndexPlot(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__infIndexPlot" ]][[ "car__infIndexPlot_plot"  ]] |> print()
+
+  } # lm or glm
+
+
+  ## outlier test
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__outlierTest" ]] <-
+      e_plot_model_diagnostics_car__outlierTest(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_table" ]] |> print()
+
+  } # lm or glm
+
+
+  ## resid vs x plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__residualPlots" ]] <-
+      e_plot_model_diagnostics_car__residualPlots(
+        fit                 = fit
+      , resid_type          = resid_type_car
+      )
+
+    out_diagn[[ "car__residualPlots" ]][[ "car__residualPlots_table" ]] |> print()
+    out_diagn[[ "car__residualPlots" ]][[ "car__residualPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
+
+  # dfbetas plots
+  if (fit_class == "lm") {
+
+    # base graphics version
+    out_diagn[[ "car__dfbetasPlots" ]] <-
+      e_plot_model_diagnostics_car__dfbetasPlots(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__dfbetasPlots" ]][[ "car__dfbetasPlots_plot"  ]] |> print()
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "car__dfbetasPlots" ]] <-
+      NULL
+  } # glm
 
 
   ## gvlma, "Global Validation of Linear Model Assumptions"
