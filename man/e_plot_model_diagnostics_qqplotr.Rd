@@ -4,7 +4,11 @@
 \alias{e_plot_model_diagnostics_qqplotr}
 \title{Model diagnostics, qqplot, qqplotr:: stat_* functions}
 \usage{
-e_plot_model_diagnostics_qqplotr(fit_resid = fit_resid, band_conf = 0.95)
+e_plot_model_diagnostics_qqplotr(
+  fit_resid = fit_resid,
+  fit = NULL,
+  band_conf = 0.95
+)
 }
 \arguments{
 \item{fit_resid}{list of residuals from \code{e_model_calc_resid()}}

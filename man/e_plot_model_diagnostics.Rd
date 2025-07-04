@@ -8,7 +8,7 @@ e_plot_model_diagnostics(
   fit = NULL,
   dat = NULL,
   resid_type = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance",
-    "stand.pearson", "studentized", "partial")[1],
+    "stand.pearson", "studentized", "partial")[8],
   ...
 )
 }
@@ -130,7 +130,12 @@ dat <-
 form_model_lm <-
   mpg ~ cyl + disp + hp + wt + vs + am + disp:hp + hp:vs
 fit_lm <- lm(formula = form_model_lm, data = dat)
-out_diagn <- e_plot_model_diagnostics(fit = fit_lm, dat = dat, resid_type = "studentized")
+out_diagn <-
+  e_plot_model_diagnostics(
+    fit = fit_lm
+  , dat = dat
+  , resid_type = "studentized"
+  )
 
 ## glm example
 dat <-

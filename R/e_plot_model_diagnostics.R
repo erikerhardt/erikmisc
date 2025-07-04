@@ -73,7 +73,12 @@
 #' form_model_lm <-
 #'   mpg ~ cyl + disp + hp + wt + vs + am + disp:hp + hp:vs
 #' fit_lm <- lm(formula = form_model_lm, data = dat)
-#' out_diagn <- e_plot_model_diagnostics(fit = fit_lm, dat = dat, resid_type = "studentized")
+#' out_diagn <-
+#'   e_plot_model_diagnostics(
+#'     fit = fit_lm
+#'   , dat = dat
+#'   , resid_type = "studentized"
+#'   )
 #'
 #' ## glm example
 #' dat <-
@@ -95,7 +100,7 @@ e_plot_model_diagnostics <-
   function(
     fit                 = NULL
   , dat                 = NULL
-  , resid_type          = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson", "studentized", "partial")[1]
+  , resid_type          = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson", "studentized", "partial")[8]
 
   # , sw_plot_set         = c("simple", "simpleAV", "all", "boxplot", "cookd", "hist", "index", "ls", "qq", "lev", "resid", "yvp")[3]
   # , rp_type             = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson")[1]
@@ -230,12 +235,19 @@ e_plot_model_diagnostics <-
     out_diagn[[ "qqplotr" ]] <-
       e_plot_model_diagnostics_qqplotr(
         fit_resid           = fit_resid
+      , fit                 = fit
       )
 
-    out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_normal_plot"    ]] |> print()
-    out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_detrended_plot" ]] |> print()
-    out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_normal_plot"    ]] |> print()
-    out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_detrended_plot" ]] |> print()
+    #out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_diagonal_plot"  ]] |> print()
+    #out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_detrended_plot" ]] |> print()
+    #out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_diagonal_plot"  ]] |> print()
+    #out_diagn[[ "qqplotr" ]][[ "qqplotr_ppplot_detrended_plot" ]] |> print()
+
+    out_diagn[[ "qqplotr" ]][[ "qqplotr_grid_diagonal_plot"    ]] |> print()
+    out_diagn[[ "qqplotr" ]][[ "qqplotr_grid_detrended_plot"   ]] |> print()
+
+    out_diagn[[ "qqplotr" ]][[ "normality_test_table" ]]          |> print()
+
 
   } # lm
   if (fit_class == "glm") {
@@ -270,6 +282,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_table" ]] |> print()
 
   } # lm or glm
+
 
 
   ## resid vs x plots
@@ -325,6 +338,26 @@ e_plot_model_diagnostics <-
 
 
   ## transform y
+  # Box-Cox transformation of y
+  if (fit_class == "lm") {
+
+    # base graphics version
+    out_diagn[[ "car__boxCox" ]] <-
+      e_plot_model_diagnostics_car__boxCox(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_plot"  ]] |> print()
+    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_table" ]] |> print()
+
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "car__boxCox" ]] <-
+      NULL
+  } # glm
+
+
   # Inverse response plot
   if (fit_class == "lm") {
 

@@ -212,7 +212,8 @@ e_plot_model_diagnostics_gvlma <-
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
-#' @importFrom patchwork wrap_plots
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
 #' @importFrom grDevices pdf dev.off
 #'
 e_plot_model_diagnostics_car__inverseResponsePlot <-
@@ -298,7 +299,8 @@ e_plot_model_diagnostics_car__inverseResponsePlot <-
 #' @importFrom tidyselect one_of where
 #' @importFrom tidyr drop_na
 #' @importFrom cowplot as_grob
-#' @importFrom patchwork wrap_plots
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
 #'
 e_plot_model_diagnostics_car__invTranPlot <-
   function(
@@ -705,7 +707,8 @@ e_plot_model_diagnostics_car__infIndexPlot <-
 #' @return out      list including text and ggplot grobs
 #' @import car
 #' @importFrom cowplot as_grob
-#' @importFrom patchwork wrap_plots
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
 #'
 e_plot_model_diagnostics_car__qqPlot <-
   function(
@@ -788,18 +791,41 @@ e_plot_model_diagnostics_car__qqPlot <-
 #' @return out      list including ggplot grobs, one normal, one detrended
 #' @import ggplot2
 #' @import qqplotr
-#' @importFrom tibble as_tibble
-#' @importFrom dplyr rename
-#' @importFrom cowplot as_grob
-#' @importFrom patchwork wrap_plots
+#' @importFrom tibble as_tibble tribble
+#' @importFrom dplyr rename pull
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
 #'
 e_plot_model_diagnostics_qqplotr <-
   function(
     fit_resid           = fit_resid
+  , fit                 = NULL
   , band_conf           = 0.95
   ) {
 
   out <- list()
+
+  resid_type = attr(fit_resid, "resid_type")
+  param_model <- list()
+  # 7/4/2025 not sure if all of these are normal, but good enough for now
+  if (is.null(fit) | resid_type %in% c(NA, "pearson", "response", "deviance", "stand.deviance", "stand.pearson", "partial")) {
+    param_model[[ "dist"   ]] <- "norm"
+    param_model[[ "dparam" ]] <- list()
+    param_model[[ "label"  ]] <- "normal"
+  }
+  if (!is.null(fit)) {
+    if (resid_type %in% c("standardized")) {
+      param_model[[ "dist"   ]] <- "t"
+      param_model[[ "dparam" ]] <- list(df = as.numeric(summary(fit)$fstatistic["dendf"] - 1)) # n - p - 2
+      param_model[[ "label"  ]] <- paste0("t(n - p - 2 = ", param_model[[ "dparam" ]], ")")
+    }
+    if (resid_type %in% c("studentized")) {
+      param_model[[ "dist"   ]] <- "t"
+      param_model[[ "dparam" ]] <- list(df = as.numeric(summary(fit)$fstatistic["dendf"])) # n - p - 1
+      param_model[[ "label"  ]] <- paste0("t(n - p - 1 = ", param_model[[ "dparam" ]], ")")
+    }
+  }
+
 
   dat_resid <-
     fit_resid |>
@@ -816,15 +842,15 @@ e_plot_model_diagnostics_qqplotr <-
   #p1 <- p1 + geom_qq_band(bandType = "ts", mapping = aes(fill = "TS"), alpha = 0.25)
   #p1 <- p1 + geom_qq_band(bandType = "pointwise", mapping = aes(fill = "Normal"), alpha = 0.25)
   #p1 <- p1 + geom_qq_band(bandType = "boot", mapping = aes(fill = "Bootstrap"), alpha = 0.25)
-  p1 <- p1 + stat_qq_band (distribution = "norm", detrend = c(FALSE, TRUE)[1]
-              , band_conf = 0.95, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
+  p1 <- p1 + stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
+              , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p1 <- p1 + stat_qq_line (distribution = "norm", detrend = c(FALSE, TRUE)[1])
-  p1 <- p1 + stat_qq_point(distribution = "norm", detrend = c(FALSE, TRUE)[1])
+  p1 <- p1 + stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p1 <- p1 + stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
   p1 <- p1 + labs(
-              title = paste0("QQ-plot, pointwise normal ", 100*band_conf, "%")
-            , x     = "Theoretical Quantiles\n(normal distribution)"
-            , y     = paste0("Sample Quantiles\n(residual type = ", attr(fit_resid, "resid_type"), ")")
+              title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%")
+            , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Sample Quantiles\n(residual type = ", resid_type, ")")
             )
   #p1 <- p1 + scale_fill_discrete("Bandtype")
   #p1
@@ -832,57 +858,112 @@ e_plot_model_diagnostics_qqplotr <-
 
   p2 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p2 <- p2 + theme_bw()
-  p2 <- p2 + stat_qq_band (distribution = "norm", detrend = c(FALSE, TRUE)[2]
-              , band_conf = 0.95, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
+  p2 <- p2 + stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
+              , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p2 <- p2 + stat_qq_line (distribution = "norm", detrend = c(FALSE, TRUE)[2])
-  p2 <- p2 + stat_qq_point(distribution = "norm", detrend = c(FALSE, TRUE)[2])
+  p2 <- p2 + stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p2 <- p2 + stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
   p2 <- p2 + labs(
-              title = paste0("QQ-plot, pointwise normal ", 100*band_conf, "%", ", detrended")
-            , x     = "Theoretical Quantiles\n(normal distribution)"
-            , y     = paste0("Sample Quantiles\n(residual type = ", attr(fit_resid, "resid_type"), ")")
+              title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%", ", detrended")
+            , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Sample Quantiles\n(residual type = ", resid_type, ")")
             )
   #p2
 
   p3 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p3 <- p3 + theme_bw()
-  p3 <- p3 + stat_pp_band (distribution = "norm", detrend = c(FALSE, TRUE)[1]
-              , band_conf = 0.95, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
+  p3 <- p3 + stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
+              , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p3 <- p3 + stat_pp_line (distribution = "norm", detrend = c(FALSE, TRUE)[1])
-  p3 <- p3 + stat_pp_point(distribution = "norm", detrend = c(FALSE, TRUE)[1])
+  p3 <- p3 + stat_pp_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p3 <- p3 + stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
   p3 <- p3 + labs(
               title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%")
-            , x     = "Probability Points\n(normal distribution)"
-            , y     = paste0("Cumulative Probability\n(residual type = ", attr(fit_resid, "resid_type"), ")")
+            , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Cumulative Probability\n(residual type = ", resid_type, ")")
             )
-  p3
+  #p3
 
 
   p4 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p4 <- p4 + theme_bw()
-  p4 <- p4 + stat_pp_band (distribution = "norm", detrend = c(FALSE, TRUE)[2]
-              , band_conf = 0.95, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
+  p4 <- p4 + stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
+              , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p4 <- p4 + stat_pp_line (distribution = "norm", detrend = c(FALSE, TRUE)[2])
-  p4 <- p4 + stat_pp_point(distribution = "norm", detrend = c(FALSE, TRUE)[2])
+  p4 <- p4 + stat_pp_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p4 <- p4 + stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
   p4 <- p4 + labs(
               title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%", ", detrended")
-            , x     = "Probability Points\n(normal distribution)"
-            , y     = paste0("Cumulative Probability\n(residual type = ", attr(fit_resid, "resid_type"), ")")
+            , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Cumulative Probability\n(residual type = ", resid_type, ")")
             )
-  p4
+  #p4
 
 
+  out[[ "qqplotr_qqplot_diagonal_plot"  ]] <- p1
+  out[[ "qqplotr_qqplot_detrended_plot" ]] <- p2
+  out[[ "qqplotr_ppplot_diagonal_plot"  ]] <- p3
+  out[[ "qqplotr_ppplot_detrended_plot" ]] <- p4
 
-  out[[ "qqplotr_qqplot_normal_plot" ]] <-
-    p1
-  out[[ "qqplotr_qqplot_detrended_plot" ]] <-
-    p2
-  out[[ "qqplotr_ppplot_normal_plot" ]] <-
-    p3
-  out[[ "qqplotr_ppplot_detrended_plot" ]] <-
-    p4
+
+  # normality test
+  out[[ "normality_test_table" ]] <- e_distr_test(fit_resid)
+
+  text_caption <-
+    paste0(
+      "Normality tests:  "
+    , out[[ "normality_test_table" ]] |>
+      dplyr::pull(text) |>
+      paste(collapse = ";  ")
+    )
+
+  # diagonal and detrended grids with normality test in caption
+  p_arranged_1 <-
+    patchwork::wrap_plots(
+      list(p1, p3)
+    , ncol        = 1
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = text_formula
+    #, subtitle    = text_formula_sel
+    , caption     = text_caption
+    , tag_levels  = "A"
+    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  p_arranged_2 <-
+    patchwork::wrap_plots(
+      list(p2, p4)
+    , ncol        = 1
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = text_formula
+    #, subtitle    = text_formula_sel
+    , caption     = text_caption
+    , tag_levels  = "A"
+    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  out[[ "qqplotr_grid_diagonal_plot"  ]] <- p_arranged_1
+  out[[ "qqplotr_grid_detrended_plot" ]] <- p_arranged_2
 
   return(out)
 
@@ -891,7 +972,139 @@ e_plot_model_diagnostics_qqplotr <-
 
 
 
+#' Model diagnostics, car::boxCox and car::symbox
+#'
+#'
+#' @param fit     fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#' @importFrom rlang expr
+#' @importFrom dplyr mutate
+#' @importFrom tibble as_tibble
+#'
+e_plot_model_diagnostics_car__boxCox <-
+  function(
+    fit                 = NULL
+  ) {
 
+  out <- list()
+
+
+  fit_boxcox <-
+    fit |>
+    car::powerTransform() |>
+    summary()
+
+  # reformat into tables
+  fit_boxcox$result <-
+    fit_boxcox$result |>
+    tibble::as_tibble()
+  fit_boxcox$tests <-
+    fit_boxcox$tests |>
+    tibble::as_tibble(rownames = "label") |>
+    dplyr::mutate(
+      pval = pval |> as.numeric()
+    , sig  = pval |> e_pval_stars()
+    , text = paste0(label, " (p = ", sprintf("%04.4f", pval), ") ", sig)
+    )
+
+
+
+  text_caption <-
+    paste0(
+      #fit_boxcox$label
+      "Box-Cox Power Transformation to Normality"
+    , "\n"
+    , "  lambda:  "
+    , "Est Power = "
+    , sprintf("%03.2f", fit_boxcox$result[[ "Est Power"    ]])
+    #, fit_boxcox$result[[ "Rounded Pwr"  ]]
+    , ", "
+    , "Wald 95% CI ("
+    , sprintf("%03.2f", fit_boxcox$result[[ "Wald Lwr Bnd" ]])
+    , ", "
+    , sprintf("%03.2f", fit_boxcox$result[[ "Wald Upr Bnd" ]])
+    , ")."
+    , "\n"
+    , "Likelihood Ratio Tests for lambda = 0 (log) and 1 (none):"
+    , "\n"
+    , paste0(
+        "  "
+      , fit_boxcox$tests$text
+      , collapse = "\n"
+      )
+    )
+
+  p1 <-
+    patchwork::wrap_elements(
+      full =
+      ~
+      {
+      car::boxCox(
+          fit
+        , main = expression(paste("Box-Cox (", y^lambda, "), 95% CI"))  #  to maximize normality of residuals
+        #, xlab = expression(lambda) #paste(lambda, " of 1 is none (", y^1, "); 0 is ", log(y), " of any base"))
+        )
+      abline(v = 1, col = "orange", lty = 2, lwd = 2)
+      }
+    )
+
+  p2 <-
+    patchwork::wrap_elements(
+      full =
+      ~
+      {
+      car::symbox(
+        fit
+      , powers  = seq(-2, +2, by = 0.5)
+      , main    = expression(paste("Boxplots after ", y^lambda))
+      )
+      #abline(v = "1", col = "orange", lty = 2, lwd = 2)  # doesn't work on boxplot
+      }
+    )
+
+
+  out[[ "car__boxCox_table" ]] <-
+    fit_boxcox
+
+  out[[ "car__boxCox_plot" ]] <-
+    patchwork::wrap_plots(
+      list(p1, p2)
+    , ncol        = NULL
+    , nrow        = 1
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = c(3, 3)
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+      title       = expression(paste("Box-Cox transformation (", y^lambda, ") to maximize normality of residuals"))  #
+    #, subtitle    = text_formula_sel
+    , caption     = text_caption
+                    # rlang::expr(paste(
+                    #   "Optimal ", lambda, " = ", !!fit_boxcox_lambda, ".  "
+                    # , lambda, " = 1 is no transformation (", y^1, "), denoted by orange line.  "
+                    # , lambda, " = 0 is defined as ", log(y), " of any positive base."
+                    # ))
+                    #expression(paste(
+                    #  "Optimal ", lambda, " = ", fit_boxcox_lambda, ".  "
+                    #, lambda, " of 1 is none (", y^1
+                    #, "); 0 is ", log(y), " of any base"
+                    #))
+    , tag_levels  = "A"
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__boxCox
 
 
 
