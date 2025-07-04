@@ -169,7 +169,7 @@ e_plot_model_diagnostics <-
     )
 
   # Convert name of residuals to car's type
-  resid_type <- attr(fit_resid, "resid_type") # may have changed if not available
+  resid_type <- attr(fit_resid, "resid_type") # may have changed if requested was not available
   resid_type_car <-
     dplyr::case_when(
       is.na(resid_type)              ~ "pearson"
