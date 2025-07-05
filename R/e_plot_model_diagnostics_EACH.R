@@ -549,9 +549,9 @@ e_plot_model_diagnostics_car__dfbetasPlots <-
       , id.method   = "y"
       , id.n        = 4  #if(id.method[1]=="identify") Inf else 0
       # , id.cex=1
-      , id.col=carPalette()[1]
+      , id.col=car::carPalette()[1]
       , id.location = c("lr", "ab", "avoid")[3]
-      , col         = carPalette()[1]
+      , col         = car::carPalette()[1]
       , grid        = TRUE
       )
       }
@@ -658,7 +658,7 @@ e_plot_model_diagnostics_car__infIndexPlot <-
       car::infIndexPlot(
         model       = fit
       , vars        = c("Cook", "Studentized", "Bonf", "hat")
-      , id          = list(method="y", n=4, cex=1, col=carPalette()[1], location=c("lr", "ab", "avoid")[3]) # TRUE
+      , id          = list(method="y", n=4, cex=1, col=car::carPalette()[1], location=c("lr", "ab", "avoid")[3]) # TRUE
       , grid        = TRUE
       , main        = "Influence Index Plot"
       )
@@ -736,12 +736,12 @@ e_plot_model_diagnostics_car__qqPlot <-
       , simulate      = TRUE
       , envelope      = 0.95 #TRUE
       , reps          = 1e3
-      #, col           = carPalette()[1]
-      #, col.lines     = carPalette()[2]
+      #, col           = car::carPalette()[1]
+      #, col.lines     = car::carPalette()[2]
       #, lwd           = 2
       #, pch           = 1
       #, cex           = par("cex")
-      , id            = list(method="y", n=4, cex=1, col=carPalette()[1], location=c("lr", "ab", "avoid")[3]) #TRUE
+      , id            = list(method="y", n=4, cex=1, col=car::carPalette()[1], location=c("lr", "ab", "avoid")[3]) #TRUE
       , grid          = TRUE
       )
       }
@@ -1154,11 +1154,11 @@ e_plot_model_diagnostics_car__spreadLevelPlot <-
       , las         = par("las")
       , main        = "Spread-Level Plot" #paste0("Breusch-Pagan (Score) test for \nnon-constant error variance") #NULL #paste("Spread-Level Plot for\n", deparse(substitute(x)))
       , pch         = 1
-      , col         = carPalette()[1]
-      , col.lines   = carPalette()[2:3]
+      , col         = car::carPalette()[1]
+      , col.lines   = car::carPalette()[2:3]
       , lwd         = 2
       , grid        = TRUE
-      , id          = list(method=list("x", "y"), n=2, cex=1, col=carPalette()[1], location="lr")
+      , id          = list(method=list("x", "y"), n=2, cex=1, col=car::carPalette()[1], location="lr")
       , smooth      = TRUE
       )
       }
@@ -1192,6 +1192,141 @@ e_plot_model_diagnostics_car__spreadLevelPlot <-
   return(out)
 
 } # e_plot_model_diagnostics_car__spreadLevelPlot
+
+
+#' Model diagnostics, Added-variable plots, car::avPlots
+#'
+#'
+#' @param fit                fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__avPlots <-
+  function(
+    fit                 = NULL
+  , sw_avplot_main_only = c(TRUE, FALSE)[1]
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  #y_var_name  <- xy_var_names_list$y_var_name
+  x_var_names <- xy_var_names_list$x_var_names
+
+  if (sw_avplot_main_only) {
+    form_terms <-
+      paste0(
+        " ~ "
+      , paste(
+          x_var_names
+        , collapse = " + "
+        )
+      ) |>
+      as.formula()
+
+    this_title <-
+      "Added-Variable Plots, only Main effects"
+  } else {
+    form_terms <-
+      " ~. " |>
+      as.formula()
+
+    this_title <-
+      "Added-Variable Plots"
+  }
+
+
+  # plots
+  if (fit_class == "lm") {
+    p_list <-
+      cowplot::as_grob(
+        ~
+        {
+        car::avPlots(
+          model           = fit
+        , terms           = form_terms
+        , id              = TRUE
+        , col             = car::carPalette()[1]
+        , col.lines       = car::carPalette()[2]
+        , pch             = 1
+        , lwd             = 2
+        , cex             = par("cex")
+        , pt.wts          = FALSE
+        , main            = this_title
+        , grid            = TRUE
+        , ellipse         = list(levels=c(0.95), robust=TRUE)
+        , marginal.scale  = TRUE
+        #, type            = c("Wang", "Weisberg")[2]  # glm
+        )
+        }
+      )
+
+  }
+  if (fit_class == "glm") {
+    p_list <-
+      cowplot::as_grob(
+        ~
+        {
+        car::avPlots(
+          model           = fit
+        , terms           = form_terms
+        , id              = TRUE
+        , col             = car::carPalette()[1]
+        , col.lines       = car::carPalette()[2]
+        , pch             = 1
+        , lwd             = 2
+        , cex             = par("cex")
+        , pt.wts          = FALSE
+        , main            = this_title
+        , grid            = TRUE
+        , ellipse         = list(levels=c(0.95), robust=TRUE)
+        , marginal.scale  = TRUE
+        , type            = c("Wang", "Weisberg")[2]  # glm  [1] seems very bad!
+        )
+        }
+      )
+
+  }
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = paste0("Predictor transforms for each x, y ~ x")
+      caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\nEllipse is robust 95% bivariate-normal probability-contour."
+                    , "\nX-axis on marginal scale; if X and 'others' are highly correlated,"
+                    , "\n  the points will be concentrated on the horizontal middle of the plot."
+                    , ifelse(fit_class == "glm", "\nGLM AV method of Cook and Weisberg (1999).", "")
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__avPlots_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__avPlots
 
 
 

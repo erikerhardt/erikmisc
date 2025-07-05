@@ -94,7 +94,12 @@
 #' form_model_glm <-
 #'   cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
 #' fit_glm <- glm(formula = form_model_glm, data = dat, family = binomial(link = "logit"))
-#' out_diagn <- e_plot_model_diagnostics(fit = fit_glm, dat = dat)
+#' out_diagn <-
+#'   e_plot_model_diagnostics(
+#'     fit = fit_glm
+#'   , dat = dat
+#'   , resid_type = NA
+#'   )
 #'
 e_plot_model_diagnostics <-
   function(
@@ -284,6 +289,28 @@ e_plot_model_diagnostics <-
   } # lm or glm
 
 
+  # Homoscedacticity, Equal variance
+  if (fit_class == "lm") {
+
+    # base graphics version
+    out_diagn[[ "car__spreadLevelPlot" ]] <-
+      e_plot_model_diagnostics_car__spreadLevelPlot(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_plot"  ]] |> print()
+    out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_table" ]] |> print()
+
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "car__spreadLevelPlot" ]] <-
+      NULL
+  } # glm
+
+
+
+
 
   ## resid vs x plots
   if (fit_class %in% c("lm", "glm")) {
@@ -402,36 +429,33 @@ e_plot_model_diagnostics <-
 
 
 
-
-  # Homoscedacticity, Equal variance
-  if (fit_class == "lm") {
-
-    # base graphics version
-    out_diagn[[ "car__spreadLevelPlot" ]] <-
-      e_plot_model_diagnostics_car__spreadLevelPlot(
+  ## Added-Variable plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__avPlots" ]] <-
+      e_plot_model_diagnostics_car__avPlots(
         fit                 = fit
+      , sw_avplot_main_only = c(TRUE, FALSE)[1]
       )
 
-    out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_plot"  ]] |> print()
-    out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_table" ]] |> print()
+    out_diagn[[ "car__avPlots" ]][[ "car__avPlots_plot"  ]] |> print()
 
+  } # lm or glm
+
+
+
+
+
+
+  if (fit_class == "lm") {
 
   } # lm
   if (fit_class == "glm") {
-    out_diagn[[ "car__spreadLevelPlot" ]] <-
-      NULL
+
   } # glm
 
+  if (fit_class %in% c("lm", "glm")) {
 
-
-
-  if (fit_class == "lm") {
-
-  }
-  if (fit_class == "glm") {
-
-  }
-
+  } # lm or glm
 
 
 

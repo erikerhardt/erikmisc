@@ -151,6 +151,11 @@ labelled::var_label(dat[["am_01"]]) <- labelled::var_label(dat[["am"]])
 form_model_glm <-
   cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
 fit_glm <- glm(formula = form_model_glm, data = dat, family = binomial(link = "logit"))
-out_diagn <- e_plot_model_diagnostics(fit = fit_glm, dat = dat)
+out_diagn <-
+  e_plot_model_diagnostics(
+    fit = fit_glm
+  , dat = dat
+  , resid_type = NA
+  )
 
 }
