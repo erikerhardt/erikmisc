@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_model_extract_var_names.R
 \name{e_model_extract_var_names}
 \alias{e_model_extract_var_names}
-\title{From model formula, extract y and x variable lists}
+\title{From model formula, extract y and x variable (and x interactions) lists}
 \usage{
 e_model_extract_var_names(form = NULL)
 }
@@ -13,5 +13,5 @@ e_model_extract_var_names(form = NULL)
 out      list with lists of y variable and x variables
 }
 \description{
-From model formula, extract y and x variable lists
+From model formula, extract y and x variable (and x interactions) lists
 }

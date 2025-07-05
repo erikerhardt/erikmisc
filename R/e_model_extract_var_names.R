@@ -1,4 +1,4 @@
-#' From model formula, extract y and x variable lists
+#' From model formula, extract y and x variable (and x interactions) lists
 #'
 #' @param form    formula of form y ~ x
 #'
@@ -30,6 +30,17 @@ e_model_extract_var_names <-
   x_var_names <-
     form_terms[ind_form_terms_covar]
 
+  # interactions
+  x_var_names_interactions <-
+    form |>
+    terms() |>
+    attr("term.labels") |>
+    as.character() |>
+    stringr::str_subset(
+      pattern = stringr::fixed(":")
+    )
+
+
   # for glm, extract the "y" from "cbind(y, 1-y)"
   y_var_name_components <-
     stringr::str_split(
@@ -44,8 +55,9 @@ e_model_extract_var_names <-
 
   out <-
     list(
-      y_var_name  = y_var_name
-    , x_var_names = x_var_names
+      y_var_name                = y_var_name
+    , x_var_names               = x_var_names
+    , x_var_names_interactions  = x_var_names_interactions
     )
 
   return(out)
