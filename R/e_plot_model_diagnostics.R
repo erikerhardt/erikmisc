@@ -430,19 +430,6 @@ e_plot_model_diagnostics <-
 
 
 
-  ## Added-Variable plots
-  if (fit_class %in% c("lm", "glm")) {
-    out_diagn[[ "car__avPlots" ]] <-
-      e_plot_model_diagnostics_car__avPlots(
-        fit                 = fit
-      , sw_avplot_main_only = c(TRUE, FALSE)[1]
-      )
-
-    out_diagn[[ "car__avPlots" ]][[ "car__avPlots_plot"  ]] |> print()
-
-  } # lm or glm
-
-
   ## VIF, GVIF
   if (fit_class %in% c("lm", "glm")) {
     out_diagn[[ "car__vif" ]] <-
@@ -456,6 +443,33 @@ e_plot_model_diagnostics <-
       labelled::get_variable_labels() |> unlist() |> print()
 
   } # lm or glm
+
+
+  ## Added-Variable Plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__avPlots" ]] <-
+      e_plot_model_diagnostics_car__avPlots(
+        fit                 = fit
+      , sw_avplot_main_only = c(TRUE, FALSE)[1]
+      )
+
+    out_diagn[[ "car__avPlots" ]][[ "car__avPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
+  ## Marginal and Conditional Plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__mcPlots" ]] <-
+      e_plot_model_diagnostics_car__mcPlots(
+        fit                 = fit
+      , sw_avplot_main_only = c(TRUE, FALSE)[1]
+      )
+
+    out_diagn[[ "car__mcPlots" ]][[ "car__mcPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
+
 
 
 

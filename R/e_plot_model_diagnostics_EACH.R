@@ -1194,141 +1194,6 @@ e_plot_model_diagnostics_car__spreadLevelPlot <-
 } # e_plot_model_diagnostics_car__spreadLevelPlot
 
 
-#' Model diagnostics, Added-variable plots, car::avPlots
-#'
-#'
-#' @param fit                fit object
-#'
-#' @return out      list including text and ggplot grobs
-#' @import car
-#' @importFrom cowplot as_grob
-#' @importFrom patchwork wrap_plots plot_annotation
-#' @importFrom ggplot2 theme
-#'
-e_plot_model_diagnostics_car__avPlots <-
-  function(
-    fit                 = NULL
-  , sw_avplot_main_only = c(TRUE, FALSE)[1]
-  ) {
-
-  out <- list()
-
-  fit_class <- class(fit)[1]
-
-  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
-  #y_var_name  <- xy_var_names_list$y_var_name
-  x_var_names <- xy_var_names_list$x_var_names
-
-  if (sw_avplot_main_only) {
-    form_terms <-
-      paste0(
-        " ~ "
-      , paste(
-          x_var_names
-        , collapse = " + "
-        )
-      ) |>
-      as.formula()
-
-    this_title <-
-      "Added-Variable Plots, only Main effects"
-  } else {
-    form_terms <-
-      " ~. " |>
-      as.formula()
-
-    this_title <-
-      "Added-Variable Plots"
-  }
-
-
-  # plots
-  if (fit_class == "lm") {
-    p_list <-
-      cowplot::as_grob(
-        ~
-        {
-        car::avPlots(
-          model           = fit
-        , terms           = form_terms
-        , id              = TRUE
-        , col             = car::carPalette()[1]
-        , col.lines       = car::carPalette()[2]
-        , pch             = 1
-        , lwd             = 2
-        , cex             = par("cex")
-        , pt.wts          = FALSE
-        , main            = this_title
-        , grid            = TRUE
-        , ellipse         = list(levels=c(0.95), robust=TRUE)
-        , marginal.scale  = TRUE
-        #, type            = c("Wang", "Weisberg")[2]  # glm
-        )
-        }
-      )
-
-  }
-  if (fit_class == "glm") {
-    p_list <-
-      cowplot::as_grob(
-        ~
-        {
-        car::avPlots(
-          model           = fit
-        , terms           = form_terms
-        , id              = TRUE
-        , col             = car::carPalette()[1]
-        , col.lines       = car::carPalette()[2]
-        , pch             = 1
-        , lwd             = 2
-        , cex             = par("cex")
-        , pt.wts          = FALSE
-        , main            = this_title
-        , grid            = TRUE
-        , ellipse         = list(levels=c(0.95), robust=TRUE)
-        , marginal.scale  = TRUE
-        , type            = c("Wang", "Weisberg")[2]  # glm  [1] seems very bad!
-        )
-        }
-      )
-
-  }
-
-  p_arranged <-
-    patchwork::wrap_plots(
-      p_list
-    , ncol        = NULL
-    , nrow        = NULL
-    , byrow       = c(TRUE, FALSE)[1]
-    , widths      = NULL
-    , heights     = NULL
-    , guides      = c("collect", "keep", "auto")[1]
-    , tag_level   = c("keep", "new")[1]
-    , design      = NULL
-    , axes        = NULL
-    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    ) +
-    patchwork::plot_annotation(
-    #  title       = paste0("Predictor transforms for each x, y ~ x")
-      caption     = paste0(
-                      "Observations with missing values have been removed."
-                    , "\nEllipse is robust 95% bivariate-normal probability-contour."
-                    , "\nX-axis on marginal scale; if X and 'others' are highly correlated,"
-                    , "\n  the points will be concentrated on the horizontal middle of the plot."
-                    , ifelse(fit_class == "glm", "\nGLM AV method of Cook and Weisberg (1999).", "")
-                    )
-    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-    )
-
-
-  out[[ "car__avPlots_plot" ]] <-
-    p_arranged
-
-  return(out)
-
-} # e_plot_model_diagnostics_car__avPlots
-
-
 #' Model diagnostics, car::vif
 #'
 #'
@@ -1396,6 +1261,253 @@ e_plot_model_diagnostics_car__vif <-
   return(out)
 
 } # e_plot_model_diagnostics_car__vif
+
+
+
+
+#' Model diagnostics, Added-variable plots, car::avPlots
+#'
+#'
+#' @param fit                fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__avPlots <-
+  function(
+    fit                 = NULL
+  , sw_avplot_main_only = c(TRUE, FALSE)[1]
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  #y_var_name  <- xy_var_names_list$y_var_name
+  x_var_names <- xy_var_names_list$x_var_names
+
+  if (sw_avplot_main_only) {
+    form_terms <-
+      paste0(
+        " ~ "
+      , paste(
+          x_var_names
+        , collapse = " + "
+        )
+      ) |>
+      as.formula()
+
+    this_title <-
+      "Added-Variable Plots, only Main effects"
+  } else {
+    form_terms <-
+      " ~. " |>
+      as.formula()
+
+    this_title <-
+      "Added-Variable Plots"
+  }
+
+
+  # plots
+  if (fit_class == "lm") {
+    p_list <-
+      cowplot::as_grob(
+        ~
+        {
+        car::avPlots(
+          model           = fit
+        , terms           = form_terms
+        , id              = TRUE
+        , col             = car::carPalette()[1]
+        , col.lines       = car::carPalette()[2]
+        , pch             = 1
+        , lwd             = 2
+        , cex             = par("cex")
+        , pt.wts          = FALSE
+        , main            = this_title
+        , grid            = TRUE
+        , ellipse         = list(levels=c(0.50), robust=TRUE)
+        , marginal.scale  = TRUE
+        #, type            = c("Wang", "Weisberg")[2]  # glm
+        )
+        }
+      )
+  } # lm
+
+  if (fit_class == "glm") {
+    p_list <-
+      cowplot::as_grob(
+        ~
+        {
+        car::avPlots(
+          model           = fit
+        , terms           = form_terms
+        , id              = TRUE
+        , col             = car::carPalette()[1]
+        , col.lines       = car::carPalette()[2]
+        , pch             = 1
+        , lwd             = 2
+        , cex             = par("cex")
+        , pt.wts          = FALSE
+        , main            = this_title
+        , grid            = TRUE
+        , ellipse         = list(levels = c(0.50), robust = TRUE)
+        , marginal.scale  = TRUE
+        , type            = c("Wang", "Weisberg")[2]  # glm  [1] seems very bad!
+        )
+        }
+      )
+  } # glm
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = paste0("Predictor transforms for each x, y ~ x")
+      caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\nEllipse is robust 50% bivariate-normal probability-contour."
+                    , "\nX-axis on marginal scale; if X and 'others' are highly correlated,"
+                    , "\n  the points will be concentrated on the horizontal middle of the plot."
+                    , ifelse(fit_class == "glm", "\nGLM AV method of Cook and Weisberg (1999).", "")
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__avPlots_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__avPlots
+
+
+#' Model diagnostics, Marginal and Conditional Plots, car::mcPlots
+#'
+#'
+#' @param fit                fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__mcPlots <-
+  function(
+    fit                 = NULL
+  , sw_avplot_main_only = c(TRUE, FALSE)[1]
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  #y_var_name  <- xy_var_names_list$y_var_name
+  x_var_names <- xy_var_names_list$x_var_names
+
+  if (sw_avplot_main_only) {
+    form_terms <-
+      paste0(
+        " ~ "
+      , paste(
+          x_var_names
+        , collapse = " + "
+        )
+      ) |>
+      as.formula()
+
+    this_title <-
+      "Marginal and Conditional Plots, only Main effects"
+  } else {
+    form_terms <-
+      " ~. " |>
+      as.formula()
+
+    this_title <-
+      "Marginal and Conditional Plots"
+  }
+
+
+  # plots
+  p_list <-
+    cowplot::as_grob(
+      ~
+      {
+      car::mcPlots(
+        model           = fit
+      , terms           = form_terms
+      , id              = TRUE
+      , col.marginal    = car::carPalette()[2]
+      , col.conditional = car::carPalette()[3]
+      , col.arrows      = "gray"
+      , pch             = c(16, 16) # c(16, 1)
+      , cex             = par("cex")
+      , pt.wts          = FALSE
+      , lwd             = 2
+      , grid            = TRUE
+      , ellipse         = list(levels = c(0.5), robust = TRUE)
+      , overlaid        = TRUE
+      #, new             = TRUE
+      , title           = FALSE #TRUE
+      )
+      }
+    )
+
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+      title       = paste0("Marginal/Conditional plots for each x | others")
+    , caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\nEllipse is robust 50% bivariate-normal probability-contour."
+                    , "\nOverlays two graphs:"
+                    , "\n  (Blue) Marginal plot of Y vs X with both variables centered, ignoring all other regressors."
+                    , "\n  (Magenta) Conditional plot of Y vs X after adjusting for all other regressors (x as added-variable)."
+                    , "\n  Note that conditioning removes variation in both the regressor and the response."
+                    , "\nThe plot is primarily intended as a pedagogical tool for understanding coefficients in first-order models."
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__mcPlots_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__mcPlots
 
 
 
