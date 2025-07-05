@@ -163,7 +163,7 @@ glm_roc <-
   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
   , threshold_to_use    = NULL
   )
-glm_roc$roc_curve_best \%>\% print(width = Inf)
+glm_roc$roc_curve_best |> print(width = Inf)
 glm_roc$plot_roc
 glm_roc$confusion_matrix
 
@@ -177,7 +177,7 @@ glm_roc <-
   , cm_mode             = c("sens_spec", "prec_recall", "everything")[3]
   , threshold_to_use    = 0.001
   )
-glm_roc$roc_curve_best \%>\% print(width = Inf)
+glm_roc$roc_curve_best |> print(width = Inf)
 glm_roc$plot_roc
 glm_roc$confusion_matrix
 
