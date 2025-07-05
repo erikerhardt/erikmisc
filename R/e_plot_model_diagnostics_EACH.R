@@ -805,7 +805,7 @@ e_plot_model_diagnostics_qqplotr <-
 
   out <- list()
 
-  resid_type = attr(fit_resid, "resid_type")
+  resid_type <- attr(fit_resid, "resid_type")
   param_model <- list()
   # 7/4/2025 not sure if all of these are normal, but good enough for now
   if (is.null(fit) | resid_type %in% c(NA, "pearson", "response", "deviance", "stand.deviance", "stand.pearson", "partial")) {
@@ -1327,6 +1327,76 @@ e_plot_model_diagnostics_car__avPlots <-
   return(out)
 
 } # e_plot_model_diagnostics_car__avPlots
+
+
+#' Model diagnostics, car::vif
+#'
+#'
+#' @param fit     fit object
+#'
+#' @return out      list including text grobs
+#' @import car
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#' @importFrom rlang expr
+#' @importFrom dplyr mutate
+#' @importFrom tibble as_tibble
+#' @importFrom labelled var_label
+#'
+e_plot_model_diagnostics_car__vif <-
+  function(
+    fit                 = NULL
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  if (fit_class == "lm") {
+    fit_vif <-
+      fit |>
+      car::vif(
+        type = c("terms", "predictor")[2]
+      ) |>
+      tibble::as_tibble(
+        rownames = "Var"
+      )
+
+    labelled::var_label(fit_vif$GVIF) <- "GVIFs computed for predictors, see ?car::vif"
+
+  } # lm
+  if (fit_class == "glm") {
+    fit_vif <-
+      fit |>
+      car::vif() |>
+      tibble::as_tibble(
+        rownames = "Var"
+      )
+
+  } # glm
+
+  # label magnitude stars
+  fit_vif <-
+    fit_vif |>
+    dplyr::mutate(
+      Worry =
+        `GVIF^(1/(2*Df))` |>
+        e_pval_stars(
+          cutpoints = rev(c(1e99, 100, 50, 20, 10, 5, 0))
+        , symbols = rev(c("****", "***", "**", "*", "-", " "))
+        )
+    )
+
+  labelled::var_label(fit_vif$Worry) <- "Symbols based on being greater than arbitrary thresholds; stars start at `GVIF^(1/(2*Df))` > 10"
+
+
+  out[[ "car__vif_table" ]] <-
+    fit_vif
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__vif
+
 
 
 

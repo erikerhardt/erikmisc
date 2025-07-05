@@ -64,6 +64,7 @@
 #' @return out_diagn        list of tables and plots
 #' @import car
 #' @importFrom grDevices pdf dev.off
+#' @importFrom labelled get_variable_labels
 #' @export
 #'
 #' @examples
@@ -419,7 +420,7 @@ e_plot_model_diagnostics <-
     grDevices::dev.off() # end   capture and kill plots
 
     out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_table" ]] |> print()
-    out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_plot" ]]  |> print()
+    out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_plot"  ]] |> print()
 
   } # lm
   if (fit_class == "glm") {
@@ -438,6 +439,21 @@ e_plot_model_diagnostics <-
       )
 
     out_diagn[[ "car__avPlots" ]][[ "car__avPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
+
+  ## VIF, GVIF
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__vif" ]] <-
+      e_plot_model_diagnostics_car__vif(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__vif" ]][[ "car__vif_table" ]] |> print()
+
+    out_diagn[[ "car__vif" ]][[ "car__vif_table" ]] |>
+      labelled::get_variable_labels() |> unlist() |> print()
 
   } # lm or glm
 
