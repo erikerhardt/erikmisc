@@ -469,6 +469,17 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  ## Marginal Model Plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__marginalModelPlots" ]] <-
+      e_plot_model_diagnostics_car__marginalModelPlots(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__marginalModelPlots" ]][[ "car__marginalModelPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
 
 
 

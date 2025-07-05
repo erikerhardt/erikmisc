@@ -1511,4 +1511,88 @@ e_plot_model_diagnostics_car__mcPlots <-
 
 
 
+#' Model diagnostics, Marginal Model Plots, car::marginalModelPlots
+#'
+#'
+#' @param fit                fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__marginalModelPlots <-
+  function(
+    fit                 = NULL
+  ) {
+
+  out <- list()
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  y_var_name  <- xy_var_names_list$y_var_name
+  x_var_names <- xy_var_names_list$x_var_names
+
+  # plots
+  p_list <-
+    cowplot::as_grob(
+      ~
+      {
+      car::marginalModelPlots(
+        model           = fit
+      , terms           = form_terms
+      , fitted          = TRUE
+      , layout          = NULL
+      , ask             = FALSE
+      , main            = ""
+      #, groups
+      , key             = TRUE
+      , sd              = FALSE    # too salient
+      , ylab            = y_var_name
+      , smooth          = list(smoother = car::loessLine, span = 2/3)  # list(smoother = car::gamLine, k = 3)   #gamLine may be too smooth
+      #, pch
+      #, groups          = NULL
+      , col.line        = carPalette()[c(2, 8)]
+      , col             = carPalette()[1]
+      , id              = FALSE
+      , grid            = TRUE
+      )
+      }
+    )
+
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+      title       = paste0("Marginal Model plots for each numeric x and fitted values")
+    , caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\nInteractions and/or factors skipped."
+                    , "\nSmoothed with Loess line with span = 2/3."
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__marginalModelPlots_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__marginalModelPlots
+
+
+
 
