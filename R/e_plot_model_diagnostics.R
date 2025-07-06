@@ -179,6 +179,17 @@ e_plot_model_diagnostics <-
     , resid_type  = resid_type
     )
 
+  # Calculate Cook's D for later
+  fit_cooksD <-
+    stats::cooks.distance(
+      model = fit
+    )
+  # Calculate Influence (hat values) for later
+  fit_hatvalues <-
+    stats::hatvalues(
+      model = fit
+    )
+
   # Convert name of residuals to car's type
   resid_type <- attr(fit_resid, "resid_type") # may have changed if requested was not available
   resid_type_car <-
@@ -310,19 +321,33 @@ e_plot_model_diagnostics <-
   } # glm
 
 
+  ## resid vs y plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__residualPlots_y" ]] <-
+      e_plot_model_diagnostics_car__residualPlots_y(
+        fit                 = fit
+      , resid_type          = resid_type_car
+      )
+
+    out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_table" ]] |> print()
+    out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_plot"  ]] |> print()
+
+  } # lm or glm
+
+
 
 
 
   ## resid vs x plots
   if (fit_class %in% c("lm", "glm")) {
-    out_diagn[[ "car__residualPlots" ]] <-
-      e_plot_model_diagnostics_car__residualPlots(
+    out_diagn[[ "car__residualPlots_x" ]] <-
+      e_plot_model_diagnostics_car__residualPlots_x(
         fit                 = fit
       , resid_type          = resid_type_car
       )
 
-    out_diagn[[ "car__residualPlots" ]][[ "car__residualPlots_table" ]] |> print()
-    out_diagn[[ "car__residualPlots" ]][[ "car__residualPlots_plot"  ]] |> print()
+    out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_table" ]] |> print()
+    out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_plot"  ]] |> print()
 
   } # lm or glm
 

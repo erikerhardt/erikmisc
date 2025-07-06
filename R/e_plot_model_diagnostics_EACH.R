@@ -411,6 +411,149 @@ e_plot_model_diagnostics_car__invTranPlot <-
 } # e_plot_model_diagnostics_car__invTranPlot
 
 
+#' Model diagnostics, resid vs y var, car::residualPlots
+#'
+#'
+#' @param fit                fit object
+#' @param resid_type         Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr pivot_wider
+#' @importFrom dplyr mutate
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__residualPlots_y <-
+  function(
+    fit                 = NULL
+  , resid_type          = c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")[6]
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  #y_var_name  <- xy_var_names_list$y_var_name
+  x_var_names <- xy_var_names_list$x_var_names
+
+  # test table
+  if (fit_class == "lm") {
+    capture.output(
+      out[[ "car__residualPlots_y_table" ]] <-
+        car::residualPlot(
+          model     = fit
+        , variable  = "fitted"
+        , type      = resid_type
+        , main      = paste0("Residual plot, type = ", resid_type)
+        , plot      = FALSE # TRUE
+        , linear    = TRUE
+        , quadratic = TRUE  # if(missing(groups)) TRUE else FALSE
+        , smooth    = FALSE
+        , id        = FALSE
+        , col       = car::carPalette()[1]
+        , col.quad  = car::carPalette()[2]
+        , pch       = 1
+        #, xlab
+        #, ylab
+        , lwd       = 1
+        , grid      = TRUE
+        #, key       = !missing(groups)
+        ) |>
+        tibble::as_tibble(
+          rownames = "Var"
+        ) |>
+        tidyr::pivot_wider(
+          names_from  = "Var"
+        , values_from = "value"
+        ) |>
+        dplyr::mutate(
+          sig   = `Pvalue` |> e_pval_stars()
+        , text  =
+            paste0(
+              "Quad test: "
+            , "t = "   , sprintf("%03.2f", Test)
+            , " (p = " , sprintf("%04.4f", Pvalue), ") "
+            , sig
+            )
+        )
+    , type = c("output", "message")[1]
+    , split = FALSE
+    )
+  } # lm
+  if (fit_class == "glm") {
+    out[[ "car__residualPlots_y_table" ]] <-
+      NULL
+  } # glm
+
+
+  # plots
+  p_list <-
+    cowplot::as_grob(
+      ~
+      {
+      car::residualPlot(
+        model     = fit
+      , variable  = "fitted"
+      , type      = resid_type
+      , main      = paste0("Residual plot, type = ", resid_type)
+      , plot      = TRUE
+      , linear    = TRUE
+      , quadratic = TRUE  # if(missing(groups)) TRUE else FALSE
+      , smooth    = TRUE
+      , id        = list(method="y", n=4, cex=1, col=car::carPalette()[1], location=c("lr", "ab", "avoid")[3]) # TRUE
+      , col       = car::carPalette()[1]
+      , col.quad  = car::carPalette()[2]
+      , pch       = 1
+      #, xlab
+      #, ylab
+      , lwd       = 1
+      , grid      = TRUE
+      #, key       = !missing(groups)
+      )
+      }
+    )
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = paste0("Predictor transforms for each x, y ~ x")
+      caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\nThe quadratic fit is represented by a blue line and a smooth of the residuals by a magenta line."
+                    , ifelse(
+                        fit_class == "lm"
+                      , paste0("\n", out[[ "car__residualPlots_y_table" ]][[ "text" ]])
+                      , ""
+                      )
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__residualPlots_y_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__residualPlots_y
+
+
 
 #' Model diagnostics, resid vs x vars, car::residualPlots
 #'
@@ -423,9 +566,10 @@ e_plot_model_diagnostics_car__invTranPlot <-
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate
 #' @importFrom cowplot as_grob
-#' @importFrom patchwork wrap_plots
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
 #'
-e_plot_model_diagnostics_car__residualPlots <-
+e_plot_model_diagnostics_car__residualPlots_x <-
   function(
     fit                 = NULL
   , resid_type          = c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")[6]
@@ -439,7 +583,7 @@ e_plot_model_diagnostics_car__residualPlots <-
 
   # test table
   capture.output(
-    out[[ "car__residualPlots_table" ]] <-
+    out[[ "car__residualPlots_x_table" ]] <-
       car::residualPlots(
         model   = fit
       , terms   = ~ .
@@ -456,11 +600,34 @@ e_plot_model_diagnostics_car__residualPlots <-
         rownames = "Var"
       ) |>
       dplyr::mutate(
-        sig = `Pr(>|Test stat|)` |> e_pval_stars()
+        sig   = `Pr(>|Test stat|)` |> e_pval_stars()
+      , text  =
+          paste0(
+            Var
+          , ": "
+          , "t = "   , sprintf("%03.2f", `Test stat`)
+          , " (p = " , sprintf("%04.4f", `Pr(>|Test stat|)`), ") "
+          , sig
+          )
       )
   , type = c("output", "message")[1]
   , split = FALSE
   )
+
+  text_caption_tests <-
+    paste0(
+      "Quad tests:"
+    , "  "
+    , out[[ "car__residualPlots_x_table" ]] |>
+      dplyr::filter(
+        !is.na(`Test stat`)
+      ) |>
+      dplyr::pull(text) |>
+      paste(
+        collapse = ";  "
+      )
+    )
+
 
   # plots
   p_list <-
@@ -495,23 +662,24 @@ e_plot_model_diagnostics_car__residualPlots <-
     , design      = NULL
     , axes        = NULL
     , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    )
-    # +
-    #patchwork::plot_annotation(
+    ) +
+    patchwork::plot_annotation(
     #  title       = paste0("Predictor transforms for each x, y ~ x")
-    #, caption     = paste0(
-    #                  "Observations with missing values have been removed."
-    #                )
-    #, theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-    #)
+      caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\n"
+                    , text_caption_tests
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
 
 
-  out[[ "car__residualPlots_plot" ]] <-
+  out[[ "car__residualPlots_x_plot" ]] <-
     p_arranged
 
   return(out)
 
-} # e_plot_model_diagnostics_car__residualPlots
+} # e_plot_model_diagnostics_car__residualPlots_x
 
 
 #' Model diagnostics, dfbetas, car::dfbetasPlots
@@ -594,7 +762,7 @@ e_plot_model_diagnostics_car__dfbetasPlots <-
 #' Model diagnostics, Bonferroni outlier test, car::outlierTest
 #'
 #'
-#' @param fit                fit object
+#' @param fit       fit object
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -787,6 +955,8 @@ e_plot_model_diagnostics_car__qqPlot <-
 #'
 #'
 #' @param fit_resid   list of residuals from \code{e_model_calc_resid()}
+#' @param fit         fit object
+#' @param band_conf   confidence level of confidence band
 #'
 #' @return out      list including ggplot grobs, one normal, one detrended
 #' @import ggplot2
@@ -1598,7 +1768,7 @@ e_plot_model_diagnostics_car__marginalModelPlots <-
 #' Model diagnostics, Component+Residual (Partial Residual) Plots, car::crPlots
 #'
 #'
-#' @param fit                fit object
+#' @param fit       fit object
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
