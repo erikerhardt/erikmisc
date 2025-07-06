@@ -12,6 +12,10 @@ e_plot_model_diagnostics_qqplotr(
 }
 \arguments{
 \item{fit_resid}{list of residuals from \code{e_model_calc_resid()}}
+
+\item{fit}{fit object}
+
+\item{band_conf}{confidence level of confidence band}
 }
 \value{
 out      list including ggplot grobs, one normal, one detrended
