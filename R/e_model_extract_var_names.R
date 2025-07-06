@@ -49,13 +49,19 @@ e_model_extract_var_names <-
     ) |>
     unlist()
   if (y_var_name_components[1] == "cbind") {
+    y_var_name_glm <-
+      y_var_name
     y_var_name <-
       y_var_name_components[2]
+  } else {
+    y_var_name_glm <-
+      NULL
   }
 
   out <-
     list(
       y_var_name                = y_var_name
+    , y_var_name_glm            = y_var_name_glm
     , x_var_names               = x_var_names
     , x_var_names_interactions  = x_var_names_interactions
     )
