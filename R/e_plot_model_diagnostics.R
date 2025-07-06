@@ -234,7 +234,7 @@ e_plot_model_diagnostics <-
   # } # glm
 
 
-  # qqplot
+  ## qqplot
   if (fit_class == "lm") {
 
     # ggplot version
@@ -290,7 +290,7 @@ e_plot_model_diagnostics <-
   } # lm or glm
 
 
-  # Homoscedacticity, Equal variance
+  ## Homoscedacticity, Equal variance
   if (fit_class == "lm") {
 
     # base graphics version
@@ -365,8 +365,8 @@ e_plot_model_diagnostics <-
 
 
 
-  ## transform y
-  # Box-Cox transformation of y
+  ### transform y
+  ## Box-Cox transformation of y
   if (fit_class == "lm") {
 
     # base graphics version
@@ -386,7 +386,7 @@ e_plot_model_diagnostics <-
   } # glm
 
 
-  # Inverse response plot
+  ## Inverse response plot
   if (fit_class == "lm") {
 
     # base graphics version
@@ -406,8 +406,20 @@ e_plot_model_diagnostics <-
 
 
 
-  ## transform x
-  # Inverse response plot
+  ### transform x
+  ## Marginal Model Plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__marginalModelPlots" ]] <-
+      e_plot_model_diagnostics_car__marginalModelPlots(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__marginalModelPlots" ]][[ "car__marginalModelPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
+
+  ## Inverse response plot
   if (fit_class == "lm") {
 
     # base graphics version
@@ -469,14 +481,16 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
-  ## Marginal Model Plots
+
+
+  ## Component+Residual (Partial Residual) Plots
   if (fit_class %in% c("lm", "glm")) {
-    out_diagn[[ "car__marginalModelPlots" ]] <-
-      e_plot_model_diagnostics_car__marginalModelPlots(
+    out_diagn[[ "car__crPlots" ]] <-
+      e_plot_model_diagnostics_car__crPlots(
         fit                 = fit
       )
 
-    out_diagn[[ "car__marginalModelPlots" ]][[ "car__marginalModelPlots_plot"  ]] |> print()
+    out_diagn[[ "car__crPlots" ]][[ "car__crPlots_plot"  ]] |> print()
 
   } # lm or glm
 

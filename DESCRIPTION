@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.42
-Date: 2025-07-05
+Version: 0.2.43
+Date: 2025-07-06
 Authors@R:
     c(person(
       given = "Erik"
