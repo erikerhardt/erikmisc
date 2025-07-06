@@ -482,7 +482,7 @@ e_plot_model_diagnostics <-
   } # lm or glm
 
 
-
+  ### Partial residual plots
   ## Component+Residual (Partial Residual) Plots
   if (fit_class %in% c("lm", "glm")) {
     out_diagn[[ "car__crPlots" ]] <-
@@ -491,6 +491,18 @@ e_plot_model_diagnostics <-
       )
 
     out_diagn[[ "car__crPlots" ]][[ "car__crPlots_plot"  ]] |> print()
+
+  } # lm or glm
+
+
+  ## Ceres (Generalized Partial Residual) Plots
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__ceresPlots" ]] <-
+      e_plot_model_diagnostics_car__ceresPlots(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__ceresPlots" ]][[ "car__ceresPlots_plot"  ]] |> print()
 
   } # lm or glm
 

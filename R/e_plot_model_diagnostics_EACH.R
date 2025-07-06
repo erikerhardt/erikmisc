@@ -1621,15 +1621,12 @@ e_plot_model_diagnostics_car__crPlots <-
   x_var_names               <- xy_var_names_list$x_var_names
   x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
 
+  this_title <-
+    "Component+Residual (Partial Residual) Plots"
   this_fit <-
     fit
 
-  this_title <-
-    "Component+Residual (Partial Residual) Plots"
-
   if (length(x_var_names_interactions)) {
-    #warning("erikmisc::e_plot_model_diagnostics, Component+Residual (Partial Residual) Plots only for main effects; refitting with only main effects only for this plot (original model unaffected).")
-
     this_title <-
       "Component+Residual (Partial Residual) Plots, main-effects only"
 
@@ -1712,6 +1709,11 @@ e_plot_model_diagnostics_car__crPlots <-
     #  title       = paste0("Component+Residual (Partial Residual) Plots")
       caption     = paste0(
                       "Observations with missing values have been removed."
+                    , ifelse(
+                        length(x_var_names_interactions)
+                      , "\nPartial Residual Plots are only for main effects; refitted with only main effects only for this plot (original model unaffected)."
+                      ,""
+                      )
                     , "\nThe fit is represented by a broken blue line and a smooth of the partial residuals by a solid magenta line."
                     , "\nParallel boxplots of the partial residuals are drawn for the levels of a factor."
                     )
@@ -1725,6 +1727,144 @@ e_plot_model_diagnostics_car__crPlots <-
   return(out)
 
 } # e_plot_model_diagnostics_car__crPlots
+
+
+
+#' Model diagnostics, Ceres (Generalized Partial Residual) Plots, car::ceresPlots
+#'
+#'
+#' @param fit                fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__ceresPlots <-
+  function(
+    fit                 = NULL
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  y_var_name                <- xy_var_names_list$y_var_name
+  y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+  x_var_names               <- xy_var_names_list$x_var_names
+  x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+
+  this_title <-
+    "Ceres (Generalized Partial Residual) Plots"
+  this_fit <-
+    fit
+
+  if (length(x_var_names_interactions)) {
+
+    this_title <-
+      "Ceres (Generalized Partial Residual) Plots, main-effects only"
+
+    if (fit_class == "lm") {
+
+      form_terms <-
+        paste0(
+          y_var_name
+        , " ~ "
+        , paste(
+            x_var_names
+          , collapse = " + "
+          )
+        ) |>
+        as.formula()
+
+      this_fit <- lm(formula = form_terms, data = dat)
+
+    } # lm
+    if (fit_class == "glm") {
+
+      form_terms <-
+        paste0(
+          y_var_name_glm
+        , " ~ "
+        , paste(
+            x_var_names
+          , collapse = " + "
+          )
+        ) |>
+        as.formula()
+
+      this_fit <- glm(formula = form_terms, data = dat, family = binomial(link = "logit"))
+
+    } # glm
+
+  } # interactions
+
+
+  # plots
+  p_list <-
+    cowplot::as_grob(
+      ~
+      {
+      car::ceresPlots(
+        model           = this_fit
+      #, terms           = form_terms
+      , id              = FALSE
+      , order           = 1
+      , line            = TRUE
+      , smooth          = list(smoother = car::loessLine, span = 2/3)  # list(smoother = car::gamLine, k = 3)   #gamLine may be too smooth
+      , col             = car::carPalette()[1]
+      , col.lines       = car::carPalette()[-1]
+      #, xlab
+      , ylab            = "Partial residuals"
+      , pch             = 1
+      , lwd             = 2
+      , grid            = TRUE
+      , main            = this_title
+      )
+      }
+    )
+
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = paste0("Component+Residual (Partial Residual) Plots")
+      caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , ifelse(
+                        length(x_var_names_interactions)
+                      , "\nPartial Residual Plots are only for main effects; refitted with only main effects only for this plot (original model unaffected)."
+                      ,""
+                      )
+                    , "\nThe fit is represented by a broken blue line and a smooth of the partial residuals by a solid magenta line."
+                    , "\nCeres plots are a generalization of component+residual (partial residual) plots\n  that are less prone to leakage of nonlinearity among the predictors."
+                    , "\n  Factors may be present in the model, but Ceres plots cannot be drawn for them."
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__ceresPlots_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__ceresPlots
+
 
 
 
