@@ -179,17 +179,6 @@ e_plot_model_diagnostics <-
     , resid_type  = resid_type
     )
 
-  # Calculate Cook's D for later
-  fit_cooksD <-
-    stats::cooks.distance(
-      model = fit
-    )
-  # Calculate Influence (hat values) for later
-  fit_hatvalues <-
-    stats::hatvalues(
-      model = fit
-    )
-
   # Convert name of residuals to car's type
   resid_type <- attr(fit_resid, "resid_type") # may have changed if requested was not available
   resid_type_car <-
@@ -205,6 +194,18 @@ e_plot_model_diagnostics <-
     , resid_type == "stand.pearson"  ~    "pearson"
     #, .default                       ~ "pearson"
     )
+
+  # Calculate Cook's D for later
+  fit_cooksD <-
+    stats::cooks.distance(
+      model = fit
+    )
+  # Calculate Influence (hat values) for later
+  fit_leverage <-
+    stats::hatvalues(
+      model = fit
+    )
+
 
 
 
@@ -273,18 +274,37 @@ e_plot_model_diagnostics <-
   } # glm
 
 
+  # Influence plots
+  if (fit_class %in% c("lm", "glm")) {
+
+    out_diagn[[ "CooksD_Leverage_Resid" ]] <-
+      e_plot_model_diagnostics_CooksD_Leverage_Resid(
+          fit                 = fit
+        , fit_resid           = fit_resid
+        , fit_cooksD          = fit_cooksD
+        , fit_leverage        = fit_leverage
+      )
+
+    #out_diagn[[ "CooksD_Leverage_Resid" ]][[ "CooksD_Index_plot"                   ]] |> print()
+    #out_diagn[[ "CooksD_Leverage_Resid" ]][[ "CooksD_Leverage_plot"                ]] |> print()
+    #out_diagn[[ "CooksD_Leverage_Resid" ]][[ "Resid_Leverage_CooksD_plot"          ]] |> print()
+    #out_diagn[[ "CooksD_Leverage_Resid" ]][[ "Resid_CooksD_Leverage_plot"          ]] |> print()
+    out_diagn[[ "CooksD_Leverage_Resid" ]][[ "CooksD_Leverage_Resid_arranged_plot" ]] |> print()
+
+  } # lm or glm
+
 
 
   # Influence index plots
   if (fit_class %in% c("lm", "glm")) {
 
     # base graphics version
-    out_diagn[[ "car__infIndexPlot" ]] <-
-      e_plot_model_diagnostics_car__infIndexPlot(
+    out_diagn[[ "car__influenceIndexPlot" ]] <-
+      e_plot_model_diagnostics_car__influenceIndexPlot(
         fit                 = fit
       )
 
-    out_diagn[[ "car__infIndexPlot" ]][[ "car__infIndexPlot_plot"  ]] |> print()
+    out_diagn[[ "car__influenceIndexPlot" ]][[ "car__influenceIndexPlot_plot"  ]] |> print()
 
   } # lm or glm
 

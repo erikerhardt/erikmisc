@@ -801,7 +801,7 @@ e_plot_model_diagnostics_car__outlierTest <-
 
 
 
-#' Model diagnostics, Influence index plot, car::infIndexPlot
+#' Model diagnostics, Influence index plot, car::influenceIndexPlot
 #'
 #'
 #' @param fit                fit object
@@ -811,7 +811,7 @@ e_plot_model_diagnostics_car__outlierTest <-
 #' @importFrom cowplot as_grob
 #' @importFrom patchwork wrap_plots
 #'
-e_plot_model_diagnostics_car__infIndexPlot <-
+e_plot_model_diagnostics_car__influenceIndexPlot <-
   function(
     fit                 = NULL
   ) {
@@ -823,7 +823,7 @@ e_plot_model_diagnostics_car__infIndexPlot <-
     cowplot::as_grob(
       ~
       {
-      car::infIndexPlot(
+      car::influenceIndexPlot(
         model       = fit
       , vars        = c("Cook", "Studentized", "Bonf", "hat")
       , id          = list(method="y", n=4, cex=1, col=car::carPalette()[1], location=c("lr", "ab", "avoid")[3]) # TRUE
@@ -857,12 +857,12 @@ e_plot_model_diagnostics_car__infIndexPlot <-
     #)
 
 
-  out[[ "car__infIndexPlot_plot" ]] <-
+  out[[ "car__influenceIndexPlot_plot" ]] <-
     p_arranged
 
   return(out)
 
-} # e_plot_model_diagnostics_car__infIndexPlot
+} # e_plot_model_diagnostics_car__influenceIndexPlot
 
 
 
@@ -2034,6 +2034,409 @@ e_plot_model_diagnostics_car__ceresPlots <-
   return(out)
 
 } # e_plot_model_diagnostics_car__ceresPlots
+
+
+
+################################################################################
+################################################################################
+# Group of simple plots
+# Cook's D vs Leverage vs Residuals
+
+## #' Model diagnostics, Cook's D Index Plot
+## #'
+## #'
+## #' @param fit           fit object
+## #' @param fit_cooksD    Cook's Distance values (from \code{stats::cooks.distance})
+## #'
+## #' @return out      list including text and ggplot grobs
+## #' @import tibble
+## #' @import dplyr
+## #' @import ggplot2
+## #'
+## e_plot_model_diagnostics_CooksD <-
+##   function(
+##     fit                 = NULL
+##   , fit_cooksD          = NULL
+##   ) {
+##
+##   out <- list()
+##
+##   # Use SAS's threshold for Cook's D
+##   thresh_cooksD <- 4 / length(fit_cooksD)
+##
+##   dat_plot <-
+##     tibble::tibble(
+##       Index   = seq_along(fit_cooksD)
+##     , CooksD  = fit_cooksD
+##     ) |>
+##     dplyr::mutate(
+##       thresh_cooksD_exceed =
+##         (CooksD > thresh_cooksD) |>
+##         factor(
+##           levels = c(FALSE, TRUE)
+##         , labels = c("No", "Yes")
+##         )
+##     )
+##
+##   cols_exceed <-
+##     c(
+##       "No"  = "black"
+##     , "Yes" = "red"
+##     )
+##
+##   obs_above_cooksD_thresh <-
+##     dat_plot |>
+##     dplyr::filter(
+##       thresh_cooksD_exceed == "Yes"
+##     ) |>
+##     dplyr::pull(
+##       Index
+##     )
+##
+##
+##   p <- ggplot(dat_plot, aes(x = Index, y = CooksD))
+##   p <- p + theme_bw()
+##   p <- p + geom_hline(yintercept = thresh_cooksD, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+##   p <- p + geom_segment(aes(xend = Index, yend = 0, color = thresh_cooksD_exceed), alpha = 0.25)
+##   p <- p + geom_point(aes(color = thresh_cooksD_exceed))
+##   p <- p + scale_color_manual(values = cols_exceed)
+##   p <- p + labs(
+##                 #  title     = "Cook's Distance"
+##                   x         = "Index"
+##                 , y         = "Cook's Distance"
+##                 , caption   =
+##                     paste0(
+##                       "Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
+##                     , ";  Indicies above threshold ("
+##                     , length(obs_above_cooksD_thresh)
+##                     , "): "
+##                     , ifelse(
+##                         length(obs_above_cooksD_thresh)
+##                       , paste(obs_above_cooksD_thresh, collapse = ", ")
+##                       , "none"
+##                       )
+##                     , "."
+##                     )
+##                 )
+##   p <- p + guides(color = "none")
+##   p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+##
+##   out[[ "CooksD_plot" ]] <-
+##     p
+##
+##   return(out)
+##
+## } # e_plot_model_diagnostics_CooksD
+
+
+
+#' Model diagnostics, Cooks vs Leverage vs Residuals
+#'
+#'
+#' @param fit           fit object
+#' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
+#' @param fit_cooksD    Cook's Distance values (from \code{stats::cooks.distance})
+#' @param fit_leverage  leverage values (from \code{stats::hatvalues})
+#'
+#' @return out      list including text and ggplot grobs
+#' @import tibble
+#' @import dplyr
+#' @import ggplot2
+#' @importFrom car outlierTest
+#' @importFrom patchwork wrap_plots plot_annotation
+#'
+e_plot_model_diagnostics_CooksD_Leverage_Resid <-
+  function(
+    fit                 = NULL
+  , fit_resid           = NULL
+  , fit_cooksD          = NULL
+  , fit_leverage        = NULL
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  ## Cook's Distance
+  # Use SAS's threshold for Cook's D
+  thresh_cooksD <- 4 / length(fit_cooksD)
+
+  # Use standard threshold for leverage
+  thresh_leverage <- 0.5 # Kutner et al. (2005)
+                          # 2 / length(fit_cooksD)
+
+  obs_above_resid_thresh <-
+    car::outlierTest(
+          model   = fit
+        , cutoff  = 0.05
+        , n.max   = 10
+        , order   = TRUE
+        #, labels  = names(rstudent)
+    )[[ "rstudent" ]] |>
+    names() |>
+    as.numeric()
+
+  dat_plot <-
+    tibble::tibble(
+      Index     = seq_along(fit_cooksD)
+    , Resid     = fit_resid
+    , CooksD    = fit_cooksD
+    , Leverage  = fit_leverage
+    ) |>
+    dplyr::mutate(
+      thresh_cooksD_exceed =
+        (CooksD > thresh_cooksD) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    , thresh_leverage_exceed =
+        (Leverage > thresh_leverage) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    , thresh_cooksD_or_leverage_exceed =
+        (
+          (CooksD > thresh_cooksD)    |
+          (Leverage > thresh_leverage)
+        ) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    , thresh_resid_exceed =
+        (Index %in% obs_above_resid_thresh) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    )
+
+  cols_exceed <-
+    c(
+      "No"  = "black"
+    , "Yes" = "red"
+    )
+
+  obs_above_cooksD_thresh <-
+    dat_plot |>
+    dplyr::filter(
+      thresh_cooksD_exceed == "Yes"
+    ) |>
+    dplyr::pull(
+      Index
+    )
+
+  obs_above_leverage_thresh <-
+    dat_plot |>
+    dplyr::filter(
+      thresh_leverage_exceed == "Yes"
+    ) |>
+    dplyr::pull(
+      Index
+    )
+
+  obs_above_resid_thresh <-
+    dat_plot |>
+    dplyr::filter(
+      thresh_resid_exceed == "Yes"
+    ) |>
+    dplyr::pull(
+      Index
+    )
+
+  p_list <- list()
+
+  # Cook's D
+  p <- ggplot(dat_plot, aes(x = Index, y = CooksD))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = thresh_cooksD, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_segment(aes(xend = Index, yend = 0, color = ), alpha = 0.25)
+  p <- p + geom_point(aes(color = thresh_cooksD_exceed))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_cooksD_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Cook's Distance vs Index"
+                , x         = "Index"
+                , y         = "Cook's Distance"
+                , caption   =
+                    paste0(
+                      "Cook's D Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
+                    , ";  Indicies above threshold ("
+                    , length(obs_above_cooksD_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_cooksD_thresh)
+                      , paste(obs_above_cooksD_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "CooksD_Index_plot" ]] <-
+    p
+  p_list[[ 1 ]] <-
+    p
+
+
+  # Cook's D vs Leverage
+  p <- ggplot(dat_plot, aes(x = Leverage, y = CooksD))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = thresh_cooksD, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_cooksD_or_leverage_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Cook's Distance vs Leverage"
+                , x         = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
+                , y         = "Cook's Distance"
+                , caption   =
+                    paste0(
+                    #   "Cook's D Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
+                    # , ";  Indicies above threshold ("
+                    # , length(obs_above_cooksD_thresh), " / ", length(fit_resid)
+                    # , "): "
+                    # , ifelse(
+                    #     length(obs_above_cooksD_thresh)
+                    #   , paste(obs_above_cooksD_thresh, collapse = ", ")
+                    #   , "none"
+                    #   )
+                    # , "."
+                      "Leverage Threshold is ", sprintf("%02.1f", thresh_leverage)
+                    , ";  Indicies above threshold ("
+                    , length(obs_above_leverage_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_leverage_thresh)
+                      , paste(obs_above_leverage_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "CooksD_Leverage_plot" ]] <-
+    p
+  p_list[[ 2 ]] <-
+    p
+
+
+  # Resid vs Leverage with Cook's D
+  p <- ggplot(dat_plot, aes(x = Leverage, y = Resid))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = c(-2, 2), colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed, size = CooksD))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_resid_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Residuals vs Leverage, with Cook's Distance"
+                , x         = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
+                , y         = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
+                , size      = "Cook's Distance"
+                , caption   =
+                    paste0(
+                      "Residual Threshold is roughly 2, using the Bonferroni Outlier Test"
+                    , ";  Indicies beyond threshold ("
+                    , length(obs_above_resid_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_resid_thresh)
+                      , paste(obs_above_resid_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(legend.position = "bottom") # "none"
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "Resid_Leverage_CooksD_plot" ]] <-
+    p
+  p_list[[ 4 ]] <-
+    p
+
+
+  # Resid vs Cook's D with Leverage
+  p <- ggplot(dat_plot, aes(x = CooksD, y = Resid))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = c(-2, 2), colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed, size = Leverage))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_resid_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Residuals vs Cook's Distance, with Leverage"
+                , x         = "Cook's Distance"
+                , y         = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
+                , size      = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
+                , caption   =
+                    paste0(
+                      "Residual Threshold is roughly 2, using the Bonferroni Outlier Test"
+                    , ";  Indicies beyond threshold ("
+                    , length(obs_above_resid_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_resid_thresh)
+                      , paste(obs_above_resid_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(legend.position = "bottom") # "none"
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "Resid_CooksD_Leverage_plot" ]] <-
+    p
+  p_list[[ 3 ]] <-
+    p
+
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = 2
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[2]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+      title       = paste0("Influence Plots")
+    , caption     = paste0(
+                      "Observations with missing values have been removed."
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  out[[ "CooksD_Leverage_Resid_arranged_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_CooksD_Leverage_Resid
 
 
 
