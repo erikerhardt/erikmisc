@@ -1710,7 +1710,7 @@ e_plot_model_diagnostics_car__marginalModelPlots <-
       {
       car::marginalModelPlots(
         model           = fit
-      , terms           = form_terms
+      #, terms           = form_terms
       , fitted          = TRUE
       , layout          = NULL
       , ask             = FALSE
@@ -1722,8 +1722,8 @@ e_plot_model_diagnostics_car__marginalModelPlots <-
       , smooth          = list(smoother = car::loessLine, span = 2/3)  # list(smoother = car::gamLine, k = 3)   #gamLine may be too smooth
       #, pch
       #, groups          = NULL
-      , col.line        = carPalette()[c(2, 8)]
-      , col             = carPalette()[1]
+      , col.line        = car::carPalette()[c(2, 8)]
+      , col             = car::carPalette()[1]
       , id              = FALSE
       , grid            = TRUE
       )

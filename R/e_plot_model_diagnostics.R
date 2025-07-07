@@ -128,7 +128,7 @@ e_plot_model_diagnostics <-
   # , sw_collinearity  = TRUE
   # , sw_order_of_data = TRUE
   # , sw_addedvar      = TRUE
-  , ...
+  # , ...
   ) {
 
   # write many separate functions and call them from the master function

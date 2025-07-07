@@ -8,8 +8,7 @@ e_plot_model_diagnostics(
   fit = NULL,
   dat = NULL,
   resid_type = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance",
-    "stand.pearson", "studentized", "partial")[8],
-  ...
+    "stand.pearson", "studentized", "partial")[8]
 )
 }
 \arguments{
