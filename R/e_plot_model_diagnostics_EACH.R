@@ -2439,6 +2439,67 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid <-
 } # e_plot_model_diagnostics_CooksD_Leverage_Resid
 
 
+#' Model diagnostics, Cooks vs Leverage vs Residuals
+#'
+#'
+#' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
+#'
+#' @return out      list including text and ggplot grobs
+#' @import tibble
+#' @import ggplot2
+#' @importFrom grDevices nclass.FD nclass.Sturges
+#'
+e_plot_model_diagnostics_Resid_histogram <-
+  function(
+    fit_resid           = NULL
+  ) {
+
+  out <- list()
+
+  # number of bins based on sample size
+  n_bins <-
+    max(
+      fit_resid |> grDevices::nclass.FD(digits = 5)
+    , fit_resid |> grDevices::nclass.Sturges()
+    , 20
+    )
+
+  # alpha based on sample size
+  alpha_n <- min(1, 4 / (log2(length(fit_resid))))
+
+
+  dat_plot <-
+    tibble::tibble(
+      fit_resid = fit_resid
+    )
+
+  p <- ggplot(data = dat_plot, aes(x = fit_resid))
+  p <- p + theme_bw()
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_histogram(aes(y = ..density..), boundary = 0, bins = n_bins, closed = c("right", "left")[2])
+  p <- p + geom_rug(alpha = alpha_n)
+  p <- p + geom_density(color = "blue", adjust = 1.5, linewidth = 1.5)
+  p <- p + stat_function(fun = dnorm, color = "red", args = list(mean = 0, sd = sd(fit_resid)), linewidth = 1.5)
+  p <- p + labs(x = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
+              , y = "Density"
+              , caption =
+                  paste0(
+                    "(Blue) Density smoothed histogram of residuals."
+                  , "\n(Red) Normal distribution with mean 0 and sd(resid)."
+                  , "\nBins are closed on the left, [a, b)"
+                  )
+              )
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+
+  out[[ "Resid_histogram_plot" ]] <-
+    p
+
+  return(out)
+
+} # e_plot_model_diagnostics_Resid_histogram
+
+
 
 
 

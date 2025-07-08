@@ -246,6 +246,23 @@ e_plot_model_diagnostics <-
   # } # glm
 
 
+  # Residual histogram
+  if (fit_class == "lm") {
+
+    out_diagn[[ "Resid_histogram" ]] <-
+      e_plot_model_diagnostics_Resid_histogram(
+          fit_resid           = fit_resid
+        )
+
+    out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_plot" ]] |> print()
+
+  } # lm
+  if (fit_class == "glm") {
+    out_diagn[[ "Resid_histogram" ]] <-
+      NULL
+  } # glm
+
+
   ## qqplot
   if (fit_class == "lm") {
 
