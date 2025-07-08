@@ -801,6 +801,49 @@ e_plot_model_diagnostics_car__outlierTest <-
 
 
 
+#' Model diagnostics, Durbin-Watson Test for Autocorrelated Errors, car::durbinWatsonTest
+#'
+#'
+#' @param fit       fit object
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#'
+e_plot_model_diagnostics_car__durbinWatsonTest <-
+  function(
+    fit                 = NULL
+  ) {
+
+  # set wide witdh so each printed line is correctly on a single line
+  op <- options()  # op is a named list
+  options(width = 1e3)
+
+  out <- list()
+
+  # test table
+  out[[ "car__durbinWatsonTest_table" ]] <-
+    capture.output(
+      car::durbinWatsonTest(
+        model       = fit
+      , max.lag     = 1
+      , simulate    = TRUE
+      , reps        = 1000
+      , method      = c("resample","normal")[1]
+      , alternative = c("two.sided", "positive", "negative")[1]
+      )
+    , type = c("output", "message")[1]
+    , split = FALSE
+    )
+
+  # restore original options
+  options(op)
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__durbinWatsonTest
+
+
+
 #' Model diagnostics, Influence index plot, car::influenceIndexPlot
 #'
 #'
@@ -2042,94 +2085,6 @@ e_plot_model_diagnostics_car__ceresPlots <-
 # Group of simple plots
 # Cook's D vs Leverage vs Residuals
 
-## #' Model diagnostics, Cook's D Index Plot
-## #'
-## #'
-## #' @param fit           fit object
-## #' @param fit_cooksD    Cook's Distance values (from \code{stats::cooks.distance})
-## #'
-## #' @return out      list including text and ggplot grobs
-## #' @import tibble
-## #' @import dplyr
-## #' @import ggplot2
-## #'
-## e_plot_model_diagnostics_CooksD <-
-##   function(
-##     fit                 = NULL
-##   , fit_cooksD          = NULL
-##   ) {
-##
-##   out <- list()
-##
-##   # Use SAS's threshold for Cook's D
-##   thresh_cooksD <- 4 / length(fit_cooksD)
-##
-##   dat_plot <-
-##     tibble::tibble(
-##       Index   = seq_along(fit_cooksD)
-##     , CooksD  = fit_cooksD
-##     ) |>
-##     dplyr::mutate(
-##       thresh_cooksD_exceed =
-##         (CooksD > thresh_cooksD) |>
-##         factor(
-##           levels = c(FALSE, TRUE)
-##         , labels = c("No", "Yes")
-##         )
-##     )
-##
-##   cols_exceed <-
-##     c(
-##       "No"  = "black"
-##     , "Yes" = "red"
-##     )
-##
-##   obs_above_cooksD_thresh <-
-##     dat_plot |>
-##     dplyr::filter(
-##       thresh_cooksD_exceed == "Yes"
-##     ) |>
-##     dplyr::pull(
-##       Index
-##     )
-##
-##
-##   p <- ggplot(dat_plot, aes(x = Index, y = CooksD))
-##   p <- p + theme_bw()
-##   p <- p + geom_hline(yintercept = thresh_cooksD, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-##   p <- p + geom_segment(aes(xend = Index, yend = 0, color = thresh_cooksD_exceed), alpha = 0.25)
-##   p <- p + geom_point(aes(color = thresh_cooksD_exceed))
-##   p <- p + scale_color_manual(values = cols_exceed)
-##   p <- p + labs(
-##                 #  title     = "Cook's Distance"
-##                   x         = "Index"
-##                 , y         = "Cook's Distance"
-##                 , caption   =
-##                     paste0(
-##                       "Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
-##                     , ";  Indicies above threshold ("
-##                     , length(obs_above_cooksD_thresh)
-##                     , "): "
-##                     , ifelse(
-##                         length(obs_above_cooksD_thresh)
-##                       , paste(obs_above_cooksD_thresh, collapse = ", ")
-##                       , "none"
-##                       )
-##                     , "."
-##                     )
-##                 )
-##   p <- p + guides(color = "none")
-##   p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-##
-##   out[[ "CooksD_plot" ]] <-
-##     p
-##
-##   return(out)
-##
-## } # e_plot_model_diagnostics_CooksD
-
-
-
 #' Model diagnostics, Cooks vs Leverage vs Residuals
 #'
 #'
@@ -2500,6 +2455,457 @@ e_plot_model_diagnostics_Resid_histogram <-
 } # e_plot_model_diagnostics_Resid_histogram
 
 
+################################################################################
+# DHARMa: residual diagnostics for hierarchical (multi-level/mixed) regression models
+#   https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html
+
+#' Model diagnostics, DHARMa: residual diagnostics for hierarchical (multi-level/mixed) regression models
+#'
+#'
+#' @param fit       fit object
+#' @param dat       dataset data.frame or tibble
+#'
+#' @return out      list including text and ggplot grobs
+#' @import DHARMa
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#' @importFrom broom tidy
+#'
+e_plot_model_diagnostics_DHARMa_Resid <-
+  function(
+    fit                 = NULL
+  , dat                 = NULL
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  y_var_name                <- xy_var_names_list$y_var_name
+  y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+  x_var_names               <- xy_var_names_list$x_var_names
+  x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+
+  # First, calculate the randomized quantile residuals once
+  simulationOutput <-
+    DHARMa::simulateResiduals(
+      fittedModel     = fit
+    , n               = 1e3   # 250
+    , refit           = FALSE
+    , integerResponse = NULL
+    , plot            = FALSE
+    , seed            = 76543   #123
+    , method          = c("PIT", "traditional")[1]
+    , rotation        = NULL
+    )
+
+  p_list <- list()
+
+  p_list[[ "DHARMa__plotQQunif_plot" ]] <-
+    cowplot::as_grob(
+      ~
+      {
+      DHARMa::plotQQunif(
+        simulationOutput  = simulationOutput
+      , testUniformity    = c(TRUE, FALSE)[2]
+      , testOutliers      = c(TRUE, FALSE)[2]
+      , testDispersion    = c(TRUE, FALSE)[2]
+      )
+      }
+    )
+
+  ### part of DHARMa::testOutliers()
+  # p_list[[ "DHARMa__hist_DHARMa" ]] <-
+  #   cowplot::as_grob(
+  #     ~
+  #     {
+  #     hist(simulationOutput)
+  #     }
+  #   )
+
+  # # same as DHARMa::testQuantiles()
+  # p_list[[ "DHARMa__plotResiduals" ]] <-
+  #   cowplot::as_grob(
+  #     ~
+  #     {
+  #     DHARMa::plotResiduals(
+  #       simulationOutput  = simulationOutput
+  #     , form              = NULL
+  #     , quantreg          = NULL
+  #     , rank              = TRUE
+  #     , asFactor          = NULL
+  #     , smoothScatter     = NULL
+  #     , quantiles         = c(0.25, 0.5, 0.75)
+  #     , absoluteDeviation = FALSE
+  #     )
+  #     }
+  #   )
+
+  out_test <- list()
 
 
+  ## tests if the overall distribution conforms to expectations.
+  out_test[[ "DHARMa__testUniformity" ]] <-
+    DHARMa::testUniformity(
+      simulationOutput  = simulationOutput
+    , alternative       = c("two.sided", "less", "greater")[1]
+    , plot              = FALSE  # TRUE calls DHARMa::plotQQunif()
+    ) |>
+    broom::tidy() |>
+    dplyr::mutate(
+      Test  = "Uniformity"
+    , Var   = "Response"
+    )
+
+  ## tests if there are more simulation outliers than expected.
+  # 2 plots, the histogram is good to have
+  p_list[[ "DHARMa__testOutliers_plot" ]] <-
+    cowplot::as_grob(
+      ~
+      {
+      DHARMa::testOutliers(
+        simulationOutput  = simulationOutput
+      , alternative       = c("two.sided", "greater", "less")[1]
+      , margin            = c("both", "upper", "lower")[1]
+      , type              = c("default", "bootstrap", "binomial")[1]
+      , nBoot             = 1e3  # 100
+      , plot              = TRUE
+      , plotBoostrap      = FALSE
+      )
+      }
+    )
+
+  out_test[[ "DHARMa__testOutliers" ]] <-
+    DHARMa::testOutliers(
+      simulationOutput  = simulationOutput
+    , alternative       = c("two.sided", "greater", "less")[1]
+    , margin            = c("both", "upper", "lower")[1]
+    , type              = c("default", "bootstrap", "binomial")[1]
+    , nBoot             = 1e3  # 100
+    , plot              = FALSE
+    , plotBoostrap      = FALSE
+    ) |>
+    broom::tidy() |>
+    dplyr::mutate(
+      Test  = "Outliers"
+    , Var   = "Response"
+    )
+
+
+  ## tests if the simulated dispersion is equal to the observed dispersion.
+  # 1 plots, not good
+  out_test[[ "DHARMa__testDispersion" ]] <-
+    DHARMa::testDispersion(
+      simulationOutput  = simulationOutput
+    , alternative       = c("two.sided", "greater", "less")[1]
+    , plot              = FALSE
+    , type              = c("DHARMa", "PearsonChisq")[1]
+    ) |>
+    broom::tidy() |>
+    dplyr::mutate(
+      Test  = "Dispersion"
+    , Var   = "Response"
+    )
+
+  ## fits a quantile regression or residuals against a predictor (default predicted value), and tests of this conforms to the expected quantile.
+  # for predicted response (NULL) and each numeric predictor, label x-axis via grob
+
+  # Response
+  p_list[[ "DHARMa__testQuantiles_plot" ]] <-
+    cowplot::as_grob(
+      ~
+      {
+      DHARMa::testQuantiles(
+        simulationOutput  = simulationOutput
+      , predictor         = NULL  # dat$disp
+      , quantiles         = c(0.25, 0.50, 0.75)
+      , plot              = TRUE
+      )
+      }
+    )
+
+  grDevices::pdf(NULL) # begin capture and kill plots
+  out_test[[ "DHARMa__testQuantiles" ]] <-
+    DHARMa::testQuantiles(
+      simulationOutput  = simulationOutput
+    , predictor         = NULL                # response is default
+    , quantiles         = c(0.25, 0.50, 0.75)
+    , plot              = TRUE                # when FALSE, possible issue: outer Newton did not converge fully
+    ) |>
+    broom::tidy() |>
+    dplyr::mutate(
+      Test  = "Quantiles"
+    , Var   = "Response"
+    )
+  grDevices::dev.off() # end   capture and kill plots
+
+  # XXX
+  # might need a label in the object to identify the predictor
+  #[[ "DHARMa__testQuantiles" ]]
+
+  # list of numeric predictors; if empty, for loop doesn't run
+  list_var_numeric <-
+    dat |>
+    dplyr::select(
+      tidyselect::all_of(x_var_names) &
+      tidyselect::where(is.numeric)
+    ) |>
+    names()
+
+  # each numeric predictor
+  for (i_var in seq_along(list_var_numeric)) {
+    ## i_var = 1
+
+    this_var <- list_var_numeric[i_var]
+    this_list_label <- paste0("DHARMa__testQuantiles_X_", this_var)
+
+    ### 7/8/2025 Can't get these to render separately, always plots last one
+    # p_list[[ paste0(this_list_label, "_plot") ]] <-
+    #   cowplot::as_grob(
+    #     ~
+    #     {
+    #     DHARMa::testQuantiles(
+    #       simulationOutput  = simulationOutput
+    #     , predictor         = dat |> dplyr::pull(this_var)
+    #     , quantiles         = c(0.25, 0.50, 0.75)
+    #     , plot              = TRUE
+    #     )
+    #     }
+    #   )
+
+    grDevices::pdf(NULL) # begin capture and kill plots
+    out_test[[ this_list_label ]] <-
+      DHARMa::testQuantiles(
+        simulationOutput  = simulationOutput
+      , predictor         = dat |> dplyr::pull(this_var)
+      , quantiles         = c(0.25, 0.50, 0.75)
+      , plot              = TRUE                # when FALSE, possible issue: outer Newton did not converge fully
+      ) |>
+      broom::tidy() |>
+      dplyr::mutate(
+        Test  = "Quantiles"
+      , Var   = this_var
+      )
+
+    # XXX
+    # might need a label in the object to identify the predictor
+    #out_test[[ this_list_label ]]
+
+    grDevices::dev.off() # end   capture and kill plots
+
+  } # i_var
+
+
+
+
+
+  ## tests residuals against a categorical predictor.
+  # for each factor predictor, label x-axis via grob
+  #out_test[[ "DHARMa__testCategorical" ]] <-
+  #  DHARMa::testCategorical(
+  #    simulationOutput  = simulationOutput
+  #  , catPred           = dat$cyl
+  #  , quantiles         = c(0.25, 0.5, 0.75)
+  #  , plot              = TRUE
+  #  )
+
+  # list of numeric predictors; if empty, for loop doesn't run
+  list_var_factor <-
+    dat |>
+    dplyr::select(
+      tidyselect::all_of(x_var_names) &
+      (tidyselect::where(is.factor) | tidyselect::where(is.character))
+    ) |>
+    names()
+
+  # each numeric predictor
+  for (i_var in seq_along(list_var_factor)) {
+    ## i_var = 1
+
+    this_var <- list_var_factor[i_var]
+    this_list_label <- paste0("DHARMa__testCategorical_X_", this_var)
+
+    ### 7/8/2025 Can't get these to render separately, always plots last one
+    # p_list[[ paste0(this_list_label, "_plot") ]] <-
+    #   cowplot::as_grob(
+    #     ~
+    #     {
+    #     DHARMa::testCategorical(
+    #       simulationOutput  = simulationOutput
+    #     , catPred           = dat |> dplyr::pull(this_var)
+    #     , quantiles         = c(0.25, 0.5, 0.75)
+    #     , plot              = TRUE
+    #     )
+    #     }
+    #   )
+
+    grDevices::pdf(NULL) # begin capture and kill plots
+
+    this_cat_test <-
+      DHARMa::testCategorical(
+        simulationOutput  = simulationOutput
+      , catPred           = dat |> dplyr::pull(this_var)
+      , quantiles         = c(0.25, 0.5, 0.75)
+      , plot              = TRUE
+      )
+
+    out_test[[ this_list_label ]] <-
+      this_cat_test$homogeneity |>
+      broom::tidy() |>
+      dplyr::mutate(
+        Test    = "Categorical"
+      , Var     = this_var
+      , Level   = "_Overall_"
+      , method  = this_cat_test$homogeneity |> attr("heading")
+      )
+
+    this_cat_var_levels <-
+      this_cat_test$uniformity$details |>
+      names()
+
+    for (i_level in seq_along(this_cat_var_levels)) {
+      # i_level = 1
+
+      this_level <- this_cat_var_levels[i_level]
+
+      out_test[[ paste0(this_list_label, "_", this_level) ]] <-
+        this_cat_test$uniformity$details[[ this_level ]] |>
+        broom::tidy() |>
+        dplyr::mutate(
+          Test  = "Categorical"
+        , Var   = this_var
+        , Level = this_level
+        )
+
+    } # i_level
+
+    grDevices::dev.off() # end   capture and kill plots
+
+  } # i_var
+
+
+
+
+
+  ## tests if there are more zeros in the data than expected from the simulations.
+  out_test[[ "DHARMa__testZeroInflation" ]] <-
+    DHARMa::testZeroInflation(
+      simulationOutput  = simulationOutput
+    , alternative = c("two.sided", "greater", "less")[1]
+    , plot = FALSE
+    ) |>
+    broom::tidy() |>
+    dplyr::mutate(
+      Test  = "Zero Inflation"
+    , Var   = "Response"
+    )
+
+  ## ## test if a generic summary statistics (user-defined) deviates from model expectations.
+  ## out_test[[ "DHARMa__testGeneric" ]] <-
+  ##   DHARMa::testGeneric(
+  ##     simulationOutput  = simulationOutput
+  ##   , summary
+  ##   , alternative       = c("two.sided", "greater", "less")[1]
+  ##   , plot              = TRUE
+  ##   , methodName        = "DHARMa generic simulation test"
+  ##   )
+
+  ## tests for temporal autocorrelation in the residuals.
+  out_test[[ "DHARMa__testTemporalAutocorrelation" ]] <-
+    DHARMa::testTemporalAutocorrelation(
+      simulationOutput  = simulationOutput
+    , time              = 1:simulationOutput$nObs
+    , alternative       = c("two.sided", "greater", "less")[1]
+    , plot              = FALSE
+    ) |>
+    broom::tidy() |>
+    dplyr::mutate(
+      Test  = "Temporal Autocorrelation"
+    , Var   = "Response"
+    )
+
+  ## ## tests for spatial autocorrelation in the residuals. Can also be used with a generic distance function.
+  ## out_test[[ "DHARMa__testSpatialAutocorrelation" ]] <-
+  ##   DHARMa::testSpatialAutocorrelation(
+  ##     simulationOutput  = simulationOutput
+  ##   )
+
+  ## ## tests for phylogenetic signal in the residuals.
+  ## out_test[[ "DHARMa__testPhylogeneticAutocorrelation" ]] <-
+  ##   DHARMa::testPhylogeneticAutocorrelation(
+  ##     simulationOutput  = simulationOutput
+  ##   )
+
+
+  # Process all of the test results into a table
+
+  out_test_all <-
+    out_test |>
+    dplyr::bind_rows() |>
+    dplyr::select(
+      p.value
+    , Test
+    , Var
+    , Level
+    , method
+    ) |>
+    dplyr::mutate(
+      sig     = p.value |> e_pval_stars()
+    , p.value = sprintf("%04.4f", p.value)  #p.value |> signif(4)
+    ) |>
+    dplyr::relocate(
+      sig, .after = p.value
+    )
+
+  out[[ "DHARMa__AllTests_table" ]] <-
+    out_test_all
+
+  op <- par(no.readonly = TRUE) # the whole list of settable par
+  options(width = 200)
+  out[[ "DHARMa__AllTests_text" ]] <-
+    capture.output(
+      out_test_all |>
+      as.data.frame() |>
+      gdata::write.fwf()
+    , type = c("output", "message")[1]
+    , split = FALSE
+    )
+  par(op) # reset plotting options
+
+  # Create text for each that can be printed to console and as plot caption
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = paste0("Component+Residual (Partial Residual) Plots")
+      caption     = paste0(
+                      "Observations with missing values have been removed."
+                    , "\n\nTests:\n"
+                    , paste(out[[ "DHARMa__AllTests_text" ]], collapse = "\n")
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  p_arranged
+
+  out[[ "DHARMa_Resid_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_DHARMa_Resid
 

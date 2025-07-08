@@ -209,24 +209,6 @@ e_plot_model_diagnostics <-
 
 
 
-  # ggResidpanel::resid_panel(
-  #   model = fit
-  # , plots = "all"
-  # , type = NA
-  # , bins = 30
-  # , smoother = TRUE
-  # , qqline = TRUE
-  # , qqbands = TRUE
-  # , scale = 1
-  # , theme = "bw"
-  # , axis.text.size = 10
-  # , title.text.size = 12
-  # , title.opt = TRUE
-  # , nrow = NULL
-  # )
-
-
-
   # # qqplot, Quantile-Comparison Plot
   # if (fit_class == "lm") {
   #
@@ -334,6 +316,18 @@ e_plot_model_diagnostics <-
       )
 
     out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_table" ]] |> print()
+
+  } # lm or glm
+
+
+  ## Autocorrelated Errors test
+  if (fit_class %in% c("lm", "glm")) {
+    out_diagn[[ "car__durbinWatsonTest" ]] <-
+      e_plot_model_diagnostics_car__durbinWatsonTest(
+        fit                 = fit
+      )
+
+    out_diagn[[ "car__durbinWatsonTest" ]][[ "car__durbinWatsonTest_table" ]] |> print()
 
   } # lm or glm
 
@@ -568,6 +562,28 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+
+
+
+  # glm, DHARMa residual diagnostics
+  if (fit_class == "lm") {
+
+    out_diagn[[ "DHARMa_Resid" ]] <-
+      NULL
+  } # lm
+  if (fit_class == "glm") {
+
+    out_diagn[[ "DHARMa_Resid" ]] <-
+      e_plot_model_diagnostics_DHARMa_Resid(
+        fit                 = fit
+      , dat                 = dat
+      )
+
+    out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa__AllTests_table" ]] |> print()
+    #out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa__AllTests_text"  ]] |> print()
+    out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa_Resid_plot"      ]] |> print()
+
+  } # glm
 
 
 
