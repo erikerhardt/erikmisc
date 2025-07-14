@@ -14,6 +14,8 @@
 #' @param smooth_by_var_color       Smooth method by the color variable.
 #' @param sw_smooth_by_var_color_se T/F, SEs for smooth by the color variable?
 #' @param sw_corr_in_subtitle       T/F, calculate correlation and include in subtitle of plot?
+#' @param sw_var_x_name_str_wrap_width Width to wrap x-axis label
+#' @param sw_var_y_name_str_wrap_width Width to wrap y-axis label
 #'
 #' @return          a ggplot object
 #' @importFrom stats cor.test
@@ -85,18 +87,20 @@
 #'   )
 e_plot_scatterplot <-
   function(
-    dat_plot                  = NULL
-  , var_x                     = NULL
-  , var_y                     = NULL
-  , var_color                 = NULL
-  , var_facet                 = NULL
-  , text_title                = NULL
-  , sw_print                  = FALSE
-  , smooth_all                = c("none", "loess", "lm", "glm", "gam")[1]
-  , sw_smooth_all_se          = c(TRUE, FALSE)[1]
-  , smooth_by_var_color       = c("none", "loess", "lm", "glm", "gam")[1]
-  , sw_smooth_by_var_color_se = c(TRUE, FALSE)[1]
-  , sw_corr_in_subtitle       = c(TRUE, FALSE)[1]
+    dat_plot                      = NULL
+  , var_x                         = NULL
+  , var_y                         = NULL
+  , var_color                     = NULL
+  , var_facet                     = NULL
+  , text_title                    = NULL
+  , sw_print                      = FALSE
+  , smooth_all                    = c("none", "loess", "lm", "glm", "gam")[1]
+  , sw_smooth_all_se              = c(TRUE, FALSE)[1]
+  , smooth_by_var_color           = c("none", "loess", "lm", "glm", "gam")[1]
+  , sw_smooth_by_var_color_se     = c(TRUE, FALSE)[1]
+  , sw_corr_in_subtitle           = c(TRUE, FALSE)[1]
+  , sw_var_x_name_str_wrap_width  = Inf
+  , sw_var_y_name_str_wrap_width  = Inf
   ) {
 
   if (is.null(text_title)) {
@@ -230,12 +234,14 @@ e_plot_scatterplot <-
                 )
   if( !is.null(labelled::var_label(dat_plot[[ var_x ]])) ) {
     p <- p + labs(
-                    x         = labelled::var_label(dat_plot[[ var_x ]])
+                    x         = labelled::var_label(dat_plot[[ var_x ]]) |>
+                                  stringr::str_wrap(width = sw_var_x_name_str_wrap_width)
                   )
   }
   if( !is.null(labelled::var_label(dat_plot[[ var_y ]])) ) {
     p <- p + labs(
-                    y         = labelled::var_label(dat_plot[[ var_y ]])
+                    y         = labelled::var_label(dat_plot[[ var_y ]]) |>
+                                  stringr::str_wrap(width = sw_var_y_name_str_wrap_width)
                   )
   }
 

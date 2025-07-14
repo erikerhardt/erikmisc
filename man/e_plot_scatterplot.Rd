@@ -16,7 +16,9 @@ e_plot_scatterplot(
   sw_smooth_all_se = c(TRUE, FALSE)[1],
   smooth_by_var_color = c("none", "loess", "lm", "glm", "gam")[1],
   sw_smooth_by_var_color_se = c(TRUE, FALSE)[1],
-  sw_corr_in_subtitle = c(TRUE, FALSE)[1]
+  sw_corr_in_subtitle = c(TRUE, FALSE)[1],
+  sw_var_x_name_str_wrap_width = Inf,
+  sw_var_y_name_str_wrap_width = Inf
 )
 }
 \arguments{
@@ -43,6 +45,10 @@ e_plot_scatterplot(
 \item{sw_smooth_by_var_color_se}{T/F, SEs for smooth by the color variable?}
 
 \item{sw_corr_in_subtitle}{T/F, calculate correlation and include in subtitle of plot?}
+
+\item{sw_var_x_name_str_wrap_width}{Width to wrap x-axis label}
+
+\item{sw_var_y_name_str_wrap_width}{Width to wrap y-axis label}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{     a ggplot object
