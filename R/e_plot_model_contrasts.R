@@ -42,6 +42,7 @@
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_split
 #' @importFrom stringr str_split_fixed
+#' @importFrom stringr str_subset
 #' @importFrom gridExtra arrangeGrob
 #' @importFrom ggpubr as_ggplot
 #' @importFrom purrr pluck
@@ -636,43 +637,48 @@ e_plot_model_contrasts <-
       )
 
 
-    # nuisance = omitted from the reference grid
-    #   main-effects that are not var_xs and not involved in any interactions
-    var_nuisance_candidates <-
-      var_name_x |>
-      # main effects
-      stringr::str_subset(
-        pattern = stringr::fixed(":")
-      , negate = TRUE
-      ) |>
-      # not the var_xs variable
-      stringr::str_subset(
-        pattern = stringr::fixed(var_xs)
-      , negate = TRUE
-      )
+    if (length(var_xs) > 1) {
+      var_nuisance <- as.character(NULL)
+    } else {
+      # nuisance = omitted from the reference grid
+      #   main-effects that are not var_xs and not involved in any interactions
+      var_nuisance_candidates <-
+        var_name_x |>
+        # main effects
+        stringr::str_subset(
+          pattern = stringr::fixed(":")
+        , negate = TRUE
+        ) |>
+        # not the var_xs variable
+        stringr::str_subset(
+          pattern = stringr::fixed(var_xs)
+        , negate = TRUE
+        )
 
-    # var involved with interaction
-    var_in_interactions <-
-      var_name_x |>
-      # interactions
-      stringr::str_subset(
-        pattern = stringr::fixed(":")
-      ) |>
-      stringr::str_split(
-        pattern = stringr::fixed(":")
-      ) |>
-      unlist() |>
-      unique()
+      # var involved with interaction
+      var_in_interactions <-
+        var_name_x |>
+        # interactions
+        stringr::str_subset(
+          pattern = stringr::fixed(":")
+        ) |>
+        stringr::str_split(
+          pattern = stringr::fixed(":")
+        ) |>
+        unlist() |>
+        unique()
 
-    # not involved with interaction
-    var_nuisance <-
-      var_nuisance_candidates[var_nuisance_candidates %notin% var_in_interactions]
-    var_nuisance_no_backticks <-
-      var_nuisance |>
-      stringr::str_replace_all(
-        pattern     = stringr::fixed("`")
-      , replacement = ""
-      )
+      # not involved with interaction
+      var_nuisance <-
+        var_nuisance_candidates[var_nuisance_candidates %notin% var_in_interactions]
+      var_nuisance_no_backticks <-
+        var_nuisance |>
+        stringr::str_replace_all(
+          pattern     = stringr::fixed("`")
+        , replacement = ""
+        )
+    } # length(var_xs) > 1
+
 
     # Main effect
     if (length(var_xs) == 1) {
