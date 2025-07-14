@@ -46,7 +46,7 @@ e_plot_lm_y_covar <-
   ## plot all covariates vs response
 
   # decompose formula into each covariate
-  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  xy_var_names_list <- e_model_extract_var_names(form)
   y_var_name  <- xy_var_names_list$y_var_name
   x_var_names <- xy_var_names_list$x_var_names
 
@@ -79,7 +79,7 @@ e_plot_lm_y_covar <-
     #library(ggplot2)
     p <- ggplot(dat_plot, aes(x = .data[[ "value"]], y = .data[[ y_var_name ]]))
     p <- p + geom_point(alpha = 1/4, position = position_jitter(w = 0.02, h = 0.02))
-    p <- p + geom_smooth(method = "gam", formula = y ~ x, size = 1, se = TRUE, span = 1, alpha = 0.25)
+    p <- p + geom_smooth(method = "gam", formula = y ~ x, linewidth = 1, se = TRUE, span = 1, alpha = 0.25)
     p <- p + theme_bw()
     p <- p + facet_wrap( ~ name, drop = TRUE, scales = "free_x", nrow = sw_facet_rows, ncol = sw_facet_cols)
     p <- p + labs(  title = y_var_name  #labelled::var_label(dat[[ form_terms[1] ]]) |> as.character()
@@ -110,6 +110,8 @@ e_plot_lm_y_covar <-
         , smooth_by_var_color       = c("none", "loess", "lm", "glm", "gam")[1]
         , sw_smooth_by_var_color_se = c(TRUE, FALSE)[2]
         , sw_corr_in_subtitle       = c(TRUE, FALSE)[1]
+        , sw_var_x_name_str_wrap_width  = 40
+        , sw_var_y_name_str_wrap_width  = 40
         )
      } # i_covar
 
