@@ -183,6 +183,20 @@ e_model_selection <-
       )
     )
 
+  # if lm, ensure response y is numeric
+  if (sw_model == c("lm", "glm")[1]) {
+    temp_y_label <-
+      dat_sel__[[ y_var_name ]] |>
+      labelled::var_label()
+    dat_sel__[[ y_var_name ]]  <-
+      dat_sel__[[ y_var_name ]] |>
+      as.numeric()
+    labelled::var_label(dat_sel__[[ y_var_name ]]) <-
+      temp_y_label
+  } # sw_model "lm"
+
+
+
   # remove factors with only one level
   for (i_covar in seq_along(x_var_names)) {
     ## i_covar = 5
