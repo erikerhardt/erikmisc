@@ -15,3 +15,54 @@ out      list with lists of y variable and x variables
 \description{
 From model formula, extract y and x variable (and x interactions) lists
 }
+\examples{
+## From formula
+# Set specific model with some interactions
+form_model <-
+  mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
+
+xy_var_names_list <- e_model_extract_var_names(form_model)
+xy_var_names_list
+y_var_name                <- xy_var_names_list$y_var_name
+y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+x_var_names               <- xy_var_names_list$x_var_names
+x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+
+## From model fit, lm example
+dat_sel <-
+   erikmisc::dat_mtcars_e
+form_model <-
+  mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
+
+fit <- lm(form_model, data = dat_sel)
+
+xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+xy_var_names_list
+y_var_name                <- xy_var_names_list$y_var_name
+y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+x_var_names               <- xy_var_names_list$x_var_names
+x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+
+## From model fit, glm example
+dat_sel <-
+  erikmisc::dat_mtcars_e |>
+  dplyr::mutate(
+    am_01 =
+      dplyr::case_when(
+        am == "manual"    ~ 0
+      , am == "automatic" ~ 1
+      )
+  )
+labelled::var_label(dat_sel[["am_01"]]) <- labelled::var_label(dat_sel[["am"]])
+form_model <-
+  cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
+
+fit <- glm(form_model, data = dat_sel, family  = binomial(link = logit))
+
+xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+xy_var_names_list
+y_var_name                <- xy_var_names_list$y_var_name
+y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+x_var_names               <- xy_var_names_list$x_var_names
+x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+}
