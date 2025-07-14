@@ -47,8 +47,11 @@ e_plot_lm_y_covar <-
 
   # decompose formula into each covariate
   xy_var_names_list <- e_model_extract_var_names(form)
-  y_var_name  <- xy_var_names_list$y_var_name
-  x_var_names <- xy_var_names_list$x_var_names
+  #xy_var_names_list
+  y_var_name                <- xy_var_names_list$y_var_name
+  #y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+  x_var_names               <- xy_var_names_list$x_var_names
+  #x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
 
   dat_plot <-
   dat |>
@@ -73,7 +76,7 @@ e_plot_lm_y_covar <-
       )
 
     if (is.null(sw_facet_cols)) {
-      sw_facet_cols <- length(form_terms)
+      sw_facet_cols <- length(x_var_names)
     }
 
     #library(ggplot2)
