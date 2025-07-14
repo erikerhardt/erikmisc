@@ -635,6 +635,45 @@ e_plot_model_contrasts <-
       , replacement = ""
       )
 
+
+    # nuisance = omitted from the reference grid
+    #   main-effects that are not var_xs and not involved in any interactions
+    var_nuisance_candidates <-
+      var_name_x |>
+      # main effects
+      stringr::str_subset(
+        pattern = stringr::fixed(":")
+      , negate = TRUE
+      ) |>
+      # not the var_xs variable
+      stringr::str_subset(
+        pattern = stringr::fixed(var_xs)
+      , negate = TRUE
+      )
+
+    # var involved with interaction
+    var_in_interactions <-
+      var_name_x |>
+      # interactions
+      stringr::str_subset(
+        pattern = stringr::fixed(":")
+      ) |>
+      stringr::str_split(
+        pattern = stringr::fixed(":")
+      ) |>
+      unlist() |>
+      unique()
+
+    # not involved with interaction
+    var_nuisance <-
+      var_nuisance_candidates[var_nuisance_candidates %notin% var_in_interactions]
+    var_nuisance_no_backticks <-
+      var_nuisance |>
+      stringr::str_replace_all(
+        pattern     = stringr::fixed("`")
+      , replacement = ""
+      )
+
     # Main effect
     if (length(var_xs) == 1) {
 
@@ -645,8 +684,9 @@ e_plot_model_contrasts <-
       check_message <-
         e_message_capture(
           emmeans::emmeans(
-            object  = fit
-          , specs   = var_xs_no_backticks
+            object    = fit
+          , specs     = var_xs_no_backticks
+          , nuisance  = var_nuisance_no_backticks
           )
         )(1)
       if (check_message$logs[[1]]$message == message_involve_interaction) {
@@ -990,25 +1030,27 @@ e_plot_model_contrasts <-
           # response scale
           cont_fit <-
             emmeans::emmeans(
-              object  = fit
-            , specs   = var_xs_no_backticks
-            #, by    =
-            #, simple = "each", combine = FALSE
-            , adjust  = adjust_method
-            , level   = CI_level
-            , type = "response"
+              object    = fit
+            , specs     = var_xs_no_backticks
+            #, by       =
+            , nuisance  = var_nuisance_no_backticks
+            #, simple   = "each", combine = FALSE
+            , adjust    = adjust_method
+            , level     = CI_level
+            , type      = "response"
             )
         } else {
           # default scale
           cont_fit <-
             emmeans::emmeans(
-              object  = fit
-            , specs   = var_xs_no_backticks
-            #, by    =
-            #, simple = "each", combine = FALSE
-            , adjust  = adjust_method
-            , level   = CI_level
-            #, type = "response"
+              object    = fit
+            , specs     = var_xs_no_backticks
+            #, by       =
+            , nuisance  = var_nuisance_no_backticks
+            #, simple   = "each", combine = FALSE
+            , adjust    = adjust_method
+            , level     = CI_level
+            #, type     = "response"
             )
         }
         cont_pairs <- cont_fit |> pairs(adjust = adjust_method)
@@ -1276,24 +1318,26 @@ e_plot_model_contrasts <-
             # response scale
             cont_fit <-
               emmeans::emmeans(
-                object  = fit
-              , specs   = var_xs_no_backticks[1]
-              , by      = var_xs_no_backticks[2]
-              #, simple = "each", combine = FALSE
-              , adjust  = adjust_method
-              , level   = CI_level
-              , type = "response"
+                object    = fit
+              , specs     = var_xs_no_backticks[1]
+              , by        = var_xs_no_backticks[2]
+              , nuisance  = var_nuisance_no_backticks
+              #, simple   = "each", combine = FALSE
+              , adjust    = adjust_method
+              , level     = CI_level
+              , type      = "response"
               )
           } else {
             # default scale
             cont_fit <-
               emmeans::emmeans(
-                object  = fit
-              , specs   = var_xs_no_backticks[1]
-              , by      = var_xs_no_backticks[2]
-              #, simple = "each", combine = FALSE
-              , adjust  = adjust_method
-              , level   = CI_level
+                object    = fit
+              , specs     = var_xs_no_backticks[1]
+              , by        = var_xs_no_backticks[2]
+              , nuisance  = var_nuisance_no_backticks
+              #, simple   = "each", combine = FALSE
+              , adjust    = adjust_method
+              , level     = CI_level
               )
           }
           cont_pairs <- cont_fit |> pairs(adjust = adjust_method)
