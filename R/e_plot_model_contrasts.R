@@ -453,6 +453,9 @@ e_plot_model_contrasts <-
   ##
   ###### END Example dataset for testing
 
+  # update the default; sometimes the direct specification doesn't work
+  emmeans::emm_options(rg.limit = emmip_rg.limit)
+
   # give error if two main inputs aren't specified
   if (is.null(fit) | is.null(dat_cont)) {
     stop("erikmisc::e_plot_model_contrasts() \"fit\" and \"dat_cont\" arguments are required.")
