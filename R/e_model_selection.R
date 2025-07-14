@@ -167,7 +167,7 @@ e_model_selection <-
     dat |>
     # subset to these columns
     dplyr::select(
-      tidyselect::all_of(y_var_name)
+      tidyselect::all_of(y_var_name )
     , tidyselect::all_of(x_var_names)
     ) |>
     # convert character to factor
@@ -359,6 +359,7 @@ e_model_selection <-
     , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
     , sw_quantile_type        = 7
     , plot_values             = NULL                            # for numeric:numeric plots
+    , emmip_rg.limit          = 200000
     )
 
 
