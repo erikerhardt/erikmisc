@@ -15,7 +15,9 @@ e_model_selection(
   sw_plot_missing = c(TRUE, FALSE)[1],
   sw_plot_y_covar = c(TRUE, FALSE)[1],
   sw_plot_x_corr = c(TRUE, FALSE)[1],
+  sw_contrasts = c("both", "sel", "none")[2],
   sw_print_results = c(TRUE, FALSE)[1],
+  emmip_rg.limit = 10000,
   ...
 )
 }
@@ -39,6 +41,8 @@ e_model_selection(
 \item{sw_plot_y_covar}{output plots from \code{e_plot_lm_y_covar}}
 
 \item{sw_plot_x_corr}{output correlation matrix plot}
+
+\item{sw_contrasts}{which contrasts to plot, \code{both} is full and selected model.}
 
 \item{sw_print_results}{print results before returning object}
 

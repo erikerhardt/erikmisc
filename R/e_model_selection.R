@@ -12,6 +12,7 @@
 #' @param sw_plot_missing     output plots from \code{e_plot_missing}
 #' @param sw_plot_y_covar     output plots from \code{e_plot_lm_y_covar}
 #' @param sw_plot_x_corr      output correlation matrix plot
+#' @param sw_contrasts        which contrasts to plot, \code{both} is full and selected model.
 #' @param sw_print_results    print results before returning object
 #' @param ...                 options sent to \code{e_model_all_subsets_formula} for subsets to consider
 #'
@@ -82,7 +83,9 @@ e_model_selection <-
   , sw_plot_missing   = c(TRUE, FALSE)[1]
   , sw_plot_y_covar   = c(TRUE, FALSE)[1]
   , sw_plot_x_corr    = c(TRUE, FALSE)[1]
+  , sw_contrasts      = c("both", "sel", "none")[2]
   , sw_print_results  = c(TRUE, FALSE)[1]
+  , emmip_rg.limit    = 10000
   , ...
   ) {
   #### lm example
@@ -342,26 +345,27 @@ e_model_selection <-
       , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
       )
   } # sw_model "lm"
-  out[["init"]][["contrasts"]] <-
-    e_plot_model_contrasts(
-      fit                     = out[["init"]][["fit"]]
-    , dat_cont                = dat_sel__
-    , choose_contrasts        = NULL
-    , sw_table_in_plot        = TRUE #FALSE
-    , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]  # see ?emmeans::summary.emmGrid
-    , sw_glm_scale            = sw_glm_scale
-    , CI_level                = 0.95
-    , sw_print                = FALSE
-    , sw_marginal_even_if_interaction = TRUE  # FALSE
-    , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
-    , sw_TWI_both_orientation = c("wide", "tall")[1]
-    , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
-    , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
-    , sw_quantile_type        = 7
-    , plot_values             = NULL                            # for numeric:numeric plots
-    , emmip_rg.limit          = 200000
-    )
-
+  if (sw_contrasts %in% c("both", "sel", "none")[c(1)]) {
+    out[["init"]][["contrasts"]] <-
+      e_plot_model_contrasts(
+        fit                     = out[["init"]][["fit"]]
+      , dat_cont                = dat_sel__
+      , choose_contrasts        = NULL
+      , sw_table_in_plot        = TRUE #FALSE
+      , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]  # see ?emmeans::summary.emmGrid
+      , sw_glm_scale            = sw_glm_scale
+      , CI_level                = 0.95
+      , sw_print                = FALSE
+      , sw_marginal_even_if_interaction = TRUE  # FALSE
+      , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
+      , sw_TWI_both_orientation = c("wide", "tall")[1]
+      , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
+      , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+      , sw_quantile_type        = 7
+      , plot_values             = NULL                            # for numeric:numeric plots
+      , emmip_rg.limit          = emmip_rg.limit
+      )
+  }
 
   # Stepwise upper and lower models
   if(sw_sel_type == c("step", "bestsubset")[1]) {
@@ -519,24 +523,26 @@ e_model_selection <-
       , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
       )
     }
-    out[["sel"]][["contrasts"]] <-
-      e_plot_model_contrasts(
-        fit                     = out[["sel"]][["fit"]]
-      , dat_cont                = dat_sel__
-      , choose_contrasts        = NULL
-      , sw_table_in_plot        = TRUE #FALSE
-      , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]  # see ?emmeans::summary.emmGrid
-      , CI_level                = 0.95
-      , sw_print                = FALSE
-      , sw_marginal_even_if_interaction = TRUE  # FALSE
-      , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
-      , sw_TWI_both_orientation = c("wide", "tall")[1]
-      , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
-      , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
-      , sw_quantile_type        = 7
-      , plot_values             = NULL                            # for numeric:numeric plots
-      )
-
+    if (sw_contrasts %in% c("both", "sel", "none")[c(1, 2)]) {
+      out[["sel"]][["contrasts"]] <-
+        e_plot_model_contrasts(
+          fit                     = out[["sel"]][["fit"]]
+        , dat_cont                = dat_sel__
+        , choose_contrasts        = NULL
+        , sw_table_in_plot        = TRUE #FALSE
+        , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]  # see ?emmeans::summary.emmGrid
+        , CI_level                = 0.95
+        , sw_print                = FALSE
+        , sw_marginal_even_if_interaction = TRUE  # FALSE
+        , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
+        , sw_TWI_both_orientation = c("wide", "tall")[1]
+        , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
+        , plot_quantiles          = c(0.05, 0.25, 0.50, 0.75, 0.95) # for numeric:numeric plots
+        , sw_quantile_type        = 7
+        , plot_values             = NULL                            # for numeric:numeric plots
+        , emmip_rg.limit          = emmip_rg.limit
+        )
+    }
   } # sw_sel_type step
 
 
