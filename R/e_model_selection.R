@@ -304,12 +304,19 @@ e_model_selection <-
       )
   } # sw_model "glm"
 
-  out[["init"]][["anova"]] <-
-    car::Anova(
-      out[["init"]][["fit"]]
-    , type = 3
-    , singular.ok = TRUE
-    )
+
+  # skip car::Anova if only intercept
+  if (sum(names(out[["sel"]][["fit"]]$coefficients) %notin% "(Intercept)")) {
+    out[["init"]][["anova"]] <-
+      car::Anova(
+        out[["init"]][["fit"]]
+      , type = 3
+      , singular.ok = TRUE
+      )
+  } else {
+    out[["init"]][["anova"]] <-
+      NULL
+  }
   out[["init"]][["summary"]] <-
     summary(
       out[["init"]][["fit"]]
@@ -482,12 +489,18 @@ e_model_selection <-
         )
     } # sw_model "glm"
 
-    out[["sel"]][["anova"]] <-
-      car::Anova(
-        out[["sel"]][["fit"]]
-      , type = 3
-      , singular.ok = TRUE
-      )
+    # skip car::Anova if only intercept
+    if (sum(names(out[["sel"]][["fit"]]$coefficients) %notin% "(Intercept)")) {
+      out[["sel"]][["anova"]] <-
+        car::Anova(
+          out[["sel"]][["fit"]]
+        , type = 3
+        , singular.ok = TRUE
+        )
+    } else {
+      out[["sel"]][["anova"]] <-
+        NULL
+    }
     out[["sel"]][["summary"]] <-
       summary(
         out[["sel"]][["fit"]]
