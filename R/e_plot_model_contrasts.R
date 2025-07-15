@@ -1,4 +1,4 @@
-#' Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.
+#' Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.1
 #'
 #' Variable labels can be provided by labelling your data with the labelled::var_label() command.
 #'
@@ -472,9 +472,19 @@ e_plot_model_contrasts <-
     message(paste0("e_plot_model_contrasts: fit class\"", fit_model_type, "\" not tested."))
   }
 
+  # if intercept-only, give warning and return NULL
+  xy_var_names_list <- e_model_extract_var_names(fit)
+  if (length(xy_var_names_list$x_var_names) +
+      length(xy_var_names_list$x_var_names_interactions) == 0) {
+    message(paste0("e_plot_model_contrasts: fit contains no predictors, intercept-only; returning NULL."))
+    out <- NULL
+    return(out)
+  }
+
+
   # BEGIN Capture warnings to take actions
     message_involve_interaction <-
-      "NOTE: Results may be misleading due to involvement in interactions\n"
+      "NOTE: Results may be misleading due to involvement in interactions.\n"
   # END Capture warnings to take actions
 
   # confidence limits (CL) column names differ depending on method and rank deficiency
@@ -1209,15 +1219,86 @@ e_plot_model_contrasts <-
           text_caption <- text_short
         }
 
-        p <-
-          plot(
-            cont_fit
-          , comparisons = TRUE
-          , adjust      = adjust_method
-          , horizontal  = TRUE #FALSE
-          #, by          = "surv_prog.factor"
-          #, type = "scale" #"response"
-          )
+        ## Comparison arrows sometimes have negative width, the sw_error_* handles a couple of cases
+        # This is the first place in this function where we have this code
+        sw_error_1 <- FALSE   # comparison with adjust
+        sw_error_2 <- FALSE   # comparison without adjust
+        # First check if comparison arrows have negative length, if so, don't print comparisons
+        check_message1 <-
+          e_message_capture(
+            plot(
+              cont_fit
+            , comparisons = TRUE
+            , adjust      = adjust_method
+            , horizontal  = TRUE
+            )
+          )(1)
+        # comparison with adjust
+        sw_error_1 <- check_message1$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
+
+        if (sw_error_1) {
+          check_message2 <-
+            e_message_capture(
+              plot(
+                cont_fit
+              , comparisons = TRUE
+              ## Oddly, may still fail with "none", but works with "tukey"
+              #, adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]
+              , horizontal  = TRUE
+              )
+            )(1)
+          # comparison without adjust
+          sw_error_2 <- check_message2$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
+        }
+
+        if (!(sw_error_1 | sw_error_2)) {
+          # no issues, regular plot
+          p <-
+            plot(
+              cont_fit
+            , comparisons = TRUE
+            , adjust      = adjust_method
+            , horizontal  = TRUE
+            )
+        } else {
+          if (sw_error_1 & !sw_error_2) {
+            # adjust is problem
+            p <-
+              plot(
+                cont_fit
+              , comparisons = TRUE
+              , adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
+              , horizontal  = TRUE
+              )
+
+            message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length with adjust, plotting with Tukey adjustment.\n"))
+            text_caption <-
+              paste0(
+                text_caption
+              , "\n"
+              , "Comparison arrows negative length with adjust, plotting with Tukey adjustment."
+              )
+          } # sw_error_1 & !sw_error_2
+
+          if (sw_error_2) {
+            # adjust is problem
+            p <-
+              plot(
+                cont_fit
+              , comparisons = FALSE
+              , adjust      = adjust_method
+              , horizontal  = TRUE
+              )
+
+            message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length even without adjust, not plotting comparison arrows.\n"))
+            text_caption <-
+              paste0(
+                text_caption
+              , "\n"
+              , "Comparison arrows negative length even without adjust, not plotting comparison arrows."
+              )
+          } # sw_error_1 & !sw_error_2
+        } # else !(sw_error_1 | sw_error_2)
 
         if (!(fit_model_type == "glm")) {
           x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
@@ -1593,45 +1674,86 @@ e_plot_model_contrasts <-
             text_caption <- text_short
           }
 
+          ## Comparison arrows sometimes have negative width, the sw_error_* handles a couple of cases
+          # This is the second place in this function where we have this code
+          sw_error_1 <- FALSE   # comparison with adjust
+          sw_error_2 <- FALSE   # comparison without adjust
+          # First check if comparison arrows have negative length, if so, don't print comparisons
+          check_message1 <-
+            e_message_capture(
+              plot(
+                cont_fit
+              , comparisons = TRUE
+              , adjust      = adjust_method
+              , horizontal  = TRUE
+              )
+            )(1)
+          # comparison with adjust
+          sw_error_1 <- check_message1$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
 
-          # if error: "Error: Aborted -- Some comparison arrows have negative length!"
-          # then remove comprisons
-          sw_try_ok <-
-            !e_is_error(
-              try(
+          if (sw_error_1) {
+            check_message2 <-
+              e_message_capture(
                 plot(
                   cont_fit
                 , comparisons = TRUE
+                ## Oddly, may still fail with "none", but works with "tukey"
+                #, adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]
+                , horizontal  = TRUE
                 )
-              )
-            )
-          if(sw_try_ok) {
+              )(1)
+            # comparison without adjust
+            sw_error_2 <- check_message2$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
+          }
+
+          if (!(sw_error_1 | sw_error_2)) {
+            # no issues, regular plot
             p <-
               plot(
                 cont_fit
               , comparisons = TRUE
               , adjust      = adjust_method
-              , horizontal  = TRUE #FALSE
-              #, by          = "surv_prog.factor"
+              , horizontal  = TRUE
               )
           } else {
-            message(paste0("  e_plot_model_contrasts: Due to error, no comparison arrows for: ", var_xs))
-            text_caption <-
-              paste0(
-                text_caption
-              , "\n"
-              , "Due to error, no comparison arrows are plotted"
-              )
+            if (sw_error_1 & !sw_error_2) {
+              # adjust is problem
+              p <-
+                plot(
+                  cont_fit
+                , comparisons = TRUE
+                , adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
+                , horizontal  = TRUE
+                )
 
-            p <-
-              plot(
-                cont_fit
-              #, comparisons = TRUE
-              , adjust      = adjust_method
-              , horizontal  = TRUE #FALSE
-              #, by          = "surv_prog.factor"
-              )
-          } # if sw_try_ok
+              message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length with adjust, plotting with Tukey adjustment.\n"))
+              text_caption <-
+                paste0(
+                  text_caption
+                , "\n"
+                , "Comparison arrows negative length with adjust, plotting with Tukey adjustment."
+                )
+            } # sw_error_1 & !sw_error_2
+
+            if (sw_error_2) {
+              # adjust is problem
+              p <-
+                plot(
+                  cont_fit
+                , comparisons = FALSE
+                , adjust      = adjust_method
+                , horizontal  = TRUE
+                )
+
+              message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length even without adjust, not plotting comparison arrows.\n"))
+              text_caption <-
+                paste0(
+                  text_caption
+                , "\n"
+                , "Comparison arrows negative length even without adjust, not plotting comparison arrows."
+                )
+            } # sw_error_1 & !sw_error_2
+          } # else !(sw_error_1 | sw_error_2)
 
           if (!(fit_model_type == "glm")) {
             x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
