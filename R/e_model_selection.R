@@ -12,7 +12,7 @@
 #' @param sw_plot_missing     output plots from \code{e_plot_missing}
 #' @param sw_plot_y_covar     output plots from \code{e_plot_lm_y_covar}
 #' @param sw_plot_x_corr      output correlation matrix plot
-#' @param sw_contrasts        which contrasts to plot, \code{both} is full and selected model.
+#' @param sw_contrasts        which contrasts to plot, \code{"both"} is full and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.
 #' @param sw_print_results    print results before returning object
 #' @param ...                 options sent to \code{e_model_all_subsets_formula} for subsets to consider
 #'
@@ -83,7 +83,7 @@ e_model_selection <-
   , sw_plot_missing   = c(TRUE, FALSE)[1]
   , sw_plot_y_covar   = c(TRUE, FALSE)[1]
   , sw_plot_x_corr    = c(TRUE, FALSE)[1]
-  , sw_contrasts      = c("both", "sel", "none")[2]
+  , sw_contrasts      = c("both", "sel", "none", "skip")[2]
   , sw_print_results  = c(TRUE, FALSE)[1]
   , emmip_rg.limit    = 10000
   , ...
@@ -130,39 +130,14 @@ e_model_selection <-
   out <- list()
 
   # if formula is specified
-  if (!is.null(form)){
-    # decompose formula into each covariate
-    # identify response and main effect terms from the formula
-    form_terms <-
-      form |>
-      stats::terms() |>
-      attr("variables") |>
-      as.character()
-    # remove "list" artifact element from as.character() and the random effect
-    ind_form_terms <-
-      stringr::str_detect(string = form_terms, pattern = "list", negate = TRUE)
-    form_terms <-
-      form_terms[ind_form_terms]
-    ind_form_terms_covar <-
-      stringr::str_detect(string = form_terms, pattern = stringr::fixed(form_terms[1]), negate = TRUE)
+  if (!is.null(form)) {
 
-    y_var_name <-
-      form_terms[1]
-    x_var_names <-
-      form_terms[ind_form_terms_covar]
-
-    if (sw_model == c("lm", "glm")[2]) {
-      y_var_name_components <-
-        stringr::str_split(
-          string    = y_var_name
-        , pattern   = "\\(|,"
-        ) |>
-        unlist()
-      if (y_var_name_components[1] == "cbind") {
-        y_var_name <-
-          y_var_name_components[2]
-      }
-    } # glm
+    xy_var_names_list <- e_model_extract_var_names(form)
+    #xy_var_names_list
+    y_var_name                <- xy_var_names_list$y_var_name
+    y_var_name_glm            <- xy_var_names_list$y_var_name_glm
+    x_var_names               <- xy_var_names_list$x_var_names
+    x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
 
   } # form
 
@@ -179,11 +154,6 @@ e_model_selection <-
         tidyselect::where(is.character)
       , as.factor
       )
-    # Drop unused factor levels
-    , dplyr::across(
-        tidyselect::where(is.factor)
-      , forcats::fct_drop
-      )
     )
 
   # if lm, ensure response y is numeric
@@ -197,24 +167,6 @@ e_model_selection <-
     labelled::var_label(dat_sel__[[ y_var_name ]]) <-
       temp_y_label
   } # sw_model "lm"
-
-
-
-  # remove factors with only one level
-  for (i_covar in seq_along(x_var_names)) {
-    ## i_covar = 5
-    if (is.factor (dat_sel__[[ x_var_names[i_covar] ]]) |
-        is.ordered(dat_sel__[[ x_var_names[i_covar] ]])) {
-
-      if (length(levels(dat_sel__[[ x_var_names[i_covar] ]])) <= 1) {
-        warning(paste0("erikmisc::e_model_selection, removing x-var with only 1 level: ", x_var_names[i_covar]))
-
-        dat_sel__[[ x_var_names[i_covar] ]] <- NULL
-        x_var_names[i_covar] <- NA
-      }
-    }
-  }
-  x_var_names <- x_var_names[!is.na(x_var_names)]
 
 
   # Plot missing values
@@ -231,13 +183,95 @@ e_model_selection <-
     dat_sel__ |>
     tidyr::drop_na()
 
-  out[["data"]] <-
-    dat_sel__
+  x_var_removed <- NULL
+  # remove factors with only one level after dropping missing
+  for (i_covar in seq_along(x_var_names)) {
+    ## i_covar = 5
+    if (is.factor (dat_sel__[[ x_var_names[i_covar] ]]) |
+        is.ordered(dat_sel__[[ x_var_names[i_covar] ]])) {
+
+      # drop unused factor levels
+      dat_sel__[[ x_var_names[i_covar] ]] <-
+        dat_sel__[[ x_var_names[i_covar] ]] |>
+        forcats::fct_drop()
+
+      if (length(levels(dat_sel__[[ x_var_names[i_covar] ]])) <= 1) {
+        warning(paste0("erikmisc::e_model_selection, removing x-var with only 1 level: ", x_var_names[i_covar]))
+
+        x_var_removed <- c(x_var_removed, x_var_names[i_covar])
+
+        # remove data column
+        dat_sel__[[ x_var_names[i_covar] ]] <- NULL
+
+        # remove associated interactions
+        x_int_split <-
+          x_var_names_interactions |>
+          stringr::str_split(
+            pattern = stringr::fixed(":")
+          , simplify = TRUE
+          )
+
+        ind_int_remove <-
+          (x_int_split == x_var_names[i_covar]) |>
+          rowSums() |>
+          as.logical() |>
+          which()
+
+        if (length(ind_int_remove)) {
+          x_var_names_interactions[ind_int_remove] <- NA
+        }
+
+        # remove main effect
+        x_var_names[i_covar] <- NA
+
+      }
+    }
+  }
+  x_var_names               <- x_var_names              [!is.na(x_var_names             )]
+  x_var_names_interactions  <- x_var_names_interactions [!is.na(x_var_names_interactions)]
 
   if (length(x_var_names) == 0) {
     warning(paste0("erikmisc::e_model_selection, No predictors (x) with more than 1 level -- skip analysis."))
     return(NULL)
   }
+
+  # if a variable was removed, update formula
+  if (length(x_var_removed)) {
+    if (sw_model == c("lm", "glm")[1]) {
+      form <-
+        paste0(
+          y_var_name
+        , " ~ "
+        , paste0(
+            c(
+              x_var_names
+            , x_var_names_interactions
+            )
+          , collapse = " + "
+          )
+        ) |>
+        as.formula()
+    } # sw_model "lm"
+    if (sw_model == c("lm", "glm")[2]) {
+      form <-
+        paste0(
+          y_var_name_glm
+        , " ~ "
+        , paste0(
+            c(
+              x_var_names
+            , x_var_names_interactions
+            )
+          , collapse = " + "
+          )
+        ) |>
+        as.formula()
+    } # sw_model "glm"
+  } # x_var_removed
+
+
+  out[["data"]] <-
+    dat_sel__
 
   # Plot y vs each x
   if (sw_plot_y_covar) {
@@ -267,6 +301,8 @@ e_model_selection <-
       e_plot_corr_matrix(sw_plot_type = "mixed")
 
   } # sw_plot_x_corr
+
+
 
 
   # Full models
@@ -352,7 +388,7 @@ e_model_selection <-
       , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
       )
   } # sw_model "lm"
-  if (sw_contrasts %in% c("both", "sel", "none")[c(1)]) {
+  if (!(sw_contrasts      == c("both", "sel", "none", "skip")[4])) {
     out[["init"]][["contrasts"]] <-
       e_plot_model_contrasts(
         fit                     = out[["init"]][["fit"]]
@@ -364,6 +400,7 @@ e_model_selection <-
       , CI_level                = 0.95
       , sw_print                = FALSE
       , sw_marginal_even_if_interaction = TRUE  # FALSE
+      , sw_produce_plots        = (sw_contrasts %in% c("both", "sel", "none", "skip")[c(1)])
       , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
       , sw_TWI_both_orientation = c("wide", "tall")[1]
       , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
@@ -372,7 +409,9 @@ e_model_selection <-
       , plot_values             = NULL                            # for numeric:numeric plots
       , emmip_rg.limit          = emmip_rg.limit
       )
-  }
+  } else {
+    out[["init"]][["contrasts"]] <- "skip"
+  } # sw_contrasts !skip
 
   # Stepwise upper and lower models
   if(sw_sel_type == c("step", "bestsubset")[1]) {
@@ -536,7 +575,7 @@ e_model_selection <-
       , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
       )
     }
-    if (sw_contrasts %in% c("both", "sel", "none")[c(1, 2)]) {
+    if (!(sw_contrasts      == c("both", "sel", "none", "skip")[4])) {
       out[["sel"]][["contrasts"]] <-
         e_plot_model_contrasts(
           fit                     = out[["sel"]][["fit"]]
@@ -547,6 +586,7 @@ e_model_selection <-
         , CI_level                = 0.95
         , sw_print                = FALSE
         , sw_marginal_even_if_interaction = TRUE  # FALSE
+        , sw_produce_plots        = (sw_contrasts %in% c("both", "sel", "none", "skip")[c(1, 2)])
         , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
         , sw_TWI_both_orientation = c("wide", "tall")[1]
         , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
@@ -555,7 +595,9 @@ e_model_selection <-
         , plot_values             = NULL                            # for numeric:numeric plots
         , emmip_rg.limit          = emmip_rg.limit
         )
-    }
+    } else {
+      out[["sel"]][["contrasts"]] <- "skip"
+    } # sw_contrasts !skip
   } # sw_sel_type step
 
 
@@ -627,21 +669,23 @@ e_model_selection <-
       #plot(out[["sel"]][["fit"   ]], which = 1) |> print()
     } # sw_model "lm"
 
-    print("")
-    print("")
-    print("")
-    print(paste("=====", "Contrasts and model interpretations"))
-    #print("____init____")
-    #out[["init"]][["contrasts"]]   |> print()
-    #out[["init"]][["contrasts"]]$plots   |> print()
-    #out[["init"]][["contrasts"]]$tables  |> print()
-    #out[["init"]][["contrasts"]]$text    |> print()
-    print("____sel____")
-    #out[["sel"]][["contrasts"]]  |> print()
-    out[["sel"]][["contrasts"]]$plots  |> print()
-    out[["sel"]][["contrasts"]]$tables |> print()
-    #out[["sel"]][["contrasts"]]$text   |> print()
-    out[["sel"]][["contrasts"]]$interp |> print()
+    if (sw_contrasts %in% c("both", "sel", "none")[c(1, 2)]) {
+      print("")
+      print("")
+      print("")
+      print(paste("=====", "Contrasts and model interpretations"))
+      #print("____init____")
+      #out[["init"]][["contrasts"]]   |> print()
+      #out[["init"]][["contrasts"]]$plots   |> print()
+      #out[["init"]][["contrasts"]]$tables  |> print()
+      #out[["init"]][["contrasts"]]$text    |> print()
+      print("____sel____")
+      #out[["sel"]][["contrasts"]]  |> print()
+      out[["sel"]][["contrasts"]]$plots  |> print()
+      out[["sel"]][["contrasts"]]$tables |> print()
+      #out[["sel"]][["contrasts"]]$text   |> print()
+      out[["sel"]][["contrasts"]]$interp |> print()
+    }
 
     print("=================================================")
     print("--  END    --------------------------------------")
