@@ -14,6 +14,7 @@
 #' @importFrom tidyr pivot_longer
 #' @importFrom cowplot plot_grid
 #' @importFrom tidyselect any_of
+#' @importFrom rlang inform
 #' @export
 #'
 #' @examples
@@ -365,7 +366,11 @@ e_plot_missing <-
     e_plot_complete_by_variable_subset() |>
     print(n = Inf, width = Inf)
   } else {
-    message("erikmisc::plot_missing(), Note: use e_plot_complete_by_variable_subset() to select variable combination with most complete observations.")
+    rlang::inform(
+      message = "erikmisc::plot_missing(), Note: use e_plot_complete_by_variable_subset() to select variable combination with most complete observations."
+    , .frequency = c("always", "regularly", "once")[3]
+    , .frequency_id = "e_plot_missing"
+    )
   }
 
   return(p_arranged)
