@@ -24,6 +24,7 @@
 #' @param sw_glm_scale              for glm fit, choose results on the "link" or "response" (default) scale (e.g., for logistic regression, link is logit scale and response is probability scale)
 #' @param sw_print                  T/F whether to print results as this function runs
 #' @param sw_marginal_even_if_interaction T/F whether to also calculate marginal results when involved in interaction(s)
+#' @param sw_produce_plots          T/F to create plots, \code{FALSE} still creates all tables and text, to speed results when plots are not required.
 #' @param sw_TWI_plots_keep         two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles", default) or together in a grid ("both"), and "all" keeps the singles and the grid version.
 #' @param sw_TWI_both_orientation   "tall" or "wide" orientation for when both two-way interaction plots are combined in a grid
 #' @param sw_plot_quantiles_values  "quantiles" or "values" to specify whether to plot quantiles of the numeric variable or specified values
@@ -301,14 +302,15 @@ e_plot_model_contrasts <-
     fit                     = NULL
   , dat_cont                = NULL
   , choose_contrasts        = NULL
-  , sw_table_in_plot        = TRUE
-  , sw_points_in_plot       = TRUE
-  , sw_ribbon_in_plot       = TRUE
+  , sw_table_in_plot        = c(TRUE, FALSE)[1]
+  , sw_points_in_plot       = c(TRUE, FALSE)[1]
+  , sw_ribbon_in_plot       = c(TRUE, FALSE)[1]
   , adjust_method           = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[4]  # see ?emmeans::summary.emmGrid
   , CI_level                = 0.95
   , sw_glm_scale            = c("link", "response")[2]
-  , sw_print                = TRUE
-  , sw_marginal_even_if_interaction = FALSE
+  , sw_print                = c(TRUE, FALSE)[1]
+  , sw_marginal_even_if_interaction = c(TRUE, FALSE)[2]
+  , sw_produce_plots        = c(TRUE, FALSE)[1]
   , sw_TWI_plots_keep       = c("singles", "both", "all")[1]
   , sw_TWI_both_orientation = c("wide", "tall")[1]
   , sw_plot_quantiles_values = c("quantiles", "values")[1]    # for numeric:numeric plots
@@ -850,27 +852,31 @@ e_plot_model_contrasts <-
             , UCL = pmin(UCL, 1)
             )
 
-          p <-
-            ggplot(
-              data = p_dat
-            , aes(x = xvar, y = yvar)
-            , colour = "black"
-            )
-          p <- p + geom_line()
-          if (sw_ribbon_in_plot) {
-            p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL), fill = "black", alpha = 1/10)
-          }
-          if (sw_points_in_plot) {
-            p <- p +
-              geom_point(
-              #  data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
-                data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = p_hat__) # tvar is colour categorical variable
-              #, aes(x = xvar, y = yvar)
-              , aes(x = xvar, y = p_hat__)
+          if (sw_produce_plots == TRUE) {
+            p <-
+              ggplot(
+                data = p_dat
+              , aes(x = xvar, y = yvar)
               , colour = "black"
-              , alpha = geom_point_alpha
               )
-          } # sw_points_in_plot
+            p <- p + geom_line()
+            if (sw_ribbon_in_plot) {
+              p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL), fill = "black", alpha = 1/10)
+            }
+            if (sw_points_in_plot) {
+              p <- p +
+                geom_point(
+                #  data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+                  data = dat_cont |> dplyr::mutate(tvar = factor(1), xvar = !!rlang::sym(var_xs_no_backticks), yvar = p_hat__) # tvar is colour categorical variable
+                #, aes(x = xvar, y = yvar)
+                , aes(x = xvar, y = p_hat__)
+                , colour = "black"
+                , alpha = geom_point_alpha
+                )
+            } # sw_points_in_plot
+          } else {
+            p <- e_plot_blank(text_label = "No plot\nsw_produce_plots=FALSE")
+          } # sw_produce_plots
 
         } else {
           # default scale
@@ -892,25 +898,29 @@ e_plot_model_contrasts <-
             , plotit    = FALSE
             )
 
-          p <-
-            ggplot(
-              data = p_dat
-            , aes(x = xvar, y = yvar)
-            , colour = "black"
-            )
-          p <- p + geom_line()
-          if (sw_ribbon_in_plot) {
-            p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL), fill = "black", alpha = 1/10)
-          }
-          if (sw_points_in_plot & !(fit_model_type == "glm")) {
-            p <- p +
-              geom_point(
-                data = dat_cont |> dplyr::mutate(xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+          if (sw_produce_plots == TRUE) {
+            p <-
+              ggplot(
+                data = p_dat
               , aes(x = xvar, y = yvar)
               , colour = "black"
-              , alpha = geom_point_alpha
               )
-          } # sw_points_in_plot
+            p <- p + geom_line()
+            if (sw_ribbon_in_plot) {
+              p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL), fill = "black", alpha = 1/10)
+            }
+            if (sw_points_in_plot & !(fit_model_type == "glm")) {
+              p <- p +
+                geom_point(
+                  data = dat_cont |> dplyr::mutate(xvar = !!rlang::sym(var_xs_no_backticks), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+                , aes(x = xvar, y = yvar)
+                , colour = "black"
+                , alpha = geom_point_alpha
+                )
+            } # sw_points_in_plot
+          } else {
+            p <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+          } # sw_produce_plots
 
         } # if glm
         text_averaged_plot <-
@@ -1219,86 +1229,90 @@ e_plot_model_contrasts <-
           text_caption <- text_short
         }
 
-        ## Comparison arrows sometimes have negative width, the sw_error_* handles a couple of cases
-        # This is the first place in this function where we have this code
-        sw_error_1 <- FALSE   # comparison with adjust
-        sw_error_2 <- FALSE   # comparison without adjust
-        # First check if comparison arrows have negative length, if so, don't print comparisons
-        check_message1 <-
-          e_message_capture(
-            plot(
-              cont_fit
-            , comparisons = TRUE
-            , adjust      = adjust_method
-            , horizontal  = TRUE
-            )
-          )(1)
-        # comparison with adjust
-        sw_error_1 <- check_message1$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
-
-        if (sw_error_1) {
-          check_message2 <-
+        if (sw_produce_plots == TRUE) {
+          ## Comparison arrows sometimes have negative width, the sw_error_* handles a couple of cases
+          # This is the first place in this function where we have this code
+          sw_error_1 <- FALSE   # comparison with adjust
+          sw_error_2 <- FALSE   # comparison without adjust
+          # First check if comparison arrows have negative length, if so, don't print comparisons
+          check_message1 <-
             e_message_capture(
               plot(
                 cont_fit
               , comparisons = TRUE
-              ## Oddly, may still fail with "none", but works with "tukey"
-              #, adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]
+              , adjust      = adjust_method
               , horizontal  = TRUE
               )
             )(1)
-          # comparison without adjust
-          sw_error_2 <- check_message2$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
-        }
+          # comparison with adjust
+          sw_error_1 <- check_message1$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
 
-        if (!(sw_error_1 | sw_error_2)) {
-          # no issues, regular plot
-          p <-
-            plot(
-              cont_fit
-            , comparisons = TRUE
-            , adjust      = adjust_method
-            , horizontal  = TRUE
-            )
-        } else {
-          if (sw_error_1 & !sw_error_2) {
-            # adjust is problem
+          if (sw_error_1) {
+            check_message2 <-
+              e_message_capture(
+                plot(
+                  cont_fit
+                , comparisons = TRUE
+                ## Oddly, may still fail with "none", but works with "tukey"
+                #, adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]
+                , horizontal  = TRUE
+                )
+              )(1)
+            # comparison without adjust
+            sw_error_2 <- check_message2$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
+          }
+
+          if (!(sw_error_1 | sw_error_2)) {
+            # no issues, regular plot
             p <-
               plot(
                 cont_fit
               , comparisons = TRUE
-              , adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
-              , horizontal  = TRUE
-              )
-
-            message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length with adjust, plotting with Tukey adjustment.\n"))
-            text_caption <-
-              paste0(
-                text_caption
-              , "\n"
-              , "Comparison arrows negative length with adjust, plotting with Tukey adjustment."
-              )
-          } # sw_error_1 & !sw_error_2
-
-          if (sw_error_2) {
-            # adjust is problem
-            p <-
-              plot(
-                cont_fit
-              , comparisons = FALSE
               , adjust      = adjust_method
               , horizontal  = TRUE
               )
+          } else {
+            if (sw_error_1 & !sw_error_2) {
+              # adjust is problem
+              p <-
+                plot(
+                  cont_fit
+                , comparisons = TRUE
+                , adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
+                , horizontal  = TRUE
+                )
 
-            message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length even without adjust, not plotting comparison arrows.\n"))
-            text_caption <-
-              paste0(
-                text_caption
-              , "\n"
-              , "Comparison arrows negative length even without adjust, not plotting comparison arrows."
-              )
-          } # sw_error_1 & !sw_error_2
-        } # else !(sw_error_1 | sw_error_2)
+              message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length with adjust, plotting with Tukey adjustment.\n"))
+              text_caption <-
+                paste0(
+                  text_caption
+                , "\n"
+                , "Comparison arrows negative length with adjust, plotting with Tukey adjustment."
+                )
+            } # sw_error_1 & !sw_error_2
+
+            if (sw_error_2) {
+              # adjust is problem
+              p <-
+                plot(
+                  cont_fit
+                , comparisons = FALSE
+                , adjust      = adjust_method
+                , horizontal  = TRUE
+                )
+
+              message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length even without adjust, not plotting comparison arrows.\n"))
+              text_caption <-
+                paste0(
+                  text_caption
+                , "\n"
+                , "Comparison arrows negative length even without adjust, not plotting comparison arrows."
+                )
+            } # sw_error_1 & !sw_error_2
+          } # else !(sw_error_1 | sw_error_2)
+        } else {
+          p <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+        } # sw_produce_plots
 
         if (!(fit_model_type == "glm")) {
           x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
@@ -1674,86 +1688,90 @@ e_plot_model_contrasts <-
             text_caption <- text_short
           }
 
-          ## Comparison arrows sometimes have negative width, the sw_error_* handles a couple of cases
-          # This is the second place in this function where we have this code
-          sw_error_1 <- FALSE   # comparison with adjust
-          sw_error_2 <- FALSE   # comparison without adjust
-          # First check if comparison arrows have negative length, if so, don't print comparisons
-          check_message1 <-
-            e_message_capture(
-              plot(
-                cont_fit
-              , comparisons = TRUE
-              , adjust      = adjust_method
-              , horizontal  = TRUE
-              )
-            )(1)
-          # comparison with adjust
-          sw_error_1 <- check_message1$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
-
-          if (sw_error_1) {
-            check_message2 <-
+          if (sw_produce_plots == TRUE) {
+            ## Comparison arrows sometimes have negative width, the sw_error_* handles a couple of cases
+            # This is the second place in this function where we have this code
+            sw_error_1 <- FALSE   # comparison with adjust
+            sw_error_2 <- FALSE   # comparison without adjust
+            # First check if comparison arrows have negative length, if so, don't print comparisons
+            check_message1 <-
               e_message_capture(
                 plot(
                   cont_fit
                 , comparisons = TRUE
-                ## Oddly, may still fail with "none", but works with "tukey"
-                #, adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]
+                , adjust      = adjust_method
                 , horizontal  = TRUE
                 )
               )(1)
-            # comparison without adjust
-            sw_error_2 <- check_message2$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
-          }
+            # comparison with adjust
+            sw_error_1 <- check_message1$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
 
-          if (!(sw_error_1 | sw_error_2)) {
-            # no issues, regular plot
-            p <-
-              plot(
-                cont_fit
-              , comparisons = TRUE
-              , adjust      = adjust_method
-              , horizontal  = TRUE
-              )
-          } else {
-            if (sw_error_1 & !sw_error_2) {
-              # adjust is problem
+            if (sw_error_1) {
+              check_message2 <-
+                e_message_capture(
+                  plot(
+                    cont_fit
+                  , comparisons = TRUE
+                  ## Oddly, may still fail with "none", but works with "tukey"
+                  #, adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[1]
+                  , horizontal  = TRUE
+                  )
+                )(1)
+              # comparison without adjust
+              sw_error_2 <- check_message2$logs[[1]]$message |> stringr::str_detect(pattern = stringr::fixed("Aborted -- Some comparison arrows have negative length!"))
+            }
+
+            if (!(sw_error_1 | sw_error_2)) {
+              # no issues, regular plot
               p <-
                 plot(
                   cont_fit
                 , comparisons = TRUE
-                , adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
-                , horizontal  = TRUE
-                )
-
-              message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length with adjust, plotting with Tukey adjustment.\n"))
-              text_caption <-
-                paste0(
-                  text_caption
-                , "\n"
-                , "Comparison arrows negative length with adjust, plotting with Tukey adjustment."
-                )
-            } # sw_error_1 & !sw_error_2
-
-            if (sw_error_2) {
-              # adjust is problem
-              p <-
-                plot(
-                  cont_fit
-                , comparisons = FALSE
                 , adjust      = adjust_method
                 , horizontal  = TRUE
                 )
+            } else {
+              if (sw_error_1 & !sw_error_2) {
+                # adjust is problem
+                p <-
+                  plot(
+                    cont_fit
+                  , comparisons = TRUE
+                  , adjust      = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx", "mvt")[2]
+                  , horizontal  = TRUE
+                  )
 
-              message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length even without adjust, not plotting comparison arrows.\n"))
-              text_caption <-
-                paste0(
-                  text_caption
-                , "\n"
-                , "Comparison arrows negative length even without adjust, not plotting comparison arrows."
-                )
-            } # sw_error_1 & !sw_error_2
-          } # else !(sw_error_1 | sw_error_2)
+                message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length with adjust, plotting with Tukey adjustment.\n"))
+                text_caption <-
+                  paste0(
+                    text_caption
+                  , "\n"
+                  , "Comparison arrows negative length with adjust, plotting with Tukey adjustment."
+                  )
+              } # sw_error_1 & !sw_error_2
+
+              if (sw_error_2) {
+                # adjust is problem
+                p <-
+                  plot(
+                    cont_fit
+                  , comparisons = FALSE
+                  , adjust      = adjust_method
+                  , horizontal  = TRUE
+                  )
+
+                message(paste0("e_plot_model_contrasts: \"", var_xs, "\", comparison arrows negative length even without adjust, not plotting comparison arrows.\n"))
+                text_caption <-
+                  paste0(
+                    text_caption
+                  , "\n"
+                  , "Comparison arrows negative length even without adjust, not plotting comparison arrows."
+                  )
+              } # sw_error_1 & !sw_error_2
+            } # else !(sw_error_1 | sw_error_2)
+          } else {
+            p <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+          } # sw_produce_plots
 
           if (!(fit_model_type == "glm")) {
             x_label <- paste0("Estimate of:\n", labelled::var_label(dat_cont[[var_y_no_backticks]]) |> as.character())
@@ -2074,7 +2092,11 @@ e_plot_model_contrasts <-
           text_caption <- text_short
         }
 
-        p1 <- plot(cont_fit)
+        if (sw_produce_plots == TRUE) {
+          p1 <- plot(cont_fit)
+        } else {
+          p1 <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+        } # sw_produce_plots
         p1 <- p1 + theme_bw()
         p1 <- p1 + labs(
             title     = paste0("Interaction of ", labelled::var_label(dat_cont[[ var_xs_no_backticks[1] ]]) |> as.character(), " and ", labelled::var_label(dat_cont[[ var_xs_no_backticks[2] ]]) |> as.character())
@@ -2180,25 +2202,29 @@ e_plot_model_contrasts <-
             , UCL = pmin(UCL, 1)
             )
 
-          p2 <-
-            ggplot(
-                data = p_dat
-              , aes(x = xvar, y = yvar, colour = tvar)
-            )
-          p2 <- p2 + geom_line()
-          if (sw_ribbon_in_plot) {
-            p2 <- p2 + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/10)
-          }
-          if (sw_points_in_plot) {
-            p2 <- p2 +
-              geom_point(
-              #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
-                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
-              #, aes(x = xvar, y = yvar, colour = tvar)
-              , aes(x = xvar, y = p_hat__, colour = tvar)
-              , alpha = geom_point_alpha
+          if (sw_produce_plots == TRUE) {
+            p2 <-
+              ggplot(
+                  data = p_dat
+                , aes(x = xvar, y = yvar, colour = tvar)
               )
-          } # sw_points_in_plot
+            p2 <- p2 + geom_line()
+            if (sw_ribbon_in_plot) {
+              p2 <- p2 + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/10)
+            }
+            if (sw_points_in_plot) {
+              p2 <- p2 +
+                geom_point(
+                #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+                  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
+                #, aes(x = xvar, y = yvar, colour = tvar)
+                , aes(x = xvar, y = p_hat__, colour = tvar)
+                , alpha = geom_point_alpha
+                )
+            } # sw_points_in_plot
+          } else {
+            p2 <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+          } # sw_produce_plots
 
         } else {
           # default scale
@@ -2218,23 +2244,27 @@ e_plot_model_contrasts <-
             , plotit    = FALSE
             )
 
-          p2 <-
-            ggplot(
-                data = p_dat
-              , aes(x = xvar, y = yvar, colour = tvar)
-            )
-          p2 <- p2 + geom_line()
-          if (sw_ribbon_in_plot) {
-            p2 <- p2 + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/10)
-          }
-          if (sw_points_in_plot & !(fit_model_type == "glm")) {
-            p2 <- p2 +
-              geom_point(
-                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
-              , aes(x = xvar, y = yvar, colour = tvar)
-              , alpha = geom_point_alpha
+          if (sw_produce_plots == TRUE) {
+            p2 <-
+              ggplot(
+                  data = p_dat
+                , aes(x = xvar, y = yvar, colour = tvar)
               )
-          } # sw_points_in_plot
+            p2 <- p2 + geom_line()
+            if (sw_ribbon_in_plot) {
+              p2 <- p2 + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/10)
+            }
+            if (sw_points_in_plot & !(fit_model_type == "glm")) {
+              p2 <- p2 +
+                geom_point(
+                  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+                , aes(x = xvar, y = yvar, colour = tvar)
+                , alpha = geom_point_alpha
+                )
+            } # sw_points_in_plot
+          } else {
+            p2 <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+          } # sw_produce_plots
 
         }
 
@@ -2475,41 +2505,45 @@ e_plot_model_contrasts <-
           #}
 
 
-          p <-
-            ggplot(
-                data = p_dat
-              , aes(x = xvar, y = yvar, colour = tvar)
-            )
-          p <- p + geom_line()
-          if (sw_ribbon_in_plot) {
-            p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/25)
-          }
-          if (sw_points_in_plot & !(fit_model_type == "glm")) {
-            p <- p +
-              geom_point(
-                #data = dat_cont
-                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = !!rlang::sym(var_xs_no_backticks[1]))
-              , aes(x = xvar, y = yvar)
-              , colour = "black"
-              , alpha = geom_point_alpha
+          if (sw_produce_plots == TRUE) {
+            p <-
+              ggplot(
+                  data = p_dat
+                , aes(x = xvar, y = yvar, colour = tvar)
               )
-          } # sw_points_in_plot
-          if (sw_points_in_plot & (fit_model_type == "glm")) {
-            p <- p +
-              geom_point(
-                #data = dat_cont
-              #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
-                data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = tvar)
-              #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = !!rlang::sym(var_xs_no_backticks[1]))
-              #, aes(x = xvar, y = yvar)
-              , aes(x = xvar, y = p_hat__)
-              , colour = "black"
-              , alpha = geom_point_alpha
-              )
-          } # sw_points_in_plot
+            p <- p + geom_line()
+            if (sw_ribbon_in_plot) {
+              p <- p + geom_ribbon(aes(ymin = LCL, ymax = UCL, fill = tvar, colour = NULL), alpha = 1/25)
+            }
+            if (sw_points_in_plot & !(fit_model_type == "glm")) {
+              p <- p +
+                geom_point(
+                  #data = dat_cont
+                  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+                #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = tvar)
+                #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = !!rlang::sym(var_xs_no_backticks[1]))
+                , aes(x = xvar, y = yvar)
+                , colour = "black"
+                , alpha = geom_point_alpha
+                )
+            } # sw_points_in_plot
+            if (sw_points_in_plot & (fit_model_type == "glm")) {
+              p <- p +
+                geom_point(
+                  #data = dat_cont
+                #  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = !!rlang::sym(var_y_no_backticks)) # tvar is colour categorical variable
+                  data = dat_cont |> dplyr::mutate(tvar = !!rlang::sym(var_xs_no_backticks[1]), xvar = !!rlang::sym(var_xs_no_backticks[2]), yvar = p_hat__) # tvar is colour categorical variable
+                #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = tvar)
+                #, aes(x = !!rlang::sym(var_xs_no_backticks[2]), y = !!rlang::sym(var_y_no_backticks), colour = !!rlang::sym(var_xs_no_backticks[1]))
+                #, aes(x = xvar, y = yvar)
+                , aes(x = xvar, y = p_hat__)
+                , colour = "black"
+                , alpha = geom_point_alpha
+                )
+            } # sw_points_in_plot
+          } else {
+            p <- e_plot_blank(text_label = "No plot\nsw_produce_plots = FALSE")
+          } # sw_produce_plots
 
           text_averaged_plot <-
             attributes(p$data)$mesg

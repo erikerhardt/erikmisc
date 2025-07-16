@@ -8,15 +8,16 @@ e_plot_model_contrasts(
   fit = NULL,
   dat_cont = NULL,
   choose_contrasts = NULL,
-  sw_table_in_plot = TRUE,
-  sw_points_in_plot = TRUE,
-  sw_ribbon_in_plot = TRUE,
+  sw_table_in_plot = c(TRUE, FALSE)[1],
+  sw_points_in_plot = c(TRUE, FALSE)[1],
+  sw_ribbon_in_plot = c(TRUE, FALSE)[1],
   adjust_method = c("none", "tukey", "scheffe", "sidak", "bonferroni", "dunnettx",
     "mvt")[4],
   CI_level = 0.95,
   sw_glm_scale = c("link", "response")[2],
-  sw_print = TRUE,
-  sw_marginal_even_if_interaction = FALSE,
+  sw_print = c(TRUE, FALSE)[1],
+  sw_marginal_even_if_interaction = c(TRUE, FALSE)[2],
+  sw_produce_plots = c(TRUE, FALSE)[1],
   sw_TWI_plots_keep = c("singles", "both", "all")[1],
   sw_TWI_both_orientation = c("wide", "tall")[1],
   sw_plot_quantiles_values = c("quantiles", "values")[1],
@@ -48,6 +49,8 @@ e_plot_model_contrasts(
 \item{sw_print}{T/F whether to print results as this function runs}
 
 \item{sw_marginal_even_if_interaction}{T/F whether to also calculate marginal results when involved in interaction(s)}
+
+\item{sw_produce_plots}{T/F to create plots, \code{FALSE} still creates all tables and text, to speed results when plots are not required.}
 
 \item{sw_TWI_plots_keep}{two-way interaction plots are plotted for each variable conditional on the other.  Plots are created separately ("singles", default) or together in a grid ("both"), and "all" keeps the singles and the grid version.}
 
