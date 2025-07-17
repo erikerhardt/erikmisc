@@ -567,13 +567,13 @@ e_model_selection <-
             )
         ) |>
         cowplot::plot_grid() +
-      patchwork::plot_annotation(
-        title       = "Diagnostics: Selected model"
-      #, subtitle    = ""
-      #, caption     =
-      #, tag_levels  = "A"
-      , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-      )
+        patchwork::plot_annotation(
+          title       = "Diagnostics: Selected model"
+        #, subtitle    = ""
+        #, caption     =
+        #, tag_levels  = "A"
+        , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        )
     }
     if (!(sw_contrasts      == c("both", "sel", "none", "skip")[4])) {
       out[["sel"]][["contrasts"]] <-
@@ -694,9 +694,9 @@ e_model_selection <-
   } # sw_print_results
 
   # Clean up global environment
-  rm("dat_sel__", envir = .GlobalEnv)
+  rm("dat_sel__"  , envir = .GlobalEnv)
   rm("form_init__", envir = .GlobalEnv)
-  rm("form_sel__", envir = .GlobalEnv)
+  rm("form_sel__" , envir = .GlobalEnv)
 
 
   return(out)
