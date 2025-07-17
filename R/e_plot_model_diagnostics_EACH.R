@@ -779,7 +779,7 @@ e_plot_model_diagnostics_car__outlierTest <-
   out <- list()
 
   # test table
-  out[[ "car__outlierTest_table" ]] <-
+  out[[ "car__outlierTest_print" ]] <-
     capture.output(
       car::outlierTest(
         model   = fit
@@ -790,6 +790,31 @@ e_plot_model_diagnostics_car__outlierTest <-
       )
     , type = c("output", "message")[1]
     , split = FALSE
+    )
+
+  out_temp <-
+    car::outlierTest(
+      model   = fit
+    , cutoff  = 0.05
+    , n.max   = 10
+    , order   = TRUE
+    #, labels  = names(rstudent)
+    )
+
+  attr(out_temp, "class") <- NULL
+
+  out[[ "car__outlierTest_table" ]] <-
+    out_temp |>
+    tibble::as_tibble() |>
+    dplyr::mutate(
+      Method            = "Bonferroni Outlier Test"
+    , Package_Function  = "car::outlierTest"
+    , Obs               = out_temp$rstudent |> names()
+    ) |>
+    dplyr::relocate(
+      Method
+    , Package_Function
+    , Obs
     )
 
   # restore original options
@@ -1051,15 +1076,15 @@ e_plot_model_diagnostics_qqplotr <-
 
   p1 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p1 <- p1 + theme_bw()
-  #p1 <- p1 + geom_qq_band(bandType = "ks", mapping = aes(fill = "KS"), alpha = 0.25)
-  #p1 <- p1 + geom_qq_band(bandType = "ts", mapping = aes(fill = "TS"), alpha = 0.25)
-  #p1 <- p1 + geom_qq_band(bandType = "pointwise", mapping = aes(fill = "Normal"), alpha = 0.25)
-  #p1 <- p1 + geom_qq_band(bandType = "boot", mapping = aes(fill = "Bootstrap"), alpha = 0.25)
-  p1 <- p1 + stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "ks", mapping = aes(fill = "KS"), alpha = 0.25)
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "ts", mapping = aes(fill = "TS"), alpha = 0.25)
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "pointwise", mapping = aes(fill = "Normal"), alpha = 0.25)
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "boot", mapping = aes(fill = "Bootstrap"), alpha = 0.25)
+  p1 <- p1 + qqplotr::stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
               , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p1 <- p1 + stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
-  p1 <- p1 + stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p1 <- p1 + qqplotr::stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p1 <- p1 + qqplotr::stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
   p1 <- p1 + labs(
               title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%")
             , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
@@ -1071,11 +1096,11 @@ e_plot_model_diagnostics_qqplotr <-
 
   p2 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p2 <- p2 + theme_bw()
-  p2 <- p2 + stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
+  p2 <- p2 + qqplotr::stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
               , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p2 <- p2 + stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
-  p2 <- p2 + stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p2 <- p2 + qqplotr::stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p2 <- p2 + qqplotr::stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
   p2 <- p2 + labs(
               title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%", ", detrended")
             , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
@@ -1085,11 +1110,11 @@ e_plot_model_diagnostics_qqplotr <-
 
   p3 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p3 <- p3 + theme_bw()
-  p3 <- p3 + stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
+  p3 <- p3 + qqplotr::stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
               , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p3 <- p3 + stat_pp_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
-  p3 <- p3 + stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p3 <- p3 + qqplotr::stat_pp_line (                                                                               detrend = c(FALSE, TRUE)[1])
+  p3 <- p3 + qqplotr::stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
   p3 <- p3 + labs(
               title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%")
             , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
@@ -1100,11 +1125,11 @@ e_plot_model_diagnostics_qqplotr <-
 
   p4 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
   p4 <- p4 + theme_bw()
-  p4 <- p4 + stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
+  p4 <- p4 + qqplotr::stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
               , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
               , fill = "gray75", color = "gray25", alpha = 0.5)
-  p4 <- p4 + stat_pp_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
-  p4 <- p4 + stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p4 <- p4 + qqplotr::stat_pp_line (                                                                               detrend = c(FALSE, TRUE)[2])
+  p4 <- p4 + qqplotr::stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
   p4 <- p4 + labs(
               title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%", ", detrended")
             , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
@@ -2909,3 +2934,25 @@ e_plot_model_diagnostics_DHARMa_Resid <-
 
 } # e_plot_model_diagnostics_DHARMa_Resid
 
+
+#' Model diagnostics, Combine all test tables
+#'
+#'
+#' @param out_diagn final object from \cdoe{e_plot_model_diagnostics()}
+#'
+#' @return out      table of all diagnostic numeric tests
+#' @import dplyr
+#' @importFrom broom tidy
+#'
+e_plot_model_diagnostics_AllTestTables_combine <-
+  function(
+    out_diagn           = out_diagn
+  ) {
+
+  out_diagn_tab <- list()
+
+  lapply(out_diagn, names)
+
+
+  return(out_diagn_tab)
+} # e_plot_model_diagnostics_AllTestTables_combine

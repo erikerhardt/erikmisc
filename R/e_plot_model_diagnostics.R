@@ -62,7 +62,7 @@
 #' ## @param sw_addedvar        T/F for whether to show added-variables plot
 #'
 #' @return out_diagn        list of tables and plots
-#' @import car
+#' @import dplyr
 #' @importFrom grDevices pdf dev.off
 #' @importFrom labelled get_variable_labels
 #' @export
@@ -130,6 +130,17 @@ e_plot_model_diagnostics <-
   # , sw_addedvar      = TRUE
   # , ...
   ) {
+  ## source("R/e_plot_model_diagnostics_EACH.R")
+  ## dat <-
+  ##    erikmisc::dat_mtcars_e
+  ## form_model_lm <-
+  ##   mpg ~ cyl + disp + hp + wt + vs + am + disp:hp + hp:vs
+  ## fit_lm <- lm(formula = form_model_lm, data = dat)
+  ##     fit = fit_lm
+  ##     dat = dat
+  ##     resid_type = "studentized"
+
+
 
   # write many separate functions and call them from the master function
 
@@ -265,7 +276,6 @@ e_plot_model_diagnostics <-
 
     out_diagn[[ "qqplotr" ]][[ "normality_test_table" ]]          |> print()
 
-
   } # lm
   if (fit_class == "glm") {
     out_diagn[[ "qqplotr" ]] <-
@@ -315,6 +325,7 @@ e_plot_model_diagnostics <-
         fit                 = fit
       )
 
+    out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_print" ]] |> print()
     out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_table" ]] |> print()
 
   } # lm or glm
@@ -601,6 +612,8 @@ e_plot_model_diagnostics <-
   if (fit_class %in% c("lm", "glm")) {
 
   } # lm or glm
+
+
 
 
 
