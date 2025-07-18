@@ -12,6 +12,7 @@
 #'
 #' @param fit     fit object
 #' @param dat     dataset data.frame or tibble
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import gvlma
@@ -24,6 +25,7 @@ e_plot_model_diagnostics_gvlma <-
   function(
     fit                 = NULL
   , dat                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   # set wide witdh so each printed line is correctly on a single line
@@ -209,6 +211,7 @@ e_plot_model_diagnostics_gvlma <-
 #'
 #'
 #' @param fit     fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -219,6 +222,7 @@ e_plot_model_diagnostics_gvlma <-
 e_plot_model_diagnostics_car__inverseResponsePlot <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -292,6 +296,7 @@ e_plot_model_diagnostics_car__inverseResponsePlot <-
 #'
 #' @param fit     fit object
 #' @param dat     dataset data.frame or tibble
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -306,6 +311,7 @@ e_plot_model_diagnostics_car__invTranPlot <-
   function(
     fit                 = NULL
   , dat                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -416,6 +422,7 @@ e_plot_model_diagnostics_car__invTranPlot <-
 #'
 #' @param fit                fit object
 #' @param resid_type         Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -430,6 +437,7 @@ e_plot_model_diagnostics_car__residualPlots_y <-
   function(
     fit                 = NULL
   , resid_type          = c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")[6]
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -560,6 +568,7 @@ e_plot_model_diagnostics_car__residualPlots_y <-
 #'
 #' @param fit                fit object
 #' @param resid_type         Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -573,6 +582,7 @@ e_plot_model_diagnostics_car__residualPlots_x <-
   function(
     fit                 = NULL
   , resid_type          = c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")[6]
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -686,6 +696,7 @@ e_plot_model_diagnostics_car__residualPlots_x <-
 #'
 #'
 #' @param fit                fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -695,6 +706,7 @@ e_plot_model_diagnostics_car__residualPlots_x <-
 e_plot_model_diagnostics_car__dfbetasPlots <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -763,6 +775,7 @@ e_plot_model_diagnostics_car__dfbetasPlots <-
 #'
 #'
 #' @param fit       fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -770,6 +783,7 @@ e_plot_model_diagnostics_car__dfbetasPlots <-
 e_plot_model_diagnostics_car__outlierTest <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   # set wide witdh so each printed line is correctly on a single line
@@ -830,6 +844,7 @@ e_plot_model_diagnostics_car__outlierTest <-
 #'
 #'
 #' @param fit       fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -837,6 +852,7 @@ e_plot_model_diagnostics_car__outlierTest <-
 e_plot_model_diagnostics_car__durbinWatsonTest <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   # set wide witdh so each printed line is correctly on a single line
@@ -873,6 +889,7 @@ e_plot_model_diagnostics_car__durbinWatsonTest <-
 #'
 #'
 #' @param fit                fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -882,6 +899,7 @@ e_plot_model_diagnostics_car__durbinWatsonTest <-
 e_plot_model_diagnostics_car__influenceIndexPlot <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -939,6 +957,7 @@ e_plot_model_diagnostics_car__influenceIndexPlot <-
 #'
 #' @param fit     fit object
 #' @param dat     dataset data.frame or tibble
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -950,6 +969,7 @@ e_plot_model_diagnostics_car__qqPlot <-
   function(
     fit                 = NULL
   , dat                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1025,6 +1045,7 @@ e_plot_model_diagnostics_car__qqPlot <-
 #' @param fit_resid   list of residuals from \code{e_model_calc_resid()}
 #' @param fit         fit object
 #' @param band_conf   confidence level of confidence band
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including ggplot grobs, one normal, one detrended
 #' @import ggplot2
@@ -1039,6 +1060,7 @@ e_plot_model_diagnostics_qqplotr <-
     fit_resid           = fit_resid
   , fit                 = NULL
   , band_conf           = 0.95
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1214,6 +1236,7 @@ e_plot_model_diagnostics_qqplotr <-
 #'
 #'
 #' @param fit     fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1226,6 +1249,7 @@ e_plot_model_diagnostics_qqplotr <-
 e_plot_model_diagnostics_car__boxCox <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1350,6 +1374,7 @@ e_plot_model_diagnostics_car__boxCox <-
 #'
 #'
 #' @param fit     fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1359,6 +1384,7 @@ e_plot_model_diagnostics_car__boxCox <-
 e_plot_model_diagnostics_car__spreadLevelPlot <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1436,6 +1462,7 @@ e_plot_model_diagnostics_car__spreadLevelPlot <-
 #'
 #'
 #' @param fit     fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text grobs
 #' @import car
@@ -1449,6 +1476,7 @@ e_plot_model_diagnostics_car__spreadLevelPlot <-
 e_plot_model_diagnostics_car__vif <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1507,6 +1535,7 @@ e_plot_model_diagnostics_car__vif <-
 #'
 #'
 #' @param fit                fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1518,6 +1547,7 @@ e_plot_model_diagnostics_car__avPlots <-
   function(
     fit                 = NULL
   , sw_avplot_main_only = c(TRUE, FALSE)[1]
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1641,6 +1671,7 @@ e_plot_model_diagnostics_car__avPlots <-
 #'
 #'
 #' @param fit                fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1652,6 +1683,7 @@ e_plot_model_diagnostics_car__mcPlots <-
   function(
     fit                 = NULL
   , sw_avplot_main_only = c(TRUE, FALSE)[1]
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1753,6 +1785,7 @@ e_plot_model_diagnostics_car__mcPlots <-
 #'
 #'
 #' @param fit                fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1763,6 +1796,7 @@ e_plot_model_diagnostics_car__mcPlots <-
 e_plot_model_diagnostics_car__marginalModelPlots <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1837,6 +1871,7 @@ e_plot_model_diagnostics_car__marginalModelPlots <-
 #'
 #'
 #' @param fit       fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1847,6 +1882,7 @@ e_plot_model_diagnostics_car__marginalModelPlots <-
 e_plot_model_diagnostics_car__crPlots <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -1972,6 +2008,7 @@ e_plot_model_diagnostics_car__crPlots <-
 #'
 #'
 #' @param fit                fit object
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import car
@@ -1982,6 +2019,7 @@ e_plot_model_diagnostics_car__crPlots <-
 e_plot_model_diagnostics_car__ceresPlots <-
   function(
     fit                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -2117,6 +2155,7 @@ e_plot_model_diagnostics_car__ceresPlots <-
 #' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
 #' @param fit_cooksD    Cook's Distance values (from \code{stats::cooks.distance})
 #' @param fit_leverage  leverage values (from \code{stats::hatvalues})
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import tibble
@@ -2131,6 +2170,7 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid <-
   , fit_resid           = NULL
   , fit_cooksD          = NULL
   , fit_leverage        = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -2423,6 +2463,7 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid <-
 #'
 #'
 #' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import tibble
@@ -2432,6 +2473,7 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid <-
 e_plot_model_diagnostics_Resid_histogram <-
   function(
     fit_resid           = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -2489,6 +2531,7 @@ e_plot_model_diagnostics_Resid_histogram <-
 #'
 #' @param fit       fit object
 #' @param dat       dataset data.frame or tibble
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      list including text and ggplot grobs
 #' @import DHARMa
@@ -2501,6 +2544,7 @@ e_plot_model_diagnostics_DHARMa_Resid <-
   function(
     fit                 = NULL
   , dat                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out <- list()
@@ -2939,6 +2983,7 @@ e_plot_model_diagnostics_DHARMa_Resid <-
 #'
 #'
 #' @param out_diagn final object from \cdoe{e_plot_model_diagnostics()}
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      table of all diagnostic numeric tests
 #' @import dplyr
@@ -2947,6 +2992,7 @@ e_plot_model_diagnostics_DHARMa_Resid <-
 e_plot_model_diagnostics_AllTestTables_combine <-
   function(
     out_diagn           = out_diagn
+  , sw_interp           = c(TRUE, FALSE)[2]
   ) {
 
   out_diagn_tab <- list()

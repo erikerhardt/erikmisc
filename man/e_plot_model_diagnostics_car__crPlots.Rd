@@ -4,10 +4,15 @@
 \alias{e_plot_model_diagnostics_car__crPlots}
 \title{Model diagnostics, Component+Residual (Partial Residual) Plots, car::crPlots}
 \usage{
-e_plot_model_diagnostics_car__crPlots(fit = NULL)
+e_plot_model_diagnostics_car__crPlots(
+  fit = NULL,
+  sw_interp = c(TRUE, FALSE)[2]
+)
 }
 \arguments{
 \item{fit}{fit object}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text and ggplot grobs

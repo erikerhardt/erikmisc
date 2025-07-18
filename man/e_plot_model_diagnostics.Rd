@@ -8,7 +8,8 @@ e_plot_model_diagnostics(
   fit = NULL,
   dat = NULL,
   resid_type = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance",
-    "stand.pearson", "studentized", "partial")[8]
+    "stand.pearson", "studentized", "partial")[8],
+  sw_interp = c(TRUE, FALSE)[2]
 )
 }
 \arguments{
@@ -16,7 +17,9 @@ e_plot_model_diagnostics(
 
 \item{dat}{data used for model fit}
 
-\item{resid_type}{Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
+\item{resid_type}{Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.
 \subsection{@param sw_plot_set        NULL to accept other plot options, or "simple" to exclude boxcox, constant var, collinearity, order of data, and added-variable plots. "simpleAV" to add back in the added-variable plots.  "all" includes all possible plots in this function.}{
 }
 

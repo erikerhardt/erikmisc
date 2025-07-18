@@ -4,10 +4,12 @@
 \alias{e_plot_model_diagnostics_car__vif}
 \title{Model diagnostics, car::vif}
 \usage{
-e_plot_model_diagnostics_car__vif(fit = NULL)
+e_plot_model_diagnostics_car__vif(fit = NULL, sw_interp = c(TRUE, FALSE)[2])
 }
 \arguments{
 \item{fit}{fit object}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text grobs

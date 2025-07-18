@@ -7,7 +7,8 @@
 e_plot_model_diagnostics_qqplotr(
   fit_resid = fit_resid,
   fit = NULL,
-  band_conf = 0.95
+  band_conf = 0.95,
+  sw_interp = c(TRUE, FALSE)[2]
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ e_plot_model_diagnostics_qqplotr(
 \item{fit}{fit object}
 
 \item{band_conf}{confidence level of confidence band}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including ggplot grobs, one normal, one detrended

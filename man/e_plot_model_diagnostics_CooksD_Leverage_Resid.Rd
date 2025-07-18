@@ -8,7 +8,8 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid(
   fit = NULL,
   fit_resid = NULL,
   fit_cooksD = NULL,
-  fit_leverage = NULL
+  fit_leverage = NULL,
+  sw_interp = c(TRUE, FALSE)[2]
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid(
 \item{fit_cooksD}{Cook's Distance values (from \code{stats::cooks.distance})}
 
 \item{fit_leverage}{leverage values (from \code{stats::hatvalues})}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text and ggplot grobs

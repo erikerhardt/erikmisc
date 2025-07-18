@@ -38,6 +38,7 @@
 #' @param fit                model object
 #' @param dat                data used for model fit
 #' @param resid_type         Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
+#' @param sw_interp          T/F to provide interpretation guidance in the plot caption or with a table.
 #' ## @param sw_plot_set        NULL to accept other plot options, or "simple" to exclude boxcox, constant var, collinearity, order of data, and added-variable plots. "simpleAV" to add back in the added-variable plots.  "all" includes all possible plots in this function.
 #' ## @param rp_type            option passed to \code{ggResidpanel::resid_panel}
 #' ## @param rp_bins            option passed to \code{ggResidpanel::resid_panel}
@@ -107,6 +108,7 @@ e_plot_model_diagnostics <-
     fit                 = NULL
   , dat                 = NULL
   , resid_type          = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson", "studentized", "partial")[8]
+  , sw_interp           = c(TRUE, FALSE)[2]
 
   # , sw_plot_set         = c("simple", "simpleAV", "all", "boxplot", "cookd", "hist", "index", "ls", "qq", "lev", "resid", "yvp")[3]
   # , rp_type             = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson")[1]
@@ -130,6 +132,8 @@ e_plot_model_diagnostics <-
   # , sw_addedvar      = TRUE
   # , ...
   ) {
+  ## library(tidyverse)
+  ## library(erikmisc)
   ## source("R/e_plot_model_diagnostics_EACH.R")
   ## dat <-
   ##    erikmisc::dat_mtcars_e
@@ -139,6 +143,7 @@ e_plot_model_diagnostics <-
   ##     fit = fit_lm
   ##     dat = dat
   ##     resid_type = "studentized"
+  ##     sw_interp  = c(TRUE, FALSE)[1]
 
 
 
@@ -188,6 +193,7 @@ e_plot_model_diagnostics <-
     e_model_calc_resid(
       fit         = fit
     , resid_type  = resid_type
+    , sw_interp   = sw_interp
     )
 
   # Convert name of residuals to car's type

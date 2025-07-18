@@ -4,10 +4,15 @@
 \alias{e_plot_model_diagnostics_Resid_histogram}
 \title{Model diagnostics, Cooks vs Leverage vs Residuals}
 \usage{
-e_plot_model_diagnostics_Resid_histogram(fit_resid = NULL)
+e_plot_model_diagnostics_Resid_histogram(
+  fit_resid = NULL,
+  sw_interp = c(TRUE, FALSE)[2]
+)
 }
 \arguments{
 \item{fit_resid}{list of residuals from \code{e_model_calc_resid()}}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text and ggplot grobs

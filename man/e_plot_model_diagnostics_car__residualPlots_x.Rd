@@ -7,13 +7,16 @@
 e_plot_model_diagnostics_car__residualPlots_x(
   fit = NULL,
   resid_type = c("working", "response", "deviance", "pearson", "partial", "rstudent",
-    "rstandard")[6]
+    "rstandard")[6],
+  sw_interp = c(TRUE, FALSE)[2]
 )
 }
 \arguments{
 \item{fit}{fit object}
 
 \item{resid_type}{Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text and ggplot grobs

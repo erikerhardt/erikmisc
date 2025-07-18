@@ -4,12 +4,18 @@
 \alias{e_plot_model_diagnostics_car__invTranPlot}
 \title{Model diagnostics, car::invTranPlot}
 \usage{
-e_plot_model_diagnostics_car__invTranPlot(fit = NULL, dat = NULL)
+e_plot_model_diagnostics_car__invTranPlot(
+  fit = NULL,
+  dat = NULL,
+  sw_interp = c(TRUE, FALSE)[2]
+)
 }
 \arguments{
 \item{fit}{fit object}
 
 \item{dat}{dataset data.frame or tibble}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text and ggplot grobs

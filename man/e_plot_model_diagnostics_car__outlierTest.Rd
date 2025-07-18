@@ -4,10 +4,15 @@
 \alias{e_plot_model_diagnostics_car__outlierTest}
 \title{Model diagnostics, Bonferroni outlier test, car::outlierTest}
 \usage{
-e_plot_model_diagnostics_car__outlierTest(fit = NULL)
+e_plot_model_diagnostics_car__outlierTest(
+  fit = NULL,
+  sw_interp = c(TRUE, FALSE)[2]
+)
 }
 \arguments{
 \item{fit}{fit object}
+
+\item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
 out      list including text and ggplot grobs
