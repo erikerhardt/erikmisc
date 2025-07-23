@@ -44,6 +44,11 @@ e_plot_corr_matrix <-
     ) |>
     as.matrix()
 
+  if (ncol(dat_mat) < 2) {
+    message("e_plot_corr_matrix, fewer than 2 numeric columns, returning NULL")
+    invisible(NULL)
+  }
+
   # Correlation matrix
   tab_cor <-
     dat_mat |>
