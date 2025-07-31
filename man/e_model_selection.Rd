@@ -18,6 +18,11 @@ e_model_selection(
   sw_contrasts = c("both", "sel", "none", "skip")[2],
   sw_print_results = c(TRUE, FALSE)[1],
   emmip_rg.limit = 10000,
+  sw_write_output = c(TRUE, FALSE)[2],
+  sw_write_output_path = ".",
+  sw_write_output_prefix = "prefix_",
+  sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp",
+    "svg", "wmf")[1],
   ...
 )
 }
@@ -45,6 +50,16 @@ e_model_selection(
 \item{sw_contrasts}{which contrasts to plot, \code{"both"} is full and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.}
 
 \item{sw_print_results}{print results before returning object}
+
+\item{emmip_rg.limit}{passed to \code{e_plot_model_contrasts}}
+
+\item{sw_write_output}{T/F for whether to save plots and text to a path}
+
+\item{sw_write_output_path}{path to save results}
+
+\item{sw_write_output_prefix}{filename prefix for results}
+
+\item{sw_write_output_plot_fmt}{plot filename extension that determs the \code{ggsave} \code{device} argument}
 
 \item{...}{options sent to \code{e_model_all_subsets_formula} for subsets to consider}
 }

@@ -2,22 +2,27 @@
 #'
 #' (Best subset not yet implemented.)
 #'
-#' @param form                formula for a model
-#' @param dat                 data to use
-#' @param sw_model            type of regression model, \code{"lm"} or \code{"glm"}
-#' @param sw_sel_type         type of model selection.  \code{step} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model
-#' @param sw_step_direction   for \code{step}, the \code{direction} argument from the \code{stats::step()} function
-#' @param sw_step_k           for \code{step} determined by "AIC" (2), "BIC" (log(n)), or specified numerically; the \code{k} argument from the \code{stats::step()} function for penalty df
-#' @param sw_glm_scale        Scale for glm contrasts, \code{"link"} or \code{"response"}, when \code{sw_model} is \code{"glm"}
-#' @param sw_plot_missing     output plots from \code{e_plot_missing}
-#' @param sw_plot_y_covar     output plots from \code{e_plot_lm_y_covar}
-#' @param sw_plot_x_corr      output correlation matrix plot
-#' @param sw_contrasts        which contrasts to plot, \code{"both"} is full and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.
-#' @param sw_print_results    print results before returning object
+#' @param form                      formula for a model
+#' @param dat                       data to use
+#' @param sw_model                  type of regression model, \code{"lm"} or \code{"glm"}
+#' @param sw_sel_type               type of model selection.  \code{step} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model
+#' @param sw_step_direction         for \code{step}, the \code{direction} argument from the \code{stats::step()} function
+#' @param sw_step_k                 for \code{step} determined by "AIC" (2), "BIC" (log(n)), or specified numerically; the \code{k} argument from the \code{stats::step()} function for penalty df
+#' @param sw_glm_scale              Scale for glm contrasts, \code{"link"} or \code{"response"}, when \code{sw_model} is \code{"glm"}
+#' @param sw_plot_missing           output plots from \code{e_plot_missing}
+#' @param sw_plot_y_covar           output plots from \code{e_plot_lm_y_covar}
+#' @param sw_plot_x_corr            output correlation matrix plot
+#' @param sw_contrasts              which contrasts to plot, \code{"both"} is full and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.
+#' @param sw_print_results          print results before returning object
+#' @param emmip_rg.limit            passed to \code{e_plot_model_contrasts}
+#' @param sw_write_output           T/F for whether to save plots and text to a path
+#' @param sw_write_output_path      path to save results
+#' @param sw_write_output_prefix    filename prefix for results
+#' @param sw_write_output_plot_fmt  plot filename extension that determs the \code{ggsave} \code{device} argument
 #' @param ...                 options sent to \code{e_model_all_subsets_formula} for subsets to consider
 #'
 #' @return out                list object with all results organized by \code{init} and \code{sel} for initial and selected models
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_detect str_split
 #' @importFrom tidyr pivot_longer drop_na
 #' @importFrom tidyselect one_of all_of where
 #' @importFrom forcats fct_drop
@@ -27,6 +32,7 @@
 #' @importFrom cowplot as_grob plot_grid
 #' @importFrom car Anova
 #' @importFrom stats step
+#' @importFrom broom tidy
 #' @import dplyr
 #' @import ggplot2
 #' @import stats
@@ -73,33 +79,43 @@
 #' }
 e_model_selection <-
   function(
-    form              = NULL
-  , dat               = NULL
-  , sw_model          = c("lm", "glm")[1]
-  , sw_sel_type       = c("step", "bestsubset")[1]
-  , sw_step_direction = c("both", "backward", "forward")[1]
-  , sw_step_k         = c("AIC", "BIC", 2)[1]
-  , sw_glm_scale      = c("link", "response")[2]
-  , sw_plot_missing   = c(TRUE, FALSE)[1]
-  , sw_plot_y_covar   = c(TRUE, FALSE)[1]
-  , sw_plot_x_corr    = c(TRUE, FALSE)[1]
-  , sw_contrasts      = c("both", "sel", "none", "skip")[2]
-  , sw_print_results  = c(TRUE, FALSE)[1]
-  , emmip_rg.limit    = 10000
+    form                      = NULL
+  , dat                       = NULL
+  , sw_model                  = c("lm", "glm")[1]
+  , sw_sel_type               = c("step", "bestsubset")[1]
+  , sw_step_direction         = c("both", "backward", "forward")[1]
+  , sw_step_k                 = c("AIC", "BIC", 2)[1]
+  , sw_glm_scale              = c("link", "response")[2]
+  , sw_plot_missing           = c(TRUE, FALSE)[1]
+  , sw_plot_y_covar           = c(TRUE, FALSE)[1]
+  , sw_plot_x_corr            = c(TRUE, FALSE)[1]
+  , sw_contrasts              = c("both", "sel", "none", "skip")[2]
+  , sw_print_results          = c(TRUE, FALSE)[1]
+  , emmip_rg.limit            = 10000
+  , sw_write_output           = c(TRUE, FALSE)[2]
+  , sw_write_output_path      = "."
+  , sw_write_output_prefix    = "prefix_"
+  , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
   , ...
   ) {
   #### lm example
-  ## form              = mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
-  ## dat               = erikmisc::dat_mtcars_e
-  ## sw_model          = c("lm", "glm")[1]
-  ## sw_sel_type       = c("step", "bestsubset")[1]
-  ## sw_step_direction = c("both", "backward", "forward")[1]
-  ## sw_step_k         = "BIC"
-  ## sw_glm_scale      = c("link", "response")[2]
-  ## sw_plot_missing   = c(TRUE, FALSE)[1]
-  ## sw_plot_y_covar   = c(TRUE, FALSE)[1]
-  ## sw_plot_x_corr    = c(TRUE, FALSE)[1]
-  ## sw_print_results  = c(TRUE, FALSE)[1]
+  ## form                     = mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
+  ## dat                      = erikmisc::dat_mtcars_e
+  ## sw_model                 = c("lm", "glm")[1]
+  ## sw_sel_type              = c("step", "bestsubset")[1]
+  ## sw_step_direction        = c("both", "backward", "forward")[1]
+  ## sw_step_k                = "BIC"
+  ## sw_glm_scale             = c("link", "response")[2]
+  ## sw_plot_missing          = c(TRUE, FALSE)[1]
+  ## sw_plot_y_covar          = c(TRUE, FALSE)[1]
+  ## sw_plot_x_corr           = c(TRUE, FALSE)[1]
+  ## sw_contrasts             = c("both", "sel", "none", "skip")[2]
+  ## sw_print_results         = c(TRUE, FALSE)[1]
+  ## emmip_rg.limit           = 10000
+  ## sw_write_output          = c(TRUE, FALSE)[2]
+  ## sw_write_output_path     = "out/XXX"
+  ## sw_write_output_prefix   = "TEST_"
+  ## sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
   ##
   #### glm example
   ## dat_sel <-
@@ -114,17 +130,23 @@ e_model_selection <-
   ##       )
   ##   )
   ## labelled::var_label(dat_sel[["am_01"]]) <- labelled::var_label(dat_sel[["am"]])
-  ## form              = cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
-  ## dat               = dat_sel
-  ## sw_model          = c("lm", "glm")[2]
-  ## sw_sel_type       = c("step", "bestsubset")[1]
-  ## sw_step_direction = c("both", "backward", "forward")[1]
-  ## sw_step_k         = "BIC"
-  ## sw_glm_scale      = c("link", "response")[2]
-  ## sw_plot_missing   = c(TRUE, FALSE)[1]
-  ## sw_plot_y_covar   = c(TRUE, FALSE)[1]
-  ## sw_plot_x_corr    = c(TRUE, FALSE)[1]
-  ## sw_print_results  = c(TRUE, FALSE)[1]
+  ## form                     = cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
+  ## dat                      = dat_sel
+  ## sw_model                 = c("lm", "glm")[2]
+  ## sw_sel_type              = c("step", "bestsubset")[1]
+  ## sw_step_direction        = c("both", "backward", "forward")[1]
+  ## sw_step_k                = "BIC"
+  ## sw_glm_scale             = c("link", "response")[2]
+  ## sw_plot_missing          = c(TRUE, FALSE)[1]
+  ## sw_plot_y_covar          = c(TRUE, FALSE)[1]
+  ## sw_plot_x_corr           = c(TRUE, FALSE)[1]
+  ## sw_contrasts             = c("both", "sel", "none", "skip")[2]
+  ## sw_print_results         = c(TRUE, FALSE)[1]
+  ## emmip_rg.limit           = 10000
+  ## sw_write_output          = c(TRUE, FALSE)[2]
+  ## sw_write_output_path     = "."
+  ## sw_write_output_prefix   = ""
+  ## sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 
   # store results in a list
   out <- list()
@@ -601,7 +623,7 @@ e_model_selection <-
   } # sw_sel_type step
 
 
-
+  # print results
   if (sw_print_results) {
     print("=================================================")
     print("-  BEGIN  ---------------------------------------")
@@ -692,6 +714,429 @@ e_model_selection <-
     print("=================================================")
 
   } # sw_print_results
+
+  # write output
+  if (sw_write_output) {
+
+    dir.create(sw_write_output_path, showWarnings = FALSE)
+    fn_output <-
+      file.path(
+            sw_write_output_path
+          , paste0(
+              sw_write_output_prefix
+            , "model_text.txt"
+            )
+          )
+
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "plot_missing."
+          , sw_write_output_plot_fmt
+          )
+        )
+      , plot   = out[["plot_missing"]]
+      , width  = 10
+      , height = 10
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "plot_covar."
+          , sw_write_output_plot_fmt
+          )
+        )
+      , plot   = out[["plot_covar"]]
+      , width  = 10
+      , height = 6
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "plot_scatterplots."
+          , sw_write_output_plot_fmt
+          )
+        )
+      , plot   = out[["plot_scatterplots"]]
+      , width  = 10
+      , height = 10
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "plot_corrplot."
+          , sw_write_output_plot_fmt
+          )
+        )
+      , plot   = out[["plot_corrplot"]]$plot
+      , width  = 10
+      , height = 10
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        fn_output
+      , "\n\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = FALSE)
+
+    output_write <-
+      c(
+        y_var_name
+      , "____init____"
+      , form_init__     |> deparse()
+      , "____sel____"
+      , form_sel__      |> deparse()
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+
+    if (sw_model == c("lm", "glm")[1]) {
+      output_write <-
+        c(
+          "\n\n"
+        , paste("=====", "Model criteria")
+        , "____init____"
+        )
+      readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+      output_write <-
+        out[["init"]][["criteria"      ]] |>
+        signif(3)
+      write.table(x = output_write, file = fn_output, append = TRUE)
+
+
+      output_write <-
+        c(
+          "____sel____"
+        )
+      readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+      output_write <-
+        out[["sel"]][["criteria"      ]] |>
+        signif(3) |>
+        knitr::kable() |>
+        as.character()
+      write.table(x = output_write, file = fn_output, append = TRUE)
+
+    } # sw_model "lm"
+
+    output_write <-
+      c(
+        "\n\n"
+      , paste("=====", "anova/ranova")
+      , "____init____"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+    if (!is.null(out[["init"]][["anova"     ]])) {
+      output_write <-
+        out[["init"]][["anova"     ]] |>
+        broom::tidy() |>
+        dplyr::mutate(
+          dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+        , sig = p.value |> e_pval_stars()
+        ) |>
+        knitr::kable() |>
+        as.character()
+      write.table(x = output_write, file = fn_output, append = TRUE)
+    }
+
+    output_write <-
+      c(
+        "____sel____"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+    if (!is.null(out[["sel"]][["anova"     ]])) {
+      output_write <-
+        out[["sel"]][["anova"     ]] |>
+        broom::tidy() |>
+        dplyr::mutate(
+          dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+        , sig = p.value |> e_pval_stars()
+        ) |>
+        knitr::kable() |>
+        as.character()
+      write.table(x = output_write, file = fn_output, append = TRUE)
+    }
+
+    output_write <-
+      c(
+        "\n\n"
+      , paste("=====", "summary")
+      , "____init____"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+    if (!is.null(out[["init"]][["fit"     ]])) {
+      # summary table via tidy
+      output_write <-
+        out[["init"]][["fit"   ]] |>
+        broom::tidy() |>
+        dplyr::mutate(
+          dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+        , sig = p.value |> e_pval_stars()
+        ) |>
+        knitr::kable() |>
+        as.character()
+      write.table(x = output_write, file = fn_output, append = TRUE)
+    }
+
+    output_write <-
+      c(
+        "____sel____"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+    if (!is.null(out[["sel"]][["fit"     ]])) {
+      # summary table via tidy
+      output_write <-
+        out[["sel"]][["fit"   ]] |>
+        broom::tidy() |>
+        dplyr::mutate(
+          dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+        , sig = p.value |> e_pval_stars()
+        ) |>
+        knitr::kable() |>
+        as.character()
+      write.table(x = output_write, file = fn_output, append = TRUE)
+    }
+
+
+    if (sw_model == c("lm", "glm")[1]) {
+      # print("")
+      # print("")
+      # print("")
+      # print(paste("=====", "Diagnostic plots"))
+      # print("____init____")
+      # out[["init"]][["plot_diagnostics"   ]] |> print()
+      # #plot(out[["init"]][["fit"   ]], which = 1) |> print()
+      # print("____sel____")
+      # out[["sel"]][["plot_diagnostics"   ]] |> print()
+      # #plot(out[["sel"]][["fit"   ]], which = 1) |> print()
+
+      ggplot2::ggsave(
+          file.path(
+            sw_write_output_path
+          , paste0(
+              sw_write_output_prefix
+            #, "_"
+            , "plot_diagnostics__init."
+            , sw_write_output_plot_fmt
+            )
+          )
+        , plot   = out[["init"]][["plot_diagnostics"   ]]
+        , width  = 10
+        , height = 12
+        , units  = "in"
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        #, useDingbats = FALSE
+        )
+
+      ggplot2::ggsave(
+          file.path(
+            sw_write_output_path
+          , paste0(
+              sw_write_output_prefix
+            #, "_"
+            , "plot_diagnostics__sel."
+            , sw_write_output_plot_fmt
+            )
+          )
+        , plot   = out[["sel"]][["plot_diagnostics"   ]]
+        , width  = 10
+        , height = 12
+        , units  = "in"
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        #, useDingbats = FALSE
+        )
+
+    } # sw_model "lm"
+
+    if ((sw_contrasts %in% c("both", "sel", "none")[c(1, 2)]) &
+        (length(out[["sel"]][["contrasts"]]$plots) > 0)
+      ) {
+      # print("")
+      # print("")
+      # print("")
+      # print(paste("=====", "Contrasts and model interpretations"))
+      # #print("____init____")
+      # #out[["init"]][["contrasts"]]   |> print()
+      # #out[["init"]][["contrasts"]]$plots   |> print()
+      # #out[["init"]][["contrasts"]]$tables  |> print()
+      # #out[["init"]][["contrasts"]]$text    |> print()
+      # print("____sel____")
+      # #out[["sel"]][["contrasts"]]  |> print()
+      # out[["sel"]][["contrasts"]]$plots  |> print()
+      # out[["sel"]][["contrasts"]]$tables |> print()
+      # #out[["sel"]][["contrasts"]]$text   |> print()
+      # out[["sel"]][["contrasts"]]$interp |> print()
+
+
+      ## To plot all contrasts in a plot grid:
+      # Since plot interactions have sublists of plots, we want to pull those out
+      #   into a one-level plot list.
+      # The code here works for sw_TWI_plots_keep = "singles"
+      #   which will make each plot the same size in the plot_grid() below.
+      # For a publications, you'll want to manually choose which plots to show.
+
+      # index for plot list,
+      #   needed since interactions add 2 plots to the list, so the number of terms
+      #   is not necessarily the same as the number of plots.
+      i_list <- 0
+      # initialize a list of plots
+      p_list <- list()
+
+      for (i_term in 1:length(out[["sel"]][["contrasts"]]$plots)) {
+        ## i_term = 1
+
+        # extract the name of the plot
+        n_list <- names(out[["sel"]][["contrasts"]]$plots)[i_term]
+
+        # test whether the name has a colon ":"; if so, it's an interaction
+        if (stringr::str_detect(string = n_list, pattern = stringr::fixed(":"))) {
+          # an two-way interaction has two plots
+
+          # first plot
+          i_list <- i_list + 1
+          p_list[[ i_list ]] <- out[["sel"]][["contrasts"]]$plots[[ i_term ]][[ 1 ]]
+
+          # second plot
+          i_list <- i_list + 1
+          p_list[[ i_list ]] <- out[["sel"]][["contrasts"]]$plots[[ i_term ]][[ 2 ]]
+
+        } else {
+          # not an interaction, only one plot
+
+          i_list <- i_list + 1
+          p_list[[ i_list ]] <- out[["sel"]][["contrasts"]]$plots[[ i_term ]]
+
+
+        } # if
+      } # for
+
+      p_arranged <-
+        cowplot::plot_grid(
+          plotlist  = p_list
+        , nrow      = NULL
+        , ncol      = 3
+        , labels    = "AUTO"
+        ) +
+        patchwork::plot_annotation(
+          title       = paste0("Selected model contrasts")
+        #, subtitle    = text_formula_sel
+        #, caption     = paste0(
+        #                  "Caption down here."
+        #                )
+        #, tag_levels  = "A"
+        , theme = ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        )
+
+      ggplot2::ggsave(
+          file.path(
+            sw_write_output_path
+          , paste0(
+              sw_write_output_prefix
+            #, "_"
+            , "plot_contrasts."
+            , sw_write_output_plot_fmt
+            )
+          )
+        , plot   = p_arranged
+        , width  = 12
+        , height = 12
+        , units  = "in"
+        ## png, jpeg
+        , dpi    = 300
+        , bg     = "white"
+        ## pdf
+        #, useDingbats = FALSE
+        )
+
+
+      output_write <-
+        c(
+          "\n\n"
+        , "====="
+        , "\n\nCONTRASTS:\n"
+        )
+      for (i_cont in seq_len(length(out[["sel"]][["contrasts"]]$text))) {
+        ## i_cont=1
+        output_write <-
+          c(
+            output_write
+          , "\n"
+          , names(out[["sel"]][["contrasts"]]$text)[ i_cont ]
+          , out[["sel"]][["contrasts"]]$text[[ i_cont ]] |> unlist()
+          )
+      } # i_cont
+      readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+
+      output_write <-
+        c(
+          "\n\n"
+        , "====="
+        , "\n\nINTERPRETATIONS:\n"
+        , paste(
+            out[["sel"]][["contrasts"]]$interp |> names()
+          , out[["sel"]][["contrasts"]]$interp |> unlist()
+          , sep = "\n"
+          , collapse = "\n\n"
+          )
+        )
+      readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+    } # sw_contrasts
+
+  } # sw_write_output
+
 
   # Clean up global environment
   rm("dat_sel__"  , envir = .GlobalEnv)
