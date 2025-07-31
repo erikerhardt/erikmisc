@@ -99,8 +99,8 @@ e_plot_scatterplot <-
   , smooth_by_var_color           = c("none", "loess", "lm", "glm", "gam")[1]
   , sw_smooth_by_var_color_se     = c(TRUE, FALSE)[1]
   , sw_corr_in_subtitle           = c(TRUE, FALSE)[1]
-  , sw_var_x_name_str_wrap_width  = Inf
-  , sw_var_y_name_str_wrap_width  = Inf
+  , sw_var_x_name_str_wrap_width  = 1e5
+  , sw_var_y_name_str_wrap_width  = 1e5
   ) {
 
   if (is.null(text_title)) {
