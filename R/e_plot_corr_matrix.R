@@ -46,7 +46,7 @@ e_plot_corr_matrix <-
 
   if (ncol(dat_mat) < 2) {
     message("e_plot_corr_matrix, fewer than 2 numeric columns, returning NULL")
-    invisible(NULL)
+    return(NULL)
   }
 
   # Correlation matrix
