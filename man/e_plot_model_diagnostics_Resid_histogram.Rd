@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_plot_model_diagnostics_EACH.R
 \name{e_plot_model_diagnostics_Resid_histogram}
 \alias{e_plot_model_diagnostics_Resid_histogram}
-\title{Model diagnostics, Cooks vs Leverage vs Residuals}
+\title{Model diagnostics, Residuals histogram}
 \usage{
 e_plot_model_diagnostics_Resid_histogram(
   fit_resid = NULL,
@@ -15,8 +15,8 @@ e_plot_model_diagnostics_Resid_histogram(
 \item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
-out      list including text and ggplot grobs
+out          list including text and ggplot grobs
 }
 \description{
-Model diagnostics, Cooks vs Leverage vs Residuals
+Model diagnostics, Residuals histogram
 }

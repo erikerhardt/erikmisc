@@ -4,17 +4,103 @@
 
 ## Individual diagnostic functions
 
+
+
+#' Model diagnostics, Residuals histogram
+#'
+#'
+#' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
+#' @param sw_interp     T/F to provide interpretation guidance in the plot caption or with a table.
+#'
+#' @return out          list including text and ggplot grobs
+#' @import tibble
+#' @import ggplot2
+#' @importFrom grDevices nclass.FD nclass.Sturges
+#'
+e_plot_model_diagnostics_Resid_histogram <-
+  function(
+    fit_resid           = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
+  ) {
+
+  out <- list()
+
+  # number of bins based on sample size
+  n_bins <-
+    max(
+      fit_resid |> grDevices::nclass.FD(digits = 5)
+    , fit_resid |> grDevices::nclass.Sturges()
+    , 20
+    )
+
+  # alpha based on sample size
+  alpha_n <- min(1, 4 / (log2(length(fit_resid))))
+
+
+  dat_plot <-
+    tibble::tibble(
+      fit_resid = fit_resid
+    )
+
+  text_interp <-
+    paste0(
+      "\n\nInterpretation:  Residual distribution"
+    , "\n  By how much and in what way do the residuals deviate from normality?"
+    , "\n  The rug of lines at the bottom are the actual value locations."
+    , "\n  This histogram smooths the residuals, and the blue curve smooths them more."
+    , "\n  Start with qualifying how the blue residual curve deviates from the red normal curve."
+    , "\n  Relate this to the QQ-plots to improve your understanding of both plots."
+    )
+
+  out[[ "Resid_histogram_interp" ]] <-
+    text_interp
+
+  p <- ggplot(data = dat_plot, aes(x = fit_resid))
+  p <- p + theme_bw()
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_histogram(aes(y = ..density..), boundary = 0, bins = n_bins, closed = c("right", "left")[2])
+  p <- p + geom_rug(alpha = alpha_n)
+  p <- p + stat_function(fun = dnorm, color = "red", args = list(mean = 0, sd = sd(fit_resid)), linewidth = 1.5)
+  p <- p + geom_density(color = "blue", adjust = 1.5, linewidth = 1.5)
+  p <- p + expand_limits(x = c(-2.5, 2.5))
+  p <- p + labs(
+                title = "Residual distribution"
+              , x = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
+              , y = "Density"
+              , caption =
+                  paste0(
+                    "(Blue) Density smoothed histogram of residuals."
+                  , "\n(Red) Normal distribution with mean 0 and sd(resid)."
+                  , "\nBins are closed on the left, [a, b)"
+                  , ifelse(
+                      sw_interp
+                    , text_interp
+                    , ""
+                    )
+                  )
+              )
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+
+  out[[ "Resid_histogram_plot" ]] <-
+    p
+
+  return(out)
+
+} # e_plot_model_diagnostics_Resid_histogram
+
+
 #' Model diagnostics, gvlma
 #'
 #'  Methods from the paper: Pena, EA and Slate, EH,
 #'  "Global Validation of Linear Model Assumptions,"
 #'   J. American Statistical Association, 101(473):341-354, 2006.
 #'
-#' @param fit     fit object
-#' @param dat     dataset data.frame or tibble
-#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
+#' @param fit           fit object
+#' @param dat           dataset data.frame or tibble
+#' @param sw_interp     T/F to provide interpretation guidance in the plot caption or with a table.
 #'
-#' @return out      list including text and ggplot grobs
+#' @return out          list including text and ggplot grobs
 #' @import gvlma
 #' @import ggplot2
 #' @importFrom tibble tibble
@@ -80,29 +166,29 @@ e_plot_model_diagnostics_gvlma <-
     statnm <-
       switch(statname,
       "DeltaGlobalStat" =
-      expression(paste("Global: Deleted ", {G[4]}^2, " statistic")), #  (% change)
+      expression(paste("0. Global: Deleted ", {G[4]}^2, " statistic")), #  (% change)
       "DeltaStat1" =
-      expression(paste("Skewness: Deleted ", {S[1]}^2, " statistic")), #  (% change)
+      expression(paste("1. Skewness: Deleted ", {S[1]}^2, " statistic")), #  (% change)
       "DeltaStat2" =
-      expression(paste("Kurtosis: Deleted ", {S[2]}^2, " statistic")), #  (% change)
+      expression(paste("2. Kurtosis: Deleted ", {S[2]}^2, " statistic")), #  (% change)
       "DeltaStat3" =
-      expression(paste("Link function: Deleted ", {S[3]}^2, " statistic")), #  (% change)
+      expression(paste("3. Link function: Deleted ", {S[3]}^2, " statistic")), #  (% change)
       "DeltaStat4" =
-      expression(paste("Heteroscedasticity: Deleted ", {S[4]}^2, " statistic")) #  (% change)
+      expression(paste("4. Heteroscedasticity: Deleted ", {S[4]}^2, " statistic")) #  (% change)
       )
     pvalname <- names(gvlmaDelobj[w+1])
     pvalnm <-
       switch(pvalname,
       "GStatpvalue" =
-      expression(paste("Global: Deleted ", {G[4]}^2, " p-value")),
+      expression(paste("0. Global: Deleted ", {G[4]}^2, " p-value")),
       "Stat1pvalue" =
-      expression(paste("Skewness: Deleted ", {S[1]}^2, " p-value")),
+      expression(paste("1. Skewness: Deleted ", {S[1]}^2, " p-value")),
       "Stat2pvalue" =
-      expression(paste("Kurtosis: Deleted ", {S[2]}^2, " p-value")),
+      expression(paste("2. Kurtosis: Deleted ", {S[2]}^2, " p-value")),
       "Stat3pvalue" =
-      expression(paste("Link function: Deleted ", {S[3]}^2, " p-value")),
+      expression(paste("3. Link function: Deleted ", {S[3]}^2, " p-value")),
       "Stat4pvalue" =
-      expression(paste("Heteroscedasticity: Deleted ", {S[4]}^2, " p-value")),
+      expression(paste("4. Heteroscedasticity: Deleted ", {S[4]}^2, " p-value")),
       )
 
     label_name <-
@@ -178,6 +264,36 @@ e_plot_model_diagnostics_gvlma <-
   } # for w
 
 
+  text_interp <-
+    paste0(
+      "\n\nInterpretation:  GVLMA: Global Validation of Linear Model Assumptions"
+    , "\nThe Linear Model Y = X * beta + sigma * epsilon has four distinct assumptions:"
+    , "\n  A1. Linearity: E{Y_i | X} = x_i * beta, where x_i is the ith row of X."
+    , "\n  A2. Homoscedasticity: var{Y_i | X} = sigma^2, i = 1, ..., n."
+    , "\n  A3. Uncorrelatedness: cov{Y_i, Y_j | X} = 0, (i not= j)."
+    , "\n  A4. Normality: (Y_1, ..., Y_n) | X have a multivariate normal distribution."
+    , "\n"
+    , "\nThese statistics test the assumptions (though not one-to-one):"
+    , "\n  S0. Global: Serves as an omnibus statistic for globally testing all of the assumptions of the linear model."
+    , "\n    If rejected, then the component statistics S1-S4 can be examined."
+    , "\n    The global test statistic is a function of the model residuals and"
+    , "\n      formed from four asymptotically independent statistics:"
+    , "\n  S1. Skewness: non-Normal due to skewness, one long tail."
+    , "\n  S2. Kurtosis: non-Normal due to kurtosis, too peaked (leptokurtic) or too flat (platykurtic)."
+    , "\n  S3. Link function: misspecified, possibly due to the absence of other predictor variables in the model."
+    , "\n  S4. Heteroscedasticity: non-constant error variance and/or dependent errors."
+    , "\n  "
+    , "\n  Note: Simultaneous violations of at least two of assumptions A1-A4"
+    , "\n    are manifested by large values of several of these S1-S4 component statistics."
+    , "\n"
+    , "\nDeletion statistics can identify unusual observations."
+    , "\n"
+    , "\nDatails: Pena & Slate, JASA, 101(473):341-354, 2006. https://doi.org/10.1198/016214505000000637"
+    )
+
+  out[[ "gvlma_interp" ]] <-
+    text_interp
+
   out[[ "gvlma_plots_grid" ]] <-
     patchwork::wrap_plots(
       out[[ "gvlma_plots_indy" ]]
@@ -196,6 +312,12 @@ e_plot_model_diagnostics_gvlma <-
       title       = "GVLMA: Global Validation of Linear Model Assumptions"
     #, subtitle    = text_formula_sel
     , tag_levels  = "A"
+    , caption     = ifelse(
+                      sw_interp
+                    , text_interp
+                    , ggplot2::waiver()
+                    )
+    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
     )
 
 
@@ -2459,69 +2581,6 @@ e_plot_model_diagnostics_CooksD_Leverage_Resid <-
 } # e_plot_model_diagnostics_CooksD_Leverage_Resid
 
 
-#' Model diagnostics, Cooks vs Leverage vs Residuals
-#'
-#'
-#' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
-#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
-#'
-#' @return out      list including text and ggplot grobs
-#' @import tibble
-#' @import ggplot2
-#' @importFrom grDevices nclass.FD nclass.Sturges
-#'
-e_plot_model_diagnostics_Resid_histogram <-
-  function(
-    fit_resid           = NULL
-  , sw_interp           = c(TRUE, FALSE)[2]
-  ) {
-
-  out <- list()
-
-  # number of bins based on sample size
-  n_bins <-
-    max(
-      fit_resid |> grDevices::nclass.FD(digits = 5)
-    , fit_resid |> grDevices::nclass.Sturges()
-    , 20
-    )
-
-  # alpha based on sample size
-  alpha_n <- min(1, 4 / (log2(length(fit_resid))))
-
-
-  dat_plot <-
-    tibble::tibble(
-      fit_resid = fit_resid
-    )
-
-  p <- ggplot(data = dat_plot, aes(x = fit_resid))
-  p <- p + theme_bw()
-  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_histogram(aes(y = ..density..), boundary = 0, bins = n_bins, closed = c("right", "left")[2])
-  p <- p + geom_rug(alpha = alpha_n)
-  p <- p + geom_density(color = "blue", adjust = 1.5, linewidth = 1.5)
-  p <- p + stat_function(fun = dnorm, color = "red", args = list(mean = 0, sd = sd(fit_resid)), linewidth = 1.5)
-  p <- p + labs(x = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
-              , y = "Density"
-              , caption =
-                  paste0(
-                    "(Blue) Density smoothed histogram of residuals."
-                  , "\n(Red) Normal distribution with mean 0 and sd(resid)."
-                  , "\nBins are closed on the left, [a, b)"
-                  )
-              )
-  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-
-
-  out[[ "Resid_histogram_plot" ]] <-
-    p
-
-  return(out)
-
-} # e_plot_model_diagnostics_Resid_histogram
-
-
 ################################################################################
 # DHARMa: residual diagnostics for hierarchical (multi-level/mixed) regression models
 #   https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html
@@ -2982,7 +3041,7 @@ e_plot_model_diagnostics_DHARMa_Resid <-
 #' Model diagnostics, Combine all test tables
 #'
 #'
-#' @param out_diagn final object from \cdoe{e_plot_model_diagnostics()}
+#' @param out_diagn final object from \code{e_plot_model_diagnostics()}
 #' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
 #'
 #' @return out      table of all diagnostic numeric tests
@@ -2997,7 +3056,7 @@ e_plot_model_diagnostics_AllTestTables_combine <-
 
   out_diagn_tab <- list()
 
-  lapply(out_diagn, names)
+  #lapply(out_diagn, names)
 
 
   return(out_diagn_tab)

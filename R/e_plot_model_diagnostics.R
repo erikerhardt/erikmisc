@@ -132,6 +132,7 @@ e_plot_model_diagnostics <-
   # , sw_addedvar      = TRUE
   # , ...
   ) {
+  #### DEBUG
   ## library(tidyverse)
   ## library(erikmisc)
   ## source("R/e_plot_model_diagnostics_EACH.R")
@@ -193,7 +194,6 @@ e_plot_model_diagnostics <-
     e_model_calc_resid(
       fit         = fit
     , resid_type  = resid_type
-    , sw_interp   = sw_interp
     )
 
   # Convert name of residuals to car's type
@@ -251,8 +251,12 @@ e_plot_model_diagnostics <-
     out_diagn[[ "Resid_histogram" ]] <-
       e_plot_model_diagnostics_Resid_histogram(
           fit_resid           = fit_resid
+        , sw_interp           = sw_interp
         )
 
+    if (sw_interp) {
+      out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_interp" ]] |> cli::cat_line(col = "#2980B9")
+    }
     out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_plot" ]] |> print()
 
   } # lm
@@ -270,6 +274,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_qqplotr(
         fit_resid           = fit_resid
       , fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     #out_diagn[[ "qqplotr" ]][[ "qqplotr_qqplot_diagonal_plot"  ]] |> print()
@@ -298,6 +303,7 @@ e_plot_model_diagnostics <-
         , fit_resid           = fit_resid
         , fit_cooksD          = fit_cooksD
         , fit_leverage        = fit_leverage
+        , sw_interp           = sw_interp
       )
 
     #out_diagn[[ "CooksD_Leverage_Resid" ]][[ "CooksD_Index_plot"                   ]] |> print()
@@ -317,6 +323,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__influenceIndexPlot" ]] <-
       e_plot_model_diagnostics_car__influenceIndexPlot(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__influenceIndexPlot" ]][[ "car__influenceIndexPlot_plot"  ]] |> print()
@@ -329,6 +336,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__outlierTest" ]] <-
       e_plot_model_diagnostics_car__outlierTest(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_print" ]] |> print()
@@ -342,6 +350,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__durbinWatsonTest" ]] <-
       e_plot_model_diagnostics_car__durbinWatsonTest(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__durbinWatsonTest" ]][[ "car__durbinWatsonTest_table" ]] |> print()
@@ -356,6 +365,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__spreadLevelPlot" ]] <-
       e_plot_model_diagnostics_car__spreadLevelPlot(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_plot"  ]] |> print()
@@ -375,6 +385,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_car__residualPlots_y(
         fit                 = fit
       , resid_type          = resid_type_car
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_table" ]] |> print()
@@ -392,6 +403,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_car__residualPlots_x(
         fit                 = fit
       , resid_type          = resid_type_car
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_table" ]] |> print()
@@ -407,6 +419,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__dfbetasPlots" ]] <-
       e_plot_model_diagnostics_car__dfbetasPlots(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__dfbetasPlots" ]][[ "car__dfbetasPlots_plot"  ]] |> print()
@@ -424,8 +437,12 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_gvlma(
         fit                 = fit
       , dat                 = dat
+      , sw_interp           = sw_interp
       )
 
+    if (sw_interp) {
+      out_diagn[[ "gvlma" ]][[ "gvlma_interp" ]] |> cli::cat_line(col = "#2980B9")
+    }
     out_diagn[[ "gvlma" ]][[ "gvlma_tests_overall_print" ]]  |> cat(sep="\n") |> print()
     out_diagn[[ "gvlma" ]][[ "gvlma_tests_deletion_print" ]] |> cat(sep="\n") |> print()
     out_diagn[[ "gvlma" ]][[ "gvlma_plots_grid" ]]           |> print()
@@ -446,6 +463,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__boxCox" ]] <-
       e_plot_model_diagnostics_car__boxCox(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__boxCox" ]][[ "car__boxCox_plot"  ]] |> print()
@@ -466,6 +484,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__inverseResponsePlot" ]] <-
       e_plot_model_diagnostics_car__inverseResponsePlot(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_table" ]] |> print()
@@ -485,6 +504,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__marginalModelPlots" ]] <-
       e_plot_model_diagnostics_car__marginalModelPlots(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__marginalModelPlots" ]][[ "car__marginalModelPlots_plot"  ]] |> print()
@@ -501,6 +521,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_car__invTranPlot(
         fit                 = fit
       , dat                 = dat
+      , sw_interp           = sw_interp
       )
     grDevices::dev.off() # end   capture and kill plots
 
@@ -520,6 +541,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__vif" ]] <-
       e_plot_model_diagnostics_car__vif(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__vif" ]][[ "car__vif_table" ]] |> print()
@@ -536,6 +558,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_car__avPlots(
         fit                 = fit
       , sw_avplot_main_only = c(TRUE, FALSE)[1]
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__avPlots" ]][[ "car__avPlots_plot"  ]] |> print()
@@ -548,6 +571,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_car__mcPlots(
         fit                 = fit
       , sw_avplot_main_only = c(TRUE, FALSE)[1]
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__mcPlots" ]][[ "car__mcPlots_plot"  ]] |> print()
@@ -561,6 +585,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__crPlots" ]] <-
       e_plot_model_diagnostics_car__crPlots(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__crPlots" ]][[ "car__crPlots_plot"  ]] |> print()
@@ -573,6 +598,7 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__ceresPlots" ]] <-
       e_plot_model_diagnostics_car__ceresPlots(
         fit                 = fit
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "car__ceresPlots" ]][[ "car__ceresPlots_plot"  ]] |> print()
@@ -594,6 +620,7 @@ e_plot_model_diagnostics <-
       e_plot_model_diagnostics_DHARMa_Resid(
         fit                 = fit
       , dat                 = dat
+      , sw_interp           = sw_interp
       )
 
     out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa__AllTests_table" ]] |> print()
@@ -609,6 +636,100 @@ e_plot_model_diagnostics <-
 
 
   if (fit_class == "lm") {
+
+    # base graphics are not working
+    # will need to run car and base plots to ggplot format
+
+    # # patchwork model selection plot design
+    # #   appears: after model selection if no x variables
+    # #            at end to summarize ROC with model selection
+    # plot_design <-
+    #   "ADCC
+    #    BECC
+    #    BFFF
+    #    GFFF
+    #    HFFF"
+    #   "A#CC
+    #    B#CC
+    #    B###
+    #    ####
+    #    ####"
+    #
+    #
+    # p_list <-
+    #   list(
+    #     cowplot::plot_grid(out_diagn[[ "Resid_histogram"          ]][[ "Resid_histogram_plot" ]]                ) + # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "qqplotr"                  ]][[ "qqplotr_grid_detrended_plot" ]]         ) + # 2x1
+    #   , cowplot::plot_grid(out_diagn[[ "CooksD_Leverage_Resid"    ]][[ "CooksD_Leverage_Resid_arranged_plot" ]] ) + # 2x2
+    #     #out_diagn[[ "car__influenceIndexPlot"  ]]
+    #     #out_diagn[[ "car__outlierTest"         ]]
+    #     #out_diagn[[ "car__durbinWatsonTest"    ]]
+    #   , cowplot::plot_grid(out_diagn[[ "car__spreadLevelPlot"     ]][[ "car__spreadLevelPlot_plot" ]]           ) + # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "car__residualPlots_y"     ]][[ "car__residualPlots_y_plot" ]]           ) + # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "car__residualPlots_x"     ]][[ "car__residualPlots_x_plot" ]]           ) + # 3x3
+    #     #out_diagn[[ "car__dfbetasPlots"        ]]
+    #     #out_diagn[[ "gvlma"                    ]]
+    #   , cowplot::plot_grid(out_diagn[[ "car__boxCox"              ]][[ "car__boxCox_plot" ]]                    ) + # 1x2
+    #   , cowplot::plot_grid(out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_plot" ]]       ) + # 1x1
+    #     #out_diagn[[ "car__marginalModelPlots"  ]]
+    #     #out_diagn[[ "car__invTranPlot"         ]]
+    #     #out_diagn[[ "car__vif"                 ]]
+    #     #out_diagn[[ "car__avPlots"             ]]
+    #     #out_diagn[[ "car__mcPlots"             ]]
+    #     #out_diagn[[ "car__crPlots"             ]]
+    #     #out_diagn[[ "car__ceresPlots"          ]]
+    #   )
+    #
+    #
+    #
+    #
+    # out_diagn[[ "p_arranged" ]] <-
+    #   cowplot::plot_grid(out_diagn[[ "Resid_histogram"          ]][[ "Resid_histogram_plot" ]]                ) + # 1x1
+    #   cowplot::plot_grid(out_diagn[[ "qqplotr"                  ]][[ "qqplotr_grid_detrended_plot" ]]         ) + # 2x1
+    #   cowplot::plot_grid(out_diagn[[ "CooksD_Leverage_Resid"    ]][[ "CooksD_Leverage_Resid_arranged_plot" ]] ) + # 2x2
+    #   #cowplot::plot_grid(out_diagn[[ "car__spreadLevelPlot"     ]][[ "car__spreadLevelPlot_plot" ]]           ) + # 1x1
+    #   #cowplot::plot_grid(out_diagn[[ "car__residualPlots_y"     ]][[ "car__residualPlots_y_plot" ]]           ) + # 1x1
+    #   #cowplot::plot_grid(out_diagn[[ "car__residualPlots_x"     ]][[ "car__residualPlots_x_plot" ]]           ) + # 3x3
+    #   #cowplot::plot_grid(out_diagn[[ "car__boxCox"              ]][[ "car__boxCox_plot" ]]                    ) + # 1x2
+    #   #cowplot::plot_grid(out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_plot" ]]       ) + # 1x1
+    #   patchwork::plot_layout(
+    #     design = plot_design
+    #   )
+    #   # , ncol        = NULL
+    #   # , nrow        = NULL
+    #   # , byrow       = c(TRUE, FALSE)[1]
+    #   # , widths      = NULL
+    #   # , heights     = NULL
+    #   #, guides      = c("collect", "keep", "auto")[2]
+    #   #, tag_level   = c("keep", "new")[1]
+    #   # , design      = NULL
+    #   # , axes        = NULL
+    #   #, axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    #   )
+    #   # +
+    #   # patchwork::wrap_plots(
+    #   #   p_list
+    #   # , ncol        = NULL
+    #   # , nrow        = NULL
+    #   # , byrow       = c(TRUE, FALSE)[1]
+    #   # , widths      = NULL
+    #   # , heights     = NULL
+    #   # , guides      = c("collect", "keep", "auto")[1]
+    #   # , tag_level   = c("keep", "new")[1]
+    #   # , design      = NULL
+    #   # , axes        = NULL
+    #   # , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    #   # ) +
+    #   # patchwork::plot_layout(design = plot_design) +
+    #   #patchwork::plot_annotation(
+    #   #  title       = paste0("lm diagnostic plots")
+    #   #, subtitle    = text_formula_sel
+    #   #, caption     = paste0(
+    #   #                  "Caption down here."
+    #   #                )
+    #   #, tag_levels  = "A"
+    #   #, theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    #   #)
 
   } # lm
   if (fit_class == "glm") {

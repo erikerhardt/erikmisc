@@ -10,7 +10,7 @@ e_plot_model_diagnostics_AllTestTables_combine(
 )
 }
 \arguments{
-\item{out_diagn}{final object from \cdoe{e_plot_model_diagnostics()}}
+\item{out_diagn}{final object from \code{e_plot_model_diagnostics()}}
 
 \item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }

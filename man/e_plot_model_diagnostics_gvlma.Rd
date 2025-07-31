@@ -18,7 +18,7 @@ e_plot_model_diagnostics_gvlma(
 \item{sw_interp}{T/F to provide interpretation guidance in the plot caption or with a table.}
 }
 \value{
-out      list including text and ggplot grobs
+out          list including text and ggplot grobs
 }
 \description{
 Methods from the paper: Pena, EA and Slate, EH,
