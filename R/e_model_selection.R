@@ -407,7 +407,7 @@ e_model_selection <-
       #, subtitle    = ""
       #, caption     =
       #, tag_levels  = "A"
-      , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+      , theme = ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0)) # Default is hjust=1, Caption align left
       )
   } # sw_model "lm"
   if (!(sw_contrasts      == c("both", "sel", "none", "skip")[4])) {
@@ -486,8 +486,9 @@ e_model_selection <-
     # determine stepwise "AIC" penalty
     sw_step_k <-
       ifelse(
-        is.numeric(sw_step_k)
-      , sw_step_k
+        # test if numeric, if numeric, then as.numeric does not return NA
+        suppressWarnings(ifelse(is.na(sw_step_k), NA, !is.na(as.numeric(sw_step_k))))
+      , as.numeric(sw_step_k)
       , dplyr::case_when(
           sw_step_k == "AIC"    ~ 2
         , sw_step_k == "BIC"    ~ log(nrow(out[["data"]]))
@@ -594,7 +595,7 @@ e_model_selection <-
         #, subtitle    = ""
         #, caption     =
         #, tag_levels  = "A"
-        , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+        , theme = ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0)) # Default is hjust=1, Caption align left
         )
     }
     if (!(sw_contrasts      == c("both", "sel", "none", "skip")[4])) {
@@ -718,7 +719,7 @@ e_model_selection <-
   # write output
   if (sw_write_output) {
 
-    dir.create(sw_write_output_path, showWarnings = FALSE)
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
     fn_output <-
       file.path(
             sw_write_output_path
