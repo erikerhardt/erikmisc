@@ -148,6 +148,12 @@ e_model_selection <-
   ## sw_write_output_prefix   = ""
   ## sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 
+  if (sw_write_output) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+  } # sw_write_output
+
+
   # store results in a list
   out <- list()
 
@@ -627,7 +633,7 @@ e_model_selection <-
   # print results
   if (sw_print_results) {
     print("=================================================")
-    print("-  BEGIN  ---------------------------------------")
+    print("--  BEGIN  --------------------------------------")
     print("=================================================")
 
     print(paste("=====", "data dim"))
@@ -718,8 +724,9 @@ e_model_selection <-
 
   # write output
   if (sw_write_output) {
-
+    # create folder if it doesn't already exist
     dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
     fn_output <-
       file.path(
             sw_write_output_path
