@@ -35,10 +35,14 @@
 #' } }
 #'
 #'
-#' @param fit                model object
-#' @param dat                data used for model fit
-#' @param resid_type         Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
-#' @param sw_interp          T/F to provide interpretation guidance in the plot caption or with a table.
+#' @param fit                       model object
+#' @param dat                       data used for model fit
+#' @param resid_type                Specifies the type of residual to be plotted.  Any of \code{c("working", "response", "deviance", "pearson", "partial", "rstudent", "rstandard")} may be specified.  The default \code{resid_type = "pearson"} is usually appropriate, since it is equal to ordinary residuals observed minus fit with ols, and correctly weighted residuals with wls or for a glm.  The last two options use the \code{\link{rstudent}} and \code{\link{rstandard}} functions and use studentized or standardized residuals.
+#' @param sw_interp                 T/F to provide interpretation guidance in the plot caption or with a table.
+#' @param sw_write_output           T/F for whether to save plots and text to a path
+#' @param sw_write_output_path      path to save results
+#' @param sw_write_output_prefix    filename prefix for results
+#' @param sw_write_output_plot_fmt  plot filename extension that determs the \code{ggsave} \code{device} argument
 #' ## @param sw_plot_set        NULL to accept other plot options, or "simple" to exclude boxcox, constant var, collinearity, order of data, and added-variable plots. "simpleAV" to add back in the added-variable plots.  "all" includes all possible plots in this function.
 #' ## @param rp_type            option passed to \code{ggResidpanel::resid_panel}
 #' ## @param rp_bins            option passed to \code{ggResidpanel::resid_panel}
@@ -80,6 +84,11 @@
 #'     fit = fit_lm
 #'   , dat = dat
 #'   , resid_type = "studentized"
+#'   , sw_interp                 = c(TRUE, FALSE)[1]
+#'   , sw_write_output           = c(TRUE, FALSE)[1]
+#'   , sw_write_output_path      = "out/XXX"
+#'   , sw_write_output_prefix    = "prefix_"
+#'   , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 #'   )
 #'
 #' ## glm example
@@ -105,10 +114,14 @@
 #'
 e_plot_model_diagnostics <-
   function(
-    fit                 = NULL
-  , dat                 = NULL
-  , resid_type          = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson", "studentized", "partial")[8]
-  , sw_interp           = c(TRUE, FALSE)[2]
+    fit                       = NULL
+  , dat                       = NULL
+  , resid_type                = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson", "studentized", "partial")[8]
+  , sw_interp                 = c(TRUE, FALSE)[2]
+  , sw_write_output           = c(TRUE, FALSE)[2]
+  , sw_write_output_path      = "."
+  , sw_write_output_prefix    = "prefix_"
+  , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 
   # , sw_plot_set         = c("simple", "simpleAV", "all", "boxplot", "cookd", "hist", "index", "ls", "qq", "lev", "resid", "yvp")[3]
   # , rp_type             = c(NA, "pearson", "response", "standardized", "deviance", "stand.deviance", "stand.pearson")[1]
@@ -144,7 +157,11 @@ e_plot_model_diagnostics <-
   ##     fit = fit_lm
   ##     dat = dat
   ##     resid_type = "studentized"
-  ##     sw_interp  = c(TRUE, FALSE)[1]
+  ##     sw_interp  = c(TRUE, FALSE)[2]
+  ## sw_write_output          = c(TRUE, FALSE)[1]
+  ## sw_write_output_path     = "out/XXX"
+  ## sw_write_output_prefix   = "TEST_"
+  ## sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 
 
 
@@ -175,6 +192,30 @@ e_plot_model_diagnostics <-
     # maybe good for distribution tests
   # car https://rpubs.com/DragonflyStats/Linear-Model-Diagnostics-Prestige
 
+
+  if (sw_write_output) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_output <-
+      file.path(
+            sw_write_output_path
+          , paste0(
+              sw_write_output_prefix
+            , "diagn_text.txt"
+            )
+          )
+
+    output_write <-
+      c(
+        fn_output
+      , "\n\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = FALSE)
+
+  } # sw_write_output
+
+
   out_diagn <- list()
 
   #fit <- fit_lm
@@ -187,6 +228,8 @@ e_plot_model_diagnostics <-
   if (fit_class == "glm") {
     print("e_plot_model_diagnostics: glm model")
   } # glm
+
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
 
 
   # Calculate residuals for later
@@ -264,6 +307,53 @@ e_plot_model_diagnostics <-
     out_diagn[[ "Resid_histogram" ]] <-
       NULL
   } # glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "Resid_histogram" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "Resid_histogram_plot."
+          , sw_write_output_plot_fmt
+          )
+        )
+      , plot   = out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_plot" ]]
+      , width  = 5
+      , height = 5
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\nResid_histogram:  "
+      , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "Resid_histogram_plot."
+          , sw_write_output_plot_fmt
+          )
+      , "\n"
+      , out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+  } # sw_write_output
+
 
 
   ## qqplot
@@ -410,6 +500,59 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_plot"  ]] |> print()
 
   } # lm or glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__residualPlots_x" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "car__residualPlots_x_plot."
+          , sw_write_output_plot_fmt
+          )
+        )
+      , plot   = out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_plot"  ]]
+      , width  = 8
+      , height = 2 + 3 * ceiling(length(xy_var_names_list$x_var_names) / 3)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__residualPlots_x:  "
+      , paste0(
+            sw_write_output_prefix
+          #, "_"
+          , "car__residualPlots_x_plot."
+          , sw_write_output_plot_fmt
+          )
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable() |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+  } # sw_write_output
+
+
 
 
   # dfbetas plots
@@ -637,18 +780,18 @@ e_plot_model_diagnostics <-
 
   if (fit_class == "lm") {
 
-    # base graphics are not working
-    # will need to run car and base plots to ggplot format
-
+    ## base graphics are not working
+    ## will need to run car and base plots to ggplot format
+    #
     # # patchwork model selection plot design
     # #   appears: after model selection if no x variables
     # #            at end to summarize ROC with model selection
     # plot_design <-
-    #   "ADCC
-    #    BECC
-    #    BFFF
-    #    GFFF
-    #    HFFF"
+    #   #"ADCC
+    #   # BECC
+    #   # BFFF
+    #   # GFFF
+    #   # HFFF"
     #   "A#CC
     #    B#CC
     #    B###
@@ -658,19 +801,19 @@ e_plot_model_diagnostics <-
     #
     # p_list <-
     #   list(
-    #     cowplot::plot_grid(out_diagn[[ "Resid_histogram"          ]][[ "Resid_histogram_plot" ]]                ) + # 1x1
-    #   , cowplot::plot_grid(out_diagn[[ "qqplotr"                  ]][[ "qqplotr_grid_detrended_plot" ]]         ) + # 2x1
-    #   , cowplot::plot_grid(out_diagn[[ "CooksD_Leverage_Resid"    ]][[ "CooksD_Leverage_Resid_arranged_plot" ]] ) + # 2x2
+    #     cowplot::plot_grid(out_diagn[[ "Resid_histogram"          ]][[ "Resid_histogram_plot" ]]                ) # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "qqplotr"                  ]][[ "qqplotr_grid_detrended_plot" ]]         ) # 2x1
+    #   , cowplot::plot_grid(out_diagn[[ "CooksD_Leverage_Resid"    ]][[ "CooksD_Leverage_Resid_arranged_plot" ]] ) # 2x2
     #     #out_diagn[[ "car__influenceIndexPlot"  ]]
     #     #out_diagn[[ "car__outlierTest"         ]]
     #     #out_diagn[[ "car__durbinWatsonTest"    ]]
-    #   , cowplot::plot_grid(out_diagn[[ "car__spreadLevelPlot"     ]][[ "car__spreadLevelPlot_plot" ]]           ) + # 1x1
-    #   , cowplot::plot_grid(out_diagn[[ "car__residualPlots_y"     ]][[ "car__residualPlots_y_plot" ]]           ) + # 1x1
-    #   , cowplot::plot_grid(out_diagn[[ "car__residualPlots_x"     ]][[ "car__residualPlots_x_plot" ]]           ) + # 3x3
+    #   , cowplot::plot_grid(out_diagn[[ "car__spreadLevelPlot"     ]][[ "car__spreadLevelPlot_plot" ]]           ) # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "car__residualPlots_y"     ]][[ "car__residualPlots_y_plot" ]]           ) # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "car__residualPlots_x"     ]][[ "car__residualPlots_x_plot" ]]           ) # 3x3
     #     #out_diagn[[ "car__dfbetasPlots"        ]]
     #     #out_diagn[[ "gvlma"                    ]]
-    #   , cowplot::plot_grid(out_diagn[[ "car__boxCox"              ]][[ "car__boxCox_plot" ]]                    ) + # 1x2
-    #   , cowplot::plot_grid(out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_plot" ]]       ) + # 1x1
+    #   , cowplot::plot_grid(out_diagn[[ "car__boxCox"              ]][[ "car__boxCox_plot" ]]                    ) # 1x2
+    #   , cowplot::plot_grid(out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_plot" ]]       ) # 1x1
     #     #out_diagn[[ "car__marginalModelPlots"  ]]
     #     #out_diagn[[ "car__invTranPlot"         ]]
     #     #out_diagn[[ "car__vif"                 ]]
@@ -705,7 +848,7 @@ e_plot_model_diagnostics <-
     #   # , design      = NULL
     #   # , axes        = NULL
     #   #, axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    #   )
+    #   #)
     #   # +
     #   # patchwork::wrap_plots(
     #   #   p_list
