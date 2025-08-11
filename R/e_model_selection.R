@@ -393,7 +393,7 @@ e_model_selection <-
       )
     out[["init"]][["plot_diagnostics"]] <-
       cowplot::as_grob(
-        ~e_plot_lm_diagnostics(
+        ~ e_plot_lm_diagnostics(
             fit         = out[["init"]][["fit"]]
           , rc_mfrow    = c(2 + ((2 + length(x_var_names)) %/% 3), 3)
           , which_plot  = c(4, 6, 1)
@@ -581,7 +581,7 @@ e_model_selection <-
         )
       out[["sel"]][["plot_diagnostics"]] <-
         cowplot::as_grob(
-          ~e_plot_lm_diagnostics(
+          ~ e_plot_lm_diagnostics(
               fit         = out[["sel"]][["fit"]]
             , rc_mfrow    = c(2 + ((2 + length(x_var_names)) %/% 3), 3)
             , which_plot  = c(4, 6, 1)
@@ -736,6 +736,12 @@ e_model_selection <-
             )
           )
 
+    wh_this <-
+      c(
+        width_in  = 5 + log2( ncol(dat_sel__))
+      , height_in = 5 + log10(nrow(dat_sel__))
+      )
+
     ggplot2::ggsave(
         file.path(
           sw_write_output_path
@@ -747,14 +753,20 @@ e_model_selection <-
           )
         )
       , plot   = out[["plot_missing"]]
-      , width  = 10
-      , height = 10
+      , width  = wh_this[1]
+      , height = wh_this[2]
       , units  = "in"
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
       ## pdf
       #, useDingbats = FALSE
+      )
+
+    wh_this <-
+      c(
+        width_in  = 2 + 1.25 * length(x_var_names)
+      , height_in = 4
       )
 
     ggplot2::ggsave(
@@ -768,14 +780,20 @@ e_model_selection <-
           )
         )
       , plot   = out[["plot_covar"]]
-      , width  = 10
-      , height = 6
+      , width  = wh_this[1]
+      , height = wh_this[2]
       , units  = "in"
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
       ## pdf
       #, useDingbats = FALSE
+      )
+
+    wh_this <-
+      c(
+        width_in  = 10
+      , height_in =  2 + 4 * ceiling(length(x_var_names) / 3)
       )
 
     ggplot2::ggsave(
@@ -789,14 +807,20 @@ e_model_selection <-
           )
         )
       , plot   = out[["plot_scatterplots"]]
-      , width  = 10
-      , height = 10
+      , width  = wh_this[1]
+      , height = wh_this[2]
       , units  = "in"
       ## png, jpeg
       , dpi    = 300
       , bg     = "white"
       ## pdf
       #, useDingbats = FALSE
+      )
+
+    wh_this <-
+      c(
+        width_in  = 1 + 1.25 * sum(sapply(dat_sel__, FUN = is.numeric))
+      , height_in = 1 + 1.25 * sum(sapply(dat_sel__, FUN = is.numeric))
       )
 
     ggplot2::ggsave(
@@ -810,8 +834,8 @@ e_model_selection <-
           )
         )
       , plot   = out[["plot_corrplot"]]$plot
-      , width  = 10
-      , height = 10
+      , width  = wh_this[1]
+      , height = wh_this[2]
       , units  = "in"
       ## png, jpeg
       , dpi    = 300
@@ -963,6 +987,12 @@ e_model_selection <-
       # out[["sel"]][["plot_diagnostics"   ]] |> print()
       # #plot(out[["sel"]][["fit"   ]], which = 1) |> print()
 
+      wh_this <-
+        c(
+          width_in  =  9
+        , height_in =  1 + 2.5 * (2 + ceiling(length(x_var_names) / 3))
+        )
+
       ggplot2::ggsave(
           file.path(
             sw_write_output_path
@@ -974,8 +1004,8 @@ e_model_selection <-
             )
           )
         , plot   = out[["init"]][["plot_diagnostics"   ]]
-        , width  = 10
-        , height = 12
+        , width  = wh_this[1]
+        , height = wh_this[2]
         , units  = "in"
         ## png, jpeg
         , dpi    = 300
@@ -983,6 +1013,8 @@ e_model_selection <-
         ## pdf
         #, useDingbats = FALSE
         )
+
+      # wh_this SAME init and sel
 
       ggplot2::ggsave(
           file.path(
@@ -995,8 +1027,8 @@ e_model_selection <-
             )
           )
         , plot   = out[["sel"]][["plot_diagnostics"   ]]
-        , width  = 10
-        , height = 12
+        , width  = wh_this[1]
+        , height = wh_this[2]
         , units  = "in"
         ## png, jpeg
         , dpi    = 300
@@ -1086,6 +1118,12 @@ e_model_selection <-
         , theme = ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0)) # Default is hjust=1, Caption align left
         )
 
+      wh_this <-
+        c(
+          width_in  = 3 * 4
+        , height_in = 1 + 3.5 * ceiling(i_list / 3)
+        )
+
       ggplot2::ggsave(
           file.path(
             sw_write_output_path
@@ -1097,8 +1135,8 @@ e_model_selection <-
             )
           )
         , plot   = p_arranged
-        , width  = 12
-        , height = 12
+        , width  = wh_this[1]
+        , height = wh_this[2]
         , units  = "in"
         ## png, jpeg
         , dpi    = 300
