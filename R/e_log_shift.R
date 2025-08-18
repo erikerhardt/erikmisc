@@ -2,7 +2,7 @@
 #'
 #' Default \code{min_add} values:
 #'   If specified, use that.
-#'   All positive, add 0.
+#'   All positive, and the minimum value is less than 1, add the minimum value, else add 0.
 #'   Min is 0, add the minimum non-0 value.
 #'   Min is negative and max is positive, add the minimum non-0 value (so minimum is now the previous non-0 value).
 #'   Max is negative, add the minimum value plus 1 so \code{log2(x)=0} is the minimum value.
@@ -208,9 +208,13 @@ e_log_shift <-
   }
 
   # all positive
-  # add 0
+  # if min(x) < 1, add x, else add 0
   if (min(x, na.rm = TRUE) > 0) {
-    min_add <- 0
+    if (min(x, na.rm = TRUE) < 1) {
+      min_add <- min(x, na.rm = TRUE)
+    } else {
+      min_add <- 0
+    }
   }
 
   # min is 0
