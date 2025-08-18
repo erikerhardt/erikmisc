@@ -4,16 +4,18 @@
 \alias{e_model_extract_var_names}
 \title{From model formula, extract y and x variable (and x interactions) lists}
 \usage{
-e_model_extract_var_names(form = NULL)
+e_model_extract_var_names(form = NULL, dat = NULL)
 }
 \arguments{
 \item{form}{formula of form y ~ x}
+
+\item{dat}{a data.frame or tibble}
 }
 \value{
 out      list with lists of y variable and x variables
 }
 \description{
-From model formula, extract y and x variable (and x interactions) lists
+If data is provided, also if indicate data type of each
 }
 \examples{
 ## From formula
@@ -59,7 +61,7 @@ form_model <-
 
 fit <- glm(form_model, data = dat_sel, family  = binomial(link = logit))
 
-xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+xy_var_names_list <- e_model_extract_var_names(formula(fit$terms), dat = dat_sel)
 xy_var_names_list
 y_var_name                <- xy_var_names_list$y_var_name
 y_var_name_glm            <- xy_var_names_list$y_var_name_glm
