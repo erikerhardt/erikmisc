@@ -153,7 +153,7 @@ out_diagn <-
   , sw_interp                 = c(TRUE, FALSE)[1]
   , sw_write_output           = c(TRUE, FALSE)[1]
   , sw_write_output_path      = "out/XXX"
-  , sw_write_output_prefix    = "prefix_"
+  , sw_write_output_prefix    = "prefix_lm_"
   , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
   )
 
@@ -176,6 +176,11 @@ out_diagn <-
     fit = fit_glm
   , dat = dat
   , resid_type = NA
+  , sw_interp                 = c(TRUE, FALSE)[1]
+  , sw_write_output           = c(TRUE, FALSE)[1]
+  , sw_write_output_path      = "out/XXX"
+  , sw_write_output_prefix    = "prefix_glm_"
+  , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
   )
 
 }

@@ -87,7 +87,7 @@
 #'   , sw_interp                 = c(TRUE, FALSE)[1]
 #'   , sw_write_output           = c(TRUE, FALSE)[1]
 #'   , sw_write_output_path      = "out/XXX"
-#'   , sw_write_output_prefix    = "prefix_"
+#'   , sw_write_output_prefix    = "prefix_lm_"
 #'   , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 #'   )
 #'
@@ -110,6 +110,11 @@
 #'     fit = fit_glm
 #'   , dat = dat
 #'   , resid_type = NA
+#'   , sw_interp                 = c(TRUE, FALSE)[1]
+#'   , sw_write_output           = c(TRUE, FALSE)[1]
+#'   , sw_write_output_path      = "out/XXX"
+#'   , sw_write_output_prefix    = "prefix_glm_"
+#'   , sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 #'   )
 #'
 e_plot_model_diagnostics <-
@@ -149,20 +154,49 @@ e_plot_model_diagnostics <-
   ## library(tidyverse)
   ## library(erikmisc)
   ## source("R/e_plot_model_diagnostics_EACH.R")
+  ## ## lm example
   ## dat <-
   ##    erikmisc::dat_mtcars_e
   ## form_model_lm <-
   ##   mpg ~ cyl + disp + hp + wt + vs + am + disp:hp + hp:vs
   ## fit_lm <- lm(formula = form_model_lm, data = dat)
-  ##     fit = fit_lm
-  ##     dat = dat
-  ##     resid_type = "studentized"
-  ##     sw_interp  = c(TRUE, FALSE)[2]
-  ## sw_write_output          = c(TRUE, FALSE)[1]
-  ## sw_write_output_path     = "out/XXX"
-  ## sw_write_output_prefix   = "TEST_"
-  ## sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
+  ##   fit = fit_lm
+  ##   dat = dat
+  ##   resid_type = "studentized"
+  ##   sw_interp  = c(TRUE, FALSE)[2]
+  ##   sw_write_output          = c(TRUE, FALSE)[1]
+  ##   sw_write_output_path     = "C:/Users/erike/Desktop/TEMP/out/XXX"
+  ##   sw_write_output_prefix   = "TEST_lm_"
+  ##   sw_write_output_plot_fmt = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
+  ## ## glm example
+  ## dat <-
+  ##   erikmisc::dat_mtcars_e |>
+  ##   dplyr::mutate(
+  ##     am_01 =
+  ##       dplyr::case_when(
+  ##         am == "manual"    ~ 0
+  ##       , am == "automatic" ~ 1
+  ##       )
+  ##   )
+  ## labelled::var_label(dat[["am_01"]]) <- labelled::var_label(dat[["am"]])
+  ## form_model_glm <-
+  ##   cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
+  ## fit_glm <- glm(formula = form_model_glm, data = dat, family = binomial(link = "logit"))
+  ##   fit = fit_glm
+  ##   dat = dat
+  ##   resid_type = NA
+  ##   sw_interp                 = c(TRUE, FALSE)[1]
+  ##   sw_write_output           = c(TRUE, FALSE)[1]
+  ##   sw_write_output_path      = "C:/Users/erike/Desktop/TEMP/out/XXX"
+  ##   sw_write_output_prefix    = "TEST_glm_"
+  ##   sw_write_output_plot_fmt  = c("png", "pdf", "jpeg", "eps", "ps", "tex", "tiff", "bmp", "svg", "wmf")[1]
 
+
+  ## XXX
+  # Index residuals and other observations by an ID
+  # out_diagn[[ "gvlma" ]][[ "gvlma_plots_grid" ]]
+  #   hollow gray50 points for no issue, solid red for issues
+  #   table, can add sig stars to p-values
 
 
   # write many separate functions and call them from the master function
@@ -192,6 +226,7 @@ e_plot_model_diagnostics <-
     # maybe good for distribution tests
   # car https://rpubs.com/DragonflyStats/Linear-Model-Diagnostics-Prestige
 
+  sw_kable_format <- c("latex", "html", "pipe", "simple", "rst", "jira", "org")[4]
 
   if (sw_write_output) {
     # create folder if it doesn't already exist
@@ -229,7 +264,7 @@ e_plot_model_diagnostics <-
     print("e_plot_model_diagnostics: glm model")
   } # glm
 
-  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms), dat)
 
 
   # Calculate residuals for later
@@ -269,25 +304,6 @@ e_plot_model_diagnostics <-
 
 
 
-  # # qqplot, Quantile-Comparison Plot
-  # if (fit_class == "lm") {
-  #
-  #   # base graphics version
-  #   out_diagn[[ "car__qqPlot" ]] <-
-  #     e_plot_model_diagnostics_car__qqPlot(
-  #       fit                 = fit
-  #     , dat                 = dat
-  #     )
-  #
-  #   out_diagn[[ "car__qqPlot" ]][[ "car__qqPlot_plot"  ]] |> print()
-  #
-  # } # lm
-  # if (fit_class == "glm") {
-  #   out_diagn[[ "car__qqPlot" ]] <-
-  #     NULL
-  # } # glm
-
-
   # Residual histogram
   if (fit_class == "lm") {
 
@@ -313,15 +329,17 @@ e_plot_model_diagnostics <-
     # create folder if it doesn't already exist
     dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
 
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "Resid_histogram_plot."
+      , sw_write_output_plot_fmt
+      )
     ggplot2::ggsave(
         file.path(
           sw_write_output_path
-        , paste0(
-            sw_write_output_prefix
-          #, "_"
-          , "Resid_histogram_plot."
-          , sw_write_output_plot_fmt
-          )
+        , fn_name
         )
       , plot   = out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_plot" ]]
       , width  = 5
@@ -334,25 +352,38 @@ e_plot_model_diagnostics <-
       #, useDingbats = FALSE
       )
 
-
-
     output_write <-
       c(
         "\n\n"
       , "====="
       , "\nResid_histogram:  "
-      , paste0(
-            sw_write_output_prefix
-          #, "_"
-          , "Resid_histogram_plot."
-          , sw_write_output_plot_fmt
-          )
+      , fn_name
       , "\n"
       , out_diagn[[ "Resid_histogram" ]][[ "Resid_histogram_interp" ]]
       )
     readr::write_lines(x = output_write, file = fn_output, append = TRUE)
 
   } # sw_write_output
+
+
+
+  # # qqplot, Quantile-Comparison Plot
+  # if (fit_class == "lm") {
+  #
+  #   # base graphics version
+  #   out_diagn[[ "car__qqPlot" ]] <-
+  #     e_plot_model_diagnostics_car__qqPlot(
+  #       fit                 = fit
+  #     , dat                 = dat
+  #     )
+  #
+  #   out_diagn[[ "car__qqPlot" ]][[ "car__qqPlot_plot"  ]] |> print()
+  #
+  # } # lm
+  # if (fit_class == "glm") {
+  #   out_diagn[[ "car__qqPlot" ]] <-
+  #     NULL
+  # } # glm
 
 
 
@@ -383,6 +414,53 @@ e_plot_model_diagnostics <-
       NULL
   } # glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "qqplotr" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "qqplotr_detrended_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "qqplotr" ]][[ "qqplotr_grid_detrended_plot"   ]]
+      , width  = 8
+      , height = 8
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\nqqplotr:  "
+      , fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "qqplotr" ]][[ "normality_test_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
 
   # Influence plots
   if (fit_class %in% c("lm", "glm")) {
@@ -404,6 +482,45 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "CooksD_Leverage_Resid" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "CooksD_Leverage_Resid_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "CooksD_Leverage_Resid" ]][[ "CooksD_Leverage_Resid_arranged_plot" ]]
+      , width  = 10
+      , height = 10
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\nCooksD_Leverage_Resid:  "
+      , fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
 
 
   # Influence index plots
@@ -420,6 +537,47 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__influenceIndexPlot" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__influenceIndexPlot_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__influenceIndexPlot" ]][[ "car__influenceIndexPlot_plot"  ]]
+      , width  = 10
+      , height = 10
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__influenceIndexPlot:  "
+      , fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
+
+
 
   ## outlier test
   if (fit_class %in% c("lm", "glm")) {
@@ -434,6 +592,38 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__outlierTest" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__outlierTest:  "
+      #, fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_print" ]]
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      c(
+        "\n\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__outlierTest" ]][[ "car__outlierTest_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
 
   ## Autocorrelated Errors test
   if (fit_class %in% c("lm", "glm")) {
@@ -446,6 +636,25 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__durbinWatsonTest" ]][[ "car__durbinWatsonTest_table" ]] |> print()
 
   } # lm or glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__durbinWatsonTest" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__durbinWatsonTest:  "
+      #, fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__durbinWatsonTest" ]][[ "car__durbinWatsonTest_table" ]]
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
 
 
   ## Homoscedacticity, Equal variance
@@ -461,12 +670,54 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_plot"  ]] |> print()
     out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_table" ]] |> print()
 
-
   } # lm
   if (fit_class == "glm") {
     out_diagn[[ "car__spreadLevelPlot" ]] <-
       NULL
   } # glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__spreadLevelPlot" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__spreadLevelPlot_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_plot"  ]]
+      , width  = 6
+      , height = 6
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__spreadLevelPlot:  "
+      , fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__spreadLevelPlot" ]][[ "car__spreadLevelPlot_table" ]]
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+  } # sw_write_output
 
 
   ## resid vs y plots
@@ -482,6 +733,56 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_plot"  ]] |> print()
 
   } # lm or glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__residualPlots_y" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__residualPlots_y_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_plot"  ]]
+      , width  = 6
+      , height = 6
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__residualPlots_y:  "
+      , fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    if(!is.null(out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_table" ]])) {
+      output_write <-
+        out_diagn[[ "car__residualPlots_y" ]][[ "car__residualPlots_y_table" ]] |>
+        dplyr::mutate(
+          dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+        ) |>
+        knitr::kable(format = sw_kable_format) |>
+        as.character()
+      readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    }
+
+  } # sw_write_output
 
 
 
@@ -506,19 +807,21 @@ e_plot_model_diagnostics <-
     # create folder if it doesn't already exist
     dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
 
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__residualPlots_x_plot."
+      , sw_write_output_plot_fmt
+      )
     ggplot2::ggsave(
         file.path(
           sw_write_output_path
-        , paste0(
-            sw_write_output_prefix
-          #, "_"
-          , "car__residualPlots_x_plot."
-          , sw_write_output_plot_fmt
-          )
+        , fn_name
         )
       , plot   = out_diagn[[ "car__residualPlots_x" ]][[ "car__residualPlots_x_plot"  ]]
       , width  = 8
-      , height = 2 + 3 * ceiling(length(xy_var_names_list$x_var_names) / 3)
+      , height = 1 + 3 * ceiling(length(xy_var_names_list$x_var_names) / 3)
       , units  = "in"
       ## png, jpeg
       , dpi    = 300
@@ -532,12 +835,7 @@ e_plot_model_diagnostics <-
         "\n\n"
       , "====="
       , "\ncar__residualPlots_x:  "
-      , paste0(
-            sw_write_output_prefix
-          #, "_"
-          , "car__residualPlots_x_plot."
-          , sw_write_output_plot_fmt
-          )
+      , fn_name
       , "\n"
       )
     readr::write_lines(x = output_write, file = fn_output, append = TRUE)
@@ -546,7 +844,7 @@ e_plot_model_diagnostics <-
       dplyr::mutate(
         dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
       ) |>
-      knitr::kable() |>
+      knitr::kable(format = sw_kable_format) |>
       as.character()
     readr::write_lines(x = output_write, file = fn_output, append = TRUE)
 
@@ -573,6 +871,48 @@ e_plot_model_diagnostics <-
       NULL
   } # glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__dfbetasPlots" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__dfbetasPlots_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__dfbetasPlots" ]][[ "car__dfbetasPlots_plot"  ]]
+      , width  = 8
+      , height = 1 + 3 * ceiling((length(xy_var_names_list$x_var_names) + length(xy_var_names_list$x_var_names_interactions)) / 3)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__dfbetasPlots:  "
+      , fn_name
+      , "\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+  } # sw_write_output
+
+
+
 
   ## gvlma, "Global Validation of Linear Model Assumptions"
   if (fit_class == "lm") {
@@ -596,6 +936,58 @@ e_plot_model_diagnostics <-
       NULL
   } # glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "gvlma" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "gvlma_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "gvlma" ]][[ "gvlma_plots_grid" ]]
+      , width  =  9
+      , height = 10
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ngvlma:  "
+      , fn_name
+      , "\n"
+      , out_diagn[[ "gvlma" ]][[ "gvlma_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "gvlma" ]][[ "gvlma_tests_overall_print" ]]
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      c(
+        "\n\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "gvlma" ]][[ "gvlma_tests_deletion_print" ]]
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+  } # sw_write_output
+
 
 
   ### transform y
@@ -609,15 +1001,77 @@ e_plot_model_diagnostics <-
       , sw_interp           = sw_interp
       )
 
-    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_plot"  ]] |> print()
-    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_table" ]] |> print()
-
+    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_plot"       ]] |> print()
+    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_table"      ]][[ "result" ]] |> print()
+    out_diagn[[ "car__boxCox" ]][[ "car__boxCox_table_list" ]] |> print()
 
   } # lm
   if (fit_class == "glm") {
     out_diagn[[ "car__boxCox" ]] <-
       NULL
   } # glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__boxCox" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__boxCox_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__boxCox" ]][[ "car__boxCox_plot"  ]]
+      , width  = 8
+      , height = 6
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__boxCox:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__boxCox" ]][[ "car__boxCox_table" ]][[ "result" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      c(
+        "\n\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__boxCox" ]][[ "car__boxCox_table_list" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+
+  } # sw_write_output
 
 
   ## Inverse response plot
@@ -639,6 +1093,53 @@ e_plot_model_diagnostics <-
       NULL
   } # glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__inverseResponsePlot" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__inverseResponsePlot_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_plot"  ]]
+      , width  = 6
+      , height = 6
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__inverseResponsePlot:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__inverseResponsePlot" ]][[ "car__inverseResponsePlot_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
 
 
   ### transform x
@@ -654,19 +1155,58 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__marginalModelPlots" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__marginalModelPlots_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__marginalModelPlots" ]][[ "car__marginalModelPlots_plot"  ]]
+      , width  = 10   # length(xy_var_names_list$x_var_names__numeric) + 1
+      , height = 10   # length(xy_var_names_list$x_var_names__numeric) + 1
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__marginalModelPlots:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
+
 
   ## Inverse response plot
   if (fit_class == "lm") {
 
     # base graphics version
-    grDevices::pdf(NULL) # begin capture and kill plots
     out_diagn[[ "car__invTranPlot" ]] <-
       e_plot_model_diagnostics_car__invTranPlot(
         fit                 = fit
       , dat                 = dat
       , sw_interp           = sw_interp
       )
-    grDevices::dev.off() # end   capture and kill plots
 
     out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_table" ]] |> print()
     out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_plot"  ]] |> print()
@@ -677,6 +1217,53 @@ e_plot_model_diagnostics <-
       NULL
   } # glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__invTranPlot" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__invTranPlot_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_plot"  ]]
+      , width  = 8
+      , height = 1 + 4 * ceiling(length(xy_var_names_list$x_var_names__numeric) / 2)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__invTranPlot:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__invTranPlot" ]][[ "car__invTranPlot_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
 
 
   ## VIF, GVIF
@@ -694,6 +1281,42 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__vif" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__vif:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "car__vif" ]][[ "car__vif_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      c(
+        "\n\n"
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      c(
+        out_diagn[[ "car__vif" ]][[ "car__vif_table" ]] |>
+          labelled::get_variable_labels() |> unlist()
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
 
   ## Added-Variable Plots
   if (fit_class %in% c("lm", "glm")) {
@@ -708,6 +1331,51 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__avPlots" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__avPlots_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__avPlots" ]][[ "car__avPlots_plot"  ]]
+      , width  = 8
+      , height = 1 + 2.5 * ceiling((length(xy_var_names_list$x_var_names__numeric) +
+                                  length(unlist(xy_var_names_list$x_var_names__factor_levels)) -
+                                  length(xy_var_names_list$x_var_names__factor)  # subtract baseline levels
+                                ) / 3)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__avPlots:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
+
+
   ## Marginal and Conditional Plots
   if (fit_class %in% c("lm", "glm")) {
     out_diagn[[ "car__mcPlots" ]] <-
@@ -720,6 +1388,50 @@ e_plot_model_diagnostics <-
     out_diagn[[ "car__mcPlots" ]][[ "car__mcPlots_plot"  ]] |> print()
 
   } # lm or glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__mcPlots" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__mcPlots_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__mcPlots" ]][[ "car__mcPlots_plot"  ]]
+      , width  = 8
+      , height = 1 + 2.5 * ceiling((length(xy_var_names_list$x_var_names__numeric) +
+                                  length(unlist(xy_var_names_list$x_var_names__factor_levels)) -
+                                  length(xy_var_names_list$x_var_names__factor)  # subtract baseline levels
+                                ) / 3)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__mcPlots:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
 
 
   ### Partial residual plots
@@ -735,6 +1447,47 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__crPlots" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__crPlots_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__crPlots" ]][[ "car__crPlots_plot"  ]]
+      , width  = 8
+      , height = 1 + 4 * ceiling(length(xy_var_names_list$x_var_names__numeric) / 2)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__crPlots:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
+
 
   ## Ceres (Generalized Partial Residual) Plots
   if (fit_class %in% c("lm", "glm")) {
@@ -748,6 +1501,45 @@ e_plot_model_diagnostics <-
 
   } # lm or glm
 
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "car__ceresPlots" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "car__ceresPlots_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "car__ceresPlots" ]][[ "car__ceresPlots_plot"  ]]
+      , width  = 8
+      , height = 1 + 4 * ceiling(length(xy_var_names_list$x_var_names__numeric) / 2)
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\ncar__ceresPlots:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
 
 
 
@@ -771,6 +1563,55 @@ e_plot_model_diagnostics <-
     out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa_Resid_plot"      ]] |> print()
 
   } # glm
+
+  # write output
+  if (sw_write_output & !is.null(out_diagn[[ "DHARMa_Resid" ]])) {
+    # create folder if it doesn't already exist
+    dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
+
+    fn_name <-
+      paste0(
+        sw_write_output_prefix
+      #, "_"
+      , "DHARMa_Resid_plot."
+      , sw_write_output_plot_fmt
+      )
+    ggplot2::ggsave(
+        file.path(
+          sw_write_output_path
+        , fn_name
+        )
+      , plot   = out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa_Resid_plot"      ]]
+      , width  = 9
+      , height = 7
+      , units  = "in"
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      #, useDingbats = FALSE
+      )
+
+    output_write <-
+      c(
+        "\n\n"
+      , "====="
+      , "\nDHARMa_Resid:  "
+      , fn_name
+      , "\n"
+      #, out_diagn[[ "" ]][[ "_interp" ]]
+      )
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+    output_write <-
+      out_diagn[[ "DHARMa_Resid" ]][[ "DHARMa__AllTests_table" ]] |>
+      dplyr::mutate(
+        dplyr::across(tidyselect::where(is.numeric), ~signif(.x, digits = 3))
+      ) |>
+      knitr::kable(format = sw_kable_format) |>
+      as.character()
+    readr::write_lines(x = output_write, file = fn_output, append = TRUE)
+  } # sw_write_output
+
 
 
 

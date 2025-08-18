@@ -36,6 +36,12 @@ e_plot_model_diagnostics_Resid_histogram <-
   # alpha based on sample size
   alpha_n <- min(1, 4 / (log2(length(fit_resid))))
 
+  out_ks_test <-
+    stats::ks.test(
+      x           = fit_resid
+    , y           = stats::pnorm
+    , alternative = "two.sided"
+    )
 
   dat_plot <-
     tibble::tibble(
@@ -50,6 +56,7 @@ e_plot_model_diagnostics_Resid_histogram <-
     , "\n  This histogram smooths the residuals, and the blue curve smooths them more."
     , "\n  Start with qualifying how the blue residual curve deviates from the red normal curve."
     , "\n  Relate this to the QQ-plots to improve your understanding of both plots."
+    , "\n\n  KS-test is a rough assessment of normality."
     )
 
   out[[ "Resid_histogram_interp" ]] <-
@@ -72,6 +79,7 @@ e_plot_model_diagnostics_Resid_histogram <-
                     "(Blue) Density smoothed histogram of residuals."
                   , "\n(Red) Normal distribution with mean 0 and sd(resid)."
                   , "\nBins are closed on the left, [a, b)"
+                  , "\nNormality:  ", out_ks_test$method, ", p-value = ", round(out_ks_test$p.value, 4)
                   , ifelse(
                       sw_interp
                     , text_interp
@@ -88,6 +96,605 @@ e_plot_model_diagnostics_Resid_histogram <-
   return(out)
 
 } # e_plot_model_diagnostics_Resid_histogram
+
+
+
+
+#' Model diagnostics, Quantile-Comparison Plot, car::qqPlot
+#'
+#'
+#' @param fit     fit object
+#' @param dat     dataset data.frame or tibble
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
+#'
+#' @return out      list including text and ggplot grobs
+#' @import car
+#' @importFrom cowplot as_grob
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_car__qqPlot <-
+  function(
+    fit                 = NULL
+  , dat                 = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
+  ) {
+
+  out <- list()
+
+  # plots
+  capture.output(
+  p_list <-
+    cowplot::as_grob(
+      ~
+      {
+      car::qqPlot(
+        x             = fit
+      , data          = dat
+      #, xlab          = paste(distribution, "Quantiles")
+      #, ylab          = paste("Studentized Residuals(", deparse(substitute(x)), ")", sep                   = "")
+      #, main          = "QQ-plot"
+      #, distribution  = c("t", "norm")[1]
+      , line          = c("robust", "quartiles", "none")[1]
+      #, las           = par("las")
+      , simulate      = TRUE
+      , envelope      = 0.95 #TRUE
+      , reps          = 1e3
+      #, col           = car::carPalette()[1]
+      #, col.lines     = car::carPalette()[2]
+      #, lwd           = 2
+      #, pch           = 1
+      #, cex           = par("cex")
+      , id            = list(method="y", n=4, cex=1, col=car::carPalette()[1], location=c("lr", "ab", "avoid")[3]) #TRUE
+      , grid          = TRUE
+      )
+      }
+    )
+  , type = c("output", "message")[1]
+  , split = FALSE
+  )
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+      title       = paste0("QQ-plot, Quantile-Comparison Plot")
+    , caption     = paste0(
+                      "Observations with missing values have been removed."
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+
+  out[[ "car__qqPlot_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_car__qqPlot
+
+
+
+
+#' Model diagnostics, qqplot, qqplotr:: stat_* functions
+#'
+#'
+#' @param fit_resid   list of residuals from \code{e_model_calc_resid()}
+#' @param fit         fit object
+#' @param band_conf   confidence level of confidence band
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
+#'
+#' @return out      list including ggplot grobs, one normal, one detrended
+#' @import ggplot2
+#' @import qqplotr
+#' @importFrom tibble as_tibble tribble
+#' @importFrom dplyr rename pull
+#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
+#' @importFrom ggplot2 theme
+#'
+e_plot_model_diagnostics_qqplotr <-
+  function(
+    fit_resid           = fit_resid
+  , fit                 = NULL
+  , band_conf           = 0.95
+  , sw_interp           = c(TRUE, FALSE)[2]
+  ) {
+
+  out <- list()
+
+  resid_type <- attr(fit_resid, "resid_type")
+  param_model <- list()
+  # 7/4/2025 not sure if all of these are normal, but good enough for now
+  if (is.null(fit) | resid_type %in% c(NA, "pearson", "response", "deviance", "stand.deviance", "stand.pearson", "partial")) {
+    param_model[[ "dist"   ]] <- "norm"
+    param_model[[ "dparam" ]] <- list()
+    param_model[[ "label"  ]] <- "normal"
+  }
+  if (!is.null(fit)) {
+    if (resid_type %in% c("standardized")) {
+      param_model[[ "dist"   ]] <- "t"
+      param_model[[ "dparam" ]] <- list(df = as.numeric(summary(fit)$fstatistic["dendf"] - 1)) # n - p - 2
+      param_model[[ "label"  ]] <- paste0("t(n - p - 2 = ", param_model[[ "dparam" ]], ")")
+    }
+    if (resid_type %in% c("studentized")) {
+      param_model[[ "dist"   ]] <- "t"
+      param_model[[ "dparam" ]] <- list(df = as.numeric(summary(fit)$fstatistic["dendf"])) # n - p - 1
+      param_model[[ "label"  ]] <- paste0("t(n - p - 1 = ", param_model[[ "dparam" ]], ")")
+    }
+  }
+
+
+  dat_resid <-
+    fit_resid |>
+    tibble::as_tibble(
+      rownames = "Obs"
+    ) |>
+    dplyr::rename(
+      resid = value
+    )
+
+  p1 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
+  p1 <- p1 + theme_bw()
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "ks", mapping = aes(fill = "KS"), alpha = 0.25)
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "ts", mapping = aes(fill = "TS"), alpha = 0.25)
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "pointwise", mapping = aes(fill = "Normal"), alpha = 0.25)
+  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "boot", mapping = aes(fill = "Bootstrap"), alpha = 0.25)
+  p1 <- p1 + qqplotr::stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
+              , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
+              , fill = "gray75", color = "gray25", alpha = 0.5)
+  p1 <- p1 + qqplotr::stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p1 <- p1 + qqplotr::stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p1 <- p1 + labs(
+              title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%")
+            , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Sample Quantiles\n(residual type = ", resid_type, ")")
+            )
+  #p1 <- p1 + scale_fill_discrete("Bandtype")
+  #p1
+
+
+  p2 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
+  p2 <- p2 + theme_bw()
+  p2 <- p2 + qqplotr::stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
+              , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
+              , fill = "gray75", color = "gray25", alpha = 0.5)
+  p2 <- p2 + qqplotr::stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p2 <- p2 + qqplotr::stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p2 <- p2 + labs(
+              title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%", ", detrended")
+            , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Sample Quantiles\n(residual type = ", resid_type, ")")
+            )
+  #p2
+
+  p3 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
+  p3 <- p3 + theme_bw()
+  p3 <- p3 + qqplotr::stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
+              , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
+              , fill = "gray75", color = "gray25", alpha = 0.5)
+  p3 <- p3 + qqplotr::stat_pp_line (                                                                               detrend = c(FALSE, TRUE)[1])
+  p3 <- p3 + qqplotr::stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
+  p3 <- p3 + labs(
+              title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%")
+            , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Cumulative Probability\n(residual type = ", resid_type, ")")
+            )
+  #p3
+
+
+  p4 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
+  p4 <- p4 + theme_bw()
+  p4 <- p4 + qqplotr::stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
+              , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
+              , fill = "gray75", color = "gray25", alpha = 0.5)
+  p4 <- p4 + qqplotr::stat_pp_line (                                                                               detrend = c(FALSE, TRUE)[2])
+  p4 <- p4 + qqplotr::stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
+  p4 <- p4 + labs(
+              title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%", ", detrended")
+            , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
+            , y     = paste0("Cumulative Probability\n(residual type = ", resid_type, ")")
+            )
+  #p4
+
+
+  out[[ "qqplotr_qqplot_diagonal_plot"  ]] <- p1
+  out[[ "qqplotr_qqplot_detrended_plot" ]] <- p2
+  out[[ "qqplotr_ppplot_diagonal_plot"  ]] <- p3
+  out[[ "qqplotr_ppplot_detrended_plot" ]] <- p4
+
+
+  # normality test
+  out[[ "normality_test_table" ]] <- e_distr_test(fit_resid)
+
+  text_caption <-
+    paste0(
+      "Normality tests:  "
+    , out[[ "normality_test_table" ]] |>
+      dplyr::pull(text) |>
+      paste(collapse = ";  ")
+    )
+
+  # diagonal and detrended grids with normality test in caption
+  p_arranged_1 <-
+    patchwork::wrap_plots(
+      list(p1, p3)
+    , ncol        = 1
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = text_formula
+    #, subtitle    = text_formula_sel
+    , caption     = text_caption
+    , tag_levels  = "A"
+    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  p_arranged_2 <-
+    patchwork::wrap_plots(
+      list(p2, p4)
+    , ncol        = 1
+    , nrow        = NULL
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[1]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+    #  title       = text_formula
+    #, subtitle    = text_formula_sel
+    , caption     = text_caption
+    , tag_levels  = "A"
+    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  out[[ "qqplotr_grid_diagonal_plot"  ]] <- p_arranged_1
+  out[[ "qqplotr_grid_detrended_plot" ]] <- p_arranged_2
+
+  return(out)
+
+} # e_plot_model_diagnostics_qqplotr
+
+
+
+
+
+################################################################################
+################################################################################
+# Group of simple plots
+# Cook's D vs Leverage vs Residuals
+
+#' Model diagnostics, Cooks vs Leverage vs Residuals
+#'
+#'
+#' @param fit           fit object
+#' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
+#' @param fit_cooksD    Cook's Distance values (from \code{stats::cooks.distance})
+#' @param fit_leverage  leverage values (from \code{stats::hatvalues})
+#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
+#'
+#' @return out      list including text and ggplot grobs
+#' @import tibble
+#' @import dplyr
+#' @import ggplot2
+#' @importFrom car outlierTest
+#' @importFrom patchwork wrap_plots plot_annotation
+#'
+e_plot_model_diagnostics_CooksD_Leverage_Resid <-
+  function(
+    fit                 = NULL
+  , fit_resid           = NULL
+  , fit_cooksD          = NULL
+  , fit_leverage        = NULL
+  , sw_interp           = c(TRUE, FALSE)[2]
+  ) {
+
+  out <- list()
+
+  fit_class <- class(fit)[1]
+
+  ## Cook's Distance
+  # Use SAS's threshold for Cook's D
+  thresh_cooksD <- 4 / length(fit_cooksD)
+
+  # Use standard threshold for leverage
+  thresh_leverage <- 0.5 # Kutner et al. (2005)
+                          # 2 / length(fit_cooksD)
+
+  obs_above_resid_thresh <-
+    car::outlierTest(
+          model   = fit
+        , cutoff  = 0.05
+        , n.max   = 10
+        , order   = TRUE
+        #, labels  = names(rstudent)
+    )[[ "rstudent" ]] |>
+    names() |>
+    as.numeric()
+
+  dat_plot <-
+    tibble::tibble(
+      Index     = seq_along(fit_cooksD)
+    , Resid     = fit_resid
+    , CooksD    = fit_cooksD
+    , Leverage  = fit_leverage
+    ) |>
+    dplyr::mutate(
+      thresh_cooksD_exceed =
+        (CooksD > thresh_cooksD) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    , thresh_leverage_exceed =
+        (Leverage > thresh_leverage) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    , thresh_cooksD_or_leverage_exceed =
+        (
+          (CooksD > thresh_cooksD)    |
+          (Leverage > thresh_leverage)
+        ) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    , thresh_resid_exceed =
+        (Index %in% obs_above_resid_thresh) |>
+        factor(
+          levels = c(FALSE, TRUE)
+        , labels = c("No", "Yes")
+        )
+    )
+
+  cols_exceed <-
+    c(
+      "No"  = "black"
+    , "Yes" = "red"
+    )
+
+  obs_above_cooksD_thresh <-
+    dat_plot |>
+    dplyr::filter(
+      thresh_cooksD_exceed == "Yes"
+    ) |>
+    dplyr::pull(
+      Index
+    )
+
+  obs_above_leverage_thresh <-
+    dat_plot |>
+    dplyr::filter(
+      thresh_leverage_exceed == "Yes"
+    ) |>
+    dplyr::pull(
+      Index
+    )
+
+  obs_above_resid_thresh <-
+    dat_plot |>
+    dplyr::filter(
+      thresh_resid_exceed == "Yes"
+    ) |>
+    dplyr::pull(
+      Index
+    )
+
+  p_list <- list()
+
+  # Cook's D
+  p <- ggplot(dat_plot, aes(x = Index, y = CooksD))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = thresh_cooksD, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_segment(aes(xend = Index, yend = 0, color = ), alpha = 0.25)
+  p <- p + geom_point(aes(color = thresh_cooksD_exceed))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_cooksD_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Cook's Distance vs Index"
+                , x         = "Index"
+                , y         = "Cook's Distance"
+                , caption   =
+                    paste0(
+                      "Cook's D Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
+                    , "\nIndicies above threshold ("
+                    , length(obs_above_cooksD_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_cooksD_thresh)
+                      , paste(obs_above_cooksD_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "CooksD_Index_plot" ]] <-
+    p
+  p_list[[ 1 ]] <-
+    p
+
+
+  # Cook's D vs Leverage
+  p <- ggplot(dat_plot, aes(x = Leverage, y = CooksD))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = thresh_cooksD, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_cooksD_or_leverage_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Cook's Distance vs Leverage"
+                , x         = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
+                , y         = "Cook's Distance"
+                , caption   =
+                    paste0(
+                    #   "Cook's D Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
+                    # , "\nIndicies above threshold ("
+                    # , length(obs_above_cooksD_thresh), " / ", length(fit_resid)
+                    # , "): "
+                    # , ifelse(
+                    #     length(obs_above_cooksD_thresh)
+                    #   , paste(obs_above_cooksD_thresh, collapse = ", ")
+                    #   , "none"
+                    #   )
+                    # , "."
+                      "Leverage Threshold is ", sprintf("%02.1f", thresh_leverage)
+                    , "\nIndicies above threshold ("
+                    , length(obs_above_leverage_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_leverage_thresh)
+                      , paste(obs_above_leverage_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "CooksD_Leverage_plot" ]] <-
+    p
+  p_list[[ 2 ]] <-
+    p
+
+
+  # Resid vs Leverage with Cook's D
+  p <- ggplot(dat_plot, aes(x = Leverage, y = Resid))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = c(-2, 2), colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed, size = CooksD))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_resid_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Residuals vs Leverage, with Cook's Distance"
+                , x         = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
+                , y         = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
+                , size      = "Cook's Distance"
+                , caption   =
+                    paste0(
+                      "Residual Threshold is roughly 2, using the Bonferroni Outlier Test"
+                    , "\nIndicies beyond threshold ("
+                    , length(obs_above_resid_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_resid_thresh)
+                      , paste(obs_above_resid_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(legend.position = "bottom") # "none"
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "Resid_Leverage_CooksD_plot" ]] <-
+    p
+  p_list[[ 4 ]] <-
+    p
+
+
+  # Resid vs Cook's D with Leverage
+  p <- ggplot(dat_plot, aes(x = CooksD, y = Resid))
+  p <- p + theme_bw()
+  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_hline(yintercept = c(-2, 2), colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
+  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed, size = Leverage))
+  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_resid_exceed == "Yes"), aes(label = Index), hjust = +1.25)
+  p <- p + scale_color_manual(values = cols_exceed)
+  p <- p + labs(
+                  title     = "Residuals vs Cook's Distance, with Leverage"
+                , x         = "Cook's Distance"
+                , y         = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
+                , size      = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
+                , caption   =
+                    paste0(
+                      "Residual Threshold is roughly 2, using the Bonferroni Outlier Test"
+                    , "\nIndicies beyond threshold ("
+                    , length(obs_above_resid_thresh), " / ", length(fit_resid)
+                    , "): "
+                    , ifelse(
+                        length(obs_above_resid_thresh)
+                      , paste(obs_above_resid_thresh, collapse = ", ")
+                      , "none"
+                      )
+                    , "."
+                    )
+                )
+  p <- p + guides(color = "none")
+  p <- p + theme(legend.position = "bottom") # "none"
+  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+
+  out[[ "Resid_CooksD_Leverage_plot" ]] <-
+    p
+  p_list[[ 3 ]] <-
+    p
+
+
+  p_arranged <-
+    patchwork::wrap_plots(
+      p_list
+    , ncol        = NULL
+    , nrow        = 2
+    , byrow       = c(TRUE, FALSE)[1]
+    , widths      = NULL
+    , heights     = NULL
+    , guides      = c("collect", "keep", "auto")[2]
+    , tag_level   = c("keep", "new")[1]
+    , design      = NULL
+    , axes        = NULL
+    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
+    ) +
+    patchwork::plot_annotation(
+      title       = paste0("Influence Plots")
+    , caption     = paste0(
+                      "Observations with missing values have been removed."
+                    )
+    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
+    )
+
+  out[[ "CooksD_Leverage_Resid_arranged_plot" ]] <-
+    p_arranged
+
+  return(out)
+
+} # e_plot_model_diagnostics_CooksD_Leverage_Resid
 
 
 #' Model diagnostics, gvlma
@@ -352,11 +959,13 @@ e_plot_model_diagnostics_car__inverseResponsePlot <-
   xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
   y_var_name  <- xy_var_names_list$y_var_name
 
+  list_lambda <- seq(-2, 2, by = 1)
+
   grDevices::pdf(NULL) # begin capture and kill plots
   out[[ "car__inverseResponsePlot_table" ]] <-
     car::inverseResponsePlot(
       model   = fit
-    , lambda  = c(-1, 0, 1, 2)
+    , lambda  = list_lambda
     , robust  = FALSE
     , xlab    = NULL
     , id      = FALSE #list(method=list(method="x", n=4, cex=1, col=car::carPalette()[1], location="lr"))  # TRUE  #FALSE
@@ -364,11 +973,27 @@ e_plot_model_diagnostics_car__inverseResponsePlot <-
     tibble::as_tibble() |>
     dplyr::mutate(
       y_var = y_var_name
+    , ID    = 1:dplyr::n()
+    , comment =
+        dplyr::case_when(
+          ID     ==  1  ~ "Optimal (choose one close to this)"
+        , lambda == -1   ~ "inverse"
+        , lambda ==  0   ~ "log (any base)"
+        , lambda ==  0.5 ~ "square root"
+        , lambda ==  1   ~ "No power transform"
+        , lambda ==  2   ~ "square"
+        , .default = ""
+        )
+    ) |>
+    dplyr::select(
+      -ID
     ) |>
     dplyr::relocate(
       y_var
+    ) |>
+    dplyr::arrange(
+      lambda
     )
-
   grDevices::dev.off() # end   capture and kill plots
 
   p_list <-
@@ -377,7 +1002,7 @@ e_plot_model_diagnostics_car__inverseResponsePlot <-
       ~
       car::inverseResponsePlot(
         model   = fit
-      , lambda  = c(-1, 0, 1, 2)
+      , lambda  = list_lambda
       , robust  = FALSE
       , xlab    = NULL
       , id      = FALSE #list(method=list(method="x", n=4, cex=1, col=carPalette()[1], location="lr"))  # TRUE  #FALSE
@@ -387,7 +1012,7 @@ e_plot_model_diagnostics_car__inverseResponsePlot <-
   out[[ "car__inverseResponsePlot_plot" ]] <-
     patchwork::wrap_plots(
       p_list
-    , ncol        = NULL
+    , ncol        = 3
     , nrow        = NULL
     , byrow       = c(TRUE, FALSE)[1]
     , widths      = NULL
@@ -438,24 +1063,20 @@ e_plot_model_diagnostics_car__invTranPlot <-
 
   out <- list()
 
-  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+  xy_var_names_list <- e_model_extract_var_names(formula(fit$terms), dat)
   y_var_name  <- xy_var_names_list$y_var_name
-  x_var_names <- xy_var_names_list$x_var_names
+  x_var_names <- xy_var_names_list$x_var_names__numeric
 
   # remove factor variables
   dat <-
     dat |>
     dplyr::select(
-      tidyselect::one_of(y_var_name)
-    , tidyselect::one_of(x_var_names)
+      tidyselect::all_of(y_var_name)
+    , tidyselect::all_of(x_var_names)
     ) |>
-    tidyr::drop_na() |>
-    dplyr::mutate(dplyr::across(tidyselect::where(is.factor   ), ~NULL)) |>
-    dplyr::mutate(dplyr::across(tidyselect::where(is.character), ~NULL))
+    tidyr::drop_na()
 
-  x_var_names <-
-    x_var_names[x_var_names %in% names(dat)]
-
+  list_lambda <- seq(-2, 2, by = 1)
 
   ## Tables and plots of y vs each x
   t_list <- list()
@@ -493,7 +1114,7 @@ e_plot_model_diagnostics_car__invTranPlot <-
           car::invTranPlot(
             x           = dat[[ x ]]
           , y           = dat[[ y_var_name ]]
-          , lambda      = c(-1, 0, 1, 2)
+          , lambda      = list_lambda
           , robust      = FALSE
           , family      = c("bcPower", "yjPower")[1]
           , xlab        = labelled::var_label(dat[[ x ]])
@@ -609,6 +1230,10 @@ e_plot_model_diagnostics_car__residualPlots_y <-
             , " (p = " , sprintf("%04.4f", Pvalue), ") "
             , sig
             )
+        , Test = "Quad test"
+        ) |>
+        dplyr::relocate(
+          Test
         )
     , type = c("output", "message")[1]
     , split = FALSE
@@ -741,6 +1366,10 @@ e_plot_model_diagnostics_car__residualPlots_x <-
           , " (p = " , sprintf("%04.4f", `Pr(>|Test stat|)`), ") "
           , sig
           )
+      , Test = "Quad test"
+      ) |>
+      dplyr::relocate(
+        Test
       )
   , type = c("output", "message")[1]
   , split = FALSE
@@ -1074,286 +1703,6 @@ e_plot_model_diagnostics_car__influenceIndexPlot <-
 
 
 
-#' Model diagnostics, Quantile-Comparison Plot, car::qqPlot
-#'
-#'
-#' @param fit     fit object
-#' @param dat     dataset data.frame or tibble
-#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
-#'
-#' @return out      list including text and ggplot grobs
-#' @import car
-#' @importFrom cowplot as_grob
-#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
-#' @importFrom ggplot2 theme
-#'
-e_plot_model_diagnostics_car__qqPlot <-
-  function(
-    fit                 = NULL
-  , dat                 = NULL
-  , sw_interp           = c(TRUE, FALSE)[2]
-  ) {
-
-  out <- list()
-
-  # plots
-  capture.output(
-  p_list <-
-    cowplot::as_grob(
-      ~
-      {
-      car::qqPlot(
-        x             = fit
-      , data          = dat
-      #, xlab          = paste(distribution, "Quantiles")
-      #, ylab          = paste("Studentized Residuals(", deparse(substitute(x)), ")", sep                   = "")
-      #, main          = "QQ-plot"
-      #, distribution  = c("t", "norm")[1]
-      , line          = c("robust", "quartiles", "none")[1]
-      #, las           = par("las")
-      , simulate      = TRUE
-      , envelope      = 0.95 #TRUE
-      , reps          = 1e3
-      #, col           = car::carPalette()[1]
-      #, col.lines     = car::carPalette()[2]
-      #, lwd           = 2
-      #, pch           = 1
-      #, cex           = par("cex")
-      , id            = list(method="y", n=4, cex=1, col=car::carPalette()[1], location=c("lr", "ab", "avoid")[3]) #TRUE
-      , grid          = TRUE
-      )
-      }
-    )
-  , type = c("output", "message")[1]
-  , split = FALSE
-  )
-
-  p_arranged <-
-    patchwork::wrap_plots(
-      p_list
-    , ncol        = NULL
-    , nrow        = NULL
-    , byrow       = c(TRUE, FALSE)[1]
-    , widths      = NULL
-    , heights     = NULL
-    , guides      = c("collect", "keep", "auto")[1]
-    , tag_level   = c("keep", "new")[1]
-    , design      = NULL
-    , axes        = NULL
-    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    ) +
-    patchwork::plot_annotation(
-      title       = paste0("QQ-plot, Quantile-Comparison Plot")
-    , caption     = paste0(
-                      "Observations with missing values have been removed."
-                    )
-    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-    )
-
-
-  out[[ "car__qqPlot_plot" ]] <-
-    p_arranged
-
-  return(out)
-
-} # e_plot_model_diagnostics_car__qqPlot
-
-
-
-
-#' Model diagnostics, qqplot, qqplotr:: stat_* functions
-#'
-#'
-#' @param fit_resid   list of residuals from \code{e_model_calc_resid()}
-#' @param fit         fit object
-#' @param band_conf   confidence level of confidence band
-#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
-#'
-#' @return out      list including ggplot grobs, one normal, one detrended
-#' @import ggplot2
-#' @import qqplotr
-#' @importFrom tibble as_tibble tribble
-#' @importFrom dplyr rename pull
-#' @importFrom patchwork wrap_elements wrap_plots plot_annotation
-#' @importFrom ggplot2 theme
-#'
-e_plot_model_diagnostics_qqplotr <-
-  function(
-    fit_resid           = fit_resid
-  , fit                 = NULL
-  , band_conf           = 0.95
-  , sw_interp           = c(TRUE, FALSE)[2]
-  ) {
-
-  out <- list()
-
-  resid_type <- attr(fit_resid, "resid_type")
-  param_model <- list()
-  # 7/4/2025 not sure if all of these are normal, but good enough for now
-  if (is.null(fit) | resid_type %in% c(NA, "pearson", "response", "deviance", "stand.deviance", "stand.pearson", "partial")) {
-    param_model[[ "dist"   ]] <- "norm"
-    param_model[[ "dparam" ]] <- list()
-    param_model[[ "label"  ]] <- "normal"
-  }
-  if (!is.null(fit)) {
-    if (resid_type %in% c("standardized")) {
-      param_model[[ "dist"   ]] <- "t"
-      param_model[[ "dparam" ]] <- list(df = as.numeric(summary(fit)$fstatistic["dendf"] - 1)) # n - p - 2
-      param_model[[ "label"  ]] <- paste0("t(n - p - 2 = ", param_model[[ "dparam" ]], ")")
-    }
-    if (resid_type %in% c("studentized")) {
-      param_model[[ "dist"   ]] <- "t"
-      param_model[[ "dparam" ]] <- list(df = as.numeric(summary(fit)$fstatistic["dendf"])) # n - p - 1
-      param_model[[ "label"  ]] <- paste0("t(n - p - 1 = ", param_model[[ "dparam" ]], ")")
-    }
-  }
-
-
-  dat_resid <-
-    fit_resid |>
-    tibble::as_tibble(
-      rownames = "Obs"
-    ) |>
-    dplyr::rename(
-      resid = value
-    )
-
-  p1 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
-  p1 <- p1 + theme_bw()
-  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "ks", mapping = aes(fill = "KS"), alpha = 0.25)
-  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "ts", mapping = aes(fill = "TS"), alpha = 0.25)
-  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "pointwise", mapping = aes(fill = "Normal"), alpha = 0.25)
-  #p1 <- p1 + qqplotr::geom_qq_band(bandType = "boot", mapping = aes(fill = "Bootstrap"), alpha = 0.25)
-  p1 <- p1 + qqplotr::stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
-              , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
-              , fill = "gray75", color = "gray25", alpha = 0.5)
-  p1 <- p1 + qqplotr::stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
-  p1 <- p1 + qqplotr::stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
-  p1 <- p1 + labs(
-              title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%")
-            , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
-            , y     = paste0("Sample Quantiles\n(residual type = ", resid_type, ")")
-            )
-  #p1 <- p1 + scale_fill_discrete("Bandtype")
-  #p1
-
-
-  p2 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
-  p2 <- p2 + theme_bw()
-  p2 <- p2 + qqplotr::stat_qq_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
-              , conf = band_conf, bandType = c("pointwise", "boot", "ks", "ts", "ell")[1]
-              , fill = "gray75", color = "gray25", alpha = 0.5)
-  p2 <- p2 + qqplotr::stat_qq_line (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
-  p2 <- p2 + qqplotr::stat_qq_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
-  p2 <- p2 + labs(
-              title = paste0("QQ-plot, pointwise distributional ", 100*band_conf, "%", ", detrended")
-            , x     = paste0("Theoretical Quantiles\n", param_model[[ "label"  ]], " distribution")
-            , y     = paste0("Sample Quantiles\n(residual type = ", resid_type, ")")
-            )
-  #p2
-
-  p3 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
-  p3 <- p3 + theme_bw()
-  p3 <- p3 + qqplotr::stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1]
-              , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
-              , fill = "gray75", color = "gray25", alpha = 0.5)
-  p3 <- p3 + qqplotr::stat_pp_line (                                                                               detrend = c(FALSE, TRUE)[1])
-  p3 <- p3 + qqplotr::stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[1])
-  p3 <- p3 + labs(
-              title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%")
-            , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
-            , y     = paste0("Cumulative Probability\n(residual type = ", resid_type, ")")
-            )
-  #p3
-
-
-  p4 <- ggplot(data = dat_resid, mapping = aes(sample = resid))
-  p4 <- p4 + theme_bw()
-  p4 <- p4 + qqplotr::stat_pp_band (distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2]
-              , conf = band_conf, B = 5e3, bandType = c("pointwise", "boot", "ks", "ts", "ell")[2]
-              , fill = "gray75", color = "gray25", alpha = 0.5)
-  p4 <- p4 + qqplotr::stat_pp_line (                                                                               detrend = c(FALSE, TRUE)[2])
-  p4 <- p4 + qqplotr::stat_pp_point(distribution = param_model[[ "dist"   ]], dparams = param_model[[ "dparam" ]], detrend = c(FALSE, TRUE)[2])
-  p4 <- p4 + labs(
-              title = paste0("PP-plot, pointwise bootstrap ", 100*band_conf, "%", ", detrended")
-            , x     = paste0("Probability Points\n", param_model[[ "label"  ]], " distribution")
-            , y     = paste0("Cumulative Probability\n(residual type = ", resid_type, ")")
-            )
-  #p4
-
-
-  out[[ "qqplotr_qqplot_diagonal_plot"  ]] <- p1
-  out[[ "qqplotr_qqplot_detrended_plot" ]] <- p2
-  out[[ "qqplotr_ppplot_diagonal_plot"  ]] <- p3
-  out[[ "qqplotr_ppplot_detrended_plot" ]] <- p4
-
-
-  # normality test
-  out[[ "normality_test_table" ]] <- e_distr_test(fit_resid)
-
-  text_caption <-
-    paste0(
-      "Normality tests:  "
-    , out[[ "normality_test_table" ]] |>
-      dplyr::pull(text) |>
-      paste(collapse = ";  ")
-    )
-
-  # diagonal and detrended grids with normality test in caption
-  p_arranged_1 <-
-    patchwork::wrap_plots(
-      list(p1, p3)
-    , ncol        = 1
-    , nrow        = NULL
-    , byrow       = c(TRUE, FALSE)[1]
-    , widths      = NULL
-    , heights     = NULL
-    , guides      = c("collect", "keep", "auto")[1]
-    , tag_level   = c("keep", "new")[1]
-    , design      = NULL
-    , axes        = NULL
-    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    ) +
-    patchwork::plot_annotation(
-    #  title       = text_formula
-    #, subtitle    = text_formula_sel
-    , caption     = text_caption
-    , tag_levels  = "A"
-    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-    )
-
-  p_arranged_2 <-
-    patchwork::wrap_plots(
-      list(p2, p4)
-    , ncol        = 1
-    , nrow        = NULL
-    , byrow       = c(TRUE, FALSE)[1]
-    , widths      = NULL
-    , heights     = NULL
-    , guides      = c("collect", "keep", "auto")[1]
-    , tag_level   = c("keep", "new")[1]
-    , design      = NULL
-    , axes        = NULL
-    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    ) +
-    patchwork::plot_annotation(
-    #  title       = text_formula
-    #, subtitle    = text_formula_sel
-    , caption     = text_caption
-    , tag_levels  = "A"
-    , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-    )
-
-  out[[ "qqplotr_grid_diagonal_plot"  ]] <- p_arranged_1
-  out[[ "qqplotr_grid_detrended_plot" ]] <- p_arranged_2
-
-  return(out)
-
-} # e_plot_model_diagnostics_qqplotr
-
-
-
-
 #' Model diagnostics, car::boxCox and car::symbox
 #'
 #'
@@ -1377,9 +1726,12 @@ e_plot_model_diagnostics_car__boxCox <-
   out <- list()
 
   # Box-Cox results and tests
-  fit_boxcox <-
+  obj_boxcox <-
     fit |>
-    car::powerTransform() |>
+    car::powerTransform()
+
+  fit_boxcox <-
+    obj_boxcox |>
     summary()
 
   # reformat into tables
@@ -1395,6 +1747,45 @@ e_plot_model_diagnostics_car__boxCox <-
     , text = paste0(label, " (p = ", sprintf("%04.4f", pval), ") ", sig)
     )
 
+  # table of transforms -2 to +2, including optimal lambda
+  list_boxcox_test <- list()
+  list_lambda <- c(as.numeric(fit_boxcox$result[1]), seq(-2, 2, by = 0.5))
+  for (i_lambda in seq_along(list_lambda)) {
+    ## i_lambda = 1
+    list_boxcox_test[[ i_lambda ]] <-
+      obj_boxcox |>
+      car::testTransform(
+        lambda = list_lambda[i_lambda]
+      ) |>
+      tibble::as_tibble(
+        rownames = "Test"
+      ) |>
+      dplyr::mutate(
+        lambda  = list_lambda[i_lambda]
+      , pval    = pval |> as.numeric()
+      , sig     = pval |> e_pval_stars()
+      , comment =
+          dplyr::case_when(
+            lambda == -1   ~ "inverse"
+          , lambda ==  0   ~ "log (any base)"
+          , lambda ==  0.5 ~ "square root"
+          , lambda ==  1   ~ "No power transform"
+          , lambda ==  2   ~ "square"
+          , i_lambda == 1  ~ "Optimal (choose one close to this)"
+          , .default = ""
+          )
+      ) |>
+      dplyr::relocate(
+        Test
+      , lambda
+      )
+  }
+  list_boxcox_test <-
+    list_boxcox_test |>
+    dplyr::bind_rows() |>
+      dplyr::arrange(
+        lambda
+      )
 
 
   text_caption <-
@@ -1450,6 +1841,9 @@ e_plot_model_diagnostics_car__boxCox <-
       }
     )
 
+
+  out[[ "car__boxCox_table_list" ]] <-
+    list_boxcox_test
 
   out[[ "car__boxCox_table" ]] <-
     fit_boxcox
@@ -2262,323 +2656,6 @@ e_plot_model_diagnostics_car__ceresPlots <-
   return(out)
 
 } # e_plot_model_diagnostics_car__ceresPlots
-
-
-
-################################################################################
-################################################################################
-# Group of simple plots
-# Cook's D vs Leverage vs Residuals
-
-#' Model diagnostics, Cooks vs Leverage vs Residuals
-#'
-#'
-#' @param fit           fit object
-#' @param fit_resid     list of residuals from \code{e_model_calc_resid()}
-#' @param fit_cooksD    Cook's Distance values (from \code{stats::cooks.distance})
-#' @param fit_leverage  leverage values (from \code{stats::hatvalues})
-#' @param sw_interp   T/F to provide interpretation guidance in the plot caption or with a table.
-#'
-#' @return out      list including text and ggplot grobs
-#' @import tibble
-#' @import dplyr
-#' @import ggplot2
-#' @importFrom car outlierTest
-#' @importFrom patchwork wrap_plots plot_annotation
-#'
-e_plot_model_diagnostics_CooksD_Leverage_Resid <-
-  function(
-    fit                 = NULL
-  , fit_resid           = NULL
-  , fit_cooksD          = NULL
-  , fit_leverage        = NULL
-  , sw_interp           = c(TRUE, FALSE)[2]
-  ) {
-
-  out <- list()
-
-  fit_class <- class(fit)[1]
-
-  ## Cook's Distance
-  # Use SAS's threshold for Cook's D
-  thresh_cooksD <- 4 / length(fit_cooksD)
-
-  # Use standard threshold for leverage
-  thresh_leverage <- 0.5 # Kutner et al. (2005)
-                          # 2 / length(fit_cooksD)
-
-  obs_above_resid_thresh <-
-    car::outlierTest(
-          model   = fit
-        , cutoff  = 0.05
-        , n.max   = 10
-        , order   = TRUE
-        #, labels  = names(rstudent)
-    )[[ "rstudent" ]] |>
-    names() |>
-    as.numeric()
-
-  dat_plot <-
-    tibble::tibble(
-      Index     = seq_along(fit_cooksD)
-    , Resid     = fit_resid
-    , CooksD    = fit_cooksD
-    , Leverage  = fit_leverage
-    ) |>
-    dplyr::mutate(
-      thresh_cooksD_exceed =
-        (CooksD > thresh_cooksD) |>
-        factor(
-          levels = c(FALSE, TRUE)
-        , labels = c("No", "Yes")
-        )
-    , thresh_leverage_exceed =
-        (Leverage > thresh_leverage) |>
-        factor(
-          levels = c(FALSE, TRUE)
-        , labels = c("No", "Yes")
-        )
-    , thresh_cooksD_or_leverage_exceed =
-        (
-          (CooksD > thresh_cooksD)    |
-          (Leverage > thresh_leverage)
-        ) |>
-        factor(
-          levels = c(FALSE, TRUE)
-        , labels = c("No", "Yes")
-        )
-    , thresh_resid_exceed =
-        (Index %in% obs_above_resid_thresh) |>
-        factor(
-          levels = c(FALSE, TRUE)
-        , labels = c("No", "Yes")
-        )
-    )
-
-  cols_exceed <-
-    c(
-      "No"  = "black"
-    , "Yes" = "red"
-    )
-
-  obs_above_cooksD_thresh <-
-    dat_plot |>
-    dplyr::filter(
-      thresh_cooksD_exceed == "Yes"
-    ) |>
-    dplyr::pull(
-      Index
-    )
-
-  obs_above_leverage_thresh <-
-    dat_plot |>
-    dplyr::filter(
-      thresh_leverage_exceed == "Yes"
-    ) |>
-    dplyr::pull(
-      Index
-    )
-
-  obs_above_resid_thresh <-
-    dat_plot |>
-    dplyr::filter(
-      thresh_resid_exceed == "Yes"
-    ) |>
-    dplyr::pull(
-      Index
-    )
-
-  p_list <- list()
-
-  # Cook's D
-  p <- ggplot(dat_plot, aes(x = Index, y = CooksD))
-  p <- p + theme_bw()
-  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_hline(yintercept = thresh_cooksD, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_segment(aes(xend = Index, yend = 0, color = ), alpha = 0.25)
-  p <- p + geom_point(aes(color = thresh_cooksD_exceed))
-  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_cooksD_exceed == "Yes"), aes(label = Index), hjust = +1.25)
-  p <- p + scale_color_manual(values = cols_exceed)
-  p <- p + labs(
-                  title     = "Cook's Distance vs Index"
-                , x         = "Index"
-                , y         = "Cook's Distance"
-                , caption   =
-                    paste0(
-                      "Cook's D Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
-                    , ";  Indicies above threshold ("
-                    , length(obs_above_cooksD_thresh), " / ", length(fit_resid)
-                    , "): "
-                    , ifelse(
-                        length(obs_above_cooksD_thresh)
-                      , paste(obs_above_cooksD_thresh, collapse = ", ")
-                      , "none"
-                      )
-                    , "."
-                    )
-                )
-  p <- p + guides(color = "none")
-  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-
-  out[[ "CooksD_Index_plot" ]] <-
-    p
-  p_list[[ 1 ]] <-
-    p
-
-
-  # Cook's D vs Leverage
-  p <- ggplot(dat_plot, aes(x = Leverage, y = CooksD))
-  p <- p + theme_bw()
-  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_hline(yintercept = thresh_cooksD, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed))
-  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_cooksD_or_leverage_exceed == "Yes"), aes(label = Index), hjust = +1.25)
-  p <- p + scale_color_manual(values = cols_exceed)
-  p <- p + labs(
-                  title     = "Cook's Distance vs Leverage"
-                , x         = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
-                , y         = "Cook's Distance"
-                , caption   =
-                    paste0(
-                    #   "Cook's D Threshold is 4 / n = ", sprintf("%04.3f", thresh_cooksD)
-                    # , ";  Indicies above threshold ("
-                    # , length(obs_above_cooksD_thresh), " / ", length(fit_resid)
-                    # , "): "
-                    # , ifelse(
-                    #     length(obs_above_cooksD_thresh)
-                    #   , paste(obs_above_cooksD_thresh, collapse = ", ")
-                    #   , "none"
-                    #   )
-                    # , "."
-                      "Leverage Threshold is ", sprintf("%02.1f", thresh_leverage)
-                    , ";  Indicies above threshold ("
-                    , length(obs_above_leverage_thresh), " / ", length(fit_resid)
-                    , "): "
-                    , ifelse(
-                        length(obs_above_leverage_thresh)
-                      , paste(obs_above_leverage_thresh, collapse = ", ")
-                      , "none"
-                      )
-                    , "."
-                    )
-                )
-  p <- p + guides(color = "none")
-  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-
-  out[[ "CooksD_Leverage_plot" ]] <-
-    p
-  p_list[[ 2 ]] <-
-    p
-
-
-  # Resid vs Leverage with Cook's D
-  p <- ggplot(dat_plot, aes(x = Leverage, y = Resid))
-  p <- p + theme_bw()
-  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_hline(yintercept = c(-2, 2), colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed, size = CooksD))
-  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_resid_exceed == "Yes"), aes(label = Index), hjust = +1.25)
-  p <- p + scale_color_manual(values = cols_exceed)
-  p <- p + labs(
-                  title     = "Residuals vs Leverage, with Cook's Distance"
-                , x         = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
-                , y         = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
-                , size      = "Cook's Distance"
-                , caption   =
-                    paste0(
-                      "Residual Threshold is roughly 2, using the Bonferroni Outlier Test"
-                    , ";  Indicies beyond threshold ("
-                    , length(obs_above_resid_thresh), " / ", length(fit_resid)
-                    , "): "
-                    , ifelse(
-                        length(obs_above_resid_thresh)
-                      , paste(obs_above_resid_thresh, collapse = ", ")
-                      , "none"
-                      )
-                    , "."
-                    )
-                )
-  p <- p + guides(color = "none")
-  p <- p + theme(legend.position = "bottom") # "none"
-  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-
-  out[[ "Resid_Leverage_CooksD_plot" ]] <-
-    p
-  p_list[[ 4 ]] <-
-    p
-
-
-  # Resid vs Cook's D with Leverage
-  p <- ggplot(dat_plot, aes(x = CooksD, y = Resid))
-  p <- p + theme_bw()
-  p <- p + geom_hline(yintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_vline(xintercept = 0, colour = "black", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[2], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_hline(yintercept = c(-2, 2), colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_vline(xintercept = thresh_leverage, colour = "red", linetype = c("none", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")[3], linewidth = 0.3, alpha = 0.5)
-  p <- p + geom_point(aes(color = thresh_cooksD_or_leverage_exceed, size = Leverage))
-  p <- p + geom_text(data = dat_plot |> dplyr::filter(thresh_resid_exceed == "Yes"), aes(label = Index), hjust = +1.25)
-  p <- p + scale_color_manual(values = cols_exceed)
-  p <- p + labs(
-                  title     = "Residuals vs Cook's Distance, with Leverage"
-                , x         = "Cook's Distance"
-                , y         = paste0(stringr::str_to_title(attr(fit_resid, "resid_type")), " residuals")
-                , size      = expression(paste("Leverage, ", h[ii] / (1 - h[ii])))
-                , caption   =
-                    paste0(
-                      "Residual Threshold is roughly 2, using the Bonferroni Outlier Test"
-                    , ";  Indicies beyond threshold ("
-                    , length(obs_above_resid_thresh), " / ", length(fit_resid)
-                    , "): "
-                    , ifelse(
-                        length(obs_above_resid_thresh)
-                      , paste(obs_above_resid_thresh, collapse = ", ")
-                      , "none"
-                      )
-                    , "."
-                    )
-                )
-  p <- p + guides(color = "none")
-  p <- p + theme(legend.position = "bottom") # "none"
-  p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-
-  out[[ "Resid_CooksD_Leverage_plot" ]] <-
-    p
-  p_list[[ 3 ]] <-
-    p
-
-
-  p_arranged <-
-    patchwork::wrap_plots(
-      p_list
-    , ncol        = NULL
-    , nrow        = 2
-    , byrow       = c(TRUE, FALSE)[1]
-    , widths      = NULL
-    , heights     = NULL
-    , guides      = c("collect", "keep", "auto")[2]
-    , tag_level   = c("keep", "new")[1]
-    , design      = NULL
-    , axes        = NULL
-    , axis_titles = c("keep", "collect", "collect_x", "collect_y")[1]
-    ) +
-    patchwork::plot_annotation(
-      title       = paste0("Influence Plots")
-    , caption     = paste0(
-                      "Observations with missing values have been removed."
-                    )
-    , theme = ggplot2::theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
-    )
-
-  out[[ "CooksD_Leverage_Resid_arranged_plot" ]] <-
-    p_arranged
-
-  return(out)
-
-} # e_plot_model_diagnostics_CooksD_Leverage_Resid
 
 
 ################################################################################
