@@ -22,7 +22,7 @@ VignetteBuilder: knitr
 NeedsCompilation: no
 LazyData: true
 Depends:
-    R (>= 4.5.0),
+    R (>= 4.4.2),
     stats,
     utils,
     graphics
