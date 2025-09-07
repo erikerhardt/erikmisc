@@ -24,6 +24,7 @@
 #' @importFrom stats as.formula
 #' @importFrom stats lm
 #' @importFrom stats quantile
+#' @importFrom RColorBrewer brewer.pal
 #' @import dplyr
 #' @import ggplot2
 #' @export
@@ -390,20 +391,20 @@ e_lm_power <-
         #, df_den
         #, sig_level
         #, method
+        #, obs_effect_size
+        , obs_power
         #, Cohen_small_effect_size
         , Cohen_small_power
         #, Cohen_medium_effect_size
         , Cohen_medium_power
         #, Cohen_large_effect_size
         , Cohen_large_power
-        #, obs_effect_size
-        , obs_power
         ) |>
         dplyr::rename(
-          `Cohen Small`  = Cohen_small_power
+          `Observed`     = obs_power
+        , `Cohen Small`  = Cohen_small_power
         , `Cohen Medium` = Cohen_medium_power
         , `Cohen Large`  = Cohen_large_power
-        , `Observed`     = obs_power
         ) |>
         tidyr::pivot_longer(
           cols =
@@ -431,10 +432,10 @@ e_lm_power <-
             factor(
               levels =
                 c(
-                  "Cohen Small"
+                  "Observed"
+                , "Cohen Small"
                 , "Cohen Medium"
                 , "Cohen Large"
-                , "Observed"
                 )
             , ordered = TRUE
             )
@@ -484,10 +485,10 @@ e_lm_power <-
             factor(
               levels =
                 c(
-                  "Cohen Small"
+                  "Observed"
+                , "Cohen Small"
                 , "Cohen Medium"
                 , "Cohen Large"
-                , "Observed"
                 )
             , ordered = TRUE
             )
@@ -513,21 +514,27 @@ e_lm_power <-
       paste0(
         text_caption
       , "Effect size (f2): "
+      )
+
+    # observed
+    if (!is.null(dat)) {
+      text_caption <-
+        paste0(
+          text_caption
+        , "Observed: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Observed" ) |> pull(f2) |> round(3)
+        , ";  "
+        )
+    }
+
+    text_caption <-
+      paste0(
+        text_caption
       , "Small: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Small" ) |> pull(f2) |> round(3)
       , ";  "
       , "Medium: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Medium" ) |> pull(f2) |> round(3)
       , ";  "
       , "Large: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Large" ) |> pull(f2) |> round(3)
       )
-    # observed
-    if (!is.null(dat)) {
-      text_caption <-
-        paste0(
-          text_caption
-        , ";  "
-        , "Observed: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Observed" ) |> pull(f2) |> round(3)
-        )
-    }
     # new line
     text_caption <-
       paste0(
@@ -556,6 +563,15 @@ e_lm_power <-
           text_caption
         , "  "
         )
+      # observed
+      if (!is.null(dat)) {
+        text_caption <-
+          paste0(
+            text_caption
+          , "Observed: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) |> pull(Power) |> round(3)
+          , ";  "
+          )
+      }
       # Cohen
       text_caption <-
         paste0(
@@ -566,15 +582,6 @@ e_lm_power <-
         , ";  "
         , "Cohen Large: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) |> pull(Power) |> round(3)
         )
-      # observed
-      if (!is.null(dat)) {
-        text_caption <-
-          paste0(
-            text_caption
-          , ";  "
-          , "Observed: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Observed"    ) |> pull(Power) |> round(3)
-          )
-      }
     }
 
     ## Histogram plot for the first reference
@@ -673,7 +680,25 @@ e_lm_power <-
       p <- p + theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1
       #p <- p + facet_grid(surv_prog ~ pdi_diagnosis)
 
+      # RColorBrewer::brewer.pal(4,"Dark2")
+      custom_color <-
+        c(
+          "Observed"     = RColorBrewer::brewer.pal(4,"Dark2")[4]
+        , "Cohen Small"  = RColorBrewer::brewer.pal(4,"Dark2")[1]
+        , "Cohen Medium" = RColorBrewer::brewer.pal(4,"Dark2")[2]
+        , "Cohen Large"  = RColorBrewer::brewer.pal(4,"Dark2")[3]
+        )
+      custom_linetype <-
+        c(
+          "Observed"     = "solid"
+        , "Cohen Small"  = "dashed"
+        , "Cohen Medium" = "dotdash"
+        , "Cohen Large"  = "longdash"
+        )
+
       p <- p + scale_colour_brewer(palette = "Dark2") # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+      p <- p + scale_colour_manual(values = custom_color) # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+      p <- p + scale_linetype_manual(values = custom_linetype)
 
       plot_power_curve <- p
     } else {
