@@ -68,6 +68,7 @@ e_model_extract_var_names <-
   # identify response and main effect terms from the formula
   form_terms <-
     form |>
+    as.formula() |>
     terms() |>
     attr("variables") |>
     as.character()
@@ -87,6 +88,7 @@ e_model_extract_var_names <-
   # interactions
   x_var_names_interactions <-
     form |>
+    as.formula() |>
     terms() |>
     attr("term.labels") |>
     as.character() |>
