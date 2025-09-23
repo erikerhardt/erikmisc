@@ -79,11 +79,19 @@ e_model_extract_var_names <-
     form_terms[ind_form_terms]
   ind_form_terms_covar <-
     stringr::str_detect(string = form_terms, pattern = stringr::fixed(form_terms[1]), negate = TRUE)
+  ind_form_terms_covar_random_effects <-
+    stringr::str_detect(string = form_terms, pattern = stringr::fixed("|"), negate = FALSE)
 
   y_var_name <-
     form_terms[1]
   x_var_names <-
-    form_terms[ind_form_terms_covar]
+    form_terms[ind_form_terms_covar & !ind_form_terms_covar_random_effects]
+  x_var_names_random_effects <-
+    form_terms[ind_form_terms_covar_random_effects]
+  if (length(x_var_names_random_effects) == 0) {
+    x_var_names_random_effects <-
+      NULL
+  }
 
   # interactions
   x_var_names_interactions <-
@@ -137,18 +145,15 @@ e_model_extract_var_names <-
         tidyselect::where(is.character)
       ) |>
       names()
-
-
-
-
   } # dat
 
   out <-
     list(
-      y_var_name                = y_var_name
-    , y_var_name_glm            = y_var_name_glm
-    , x_var_names               = x_var_names
-    , x_var_names_interactions  = x_var_names_interactions
+      y_var_name                  = y_var_name
+    , y_var_name_glm              = y_var_name_glm
+    , x_var_names                 = x_var_names
+    , x_var_names_interactions    = x_var_names_interactions
+    , x_var_names_random_effects  = x_var_names_random_effects
     )
 
   if (!is.null(dat)) {
