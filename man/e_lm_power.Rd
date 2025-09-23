@@ -16,7 +16,9 @@ e_lm_power(
   weights = NULL,
   sw_print = TRUE,
   sw_plots = TRUE,
-  n_plot_ref = NULL
+  n_plot_ref = NULL,
+  sw_one_sample_t.test_alternative = c("two.sided", "less", "greater")[1],
+  sw_one_sample_t.test_mu = 0
 )
 }
 \arguments{
@@ -43,12 +45,17 @@ e_lm_power(
 \item{sw_plots}{create histogram and power curve plots}
 
 \item{n_plot_ref}{a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total.  Histogram is created for first reference value in the list.}
+
+\item{sw_one_sample_t.test_alternative}{\code{alternative} argument from \code{stats::t.test}, used only if \code{formula_full = y ~ 1}}
+
+\item{sw_one_sample_t.test_mu}{\code{mu}          argument from \code{stats::t.test}, used only if \code{formula_full = y ~ 1}}
 }
 \value{
 list with tables and plots of power analysis results
 }
 \description{
-Multiple regression power analysis
+Multiple regression power analysis of reduced model vs full model,
+except uses a one-sample t-test if \code{formula_full = y ~ 1}.
 }
 \examples{
 

@@ -1,5 +1,8 @@
 #' Multiple regression power analysis
 #'
+#' Multiple regression power analysis of reduced model vs full model,
+#' except uses a one-sample t-test if \code{formula_full = y ~ 1}.
+#'
 #' @param dat           observed effect size data set
 #' @param formula_full  observed effect size full model formula, used with dat
 #' @param formula_red   observed effect size reduced model formula, used with dat
@@ -12,6 +15,8 @@
 #' @param sw_print      print results
 #' @param sw_plots      create histogram and power curve plots
 #' @param n_plot_ref    a sample size reference line for the plot; if null, then uses size of data, otherwise uses median of n_total.  Histogram is created for first reference value in the list.
+#' @param sw_one_sample_t.test_alternative \code{alternative} argument from \code{stats::t.test}, used only if \code{formula_full = y ~ 1}
+#' @param sw_one_sample_t.test_mu          \code{mu}          argument from \code{stats::t.test}, used only if \code{formula_full = y ~ 1}
 #'
 #' @return list with tables and plots of power analysis results
 #' @importFrom pwr pwr.f2.test
@@ -160,11 +165,26 @@ e_lm_power <-
   , sw_print      = TRUE
   , sw_plots      = TRUE
   , n_plot_ref    = NULL
+  , sw_one_sample_t.test_alternative = c("two.sided", "less", "greater")[1]
+  , sw_one_sample_t.test_mu          = 0
   ) {
 
+  # check whether this is a y ~ 1 intercept-only model
+  xy_var_names_list_full <- e_model_extract_var_names(form = formula_full, dat = dat)
+  if (length(xy_var_names_list_full$x_var_names) == 0) {
+    fit_model_type = "one_sample_t.test"
+  }
+
+  # name of the Effect Size Statistic
+  if(fit_model_type %in% c("lm", "lmer")) {
+    name_ES = "f2"
+  } # if lm or lmer
+  if(fit_model_type == "one_sample_t.test") {
+    name_ES = "d"
+  } # if one_sample_t.test
+
+
   if (!is.null(dat)) {
-
-
     if(fit_model_type == c("lm", "lmer")[1]) {
       if(!is.null(weights)) {
         lm_summary_AB <- lm(formula_full, data = dat, weights = weights)
@@ -183,14 +203,34 @@ e_lm_power <-
         lm_summary_A  <- lme4::lmer(formula_red , data = dat, REML = TRUE)
       }
     } # if lmer
+    if(fit_model_type == "one_sample_t.test") {
+      lm_summary_AB <-
+        t.test(
+          formula     = as.formula(formula_full)
+        , alternative = sw_one_sample_t.test_alternative
+        , mu          = sw_one_sample_t.test_mu
+        , data        = dat
+        )
+      lm_summary_A  <- NULL
+    } # if one_sample_t.test
 
     if(sw_print) {
       cat("Full Model ========================================================\n")
       print(formula_full)
-      print(summary(lm_summary_AB))
+      if(fit_model_type %in% c("lm", "lmer")) {
+        print(summary(lm_summary_AB))
+      } # if lm or lmer
+      if(fit_model_type == "one_sample_t.test") {
+        print(lm_summary_AB)
+      } # if one_sample_t.test
       cat("Reduced Model =====================================================\n")
       print(formula_red)
-      print(summary(lm_summary_A ))
+      if(fit_model_type %in% c("lm", "lmer")) {
+        print(summary(lm_summary_A ))
+      } # if lm or lmer
+      if(fit_model_type == "one_sample_t.test") {
+        print(lm_summary_A )
+      } # if one_sample_t.test
     }
 
 
@@ -230,11 +270,11 @@ e_lm_power <-
       n_param_red  <- df_red [1]
     } # if lmer
 
-    n_total <- c(n_total, nrow(dat))
+    n_total <- c(n_total, sum(!is.na(dat[[ xy_var_names_list_full$y_var_name ]])))
 
     if (is.null(n_plot_ref)) {
       message("Setting n_plot_ref = the number of observations in the data for reference")
-      n_plot_ref <- nrow(dat)
+      n_plot_ref <- sum(!is.na(dat[[ xy_var_names_list_full$y_var_name ]]))
     }
 
   } # dat
@@ -256,52 +296,105 @@ e_lm_power <-
   tab_power <- list()
   for (i_n_total in 1:length(n_total)) {
 
-    # degrees of freedom
-    df_f2    <- c(n_param_full - n_param_red, n_total[i_n_total] - n_param_full)
+    if(fit_model_type %in% c("lm", "lmer")) {
+      # degrees of freedom
+      df_f2    <- c(n_param_full - n_param_red, n_total[i_n_total] - n_param_full)
 
+      # Observed power with observed effect size given our data
+      if (!is.null(dat)) {
+        pwr_summary_dat <-
+          pwr::pwr.f2.test(
+            u         = df_f2[1]  # numerator df
+          , v         = df_f2[2]  # denominator df
+          , f2        = f2        # observed effect size
+          , sig.level = sig_level # Type-I error rate
+          , power     = NULL      # leaving blank to calculate the power
+          )
+      }
 
-    # Observed power with observed effect size given our data
-    if (!is.null(dat)) {
-      pwr_summary_dat <-
+      # Cohen small, medium, and large effect sizes
+      #cohen.ES(test = "f2", size = "small" )$effect.size
+      #cohen.ES(test = "f2", size = "medium")$effect.size
+      #cohen.ES(test = "f2", size = "large" )$effect.size
+      pwr_summary_s <-
         pwr::pwr.f2.test(
           u         = df_f2[1]  # numerator df
         , v         = df_f2[2]  # denominator df
-        , f2        = f2        # observed effect size
+        , f2        = pwr::cohen.ES(test = "f2", size = "small")$effect.size
         , sig.level = sig_level # Type-I error rate
         , power     = NULL      # leaving blank to calculate the power
         )
-    }
 
-    # Cohen small, medium, and large effect sizes
-    #cohen.ES(test = "f2", size = "small" )$effect.size
-    #cohen.ES(test = "f2", size = "medium")$effect.size
-    #cohen.ES(test = "f2", size = "large" )$effect.size
-    pwr_summary_s <-
-      pwr::pwr.f2.test(
-        u         = df_f2[1]  # numerator df
-      , v         = df_f2[2]  # denominator df
-      , f2        = pwr::cohen.ES(test = "f2", size = "small")$effect.size
-      , sig.level = sig_level # Type-I error rate
-      , power     = NULL      # leaving blank to calculate the power
-      )
+      pwr_summary_m <-
+        pwr::pwr.f2.test(
+          u         = df_f2[1]  # numerator df
+        , v         = df_f2[2]  # denominator df
+        , f2        = pwr::cohen.ES(test = "f2", size = "medium")$effect.size
+        , sig.level = sig_level # Type-I error rate
+        , power     = NULL      # leaving blank to calculate the power
+        )
 
-    pwr_summary_m <-
-      pwr::pwr.f2.test(
-        u         = df_f2[1]  # numerator df
-      , v         = df_f2[2]  # denominator df
-      , f2        = pwr::cohen.ES(test = "f2", size = "medium")$effect.size
-      , sig.level = sig_level # Type-I error rate
-      , power     = NULL      # leaving blank to calculate the power
-      )
+      pwr_summary_l <-
+        pwr::pwr.f2.test(
+          u         = df_f2[1]  # numerator df
+        , v         = df_f2[2]  # denominator df
+        , f2        = pwr::cohen.ES(test = "f2", size = "large")$effect.size
+        , sig.level = sig_level # Type-I error rate
+        , power     = NULL      # leaving blank to calculate the power
+        )
+    } # if lm or lmer
 
-    pwr_summary_l <-
-      pwr::pwr.f2.test(
-        u         = df_f2[1]  # numerator df
-      , v         = df_f2[2]  # denominator df
-      , f2        = pwr::cohen.ES(test = "f2", size = "large")$effect.size
-      , sig.level = sig_level # Type-I error rate
-      , power     = NULL      # leaving blank to calculate the power
-      )
+    if(fit_model_type == "one_sample_t.test") {
+
+      # Observed power with observed effect size given our data
+      if (!is.null(dat)) {
+        t_ES_dat <- (mean(dat[[ xy_var_names_list_full$y_var_name ]], na.rm = TRUE)
+                      - sw_one_sample_t.test_mu) /
+                    sd  (dat[[ xy_var_names_list_full$y_var_name ]], na.rm = TRUE)
+
+        pwr_summary_dat <-
+          pwr::pwr.t.test(
+            n           = n_total[i_n_total]
+          , d           = t_ES_dat    # observed effect size
+          , sig.level   = sig_level   # Type-I error rate
+          , power       = NULL        # leaving blank to calculate the power
+          , type        = c("two.sample", "one.sample", "paired")[2]
+          , alternative = sw_one_sample_t.test_alternative
+          )
+      }
+
+      # Cohen small, medium, and large effect sizes
+      pwr_summary_s <-
+        pwr::pwr.t.test(
+          n           = n_total[i_n_total]
+        , d           = pwr::cohen.ES(test = "t", size = "small" )$effect.size
+        , sig.level   = sig_level   # Type-I error rate
+        , power       = NULL        # leaving blank to calculate the power
+        , type        = c("two.sample", "one.sample", "paired")[2]
+        , alternative = sw_one_sample_t.test_alternative
+        )
+      pwr_summary_m <-
+        pwr::pwr.t.test(
+          n           = n_total[i_n_total]
+        , d           = pwr::cohen.ES(test = "t", size = "medium")$effect.size
+        , sig.level   = sig_level   # Type-I error rate
+        , power       = NULL        # leaving blank to calculate the power
+        , type        = c("two.sample", "one.sample", "paired")[2]
+        , alternative = sw_one_sample_t.test_alternative
+        )
+      pwr_summary_l <-
+        pwr::pwr.t.test(
+          n           = n_total[i_n_total]
+        , d           = pwr::cohen.ES(test = "t", size = "large" )$effect.size
+        , sig.level   = sig_level   # Type-I error rate
+        , power       = NULL        # leaving blank to calculate the power
+        , type        = c("two.sample", "one.sample", "paired")[2]
+        , alternative = sw_one_sample_t.test_alternative
+        )
+
+    } # if one_sample_t.test
+
+
 
     if(sw_print) {
       if(length(n_total) == 1) {
@@ -325,38 +418,68 @@ e_lm_power <-
       }
     } # sw_print
 
-    tab_power[[i_n_total]] <-
-      tibble::tibble(
-        n_total                   = n_total[i_n_total]
-      , n_param_full              = n_param_full
-      , n_param_red               = n_param_red
-      , df_num                    = pwr_summary_s  $u
-      , df_den                    = pwr_summary_s  $v
-      , sig_level                 = pwr_summary_s  $sig.level
-      , method                    =
-          dplyr::case_when(
-            fit_model_type == c("lm", "lmer")[1] ~ pwr_summary_s  $method  # "Multiple regression power calculation"
-          , fit_model_type == c("lm", "lmer")[2] ~ "Longitudinal multiple regression power calculation"
-          , TRUE                                 ~ NA |> as.character()
-          )
-      , Cohen_small_effect_size   = pwr_summary_s  $f2
-      , Cohen_small_power         = pwr_summary_s  $power
-      , Cohen_medium_effect_size  = pwr_summary_m  $f2
-      , Cohen_medium_power        = pwr_summary_m  $power
-      , Cohen_large_effect_size   = pwr_summary_l  $f2
-      , Cohen_large_power         = pwr_summary_l  $power
-      )
-
-    if (!is.null(dat)) {
+    if(fit_model_type %in% c("lm", "lmer")) {
       tab_power[[i_n_total]] <-
-        tab_power[[i_n_total]] |>
-        dplyr::bind_cols(
-          tibble::tibble(
-            obs_effect_size           = pwr_summary_dat$f2
-          , obs_power                 = pwr_summary_dat$power
-          )
+        tibble::tibble(
+          n_total                   = n_total[i_n_total]
+        , n_param_full              = n_param_full
+        , n_param_red               = n_param_red
+        , df_num                    = pwr_summary_s  $u
+        , df_den                    = pwr_summary_s  $v
+        , sig_level                 = pwr_summary_s  $sig.level
+        , method                    =
+            dplyr::case_when(
+              fit_model_type == c("lm", "lmer")[1] ~ pwr_summary_s  $method  # "Multiple regression power calculation"
+            , fit_model_type == c("lm", "lmer")[2] ~ "Longitudinal multiple regression power calculation"
+            , TRUE                                 ~ NA |> as.character()
+            )
+        , Cohen_small_effect_size   = pwr_summary_s  $f2
+        , Cohen_small_power         = pwr_summary_s  $power
+        , Cohen_medium_effect_size  = pwr_summary_m  $f2
+        , Cohen_medium_power        = pwr_summary_m  $power
+        , Cohen_large_effect_size   = pwr_summary_l  $f2
+        , Cohen_large_power         = pwr_summary_l  $power
         )
-    }
+
+      if (!is.null(dat)) {
+        tab_power[[i_n_total]] <-
+          tab_power[[i_n_total]] |>
+          dplyr::bind_cols(
+            tibble::tibble(
+              obs_effect_size           = pwr_summary_dat$f2
+            , obs_power                 = pwr_summary_dat$power
+            )
+          )
+      }
+    } # if lm or lmer
+
+    if(fit_model_type == "one_sample_t.test") {
+      tab_power[[i_n_total]] <-
+        tibble::tibble(
+          n_total                   = n_total[i_n_total]
+        , n_param_full              = 1
+        , n_param_red               = 0
+        , sig_level                 = pwr_summary_s  $sig.level
+        , method                    = "One-sample Student's t-Test power calculation"
+        , Cohen_small_effect_size   = pwr_summary_s  $d
+        , Cohen_small_power         = pwr_summary_s  $power
+        , Cohen_medium_effect_size  = pwr_summary_m  $d
+        , Cohen_medium_power        = pwr_summary_m  $power
+        , Cohen_large_effect_size   = pwr_summary_l  $d
+        , Cohen_large_power         = pwr_summary_l  $power
+        )
+
+      if (!is.null(dat)) {
+        tab_power[[i_n_total]] <-
+          tab_power[[i_n_total]] |>
+          dplyr::bind_cols(
+            tibble::tibble(
+              obs_effect_size           = pwr_summary_dat$d
+            , obs_power                 = pwr_summary_dat$power
+            )
+          )
+      }
+    } # if one_sample_t.test
   } # i_n_total
 
   tab_power <-
@@ -421,11 +544,11 @@ e_lm_power <-
           Sample_Size = n_total
         ) |>
         dplyr::select(
-          Sample_Size, everything()
+          Sample_Size, tidyselect::everything()
         ) |>
-        dplyr::arrange(
-          Power, Sample_Size, Effect_Size
-        ) |>
+        #dplyr::arrange(
+        #  Power, Sample_Size, Effect_Size
+        #) |>
         dplyr::mutate(
           Effect_Size =
             Effect_Size |>
@@ -440,7 +563,7 @@ e_lm_power <-
             , ordered = TRUE
             )
         )
-        ## f2 effect size
+        ## effect size
       , tab_power |>
         dplyr::select(
           #n_total
@@ -459,6 +582,7 @@ e_lm_power <-
         , obs_effect_size
         #, obs_power
         ) |>
+        dplyr::distinct() |>
         dplyr::rename(
           `Cohen Small`  = Cohen_small_effect_size
         , `Cohen Medium` = Cohen_medium_effect_size
@@ -474,10 +598,10 @@ e_lm_power <-
             , `Cohen Large`
             )
         , names_to = "Effect_Size"
-        , values_to = "f2"
+        , values_to = "ES_Statistic"
         ) |>
         dplyr::arrange(
-          f2, Effect_Size
+          ES_Statistic, Effect_Size
         ) |>
         dplyr::mutate(
           Effect_Size =
@@ -493,6 +617,7 @@ e_lm_power <-
             , ordered = TRUE
             )
         )
+      , by = dplyr::join_by(Effect_Size)
       ) |>
       dplyr::distinct() |>
       dplyr::mutate(
@@ -513,7 +638,7 @@ e_lm_power <-
     text_caption <-
       paste0(
         text_caption
-      , "Effect size (f2): "
+      , paste0("Effect size (", name_ES, "): ")
       )
 
     # observed
@@ -521,7 +646,7 @@ e_lm_power <-
       text_caption <-
         paste0(
           text_caption
-        , "Observed: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Observed" ) |> pull(f2) |> round(3)
+        , "Observed: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Observed" ) |> pull(ES_Statistic) |> round(3)
         , ";  "
         )
     }
@@ -529,11 +654,11 @@ e_lm_power <-
     text_caption <-
       paste0(
         text_caption
-      , "Small: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Small" ) |> pull(f2) |> round(3)
+      , "Small: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Small" ) |> pull(ES_Statistic) |> round(3)
       , ";  "
-      , "Medium: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Medium" ) |> pull(f2) |> round(3)
+      , "Medium: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Medium" ) |> pull(ES_Statistic) |> round(3)
       , ";  "
-      , "Large: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Large" ) |> pull(f2) |> round(3)
+      , "Large: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1], Effect_Size == "Cohen Large" ) |> pull(ES_Statistic) |> round(3)
       )
     # new line
     text_caption <-
@@ -576,11 +701,11 @@ e_lm_power <-
       text_caption <-
         paste0(
           text_caption
-        , "Cohen Small: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) |> pull(Power) |> round(3)
+        , "Cohen Small: " , dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Small" ) |> pull(Power) |> round(3)
         , ";  "
         , "Cohen Medium: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Medium") |> pull(Power) |> round(3)
         , ";  "
-        , "Cohen Large: ", dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) |> pull(Power) |> round(3)
+        , "Cohen Large: " , dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[i_n_plot_ref], Effect_Size == "Cohen Large" ) |> pull(Power) |> round(3)
         )
     }
 
@@ -590,14 +715,14 @@ e_lm_power <-
     p <- ggplot(dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref[1]), aes(x = Effect_Size, y = Power))
     p <- p + theme_bw()
     #if (!is.null(n_plot_ref)) {
-    #  p <- p + geom_vline(xintercept = n_plot_ref , linetype = 3, size = 1/2, alpha = 1/2)
+    #  p <- p + geom_vline(xintercept = n_plot_ref , linetype = 3, linewidth = 1/2, alpha = 1/2)
     #}
-    p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
+    p <- p + geom_hline(yintercept = c(0.80), linetype = 3, linewidth = 1/2, alpha = 1/2)
     p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
     p <- p + geom_bar(stat = "identity")
     #if (!is.null(n_plot_ref)) {
     #  p <- p + geom_hline(data = dat_power_curve_long |> dplyr::filter(Sample_Size == n_plot_ref)
-    #                    , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 0.5, alpha = 1/2)
+    #                    , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), linewidth = 0.5, alpha = 1/2)
     #}
 
     p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
@@ -633,24 +758,24 @@ e_lm_power <-
       p <- ggplot(dat_power_curve_long, aes(x = Sample_Size, y = Power, colour = Effect_Size, linetype = Effect_Size, group = Effect_Size))
       p <- p + theme_bw()
       if (!is.null(n_plot_ref)) {
-        p <- p + geom_vline(xintercept = n_plot_ref, linetype = 3, size = 1/2, alpha = 1/2)
+        p <- p + geom_vline(xintercept = n_plot_ref, linetype = 3, linewidth = 1/2, alpha = 1/2)
       }
-      p <- p + geom_hline(yintercept = c(0.80), linetype = 3, size = 1/2, alpha = 1/2)
+      p <- p + geom_hline(yintercept = c(0.80), linetype = 3, linewidth = 1/2, alpha = 1/2)
       p <- p + geom_hline(yintercept = c(0, 1), alpha = 0.15)
 
       # observed
       if (!is.null(dat)) {
-        p <- p + geom_line(aes(size = plot_size), alpha = 1)
-        p <- p + scale_size_manual(values = c(1, 1.5), breaks = c(1, 1.5))
-        p <- p + guides(size = "none")
+        p <- p + geom_line(aes(linewidth = plot_size), alpha = 1)
+        p <- p + scale_linewidth_manual(values = c(1, 1.5), breaks = c(1, 1.5))
+        p <- p + guides(linewidth = "none")
       } else {
-        p <- p + geom_line(size = 1, alpha = 1)
+        p <- p + geom_line(linewidth = 1, alpha = 1)
       }
 
 
       if (!is.null(n_plot_ref)) {
         p <- p + geom_hline(data = dat_power_curve_long |> dplyr::filter(Sample_Size %in% n_plot_ref)
-                          , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), size = 1/2, alpha = 1/2)
+                          , aes(yintercept = Power, colour = Effect_Size, linetype = Effect_Size), linewidth = 1/2, alpha = 1/2)
       }
       p <- p + scale_y_continuous(breaks = seq(0, 1, by = 0.2), labels = scales::percent)
       p <- p + scale_x_continuous(breaks = c(seq(0, max(n_total), by = e_plot_calc_break_interval(n_total, num_intervals = 3)), n_plot_ref)) #, minor_breaks = seq(0, 1000, by = 10))
@@ -660,7 +785,8 @@ e_lm_power <-
                     #, y =
                     , colour    = "Effect Size"
                     #, shape     =
-                    , linetype  = "Effect Size"  #"Diagnosis"
+                    , linetype  = "Effect Size"
+                    #, linewidth = "Effect Size"
                     #, fill      =
                     )
       if (!is.null(n_plot_ref)) {
