@@ -208,6 +208,8 @@ e_plot_complete_by_variable_subset <-
 
     p1 <- p1 + labs(
                     title = "Missing data patterns sorted by number of complete observations"
+                    , x = "Variable names"
+                    , y = "Subset"
                     )
     if (is.numeric(sw_plot_complete)) {
       p1 <- p1 + labs(
@@ -219,8 +221,14 @@ e_plot_complete_by_variable_subset <-
     p2 <- ggplot(data = dat_var_complete_plot |> dplyr::select(Subset__, n_complete) |> dplyr::distinct(), aes(x = Subset__, y = n_complete))
     p2 <- p2 + theme_bw()
     p2 <- p2 + geom_bar(stat = "identity", fill = "gray20")
+    p2 <- p2 + geom_text(aes(label = n_complete), y = 0, hjust = -.25, color = "gray80")
     p2 <- p2 + scale_x_discrete(limits = rev)
+    #p2 <- p2 + scale_y_continuous(expand = expansion(mult = c(0.15, 0), add = 0))
     p2 <- p2 + coord_flip()
+    p2 <- p2 + labs(
+                      y = "n Complete observations"
+                    , x = "Subset"
+                    )
 
     p_arranged <-
       patchwork::wrap_plots(
