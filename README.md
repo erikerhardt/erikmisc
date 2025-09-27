@@ -6,7 +6,9 @@
 <!-- badges: start -->
 <!-- github workflows: https://github.com/r-lib/actions/tree/v2/examples -->
 
+<!-- ### 9/27/2025 Turning off temporarily 
 [![R-CMD-check](https://github.com/erikerhardt/erikmisc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erikerhardt/erikmisc/actions/workflows/R-CMD-check.yaml)
+-->
 <!-- badges: end -->
 
 ## Overview
