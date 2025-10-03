@@ -17,10 +17,12 @@
 #'
 #' xy_var_names_list <- e_model_extract_var_names(form_model)
 #' xy_var_names_list
-#' y_var_name                <- xy_var_names_list$y_var_name
-#' y_var_name_glm            <- xy_var_names_list$y_var_name_glm
-#' x_var_names               <- xy_var_names_list$x_var_names
-#' x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+#' form_test                   <- xy_var_names_list$form_text
+#' y_var_name                  <- xy_var_names_list$y_var_name
+#' y_var_name_glm              <- xy_var_names_list$y_var_name_glm
+#' x_var_names                 <- xy_var_names_list$x_var_names
+#' x_var_names_interactions    <- xy_var_names_list$x_var_names_interactions
+#'
 #'
 #' ## From model fit, lm example
 #' dat_sel <-
@@ -30,12 +32,19 @@
 #'
 #' fit <- lm(form_model, data = dat_sel)
 #'
-#' xy_var_names_list <- e_model_extract_var_names(formula(fit$terms))
+#' # with data, x_var by class and list of factor levels
+#' xy_var_names_list <- e_model_extract_var_names(formula(fit$terms), dat = dat_sel)
 #' xy_var_names_list
-#' y_var_name                <- xy_var_names_list$y_var_name
-#' y_var_name_glm            <- xy_var_names_list$y_var_name_glm
-#' x_var_names               <- xy_var_names_list$x_var_names
-#' x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+#' form_test                   <- xy_var_names_list$form_text
+#' y_var_name                  <- xy_var_names_list$y_var_name
+#' y_var_name_glm              <- xy_var_names_list$y_var_name_glm
+#' x_var_names                 <- xy_var_names_list$x_var_names
+#' x_var_names_interactions    <- xy_var_names_list$x_var_names_interactions
+#' x_var_names__numeric        <- xy_var_names_list$x_var_names__numeric
+#' x_var_names__factor         <- xy_var_names_list$x_var_names__factor
+#' x_var_names__character      <- xy_var_names_list$x_var_names__character
+#' x_var_names__factor_levels  <- xy_var_names_list$x_var_names__factor_levels
+#'
 #'
 #' ## From model fit, glm example
 #' dat_sel <-
@@ -55,15 +64,23 @@
 #'
 #' xy_var_names_list <- e_model_extract_var_names(formula(fit$terms), dat = dat_sel)
 #' xy_var_names_list
-#' y_var_name                <- xy_var_names_list$y_var_name
-#' y_var_name_glm            <- xy_var_names_list$y_var_name_glm
-#' x_var_names               <- xy_var_names_list$x_var_names
-#' x_var_names_interactions  <- xy_var_names_list$x_var_names_interactions
+#' form_test                   <- xy_var_names_list$form_text
+#' y_var_name                  <- xy_var_names_list$y_var_name
+#' y_var_name_glm              <- xy_var_names_list$y_var_name_glm
+#' x_var_names                 <- xy_var_names_list$x_var_names
+#' x_var_names_interactions    <- xy_var_names_list$x_var_names_interactions
+#' x_var_names__numeric        <- xy_var_names_list$x_var_names__numeric
+#' x_var_names__factor         <- xy_var_names_list$x_var_names__factor
+#' x_var_names__character      <- xy_var_names_list$x_var_names__character
+#' x_var_names__factor_levels  <- xy_var_names_list$x_var_names__factor_levels
 e_model_extract_var_names <-
   function(
     form  = NULL
   , dat   = NULL
   ) {
+  # text version of formula
+  form_text <- Reduce( paste, deparse(form) )
+
   # decompose formula into each covariate
   # identify response and main effect terms from the formula
   form_terms <-
@@ -149,7 +166,8 @@ e_model_extract_var_names <-
 
   out <-
     list(
-      y_var_name                  = y_var_name
+      form_text                   = form_text
+    , y_var_name                  = y_var_name
     , y_var_name_glm              = y_var_name_glm
     , x_var_names                 = x_var_names
     , x_var_names_interactions    = x_var_names_interactions
