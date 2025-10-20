@@ -169,6 +169,33 @@ p_arranged <-
 
 p_arranged |> print()
 
+## To organize all interpretations into a text file:
+# the list is in case we have multiple models to interpret
+text_contrasts_interp <- list()
+i_ind <- 1
+text_contrasts_interp[[ i_ind ]] <-
+  paste0(
+    "--------------------"
+  , "\n"
+  , paste0("Model ", i_ind)
+  , "\n"
+  , e_model_extract_var_names(formula(fit$terms), dat = dat_cont)$form_text
+  , "\n\n"
+  , paste(
+      fit_contrasts$interp |>
+      names()
+    , fit_contrasts$interp |>
+      unlist()
+    , sep = ":  "
+    , collapse = "\n"
+    )
+  , "\n\n\n"
+  )
+
+# readr::write_lines(
+#     x     = text_contrasts_interp
+#   , file  = "text_contrasts_interp.txt"
+#   )
 
 
 
