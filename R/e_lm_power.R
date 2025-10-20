@@ -170,9 +170,11 @@ e_lm_power <-
   ) {
 
   # check whether this is a y ~ 1 intercept-only model
-  xy_var_names_list_full <- e_model_extract_var_names(form = formula_full, dat = dat)
-  if (length(xy_var_names_list_full$x_var_names) == 0) {
-    fit_model_type = "one_sample_t.test"
+  if (!is.null(formula_full)) {
+    xy_var_names_list_full <- e_model_extract_var_names(form = formula_full, dat = dat)
+    if (length(xy_var_names_list_full$x_var_names) == 0) {
+      fit_model_type = "one_sample_t.test"
+    }
   }
 
   # name of the Effect Size Statistic
@@ -270,11 +272,13 @@ e_lm_power <-
       n_param_red  <- df_red [1]
     } # if lmer
 
-    n_total <- c(n_total, sum(!is.na(dat[[ xy_var_names_list_full$y_var_name ]])))
+    if (!is.null(formula_full)) {
+      n_total <- c(n_total, sum(!is.na(dat[[ xy_var_names_list_full$y_var_name ]])))
 
-    if (is.null(n_plot_ref)) {
-      message("Setting n_plot_ref = the number of observations in the data for reference")
-      n_plot_ref <- sum(!is.na(dat[[ xy_var_names_list_full$y_var_name ]]))
+      if (is.null(n_plot_ref)) {
+        message("Setting n_plot_ref = the number of observations in the data for reference")
+        n_plot_ref <- sum(!is.na(dat[[ xy_var_names_list_full$y_var_name ]]))
+      }
     }
 
   } # dat
