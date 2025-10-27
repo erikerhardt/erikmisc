@@ -44,4 +44,4 @@ e_data_convert_factor_to_numeric <-
     )
 
   return(dat)
-}
+} # e_data_convert_factor_to_numeric
