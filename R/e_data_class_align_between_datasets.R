@@ -13,6 +13,7 @@
 #'
 #' @param dat1        data.frame or tibble, treated as primary dataset for class
 #' @param dat2        data.frame or tibble, treated as secondary dataset for class
+#' @param sw_bind_rows T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment
 #'
 #' @return out        list with \code{dat1} and \code{dat2}, and \code{dat_class} at the start, differences, and end of process
 #' @import dplyr
@@ -84,14 +85,14 @@
 #'
 e_data_class_align_between_datasets <-
   function(
-    dat1      = NULL
-  , dat2      = NULL
+    dat1          = NULL
+  , dat2          = NULL
+  , sw_bind_rows  = FALSE
   ) {
   #### ADRC data
   ## dat1       = dat_adrc4
   ## dat2       = dat_adrc3
-  ## name_dat1 = "dat_adrc4"
-  ## name_dat2 = "dat_adrc3"
+  ## sw_bind_rows  = TRUE
 
   out <- list()
 
@@ -306,6 +307,14 @@ e_data_class_align_between_datasets <-
 
   out[[ "dat1" ]] <- dat1
   out[[ "dat2" ]] <- dat2
+
+  if(sw_bind_rows) {
+    out[[ "dat12" ]] <-
+      dplyr::bind_rows(
+        dat1
+      , dat2
+      )
+  }
 
   return(out)
 

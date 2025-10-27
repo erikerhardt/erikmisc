@@ -4,12 +4,18 @@
 \alias{e_data_class_align_between_datasets}
 \title{For two datasets with some matching variable names, align classes before row binding together}
 \usage{
-e_data_class_align_between_datasets(dat1 = NULL, dat2 = NULL)
+e_data_class_align_between_datasets(
+  dat1 = NULL,
+  dat2 = NULL,
+  sw_bind_rows = FALSE
+)
 }
 \arguments{
 \item{dat1}{data.frame or tibble, treated as primary dataset for class}
 
 \item{dat2}{data.frame or tibble, treated as secondary dataset for class}
+
+\item{sw_bind_rows}{T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment}
 }
 \value{
 out        list with \code{dat1} and \code{dat2}, and \code{dat_class} at the start, differences, and end of process
