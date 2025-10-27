@@ -7,7 +7,8 @@
 e_data_class_align_between_datasets(
   dat1 = NULL,
   dat2 = NULL,
-  sw_bind_rows = FALSE
+  sw_bind_rows = FALSE,
+  sw_return_only_bind_rows = FALSE
 )
 }
 \arguments{
@@ -16,9 +17,11 @@ e_data_class_align_between_datasets(
 \item{dat2}{data.frame or tibble, treated as secondary dataset for class}
 
 \item{sw_bind_rows}{T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment}
+
+\item{sw_return_only_bind_rows}{T/F return only \code{dplyr::bind_rows(dat1, dat2)} after class alignment, useful for binding several datasets in a single pipe |> workflow.}
 }
 \value{
-out        list with \code{dat1} and \code{dat2}, and \code{dat_class} at the start, differences, and end of process
+out        list with \code{dat1} and \code{dat2}, and \code{dat12} if specified, and \code{dat_class} at the start, differences, and end of process
 }
 \description{
 For two datasets with some matching variable names, align classes before row binding together
@@ -33,6 +36,8 @@ Logic:
 \item Otherwise, the more specific class is converted to the more general class:
 logical < integer < numeric < complex < factor (labels) < character.
 }
+
+If a variable has multiple classes, only the first is used.
 }
 \examples{
 # Create list of variable names for all combinations of data classes and factor levels

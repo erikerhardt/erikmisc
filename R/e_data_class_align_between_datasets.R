@@ -10,12 +10,14 @@
 #'        logical < integer < numeric < complex < factor (labels) < character.
 #' }
 #'
+#' If a variable has multiple classes, only the first is used.
 #'
 #' @param dat1        data.frame or tibble, treated as primary dataset for class
 #' @param dat2        data.frame or tibble, treated as secondary dataset for class
 #' @param sw_bind_rows T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment
+#' @param sw_return_only_bind_rows T/F return only \code{dplyr::bind_rows(dat1, dat2)} after class alignment, useful for binding several datasets in a single pipe |> workflow.
 #'
-#' @return out        list with \code{dat1} and \code{dat2}, and \code{dat_class} at the start, differences, and end of process
+#' @return out        list with \code{dat1} and \code{dat2}, and \code{dat12} if specified, and \code{dat_class} at the start, differences, and end of process
 #' @import dplyr
 #' @importFrom tibble tibble
 #' @export
@@ -88,11 +90,14 @@ e_data_class_align_between_datasets <-
     dat1          = NULL
   , dat2          = NULL
   , sw_bind_rows  = FALSE
+  , sw_return_only_bind_rows = FALSE
   ) {
   #### ADRC data
-  ## dat1       = dat_adrc4
-  ## dat2       = dat_adrc3
+  ## #dat1       = dat_adrc4
+  ## dat1       = dat_adrc3
+  ## dat2       = dat_markvcid2
   ## sw_bind_rows  = TRUE
+  ## sw_return_only_bind_rows = FALSE
 
   out <- list()
 
@@ -100,11 +105,12 @@ e_data_class_align_between_datasets <-
   var_common <-
     names(dat1)[names(dat1) %in% names(dat2)]
 
+  # if multiple classes, return first (typically for timestamp variables with both "POSIXct" and "POSIXt" )
   dat_class <-
     tibble::tibble(
       var         = var_common
-    , class_d1    = sapply(dat1[, var_common ], class)
-    , class_d2    = sapply(dat2[, var_common ], class)
+    , class_d1    = lapply(dat1[, var_common ], class) |> sapply("[[", 1) |> as.character()
+    , class_d2    = lapply(dat2[, var_common ], class) |> sapply("[[", 1) |> as.character()
     , class_diff  = !(class_d1 == class_d2)
     , all_NA_d1   = NA
     , all_NA_d2   = NA
@@ -121,7 +127,11 @@ e_data_class_align_between_datasets <-
       ) {
       levels_d1 <- levels(dat1[[ dat_class$var[i_var] ]])
       levels_d2 <- levels(dat2[[ dat_class$var[i_var] ]])
-      dat_class$factor_diff[i_var] <- !all(levels_d1 == levels_d2)
+      dat_class$factor_diff[i_var] <-
+        !all(
+          levels_d1 %in% levels_d2
+        , levels_d2 %in% levels_d1
+        )
     }
   } # i_var
 
@@ -210,7 +220,7 @@ e_data_class_align_between_datasets <-
         }
         next
       }
-    } # class_diff
+    } # NAs
 
 
     # align classes: logical < integer < numeric < complex < factor (labels) < character
@@ -281,8 +291,8 @@ e_data_class_align_between_datasets <-
   dat_class <-
     tibble::tibble(
       var         = var_common
-    , class_d1    = sapply(dat1[, var_common ], class)
-    , class_d2    = sapply(dat2[, var_common ], class)
+    , class_d1    = lapply(dat1[, var_common ], class) |> sapply("[[", 1) |> as.character()
+    , class_d2    = lapply(dat2[, var_common ], class) |> sapply("[[", 1) |> as.character()
     , class_diff  = !(class_d1 == class_d2)
     , all_NA_d1   = NA
     , all_NA_d2   = NA
@@ -308,12 +318,15 @@ e_data_class_align_between_datasets <-
   out[[ "dat1" ]] <- dat1
   out[[ "dat2" ]] <- dat2
 
-  if(sw_bind_rows) {
+  if(sw_bind_rows | sw_return_only_bind_rows) {
     out[[ "dat12" ]] <-
       dplyr::bind_rows(
         dat1
       , dat2
       )
+    if(sw_return_only_bind_rows) {
+      return(out[[ "dat12" ]])
+    }
   }
 
   return(out)
