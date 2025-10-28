@@ -108,8 +108,13 @@ e_scale_align <-
     p <- p + geom_boxplot(alpha = 0.5, width = 0.25)
     p <- p + ggbeeswarm::geom_beeswarm()
     p <- p + theme(legend.position = "none")
+    p <- p + theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
     #p <- p + guides(colour = guide_legend(reverse = TRUE), fill = guide_legend(reverse = TRUE))
-    p <- p + labs(title     = "Scaled comparison")
+    p <- p + labs(
+                title     = "Scaled comparison"
+              , subtitle  = paste0("Scale method: ", scale_method)
+              , caption   = paste0("Org = original data, Scaled = scaled data, Ref = reference data")
+              )
     print(p)
 
     # op <- par(mfrow = sw_mfrow)
