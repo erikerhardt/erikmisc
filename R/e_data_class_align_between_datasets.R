@@ -12,10 +12,10 @@
 #'
 #' If a variable has multiple classes, only the first is used.
 #'
-#' @param dat1        data.frame or tibble, treated as primary dataset for class
-#' @param dat2        data.frame or tibble, treated as secondary dataset for class
-#' @param sw_bind_rows T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment
-#' @param sw_return_only_bind_rows T/F return only \code{dplyr::bind_rows(dat1, dat2)} after class alignment, useful for binding several datasets in a single pipe |> workflow.
+#' @param dat1                      data.frame or tibble, treated as primary dataset for class
+#' @param dat2                      data.frame or tibble, treated as secondary dataset for class
+#' @param sw_bind_rows              T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment
+#' @param sw_return_only_bind_rows  T/F return only \code{dplyr::bind_rows(dat1, dat2)} after class alignment, useful for binding several datasets in a single pipe |> workflow.
 #'
 #' @return out        list with \code{dat1} and \code{dat2}, and \code{dat12} if specified, and \code{dat_class} at the start, differences, and end of process
 #' @import dplyr
