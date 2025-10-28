@@ -1,4 +1,4 @@
-#' Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.1
+#' Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.
 #'
 #' Variable labels can be provided by labelling your data with the labelled::var_label() command.
 #'
@@ -563,8 +563,10 @@ e_plot_model_contrasts <-
     rm(temp_var_list)
   }
 
+  # number of complete observations
   n_obs <- dat_cont |> nrow()
 
+  # plot opacity exponentially powered by number of observations
   geom_point_alpha <- 1 / (n_obs^(1/5))  # x=seq(1:1000); plot(x, 1/(x^(1/5)), type = "l")
 
   # check for label, create label if unlabelled
@@ -578,32 +580,44 @@ e_plot_model_contrasts <-
   # labelled::var_label(fit$model[[1]])
 
   # extract variables
-  var_name_y <-
-    as.character(formula(fit))[2]
-  var_name_x <-
-    stringr::str_split(
-      string = attr(terms.formula(formula(fit)), "term.labels")   #as.character(formula(fit))[3]
-    , pattern = stringr::fixed(" + ")
-    ) |>
-    unlist()
-
-  if (fit_model_type == "glm" & stringr::str_detect(var_name_y, pattern = stringr::fixed("cbind("))) {
-    # the y-variable usually looks like "cbind(y, 1-y)", so strip out the variable name
+  #var_name_y <-
+  #  as.character(formula(fit))[2]
+  #var_name_x <-
+  #  stringr::str_split(
+  #    string = attr(terms.formula(formula(fit)), "term.labels")   #as.character(formula(fit))[3]
+  #  , pattern = stringr::fixed(" + ")
+  #  ) |>
+  #  unlist()
+  # if (fit_model_type == "glm" & stringr::str_detect(var_name_y, pattern = stringr::fixed("cbind("))) {
+  #   # the y-variable usually looks like "cbind(y, 1-y)", so strip out the variable name
+  #   var_name_y <-
+  #     var_name_y |>
+  #     stringr::str_split_fixed(
+  #       pattern = stringr::fixed(",")
+  #     , n = 2
+  #     ) |>
+  #     as.character() |>
+  #     purrr::pluck(1) |>
+  #     stringr::str_split_fixed(
+  #       pattern = stringr::fixed("cbind(")
+  #     , n = 2
+  #     ) |>
+  #     as.character() |>
+  #     purrr::pluck(2)
+  # }
+  if (fit_model_type %in% c("glm")) {
     var_name_y <-
-      var_name_y |>
-      stringr::str_split_fixed(
-        pattern = stringr::fixed(",")
-      , n = 2
-      ) |>
-      as.character() |>
-      purrr::pluck(1) |>
-      stringr::str_split_fixed(
-        pattern = stringr::fixed("cbind(")
-      , n = 2
-      ) |>
-      as.character() |>
-      purrr::pluck(2)
+      xy_var_names_list$y_var_name_glm
+  } else {
+    var_name_y <-
+      xy_var_names_list$y_var_name
   }
+  var_name_x <-
+    c(
+      xy_var_names_list$x_var_names
+    , xy_var_names_list$x_var_names_interactions
+    )
+
 
 
   # restrict to chosen contrasts
@@ -884,7 +898,7 @@ e_plot_model_contrasts <-
               ggplot(
                 data = p_dat
               , aes(x = xvar, y = yvar)
-              , colour = "black"
+              #, colour = "black"
               )
             p <- p + geom_line()
             if (sw_ribbon_in_plot) {
@@ -930,7 +944,7 @@ e_plot_model_contrasts <-
               ggplot(
                 data = p_dat
               , aes(x = xvar, y = yvar)
-              , colour = "black"
+              #, colour = "black"
               )
             p <- p + geom_line()
             if (sw_ribbon_in_plot) {

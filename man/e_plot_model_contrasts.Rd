@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_plot_model_contrasts.R
 \name{e_plot_model_contrasts}
 \alias{e_plot_model_contrasts}
-\title{Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.1}
+\title{Compute and plot all contrasts and test results from a linear model by automating the use of emmeans tables and plots.}
 \usage{
 e_plot_model_contrasts(
   fit = NULL,
