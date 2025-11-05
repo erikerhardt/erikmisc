@@ -1,7 +1,7 @@
 ---
-title:        Tables using `gtsummary`
-subtitle:     Example workflow for Table 1 (demographics), regression, contingency table, etc.
-author:       Erik Erhardt
+title:        "Tables using `gtsummary`"
+subtitle:     "Example workflow for Table 1 (demographics), regression, contingency table, etc."
+author:       "Erik Erhardt"
 date:         last-modified # today, now, last-modified
 date-format:  long          # full, long, medium, short, iso,   https://quarto.org/docs/reference/dates.html
 format:
@@ -33,8 +33,8 @@ execute: # https://quarto.org/docs/computations/execution-options.html, https://
 
 <!---
 # Erik's compile commands in R:
-  fn_qmd <- "Summary_tables_example.qmd"
   setwd("D:/Dropbox/StatAcumen/consult/Rpackages/erikmisc/data-raw/tables")
+  fn_qmd <- "Summary_tables_example.qmd"
   quarto::quarto_render(input = fn_qmd)
 -->
 
@@ -163,9 +163,14 @@ gtsummary::reset_gtsummary_theme()                   # Reset theme
 table1_out <-
   dat_mtcars_e |>
   gtsummary::tbl_summary(
+    # https://www.danieldsjoberg.com/gtsummary/reference/tbl_summary.html
     by           = Var[["list"]][["var_groups"]][1] # use gtsummary::tbl_strata for more than 1
   # , label        = NULL                          # automatically uses the label attribute
-  # , statistic    = NULL
+  , statistic    =
+      list(
+        gtsummary::all_continuous()  ~ c("{median} ({p25}, {p75})", "{mean} ({sd})", "{median} ({min}, {max})")[1]
+      , gtsummary::all_categorical() ~ c("{n} ({p}%)", "{min}, {max}")[1]
+      )
   # , digits       = NULL
   # , type         = NULL
   # , value        = NULL
@@ -175,7 +180,15 @@ table1_out <-
   # , percent      = NULL
   , include      = Var[["list"]][["var_demo"]]
   ) |>
-  gtsummary::add_p()          |>  # add p-values to the output comparing values across groups
+  gtsummary::add_p(
+    # https://www.danieldsjoberg.com/gtsummary/reference/select_helpers.html
+    # https://www.danieldsjoberg.com/gtsummary/reference/tests.html
+    test =
+      list(
+        gtsummary::all_continuous()  ~ c("kruskal.test", "oneway.test")[1]
+      , gtsummary::all_categorical() ~ c("fisher.test", "chisq.test", "chisq.test.no.correct", "prop.test")[1]
+      )
+  ) |>  # add p-values to the output comparing values across groups
   gtsummary::add_q(method = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")[7]) |>  # add a column of q values to control for multiple comparisons
   gtsummary::bold_p(t = 0.05, q = FALSE) |> # Bold significant p-values or q-values
   #gtsummary::add_difference() |>  # add column for difference between two group, confidence interval, and p-value
@@ -204,7 +217,11 @@ table1_out_diff <-
   gtsummary::tbl_summary(
     by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata for more than 1
   # , label        = NULL                          # automatically uses the label attribute
-  # , statistic    = NULL
+  , statistic    =
+      list(
+        gtsummary::all_continuous()  ~ c("{median} ({p25}, {p75})", "{mean} ({sd})", "{median} ({min}, {max})")[1]
+      , gtsummary::all_categorical() ~ c("{n} ({p}%)", "{min}, {max}")[1]
+      )
   # , digits       = NULL
   # , type         = NULL
   # , value        = NULL
@@ -248,7 +265,11 @@ table1_out_strata <-
         gtsummary::tbl_summary(
           by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata for more than 1
         # , label        = NULL                          # automatically uses the label attribute
-        # , statistic    = NULL
+        , statistic    =
+            list(
+              gtsummary::all_continuous()  ~ c("{median} ({p25}, {p75})", "{mean} ({sd})", "{median} ({min}, {max})")[1]
+            , gtsummary::all_categorical() ~ c("{n} ({p}%)", "{min}, {max}")[1]
+            )
         # , digits       = NULL
         # , type         = NULL
         # , value        = NULL
@@ -258,7 +279,15 @@ table1_out_strata <-
         # , percent      = NULL
         #, include      = Var[["list"]][["var_demo"]]  # not working here or in the tbl_strata() argument
         ) |>
-        gtsummary::add_p()          |>  # add p-values to the output comparing values across groups
+        gtsummary::add_p(
+          # https://www.danieldsjoberg.com/gtsummary/reference/select_helpers.html
+          # https://www.danieldsjoberg.com/gtsummary/reference/tests.html
+          test =
+            list(
+              gtsummary::all_continuous()  ~ c("kruskal.test", "oneway.test")[1]
+            , gtsummary::all_categorical() ~ c("fisher.test", "chisq.test", "chisq.test.no.correct", "prop.test")[1]
+            )
+        ) |>  # add p-values to the output comparing values across groups
         #gtsummary::add_q()          |>  # add a column of q values to control for multiple comparisons
         gtsummary::bold_p(t = 0.05, q = FALSE) |> # Bold significant p-values or q-values
         #gtsummary::add_difference() |>  # add column for difference between two group, confidence interval, and p-value
@@ -294,7 +323,11 @@ table1_out_diff_strata <-
         gtsummary::tbl_summary(
           by           = Var[["list"]][["var_groups"]][2] # use gtsummary::tbl_strata for more than 1
         # , label        = NULL                          # automatically uses the label attribute
-        # , statistic    = NULL
+        , statistic    =
+            list(
+              gtsummary::all_continuous()  ~ c("{median} ({p25}, {p75})", "{mean} ({sd})", "{median} ({min}, {max})")[1]
+            , gtsummary::all_categorical() ~ c("{n} ({p}%)", "{min}, {max}")[1]
+            )
         # , digits       = NULL
         # , type         = NULL
         # , value        = NULL
@@ -395,17 +428,19 @@ https://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html
 
 ```{r}
 fit_lm <-
-  lm( mpg ~
-          cyl
-        + disp
-        #+ hp
-        #+ drat
-        + wt
-        #+ qsec
-        + vs
-        + am
-        #+ gear
-        #+ carb
+  lm(
+      mpg
+        ~
+      cyl
+    + disp
+    #+ hp
+    #+ drat
+    + wt
+    #+ qsec
+    + vs
+    + am
+    #+ gear
+    #+ carb
   , data = dat_mtcars_e
   )
 
@@ -484,9 +519,9 @@ tab_cross <-
   gtsummary::tbl_cross(
     row          = "cyl"
   , col          = "am"
-  , label        = NULL
-  , statistic    = NULL
-  , digits       = NULL
+  #, label        = NULL
+  #, statistic    = NULL
+  #, digits       = NULL
   , percent      = c("none", "column", "row", "cell")[2]
   , margin       = c("column", "row")
   , missing      = c("ifany", "always", "no")[1]
