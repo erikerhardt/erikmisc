@@ -53,6 +53,8 @@
 #' @importFrom stats terms.formula
 #' @importFrom cowplot plot_grid
 #' @importFrom forcats fct_drop
+#' @importFrom tidyr drop_na
+#' @importFrom tidyselect all_of
 #' @export
 #'
 #' @examples
@@ -586,7 +588,8 @@ e_plot_model_contrasts <-
   } # glm
   if (fit_model_type %in% c("lmerModLmerTest", "lmerMod")) {
     temp_var_list <- names(fit@frame)
-    dat_cont <- na.omit(dat_cont[, temp_var_list])
+    #dat_cont <- na.omit(dat_cont[, temp_var_list])
+    dat_cont <- dat_cont |> tidyr::drop_na(tidyselect::all_of(temp_var_list))
     rm(temp_var_list)
   } # lmer
 
