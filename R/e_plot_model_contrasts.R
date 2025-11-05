@@ -509,6 +509,13 @@ e_plot_model_contrasts <-
     out <- NULL
     return(out)
   }
+  var_name_y <-
+    xy_var_names_list$y_var_name
+  var_name_x <-
+    c(
+      xy_var_names_list$x_var_names
+    , xy_var_names_list$x_var_names_interactions
+    )
 
 
   # BEGIN Capture warnings to take actions
@@ -524,7 +531,8 @@ e_plot_model_contrasts <-
   # subset to include only complete observations for variables used
   if (fit_model_type %in% c("lm")) {
     temp_var_list <- names(attr(fit$terms, "dataClasses"))
-    dat_cont <- na.omit(dat_cont[, temp_var_list])
+    #dat_cont <- na.omit(dat_cont[, temp_var_list])
+    dat_cont <- dat_cont |> tidyr::drop_na(tidyselect::all_of(temp_var_list))
     rm(temp_var_list)
   }
   if (fit_model_type %in% c("glm")) {
@@ -539,29 +547,48 @@ e_plot_model_contrasts <-
       #tibble::as_tibble() |>
       dplyr::mutate(
         p_hat__ = Success__ / (Success__ + Failure__)
-      ) |>
-      dplyr::bind_cols(
-        tibble::as_tibble(fit$model)[, 2:ncol(fit$model)]
       )
+      #|>
+      #dplyr::bind_cols(
+      #  tibble::as_tibble(fit$model)[, 2:ncol(fit$model)]
+      #)
 
-    # labels
-    for (i_var in 1:ncol(temp_dat_cont)) {
-      ## i_var = 1
-      ## i_var = 4
-      if (names(temp_dat_cont)[i_var] %in% names(dat_cont)) {
-        labelled::var_label(temp_dat_cont[[ names(temp_dat_cont)[i_var] ]]) <-
-          labelled::var_label(dat_cont[[ names(temp_dat_cont)[i_var] ]])
-      }
-    }
+    ## labels
+    #for (i_var in 1:ncol(temp_dat_cont)) {
+    #  ## i_var = 1
+    #  ## i_var = 4
+    #  if (names(temp_dat_cont)[i_var] %in% names(dat_cont)) {
+    #    labelled::var_label(temp_dat_cont[[ names(temp_dat_cont)[i_var] ]]) <-
+    #      labelled::var_label(dat_cont[[ names(temp_dat_cont)[i_var] ]])
+    #  }
+    #}
+    # label with var_name_y label
+    labelled::var_label(temp_dat_cont[[ "p_hat__" ]]) <-
+      labelled::var_label(dat_cont[[ var_name_y ]])
 
-    dat_cont <- na.omit(temp_dat_cont)
+    # bind columns after dropping rows with missing values
+
+    #dat_cont <- na.omit(temp_dat_cont)
+    dat_cont <-
+      temp_dat_cont |>
+      dplyr::bind_cols(
+        dat_cont |>
+        tidyr::drop_na(
+          tidyselect::all_of(
+            c(
+              xy_var_names_list$y_var_name
+            , xy_var_names_list$x_var_names
+            )
+          )
+        )
+      )
     rm(temp_dat_cont, i_var)
-  }
+  } # glm
   if (fit_model_type %in% c("lmerModLmerTest", "lmerMod")) {
     temp_var_list <- names(fit@frame)
     dat_cont <- na.omit(dat_cont[, temp_var_list])
     rm(temp_var_list)
-  }
+  } # lmer
 
   # number of complete observations
   n_obs <- dat_cont |> nrow()
@@ -605,19 +632,6 @@ e_plot_model_contrasts <-
   #     as.character() |>
   #     purrr::pluck(2)
   # }
-  if (fit_model_type %in% c("glm")) {
-    var_name_y <-
-      xy_var_names_list$y_var_name_glm
-  } else {
-    var_name_y <-
-      xy_var_names_list$y_var_name
-  }
-  var_name_x <-
-    c(
-      xy_var_names_list$x_var_names
-    , xy_var_names_list$x_var_names_interactions
-    )
-
 
 
   # restrict to chosen contrasts
