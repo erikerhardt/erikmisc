@@ -250,9 +250,11 @@ e_data_replace_keys_less_with_most_complete <-
 #'   )
 #' # apply labels to ensure labels are preserved
 #' dat_data <-
-#'   dat_data |> e_data_var_labels_table_from_data()
-#'
-#'
+#'   dat_data |>
+#'   e_data_var_labels_apply_from_table(
+#'     var_labels = dat_data |> e_data_var_labels_table_from_data()
+#'   )
+#' dat_data |> str()
 #'
 #' dat_data_updated <-
 #'   e_data_complete_multiple_keys(
@@ -260,8 +262,10 @@ e_data_replace_keys_less_with_most_complete <-
 #'   , dat_keys = NULL
 #'   , col_keys = c("a", "b", "c", "x")
 #'   )
+#' dat_data_updated |> str()
 #'
 #' dat_data_updated |> print(n=Inf)
+#'
 #'
 #' ## specify dat_keys explicitly
 #' dat_data <-
@@ -341,6 +345,13 @@ e_data_complete_multiple_keys <-
     ) |>
     dplyr::select(
       -ID___
+    )
+
+  # apply labels from dat_data
+  dat_data_updated <-
+    dat_data_updated |>
+    e_data_var_labels_apply_from_table(
+      var_labels = dat_data |> e_data_var_labels_table_from_data()
     )
 
   return(dat_data_updated)
