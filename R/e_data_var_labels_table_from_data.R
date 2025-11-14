@@ -29,8 +29,18 @@ e_data_var_labels_table_from_data <-
     ,
       #var_with_labels <-
       tibble::tibble(
-        Var   = labelled::var_label(dat) |> unlist() |> names()
-      , Label = labelled::var_label(dat) |> unlist() |> as.character()
+        Var   =
+          ifelse(
+            labelled::var_label(dat) |> unlist() |> names() |> is.null()
+          , NA
+          , labelled::var_label(dat) |> unlist() |> names()
+          )
+      , Label =
+          ifelse(
+            labelled::var_label(dat) |> unlist() |> as.character() |> is.null()
+          , NA
+          , labelled::var_label(dat) |> unlist() |> as.character()
+          )
       )
     , by = dplyr::join_by(Var)
     ) |>
