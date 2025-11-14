@@ -34,8 +34,8 @@
 #'
 #' dat |>
 #'   dplyr::group_by(A) |>
-#'   dplyr::summarise_all( e_coalesce_by_column )
-e_coalesce_by_column <-
+#'   dplyr::summarise_all( e_data_coalesce_by_column )
+e_data_coalesce_by_column <-
   function(
     dat
   ) {
@@ -45,7 +45,7 @@ e_coalesce_by_column <-
   # https://stackoverflow.com/questions/45515218/combine-rows-in-data-frame-containing-na-to-make-complete-row
 
   return( dplyr::coalesce(!!! as.list(dat)) )
-}
+} # e_data_coalesce_by_column
 
 
 
@@ -63,7 +63,7 @@ e_coalesce_by_column <-
 #' @import dplyr
 #' @importFrom tidyselect any_of
 #' @export
-e_coalesce_column_set <-
+e_data_coalesce_column_set <-
   function(
     dat
   ) {
@@ -90,7 +90,7 @@ e_coalesce_column_set <-
           i_key
         ) |>
         dplyr::summarise_all(
-          e_coalesce_by_column
+          e_data_coalesce_by_column
         ) |>
         dplyr::ungroup()
     }
@@ -107,7 +107,7 @@ e_coalesce_column_set <-
   }
 
   return(dat)
-}
+} # e_data_coalesce_column_set
 
 
 #' Match and replace less complete rows with most complete row
@@ -118,7 +118,7 @@ e_coalesce_column_set <-
 #'
 #' @return data.frame updated with data keys
 #' @import dplyr
-e_replace_keys_less_with_most_complete <-
+e_data_replace_keys_less_with_most_complete <-
   function(
     dat_data
   , dat_most_complete
@@ -208,7 +208,7 @@ e_replace_keys_less_with_most_complete <-
     )
 
   return(dat_data_updated)
-}
+} # e_data_replace_keys_less_with_most_complete
 
 
 #' Complete multiple key ID variables
@@ -248,9 +248,14 @@ e_replace_keys_less_with_most_complete <-
 #'   , NA, 88, NA, NA,  13,  32
 #'   , NA, NA, NA, NA,  14,  33
 #'   )
+#' # apply labels to ensure labels are preserved
+#' dat_data <-
+#'   dat_data |> e_data_var_labels_table_from_data()
+#'
+#'
 #'
 #' dat_data_updated <-
-#'   e_complete_multiple_keys(
+#'   e_data_complete_multiple_keys(
 #'     dat_data = dat_data
 #'   , dat_keys = NULL
 #'   , col_keys = c("a", "b", "c", "x")
@@ -290,7 +295,7 @@ e_replace_keys_less_with_most_complete <-
 #'   )
 #'
 #' dat_data_updated <-
-#'   e_complete_multiple_keys(
+#'   e_data_complete_multiple_keys(
 #'     dat_data = dat_data
 #'   , dat_keys = dat_keys
 #'   , col_keys = c("a", "b", "c")
@@ -298,7 +303,7 @@ e_replace_keys_less_with_most_complete <-
 #'
 #' dat_data_updated |> print(n=Inf)
 #'
-e_complete_multiple_keys <-
+e_data_complete_multiple_keys <-
   function(
     dat_data
   , dat_keys = NULL
@@ -315,7 +320,7 @@ e_complete_multiple_keys <-
   # create complete keys
   if(is.null(dat_keys)) {
     dat_keys <-
-      e_coalesce_column_set(
+      e_data_coalesce_column_set(
         dat_data |>
         dplyr::select(
           tidyselect::any_of(col_keys)
@@ -325,7 +330,7 @@ e_complete_multiple_keys <-
 
   # update data with complete keys
   dat_data_updated <-
-    e_replace_keys_less_with_most_complete(
+    e_data_replace_keys_less_with_most_complete(
       dat_data          = dat_data
     , dat_most_complete = dat_keys
     , col_keys          = col_keys
@@ -340,5 +345,5 @@ e_complete_multiple_keys <-
 
   return(dat_data_updated)
 
-}
+} # e_data_complete_multiple_keys
 
