@@ -1,5 +1,164 @@
 ## All health related functions
 
+
+#' Neuropsychological (npsy) scores standardization
+#'
+#' @param scores                        a list of scores to standardize
+#' @param gender                        a list of gender in form "M" for male and "F" for female
+#' @param age                           a list of ages in years
+#' @param education                     a list of education in years, e.g., 12 indicates completed high school
+#' @param sw_scale_name                 a text string naming the scale to standarize, case insensitive
+#' @param sw_only_print_variable_list   T/F to print the available \code{sw_scale_name} options
+#' @return scores_standardized          a list of standardized scores
+#' @export
+#'
+#' @examples
+#' e_health_calc_npsy_standardize_scores(
+#'     sw_only_print_variable_list = c(FALSE, TRUE)[2]
+#'   )
+#'
+#' e_health_calc_npsy_standardize_scores(
+#'     scores        = rep(rep(seq(5, 50, by = 5), 6), 2)
+#'   , gender        = rep(rep(c(rep("M", 10), rep("F", 10)), 3), 2)
+#'   , age           = rep(c(rep(30, 20), rep(50, 20), rep(70, 20)), 2)
+#'   , education     = c(rep(10, 60), rep(16, 60))
+#'   , sw_scale_name = "MOCATOTS"
+#'   , sw_only_print_variable_list = c(FALSE, TRUE)[1]
+#'   )
+#'
+#' # Below values should result in these values:
+#' val_true <- c(1.35, -0.38, -7.48, 1.08, 0.49, -0.37, -0.58, -2.56, -0.6, -2.86, -1.41)
+#' val_stand <-
+#'   e_health_calc_npsy_standardize_scores(
+#'     scores        = c(29, 26, 6, 29, 28, 25, 25, 19, 23, 18, 22)
+#'   , gender        = c("F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "F")
+#'   , age           = c(72, 55, 77, 72, 70, 64, 79, 67, 87, 83, 65)
+#'   , education     = c(14, 14, 12, 16, 17, 13, 18, 12, 14, 16, 12)
+#'   , sw_scale_name = "MOCATOTS"
+#'   , sw_only_print_variable_list = c(FALSE, TRUE)[1]
+#'   ) |>
+#'   round(2)
+#' val_stand - val_true
+e_health_calc_npsy_standardize_scores <-
+  function(
+    scores        = NULL
+  , gender        = NULL
+  , age           = NULL
+  , education     = NULL
+  , sw_scale_name = "MOCATOTS"
+  , sw_only_print_variable_list = c(FALSE, TRUE)[1]
+  ) {
+
+  # this set of variables are standarized via a regression equation
+
+  # convert scale names to lower case
+  sw_scale_name <-
+    sw_scale_name |>
+    stringr::str_to_lower()
+
+  list_var_reg <-
+    tibble::tribble(
+      ~Dependent          , ~intercept_est, ~female_est, ~naccage_est, ~edu_est, ~rmse
+    , "MOCATOTS"          , 26.187        , 0.351      , -0.077      , 0.332   , 2.485558132
+    , "CRAFTVRS"          , 23.999        , 0.957      , -0.129      , 0.407   , 6.396194315
+    , "CRAFTURS"          , 16.942        , 0.602      , -0.08       , 0.281   , 3.941857715
+    , "UDSBENTC"          , 15.324        , 0.044      , -0.013      , 0.073   , 1.320165708
+    , "DIGFORCT"          , 7.811         , -0.295     , -0.026      , 0.154   , 2.251318585
+    , "DIGFORSL"          , 6.385         , -0.159     , -0.014      , 0.084   , 1.283145871
+    , "DIGBACCT"          , 6.965         , -0.097     , -0.035      , 0.17    , 2.160643249
+    , "DIGBACLS"          , 4.888         , -0.06      , -0.019      , 0.099   , 1.270869576
+    , "ANIMALS"           , 22.6          , 0.345      , -0.148      , 0.567   , 5.239910822
+    , "VEG"               , 14.435        , 2.495      , -0.083      , 0.312   , 4.017782826
+    , "TRAILA"            , 10.202        , 0.029      , 0.447       , -0.731  , 10.76067
+    , "TRAILB"            , 39.076        , 1.576      , 1.635       , -4.651  , 41.09442
+    , "CRAFTDVR"          , 22.269        , 0.784      , -0.148      , 0.428   , 6.429337328
+    , "CRAFTDRE"          , 16.678        , 0.523      , -0.099      , 0.319   , 4.117715289
+    , "CRAFTCUE"          , -0.018        , -0.001     , 0.001       , -0.003  , 0.131817652
+    , "UDSBENTD"          , 15.129        , -0.467     , -0.085      , 0.157   , 2.946636923
+    , "UDSBENRS"          , 0.923         , -0.01      , -0.002      , 0.007   , 0.291444015
+    , "MINTTOTS"          , 28.931        , -0.813     , -0.028      , 0.221   , 2.147849207
+    , "MINTTOTW"          , 29.554        , -0.29      , -0.037      , 0.094   , 6.652526974
+    , "MINTSCNG"          , -0.31         , 0.798      , 0.033       , -0.093  , 1.58980252
+    , "MINTPCNG"          , 2.69          , 0.781      , 0.03        , -0.212  , 2.102091734
+    , "UDSVERFC"          , 11.666        , 0.535      , -0.052      , 0.417   , 4.529061444
+    , "UDSVERLC"          , 10.247        , 0.627      , -0.051      , 0.447   , 4.25574353
+    , "UDSVERTN"          , 21.226        , 1.122      , -0.095      , 0.861   , 8.17030288
+    , "UDSVERTE"          , -0.535        , -0.132     , 0.019       , 0.032   , 1.44776
+    , "UDSVERTI"          , 0.308         , -0.022     , 0.003       , -0.002  , 0.853931212
+    , "trailaadj"         , 1.593         , -0.002     , -0.013      , 0.016   , 0.27661
+    , "trailbadj"         , 0.616         , 0.001      , -0.006      , 0.012   , 0.13352
+    # CERAD Below
+    , "CERAD_Trial1"      , 5.54          , 0.47       , -0.04       , 0.13    , 1.51
+    , "CERAD_Trial2"      , 7.97          , 0.53       , -0.04       , 0.11    , 1.39
+    , "CERAD_Trial3"      , 8.42          , 0.6        , -0.04       , 0.11    , 1.32
+    , "CERAD_Total"       , 21.93         , 1.6        , -0.12       , 0.35    , 3.51
+    , "CERAD_Delay"       , 7.7           , 0.57       , -0.05       , 0.14    , 1.84
+    , "CERAD_Recognition" , 20.19         , 0.29       , -0.02       , 0.01    , 1.11
+    ) |>
+    dplyr::mutate(
+      Dependent = Dependent |> stringr::str_to_lower()
+    )
+
+  if (sw_only_print_variable_list) {
+    message("sw_scale_name options:")
+    print(list_var_reg$Dependent)
+    invisible(NULL)
+    return(NULL)
+  }
+
+  # score standardization via regression?
+  if(sw_scale_name %in% list_var_reg$Dependent) {
+    # IF(AK4<>"",ROUND((AK4 - (Regression!$B2+(Regression!$C2*(IF($C4="F",1,0)))+(Regression!$D2*$D4)+(Regression!$E2*$E4)))/(Regression!$F2),2),"")
+    # standardized =
+    #   (AK4 -
+    #     (R!$B2 +
+    #       (R!$C2 * (IF($C4="F",1,0))) +
+    #       (R!$D2 * $D4) +
+    #       (R!$E2 * $E4)
+    #     )
+    #   ) / (R!$F2)
+    # Regression!$A2 = ~Dependent
+    # Regression!$B2 = ~intercept_est
+    # Regression!$C2 = ~female_est
+    # Regression!$D2 = ~naccage_est
+    # Regression!$E2 = ~edu_est
+    # Regression!$F2 = ~rmse
+
+    # choose the row of values
+    # AK4 = scores
+    # B2  = gender
+    # C2  = age
+    # D2  = education
+    this_var_reg <-
+      list_var_reg |>
+      dplyr::filter(
+        Dependent == sw_scale_name
+      )
+
+    scores_standardized <-
+      (scores -
+        (this_var_reg[[ "intercept_est" ]] +
+          (this_var_reg[[ "female_est"    ]] * ifelse(gender == "F", 1, 0)) +
+          (this_var_reg[[ "naccage_est"   ]] * age                        ) +
+          (this_var_reg[[ "edu_est"       ]] * education                  )
+        )
+      ) /
+      (this_var_reg[[ "rmse"          ]])
+
+    return(scores_standardized)
+
+  } # if sw_scale_name
+
+
+
+
+  #scores_standardized
+
+  return(scores_standardized)
+} # e_health_calc_npsy_standardize_scores
+
+
+
 #' A1c concentration to CDC classification category labels
 #'
 #' https://www.cdc.gov/diabetes/managing/managing-blood-sugar/a1c.html
@@ -456,3 +615,6 @@ e_health_calc_poverty_ratio_FederalPovertyLevel <-
 
   return(poverty_ratio)
 } # e_health_calc_poverty_ratio_FederalPovertyLevel
+
+
+
