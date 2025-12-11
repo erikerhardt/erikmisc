@@ -97,8 +97,9 @@ e_plot_complete_by_variable_subset <-
     dat_miss_pattern[, var_list]
 
   # remove summary last row and last column
+  #   When no missing values, do not drop the "extra" dimension!
   dat_miss_pattern <-
-    dat_miss_pattern[-dim_dat_miss_pattern[1], -dim_dat_miss_pattern[2]]
+    dat_miss_pattern[-dim_dat_miss_pattern[1], -dim_dat_miss_pattern[2], drop = FALSE]
 
   dim_dat_miss_pattern <-
     dat_miss_pattern |>
