@@ -1,8 +1,8 @@
 Package: erikmisc
 Type: Package
 Title: Erik Erhardt's miscellaneous functions for solving complex data analysis workflows
-Version: 0.2.74
-Date: 2025-12-11
+Version: 0.2.75
+Date: 2026-01-23
 Authors@R:
     c(person(
       given   = "Erik"
@@ -27,6 +27,7 @@ Depends:
     utils,
     graphics
 Imports:
+    broom,
     cAIC4,
     car,
     caret,
@@ -34,7 +35,9 @@ Imports:
     corrplot,
     cowplot,
     crayon,
+    datasets,
     data.tree,
+    DHARMa,
     dplyr,
     ellipse,
     emmeans,
@@ -47,10 +50,12 @@ Imports:
     ggpmisc,
     ggpp,
     ggpubr,
+    graphics,
     grDevices,
     grid,
     gridExtra,
     gvlma,
+    Hmisc,
     htmlwidgets,
     janitor,
     kableExtra,
@@ -64,6 +69,7 @@ Imports:
     modelr,
     moonBook,
     nortest,
+    parallel,
     patchwork,
     purrr,
     pwr,
@@ -77,6 +83,7 @@ Imports:
     rstudioapi,
     scales,
     sjPlot,
+    stats,
     stringi,
     stringr,
     tibble,
@@ -84,6 +91,7 @@ Imports:
     tidyselect,
     tsne,
     umap,
+    utils,
     webshot
 Suggests:
     datasets,
