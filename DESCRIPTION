@@ -50,6 +50,7 @@ Imports:
     ggpmisc,
     ggpp,
     ggpubr,
+    graphics,
     grDevices,
     grid,
     gridExtra,
@@ -82,6 +83,7 @@ Imports:
     rstudioapi,
     scales,
     sjPlot,
+    stats,
     stringi,
     stringr,
     tibble,
@@ -89,6 +91,7 @@ Imports:
     tidyselect,
     tsne,
     umap,
+    utils,
     webshot
 Suggests:
     datasets,
