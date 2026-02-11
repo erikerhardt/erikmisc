@@ -19,6 +19,7 @@
 #' @param sw_threshold_to_use     T/F NOT YET USED XXX
 #' @param sw_quick_full_only      T/F to only fit full model and return model object
 #' @param sw_reduce_output        T/F exclude individual ROC and VIMP plots, and marginal plots
+#' @param sw_subsample_bootstrap  T/F, uses the double bootstrap instead of subsampling.
 #' @param n_single_decision_tree_plots number of example decision trees to plot (recommend not too many)
 #' @param k_partial_coplot_var    number of top variables by VIMP to create bivariate partial (conditioning) plots
 #' @param n_boot_resamples        number of subsamples (or number of bootstraps) for VIMP CIs
@@ -95,9 +96,10 @@
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
 #'   , sw_reduce_output       = c(TRUE, FALSE)[1]
+#'   , sw_subsample_bootstrap = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 3
-#'   , n_boot_resamples        = 100
+#'   , n_boot_resamples       = 100
 #'   )
 #'
 #'
@@ -204,7 +206,7 @@
 #'   , sw_rfsrc_ntree         = 200
 #'   , sw_alpha_sel           = 0.05
 #'   , sw_select_full         = c("select", "full")[1]
-#'   , sw_na_action            = c("na.omit", "na.impute")[2]
+#'   , sw_na_action           = c("na.omit", "na.impute")[2]
 #'   , sw_save_model          = c(TRUE, FALSE)[1]
 #'   , plot_title             = "Random Forest, imputing missing values"
 #'   , out_path               = "./out_sel_miss"
@@ -215,10 +217,11 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[1]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
-#'   , sw_reduce_output        = c(TRUE, FALSE)[1]
+#'   , sw_reduce_output       = c(TRUE, FALSE)[1]
+#'   , sw_subsample_bootstrap = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 0
-#'   , n_boot_resamples        = 100
+#'   , n_boot_resamples       = 100
 #'   )
 #'
 #'
@@ -265,7 +268,7 @@
 #'   , sw_rfsrc_ntree         = 2000
 #'   , sw_alpha_sel           = 0.25
 #'   , sw_select_full         = c("select", "full")[1]
-#'   , sw_na_action            = c("na.omit", "na.impute")[1]
+#'   , sw_na_action           = c("na.omit", "na.impute")[1]
 #'   , sw_save_model          = c(TRUE, FALSE)[1]
 #'   , plot_title             = "Random Forest Imbalanced"
 #'   , out_path               = "./out_imbal"
@@ -276,10 +279,11 @@
 #'   , sw_imbalanced_binary   = c(FALSE, TRUE)[2]
 #'   , sw_threshold_to_use    = c(FALSE, TRUE)[1]
 #'   , sw_quick_full_only     = c(FALSE, TRUE)[1]
-#'   , sw_reduce_output        = c(TRUE, FALSE)[1]
+#'   , sw_reduce_output       = c(TRUE, FALSE)[1]
+#'   , sw_subsample_bootstrap = c(TRUE, FALSE)[1]
 #'   , n_single_decision_tree_plots = 0
 #'   , k_partial_coplot_var   = 0
-#'   , n_boot_resamples        = 100
+#'   , n_boot_resamples       = 100
 #'   )
 #'
 #' }
@@ -304,6 +308,7 @@ e_rfsrc_classification <-
   , sw_threshold_to_use     = c(FALSE, TRUE)[1]
   , sw_quick_full_only      = c(FALSE, TRUE)[1]
   , sw_reduce_output        = c(TRUE, FALSE)[1]
+  , sw_subsample_bootstrap  = c(TRUE, FALSE)[1]
   , n_single_decision_tree_plots = 0
   , k_partial_coplot_var    = 3
   , n_boot_resamples        = 100
@@ -1644,7 +1649,7 @@ e_rfsrc_classification <-
     , performance.only  = FALSE         # Only calculate standard error and confidence region for the generalization error (no VIMP).
     , joint             = FALSE         # Joint VIMP for all variables? Users can also request joint VIMP for specific variables using xvar.names.
     , xvar.names        = NULL          # Specifies variables for calculating joint VIMP. By default all variables are used.
-    , bootstrap         = TRUE #FALSE  # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
+    , bootstrap         = sw_subsample_bootstrap  # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
     , verbose           = TRUE          # Provide verbose output?
     )
   out[[ "o_class_full_subsample" ]] <-
@@ -3118,7 +3123,7 @@ e_rfsrc_classification <-
     , performance.only  = FALSE         # Only calculate standard error and confidence region for the generalization error (no VIMP).
     , joint             = FALSE         # Joint VIMP for all variables? Users can also request joint VIMP for specific variables using xvar.names.
     , xvar.names        = NULL          # Specifies variables for calculating joint VIMP. By default all variables are used.
-    , bootstrap         = TRUE #FALSE  # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
+    , bootstrap         = sw_subsample_bootstrap # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
     , verbose           = TRUE          # Provide verbose output?
     )
   out[[ "o_class_sel_subsample" ]] <-
