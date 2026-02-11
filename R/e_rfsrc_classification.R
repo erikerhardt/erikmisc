@@ -935,7 +935,7 @@ e_rfsrc_classification <-
             )
           )
       )
-    }
+    } # sw_save_model
 
 
 
@@ -1659,9 +1659,10 @@ e_rfsrc_classification <-
     randomForestSRC::extract.subsample (o_class_full_subsample, alpha = sw_alpha_sel)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
-  out[[ "o_class_full_subsample_extract_bootsample" ]] <-
-    randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)
-
+  if (sw_subsample_bootstrap) {
+    out[[ "o_class_full_subsample_extract_bootsample" ]] <-
+      randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)
+  } # sw_subsample_bootstrap
 
   ### VIMP plot out to a selected alpha level
   out[[ "plot_o_class_full_subsample" ]] <-
@@ -1719,53 +1720,55 @@ e_rfsrc_classification <-
 
   # cowplot::plot_grid(out[[ "plot_o_class_full_subsample" ]])
 
-  readr::write_csv(
-    x =
-      out[[ "o_class_full_subsample_extract_bootsample" ]]$var.sel.Z |>
-      tibble::as_tibble(rownames = "Var")
-  , file =
-      file.path(
-        out_path
-      , paste0(
-          file_prefix
-        , "__"
-        , "o_class_full_VIMP_CI"
-        , ".csv"
-        )
-      )
-  )
-
-  out[[ "plot_o_class_full_vimp_CI" ]] <-
-    f_plot_VIMP_bs(
-      out_bs        = out[[ "o_class_full_subsample_extract_bootsample" ]]
-    , sw_alpha_sel  = sw_alpha_sel
-    , sw_model_name = c("Full", "Selected")[1]
-    )
-
-  ggplot2::ggsave(
-      filename =
+  if (sw_subsample_bootstrap) {
+    readr::write_csv(
+      x =
+        out[[ "o_class_full_subsample_extract_bootsample" ]]$var.sel.Z |>
+        tibble::as_tibble(rownames = "Var")
+    , file =
         file.path(
           out_path
         , paste0(
             file_prefix
           , "__"
-          , "plot_o_class_full_VIMP_CI"
-          , "."
-          , plot_format
+          , "o_class_full_VIMP_CI"
+          , ".csv"
           )
         )
-    , plot   =
-        out[[ "plot_o_class_full_vimp_CI" ]]$p
-    , width  = 8
-    , height = 2 + 0.15 * length(rf_x_var_full)
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    , limitsize = FALSE
     )
+
+    out[[ "plot_o_class_full_vimp_CI" ]] <-
+      f_plot_VIMP_bs(
+        out_bs        = out[[ "o_class_full_subsample_extract_bootsample" ]]
+      , sw_alpha_sel  = sw_alpha_sel
+      , sw_model_name = c("Full", "Selected")[1]
+      )
+
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_full_VIMP_CI"
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          out[[ "plot_o_class_full_vimp_CI" ]]$p
+      , width  = 8
+      , height = 2 + 0.15 * length(rf_x_var_full)
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      , limitsize = FALSE
+      )
+  } # sw_subsample_bootstrap
 
   ## One decision tree
   e_log_write(
@@ -1844,11 +1847,15 @@ e_rfsrc_classification <-
   , i_level     = 2
   )
 
-  rf_x_var_sel <-
-    rownames(
-      randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)$var.sel.Z
-    )[randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)$var.sel.Z$signif]
-
+  if (sw_subsample_bootstrap) {
+    rf_x_var_sel <-
+      rownames(
+        randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)$var.sel.Z
+      )[randomForestSRC::extract.bootsample(o_class_full_subsample, alpha = sw_alpha_sel)$var.sel.Z$signif]
+  } else {
+    rf_x_var_sel <-
+      names(o_class_full_subsample$rf$importance[, "all"])[(o_class_full_subsample$rf$importance[, "all"] > 0)]
+  } # sw_subsample_bootstrap
   out[[ "rf_x_var_sel" ]] <-
     rf_x_var_sel
 
@@ -3133,8 +3140,10 @@ e_rfsrc_classification <-
     randomForestSRC::extract.subsample(o_class_sel_subsample, alpha = sw_alpha_sel)
 
   # Use double bootstrap approach in place of subsampling? Much slower, but potentially more accurate.
-  out[[ "o_class_sel_subsample_extract_bootsample" ]] <-
-    randomForestSRC::extract.bootsample(o_class_sel_subsample, alpha = sw_alpha_sel)
+  if (sw_subsample_bootstrap) {
+    out[[ "o_class_sel_subsample_extract_bootsample" ]] <-
+      randomForestSRC::extract.bootsample(o_class_sel_subsample, alpha = sw_alpha_sel)
+  } # sw_subsample_bootstrap
 
   ### VIMP plot out to a selected alpha level
   out[[ "plot_o_class_sel_subsample" ]] <-
@@ -3193,53 +3202,55 @@ e_rfsrc_classification <-
     # cowplot::plot_grid(out[[ "plot_o_class_sel_subsample" ]])
   } # sw_reduce_output
 
-  readr::write_csv(
-    x =
-      out[[ "o_class_sel_subsample_extract_bootsample" ]]$var.sel.Z |>
-      tibble::as_tibble(rownames = "Var")
-  , file =
-      file.path(
-        out_path
-      , paste0(
-          file_prefix
-        , "__"
-        , "o_class_sel_VIMP_CI"
-        , ".csv"
-        )
-      )
-  )
-
-  out[[ "plot_o_class_sel_vimp_CI" ]] <-
-    f_plot_VIMP_bs(
-      out_bs        = out[[ "o_class_sel_subsample_extract_bootsample" ]]
-    , sw_alpha_sel  = sw_alpha_sel
-    , sw_model_name = c("Full", "Selected")[2]
-    )
-
-  ggplot2::ggsave(
-      filename =
+  if (sw_subsample_bootstrap) {
+    readr::write_csv(
+      x =
+        out[[ "o_class_sel_subsample_extract_bootsample" ]]$var.sel.Z |>
+        tibble::as_tibble(rownames = "Var")
+    , file =
         file.path(
           out_path
         , paste0(
             file_prefix
           , "__"
-          , "plot_o_class_sel_VIMP_CI"
-          , "."
-          , plot_format
+          , "o_class_sel_VIMP_CI"
+          , ".csv"
           )
         )
-    , plot   =
-        out[[ "plot_o_class_sel_vimp_CI" ]]$p
-    , width  = 8
-    , height = 2 + 0.15 * length(rf_x_var_sel)
-    ## png, jpeg
-    , dpi    = 300
-    , bg     = "white"
-    ## pdf
-    , units  = "in"
-    #, useDingbats = FALSE
-    , limitsize = FALSE
     )
+
+    out[[ "plot_o_class_sel_vimp_CI" ]] <-
+      f_plot_VIMP_bs(
+        out_bs        = out[[ "o_class_sel_subsample_extract_bootsample" ]]
+      , sw_alpha_sel  = sw_alpha_sel
+      , sw_model_name = c("Full", "Selected")[2]
+      )
+
+    ggplot2::ggsave(
+        filename =
+          file.path(
+            out_path
+          , paste0(
+              file_prefix
+            , "__"
+            , "plot_o_class_sel_VIMP_CI"
+            , "."
+            , plot_format
+            )
+          )
+      , plot   =
+          out[[ "plot_o_class_sel_vimp_CI" ]]$p
+      , width  = 8
+      , height = 2 + 0.15 * length(rf_x_var_sel)
+      ## png, jpeg
+      , dpi    = 300
+      , bg     = "white"
+      ## pdf
+      , units  = "in"
+      #, useDingbats = FALSE
+      , limitsize = FALSE
+      )
+  } # sw_subsample_bootstrap
 
 
   ## One decision tree
