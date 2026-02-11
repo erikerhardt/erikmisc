@@ -134,6 +134,17 @@
 #'   )
 #' out$tab_power_ref |> print(width = Inf)
 #'
+#'
+#' # pull out sample size at power 0.80
+#' out$tab_power |>
+#'   dplyr::filter(
+#'     obs_power > 0.80
+#'   ) |>
+#'   dplyr::filter(
+#'     obs_power == min(obs_power, na.rm = TRUE)
+#'   )
+#'
+#'
 #' ### RMarkdown results reporting
 #' # The results above indicate the following.
 #' #
