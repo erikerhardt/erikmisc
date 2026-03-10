@@ -206,6 +206,7 @@ e_plot_complete_by_variable_subset <-
     p1 <- p1 + geom_tile(color = "grey50", fill = "gray20", na.rm = TRUE)
     p1 <- p1 + scale_y_discrete(limits = rev)
     p1 <- p1 + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) # rotate labels
+    p1 <- p1 + theme(plot.title.position = "plot") # move title to far left
 
     p1 <- p1 + labs(
                     title = "Missing data patterns sorted by number of complete observations"
@@ -228,16 +229,29 @@ e_plot_complete_by_variable_subset <-
     p2 <- p2 + coord_flip()
     p2 <- p2 + labs(
                       y = "n Complete observations"
+                    , x = NULL #"Subset"
+                    )
+
+    p3 <- ggplot(data = dat_var_complete_plot |> dplyr::select(Subset__, n_var) |> dplyr::distinct(), aes(x = Subset__, y = n_var))
+    p3 <- p3 + theme_bw()
+    p3 <- p3 + geom_bar(stat = "identity", fill = "gray20")
+    p3 <- p3 + geom_text(aes(label = n_var), y = 0, hjust = -.25, color = "gray80")
+    p3 <- p3 + scale_x_discrete(limits = rev, position = "top")
+    #p3 <- p3 + scale_y_continuous(expand = expansion(mult = c(0.15, 0), add = 0))
+    p3 <- p3 + theme(axis.title.y=element_blank(), axis.text.x=element_blank(), axis.text.y=element_blank(), axis.ticks.x=element_blank())
+    p3 <- p3 + coord_flip()
+    p3 <- p3 + labs(
+                      y = "n Var"
                     , x = "Subset"
                     )
 
     p_arranged <-
       patchwork::wrap_plots(
-        list(p1, p2)
+        list(p1, p3, p2)
       , ncol        = NULL
       , nrow        = 1
       , byrow       = c(TRUE, FALSE)[1]
-      , widths      = c(2, 1)
+      , widths      = c(2, 0.25, 1)
       , heights     = NULL
       , guides      = c("collect", "keep", "auto")[1]
       , tag_level   = c("keep", "new")[1]
