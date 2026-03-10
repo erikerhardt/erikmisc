@@ -69,7 +69,7 @@ e_rfsrc_classification(
 
 \item{sw_reduce_output}{T/F exclude individual ROC and VIMP plots, and marginal plots}
 
-\item{sw_subsample_bootstrap}{T/F, uses the double bootstrap instead of subsampling.}
+\item{sw_subsample_bootstrap}{T/F, uses the double bootstrap instead of subsampling. About 10 times slower, but is the basis for model selection.}
 
 \item{n_single_decision_tree_plots}{number of example decision trees to plot (recommend not too many)}
 

@@ -19,7 +19,7 @@
 #' @param sw_threshold_to_use     T/F NOT YET USED XXX
 #' @param sw_quick_full_only      T/F to only fit full model and return model object
 #' @param sw_reduce_output        T/F exclude individual ROC and VIMP plots, and marginal plots
-#' @param sw_subsample_bootstrap  T/F, uses the double bootstrap instead of subsampling.
+#' @param sw_subsample_bootstrap  T/F, uses the double bootstrap instead of subsampling. About 10 times slower, but is the basis for model selection.
 #' @param n_single_decision_tree_plots number of example decision trees to plot (recommend not too many)
 #' @param k_partial_coplot_var    number of top variables by VIMP to create bivariate partial (conditioning) plots
 #' @param n_boot_resamples        number of subsamples (or number of bootstraps) for VIMP CIs
