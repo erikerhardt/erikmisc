@@ -238,11 +238,11 @@ e_plot_complete_by_variable_subset <-
     p3 <- p3 + geom_text(aes(label = n_var), y = 0, hjust = -.25, color = "gray80")
     p3 <- p3 + scale_x_discrete(limits = rev, position = "top")
     #p3 <- p3 + scale_y_continuous(expand = expansion(mult = c(0.15, 0), add = 0))
-    p3 <- p3 + theme(axis.title.y=element_blank(), axis.text.x=element_blank(), axis.text.y=element_blank(), axis.ticks.x=element_blank())
+    p3 <- p3 + theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank())
     p3 <- p3 + coord_flip()
     p3 <- p3 + labs(
                       y = "n Var"
-                    , x = "Subset"
+                    , x = NULL #"Subset"
                     )
 
     p_arranged <-
