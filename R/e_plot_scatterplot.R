@@ -103,6 +103,14 @@ e_plot_scatterplot <-
   , sw_var_y_name_str_wrap_width  = 1e5
   ) {
 
+  # restrict dataset to complete observations for the selected variables
+  dat_plot <-
+    dat_plot |>
+    dplyr::select(
+      tidyselect::all_of(c(var_x, var_y, var_color, var_facet))
+    ) |>
+    tidyr::drop_na()
+
   if (is.null(text_title)) {
     text_title <- paste0(var_y, " vs ", var_x)
   }
@@ -168,12 +176,12 @@ e_plot_scatterplot <-
   position_dodge_val <- position_dodge(0)
 
   if (is.null(var_color)) {
-    p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y))
+    p <- ggplot(dat_plot, aes(x = .data[[var_x]], y = .data[[var_y]]))
   } else {
     if (inherits(dat_plot[[ var_color ]], "numeric") | inherits(dat_plot[[ var_color ]], "integer")) {
-      p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, color = var_color))
+      p <- ggplot(dat_plot, aes(x = .data[[var_x]], y = .data[[var_y]], color = .data[[var_color]]))
     } else {
-      p <- ggplot(dat_plot, aes_string(x = var_x, y = var_y, color = var_color, shape = var_color))
+      p <- ggplot(dat_plot, aes(x = .data[[var_x]], y = .data[[var_y]], color = .data[[var_color]], shape = .data[[var_color]]))
       position_dodge_val <- position_dodge(0.6) # move them .05 to the left and right
     }
 
@@ -189,7 +197,7 @@ e_plot_scatterplot <-
   } else {
     # plot a reference line for the global mean (assuming no groups)
     p <- p + geom_hline(yintercept = mean(dat_plot[[ var_y ]]),
-                        color = "black", linetype = "dashed", size = 0.3, alpha = 0.5)
+                        color = "black", linetype = "dashed", linewidth = 0.3, alpha = 0.5)
     # boxplot, size=.75 to stand out behind CI
     p <- p + geom_violin(width = 0.2, alpha = 0.25, position = position_dodge_val)
     p <- p + geom_boxplot(width = 0.2, alpha = 0.25, position = position_dodge_val)
@@ -225,7 +233,7 @@ e_plot_scatterplot <-
     p <- p + stat_smooth(method = smooth_all, aes(group = 1), color = "black", alpha = 1/6, se = sw_smooth_all_se)
   }
   if (smooth_by_var_color %in% c("loess", "lm", "glm", "gam")) {
-    p <- p + stat_smooth(method = smooth_by_var_color, aes_string(fill = var_color), alpha = 1/8, se = sw_smooth_by_var_color_se)
+    p <- p + stat_smooth(method = smooth_by_var_color, aes(fill = .data[[var_color]]), alpha = 1/8, se = sw_smooth_by_var_color_se)
   }
 
   p <- p + labs(
@@ -249,6 +257,77 @@ e_plot_scatterplot <-
     p <- p + theme(plot.subtitle = element_text(hjust = 1))
   }
   #p <- p + theme(legend.position = "bottom") # "none"
+
+  # sample size in caption
+  text_caption <- paste0("Number of observations: n = ", nrow(dat_plot))
+  if (!is.null(var_color)) {
+    if (!(inherits(dat_plot[[ var_color ]], "numeric") | inherits(dat_plot[[ var_color ]], "integer"))) {
+      out_freq_color <-
+        e_table_sum_freq_prop(
+          dat           = dat_plot
+        , var_names     = var_color
+        , sw_sort_prop  = FALSE
+        , sw_drop_NA    = FALSE
+        , sw_totals     = FALSE
+        )
+      text_caption <-
+        paste0(
+          text_caption
+        , "\nBy color:  "
+        , paste0(
+            out_freq_color |> dplyr::pull(tidyselect::all_of(var_color))
+          , " = "
+          , out_freq_color |> dplyr::pull(n)
+          , collapse = ", "
+          )
+        , "."
+        )
+    } # not numeric
+  } # var_color
+
+  p <- p + labs(
+                  caption   = text_caption
+                )
+  p <- p + theme(plot.caption = element_text(hjust = 0), plot.caption.position = "plot") # Default is hjust=1, Caption align left (*.position all the way left)
+
+  if (!is.null(var_facet)) {
+    out_freq_facet <-
+      e_table_sum_freq_prop(
+        dat           = dat_plot
+      , var_names     = var_facet
+      , sw_sort_prop  = FALSE
+      , sw_drop_NA    = FALSE
+      , sw_totals     = FALSE
+      )
+
+    out_freq_facet <-
+      out_freq_facet |>
+      dplyr::mutate(
+        text_label = paste0("n = ", n)
+      , {{var_x}} := -Inf
+      , {{var_y}} := -Inf
+      )
+    if (!is.null(var_color)) {
+      out_freq_facet <-
+        out_freq_facet |>
+        dplyr::mutate(
+          {{var_color}} := NA # dat_plot[[var_color]][1:nrow(out_freq_facet)]
+        )
+    }
+    p <- p + geom_text(data = out_freq_facet, aes(x = .data[[var_x]], y = .data[[var_y]], label = text_label), hjust = -0.2, vjust = -0.5, color = "black", size = 3)
+
+    ## # prepare the data
+    ## annotations <- data.frame(
+    ## X = c(-Inf,-Inf,Inf,Inf),
+    ## Y =  c(-Inf, Inf,-Inf,Inf),
+    ## text = c("(x0,y0)","(x0,y1)",
+    ##        "(x1,y0)","(x1,y1)"),
+    ## x_adjust = c(0,0,1,1),
+    ## y_adjust = c(0,1,0,1))
+
+  } # var_facet
+
+
 
   if (sw_print) {
     print(p)
