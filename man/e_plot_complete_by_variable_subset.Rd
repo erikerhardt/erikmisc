@@ -8,7 +8,8 @@ e_plot_complete_by_variable_subset(
   dat,
   var_list = NULL,
   var_resp = NULL,
-  sw_plot_complete = TRUE
+  sw_n_complete = NULL,
+  sw_plot_print = TRUE
 )
 }
 \arguments{
@@ -18,10 +19,12 @@ e_plot_complete_by_variable_subset(
 
 \item{var_resp}{\code{NULL} or one variable name to always be included (filters to keep only observations with this variable)}
 
-\item{sw_plot_complete}{\code{TRUE} for all, or an integer for the subsets with largest \code{n_complete}}
+\item{sw_n_complete}{NULL for all, or an integer for the subsets with largest \code{n_complete}}
+
+\item{sw_plot_print}{T/F, print plot in addition to returning the plot object?}
 }
 \value{
-out      a tibble with the \code{n_complete}, \code{n_var}, \code{var_names_print}, and a list of variable names in \code{var_names}
+out      a list with the plot and a tibble with the \code{n_complete}, \code{n_var}, \code{var_names_print}, and a list of variable names in \code{var_names}
 }
 \description{
 For missing data, determine which sets of variables result in the most number of complete observations
@@ -45,10 +48,17 @@ dat_mtcars_miss_e |> e_plot_missing()
 
 out <- dat_mtcars_miss_e |> e_plot_complete_by_variable_subset()
 # Print table
-out |> print(n = Inf, width = Inf)
+out$table |> print(n = Inf, width = Inf)
 # Print variable names from first row
-out$var_names[1] |> unlist()
+out$table$var_names[1] |> unlist()
 
 # Print top 5 subsets
-dat_mtcars_miss_e |> e_plot_complete_by_variable_subset(sw_plot_complete = 5)
+out <-
+  dat_mtcars_miss_e |>
+  e_plot_complete_by_variable_subset(sw_n_complete = 5, sw_plot_print = FALSE)
+out
+
+# Print plot with modified title
+out$plot +
+  patchwork::plot_annotation(title = "New title for Missing data patterns plot")
 }
