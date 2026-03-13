@@ -33,14 +33,14 @@ e_data_var_labels_table_from_data <-
           ifelse(
             labelled::var_label(dat) |> unlist() |> names() |> is.null()
           , NA
-          , labelled::var_label(dat) |> unlist() |> names()
-          )
+          , labelled::var_label(dat) |> unlist() |> names() |> list()
+          ) |> unlist()
       , Label =
           ifelse(
             labelled::var_label(dat) |> unlist() |> as.character() |> is.null()
           , NA
-          , labelled::var_label(dat) |> unlist() |> as.character()
-          )
+          , labelled::var_label(dat) |> unlist() |> as.character() |> list()
+          ) |> unlist()
       )
     , by = dplyr::join_by(Var)
     ) |>
