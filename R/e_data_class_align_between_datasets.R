@@ -12,7 +12,7 @@
 #'
 #' If a variable has multiple classes, only the first is used.
 #'
-#' @param dat1                      data.frame or tibble, treated as primary dataset for class
+#' @param dat1                      data.frame or tibble (or list of these), treated as primary dataset for class.  If a list, then \code{sw_bind_rows} and \code{sw_return_only_bind_rows} are both set to \code{TRUE}.
 #' @param dat2                      data.frame or tibble, treated as secondary dataset for class
 #' @param sw_bind_rows              T/F whether to return \code{dplyr::bind_rows(dat1, dat2)} after class alignment
 #' @param sw_return_only_bind_rows  T/F return only \code{dplyr::bind_rows(dat1, dat2)} after class alignment, useful for binding several datasets in a single pipe |> workflow.
@@ -85,6 +85,9 @@
 #' # now they can bind by row
 #' dat12 <- dplyr::bind_rows(out$dat1, out$dat2)
 #'
+#' # Align a list of dfs (will only return aligned df
+#' out <- e_data_class_align_between_datasets(list(dat1, dat2, dat1, dat2))
+#' out |> str()
 e_data_class_align_between_datasets <-
   function(
     dat1          = NULL
@@ -92,12 +95,35 @@ e_data_class_align_between_datasets <-
   , sw_bind_rows  = FALSE
   , sw_return_only_bind_rows = FALSE
   ) {
-  #### ADRC data
+  #### ADRC test data
   ## #dat1       = dat_adrc4
   ## dat1       = dat_adrc3
   ## dat2       = dat_markvcid2
   ## sw_bind_rows  = TRUE
   ## sw_return_only_bind_rows = FALSE
+
+  # if dat1 is a list, then call this function for each dataset in order
+  if (is.list(dat1) & !(is.data.frame(dat1) | is_tibble(dat1)) ) {
+
+    list_length <- length(dat1)
+
+    if (list_length < 2) {
+      warning("e_data_class_align_between_datasets, dat1 list needs at least 2 data.frames or tibbles; returning NULL")
+      return(NULL)
+    }
+
+    out <- dat1[[1]] # first set to out
+    for (i_list in 2:list_length) {
+      out <-
+        e_data_class_align_between_datasets(
+          dat1          = out
+        , dat2          = dat1[[ i_list ]]
+        , sw_bind_rows  = TRUE
+        , sw_return_only_bind_rows = TRUE
+        )
+    }
+    return(out)
+  } # is.list(dat1)
 
   out <- list()
 

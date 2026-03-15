@@ -12,7 +12,7 @@ e_data_class_align_between_datasets(
 )
 }
 \arguments{
-\item{dat1}{data.frame or tibble, treated as primary dataset for class}
+\item{dat1}{data.frame or tibble (or list of these), treated as primary dataset for class.  If a list, then \code{sw_bind_rows} and \code{sw_return_only_bind_rows} are both set to \code{TRUE}.}
 
 \item{dat2}{data.frame or tibble, treated as secondary dataset for class}
 
@@ -102,4 +102,7 @@ out[[ "dat2"              ]] |> str()
 # now they can bind by row
 dat12 <- dplyr::bind_rows(out$dat1, out$dat2)
 
+# Align a list of dfs (will only return aligned df
+out <- e_data_class_align_between_datasets(list(dat1, dat2, dat1, dat2))
+out |> str()
 }
