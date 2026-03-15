@@ -32,13 +32,13 @@ e_data_var_labels_table_from_data <-
         Var   =
           ifelse(
             labelled::var_label(dat) |> unlist() |> names() |> is.null()
-          , NA
+          , NA_character_
           , labelled::var_label(dat) |> unlist() |> names() |> list()
           ) |> unlist()
       , Label =
           ifelse(
             labelled::var_label(dat) |> unlist() |> as.character() |> is.null()
-          , NA
+          , NA_character_
           , labelled::var_label(dat) |> unlist() |> as.character() |> list()
           ) |> unlist()
       )
