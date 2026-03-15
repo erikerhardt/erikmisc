@@ -97,9 +97,15 @@ e_data_coalesce_column_set <-
 
     # combine, assure original column order for iteration
     dat <-
-      dplyr::bind_rows(
-        dat_rows_process
-      , dat_rows_skip_NA
+      #dplyr::bind_rows(
+      #  dat_rows_process
+      #, dat_rows_skip_NA
+      #) |>
+      e_data_class_align_between_datasets(
+        list(
+          dat_rows_process
+        , dat_rows_skip_NA
+        )
       ) |>
       dplyr::select(
         tidyselect::any_of(names_var)
@@ -203,7 +209,10 @@ e_data_replace_keys_less_with_most_complete <-
 
   # combine all results
   dat_data_updated <-
-    bind_rows(
+    #dplyr::bind_rows(
+    #  dat_data_out
+    #)
+    e_data_class_align_between_datasets(
       dat_data_out
     )
 
