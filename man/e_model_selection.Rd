@@ -8,7 +8,7 @@ e_model_selection(
   form = NULL,
   dat = NULL,
   sw_model = c("lm", "glm")[1],
-  sw_sel_type = c("step", "bestsubset")[1],
+  sw_sel_type = c("step", "bestsubset", "none")[1],
   sw_step_direction = c("both", "backward", "forward")[1],
   sw_step_k = c("AIC", "BIC", 2)[1],
   sw_glm_scale = c("link", "response")[2],
@@ -33,7 +33,7 @@ e_model_selection(
 
 \item{sw_model}{type of regression model, \code{"lm"} or \code{"glm"}}
 
-\item{sw_sel_type}{type of model selection.  \code{step} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model}
+\item{sw_sel_type}{type of model selection.  \code{"none"} only fits the initial model.  \code{"step"} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model. \code{"bestsubset"} not yet implemented.}
 
 \item{sw_step_direction}{for \code{step}, the \code{direction} argument from the \code{stats::step()} function}
 

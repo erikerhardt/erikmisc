@@ -5,7 +5,7 @@
 #' @param form                      formula for a model
 #' @param dat                       data to use
 #' @param sw_model                  type of regression model, \code{"lm"} or \code{"glm"}
-#' @param sw_sel_type               type of model selection.  \code{step} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model
+#' @param sw_sel_type               type of model selection.  \code{"none"} only fits the initial model.  \code{"step"} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model. \code{"bestsubset"} not yet implemented.
 #' @param sw_step_direction         for \code{step}, the \code{direction} argument from the \code{stats::step()} function
 #' @param sw_step_k                 for \code{step} determined by "AIC" (2), "BIC" (log(n)), or specified numerically; the \code{k} argument from the \code{stats::step()} function for penalty df
 #' @param sw_glm_scale              Scale for glm contrasts, \code{"link"} or \code{"response"}, when \code{sw_model} is \code{"glm"}
@@ -82,7 +82,7 @@ e_model_selection <-
     form                      = NULL
   , dat                       = NULL
   , sw_model                  = c("lm", "glm")[1]
-  , sw_sel_type               = c("step", "bestsubset")[1]
+  , sw_sel_type               = c("step", "bestsubset", "none")[1]
   , sw_step_direction         = c("both", "backward", "forward")[1]
   , sw_step_k                 = c("AIC", "BIC", 2)[1]
   , sw_glm_scale              = c("link", "response")[2]
@@ -102,7 +102,7 @@ e_model_selection <-
   ## form                     = mpg ~ cyl + disp + hp + wt + vs + am + cyl:vs + disp:hp + hp:vs
   ## dat                      = erikmisc::dat_mtcars_e
   ## sw_model                 = c("lm", "glm")[1]
-  ## sw_sel_type              = c("step", "bestsubset")[1]
+  ## sw_sel_type              = c("step", "bestsubset", "none")[1]
   ## sw_step_direction        = c("both", "backward", "forward")[1]
   ## sw_step_k                = "BIC"
   ## sw_glm_scale             = c("link", "response")[2]
@@ -133,7 +133,7 @@ e_model_selection <-
   ## form                     = cbind(am_01, 1 - am_01) ~ cyl + disp + hp + wt + vs + hp:vs
   ## dat                      = dat_sel
   ## sw_model                 = c("lm", "glm")[2]
-  ## sw_sel_type              = c("step", "bestsubset")[1]
+  ## sw_sel_type              = c("step", "bestsubset", "none")[1]
   ## sw_step_direction        = c("both", "backward", "forward")[1]
   ## sw_step_k                = "BIC"
   ## sw_glm_scale             = c("link", "response")[2]
@@ -370,7 +370,7 @@ e_model_selection <-
 
 
   # skip car::Anova if only intercept
-  if (sum(names(out[["sel"]][["fit"]]$coefficients) %notin% "(Intercept)")) {
+  if (sum(names(out[["init"]][["fit"]]$coefficients) %notin% "(Intercept)")) {
     out[["init"]][["anova"]] <-
       car::Anova(
         out[["init"]][["fit"]]
@@ -441,8 +441,23 @@ e_model_selection <-
     out[["init"]][["contrasts"]] <- "skip"
   } # sw_contrasts !skip
 
+  # If none, then set all "*_sel__" to NULL
+  if(sw_sel_type == c("step", "bestsubset", "none")[3]) {
+    dat_sel__                             <- NULL
+    form_sel__                            <- NULL
+    out[["sel"]][["fit"   ]]              <- NULL
+    out[["sel"]][["criteria"  ]]          <- NULL
+    out[["sel"]][["anova"     ]]          <- NULL
+    out[["sel"]][["summary"   ]]          <- NULL
+    out[["sel"]][["plot_diagnostics"   ]] <- NULL
+    out[["sel"]][["contrasts"]]$plots     <- NULL
+    out[["sel"]][["contrasts"]]$tables    <- NULL
+    out[["sel"]][["contrasts"]]$text      <- NULL
+    out[["sel"]][["contrasts"]]$interp    <- NULL
+  } # sw_sel_type none
+
   # Stepwise upper and lower models
-  if(sw_sel_type == c("step", "bestsubset")[1]) {
+  if(sw_sel_type == c("step", "bestsubset", "none")[1]) {
 
     if (sw_model == c("lm", "glm")[1]) {
       form_init_upper <-
