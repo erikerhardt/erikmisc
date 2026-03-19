@@ -12,7 +12,7 @@
 #' @param sw_plot_missing           output plots from \code{e_plot_missing}
 #' @param sw_plot_y_covar           output plots from \code{e_plot_lm_y_covar}
 #' @param sw_plot_x_corr            output correlation matrix plot
-#' @param sw_contrasts              which contrasts to plot, \code{"both"} is full and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.
+#' @param sw_contrasts              which contrasts to plot, \code{"both"} is initial and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.
 #' @param sw_print_results          print results before returning object
 #' @param emmip_rg.limit            passed to \code{e_plot_model_contrasts}
 #' @param sw_write_output           T/F for whether to save plots and text to a path
@@ -153,9 +153,15 @@ e_model_selection <-
     dir.create(sw_write_output_path, recursive = TRUE, showWarnings = FALSE)
   } # sw_write_output
 
-
   # store results in a list
   out <- list()
+
+  # if "sel" contrasts, but no selection, then set to "both" so contrasts are created for "init" model
+  if(sw_sel_type == c("step", "bestsubset", "none")[3]) {
+    if (sw_contrasts      == c("both", "sel", "none", "skip")[2]) {
+      sw_contrasts      <- c("both", "sel", "none", "skip")[1]
+    }
+  }
 
   # if formula is specified
   if (!is.null(form)) {
@@ -441,21 +447,6 @@ e_model_selection <-
     out[["init"]][["contrasts"]] <- "skip"
   } # sw_contrasts !skip
 
-  # If none, then set all "*_sel__" to NULL
-  if(sw_sel_type == c("step", "bestsubset", "none")[3]) {
-    dat_sel__                             <- NULL
-    form_sel__                            <- NULL
-    out[["sel"]][["fit"   ]]              <- NULL
-    out[["sel"]][["criteria"  ]]          <- NULL
-    out[["sel"]][["anova"     ]]          <- NULL
-    out[["sel"]][["summary"   ]]          <- NULL
-    out[["sel"]][["plot_diagnostics"   ]] <- NULL
-    out[["sel"]][["contrasts"]]$plots     <- NULL
-    out[["sel"]][["contrasts"]]$tables    <- NULL
-    out[["sel"]][["contrasts"]]$text      <- NULL
-    out[["sel"]][["contrasts"]]$interp    <- NULL
-  } # sw_sel_type none
-
   # Stepwise upper and lower models
   if(sw_sel_type == c("step", "bestsubset", "none")[1]) {
 
@@ -645,6 +636,26 @@ e_model_selection <-
   } # sw_sel_type step
 
 
+  # If none, then move "init" to "sel, and set all "init" to NULL
+  if(sw_sel_type == c("step", "bestsubset", "none")[3]) {
+
+    form_sel__                              <- form_init__
+    out[["sel"]]                            <- out[["init"]]
+
+    #dat_init__                              <- NULL
+    #form_init__                             <- NULL  # needed for diag plots
+    out[["init"]][["fit"   ]]               <- NULL
+    out[["init"]][["criteria"  ]]           <- NA   #NULL
+    out[["init"]][["anova"     ]]           <- NULL
+    out[["init"]][["summary"   ]]           <- NULL
+    out[["init"]][["plot_diagnostics"   ]]  <- NULL
+    out[["init"]][["contrasts"]]$plots      <- NULL
+    out[["init"]][["contrasts"]]$tables     <- NULL
+    out[["init"]][["contrasts"]]$text       <- NULL
+    out[["init"]][["contrasts"]]$interp     <- NULL
+  } # sw_sel_type none
+
+
   # print results
   if (sw_print_results) {
     print("=================================================")
@@ -672,6 +683,7 @@ e_model_selection <-
     print(form_init__)
     print("____sel____")
     print(form_sel__)
+
 
     if (sw_model == c("lm", "glm")[1]) {
       print("")
@@ -888,7 +900,9 @@ e_model_selection <-
 
       output_write <-
         out[["init"]][["criteria"      ]] |>
-        signif(3)
+        signif(3) |>
+        knitr::kable() |>
+        as.character()
       write.table(x = output_write, file = fn_output, append = TRUE)
 
 

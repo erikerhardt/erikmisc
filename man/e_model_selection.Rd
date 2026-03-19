@@ -47,7 +47,7 @@ e_model_selection(
 
 \item{sw_plot_x_corr}{output correlation matrix plot}
 
-\item{sw_contrasts}{which contrasts to plot, \code{"both"} is full and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.}
+\item{sw_contrasts}{which contrasts to plot, \code{"both"} is initial and selected model, \code{"sel"} is only selected model, \code{"none"} produces blank plots (but this may still take a while due to large grid with many interactions), and \code{"skip"} doesn't run \code{e_plot_model_contrasts()}.}
 
 \item{sw_print_results}{print results before returning object}
 
