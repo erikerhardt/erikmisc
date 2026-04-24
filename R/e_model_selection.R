@@ -5,6 +5,7 @@
 #' @param form                      formula for a model
 #' @param dat                       data to use
 #' @param sw_model                  type of regression model, \code{"lm"} or \code{"glm"}
+#' @param sw_scope                  if \code{NULL}, then the scope includes \code{list(upper = two-way interaction model, lower = intercept-only model)}. Otherwise, a list of upper and lower bounds for scope of stepwise selection, as specified in \code{stats::step(scope)};
 #' @param sw_sel_type               type of model selection.  \code{"none"} only fits the initial model.  \code{"step"} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model. \code{"bestsubset"} not yet implemented.
 #' @param sw_step_direction         for \code{step}, the \code{direction} argument from the \code{stats::step()} function
 #' @param sw_step_k                 for \code{step} determined by "AIC" (2), "BIC" (log(n)), or specified numerically; the \code{k} argument from the \code{stats::step()} function for penalty df
@@ -76,12 +77,30 @@
 #'   , sw_step_k  = c("AIC", "BIC", 2)[2]
 #'   )
 #' # out |> print()
+#'
+#'
+#' ## lm example with selected scope
+#' dat_sel <-
+#'    erikmisc::dat_mtcars_e
+#' form_model <-
+#'   mpg ~ cyl + disp + hp
+#'
+#' out <-
+#'   e_model_selection(
+#'     form = form_model
+#'   , dat  = dat_sel
+#'   , sw_scope = list(upper = mpg ~ cyl + disp + hp + cyl:disp + cyl:hp, lower = mpg ~ cyl)
+#'   )
+#' # out |> print()
+#'
+
 #' }
 e_model_selection <-
   function(
     form                      = NULL
   , dat                       = NULL
   , sw_model                  = c("lm", "glm")[1]
+  , sw_scope                  = NULL
   , sw_sel_type               = c("step", "bestsubset", "none")[1]
   , sw_step_direction         = c("both", "backward", "forward")[1]
   , sw_step_k                 = c("AIC", "BIC", 2)[1]
@@ -450,50 +469,55 @@ e_model_selection <-
   # Stepwise upper and lower models
   if(sw_sel_type == c("step", "bestsubset", "none")[1]) {
 
-    if (sw_model == c("lm", "glm")[1]) {
-      form_init_upper <-
-        paste0(
-          y_var_name
-        , " ~ "
-        , " ( "
-        , paste(
-            x_var_names
-          , collapse = " + "
-          )
-        , " )^2"
-        ) |>
-        stats::formula()
+    if (!is.null(sw_scope)) {
+      form_init_upper <- sw_scope[[ "upper" ]] |> stats::formula()
+      form_init_lower <- sw_scope[[ "lower" ]] |> stats::formula()
+    } else {
+      if (sw_model == c("lm", "glm")[1]) {
+        form_init_upper <-
+          paste0(
+            y_var_name
+          , " ~ "
+          , " ( "
+          , paste(
+              x_var_names
+            , collapse = " + "
+            )
+          , " )^2"
+          ) |>
+          stats::formula()
 
-      form_init_lower <-
-        paste0(
-          y_var_name
-        , " ~ "
-        , "1"
-        ) |>
-        stats::formula()
-    } # sw_model "lm"
-    if (sw_model == c("lm", "glm")[2]) {
-      form_init_upper <-
-        paste0(
-          paste0("cbind(", y_var_name, ", 1 - ", y_var_name, ")")
-        , " ~ "
-        , " ( "
-        , paste(
-            x_var_names
-          , collapse = " + "
-          )
-        , " )^2"
-        ) |>
-        stats::formula()
+        form_init_lower <-
+          paste0(
+            y_var_name
+          , " ~ "
+          , "1"
+          ) |>
+          stats::formula()
+      } # sw_model "lm"
+      if (sw_model == c("lm", "glm")[2]) {
+        form_init_upper <-
+          paste0(
+            paste0("cbind(", y_var_name, ", 1 - ", y_var_name, ")")
+          , " ~ "
+          , " ( "
+          , paste(
+              x_var_names
+            , collapse = " + "
+            )
+          , " )^2"
+          ) |>
+          stats::formula()
 
-      form_init_lower <-
-        paste0(
-          paste0("cbind(", y_var_name, ", 1 - ", y_var_name, ")")
-        , " ~ "
-        , "1"
-        ) |>
-        stats::formula()
-    } # sw_model "glm"
+        form_init_lower <-
+          paste0(
+            paste0("cbind(", y_var_name, ", 1 - ", y_var_name, ")")
+          , " ~ "
+          , "1"
+          ) |>
+          stats::formula()
+      } # sw_model "glm"
+    } # sw_scope
 
     # determine stepwise "AIC" penalty
     sw_step_k <-

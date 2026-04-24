@@ -8,6 +8,7 @@ e_model_selection(
   form = NULL,
   dat = NULL,
   sw_model = c("lm", "glm")[1],
+  sw_scope = NULL,
   sw_sel_type = c("step", "bestsubset", "none")[1],
   sw_step_direction = c("both", "backward", "forward")[1],
   sw_step_k = c("AIC", "BIC", 2)[1],
@@ -32,6 +33,8 @@ e_model_selection(
 \item{dat}{data to use}
 
 \item{sw_model}{type of regression model, \code{"lm"} or \code{"glm"}}
+
+\item{sw_scope}{if \code{NULL}, then the scope includes \code{list(upper = two-way interaction model, lower = intercept-only model)}. Otherwise, a list of upper and lower bounds for scope of stepwise selection, as specified in \code{stats::step(scope)};}
 
 \item{sw_sel_type}{type of model selection.  \code{"none"} only fits the initial model.  \code{"step"} starts with specified \code{form} model with upper = two-way effects model and lower = 1 (intercept-only) model. \code{"bestsubset"} not yet implemented.}
 
@@ -107,5 +110,21 @@ out <-
   , sw_step_k  = c("AIC", "BIC", 2)[2]
   )
 # out |> print()
+
+
+## lm example with selected scope
+dat_sel <-
+   erikmisc::dat_mtcars_e
+form_model <-
+  mpg ~ cyl + disp + hp
+
+out <-
+  e_model_selection(
+    form = form_model
+  , dat  = dat_sel
+  , sw_scope = list(upper = mpg ~ cyl + disp + hp + cyl:disp + cyl:hp, lower = mpg ~ cyl)
+  )
+# out |> print()
+
 }
 }
