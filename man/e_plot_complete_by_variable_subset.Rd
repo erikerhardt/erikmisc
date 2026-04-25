@@ -9,6 +9,7 @@ e_plot_complete_by_variable_subset(
   var_list = NULL,
   var_resp = NULL,
   sw_n_complete = NULL,
+  sw_sel_subset = NULL,
   sw_plot_print = TRUE
 )
 }
@@ -20,6 +21,8 @@ e_plot_complete_by_variable_subset(
 \item{var_resp}{\code{NULL} or one variable name to always be included (filters to keep only observations with this variable)}
 
 \item{sw_n_complete}{NULL for all, or an integer for the subsets with largest \code{n_complete}}
+
+\item{sw_sel_subset}{NULL for none, or one integer for the subset to highlight as the one selected for analysis}
 
 \item{sw_plot_print}{T/F, print plot in addition to returning the plot object?}
 }
@@ -52,13 +55,17 @@ out$table |> print(n = Inf, width = Inf)
 # Print variable names from first row
 out$table$var_names[1] |> unlist()
 
-# Print top 5 subsets
+# Print top 5 subsets, select Subset 2
 out <-
   dat_mtcars_miss_e |>
-  e_plot_complete_by_variable_subset(sw_n_complete = 5, sw_plot_print = FALSE)
+  e_plot_complete_by_variable_subset(
+      sw_n_complete = 5
+    , sw_sel_subset = 2
+    , sw_plot_print = FALSE
+    )
 out
 
 # Print plot with modified title
 out$plot +
-  patchwork::plot_annotation(title = "New title for Missing data patterns plot")
+  patchwork::plot_annotation(title = "New title for Missing data patterns plot", subtitle = NULL)
 }

@@ -1,9 +1,10 @@
 #' For missing data, determine which sets of variables result in the most number of complete observations
 #'
-#' @param dat       data data.frame or tibble
-#' @param var_list  list of variables, \code{NULL} for all
-#' @param var_resp  \code{NULL} or one variable name to always be included (filters to keep only observations with this variable)
-#' @param sw_n_complete  NULL for all, or an integer for the subsets with largest \code{n_complete}
+#' @param dat             data data.frame or tibble
+#' @param var_list        list of variables, \code{NULL} for all
+#' @param var_resp        \code{NULL} or one variable name to always be included (filters to keep only observations with this variable)
+#' @param sw_n_complete   NULL for all, or an integer for the subsets with largest \code{n_complete}
+#' @param sw_sel_subset   NULL for none, or one integer for the subset to highlight as the one selected for analysis
 #' @param sw_plot_print   T/F, print plot in addition to returning the plot object?
 #'
 #' @return out      a list with the plot and a tibble with the \code{n_complete}, \code{n_var}, \code{var_names_print}, and a list of variable names in \code{var_names}
@@ -39,21 +40,26 @@
 #' # Print variable names from first row
 #' out$table$var_names[1] |> unlist()
 #'
-#' # Print top 5 subsets
+#' # Print top 5 subsets, select Subset 2
 #' out <-
 #'   dat_mtcars_miss_e |>
-#'   e_plot_complete_by_variable_subset(sw_n_complete = 5, sw_plot_print = FALSE)
+#'   e_plot_complete_by_variable_subset(
+#'       sw_n_complete = 5
+#'     , sw_sel_subset = 2
+#'     , sw_plot_print = FALSE
+#'     )
 #' out
 #'
 #' # Print plot with modified title
 #' out$plot +
-#'   patchwork::plot_annotation(title = "New title for Missing data patterns plot")
+#'   patchwork::plot_annotation(title = "New title for Missing data patterns plot", subtitle = NULL)
 e_plot_complete_by_variable_subset <-
   function(
     dat
   , var_list      = NULL
   , var_resp      = NULL
   , sw_n_complete = NULL
+  , sw_sel_subset = NULL
   , sw_plot_print = TRUE
   ) {
   ## dat = dat_mtcars_miss_e
@@ -177,7 +183,25 @@ e_plot_complete_by_variable_subset <-
     dplyr::arrange(
       dplyr::desc(n_complete)
     , dplyr::desc(n_var)
+    ) |>
+    dplyr::mutate(
+      Subset__  = 1:dplyr::n()
+    ) |>
+    dplyr::relocate(
+      Subset__
     )
+
+  if (!is.null(sw_sel_subset)) {
+    dat_var_complete <-
+      dat_var_complete |>
+      dplyr::mutate(
+        Selected =
+          dplyr::case_when(
+            Subset__ == sw_sel_subset ~ TRUE
+          , .default = FALSE
+          )
+      )
+  }
 
   dat_var_complete_plot <-
     dat_var_complete |>
@@ -187,6 +211,7 @@ e_plot_complete_by_variable_subset <-
     ) |>
     dplyr::select(
       -var_names_print
+    , -tidyselect::any_of("Selected")
     ) |>
     tidyr::unnest(
       cols = "var_names"
@@ -213,10 +238,21 @@ e_plot_complete_by_variable_subset <-
   p1 <- ggplot(data = dat_var_complete_plot, aes(x = var_names, y = Subset__, fill = Include__))
   p1 <- p1 + theme_bw()
   p1 <- p1 + geom_tile(color = "grey50", fill = "gray20", na.rm = TRUE)
+  if (!is.null(sw_sel_subset)) {
+    p1 <- p1 + annotate("rect"
+                , xmin = 0.5
+                , xmax = length(unique(dat_var_complete_plot$var_names)) + 0.5
+                , ymin = (max(as.numeric(as.character(dat_var_complete_plot$Subset__))) - sw_sel_subset + 1) - 0.5
+                , ymax = (max(as.numeric(as.character(dat_var_complete_plot$Subset__))) - sw_sel_subset + 1) + 0.5
+                , color = "red"
+                , fill = NA
+                , linewidth = 1.5
+                , linetype = 1
+                )
+  }
   p1 <- p1 + scale_y_discrete(limits = rev)
   p1 <- p1 + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) # rotate labels
   p1 <- p1 + theme(plot.title.position = "plot") # move title to far left
-
   p1 <- p1 + labs(
                   # title = "Missing data patterns sorted by number of complete observations"
                   , x = "Variable names"
@@ -228,10 +264,21 @@ e_plot_complete_by_variable_subset <-
                     )
   } # if
 
-
   p2 <- ggplot(data = dat_var_complete_plot |> dplyr::select(Subset__, n_complete) |> dplyr::distinct(), aes(x = Subset__, y = n_complete))
   p2 <- p2 + theme_bw()
   p2 <- p2 + geom_bar(stat = "identity", fill = "gray20")
+  if (!is.null(sw_sel_subset)) {
+    p2 <- p2 + annotate("rect"
+                , xmin = (max(as.numeric(as.character(dat_var_complete_plot$Subset__))) - sw_sel_subset + 1) - 0.5
+                , xmax = (max(as.numeric(as.character(dat_var_complete_plot$Subset__))) - sw_sel_subset + 1) + 0.5
+                , ymin = 0
+                , ymax = dat_var_complete_plot$n_complete[dat_var_complete_plot$Subset__ == sw_sel_subset][1]
+                , color = "red"
+                , fill = NA
+                , linewidth = 1.5
+                , linetype = 1
+                )
+  }
   p2 <- p2 + geom_text(aes(label = n_complete), y = 0, hjust = -.25, color = "gray80")
   p2 <- p2 + scale_x_discrete(limits = rev)
   #p2 <- p2 + scale_y_continuous(expand = expansion(mult = c(0.15, 0), add = 0))
@@ -244,6 +291,18 @@ e_plot_complete_by_variable_subset <-
   p3 <- ggplot(data = dat_var_complete_plot |> dplyr::select(Subset__, n_var) |> dplyr::distinct(), aes(x = Subset__, y = n_var))
   p3 <- p3 + theme_bw()
   p3 <- p3 + geom_bar(stat = "identity", fill = "gray20")
+  if (!is.null(sw_sel_subset)) {
+    p3 <- p3 + annotate("rect"
+                , xmin = (max(as.numeric(as.character(dat_var_complete_plot$Subset__))) - sw_sel_subset + 1) - 0.5
+                , xmax = (max(as.numeric(as.character(dat_var_complete_plot$Subset__))) - sw_sel_subset + 1) + 0.5
+                , ymin = 0
+                , ymax = dat_var_complete_plot$n_var[dat_var_complete_plot$Subset__ == sw_sel_subset][1]
+                , color = "red"
+                , fill = NA
+                , linewidth = 1.5
+                , linetype = 1
+                )
+  }
   p3 <- p3 + geom_text(aes(label = n_var), y = 0, hjust = -.25, color = "gray80")
   p3 <- p3 + scale_x_discrete(limits = rev, position = "top")
   #p3 <- p3 + scale_y_continuous(expand = expansion(mult = c(0.15, 0), add = 0))
@@ -275,6 +334,14 @@ e_plot_complete_by_variable_subset <-
       title       = "Missing data patterns sorted by number of complete observations"
     , theme = theme(plot.caption = element_text(hjust = 0)) # Default is hjust=1, Caption align left
     )
+
+  if (!is.null(sw_sel_subset)) {
+    p_arranged <-
+      p_arranged +
+      patchwork::plot_annotation(
+        subtitle    = paste0("Selected Subset = ", sw_sel_subset)
+      )
+  }
 
   if (sw_plot_print) {
     print(p_arranged)
