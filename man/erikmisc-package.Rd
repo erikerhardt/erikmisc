@@ -18,16 +18,14 @@ Useful links:
   \item Report bugs at \url{https://github.com/erikerhardt/erikmisc/issues}
 }
 
-
-Useful links:
-\itemize{
-  \item \url{https://github.com/erikerhardt/erikmisc}
-  \item Report bugs at \url{https://github.com/erikerhardt/erikmisc/issues}
-}
-
 }
 \author{
 \strong{Maintainer}: Erik Erhardt \email{erike@statacumen.com} (\href{https://orcid.org/0000-0002-9817-4011}{ORCID})
+
+Authors:
+\itemize{
+  \item Erik Erhardt \email{erike@statacumen.com} (\href{https://orcid.org/0000-0002-9817-4011}{ORCID})
+}
 
 }
 \keyword{internal}
