@@ -271,7 +271,7 @@ e_health_calc_bmi <-
 #'
 #' https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html
 #'
-#' @param bmi
+#' @param bmi       numeric BMI
 #'
 #' @return bmi_cat, categorical levels of BMI
 #' @export

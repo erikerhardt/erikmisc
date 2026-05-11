@@ -7,7 +7,7 @@
 e_health_calc_bmi_categories(bmi)
 }
 \arguments{
-\item{bmi}{}
+\item{bmi}{numeric BMI}
 }
 \value{
 bmi_cat, categorical levels of BMI
