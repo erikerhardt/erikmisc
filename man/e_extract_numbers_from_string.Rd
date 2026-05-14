@@ -16,9 +16,9 @@ numeric list
 Extract numbers from a string
 }
 \examples{
-# note difference in last two items
+# note difference in last two items, requires leading 0 before decimal point
 vec <- c(NA, 1, "a", "a1a", "@\%^#@0.23asdf", ")(&*.2&*", ")(&*0.2&*")
 e_extract_numbers_from_string(vec)
-vec <- c(NA, "1a2")
+vec <- c(NA, "1a2", "1e2")  # no scientific notation via 1e2
 e_extract_numbers_from_string(vec)
 }
