@@ -283,8 +283,13 @@ e_model_selection <-
   x_var_names               <- x_var_names              [!is.na(x_var_names             )]
   x_var_names_interactions  <- x_var_names_interactions [!is.na(x_var_names_interactions)]
 
+  # data size checks
   if (length(x_var_names) == 0) {
     warning(paste0("erikmisc::e_model_selection, No predictors (x) with more than 1 level -- skip analysis."))
+    return(NULL)
+  }
+  if (nrow(dat_sel__) < length(x_var_names)) {
+    warning(paste0("erikmisc::e_model_selection, rows fewer than predictors -- skip analysis."))
     return(NULL)
   }
 
