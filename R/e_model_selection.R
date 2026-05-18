@@ -288,8 +288,8 @@ e_model_selection <-
     warning(paste0("erikmisc::e_model_selection, No predictors (x) with more than 1 level -- skip analysis."))
     return(NULL)
   }
-  if (nrow(dat_sel__) < length(x_var_names)) {
-    warning(paste0("erikmisc::e_model_selection, rows fewer than predictors -- skip analysis."))
+  if (nrow(dat_sel__) < max(2, length(x_var_names))) {
+    warning(paste0("erikmisc::e_model_selection, n rows fewer than max(2, k predictors) -- skip analysis."))
     return(NULL)
   }
 
