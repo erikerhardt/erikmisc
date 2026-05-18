@@ -49,6 +49,17 @@ e_plot_corr_matrix <-
     return(NULL)
   }
 
+  if (nrow(dat_mat) <= 4) {
+    # analysis requires more than 4 observations
+    out <-
+      list(
+        tab_cor = NULL
+      , tab_CI  = NULL
+      , plot    = NULL
+      )
+    return(out)
+  }
+
   # Correlation matrix
   tab_cor <-
     dat_mat |>
